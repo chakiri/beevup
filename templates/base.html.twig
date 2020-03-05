@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Bureau Vallée - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/app.css">
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% include 'partials/header.html.twig' %}
+{% endif %}
+
+{% block body %}{% endblock %}
+
+{% include 'partials/footer.html.twig' %}
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

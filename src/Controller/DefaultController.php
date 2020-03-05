@@ -5,15 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class WebsocketController extends AbstractController
+class DefaultController extends AbstractController
 {
     /**
-     * @Route("/chat", name="chat")
+     * @Route("/", name="home")
      */
     public function index()
     {
-        return $this->render('websocket/index.html.twig', [
-            'controller_name' => 'WebsocketController',
+        return $this->render('default/index.html.twig', [
+            'controller_name' => 'DefaultController',
         ]);
     }
 }
