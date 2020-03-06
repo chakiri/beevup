@@ -3,6 +3,7 @@ const socket = new WebSocket("ws://localhost:3001");
 
 //Initialize chat
 const defaultChannel = 'general';
+const channels = ['general', 'random', 'room'];
 const botName = 'ChatBot';
 
 //Initialize elements
@@ -18,11 +19,12 @@ socket.addEventListener("open", function(){
     addChannel(defaultChannel);
     activateChannel(defaultChannel);
 
+
     var message = {
         action: 'subscribe',
         channel: defaultChannel,
         user: userName
-    }
+    };
     socket.send(JSON.stringify(message));
 });
 
@@ -48,7 +50,7 @@ socket.addEventListener("error", function () {
 //On click send message to websocket server
 document.getElementById("sendBtn").addEventListener("click", function () {
     var message = {
-        action: 'message',
+        action: 'messageToChannel',
         channel: defaultChannel,
         user: userName,
         message: document.getElementById("message").value
@@ -76,7 +78,7 @@ function addMessageToChannel(message){
 //Send message auto
 function botMessageToChannel(messageStr){
     var message = {
-        action: 'message',
+        action: 'messageToChannel',
         channel: defaultChannel,
         user: botName,
         message: messageStr
@@ -89,8 +91,7 @@ function addChannel(channel){
     var channelStr = '#' + channel;
 
     //Get channel in list
-    const channelHTML = "<li><a href='" + channelStr + "'>" + channelStr + "</a></li>";
-
+    const channelHTML = "<li><a href='" + channelStr + "'><span>" + channelStr + "</span></a></li>";
     //Add channel to list
     channelsList.innerHTML += channelHTML;
 }

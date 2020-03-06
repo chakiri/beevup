@@ -49,9 +49,11 @@ class MessageHandler implements MessageComponentInterface
         $conn->close();
     }
 
-    public function onMessage(ConnectionInterface $conn, $msg)
+    public function onMessage(ConnectionInterface $from, $msg)
     {
         $messageData = json_decode($msg);
+
+        var_dump($from);
 
         if ($messageData === null) return false;
 
@@ -64,13 +66,16 @@ class MessageHandler implements MessageComponentInterface
         //Check action
         switch ($action){
             case 'subscribe':
-                $this->subscribeToChannel($conn, $channel, $user);
+                $this->subscribeToChannel($from, $channel, $user);
                 return true;
             case 'unsubscribe':
-                $this->unsubscribeFromChannel($conn, $channel, $user);
+                $this->unsubscribeFromChannel($from, $channel, $user);
                 return true;
-            case 'message':
-                $this->sendMessageToChannel($conn, $channel, $user, $message);
+            case 'messageToChannel':
+                $this->sendMessageToChannel($from, $channel, $user, $message);
+                return true;
+            case 'messageToUser':
+                $this->sendMessageToUser($from, $channel, $user, $message);
                 return true;
             default:
                 echo sprintf('This action "%s" is not supported yet', $action);
@@ -116,6 +121,9 @@ class MessageHandler implements MessageComponentInterface
      */
     private function sendMessageToChannel(ConnectionInterface $conn, $channel, $user, $message){
         if (!$this->users[$conn->resourceId]['channels'][$channel]) return false;
+
+        //var_dump(sprintf($this->users[$conn->resourceId]['channels'][$channel]));
+        var_dump($user);
 
         foreach ($this->users as $connectionId => $userConnection){
             if (array_key_exists($channel, $userConnection['channels'])){

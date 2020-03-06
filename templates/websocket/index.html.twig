@@ -3,69 +3,38 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <style>
-        body {
-            font-family: arial;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        input {
-            border: solid lightgrey 1px;
-            padding: 8px;
-        }
-
-        label {
-            display: inline-block;
-            min-width: 150px;
-        }
-
-        #chat {
-            height: 400px;
-            width: 550px;
-            border: solid lightgrey 1px;
-            overflow: auto;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 6px 12px;
-        }
-
-        .message {
-            padding: 10px 5px;
-            margin-bottom: 10px;
-            border-bottom: solid lightgrey 1px;
-        }
-    </style>
-
-    <div class="jumbotron">
-        <div class="container">
+    <section id="chatPlateform">
             <div class="row">
-                <div class="col-3 bg-light">
-                    <div class="sidebar ">
-                        <ul id="channelsList"></ul>
-                    </div>
+                <div class="col-3 sidebar">
+                    <h2 id="userName" data-user="{{ app.user.username }}" class="text-center">{{ app.user.username|capitalize }}</h2>
+                    <div id="userStatus"></div>
+                    <hr>
+                    <ul id="channelsList">
+                    </ul>
                 </div>
-                <div class="col-9">
-                    <div class="user-menu">
-                        <div id="userName" data-user="{{ app.user.pseudo }}"><span>Mon pseudo : {{ app.user.pseudo }}</span></div>
-                        <div id="userStatus"></div>
+                <div class="col-9 chat">
+                    <div id="chat" class="box channel">
                     </div>
-                    <div id="chat"></div>
-                    <div >
+                    <div class="box input">
                         <div class="form-group">
-                            <label for="message">Message:</label>
-                            <input type="text" id="message">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input type="text" id="message" class="form-control" placeholder="Votre message ...">
+                                </div>
+                                <div class="ml-auto">
+                                    <button id="sendBtn" class="btn icon" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
+                                </div>
+                            </div>
                         </div>
-                        <button type="button" id="sendBtn">Send</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+    </section>
+
+
+
+
 {% endblock %}
 
 {% block javascripts %}

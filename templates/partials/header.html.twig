@@ -1,32 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="{{ path('home') }}">Bureau Vallée</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path('home') }}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('chat') }}">Chat</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">{{ app.user.pseudo|capitalize }}</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<!--==========================
+Header
+============================-->
+<header id="header" class="fixed-top">
 
-{% for label, messages in app.flashes %}
-<div class="container">
-    <div class="alert alert-dismissible alert-{{ label }}">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {% for message in messages %}
-            {{ message|raw }}.
-        {% endfor %}
+    <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <h1 class="text-light"><a href="{{ path('home') }}"><span>Bureau Vallée</span></a></h1>
     </div>
-</div>
-{% endfor %}
+
+    <nav class="main-nav float-right d-none d-lg-block">
+        <ul>
+            <li class="active"><a href="{{ path('home') }}">Accueil</a></li>
+            <li><a href="{{ path('service') }}">Services</a></li>
+            <li><a href="{{ path('chat') }}">Chat</a></li>
+            <li class="drop-down"><a >{{ app.user.username|capitalize }}</a>
+                <ul>
+                    <li><a href="#">Mon profile</a></li>
+                    <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
+                    <li><a href="#">Mon magasin</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav><!-- .main-nav -->
+
+</header><!-- #header -->

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon entreprise{% endblock %}
+
+{% block body %}
+
+    <section id="company">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="box">
+                        <h1 class="display-6">{{ company.name }}</h1>
+                        <p class="lead">{{ company.introduction }}</p>
+                    </div>
+                    <div class="box">
+                        <h4>Mon magasin Bureau Vallée</h4>
+                        <p class="lead">{{ company.introduction }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="box">
+                        <h4>Description de l'entreprise</h4>
+                        <p class="lead">{{ company.description }}</p>
+                        <p class="lead">{{ company.description }}</p>
+                    </div>
+                    <div class="box">
+                        <h4>Les utilisateurs de l'entreprise</h4>
+                        <p class="lead">{{ company.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

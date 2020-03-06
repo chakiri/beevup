@@ -20,7 +20,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,17 +32,22 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     */
+    private $company;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPseudo(): ?string
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $pseudo): self
     {
         $this->pseudo = $pseudo;
 
@@ -82,12 +87,19 @@ class User implements UserInterface
     {
     }
 
-    public function getUsername()
-    {
-        return $this->email;
-    }
-
     public function eraseCredentials()
     {
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }
