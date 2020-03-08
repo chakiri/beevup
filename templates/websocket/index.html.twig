@@ -6,9 +6,15 @@
     <section id="chatPlateform">
             <div class="row">
                 <div class="col-3 sidebar">
-                    <h2 id="userName" data-user="{{ app.user.username }}" class="text-center">{{ app.user.username|capitalize }}</h2>
+                    <h2 id="userName" data-user="{{ app.user.pseudo }}" class="text-center">{{ app.user.pseudo|capitalize }}</h2>
                     <div id="userStatus"></div>
                     <hr>
+                    {% for channel in app.user.channels %}
+                        {% set channelStr = '#' ~ channel %}
+                        <ul>
+                            <li><a data-channel="{{ channel }}" href='{{ channelStr }}'><span>#{{ channel|capitalize }}</span></a></li>
+                        </ul>
+                    {% endfor %}
                     <ul id="channelsList">
                     </ul>
                 </div>

@@ -119,18 +119,17 @@ class MessageHandler implements MessageComponentInterface
      * @param $user
      * @return bool
      */
-    private function sendMessageToChannel(ConnectionInterface $conn, $channel, $user, $message){
+    private function sendMessageToChannel(ConnectionInterface $conn, $channel, $username, $message){
         if (!$this->users[$conn->resourceId]['channels'][$channel]) return false;
 
         //var_dump(sprintf($this->users[$conn->resourceId]['channels'][$channel]));
-        var_dump($user);
 
         foreach ($this->users as $connectionId => $userConnection){
             if (array_key_exists($channel, $userConnection['channels'])){
                 $userConnection['connection']->send(json_encode([
                     'action' => 'message',
                     'channel' => $channel,
-                    'user' => $user,
+                    'user' => $username,
                     'message' => $message
                 ]));
             }

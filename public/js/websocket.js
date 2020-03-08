@@ -63,6 +63,9 @@ document.getElementById("sendBtn").addEventListener("click", function () {
     document.getElementById("message").value = '';
 });
 
+//Send clicked channel
+document.getElementById("")
+
 //Add message to the chat
 function addMessageToChannel(message){
     //Serialize message

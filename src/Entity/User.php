@@ -20,7 +20,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -37,17 +37,22 @@ class User implements UserInterface
      */
     private $company;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $channels = [];
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->username;
+        return $this->pseudo;
     }
 
-    public function setUsername(string $pseudo): self
+    public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
 
@@ -101,5 +106,22 @@ class User implements UserInterface
         $this->company = $company;
 
         return $this;
+    }
+
+    public function getChannels(): ?array
+    {
+        return $this->channels;
+    }
+
+    public function setChannels(?array $channels): self
+    {
+        $this->channels = $channels;
+
+        return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
     }
 }
