@@ -16,6 +16,9 @@ class WebsocketServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Listen for the web server to make a ZeroMQ push after a websocket request
+
+
         $port = 3001;
         $output->writeln("Starting server on port " . $port);
         $server = IoServer::factory(

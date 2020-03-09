@@ -8,6 +8,7 @@
         "cboden/ratchet": "0.4.2",
         "cocur/slugify": "^4.0",
         "doctrine/orm": "^2.7",
+        "fzaninotto/faker": "^1.9",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/console": "5.0.*",
         "symfony/dotenv": "5.0.*",

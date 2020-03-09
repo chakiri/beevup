@@ -13,7 +13,7 @@ body {
   background: #ecf5ff;
   color: #444;
   font-family: "Open Sans", sans-serif;
-  padding: 4.5em 0 0 0;
+  padding: 3.5em 0 0 0;
 }
 
 footer {
@@ -597,6 +597,14 @@ h6 {
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
+#company .box-image{
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
 #company .box {
   padding: 30px;
   position: relative;
@@ -607,6 +615,11 @@ h6 {
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
 }
+
+
+/* General
+--------------------------------*/
+
 
 
 /* Chat Section
@@ -623,6 +636,10 @@ h6 {
   height: 100%;
   color: white;
   padding: 30px;
+}
+
+#chatPlateform .sidebar ul {
+  padding: 0;
 }
 
 #chatPlateform .sidebar ul li{
@@ -677,6 +694,32 @@ h6 {
   padding: 20px;
 }
 
+/* Service Section
+--------------------------------*/
+#service {
+  padding: 20px 0 40px 0;
+  box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+}
+
+#service .box-image{
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+#service .box {
+  width: 100%;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  background: #fff;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+}
 
 
 /* Services Section
@@ -687,12 +730,50 @@ h6 {
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
+#services .filter{
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  margin: 0 10px 60px 10px;
+  background: #fff;
+}
+
+#services .filter input, #services .filter select{
+  border: none;
+}
+
+.btn-filter-search {
+  background: #ff396c;
+  border: 2px solid #ff396c;
+  color: #fff;
+  padding: 7px 26px;
+  border-radius: 50px;
+}
+
+.categories-search{
+  border-left: 1px solid #a6a6a6;
+}
+
 #services .box {
+  position: relative;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+#services .box a{
+  color: inherit;
+}
+
+
+#services .box .info{
   padding: 30px;
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  margin: 0 10px 40px 10px;
   background: #fff;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
@@ -748,8 +829,8 @@ h6 {
 }
 
 #why-us .card {
-  background: #00458f;
-  border-color: #00458f;
+  background: #aeb8c7;
+  border-color: #aeb8c7;
   border-radius: 10px;
   margin: 0 15px;
   padding: 15px 0;
@@ -1514,4 +1595,11 @@ h6 {
   #chatPlateform .chat {
     margin: 0;
   }
+}
+
+@media (max-width: 640px) {
+  #chatPlateform .chat {
+    margin: 0 0 0 10em;
+  }
+
 }
