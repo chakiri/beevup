@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "cboden/ratchet": "0.4.2",
         "cocur/slugify": "^4.0",
+        "doctrine/annotations": "^1.8",
         "doctrine/orm": "^2.7",
         "fzaninotto/faker": "^1.9",
         "sensio/framework-extra-bundle": "^5.5",
@@ -18,7 +19,9 @@
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "5.0.*",
         "symfony/twig-pack": "^1.0",
-        "symfony/yaml": "5.0.*"
+        "symfony/validator": "5.0.*",
+        "symfony/yaml": "5.0.*",
+        "vich/uploader-bundle": "^1.13"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

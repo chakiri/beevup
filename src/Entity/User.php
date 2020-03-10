@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * * @UniqueEntity(fields="email", message="Adresse e-mail déjà prise")
+ * @UniqueEntity(fields="email", message="Adresse e-mail déjà prise")
  */
-class User implements  UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -21,59 +21,20 @@ class User implements  UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
-     * @Assert\Length(max=4096)
-     * @Assert\Regex(
-     *     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
-     *     match=true,
-     *     message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
-     * )
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $password;
-    
-    /**
-     * @ORM\Column(type="integer")
-    */
-
-    private $type;
-
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string", length=255)
      */
     private $roles = [];
-
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $storeIds = [];
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $companyId;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $optin;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isValidEmail;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $status;
 
     /**
      * @ORM\Column(type="datetime")
@@ -85,15 +46,42 @@ class User implements  UserInterface
      */
     private $modifiedAt;
 
-    public function __construct()
-  {
-    /*$this->emailValide = 0;
-    $this->status = 0;
-    $this->dateDeCreation = new \Datetime();
-    $this->dateDeModification = new \Datetime();
-    $this->roles = ['User'];*/
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profile;
 
-  }
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValid;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDeleted;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $company;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $store;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
+     */
+    private $type;
+
+    public function __construct()
+    {
+        $this->profil = new Profile();
+    }
 
     public function getId(): ?int
     {
@@ -124,86 +112,14 @@ class User implements  UserInterface
         return $this;
     }
 
-    public function getType(): ?int
-    {
-        return $this->type;
-    }
-
-    public function setType(?int $type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     public function getRoles(): ?array
     {
-        return $this->roles;
+        return ['ROLE_USER'];
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getStoreIds(): ?array
-    {
-        return $this->storeIds;
-    }
-
-    public function setStoreIds(array $storeIds): self
-    {
-        $this->storeIds = $storeIds;
-
-        return $this;
-    }
-
-    public function getCompanyId(): ?int
-    {
-        return $this->companyId;
-    }
-
-    public function setCompanyId(?int $companyId): self
-    {
-        $this->companyId = $companyId;
-
-        return $this;
-    }
-
-    public function getOptin(): ?bool
-    {
-        return $this->optin;
-    }
-
-    public function setOptin(bool $optin): self
-    {
-        $this->optin = $optin;
-
-        return $this;
-    }
-
-    public function getIsValidEmail(): ?bool
-    {
-        return $this->isValidEmail;
-    }
-
-    public function setIsValidEmail(bool $isValidEmail): self
-    {
-        $this->isValidEmail = $isValidEmail;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -244,6 +160,83 @@ class User implements  UserInterface
     public function eraseCredentials()
     {
        
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        // set the owning side of the relation if necessary
+        if ($profile->getUser() !== $this) {
+            $profile->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(?bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Store $store): self
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    public function getType(): ?UserType
+    {
+        return $this->type;
+    }
+
+    public function setType(?UserType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
     
 }

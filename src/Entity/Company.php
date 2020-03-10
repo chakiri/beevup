@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
@@ -21,15 +23,10 @@ class Company
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $socialReason;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $siret;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
 
@@ -64,21 +61,6 @@ class Company
     private $country;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gps;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $CategoryId;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $urlWebSite;
-
-    /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
     */
@@ -96,34 +78,60 @@ class Company
     private $video;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $activityDescription;
+    private $website;
 
     /**
-     * @ORM\Column(type="integer")
-    */
-    private $storeId;
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private $latitude;
 
     /**
-     * @ORM\Column(type="integer")
-    */
-    private $status;
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValid;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company")
+     */
+    private $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="companies")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $store;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CompanyCategory")
+     */
+    private $category;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-    public function getSocialReason(): ?string
-    {
-        return $this->socialReason;
-    }
-
-    public function setSocialReason(string $socialReason): self
-    {
-        $this->socialReason = $socialReason;
-
-        return $this;
     }
 
     public function getSiret(): ?string
@@ -210,7 +218,7 @@ class Company
         return $this;
     }
 
-    public function getContry(): ?string
+    public function getCountry(): ?string
     {
         return $this->country;
     }
@@ -218,42 +226,6 @@ class Company
     public function setCountry(string $country): self
     {
         $this->country = $country;
-
-        return $this;
-    }
-
-    public function getGps(): ?string
-    {
-        return $this->gps;
-    }
-
-    public function setGps(string $gps): self
-    {
-        $this->gps = $gps;
-
-        return $this;
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->categoryId;
-    }
-
-    public function setCategoryId(int $categoryId): self
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
-    }
-
-    public function getWebSiteUrl(): ?string
-    {
-        return $this->webSiteUrl;
-    }
-
-    public function setWebSiteUrl(?string $webSiteUrl): self
-    {
-        $this->webSiteUrl = $webSiteUrl;
 
         return $this;
     }
@@ -294,42 +266,6 @@ class Company
         return $this;
     }
 
-    public function getActivityDescription(): ?string
-    {
-        return $this->activityDescription;
-    }
-
-    public function setActivityDescription(?string $activityDescription): self
-    {
-        $this->activityDescription = $activityDescription;
-
-        return $this;
-    }
-
-    public function getStoreId(): ?int
-    {
-        return $this->storeId;
-    }
-
-    public function setStoreId(?int $storeId): self
-    {
-        $this->storeId = $storeId;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?int $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function setAddressStreet(string $addressStreet): self
     {
         $this->addressStreet = $addressStreet;
@@ -342,22 +278,133 @@ class Company
         return $this->addressPostCode;
     }
 
-    public function getCountry(): ?string
+    public function getName(): ?string
     {
-        return $this->country;
+        return $this->name;
     }
 
-    public function getUrlWebSite(): ?string
+    public function setName(string $name): self
     {
-        return $this->urlWebSite;
-    }
-
-    public function setUrlWebSite(?string $urlWebSite): self
-    {
-        $this->urlWebSite = $urlWebSite;
+        $this->name = $name;
 
         return $this;
     }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getCompany() === $this) {
+                $user->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Store $store): self
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    public function getCategory(): ?CompanyCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CompanyCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
 
     
 }
