@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * * @UniqueEntity(fields="email", message="Adresse e-mail déjà prise")
  */
-class User implements UserInterface
+class User implements  UserInterface
 {
     /**
      * @ORM\Id()
@@ -20,55 +21,83 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $pseudo;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8)
+     * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     *     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
+     *     match=true,
+     *     message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+    
+    /**
+     * @ORM\Column(type="integer")
+    */
+
+    private $type;
+
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     * @ORM\Column(type="array")
      */
-    private $company;
+    private $roles = [];
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $channels = [];
+    private $storeIds = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="user")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $services;
+    private $companyId;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $optin;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValidEmail;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $modifiedAt;
 
     public function __construct()
-    {
-        $this->services = new ArrayCollection();
-    }
+  {
+    /*$this->emailValide = 0;
+    $this->status = 0;
+    $this->dateDeCreation = new \Datetime();
+    $this->dateDeModification = new \Datetime();
+    $this->roles = ['User'];*/
+
+  }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -95,76 +124,126 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    public function getType(): ?int
     {
-        return ['ROLE_USER'];
+        return $this->type;
     }
 
-    public function getSalt()
+    public function setType(?int $type)
     {
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): self
-    {
-        $this->company = $company;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getChannels(): ?array
+    public function getRoles(): ?array
     {
-        return $this->channels;
+        return $this->roles;
     }
 
-    public function setChannels(?array $channels): self
+    public function setRoles(array $roles): self
     {
-        $this->channels = $channels;
+        $this->roles = $roles;
 
         return $this;
     }
 
+    public function getStoreIds(): ?array
+    {
+        return $this->storeIds;
+    }
+
+    public function setStoreIds(array $storeIds): self
+    {
+        $this->storeIds = $storeIds;
+
+        return $this;
+    }
+
+    public function getCompanyId(): ?int
+    {
+        return $this->companyId;
+    }
+
+    public function setCompanyId(?int $companyId): self
+    {
+        $this->companyId = $companyId;
+
+        return $this;
+    }
+
+    public function getOptin(): ?bool
+    {
+        return $this->optin;
+    }
+
+    public function setOptin(bool $optin): self
+    {
+        $this->optin = $optin;
+
+        return $this;
+    }
+
+    public function getIsValidEmail(): ?bool
+    {
+        return $this->isValidEmail;
+    }
+
+    public function setIsValidEmail(bool $isValidEmail): self
+    {
+        $this->isValidEmail = $isValidEmail;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+    
     public function getUsername()
     {
         return $this->email;
     }
-
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
+    
+    public function getSalt()
     {
-        return $this->services;
+        return '';
     }
-
-    public function addService(Service $service): self
+    public function eraseCredentials()
     {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-            $service->setUser($this);
-        }
-
-        return $this;
+       
     }
-
-    public function removeService(Service $service): self
-    {
-        if ($this->services->contains($service)) {
-            $this->services->removeElement($service);
-            // set the owning side to null (unless already changed)
-            if ($service->getUser() === $this) {
-                $service->setUser(null);
-            }
-        }
-
-        return $this;
-    }
+    
 }
