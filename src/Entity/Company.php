@@ -2,15 +2,13 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
- * @ORM\HasLifecycleCallbacks()
+ *  @Vich\Uploadable
  */
+
 class Company
 {
     /**
@@ -23,125 +21,343 @@ class Company
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $socialReason;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private $siret;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $addressNumber;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $addressStreet;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $addressPostCode;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $introduction;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company")
-     */
-    private $users;
+    private $city;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $description;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    private $country;
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\Column(type="string", length=255)
      */
-    public function initSlug(){
-        $slugify = new Slugify();
-        $slug = $slugify->slugify($this->getName());
-        $this->setSlug($slug);
-    }
+    private $gps;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $CategoryId;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $urlWebSite;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $logo;
+    
+    /*
+     * @var File|null
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty = "logo")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $video;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $activityDescription;
+
+    /**
+     * @ORM\Column(type="integer")
+    */
+    private $storeId;
+
+    /**
+     * @ORM\Column(type="integer")
+    */
+    private $status;
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getName(): ?string
+    public function getSocialReason(): ?string
     {
-        return $this->name;
+        return $this->socialReason;
     }
 
-    public function setName(string $name): self
+    public function setSocialReason(string $socialReason): self
     {
-        $this->name = $name;
+        $this->socialReason = $socialReason;
 
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSiret(): ?string
     {
-        return $this->slug;
+        return $this->siret;
     }
 
-    public function setSlug(string $slug): self
+    public function setSiret(string $siret): self
     {
-        $this->slug = $slug;
+        $this->siret = $siret;
 
         return $this;
     }
 
-    public function getIntroduction(): ?string
+    public function getEmail(): ?string
     {
-        return $this->introduction;
+        return $this->email;
     }
 
-    public function setIntroduction(string $introduction): self
+    public function setEmail(string $email): self
     {
-        $this->introduction = $introduction;
+        $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getPhone(): ?int
     {
-        return $this->users;
+        return $this->phone;
     }
 
-    public function addUser(User $user): self
+    public function setPhone(?int $phone): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setCompany($this);
-        }
+        $this->phone = $phone;
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function getAddressNumber(): ?int
     {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getCompany() === $this) {
-                $user->setCompany(null);
-            }
-        }
+        return $this->addressNumber;
+    }
+
+    public function setAddressNumber(int $addressNumber): self
+    {
+        $this->addressNumber = $addressNumber;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getAddressStreet(): ?string
     {
-        return $this->description;
+        return $this->addressStreet;
     }
 
-    public function setDescription(?string $description): self
+    public function setAddresseStreet(string $addressStreet): self
     {
-        $this->description = $description;
+        $this->addressStreet = $addressStreet;
 
         return $this;
     }
+
+    public function getAddressePostCode(): ?int
+    {
+        return $this->addressPostCode;
+    }
+
+    public function setAddressPostCode(int $addressPostCode): self
+    {
+        $this->addressPostCode = $addressPostCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getContry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getGps(): ?string
+    {
+        return $this->gps;
+    }
+
+    public function setGps(string $gps): self
+    {
+        $this->gps = $gps;
+
+        return $this;
+    }
+
+    public function getCategoryId(): ?int
+    {
+        return $this->categoryId;
+    }
+
+    public function setCategoryId(int $categoryId): self
+    {
+        $this->categoryId = $categoryId;
+
+        return $this;
+    }
+
+    public function getWebSiteUrl(): ?string
+    {
+        return $this->webSiteUrl;
+    }
+
+    public function setWebSiteUrl(?string $webSiteUrl): self
+    {
+        $this->webSiteUrl = $webSiteUrl;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?string
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?string $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?string $video): self
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    public function getActivityDescription(): ?string
+    {
+        return $this->activityDescription;
+    }
+
+    public function setActivityDescription(?string $activityDescription): self
+    {
+        $this->activityDescription = $activityDescription;
+
+        return $this;
+    }
+
+    public function getStoreId(): ?int
+    {
+        return $this->storeId;
+    }
+
+    public function setStoreId(?int $storeId): self
+    {
+        $this->storeId = $storeId;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function setAddressStreet(string $addressStreet): self
+    {
+        $this->addressStreet = $addressStreet;
+
+        return $this;
+    }
+
+    public function getAddressPostCode(): ?int
+    {
+        return $this->addressPostCode;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function getUrlWebSite(): ?string
+    {
+        return $this->urlWebSite;
+    }
+
+    public function setUrlWebSite(?string $urlWebSite): self
+    {
+        $this->urlWebSite = $urlWebSite;
+
+        return $this;
+    }
+
+    
 }
