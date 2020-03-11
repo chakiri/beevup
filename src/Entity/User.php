@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Adresse e-mail déjà prise")
  */
 class User implements UserInterface
 {
@@ -22,53 +23,69 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pseudo;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $email;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $roles = [];
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profile;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isValid;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isDeleted;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $company;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $channels = [];
+    private $store;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="user")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
      */
-    private $services;
+    private $type;
 
     public function __construct()
     {
-        $this->services = new ArrayCollection();
+        $this->profil = new Profile();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -95,17 +112,95 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): ?array
     {
         return ['ROLE_USER'];
     }
 
-    public function getSalt()
+    public function setRoles(array $roles): self
     {
+        $this->roles = $roles;
+
+        return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+    
+    public function getUsername()
+    {
+        return $this->email;
+    }
+    
+    public function getSalt()
+    {
+        return '';
+    }
     public function eraseCredentials()
     {
+       
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        // set the owning side of the relation if necessary
+        if ($profile->getUser() !== $this) {
+            $profile->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getIsValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setIsValid(bool $isValid): self
+    {
+        $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(?bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
+
+        return $this;
     }
 
     public function getCompany(): ?Company
@@ -120,51 +215,28 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getChannels(): ?array
+    public function getStore(): ?Store
     {
-        return $this->channels;
+        return $this->store;
     }
 
-    public function setChannels(?array $channels): self
+    public function setStore(?Store $store): self
     {
-        $this->channels = $channels;
+        $this->store = $store;
 
         return $this;
     }
 
-    public function getUsername()
+    public function getType(): ?UserType
     {
-        return $this->email;
+        return $this->type;
     }
 
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
+    public function setType(?UserType $type): self
     {
-        return $this->services;
-    }
-
-    public function addService(Service $service): self
-    {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-            $service->setUser($this);
-        }
+        $this->type = $type;
 
         return $this;
     }
-
-    public function removeService(Service $service): self
-    {
-        if ($this->services->contains($service)) {
-            $this->services->removeElement($service);
-            // set the owning side to null (unless already changed)
-            if ($service->getUser() === $this) {
-                $service->setUser(null);
-            }
-        }
-
-        return $this;
-    }
+    
 }

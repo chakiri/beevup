@@ -116,6 +116,8 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.1"
+    "jms/metadata": {
+        "version": "2.1.0"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -297,10 +299,19 @@
     "symfony/orm-pack": {
         "version": "v1.0.8"
     },
+<<<<<<< HEAD
+=======
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.14.0"
+    },
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-intl-idn": {
+        "version": "v1.14.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-mbstring": {
@@ -362,6 +373,9 @@
     "symfony/stopwatch": {
         "version": "v5.0.5"
     },
+    "symfony/string": {
+        "version": "v5.0.5"
+    },
     "symfony/translation-contracts": {
         "version": "v2.0.1"
     },
@@ -394,8 +408,13 @@
             "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
         },
         "files": [
+<<<<<<< HEAD
             "./config/packages/test/validator.yaml",
             "./config/packages/validator.yaml"
+=======
+            "config/packages/test/validator.yaml",
+            "config/packages/validator.yaml"
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
         ]
     },
     "symfony/var-dumper": {
@@ -436,8 +455,22 @@
     "twig/twig": {
         "version": "v3.0.3"
     },
+<<<<<<< HEAD
     "webimpress/safe-writer": {
         "version": "2.0.0"
+=======
+    "vich/uploader-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "config/packages/vich_uploader.yaml"
+        ]
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
     },
     "zendframework/zend-code": {
         "version": "3.4.1"

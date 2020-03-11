@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfilRepository")
  */
-class Profil
+class Profile
 {
     /**
      * @ORM\Id()
@@ -42,14 +42,15 @@ class Profil
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    private $accountId;
+    private $function;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="profil", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $job;
+    private $user;
 
     public function getId(): ?int
     {
@@ -127,14 +128,26 @@ class Profil
         return $this;
     }
 
-    public function getJob(): ?int
+    public function getFunction(): ?int
     {
-        return $this->job;
+        return $this->function;
     }
 
-    public function setJob(int $job): self
+    public function setFunction(int $function): self
     {
-        $this->job = $job;
+        $this->function = $function;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

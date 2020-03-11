@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,9 +19,9 @@ class Store
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $storeReference;
+    private $reference;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -62,28 +64,49 @@ class Store
     private $country;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
      */
-    private $gps;
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     */
+    private $longitude;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $photo;
+    private $avatar;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="store")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="store")
+     */
+    private $companies;
+
+    public function __construct()
+    {
+        $this->companies = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStoreReference(): ?int
+    public function getReference(): ?int
     {
-        return $this->storeReference;
+        return $this->reference;
     }
 
-    public function setStoreReference(int $storeReference): self
+    public function setReference(int $reference): self
     {
-        $this->storeReference = $storeReference;
+        $this->reference = $reference;
 
         return $this;
     }
@@ -177,33 +200,45 @@ class Store
         return $this->country;
     }
 
-    public function setConutry(string $country): self
+    public function setCountry(string $country): self
     {
         $this->country = $country;
 
         return $this;
     }
 
-    public function getGps(): ?string
+    public function getLatitude(): ?string
     {
-        return $this->gps;
+        return $this->latitude;
     }
 
-    public function setGps(string $gps): self
+    public function setLatitude(?string $latitude): self
     {
-        $this->gps = $gps;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getLongitude(): ?string
     {
-        return $this->photo;
+        return $this->longitude;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setLongitude(?string $longitude): self
     {
-        $this->photo = $photo;
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
@@ -215,9 +250,65 @@ class Store
         return $this;
     }
 
-    public function setCountry(string $country): self
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
-        $this->country = $country;
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getStore() === $this) {
+                $user->setStore(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Company[]
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Company $company): self
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies[] = $company;
+            $company->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Company $company): self
+    {
+        if ($this->companies->contains($company)) {
+            $this->companies->removeElement($company);
+            // set the owning side to null (unless already changed)
+            if ($company->getStore() === $this) {
+                $company->setStore(null);
+            }
+        }
 
         return $this;
     }
