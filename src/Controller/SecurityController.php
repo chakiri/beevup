@@ -34,18 +34,17 @@ class SecurityController extends AbstractController
             
             $roles[] = 'ROLE_USER';
             $password = $passwordEncoder->encodePassword($user, $form->get('password')->getData());
+
             $user->setRoles($roles);
             $user->setCreatedAt(new \Datetime());
             $user->setIsValid(0);
             $user->setStore($form->get('store')->getData());
             $user->setCompany($company);
             $user->setPassword($password);
-           
-           
-           
+            
             $em->persist($user);
             $em->flush();
-            //$this->addFlash('notice', 'Votre compte a été bien créer');
+            $this->addFlash('Success', 'Votre compte a été bien créer');
             return ($this->redirectToRoute('security_login'));
         }
 
