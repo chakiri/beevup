@@ -26,12 +26,20 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8)
+     * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     * pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
+     * match=true,
+     * message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="array", length=255)
      */
     private $roles = [];
 
@@ -79,7 +87,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->profile = new Profile();
+        $this->profil = new Profile();
     }
 
     public function getId(): ?int

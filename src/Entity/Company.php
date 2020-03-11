@@ -38,27 +38,27 @@ class Company
     private $phone;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $addressNumber;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $addressStreet;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $addressPostCode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $country;
 
@@ -144,10 +144,13 @@ class Company
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function initSlug(Slugify $slugify)
+    public function initSlug()
     {
-        $slug = $slugify->slugify($this->getName());
-        $this->setSlug($slug);
+        if (empty($this->getSlug() )){
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($this->getName());
+            $this->setSlug($slug);        
+        }
     }
 
 
