@@ -22,6 +22,7 @@ security:
             form_login:
                 login_path: security_login
                 check_path: security_login
+                default_target_path: dashboard
 
             logout:
                 path: security_logout
@@ -38,6 +39,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
-        # - { path: ^/, roles: ROLE_USER}
+        - { path: ^/, roles: ROLE_USER}

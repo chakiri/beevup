@@ -10,16 +10,24 @@ Header
 
     <nav class="main-nav float-right d-none d-lg-block">
         <ul>
-            <li class="active"><a href="{{ path('home') }}">Accueil</a></li>
-            <li><a href="{{ path('service') }}">Services</a></li>
-            <li><a href="{{ path('chat') }}">Chat</a></li>
-            <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize }}</a>
-                <ul>
-                    <li><a href="#">Mon profile</a></li>
-                    <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
-                    <li><a href="#">Mon magasin</a></li>
-                </ul>
-            </li>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ path('service') }}">Services</a></li>
+                <li><a href="{{ path('chat') }}">Chat</a></li>
+                <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize }}</a>
+                    <ul>
+                        <li><a href="#">Mon profile</a></li>
+                        <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
+                        <li><a href="#">Mon magasin</a></li>
+                        <li><div class="dropdown-divider"></div></li>
+                        <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{{ path('security_login') }}">Inscription</a></li>
+                <li><a href="{{ path('security_login') }}">Connexion</a></li>
+            {% endif %}
+
         </ul>
     </nav><!-- .main-nav -->
 

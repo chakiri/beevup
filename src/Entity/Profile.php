@@ -24,12 +24,12 @@ class Profile
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastName;
+    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
+    private $firstname;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -69,28 +69,36 @@ class Profile
         return $this;
     }
 
-    public function getLastName(): ?string
+    /**
+     * @return mixed
+     */
+    public function getLastname()
     {
-        return $this->lastName;
+        return $this->lastname;
     }
 
-    public function setLastName(string $lastName): self
+    /**
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname)
     {
-        $this->lastName = $lastName;
-
-        return $this;
+        $this->lastname = $lastname;
     }
 
-    public function getFirstName(): ?string
+    /**
+     * @return mixed
+     */
+    public function getFirstname()
     {
-        return $this->firstName;
+        return $this->firstname;
     }
 
-    public function setFirstName(string $firstName): self
+    /**
+     * @param mixed $firstname
+     */
+    public function setFirstname($firstname)
     {
-        $this->firstName = $firstName;
-
-        return $this;
+        $this->firstname = $firstname;
     }
 
     public function getMobileNumber(): ?int

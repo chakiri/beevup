@@ -22,13 +22,13 @@
 </head>
 
 <body>
-{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+{% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_inscription' %}
     {% include 'partials/header.html.twig' %}
 {% endif %}
 
 {% block body %}{% endblock %}
 
-{% if app.request.attributes.get('_route') != 'chat' %}
+{% if app.request.attributes.get('_route') != 'chat' and app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_inscription' %}
     {% include 'partials/footer.html.twig' %}
 {% endif %}
 
