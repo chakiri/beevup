@@ -110,10 +110,13 @@ class Store
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function initSlug(Slugify $slugify)
+    public function initSlug()
     {
-        $slug = $slugify->slugify($this->getName());
-        $this->setSlug($slug);
+        if (empty($this->getSlug() )){
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($this->getName());
+            $this->setSlug($slug);        
+        }
     }
 
     public function getId(): ?int
