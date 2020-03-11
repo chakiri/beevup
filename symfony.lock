@@ -108,6 +108,14 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.1"
     "jms/metadata": {
         "version": "2.1.0"
     },
@@ -121,7 +129,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -291,9 +299,12 @@
     "symfony/orm-pack": {
         "version": "v1.0.8"
     },
+<<<<<<< HEAD
+=======
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.14.0"
     },
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
@@ -308,6 +319,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.14.0"
+    },
+    "symfony/process": {
+        "version": "v5.0.5"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
@@ -394,8 +408,13 @@
             "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
         },
         "files": [
+<<<<<<< HEAD
+            "./config/packages/test/validator.yaml",
+            "./config/packages/validator.yaml"
+=======
             "config/packages/test/validator.yaml",
             "config/packages/validator.yaml"
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
         ]
     },
     "symfony/var-dumper": {
@@ -418,6 +437,15 @@
             "config/routes/dev/web_profiler.yaml"
         ]
     },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
+    },
     "symfony/yaml": {
         "version": "v5.0.5"
     },
@@ -427,6 +455,10 @@
     "twig/twig": {
         "version": "v3.0.3"
     },
+<<<<<<< HEAD
+    "webimpress/safe-writer": {
+        "version": "2.0.0"
+=======
     "vich/uploader-bundle": {
         "version": "1.5",
         "recipe": {
@@ -438,6 +470,7 @@
         "files": [
             "config/packages/vich_uploader.yaml"
         ]
+>>>>>>> c9696bad62382a01fc851d0150116eb81d4a7c9e
     },
     "zendframework/zend-code": {
         "version": "3.4.1"
