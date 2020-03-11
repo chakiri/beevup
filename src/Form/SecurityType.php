@@ -26,47 +26,45 @@ class SecurityType extends AbstractType
     {
        
         $builder
-        ->add('name', TextType::class, [
-            'label' => false,
-            'mapped'=>false,
-               'attr'  => [
-               'placeholder' => 'Raison Sociale',
-               'class'       =>'form-control'
-            ]
-        ])
-        ->add('siret', TextType::class, [
-            'label' => false,
-            'mapped'=>false,
-               'attr'  => [
-               'placeholder' => 'Siret',
-               'class'       =>'form-control'
-            ]
-        ])
-        ->add('store', EntityType::class, [
-            'label' => false,
-            'multiple'=>false,
-            'class' => Store::class,
-            'choice_label' =>'name'
-           
-        ])
-        ->add('email', TextType::class, [
-            'label' => false,
-               'attr'  => [
-               'placeholder' => 'Email',
-               'class'       =>'form-control'
-               ]
-           ])
-        ->add('password', PasswordType::class, [
-               'label' => false,
-               'attr'  => [
-                 'placeholder' => 'Mot de passe',
-                 'class'       =>'form-control'
-               ]
-           ])
-           ->add('Envoyer', SubmitType::class)
-           ->getForm();
-          
-        
+            ->add('name', TextType::class, [
+                'label' => false,
+                'mapped'=>false,
+                   'attr'  => [
+                   'placeholder' => 'Raison Sociale',
+                   'class'       =>'form-control'
+                ]
+            ])
+            ->add('siret', TextType::class, [
+                'label' => false,
+                'mapped'=>false,
+                   'attr'  => [
+                   'placeholder' => 'Siret',
+                   'class'       =>'form-control'
+                ]
+            ])
+            ->add('store', EntityType::class, [
+                'label' => false,
+                'multiple'=>false,
+                'class' => Store::class,
+                'choice_label' =>'name'
+
+            ])
+            ->add('email', TextType::class, [
+                'label' => false,
+                   'attr'  => [
+                   'placeholder' => 'Email',
+                   'class'       =>'form-control'
+                   ]
+               ])
+            ->add('password', PasswordType::class, [
+                   'label' => false,
+                   'attr'  => [
+                     'placeholder' => 'Mot de passe',
+                     'class'       =>'form-control'
+                   ]
+               ])
+               ->add('Inscription', SubmitType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
