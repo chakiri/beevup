@@ -13,7 +13,7 @@ Header
             <li class="active"><a href="{{ path('home') }}">Accueil</a></li>
             <li><a href="{{ path('service') }}">Services</a></li>
             <li><a href="{{ path('chat') }}">Chat</a></li>
-            <li class="drop-down"><a >{{ app.user.pseudo|capitalize }}</a>
+            <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize }}</a>
                 <ul>
                     <li><a href="#">Mon profile</a></li>
                     <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>

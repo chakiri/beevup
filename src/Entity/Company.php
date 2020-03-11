@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
- *  @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 
 class Company
@@ -123,9 +125,29 @@ class Company
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $introduction;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function initSlug(Slugify $slugify)
+    {
+        $slug = $slugify->slugify($this->getName());
+        $this->setSlug($slug);
     }
 
 
@@ -401,6 +423,30 @@ class Company
     public function setCategory(?CompanyCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getIntroduction(): ?string
+    {
+        return $this->introduction;
+    }
+
+    public function setIntroduction(?string $introduction): self
+    {
+        $this->introduction = $introduction;
 
         return $this;
     }

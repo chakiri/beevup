@@ -26,7 +26,6 @@ class User implements UserInterface
     private $email;
 
     /**
-     *
      * @ORM\Column(type="string", length=255)
      */
     private $password;
@@ -80,7 +79,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->profil = new Profile();
+        $this->profile = new Profile();
     }
 
     public function getId(): ?int

@@ -12,7 +12,7 @@ class WebsocketController extends AbstractController
      */
     public function index()
     {
-        return $this->render('websocket/home.html.twig', [
+        return $this->render('websocket/index.html.twig', [
             'controller_name' => 'WebsocketController',
         ]);
     }
