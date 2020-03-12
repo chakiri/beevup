@@ -39,7 +39,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/login, allow_if: "!is_authenticated()"}
-        - { path: ^/inscription, allow_if: "!is_authenticated()"}
-        - { path: ^/, roles: ROLE_USER}
+        #- { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        #- { path: ^/login, allow_if: "!is_authenticated()"}
+        #- { path: ^/inscription, allow_if: "!is_authenticated()"}
+        #- { path: ^/, roles: ROLE_USER}
