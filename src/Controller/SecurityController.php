@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\SecurityType;
 use App\Entity\User;
 use App\Entity\Company;
+use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
@@ -40,7 +41,8 @@ class SecurityController extends AbstractController
             $roles[] = 'ROLE_USER';
 
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-
+            
+            /* insert user data*/
             $user->setRoles($roles);
             $user->setCreatedAt(new \Datetime());
             $user->setIsValid(0);
@@ -49,7 +51,13 @@ class SecurityController extends AbstractController
             $user->setPassword($password);
 
             $manager->persist($user);
+            $profil = new Profile();
+            $profil->setUser($user);
+            $manager->persist($profil);
+
             $manager->flush();
+            
+
 
             $this->addFlash('Success', 'Votre compte a été bien créer');
 

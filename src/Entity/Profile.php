@@ -17,17 +17,17 @@ class Profile
     private $id;
 
     /**
-     * @ORM\Column(type="integer", length=255)
+     * @ORM\Column(type="integer", length=255, nullable=true)
      */
     private $gender;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
@@ -42,7 +42,7 @@ class Profile
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $function;
 
