@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\SecurityType;
+use App\Form\RegistrationType;
 use App\Entity\User;
 use App\Entity\Company;
 use App\Entity\Profile;
@@ -16,48 +16,41 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/inscription", name="security_inscription")
+     * @Route("/inscription", name="security_registration")
      */
     public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
 
-        $form = $this->createForm(SecurityType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $company = new Company();
-
             /* insert company data*/
+            $company = new Company();
             $company->setSiret($form->get('siret')->getData());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
-            $company->setStore($form->get('store')->getData());
-            $company->setIsValid(0);
+            $company->setStore($user->getStore());
 
             $manager->persist($company);
-            
-            $roles[] = 'ROLE_USER';
 
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            
             /* insert user data*/
-            $user->setRoles($roles);
-            $user->setCreatedAt(new \Datetime());
-            $user->setIsValid(0);
-            $user->setStore($form->get('store')->getData());
+            $user->setStore($user->getStore());
             $user->setCompany($company);
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
             $manager->persist($user);
-            $profil = new Profile();
-            $profil->setUser($user);
-            $manager->persist($profil);
+
+            // new profile
+            $profile = new Profile();
+            $profile->setUser($user);
+
+            $manager->persist($profile);
 
             $manager->flush();
-            
-
 
             $this->addFlash('Success', 'Votre compte a été bien créer');
 

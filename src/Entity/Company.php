@@ -138,6 +138,7 @@ class Company
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->isValid = false;
     }
 
     /**
@@ -363,7 +364,7 @@ class Company
         return $this;
     }
 
-    public function getIsValid(): ?bool
+    public function isValid(): ?bool
     {
         return $this->isValid;
     }

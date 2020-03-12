@@ -14,7 +14,7 @@ Header
                 <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ path('service') }}">Services</a></li>
                 <li><a href="{{ path('chat') }}">Chat</a></li>
-                <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize }}</a>
+                <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?: 'Inconnu' }}</a>
                     <ul>
                         <li><a href="#">Mon profile</a></li>
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
@@ -24,7 +24,7 @@ Header
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ path('security_inscription') }}">Inscription</a></li>
+                <li><a href="{{ path('security_registration') }}">Inscription</a></li>
                 <li><a href="{{ path('security_login') }}">Connexion</a></li>
             {% endif %}
 

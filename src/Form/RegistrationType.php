@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class SecurityType extends AbstractType
+class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -49,7 +49,7 @@ class SecurityType extends AbstractType
                 'choice_label' =>'name'
 
             ])
-            ->add('email', TextType::class, [
+            ->add('email', EmailType::class, [
                 'label' => false,
                    'attr'  => [
                    'placeholder' => 'Email',

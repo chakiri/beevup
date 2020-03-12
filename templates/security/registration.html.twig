@@ -1,19 +1,31 @@
 {% extends 'base.html.twig' %}
+
 {% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
+
   {% block body %}
-    <div class = "container mt-4">
-      <h1>Créer mon compte</h1>
-      
-        {{ form_start(RegistrationForm) }}
-          {{ form_errors(RegistrationForm) }}
-          <div class="col-lg-6">
-            {{ form_row(RegistrationForm.siret) }}
-            {{ form_row(RegistrationForm.name) }}
-            {{ form_row(RegistrationForm.store) }}
-            {{ form_row(RegistrationForm.email) }}
-            {{ form_row(RegistrationForm.password) }}
-             {{ form_end(RegistrationForm) }}
-          </div>
-    </div>  
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="bg-light py-3 px-3 mt-5">
+                    <h1>Inscription</h1>
+
+                    {{ form_start(RegistrationForm) }}
+
+                        {{ form_row(RegistrationForm.siret) }}
+                        {{ form_row(RegistrationForm.name) }}
+                        {{ form_row(RegistrationForm.store) }}
+                        {{ form_row(RegistrationForm.email) }}
+                        {{ form_row(RegistrationForm.password) }}
+
+                    {{ form_end(RegistrationForm) }}
+                </div>
+
+                <div class="register-link text-center">
+                    <p>Vous avez déjà un compte ? <a href="{{ path('security_login') }}">Connectez-vous !</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
   {% endblock %}       
   

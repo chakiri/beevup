@@ -22,6 +22,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -87,7 +89,9 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->profile = new Profile();
+        $this->isValid = false;
+        $this->createdAt = new \Datetime();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
@@ -121,7 +125,7 @@ class User implements UserInterface
 
     public function getRoles(): ?array
     {
-        return ['ROLE_USER'];
+        return $this->roles;
     }
 
     public function setRoles(array $roles): self
@@ -186,7 +190,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsValid(): ?bool
+    public function isValid(): ?bool
     {
         return $this->isValid;
     }
