@@ -6,7 +6,7 @@
 
     <section id="dashboard" class="mt-5">
         <div class="container">
-            <div class="alert alert-dismissible alert-warning">
+            <div class="alert alert-dismissible alert-danger">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Entreprise non visible !</h4>
                 <p class="mb-0">Vous devez compléter votre fiche entreprise pour que les autres utilisateurs puissent la consulter. <a href="#" class="alert-link">Mon entreprise</a>.</p>
             </div>
@@ -22,10 +22,13 @@
                             <img src="/images/default_user.png" class="img-fluid" alt="">
                         </div>
                         <p class="text-muted mb-3">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                        <a href="#">Modifier mon profile</a>
+                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
                     </div>
                     <div class="box">
                         <h4>Mon entreprise</h4>
+                        <div class="row logo-company">
+                            <img src="/images/company1.png" class="img-fluid" alt="">
+                        </div>
                         <p class="lead">{{ app.user.company.name|capitalize }}</p>
                         <p class="text-muted">{{ app.user.company.phone }}</p>
                         <p class="text-muted">{{ app.user.company.email }}</p>
@@ -81,6 +84,22 @@
                                             <h4 class="title">Service titre</h4>
                                         </div>
                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recommandations">
+                        <div class="box">
+                            <h4>Mes recommandations</h4>
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="avatar">
+                                        <img src="/images/default_user.png" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <p><strong>Nicolas Strugarek</strong></p>
+                                    <p class="text-muted">Je recommande vivement cette personne pour sa qualité de travail en tant que développeur</p>
                                 </div>
                             </div>
                         </div>

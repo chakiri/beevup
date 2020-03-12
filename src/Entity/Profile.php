@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfilRepository")
@@ -33,11 +35,20 @@ class Profile
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Length(min=8)
+     * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     * pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
+     * match=true,
+     * message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
+     * )
+     * @Assert\Regex(pattern="/^\+31\(0\)[0-9]*$", message="Ce champ ne doit pas contenir des caractères")
      */
     private $mobileNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Regex(pattern="/^\+31\(0\)[0-9]*$")
      */
     private $phoneNumber;
 

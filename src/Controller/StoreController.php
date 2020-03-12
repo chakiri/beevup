@@ -12,7 +12,7 @@ class StoreController extends AbstractController
      */
     public function index()
     {
-        return $this->render('store/home.html.twig', [
+        return $this->render('store/show.html.twig', [
             'controller_name' => 'StoreController',
         ]);
     }

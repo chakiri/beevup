@@ -13,6 +13,8 @@ use App\Entity\User;
 use App\Entity\Company;
 use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
 class SecurityController extends AbstractController
 {
     /**
@@ -52,7 +54,7 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('Success', 'Votre compte a été bien créer');
+            $this->addFlash('Success', 'Votre compte a bien été crée !');
 
             return ($this->redirectToRoute('security_login'));
         }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
@@ -13,25 +12,30 @@ use App\Form\ProfileType;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/profile", name="profile")
+     * @Route("/myaccount/{id}", name="profile_show")
      */
-    public function index()
+    public function show(Profile $profile)
     {
-        //$this->repository
-        return $this->render('profile/home.html.twig', [
-            'controller_name' => 'ProfileController',
+        return $this->render('profile/show.html.twig', [
+            'profile' => $profile,
         ]);
     }
     /**
-     * @Route("/edit_profile/{id}", name="update_profile")
+     * @Route("/myaccount/{id}/edit", name="profile_edit")
      */
     public function edit(Profile $profile, EntityManagerInterface $manager, Request $request)
     {
         $form = $this->createForm(ProfileType::class, $profile);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
            $manager->persist($profile);
            $manager->flush();
+
+           return $this->redirectToRoute('profile', [
+               'id' => $profile->getId()
+           ]);
 
         }
         return $this->render('profile/edit.html.twig', [

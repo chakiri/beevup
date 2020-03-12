@@ -13,7 +13,7 @@ class CompanyController extends AbstractController
      */
     public function index()
     {
-        return $this->render('company/home.html.twig', [
+        return $this->render('company/show.html.twig', [
             'controller_name' => 'CompanyController',
         ]);
     }

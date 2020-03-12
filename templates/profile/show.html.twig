@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    <section id="profile" class="mt-5">
+        <div class="container">
+            <div class="box">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="box-image">
+                            <img src="/images/service.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="info">
+                            <h2>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h2>
+                            <p><strong>{{ profile.function ?: 'Fonction non saisie'}}</strong></p>
+                            <p><i class="fa fa-map-marker"></i> {{ profile.user.store.city }}</p>
+                            <p><i class="fa fa-phone"></i> {{ profile.phoneNumber ?: 'non saisi' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

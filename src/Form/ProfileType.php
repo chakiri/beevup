@@ -6,12 +6,11 @@ use App\Entity\Profile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+
 class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,15 +25,15 @@ class ProfileType extends AbstractType
                 ],
             ])
             ->add('mobileNumber', TextType::class, [
+                'required' => false,
                 'attr'  => [
-                    'placeholder' => 'Téléphone mobile',
-                    'class'       =>'form-control'
+                    'placeholder' => 'Téléphone mobile'
                  ]
             ])
             ->add('phoneNumber', TextType::class, [
+                'required' => false,
                 'attr'  => [
                     'placeholder' => 'Téléphone fixe',
-                    'class'       =>'form-control'
                 ]
             ])
             ->add('function', ChoiceType::class, [
@@ -43,8 +42,6 @@ class ProfileType extends AbstractType
                     'Chef de projet' => 1,
                 ],
             ])
-            ->add('Editer', SubmitType::class)
-            
         ;
     }
 
