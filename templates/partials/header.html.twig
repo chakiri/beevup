@@ -16,7 +16,7 @@ Header
                 <li><a href="{{ path('chat') }}">Chat</a></li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?: 'Inconnu' }}</a>
                     <ul>
-                        <li><a href="#">Mon profile</a></li>
+                        <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
                         <li><a href="#">Mon magasin</a></li>
                         <li><div class="dropdown-divider"></div></li>
