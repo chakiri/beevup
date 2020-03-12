@@ -22,9 +22,8 @@
 </head>
 
 <body>
-{% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_inscription' %}
-    {% include 'partials/header.html.twig' %}
-{% endif %}
+{% include 'partials/header.html.twig' %}
+
 
 {% block body %}{% endblock %}
 
