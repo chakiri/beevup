@@ -162,13 +162,20 @@ h6 {
 }
 
 #header .logo img {
+  transition: all 0.5s;
   padding: 0;
-  margin: 7px 0;
-  max-height: 26px;
+  margin: -10px 0;
+  max-height: 60px;
 }
 
 .main-pages {
   margin-top: 60px;
+}
+
+.logo-scrolled {
+  transition: all 0.5s;
+  margin: -10px 0 !important;
+  max-height: 40px !important;
 }
 
 /*--------------------------------------------------------------
