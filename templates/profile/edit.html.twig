@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% form_theme EditProfileForm 'bootstrap_4_layout.html.twig' %}
+  {% block body %}
+    <div class = "container mt-4">
+      <h1>Compléter mes information</h1>
+      <div class="col-lg-6">
+        {{ form_start(EditProfileForm) }}
+          {{ form_errors(EditProfileForm) }}
+            {{ form_widget(EditProfileForm) }}
+          {{ form_end(EditProfileForm) }}
+          </div>
+      <div class="col-lg-6">
+    </div>  
+  {% endblock %} 
