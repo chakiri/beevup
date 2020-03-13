@@ -4,7 +4,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-      logos_directory: '%kernel.project_dir%/public/uploads/images/logos' 
+      entreprise_logos: '%kernel.project_dir%/public/images/logos' 
+      mappings:
+        entreprise_logos:
+            uri_prefix:         /images/logos
+            upload_destination: '%kernel.project_dir%/public/images/logos'
+            namer: vich_uploader.namer_uniqid
+      
 
 services:
     # default configuration for services in *this* file
