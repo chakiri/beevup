@@ -30,14 +30,15 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
            $manager->persist($profile);
            $manager->flush();
 
-           return $this->redirectToRoute('profile', [
+           return $this->redirectToRoute('profile_show', [
                'id' => $profile->getId()
            ]);
-
         }
+
         return $this->render('profile/edit.html.twig', [
             'EditProfileForm' => $form->createView(),
         ]);

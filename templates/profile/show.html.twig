@@ -18,6 +18,7 @@
                             <p><strong>{{ profile.function ?: 'Fonction non saisie'}}</strong></p>
                             <p><i class="fa fa-map-marker"></i> {{ profile.user.store.city }}</p>
                             <p><i class="fa fa-phone"></i> {{ profile.phoneNumber ?: 'non saisi' }}</p>
+                            <a href="{{ path('profile_edit', {'id': profile.id}) }}">Editer mon profile</a>
                         </div>
                     </div>
                 </div>

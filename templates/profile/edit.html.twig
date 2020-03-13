@@ -13,34 +13,22 @@
             <div class="card-body card-block">
                 {{ form_start(EditProfileForm) }}
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.lastname) }}
-                  </div>
+                  {{ form_row(EditProfileForm.lastname) }}
                 </div>
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.firstname) }}
-                  </div>
+                  {{ form_row(EditProfileForm.firstname) }}
                 </div>
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.gender) }}
-                  </div>
+                  {{ form_row(EditProfileForm.gender) }}
                 </div>
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.mobileNumber) }}
-                  </div>
+                  {{ form_row(EditProfileForm.mobileNumber) }}
                 </div>
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.phoneNumber) }}
-                  </div>
+                  {{ form_row(EditProfileForm.phoneNumber) }}
                 </div>
                 <div class="form-group">
-                  <div class="input-group">
-                      {{ form_widget(EditProfileForm.function) }}
-                  </div>
+                  {{ form_row(EditProfileForm.function) }}
                 </div>
                 <div class="form-actions form-group">
                   <button type="submit" class="btn btn-success btn-sm">Submit</button>

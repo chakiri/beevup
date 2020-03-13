@@ -27,7 +27,7 @@ class User implements UserInterface
      */
     private $email;
 
-    /**
+/*    /**
      * @Assert\NotBlank()
      * @Assert\Length(min=8)
      * @Assert\Length(max=4096)
@@ -37,6 +37,10 @@ class User implements UserInterface
      * message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
      * )
      * @ORM\Column(type="string", length=255)
+*     */
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $password;
 
