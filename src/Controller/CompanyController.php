@@ -64,7 +64,7 @@ class CompanyController extends AbstractController
                
             }
           
-            $company->setUpdatedAt(new \Datetime());
+           
            $manager->persist($company);
            $manager->flush();
 
