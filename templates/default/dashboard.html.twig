@@ -8,11 +8,11 @@
         <div class="container">
             <div class="alert alert-dismissible alert-danger">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Entreprise non visible !</h4>
-                <p class="mb-0">Vous devez compléter votre fiche entreprise pour que les autres utilisateurs puissent la consulter. <a href="#" class="alert-link">Mon entreprise</a>.</p>
+                <p class="mb-0">Vous devez compléter votre fiche entreprise pour que les autres utilisateurs puissent la consulter. <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Mon entreprise</a>.</p>
             </div>
             <div class="alert alert-dismissible alert-primary">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Profile non visible !</h4>
-                <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="#" class="alert-link">Mon profile</a>.</p>
+                <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}" class="alert-link">Mon profile</a>.</p>
             </div>
 
             <div class="row">
@@ -33,7 +33,7 @@
                         <p class="text-muted">{{ app.user.company.phone }}</p>
                         <p class="text-muted">{{ app.user.company.email }}</p>
                         <p class="text-muted mb-3">{{ app.user.company.website }}</p>
-                        <a href="#">Modifier ma fiche</a>
+                        <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
                     </div>
                     <div class="box">
                         <h4>Mon magasin</h4>

@@ -35,7 +35,7 @@ class CompanyController extends AbstractController
         ]);
     }
     /**
-     * @Route("/edit_company/{id}", name="company_edit")
+     * @Route("/company/{id}/edit", name="company_edit")
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request)
     {
@@ -60,10 +60,14 @@ class CompanyController extends AbstractController
                 $company->setImageFile($newFilename);
                
             }
-          
+
             
            $manager->persist($company);
            $manager->flush();
+
+           return $this->redirectToRoute('company_show', [
+               'slug' => $company->getSlug()
+           ]);
 
         }
         return $this->render('company/edit.html.twig', [
