@@ -34,21 +34,14 @@ class Profile
     private $firstname;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Length(min=8)
-     * @Assert\Length(max=4096)
-     * @Assert\Regex(
-     * pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
-     * match=true,
-     * message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
-     * )
-     * @Assert\Regex(pattern="/^\+31\(0\)[0-9]*$", message="Ce champ ne doit pas contenir des caractères")
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9] (?:[\s.-]*\d{2}){4}$/")
      */
     private $mobileNumber;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Regex(pattern="/^\+31\(0\)[0-9]*$")
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9] (?:[\s.-]*\d{2}){4}$/")
      */
     private $phoneNumber;
 
@@ -112,39 +105,36 @@ class Profile
         $this->firstname = $firstname;
     }
 
-    public function getMobileNumber(): ?int
+    /**
+     * @return mixed
+     */
+    public function getMobileNumber()
     {
         return $this->mobileNumber;
     }
 
-    public function setMobileNumber(?int $mobileNumber): self
+    /**
+     * @param $mobileNumber
+     */
+    public function setMobileNumber($mobileNumber)
     {
         $this->mobileNumber = $mobileNumber;
-
-        return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $phoneNumber): self
+    /**
+     * @param $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-    public function getAccountId(): ?int
-    {
-        return $this->accountId;
-    }
-
-    public function setAccountId(int $accountId): self
-    {
-        $this->accountId = $accountId;
-
-        return $this;
     }
 
     public function getFunction(): ?int
