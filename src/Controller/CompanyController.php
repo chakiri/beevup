@@ -51,17 +51,20 @@ class CompanyController extends AbstractController
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
                 try {
                     $file->move(
-                        $this->getParameter('logos_directory'),
+                        $this->getParameter('entreprise_logos'),
                         $newFilename
                     );
+                    dump( $file->move($this->getParameter('entreprise_logos'), $newFilename));
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                   
                 }
-                $company->setImageFile($newFilename);
+                $company->setLogo($newFilename);
+                
                
             }
           
-            
+            $company->setUpdatedAt(new \Datetime());
            $manager->persist($company);
            $manager->flush();
 

@@ -70,7 +70,7 @@ class Company
     
     /*
      * @var File|null
-     * @Vich\UploadableField(mapping="property_image", fileNameProperty = "logo")
+     * @Vich\UploadableField(mapping="entreprise_logos", fileNameProperty = "logo")
      */
     private $imageFile;
 
@@ -133,12 +133,21 @@ class Company
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
+    
     private $introduction;
+
+    /**
+    * @ORM\Column(type="datetime")
+    *
+    * @var \DateTime
+    */
+    private $updatedAt;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->isValid = false;
+       
     }
 
     /**
@@ -451,6 +460,18 @@ class Company
     public function setIntroduction(?string $introduction): self
     {
         $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

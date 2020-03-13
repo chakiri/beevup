@@ -23,7 +23,13 @@ class CompanyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('siret')
+            ->add('siret', TextType::class, [
+                'label' => false,
+                'attr'  => [
+                    'placeholder' => 'Siret',
+                    'class'       =>'form-control'
+                 ]
+            ])
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr'  => [
@@ -83,7 +89,13 @@ class CompanyType extends AbstractType
                 ]
         
             ])
-            ->add('video')
+            ->add('video', TextType::class,[
+                'label' => false,
+                'attr'  => [
+                    'placeholder' => 'Video',
+                    'class'       =>'form-control'
+                ]
+            ])
             ->add('name', TextType::class, [
                 'label' => false,
                 'attr'  => [
