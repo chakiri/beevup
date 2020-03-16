@@ -40,6 +40,7 @@ class ProfileType extends AbstractType
                 ],
             ])
             ->add('mobileNumber', TextType::class, [
+                'label' => false,
                 'attr'  => [
                     'placeholder' => 'Téléphone mobile'
                  ]

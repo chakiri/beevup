@@ -27,11 +27,12 @@ class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
-
+       
         if ($form->isSubmitted() && $form->isValid()) {
+            
             /* insert company data*/
             $company = new Company();
-            $company->setSiret($form->get('siret')->getData());
+            $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
             $company->setStore($user->getStore());

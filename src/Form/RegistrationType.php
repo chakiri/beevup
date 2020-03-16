@@ -12,13 +12,16 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-       
         $builder
+        ->add('company', InscriptionCompanyType::class, [
+            'label' => false,
+         ])
             ->add('name', TextType::class, [
                 'label' => false,
                 'mapped'=>false,
@@ -27,15 +30,7 @@ class RegistrationType extends AbstractType
                    'class'       =>'form-control'
                 ]
             ])
-            ->add('siret', TextType::class, [
-                'label' => false,
-                'mapped'=>false,
-                   'attr'  => [
-                   'placeholder' => 'Siret',
-                   'class'       =>'form-control'
-                ]
-            ])
-            ->add('store', EntityType::class, [
+             ->add('store', EntityType::class, [
                 'label' => false,
                 'multiple'=>false,
                 'class' => Store::class,

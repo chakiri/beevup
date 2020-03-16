@@ -51,11 +51,6 @@
                                 {{ form_errors(EditCompanyForm.phone) }}
                                 {{ form_widget(EditCompanyForm.phone) }}
                             </div>
-                            <div class="form-group">
-                                <label for="">Site web de l'entreprise</label>
-                                {{ form_errors(EditCompanyForm.website) }}
-                                {{ form_widget(EditCompanyForm.website) }}
-                            </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
@@ -84,11 +79,6 @@
                                 {{ form_widget(EditCompanyForm.country) }}
                             </div>
                             <div class="form-group">
-                                <label for="">Logo</label>
-                                {{ form_errors(EditCompanyForm.logo) }}
-                                {{ form_widget(EditCompanyForm.logo) }}
-                            </div>
-                            <div class="form-group">
                                 <label for="">Image</label>
                                 {{ form_errors(EditCompanyForm.imageFile) }}
                                 {{ form_widget(EditCompanyForm.imageFile) }}
@@ -97,6 +87,11 @@
                                 <label for="">Lien vidéo</label>
                                 {{ form_errors(EditCompanyForm.video) }}
                                 {{ form_widget(EditCompanyForm.video) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Site web de l'entreprise</label>
+                                {{ form_errors(EditCompanyForm.website) }}
+                                {{ form_widget(EditCompanyForm.website) }}
                             </div>
                         </div>
                     </div>
