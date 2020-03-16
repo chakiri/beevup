@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
 class ProfileType extends AbstractType
@@ -59,6 +60,17 @@ class ProfileType extends AbstractType
                     'Chef de projet' => 1,
                 ],
             ])
+            ->add('imageFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => false,
+                'attr'  => [
+                    'placeholder' => 'Logo',
+                    'class'       =>'form-control'
+                ]
+        
+            ])
+            
         ;
     }
 

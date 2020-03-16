@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
 use App\Form\ProfileType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProfileController extends AbstractController
 {
@@ -30,6 +31,25 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['imageFile']->getData();
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $safeFilename =  $originalFilename;
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('profil_photo'),
+                        $newFilename
+                    );
+                    
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                   
+                }
+            }
+                $profile->setPhoto($newFilename);
 
            $manager->persist($profile);
            $manager->flush();

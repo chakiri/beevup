@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfilRepository")
+ * @Vich\Uploadable
  */
 class Profile
 {
@@ -55,6 +57,18 @@ class Profile
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $photo;
+    
+    /*
+     * @var File|null
+     * @Vich\UploadableField(mapping="profil_photo", fileNameProperty = "photo")
+     */
+    private $imageFile;
 
     public function getId(): ?int
     {
@@ -160,4 +174,28 @@ class Profile
 
         return $this;
     }
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?string
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?string $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
 }
