@@ -19,7 +19,11 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="box">
                         <div class="row avatar">
+                        {% if app.user.profile.photo %}
+                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                         {% else %}
                             <img src="/images/default_user.png" class="img-fluid" alt="">
+                        {% endif %}
                         </div>
                         <p class="text-muted mb-3">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
                         <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
@@ -27,7 +31,11 @@
                     <div class="box">
                         <h4>Mon entreprise</h4>
                         <div class="row logo-company">
+                         {% if app.user.company.logo %}
+                            <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+                         {% else %}
                             <img src="/images/company1.png" class="img-fluid" alt="">
+                         {% endif %}
                         </div>
                         <p class="lead">{{ app.user.company.name|capitalize }}</p>
                         <p class="text-muted">{{ app.user.company.phone }}</p>

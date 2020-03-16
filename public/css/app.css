@@ -8,3 +8,7 @@ div.cover-image{
     background-size: cover;
     background-position: center;
 }
+#registration-form fieldset{
+    margin-bottom: 0;
+
+}

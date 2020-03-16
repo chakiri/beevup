@@ -10,9 +10,9 @@
                 <div class="bg-light py-3 px-3 mt-5">
                     <h1>Inscription</h1>
 
-                    {{ form_start(RegistrationForm) }}
+                    {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
 
-                        {{ form_row(RegistrationForm.siret) }}
+                        {{ form_row(RegistrationForm.company) }}
                         {{ form_row(RegistrationForm.name) }}
                         {{ form_row(RegistrationForm.store) }}
                         {{ form_row(RegistrationForm.email) }}

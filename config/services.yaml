@@ -5,10 +5,15 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
       entreprise_logos: '%kernel.project_dir%/public/images/logos' 
+      profil_photo: '%kernel.project_dir%/public/images/profil/photo' 
       mappings:
         entreprise_logos:
             uri_prefix:         /images/logos
             upload_destination: '%kernel.project_dir%/public/images/logos'
+            namer: vich_uploader.namer_uniqid
+        profil_photo:
+            uri_prefix:         /images/profil/photo
+            upload_destination: '%kernel.project_dir%/public/images/profil/photo'
             namer: vich_uploader.namer_uniqid
       
 

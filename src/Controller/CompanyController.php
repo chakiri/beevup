@@ -60,13 +60,13 @@ class CompanyController extends AbstractController
                    
                 }
                 $company->setLogo($newFilename);
-                
+                $manager->persist($company);
+                $manager->flush();
                
             }
           
            
-           $manager->persist($company);
-           $manager->flush();
+           
 
            return $this->redirectToRoute('company_show', [
                'slug' => $company->getSlug()

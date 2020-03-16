@@ -87,7 +87,6 @@ class CompanyType extends AbstractType
                 ]
         
             ])
-            ->add('logo')
             ->add('video')
             ->add('name', TextType::class, [
                 'attr'  => [
