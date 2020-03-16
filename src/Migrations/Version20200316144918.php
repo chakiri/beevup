@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200313102343 extends AbstractMigration
+final class Version20200316144918 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20200313102343 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE profile CHANGE mobile_number mobile_number VARCHAR(255) DEFAULT NULL, CHANGE phone_number phone_number VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE profile DROP function_id');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +30,6 @@ final class Version20200313102343 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE profile CHANGE mobile_number mobile_number INT DEFAULT NULL, CHANGE phone_number phone_number INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE profile ADD function_id INT DEFAULT NULL');
     }
 }

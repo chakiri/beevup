@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200316114337 extends AbstractMigration
+final class Version20200316162033 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,7 @@ final class Version20200316114337 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_4FBF094F26E94372 ON company (siret)');
-        $this->addSql('ALTER TABLE profile ADD photo VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE store ADD description VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -31,7 +30,6 @@ final class Version20200316114337 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP INDEX UNIQ_4FBF094F26E94372 ON company');
-        $this->addSql('ALTER TABLE profile DROP photo');
+        $this->addSql('ALTER TABLE store DROP description');
     }
 }

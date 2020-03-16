@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Profile;
 use App\Entity\Company;
+use App\Entity\UserFunction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,50 +21,49 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('lastname', TextType::class, [
-                'label' => false,
+                'label' => 'Nom',
                 'attr'  => [
                     'placeholder' => 'Nom',
                     'class'       =>'form-control'
                  ]
             ])
             ->add('firstname', TextType::class, [
-                'label' => false,
+                'label' => 'Prénom',
                 'attr'  => [
                     'placeholder' => 'Prénom',
                     'class'       =>'form-control'
                  ]
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => false,
+                'label' => 'Genre',
                 'choices' => [
                     'Femme' => 0,
                     'Homme' => 1,
                 ],
             ])
             ->add('mobileNumber', TextType::class, [
-                'label' => false,
+                'label' => 'Téléphone',
                 'attr'  => [
                     'placeholder' => 'Téléphone mobile'
                  ]
             ])
             ->add('phoneNumber', TextType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Fix',
                 'attr'  => [
                     'placeholder' => 'Téléphone fixe',
                 ]
             ])
-            ->add('function', ChoiceType::class, [
-                'label' => false,
-                'choices' => [
-                    'Responsable marketing' => 0,
-                    'Chef de projet' => 1,
-                ],
+            ->add('function', EntityType::class, [
+                'label' => 'Fonction',
+                'multiple'=>false,
+                'class' => UserFunction::class,
+                'choice_label' =>'name'
             ])
             ->add('imageFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
-                'label' => false,
+                'label' => 'Photo',
                 'attr'  => [
                     'placeholder' => 'Photo',
                     'class'       =>'form-control'

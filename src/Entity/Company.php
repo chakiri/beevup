@@ -145,11 +145,17 @@ class Company
     */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isCompleted;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->isValid = false;
-        $this->updatedAt = new \Datetime(); 
+        $this->isCompleted = false;
+        $this->updatedAt = new \Datetime();
        
     }
 
@@ -475,6 +481,18 @@ class Company
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getIsCompleted(): ?bool
+    {
+        return $this->isCompleted;
+    }
+
+    public function setIsCompleted(bool $isCompleted): self
+    {
+        $this->isCompleted = $isCompleted;
 
         return $this;
     }

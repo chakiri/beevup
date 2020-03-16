@@ -100,6 +100,11 @@ class Store
      */
     private $introduction;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -358,6 +363,18 @@ class Store
     public function setIntroduction(?string $introduction): self
     {
         $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

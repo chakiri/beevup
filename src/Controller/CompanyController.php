@@ -24,7 +24,6 @@ class CompanyController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/company/{slug}", name="company_show")
      */
@@ -34,6 +33,7 @@ class CompanyController extends AbstractController
             'company' => $company
         ]);
     }
+
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
@@ -60,13 +60,11 @@ class CompanyController extends AbstractController
                    
                 }
                 $company->setLogo($newFilename);
-                $manager->persist($company);
-                $manager->flush();
-               
             }
-          
-           
-           
+
+            $company->setIsCompleted(true);
+            $manager->persist($company);
+            $manager->flush();
 
            return $this->redirectToRoute('company_show', [
                'slug' => $company->getSlug()

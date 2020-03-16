@@ -18,7 +18,7 @@ Header
                     <ul>
                         <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
-                        <li><a href="#">Mon magasin</a></li>
+                        <li><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon magasin</a></li>
                         <li><div class="dropdown-divider"></div></li>
                         <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
                     </ul>

@@ -6,14 +6,21 @@
 
     <section id="dashboard" class="mt-5">
         <div class="container">
-            <div class="alert alert-dismissible alert-danger">
-                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Entreprise non visible !</h4>
-                <p class="mb-0">Vous devez compléter votre fiche entreprise pour que les autres utilisateurs puissent la consulter. <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Mon entreprise</a>.</p>
-            </div>
-            <div class="alert alert-dismissible alert-primary">
-                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Profile non visible !</h4>
-                <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profile</a>.</p>
-            </div>
+
+            {# Notice warning#}
+            {% if app.user.company.isCompleted == false %}
+                <div class="alert alert-dismissible alert-danger">
+                    <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Entreprise non visible !</h4>
+                    <p class="mb-0">Vous devez compléter votre fiche entreprise pour que les autres utilisateurs puissent la consulter. <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Mon entreprise</a>.</p>
+                </div>
+            {% endif %}
+
+            {% if app.user.profile.isCompleted == false %}
+                <div class="alert alert-dismissible alert-primary">
+                    <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Profile non visible !</h4>
+                    <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profile</a>.</p>
+                </div>
+            {% endif %}
 
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -25,7 +32,8 @@
                             <img src="/images/default_user.png" class="img-fluid" alt="">
                         {% endif %}
                         </div>
-                        <p class="text-muted mb-3">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                        <p class="mb-3"> {{ app.user.profile.function.name|capitalize }}</p>
                         <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
                     </div>
                     <div class="box">
@@ -44,7 +52,7 @@
                         <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
                     </div>
                     <div class="box">
-                        <h4>Mon magasin</h4>
+                        <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}"><h4>Mon magasin</h4></a>
                         <p class="lead">{{ app.user.store.name|capitalize }}</p>
                         <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
                         <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>

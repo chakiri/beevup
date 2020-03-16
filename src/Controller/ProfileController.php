@@ -48,15 +48,16 @@ class ProfileController extends AbstractController
                     // ... handle exception if something happens during file upload
                    
                 }
-            }
                 $profile->setPhoto($newFilename);
+            }
+            $profile->setIsCompleted(true);
 
-           $manager->persist($profile);
-           $manager->flush();
+            $manager->persist($profile);
+            $manager->flush();
 
-           return $this->redirectToRoute('profile_show', [
+            return $this->redirectToRoute('profile_show', [
                'id' => $profile->getId()
-           ]);
+            ]);
         }
 
         return $this->render('profile/edit.html.twig', [

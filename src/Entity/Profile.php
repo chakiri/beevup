@@ -47,10 +47,6 @@ class Profile
      */
     private $phoneNumber;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $function;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="profile", cascade={"persist", "remove"})
@@ -69,6 +65,26 @@ class Profile
      * @Vich\UploadableField(mapping="profil_photo", fileNameProperty = "photo")
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $introduction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserFunction")
+     */
+    private $function;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isCompleted;
+
+    public function __construct()
+    {
+        $this->isCompleted = false;
+    }
 
     public function getId(): ?int
     {
@@ -151,17 +167,7 @@ class Profile
         $this->phoneNumber = $phoneNumber;
     }
 
-    public function getFunction(): ?int
-    {
-        return $this->function;
-    }
 
-    public function setFunction(int $function): self
-    {
-        $this->function = $function;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -194,6 +200,42 @@ class Profile
     public function setImageFile(?string $imageFile): self
     {
         $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getIntroduction(): ?string
+    {
+        return $this->introduction;
+    }
+
+    public function setIntroduction(?string $introduction): self
+    {
+        $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    public function getFunction(): ?UserFunction
+    {
+        return $this->function;
+    }
+
+    public function setFunction(?UserFunction $function): self
+    {
+        $this->function = $function;
+
+        return $this;
+    }
+
+    public function getIsCompleted(): ?bool
+    {
+        return $this->isCompleted;
+    }
+
+    public function setIsCompleted(bool $isCompleted): self
+    {
+        $this->isCompleted = $isCompleted;
 
         return $this;
     }
