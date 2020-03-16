@@ -65,7 +65,7 @@ class ProfileType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr'  => [
-                    'placeholder' => 'Logo',
+                    'placeholder' => 'Photo',
                     'class'       =>'form-control'
                 ]
         
