@@ -830,21 +830,27 @@ h6 {
 #service .box-image{
   overflow: hidden;
   border-radius: 10px;
-  margin: 0 10px 40px 10px;
+  margin: 0 0 40px 0;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
+  height: 250px;
 }
 
 #service .box {
   width: 100%;
   padding: 30px;
   position: relative;
+  margin: 0 0 40px 0;
   overflow: hidden;
   border-radius: 10px;
-  margin: 0 10px 40px 10px;
   background: #fff;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
+}
+
+#service .box-image img{
+  width: 100%;
+  height: 100%;
 }
 
 /* profile Section
@@ -858,6 +864,15 @@ h6 {
 
 #profile .info{
   padding: 30px;
+}
+
+#profile .box-info{
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  background: #fff;
 }
 
 #profile .box-image img{
@@ -911,6 +926,10 @@ h6 {
   color: inherit;
 }
 
+#services .box img{
+  width: 100%;
+  height: 250px;
+}
 
 #services .box .info{
   padding: 30px;
@@ -920,7 +939,6 @@ h6 {
   background: #fff;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
-  height:400px;
 }
 
 #services .box:hover {
@@ -945,6 +963,11 @@ h6 {
   font-weight: 700;
   margin-bottom: 15px;
   font-size: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #services .title a {
@@ -960,6 +983,11 @@ h6 {
   margin-left: 40px;
   line-height: 24px;
   margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #why-us {

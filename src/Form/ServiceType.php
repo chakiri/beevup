@@ -9,7 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -28,23 +27,28 @@ class ServiceType extends AbstractType
 
             ])
             ->add('description', TextareaType::class, [
-                'attr' => ['class' => 'tinymce'],
+                'attr' => [
+                    'placeholder' => 'Titre',
+                    'class'       =>'form-control'
+                ],
+            ])
+            ->add('introduction', TextareaType::class, [
+                'attr' => [
+                    'placeholder' => 'Titre',
+                    'class'       =>'form-control'
+                ],
             ])
             ->add('type', EntityType::class, [
-                'label' => false,
+                'label' => 'Type de service',
                 'multiple'=>false,
                 'class' => TypeService::class,
                 'choice_label' =>'name'
-
             ])
-       
             ->add('isFree', CheckboxType::class, [
                 'label'    => 'Service Payant',
                 'required' => false,
             ])
-			
             ->add('price')
-            ->add('introduction')
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'attr'  => [

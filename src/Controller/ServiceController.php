@@ -18,7 +18,10 @@ class ServiceController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager){
         $service = new Service();
+
         $form = $this->createForm(ServiceType::class, $service);
+
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['imageFile']->getData();
@@ -44,8 +47,12 @@ class ServiceController extends AbstractController
            $manager->persist($service);
            $manager->flush();
            $this->addFlash('create-service-success', 'Votre Service a été bien crée !');
+
+           return $this->redirectToRoute('service_show', [
+               'id' => $service->getId()
+           ]);
         }
-        return $this->render('service/create.html.twig', [
+        return $this->render('service/form.html.twig', [
             'ServiceForm' => $form->createView(),
             'edit' => 0
         ]);
@@ -100,8 +107,12 @@ class ServiceController extends AbstractController
            $manager->persist($service);
            $manager->flush();
            $this->addFlash('update-service-success', 'Votre Service a été mis à jour !');
+
+            return $this->redirectToRoute('service_show', [
+                'id' => $service->getId()
+            ]);
         }
-        return $this->render('service/create.html.twig', [
+        return $this->render('service/form.html.twig', [
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => 1
