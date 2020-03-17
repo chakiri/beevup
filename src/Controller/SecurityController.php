@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('Success', 'Votre compte a bien été crée !');
+            $this->addFlash('create-service-success', 'Votre compte a bien été crée !');
 
             return ($this->redirectToRoute('security_login'));
         }

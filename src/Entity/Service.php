@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
+ * @Vich\Uploadable
  */
 class Service
 {
@@ -30,7 +33,7 @@ class Service
      * @ORM\Column(type="string", length=255)
      */
     private $type;
-
+    
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
      */
@@ -55,6 +58,30 @@ class Service
     {
         return $this->id;
     }
+
+        /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $photo;
+    
+    /*
+     * @var File|null
+     * @Vich\UploadableField(mapping="service_photo", fileNameProperty = "photo")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isFree;
+
+    public function __construct()
+    {
+        $this->createdAt = new \Datetime();
+      
+    }
+
 
     public function getTitle(): ?string
     {
@@ -136,6 +163,45 @@ class Service
     public function setIntroduction(string $introduction): self
     {
         $this->introduction = $introduction;
+
+        return $this;
+    }
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getIsFree(): ?bool
+    {
+        return $this->isFree;
+    }
+
+    public function setIsFree(?bool $isFree): self
+    {
+        $this->isFree = $isFree;
 
         return $this;
     }

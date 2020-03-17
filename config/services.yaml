@@ -6,6 +6,7 @@
 parameters:
       entreprise_logos: '%kernel.project_dir%/public/images/logos' 
       profil_photo: '%kernel.project_dir%/public/images/profil/photo' 
+      service_photo: '%kernel.project_dir%/public/images/service/photo'
       mappings:
         entreprise_logos:
             uri_prefix:         /images/logos
@@ -14,6 +15,10 @@ parameters:
         profil_photo:
             uri_prefix:         /images/profil/photo
             upload_destination: '%kernel.project_dir%/public/images/profil/photo'
+            namer: vich_uploader.namer_uniqid
+        service_photo:
+            uri_prefix:         /images/service/photo
+            upload_destination: '%kernel.project_dir%/public/images/service/photo'
             namer: vich_uploader.namer_uniqid
       
 

@@ -54,7 +54,7 @@ class CompanyController extends AbstractController
                         $this->getParameter('entreprise_logos'),
                         $newFilename
                     );
-                    dump( $file->move($this->getParameter('entreprise_logos'), $newFilename));
+                    //dump( $file->move($this->getParameter('entreprise_logos'), $newFilename));
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                    

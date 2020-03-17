@@ -9,12 +9,20 @@
             <div class="row">
                 <div class="col-4">
                     <div class="box-image">
-                        <img src="/images/service.jpg" class="img-fluid" alt="">
+                       <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
                     </div>
                     <div class="box">
                         <h4>Proposé par </h4>
-                        {{ service.user.profile.lastname|capitalize }} de <strong>Bureau Vallée</strong>
-                    </div>
+                        {{ service.user.profile.lastname|capitalize }} {{ service.user.profile.firstname|capitalize }} de <strong>  {{ service.user.company.name|capitalize }}</strong>
+                       
+                        <P> Service Payant:
+                            {% if service.isfree == 1 %}
+                              Oui
+                            {% else %}
+                              Non
+                            {% endif %}
+                        </P>
+                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="box">
