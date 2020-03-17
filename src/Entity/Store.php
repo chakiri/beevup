@@ -129,12 +129,12 @@ class Store
         return $this->id;
     }
 
-    public function getReference(): ?int
+    public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    public function setReference(int $reference): self
+    public function setReference(string $reference): self
     {
         $this->reference = $reference;
 
@@ -165,12 +165,12 @@ class Store
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
