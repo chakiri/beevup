@@ -14,14 +14,11 @@
                     <div class="box">
                         <h4>Proposé par </h4>
                        
-                        <P> Service Payant:
-                            {% if service.isfree == 1 %}
-                              Oui
-                            {% else %}
-                              Non
-                            {% endif %}
+                        <P> Service Payant:{% if service.isfree == 1 %} Oui {% else %} Non {% endif %}
                         </P>
+                        <a href="{{ path('service_edit', {'id': service.id}) }}">Editer mon service</a>
                      </div>
+                     
                 </div>
                 <div class="col-lg-8">
                     <div class="box">
