@@ -48,8 +48,8 @@
                     <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
                         <div class="box">
                             <a href="{{ path('service_show', {'id': service.id}) }}">
-                            <div class="portfolio-wrap">
-                                <img src="/images/service.jpg" class="img-fluid" alt="">
+                            <div class="portfolio-wrap dashboard-service-image">
+                                <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
                             </div>
                             <div class="info">
                                 <div class="icon">{{ random(icons)|raw }}</div>
