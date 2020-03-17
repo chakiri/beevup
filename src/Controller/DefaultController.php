@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
      */
     public function dashboard(ServiceRepository $repository)
     {
-        $services = $repository->findBy(array('user' =>$this->getUser()->getId() ));
+        $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         return $this->render('default/dashboard.html.twig', [
             'services' => $services
         ]);

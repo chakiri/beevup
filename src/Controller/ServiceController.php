@@ -41,7 +41,6 @@ class ServiceController extends AbstractController
                 }
                 $service->setPhoto($newFilename);
                
-               
            }
            $service->setUser($this->getUser());
            $manager->persist($service);
