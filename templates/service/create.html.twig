@@ -50,6 +50,11 @@
                 <div class="form-group">
                   {{ form_row(ServiceForm.imageFile) }}
                 </div>
+                {% if edit == 1 %}
+                  <div class="box-image service-box-image">
+                    <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
+                </div>
+                {% endif %}
                 <div class="form-actions form-group">
                   <button type="submit" class="btn btn-success btn-sm">Enregistrer</button>
                 </div>

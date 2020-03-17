@@ -15,7 +15,9 @@
                     <div class="col-8">
                         <div class="info">
                             <h2>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h2>
-                            <p><strong>{{ profile.function.name ?: 'Fonction non saisie'}}</strong></p>
+                            {% if profile.function %}
+                              <p><i class="fa fa-user-o"></i> <strong>{{ profile.function.name ?: 'Fonction non saisie'}}</strong></p>
+                              {% endif %}
                             <p><i class="fa fa-map-marker"></i> {{ profile.user.store.name }}</p>
                             <p><i class="fa fa-phone"></i> {{ profile.phoneNumber ?: 'non saisi' }}</p>
                             <a href="{{ path('profile_edit', {'id': profile.id}) }}">Editer mon profile</a>

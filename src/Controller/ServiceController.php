@@ -78,6 +78,25 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $file = $form['imageFile']->getData();
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename =  $originalFilename;
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('service_photo'),
+                        $newFilename
+                    );
+                    
+                } catch (FileException $e) {
+                 
+                   
+                }
+                $service->setPhoto($newFilename);
+               
+               
+           }
            $manager->persist($service);
            $manager->flush();
            $this->addFlash('update-service-success', 'Votre Service a été mis à jour !');
