@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\ServiceRepository;
 class DefaultController extends AbstractController
 {
     /**
@@ -20,8 +20,11 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard()
+    public function dashboard(ServiceRepository $repository)
     {
-        return $this->render('default/dashboard.html.twig');
+        $services = $repository->findBy(array('user' =>$this->getUser()->getId() ));
+        return $this->render('default/dashboard.html.twig', [
+            'services' => $services
+        ]);
     }
 }
