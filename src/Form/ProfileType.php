@@ -49,7 +49,7 @@ class ProfileType extends AbstractType
             ])
             ->add('phoneNumber', TextType::class, [
                 'required' => false,
-                'label' => 'Fix',
+                'label' => 'Téléphone fixe',
                 'attr'  => [
                     'placeholder' => 'Téléphone fixe',
                 ]
