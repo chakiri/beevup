@@ -76,6 +76,11 @@ class Service
      */
     private $isFree;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -190,7 +195,7 @@ class Service
         if (null !== $imageFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->modifiedAt = new \DateTimeImmutable();
         }
     }
 
@@ -205,4 +210,18 @@ class Service
 
         return $this;
     }
+
+    
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+    
 }
