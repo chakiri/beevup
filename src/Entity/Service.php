@@ -30,7 +30,7 @@ class Service
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeService")
      */
     private $type;
     
@@ -107,12 +107,12 @@ class Service
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TypeService
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(TypeService $type): self
     {
         $this->type = $type;
 

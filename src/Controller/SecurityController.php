@@ -63,6 +63,7 @@ class SecurityController extends AbstractController
         return $this->render('security/registration.html.twig', [
             'RegistrationForm' => $form->createView(),
         ]);
+        
     }
 
 
@@ -72,6 +73,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
+        dump($error );
 
         $lastUsername = $authenticationUtils->getLastUsername();
 

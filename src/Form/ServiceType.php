@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Service;
+use App\Entity\TypeService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ServiceType extends AbstractType
 {
@@ -28,15 +30,14 @@ class ServiceType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => ['class' => 'tinymce'],
             ])
-            ->add('type', ChoiceType::class, [
+            ->add('type', EntityType::class, [
                 'label' => false,
-                'choices' => [
-                    'Génerique' => 0,
-                    'Locale bureau vallée' => 1,
-                    'Locale entreprise' => 2,
-                    'national' =>3
-                ],
+                'multiple'=>false,
+                'class' => TypeService::class,
+                'choice_label' =>'name'
+
             ])
+       
             ->add('isFree', CheckboxType::class, [
                 'label'    => 'Service Payant',
                 'required' => false,

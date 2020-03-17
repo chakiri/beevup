@@ -33,7 +33,7 @@
                         {% endif %}
                         </div>
                         <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                        <p class="mb-3"> {{ app.user.profile.function.name|capitalize }}</p>
+                        {#<p class="mb-3"> {{ app.user.profile.function.name|capitalize }}</p>#}
                         <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
                     </div>
                     <div class="box">
