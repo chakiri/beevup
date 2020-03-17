@@ -76,30 +76,25 @@
                     <div class="services">
                         <div class="box">
                             <h4>Mes services</h4>
-                            {% if services is empty %}
-                                <p>Vous n'avez pas crée de service.</p>
-                                <p><a href="{{ path('service_create') }}">Créer un service</a></p>
-                            {% else %}
-                                <div class="row">
-                                    {% for service in services %}
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <div class="info">
-                                                    <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-                                                    <p class="title service-title">
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}">
-                                                            {{ service.title }}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="row float-right mt-3">
-                                    <a href="{{ path('service') }}">Voir plus ...</a>
-                                </div>
-                            {% endif %}
+                            <div class="row">
+                                {% for service in services %}
+                                    <div class="col-4">
+                                        <a href="#">
+                                            <div class="info">
+                                                <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
+                                                <p class="title service-title">
+                                                    <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                        {{ service.title }}
+                                                    </a>   
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="row float-right">
+                                <a href="{{ path('service') }}">Voir plus ...</a>
+                            </div>
                         </div>
                     </div>
                     <div class="recommandations">
