@@ -3,7 +3,7 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <section id="chatPlateform">
+    <section id="chatPlateform" data-topic="{{ topic }}">
             <div class="row">
                 <div class="col-3 sidebar">
                     <div class="pt-3">
@@ -16,6 +16,11 @@
                                 <li><a data-channel="{{ channel }}" href='{{ channelStr }}'><span>#{{ channel|capitalize }}</span></a></li>
                             </ul>
                         {% endfor %}#}
+                        <ul>
+                            <li><a data-channel="general" href='{{ path('chat', {'topic': 'general'}) }}'><span>#general</span></a></li>
+                            <li><a data-channel="conception" href='{{ path('chat', {'topic': 'conception'}) }}'><span>#conception</span></a></li>
+                            <li><a data-channel="help" href='{{ path('chat', {'topic': 'help'}) }}'><span>#help</span></a></li>
+                        </ul>
                         <ul id="channelsList">
                         </ul>
                     </div>
@@ -24,16 +29,18 @@
                     <div id="chat" class="box channel">
                     </div>
                     <div class="box input">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-10 col-sm-8">
-                                    <input type="text" id="message" class="form-control" placeholder="Votre message ...">
-                                </div>
-                                <div class="col-lg-1 col-sm-2">
-                                    <button id="sendBtn" class="btn icon" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
+                        <form onsubmit="return sender();" method="post">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-10 col-sm-8">
+                                        <input type="text" id="message" data-url="{{ path('sender') }}" class="form-control" placeholder="Votre message ...">
+                                    </div>
+                                    <div class="col-lg-1 col-sm-2">
+                                        <button id="sendBtn" class="btn icon" type="submit" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -46,5 +53,8 @@
 {% endblock %}
 
 {% block javascripts %}
-        <script type="text/javascript" src="/js/websocket.js"></script>
+    <script type="text/javascript" src="/lib/autobahn/autobahn.js"></script>
+    <script type="text/javascript" src="/js/wamp.js"></script>
+    <script type="text/javascript" src="/js/sendAjax.js"></script>
+    {#<script type="text/javascript" src="/js/websocket.js"></script>#}
 {% endblock %}

@@ -165,6 +165,9 @@
     "react/stream": {
         "version": "v1.1.0"
     },
+    "react/zmq": {
+        "version": "v0.4.0"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {
