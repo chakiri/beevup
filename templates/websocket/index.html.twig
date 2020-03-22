@@ -27,6 +27,9 @@
                 </div>
                 <div class="col-9 chat mt-3">
                     <div id="chat" class="box channel">
+                        {% for message in messages %}
+                            <div class='message'><strong> {{ message.user.profile.firstname }} : </strong> {{ message.content }} </div>
+                        {% endfor %}
                     </div>
                     <div class="box input">
                         <form onsubmit="return sender();" method="post">

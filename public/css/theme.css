@@ -805,6 +805,7 @@ h6 {
 #chatPlateform .channel{
   padding: 30px;
   height: 450px;
+  overflow: scroll;
 }
 
 #chatPlateform .input{
