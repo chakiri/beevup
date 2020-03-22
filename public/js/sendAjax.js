@@ -14,5 +14,7 @@ function sender() {
         }
     });
 
+    document.getElementById("message").value = '';
+
     return false;
 }

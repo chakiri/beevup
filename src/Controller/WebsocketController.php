@@ -16,7 +16,7 @@ class WebsocketController extends AbstractController
     public function index($topic, MessageRepository $repository)
     {
         //Get all messages from topics with limit
-        $messages = $repository->findBy(['topic' => $topic], ['createdAt' => 'ASC'], 20);
+        $messages = $repository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
 
         return $this->render('websocket/index.html.twig', [
             'topic' => $topic,
