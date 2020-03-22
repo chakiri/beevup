@@ -10,7 +10,7 @@ function sender() {
             message: message,
         },
         success: function (response) {
-            // $('#res').html("Vos données seront sauvegardées");
+            // $('#res').html("Vos données sont envoyés");
         }
     });
 

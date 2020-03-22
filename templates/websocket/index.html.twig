@@ -7,8 +7,8 @@
             <div class="row">
                 <div class="col-3 sidebar">
                     <div class="pt-3">
-                        <h2 id="userName" data-user="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h2>
-                        <div id="userStatus"></div>
+                        <h2 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h2>
+                        <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
                         <hr>
                         {#{% for channel in app.user.channels %}
                             {% set channelStr = '#' ~ channel %}
@@ -28,7 +28,11 @@
                 <div class="col-9 chat mt-3">
                     <div id="chat" class="box channel">
                         {% for message in messages %}
-                            <div class='message'><strong> {{ message.user.profile.firstname }} : </strong> {{ message.content }} </div>
+                            {% if message.user == app.user %}
+                                <div class='message'><p class="text-right"><strong> Moi : </strong> {{ message.content }} </p></div>
+                            {% else %}
+                                <div class='message'><p><strong> {{ message.user.profile.firstname }} : </strong> {{ message.content }} </p></div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <div class="box input">
