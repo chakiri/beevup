@@ -17,8 +17,19 @@ Header
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>
                         <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>
+                        {% if is_granted('ROLE_ADMIN_STORE') %}
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE') %}
                         <li><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon magasin</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN_COMPANY') %} 
+                         <li><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
+                         {% elseif is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE')  %}
+                         <li><a href='/admin/?entity=UserStore'>Administration</a></li>
+                         {% elseif  is_granted('ROLE_ADMIN') %}
+                         <li><a href='/admin/?entity=User'>Administration</a></li>
+                         {% endif %}
                         <li><div class="dropdown-divider"></div></li>
                         <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
                     </ul>

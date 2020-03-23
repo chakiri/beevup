@@ -72,7 +72,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid(traverse = true)
      */
     private $company;
@@ -92,7 +92,7 @@ class User implements UserInterface
     {
         $this->isValid = false;
         $this->createdAt = new \Datetime();
-        $this->roles = ['ROLE_USER'];
+        $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
     }
 
     public function getId(): ?int
@@ -253,6 +253,7 @@ class User implements UserInterface
     public function __toString()
     {
        return strval( $this->getId() );
+      
     }
     
 }

@@ -1,0 +1,133 @@
+easy_admin:
+    site_name: 'Dashboard'
+    design:
+        menu:
+          - { entity: 'UserEntreprise', icon: 'group', permission: 'ROLE_ADMIN_COMPANY'}
+          - { entity: 'Store', icon: 'institution', permission: 'ROLE_PATRON'}
+          - { entity: 'User', icon: 'user', permission: 'ROLE_ADMIN'}
+          - { entity: 'UserStore', icon: 'user', permission: ['ROLE_PATRON','ROLE_ADMIN_STORE']}
+         
+        brand_color: '#007bff'
+        assets:
+            css:
+               - 'css/admin.css'
+    entities:
+        # List the entity class name you want to manage
+        Store:
+            class: App\Entity\Store
+            label: 'Magasins'
+            max_results: 20
+            new:
+                title:  'Créer Magasin'
+            edit:
+                title:  'Modifier Magasin'
+            list:
+              actions:
+              - { name: 'new', label: 'Ajouter', icon: 'plus' }
+              - { name: 'edit', icon: 'pencil' }
+              - { name: 'delete', icon: 'close' }
+              fields:  
+              - { property: 'reference', label: 'Reference' }
+              - { property: 'name', label: 'Nom' }
+              - { property: 'email', label: 'Email' }
+              - { property: 'phone', label: 'Téléphone' }
+              - { property: 'country', label: 'Pays' }
+              - { property: 'city', label: 'Ville' }
+            form:
+              fields:
+              - { type: 'group', columns: 8, label: 'Informations Générale',icon: 'address-card-o', }
+              - { property: 'reference', label: 'Reference' }
+              - { property: 'name', label: 'Nom' }
+              - { property: 'introduction', label: 'Introduction', type: 'text_editor'}
+              - { property: 'description', label: 'Description', type: 'text_editor' }
+              - { property: 'slug', label: 'slug' }
+              - { type: 'group', label: 'Adresse', icon: 'map-marker', columns: 4 }
+              - { property: 'address_number', label: 'Numéro Adresse', type: 'text' }
+              - { property: 'address_street', label: 'Rue', type: 'text'  }
+              - { property: 'address_post_code', label: 'Code postale', type: 'text'  }
+              - { property: 'city', label: 'Ville' }
+              - { property: 'country', label: 'Pays' }
+              - { property: 'latitude', label: 'Latitude' }
+              - { property: 'longitude', label: 'Longitude' }
+              - { type: 'group', columns: 8, label: 'Contact', icon: 'phone'}
+              - { property: 'email', label: 'Email' }
+              - { property: 'phone', label: 'Téléphone' }
+              - { type: 'group', columns: 4, label: 'Attachement', icon: 'phone'}
+              - { property: 'imageFile', label: 'Photo du magasin', type: 'vich_image', upload_dir: 'public/images/company/' }
+        User:
+            class: App\Entity\User
+            controller: App\Controller\Admin\UserAdminController
+            label: 'Utilisateurs'
+            new:
+                title:  'Ajouter un nouveau compte'
+            list:
+              actions:
+              - { name: 'new', label: 'Ajouter', icon: 'plus'  }
+              - { name: 'edit', icon: 'pencil' }
+              - { name: 'delete', icon: 'close' }
+              fields:  
+              - { property: 'email', label: 'Email' }
+              - { property: 'company', label: 'Entreprise' }
+              - { property: 'isValid', label: 'Email Valid' }
+              - { property: 'isDeleted', label: 'compte status' }
+              - { property: 'type', label: 'Type' }
+            form:
+              fields:
+              - { type: 'group', columns: 6, label: 'Account',icon: 'address-card-o', }
+              - { property: 'email', label: 'Email' }
+              - { property: 'password', label: 'Mot de passe' }
+              -   property: 'roles'
+                  label: 'Roles'
+                  type: 'choice' 
+                  type_options:
+                     multiple: true
+                     choices: { 'Utilisateur': 'ROLE_USER','Admin Platform': 'ROLE_ADMIN','Patron Magasin': 'ROLE_PATRON', 'Administrateur entreprise': 'ROLE_ADMIN_COMPANY' }
+              - { type: 'group', columns: 6, label: 'Utilisateur',icon: 'address-card-o', }
+              - { property: 'company', label: 'Entreprise' }
+              - { property: 'store', label: 'Magasin' }
+              - { property: 'type', label: 'Type' }
+              - { property: 'isValid', label: 'Email Valid' }
+              - { property: 'isDeleted', label: 'Desactiver le compte' }
+        UserEntreprise:
+            class: App\Entity\User
+            controller: App\Controller\Admin\UserEntrepriseController
+            label: "Utilisateurs"
+            new:
+                title:  'Ajouter un nouveau compte'
+            list:
+              actions:
+              - { name: 'new', label: 'Ajouter', icon: 'plus' }
+              - { name: 'edit', icon: 'pencil' }
+              - { name: 'delete', icon: 'close' }
+              fields:  
+              - { property: 'Email', label: 'Email' }
+              - { property: 'company', label: 'Entreprise' }
+              - { property: 'store', label: 'Magasin' }
+               
+            form:
+              fields:
+              - { property: 'email', label: 'Email' }
+              - { property: 'password', label: 'Mot de passe' }
+            
+        UserStore:
+            class: App\Entity\User
+            controller: App\Controller\Admin\UserStoreController
+            label: "Utilisateurs"
+            new:
+                title:  'Ajouter un nouveau compte'
+            list:
+              actions:
+              - { name: 'new', label: 'Ajouter', icon: 'plus' }
+              - { name: 'edit', icon: 'pencil' }
+              - { name: 'delete', icon: 'close' }
+              fields:  
+              - { property: 'Email', label: 'Email' }
+              - { property: 'type', label: 'Type' }
+           
+            form:
+              fields:
+              - { property: 'email', label: 'Email' }
+              - { property: 'password', label: 'Mot de passe' }
+              - { property: 'type', label: 'Type' }
+                     
+             
