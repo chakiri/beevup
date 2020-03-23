@@ -9,6 +9,7 @@
         "cocur/slugify": "^4.0",
         "doctrine/annotations": "^1.8",
         "doctrine/orm": "^2.7",
+        "easycorp/easyadmin-bundle": "^2.3",
         "fzaninotto/faker": "^1.9",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",

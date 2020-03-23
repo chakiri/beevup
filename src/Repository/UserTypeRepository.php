@@ -19,6 +19,27 @@ class UserTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, UserType::class);
     }
 
+    public function findByType($currentUser)
+    {
+      $currentUserTpe = $currentUser->getType();
+      $qb = $this->createQueryBuilder('u')
+       ->orderBy('u.id', 'ASC');
+       
+     if($currentUserTpe->getId() == 4)
+      {
+        $qb = $this->createQueryBuilder('u')
+                   ->where("u.id in (1,2,3,4)")
+                   ->orderBy('u.id', 'ASC');
+      }
+      else {
+        $qb = $this->createQueryBuilder('u')
+        ->orderBy('u.id', 'ASC');
+      }
+      
+      return $qb;
+        
+    }
+
     // /**
     //  * @return UserType[] Returns an array of UserType objects
     //  */

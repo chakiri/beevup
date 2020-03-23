@@ -5,11 +5,14 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StoreRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Store
 {
@@ -79,6 +82,12 @@ class Store
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+        
+    /**
+     * @Vich\UploadableField(mapping="company_logos", fileNameProperty="avatar")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="store")
@@ -99,6 +108,12 @@ class Store
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $introduction;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $modifiedAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -129,12 +144,12 @@ class Store
         return $this->id;
     }
 
-    public function getReference(): ?int
+    public function getReference(): ?string
     {
         return $this->reference;
     }
 
-    public function setReference(int $reference): self
+    public function setReference(string $reference): self
     {
         $this->reference = $reference;
 
@@ -273,6 +288,19 @@ class Store
         return $this;
     }
 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+       if ($image) {
+            $this->modifiedAt = new \DateTime('now');
+        }
+    }
     public function setAddressStreet(string $addressStreet): self
     {
         $this->addressStreet = $addressStreet;
@@ -377,5 +405,21 @@ class Store
         $this->description = $description;
 
         return $this;
+    }
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+    public function __toString()
+    {
+       return strval( $this->getName() );
+      
     }
 }
