@@ -29,9 +29,9 @@
                     <div id="chat" class="box channel">
                         {% for message in messages %}
                             {% if message.user == app.user %}
-                                <div class='message'><p class="text-right"><strong> Moi : </strong> {{ message.content }} </p></div>
+                                <div class='message'><p class="text-right"><span class="span-style-me"><strong> Moi : </strong> {{ message.content }} </span></p></div>
                             {% else %}
-                                <div class='message'><p><strong> {{ message.user.profile.firstname }} : </strong> {{ message.content }} </p></div>
+                                <div class='message'><p><span class="span-style"><strong> {{ message.user.profile.firstname|capitalize }} : </strong> {{ message.content }} </span></p></div>
                             {% endif %}
                         {% endfor %}
                     </div>

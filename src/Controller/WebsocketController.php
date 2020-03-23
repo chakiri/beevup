@@ -39,7 +39,7 @@ class WebsocketController extends AbstractController
             'message' => $content,
         ];
 
-        //Send data by ZMQ transporteur to the Wamp server
+        //Send data by ZMQ transporter to the Wamp server
         $context = new \ZMQContext();
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
         $socket->connect("tcp://127.0.0.1:5555");
