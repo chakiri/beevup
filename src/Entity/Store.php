@@ -180,12 +180,12 @@ class Store
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -216,12 +216,12 @@ class Store
         return $this;
     }
 
-    public function getAddressPostCode(): ?int
+    public function getAddressPostCode(): ?string
     {
         return $this->addressPostCode;
     }
 
-    public function setAddressPostCode(int $addressPostCode): self
+    public function setAddressPostCode(string $addressPostCode): self
     {
         $this->addressPostCode = $addressPostCode;
 

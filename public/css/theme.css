@@ -794,6 +794,23 @@ h6 {
   margin: 0 0 0 22em;
 }
 
+#chatPlateform .message {
+  margin: 15px 10px 15px 10px;
+}
+
+#chatPlateform .message .span-style{
+  border: 1.5px solid #3899ff;
+  padding: 5px;
+  border-radius: 30px;
+}
+#chatPlateform .message .span-style-me{
+  border: 1.5px solid #3899ff;
+  background: #3899ff;
+  color: white;
+  padding: 5px;
+  border-radius: 30px;
+}
+
 #chatPlateform .box{
   margin: 30px;
   border-radius: 10px;
@@ -805,6 +822,7 @@ h6 {
 #chatPlateform .channel{
   padding: 30px;
   height: 450px;
+  overflow: scroll;
 }
 
 #chatPlateform .input{

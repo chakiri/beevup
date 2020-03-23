@@ -14,16 +14,18 @@
             {% else %}
             <h1>Ajouter un service</h1>
             {% endif %}
+
             {% for message in app.flashes('create-service-success') %}
               <div class="alert alert-success">
                   {{ message }}
               </div>
             {% endfor %}
+
             {% for message in app.flashes('update-service-success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
-          {% endfor %}
+            {% endfor %}
            
      
             <div class="card-body card-block">
