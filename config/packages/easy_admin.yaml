@@ -75,7 +75,7 @@ easy_admin:
               fields:
               - { type: 'group', columns: 6, label: 'Account',icon: 'address-card-o', }
               - { property: 'email', label: 'Email' }
-              - { property: 'password', type: 'password', label: 'Mot de passe' }
+              - { property: 'password', label: 'Mot de passe' }
               -   property: 'roles'
                   label: 'Roles'
                   type: 'choice' 
@@ -107,7 +107,7 @@ easy_admin:
             form:
               fields:
               - { property: 'email', label: 'Email' }
-              - { property: 'password', type: 'password', label: 'Mot de passe' }
+              - { property: 'password', label: 'Mot de passe' }
             
         UserStore:
             class: App\Entity\User
@@ -127,7 +127,7 @@ easy_admin:
             form:
               fields:
               - { property: 'email', label: 'Email' }
-              - { property: 'password', type: 'password', label: 'Mot de passe' }
+              - { property: 'password', label: 'Mot de passe' }
               - { property: 'type', label: 'Type' }
                      
              

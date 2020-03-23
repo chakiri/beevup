@@ -49,7 +49,7 @@ class UserEntrepriseController extends EasyAdminController
 
     public function updatePassword(User $user)
     {   
-        if (!empty($user->getPassword())) {
+        if (!empty($user->getPassword()) && strlen($user->getPassword())< 50) {
              $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
         }
     }

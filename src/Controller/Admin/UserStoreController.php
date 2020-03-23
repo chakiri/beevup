@@ -54,7 +54,7 @@ class UserStoreController extends EasyAdminController
 
     public function updatePassword(User $user)
     {   
-        if (!empty($user->getPassword())) {
+        if (!empty($user->getPassword()) && strlen($user->getPassword())< 50) {
              $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
         }
     }
@@ -82,7 +82,7 @@ class UserStoreController extends EasyAdminController
     {
         $store = $this->getUser()->getStore();
         $dqlFilter = sprintf('entity.store = %s', $store->getId());
-        $dqlFilter .= sprintf(' and entity.type in (1,2,3,4) ');
+        $dqlFilter .= sprintf(' and entity.type in (1,2,3) ');
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }
