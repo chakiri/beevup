@@ -11,9 +11,16 @@ var conn = new ab.Session('ws://127.0.0.1:8080',
     function() {
         console.log('Connection established on ' + currentTopic);
         conn.subscribe(currentTopic, function(topic, data) {
-            // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-            console.log('New message published by ' + data.user + ' to topic ' + data.topic + ' : ' + data.message);
-            addMessageToCanvas(data);
+            if (data.type === 'notification'){
+                console.log('Notif from topic : ' + data.topicFrom);
+                addNotifToTopic(data.topicFrom);
+                //Save notif not saw by user on topic
+                saveNotifToUser(topic);
+            }else{
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('New message published by ' + data.user + ' to topic ' + data.topic + ' : ' + data.message);
+                addMessageToCanvas(data);
+            }
         });
     },
     function() {
@@ -37,6 +44,20 @@ function addMessageToCanvas(data){
 
     //update scroll to the bottom
     updateScroll();
+}
+
+function addNotifToTopic(topic){
+    var channel = document.querySelector('[data-channel~="' + topic +'"]');
+    var badge = channel.querySelector(".badge");
+    var notifs = +badge.textContent;
+
+    console.log(notifs);
+
+    var newNotifs = notifs + 1;
+
+    console.log(newNotifs);
+
+    badge.innerHTML = newNotifs ;
 }
 
 function updateScroll(){

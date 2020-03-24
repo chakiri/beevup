@@ -18,3 +18,21 @@ function sender() {
 
     return false;
 }
+
+//Function ajax to send data to php for saving not seeied message
+function saveNotifToUser(topic){
+    var currentUserId = document.getElementById("notifications").dataset.userid;
+    var url = document.getElementById("notifications").dataset.url;
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {
+            topic: topic,
+            userid: currentUserId,
+        },
+        success: function (response) {
+            console.log('notify ajax success');
+        }
+    });
+
+}

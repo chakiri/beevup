@@ -26,6 +26,8 @@ class TopicHandler implements WampServerInterface
             $this->subscribedTopics[$topic->getId()] = $topic;
             echo "Subscribing to $topic\n";
         }
+
+        $this->clients->attach($conn);
     }
 
     /**
@@ -43,6 +45,17 @@ class TopicHandler implements WampServerInterface
         // re-send the data to all the clients subscribed to that category
         $topic->broadcast($entryData);
 
+        //Send notification to all topics
+        foreach ($this->subscribedTopics as $otherTopic){
+            if ($otherTopic !== $topic){
+                $notifData = [
+                    'topicFrom' => $entryData['topic'],
+                    'type' => 'notification'
+                ];
+                $otherTopic->broadcast($notifData);
+            }
+        }
+
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
@@ -52,8 +65,14 @@ class TopicHandler implements WampServerInterface
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
-        $topic->broadcast($event);
+        //$topic->broadcast($event);
         echo "Publishing to $topic\n";
+        /*foreach ($this->clients as $client) {
+            if ($conn !== $client) {
+                // The sender is not the receiver, send to each client connected
+                $client->send('notification');
+            }
+        }*/
     }
 
     public function onOpen(ConnectionInterface $conn)

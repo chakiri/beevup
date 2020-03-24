@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Message;
+use App\Entity\Notification;
 use App\Repository\MessageRepository;
+use App\Repository\NotificationRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,14 +16,21 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/chat/{topic}", name="chat")
      */
-    public function index($topic, MessageRepository $repository)
+    public function index($topic, EntityManagerInterface $manager, MessageRepository $messageRepository, NotificationRepository $notificationRepository)
     {
         //Get all messages from topics with limit
-        $messages = $repository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+        $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+
+        //Empty notification for this topic & user
+        $this->emptyNotificationTopic($topic, $manager, $notificationRepository);
+
+        //Get all notifications for other Topics
+        $notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('websocket/index.html.twig', [
             'topic' => $topic,
-            'messages' => $messages
+            'messages' => $messages,
+            'notifTopics' => $notifTopics
         ]);
     }
 
@@ -56,9 +66,63 @@ class WebsocketController extends AbstractController
             ->setCreatedAt(new \DateTime())
         ;
 
-        $manager->persist($message);
-        $manager->flush();
+        //$manager->persist($message);
+        //$manager->flush();
 
         return $this->json($entryData);
+    }
+
+    /**
+     * @Route("/save_notification", name="save_notification")
+     */
+    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository)
+    {
+        $userId = $_POST['userid'];
+        $topic = $_POST['topic'];
+
+        $user = $userRepository->find($userId);
+
+        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+
+        if (!$notification){
+            $notification = new Notification();
+
+            $notification
+                ->setUser($user)
+                ->setTopic($topic)
+                ->setNbMessages(1)
+                ;
+
+            $manager->persist($notification);
+        }else{
+            $nbMessages = $notification->getNbMessages();
+            $nbMessages++;
+
+            $notification->setNbMessages($nbMessages);
+
+        }
+
+        $manager->persist($notification);
+
+        $manager->flush();
+
+        return $this->json($notification);
+
+    }
+
+    protected function emptyNotificationTopic($topic, $manager, $notificationRepository)
+    {
+        $user = $this->getUser();
+
+        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+
+        if ($notification){
+
+            $notification->setNbMessages(null);
+
+            $manager->persist($notification);
+            $manager->flush();
+
+        }
     }
 }
