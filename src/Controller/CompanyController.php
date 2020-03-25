@@ -24,6 +24,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/company/{slug}", name="company_show")
      */
