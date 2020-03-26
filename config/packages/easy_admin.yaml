@@ -6,6 +6,8 @@ easy_admin:
           - { entity: 'Store', icon: 'institution', permission: 'ROLE_PATRON'}
           - { entity: 'User', icon: 'user', permission: 'ROLE_ADMIN'}
           - { entity: 'UserStore', icon: 'user', permission: ['ROLE_PATRON','ROLE_ADMIN_STORE']}
+        templates:
+          layout: 'admin/layout.html.twig' # templates/layout.html.twig
          
         brand_color: '#007bff'
         assets:
@@ -81,7 +83,7 @@ easy_admin:
                   type: 'choice' 
                   type_options:
                      multiple: true
-                     choices: { 'Utilisateur': 'ROLE_USER','Admin Platform': 'ROLE_ADMIN','Patron Magasin': 'ROLE_PATRON', 'Administrateur entreprise': 'ROLE_ADMIN_COMPANY' }
+                     choices: { 'Utilisateur': 'ROLE_USER','Admin Platform': 'ROLE_ADMIN','Patron Magasin': 'ROLE_PATRON', 'Administrateur entreprise': 'ROLE_ADMIN_COMPANY', 'Administrateur magasin': 'ROLE_ADMIN_STORE' }
               - { type: 'group', columns: 6, label: 'Utilisateur',icon: 'address-card-o', }
               - { property: 'company', label: 'Entreprise' }
               - { property: 'store', label: 'Magasin' }

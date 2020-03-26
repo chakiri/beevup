@@ -12,13 +12,24 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Company[]    findAll()
  * @method Company[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class CompanyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Company::class);
     }
+    public function findOneById($value): ?Company
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
+    
     // /**
     //  * @return Company[] Returns an array of Company objects
     //  */
@@ -36,15 +47,7 @@ class CompanyRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Company
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    
+    
+    
 }

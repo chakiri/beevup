@@ -1,0 +1,39 @@
+
+
+{% form_theme RecommandationForm 'bootstrap_4_layout.html.twig' %}
+
+  {% block body %}
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Proposer une recommandation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+        
+    {% for message in app.flashes('recommandation-success') %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+      {% endfor %}
+      <div class="card-body card-block">
+        {{ form_start(RecommandationForm, {'action': path('recommandation')}) }}
+          <div class="form-group">
+            {{ form_row(RecommandationForm.message) }}
+          </div>
+          <div class="form-actions form-group">
+            <input type="hidden" name="companyId" value="5"/>
+            <input type="hidden" name="serviceId" value="5"/>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        {{ form_end(RecommandationForm) }}
+      </div>
+
+
+
+
+
+
+ 
+
+  {% endblock %} 
