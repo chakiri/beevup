@@ -768,6 +768,16 @@ h6 {
   padding: 30px;
 }
 
+#chatPlateform .user {
+  text-align: center;
+}
+
+#chatPlateform .user img{
+  width: 80px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+}
+
 #chatPlateform .sidebar ul {
   padding: 0;
 }
@@ -798,10 +808,18 @@ h6 {
   margin: 15px 10px 15px 10px;
 }
 
+#chatPlateform .message .name-user{
+  font-size: 80%;
+  color: #868e96;
+  padding: 7px;
+  text-transform: capitalize;
+}
+
 #chatPlateform .message .span-style{
-  border: 1.5px solid #3899ff;
+  border: 1.5px solid #ececec;
   padding: 5px;
   border-radius: 30px;
+  background: #ececec;
 }
 #chatPlateform .message .span-style-me{
   border: 1.5px solid #3899ff;
@@ -1793,7 +1811,7 @@ h6 {
 
 @media (max-width: 640px) {
   #chatPlateform .chat {
-    margin: 0 0 0 10em;
+    margin: 0 0 0 14em;
   }
 
 }

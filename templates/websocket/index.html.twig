@@ -5,10 +5,18 @@
 {% block body %}
     <section id="chatPlateform" data-topic="{{ topic }}">
             <div class="row">
-                <div class="col-3 sidebar">
+                <div class="col-lg-3 col-sm-4 sidebar">
                     <div class="pt-3">
-                        <h2 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h2>
-                        <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
+                        <div class="user">
+                            {% if app.user.profile.photo is empty %}
+                                <img src="/images/default_user.png" class="img-fluid" alt="">
+                            {% else %}
+                                <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                            {% endif %}
+                            <div id="notifications" data-userid="{{ app.user.id }}" data-url="{{ path('save_notification') }}" hidden></div>
+                            <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h4>
+                            <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
+                        </div>
                         <hr>
                         {#{% for channel in app.user.channels %}
                             {% set channelStr = '#' ~ channel %}
@@ -16,22 +24,35 @@
                                 <li><a data-channel="{{ channel }}" href='{{ channelStr }}'><span>#{{ channel|capitalize }}</span></a></li>
                             </ul>
                         {% endfor %}#}
-                        <ul>
-                            <li><a data-channel="general" href='{{ path('chat', {'topic': 'general'}) }}'><span>#general</span></a></li>
-                            <li><a data-channel="conception" href='{{ path('chat', {'topic': 'conception'}) }}'><span>#conception</span></a></li>
-                            <li><a data-channel="help" href='{{ path('chat', {'topic': 'help'}) }}'><span>#help</span></a></li>
+                        <ul class="channels">
+                            {% set badgeGeneral = '<div class="badge badge-primary badge-pill"></div>' %}
+                            {% set badgeConception = '<div class="badge badge-primary badge-pill"></div>' %}
+                            {% set badgeHelp = '<div class="badge badge-primary badge-pill"></div>' %}
+                            {% for notifTopic in notifTopics %}
+                                {% if notifTopic.topic == 'general' %}
+                                    {% set badgeGeneral = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
+                                {% elseif notifTopic.topic == 'conception' %}
+                                    {% set badgeConception = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
+                                {% elseif notifTopic.topic == 'help' %}
+                                    {% set badgeHelp = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <li><a data-channel="general" href='{{ path('chat', {'topic': 'general'}) }}'><span>#general </span>{{ badgeGeneral|raw }}</a></li>
+                            <li><a data-channel="conception" href='{{ path('chat', {'topic': 'conception'}) }}'><span>#conception </span>{{ badgeConception|raw }}</a></li>
+                            <li><a data-channel="help" href='{{ path('chat', {'topic': 'help'}) }}'><span>#help </span>{{ badgeHelp|raw }}</a></li>
                         </ul>
                         <ul id="channelsList">
                         </ul>
                     </div>
                 </div>
-                <div class="col-9 chat mt-3">
+                <div class="col-lg-9 col-sm-8 chat mt-3">
                     <div id="chat" class="box channel">
                         {% for message in messages %}
                             {% if message.user == app.user %}
-                                <div class='message'><p class="text-right"><span class="span-style-me"><strong> Moi : </strong> {{ message.content }} </span></p></div>
+                                <div class='message'><div class="text-right"><p class="name-user">Moi</p><span class="span-style-me">{{ message.content }} </span></div></div>
                             {% else %}
-                                <div class='message'><p><span class="span-style"><strong> {{ message.user.profile.firstname|capitalize }} : </strong> {{ message.content }} </span></p></div>
+                                <div class='message'><div><p class="name-user">{{ message.user.profile.firstname|capitalize }}</p><span class="span-style"> {{ message.content }} </span></div></div>
                             {% endif %}
                         {% endfor %}
                     </div>
