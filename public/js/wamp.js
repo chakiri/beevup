@@ -35,9 +35,9 @@ function addMessageToCanvas(data){
 
     //Get message HTML
     if (currentUserFirstname === data.user){
-         messageHTML = "<div class='message'><p class='text-right'><span class='span-style-me'><strong>Moi : </strong>" + data.message + "</span></p></div>";
+         messageHTML = "<div class='message'><div class='text-right'><p class='name-user'>Moi</p><span class='span-style-me'>" + data.message + "</span></div></div>";
     }else {
-         messageHTML = "<div class='message'><p><span class='span-style'><strong style='text-transform: capitalize;'>" + data.user + " : </strong>" + data.message + "</span></p></div>";
+         messageHTML = "<div class='message'><div><p class='name-user'>" + data.user + "</p><span class='span-style'>" + data.message + "</span></div></div>";
     }
     //insert messageHTML in the chat
     chatContent.innerHTML += messageHTML;
