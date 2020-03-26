@@ -51,7 +51,19 @@ h6 {
   padding: 0;
 }
 
+/* admin panel display fix */
+
+.admin-panel-fix {
+ height: 70px;
+}
+
+/* end */
+
 /* Back to top button */
+
+.btn-radius {
+  border-radius:10px;
+}
 
 .back-to-top {
   position: fixed;
@@ -758,6 +770,24 @@ h6 {
   width: 100%;
   height: 100%;
  /* position: fixed;*/
+}
+
+  /* recommandation Section
+  --------------------------------*/
+.approved-box {
+border:2px solid green;
+}
+.rejected-box {
+  border:3px solid red;
+}
+.spinner-hidden {
+  display:none !important
+}
+spinner-visible {
+  display:inline-block !important
+}
+.add-recommandation {
+  margin-right: 10px;
 }
 
 #chatPlateform .sidebar{

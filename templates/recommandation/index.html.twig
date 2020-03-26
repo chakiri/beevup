@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+    <section id="dashboard" class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="box">
+                        <div class="row avatar">
+                        {% if app.user.profile.photo %}
+                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                         {% else %}
+                            <img src="/images/default_user.png" class="img-fluid" alt="">
+                        {% endif %}
+                        </div>
+                        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                        {#<p class="mb-3"> {{ app.user.profile.function.name|capitalize }}</p>#}
+                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                    </div>
+
+                    {% if is_granted('ROLE_ADMIN_COMPANY') %} 
+                        <div class="box">
+                            <h4>Mon entreprise</h4>
+                            <div class="row logo-company">
+                            {% if app.user.company.logo %}
+                                <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+                            {% else %}
+                                <img src="/images/unknow-company.png" class="img-fluid" alt="">
+                            {% endif %}
+                            </div>
+                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
+                            <p class="text-muted">{{ app.user.company.phone }}</p>
+                            <p class="text-muted">{{ app.user.company.email }}</p>
+                            <p class="text-muted mb-3">{{ app.user.company.website }}</p>
+                            {% if is_granted('ROLE_ADMIN_COMPANY') %} 
+                            <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} 
+                    <div class="box">
+                        <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}"><h4>Mon magasin</h4></a>
+                        <p class="lead">{{ app.user.store.name|capitalize }}</p>
+                        <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
+                        <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
+                        <a href="#">Contacter mon conseillé</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-9 col-md-6 recommandation-section">
+                    <h4>Mes recommandations</h4>
+                    {% if is_granted('ROLE_ADMIN_COMPANY') and recommandations %} 
+                        {% for recommandation in recommandations %}
+                                <div id ="recommandation-{{recommandation.id}}" class="box">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="avatar">
+                                                {% if recommandation.user.profile.photo is empty %}
+                                                    <img src="/images/default_user.png" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
+                                            <p class="text-muted">{{recommandation.message }}</p>
+                                            <p class="text-muted"><strong class="text-dark">Date de création:</strong> {{recommandation.createAt|date("d/m/Y") }}</p>
+                                            <div class="float-right">
+                                                <button type="submit" 
+                                                        class="btn btn-success recommandation-approve" 
+                                                        data-recommandation-id="{{recommandation.id}}">
+                                                    <span id = "spinner-approve-{{recommandation.id}}" 
+                                                          class="spinner-grow spinner-grow-sm spinner-hidden"
+                                                          role="status" 
+                                                          aria-hidden="true">
+                                                    </span>
+                                                    <span class="sr-only"></span>
+                                                    Valider
+                                                </button>
+                                                <button type="submit" 
+                                                        class="btn btn-danger recommandation-reject" 
+                                                        data-recommandation-id="{{recommandation.id}}">
+                                                    <span id = "spinner-reject-{{recommandation.id}}" 
+                                                          class="spinner-grow spinner-grow-sm spinner-hidden" 
+                                                          role="status" 
+                                                          aria-hidden="true">
+                                                    </span>
+                                                    <span class="sr-only"></span>
+                                                    Rejeter
+                                               </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="box">
+                            <div class="row">
+                              <p>Il ya aucune recommandation à traiter</p>
+                            </div>
+                       </div>
+                    {% endif %}
+                </div>
+            </div>
+    </section>
+{% endblock %}

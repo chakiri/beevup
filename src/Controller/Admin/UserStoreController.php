@@ -24,6 +24,7 @@ class UserStoreController extends EasyAdminController
     {
         $currentUser = $this->getUser();
         $user->setStore($currentUser->getStore());
+        
         if($currentUser->getCompany()!= null )
         {
             $user->setCompany($currentUser->getCompany());
@@ -32,6 +33,11 @@ class UserStoreController extends EasyAdminController
         {
             $user->setRoles(['ROLE_USER', 'ROLE_ADMIN_STORE']);
         }
+        if($user->getType()->getId() == 2)
+        {
+            $user->setRoles(['ROLE_USER']);
+        }
+      
         $this->updatePassword($user);
         parent::persistEntity($user);
         $profile = new Profile();
@@ -72,8 +78,6 @@ class UserStoreController extends EasyAdminController
                 $currentUser = $this->getUser();
                  return $er->findByType($currentUser);
             },
-           
-           
         ]);
         return $formBuilder;
     }

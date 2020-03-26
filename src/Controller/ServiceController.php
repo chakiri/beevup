@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Service;
 use App\Form\ServiceType;
+use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\UserRepository;
+use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +23,6 @@ class ServiceController extends AbstractController
         $service = new Service();
 
         $form = $this->createForm(ServiceType::class, $service);
-
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['imageFile']->getData();
@@ -35,30 +36,28 @@ class ServiceController extends AbstractController
                         $newFilename
                     );
                     
-                } catch (FileException $e) {
-                 
-                   
-                }
+                } catch (FileException $e) {}
                 $service->setPhoto($newFilename);
                
-           }
-           $service->setUser($this->getUser());
-           $manager->persist($service);
-           $manager->flush();
-           $this->addFlash('create-service-success', 'Votre Service a été bien crée !');
-
-           return $this->redirectToRoute('service_show', [
+            }
+            $service->setUser($this->getUser());
+            $manager->persist($service);
+            $manager->flush();
+            $this->addFlash('create-service-success', 'Votre Service a été bien crée !');
+            return $this->redirectToRoute('service_show', [
                'id' => $service->getId()
-           ]);
+            ]);
         }
         return $this->render('service/form.html.twig', [
             'ServiceForm' => $form->createView(),
             'edit' => 0
         ]);
     }
+
     /**
-     * @Route("/service", name="service")
-     */
+    * @Route("/service", name="service")
+    */
+
     public function index(ServiceRepository $repository)
     {
         $services = $repository->findAll();
@@ -67,18 +66,24 @@ class ServiceController extends AbstractController
         ]);
     }
 
-
     /**
-     * @Route("/service/{id}", name="service_show")
-     */
-    public function show(Service $service){
+    * @Route("/service/{id}", name="service_show")
+    */
+
+    public function show(Service $service, RecommandationRepository $recommandationRepository, UserRepository $userRepository, CompanyRepository $companyRepository){
+        $recommandations = $recommandationRepository->findBy(['service' => $service->getId(), 'status'=>'Validated'], []);
+        $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
         return $this->render('service/show.html.twig', [
-            'service' => $service
+            'service' => $service,
+            'companyId'  => $company->getId(),
+            'recommandations'=> $recommandations
         ]);
     }
-        /**
-     * @Route("/service/{id}/edit", name="service_edit")
-     */
+
+    /**
+    * @Route("/service/{id}/edit", name="service_edit")
+    */
+
     public function edit(Request $request, Service $service, EntityManagerInterface $manager){
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
@@ -95,14 +100,9 @@ class ServiceController extends AbstractController
                         $newFilename
                     );
                     
-                } catch (FileException $e) {
-                 
-                   
-                }
+                } catch (FileException $e) { }
                 $service->setPhoto($newFilename);
-               
-               
-           }
+            }
            $manager->persist($service);
            $manager->flush();
            $this->addFlash('update-service-success', 'Votre Service a été mis à jour !');
@@ -117,7 +117,4 @@ class ServiceController extends AbstractController
             'edit' => 1
         ]);
     }
-
-
-
 }

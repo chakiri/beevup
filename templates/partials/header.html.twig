@@ -17,7 +17,7 @@ Header
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>
                         <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>
-                        {% if is_granted('ROLE_ADMIN_STORE') %}
+                        {% if is_granted('ROLE_ADMIN_COMPANY') %}
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE') %}

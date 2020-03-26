@@ -7,6 +7,7 @@
     <section id="service">
         <div class="container mt-5">
             <div class="row">
+                
                 <div class="col-4">
                     <div class="box-image">
                         {% if service.photo %}
@@ -23,6 +24,7 @@
                      </div>
                      
                 </div>
+
                 <div class="col-lg-8">
                     <div class="box">
                         <h4>{{ service.title }}</h4>
@@ -33,43 +35,74 @@
                         <h4>Description</h4>
                         <p class="lead">{{ service.description|raw }}</p>
                     </div>
+                    <div class="row recommandations">
+                        <div class="col-sm-7">
+                            <h4>Mes recommandations</h4>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="float-right">
+                                {% if service.user.id != app.user.id  %}
+                                    <button type="button" 
+                                            class="btn btn-primary btn-sm btn-radius add-recommandation" 
+                                            data-toggle="modal" 
+                                            data-target="{{ path('recommandation') }}" 
+                                            data-whatever="@getbootstrap" 
+                                            data-service="{{service.id}}" 
+                                            data-company="{{companyId}}"
+                                    > 
+                                        + Proposer une recommandation
+                                    </button>
+                                    
+                                    <div class="modal fade" 
+                                         id="exampleModal" 
+                                         tabindex="-1" 
+                                         role="dialog" 
+                                         aria-labelledby="exampleModalLabel" 
+                                         aria-hidden="true">
+                                    
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content"></div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div> 
+
+                        {% for message in app.flashes('recommandation-success') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}  
+
+                       <div class="clearfix"></div>                        
+                        {% if recommandations %}
+                            {% for recommandation in recommandations %}
+                                <div class="box">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="avatar">
+                                               <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-9">
+                                            <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
+                                            <p class="text-muted">{{recommandation.message }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}  
+                            <div class="box">
+                                <div class="row">
+                                   <p class="text-muted">Aucune recommandation </p>
+                                </div>
+                            </div> 
+                       {% endif %}                               
+                    </div>                   
                 </div>
             </div>
-            {#<div class="row">
-                <div id="why-us" class="box">
-                    <h4>Découvrez la prestation</h4>
-                    <div class="row pt-3">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-                                <i class="fa fa-diamond"></i>
-                                <div class="card-body">
-                                    <h5 class="card-title">Corporis dolorem</h5>
-                                    <p class="card-text">Deleniti optio et nisi dolorem debitis. Aliquam nobis est temporibus sunt ab inventore officiis aut voluptatibus.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-                                <i class="fa fa-language"></i>
-                                <div class="card-body">
-                                    <h5 class="card-title">Corporis dolorem</h5>
-                                    <p class="card-text">Deleniti optio et nisi dolorem debitis. Aliquam nobis est temporibus sunt ab inventore officiis aut voluptatibus.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
-                                <i class="fa fa-object-group"></i>
-                                <div class="card-body">
-                                    <h5 class="card-title">Corporis dolorem</h5>
-                                    <p class="card-text">Deleniti optio et nisi dolorem debitis. Aliquam nobis est temporibus sunt ab inventore officiis aut voluptatibus.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>#}
-        </div>
+       </div>
     </section>
 
 
