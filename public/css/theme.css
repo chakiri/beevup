@@ -768,6 +768,16 @@ h6 {
   padding: 30px;
 }
 
+#chatPlateform .user {
+  text-align: center;
+}
+
+#chatPlateform .user img{
+  width: 80px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+}
+
 #chatPlateform .sidebar ul {
   padding: 0;
 }
@@ -799,9 +809,10 @@ h6 {
 }
 
 #chatPlateform .message .span-style{
-  border: 1.5px solid #3899ff;
+  border: 1.5px solid #ececec;
   padding: 5px;
   border-radius: 30px;
+  background: #ececec;
 }
 #chatPlateform .message .span-style-me{
   border: 1.5px solid #3899ff;

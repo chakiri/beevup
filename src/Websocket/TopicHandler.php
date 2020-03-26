@@ -22,12 +22,12 @@ class TopicHandler implements WampServerInterface
 
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
-        if (!array_key_exists($topic->getId(), $this->subscribedTopics)){
+        //if (!array_key_exists($topic->getId(), $this->subscribedTopics)){
             $this->subscribedTopics[$topic->getId()] = $topic;
             echo "Subscribing to $topic\n";
-        }
+        //}
 
-        $this->clients->attach($conn);
+        //$this->clients->attach($conn);
     }
 
     /**
@@ -65,14 +65,8 @@ class TopicHandler implements WampServerInterface
 
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
-        //$topic->broadcast($event);
         echo "Publishing to $topic\n";
-        /*foreach ($this->clients as $client) {
-            if ($conn !== $client) {
-                // The sender is not the receiver, send to each client connected
-                $client->send('notification');
-            }
-        }*/
+        //$topic->broadcast($event);
     }
 
     public function onOpen(ConnectionInterface $conn)

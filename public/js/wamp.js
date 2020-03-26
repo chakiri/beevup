@@ -15,7 +15,7 @@ var conn = new ab.Session('ws://127.0.0.1:8080',
                 console.log('Notif from topic : ' + data.topicFrom);
                 addNotifToTopic(data.topicFrom);
                 //Save notif not saw by user on topic
-                saveNotifToUser(topic);
+                saveNotifToUser(data.topicFrom);
             }else{
                 // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
                 console.log('New message published by ' + data.user + ' to topic ' + data.topic + ' : ' + data.message);
@@ -37,7 +37,7 @@ function addMessageToCanvas(data){
     if (currentUserFirstname === data.user){
          messageHTML = "<div class='message'><p class='text-right'><span class='span-style-me'><strong>Moi : </strong>" + data.message + "</span></p></div>";
     }else {
-         messageHTML = "<div class='message'><p><span class='span-style'><strong>" + data.user + " : </strong>" + data.message + "</span></p></div>";
+         messageHTML = "<div class='message'><p><span class='span-style'><strong style='text-transform: capitalize;'>" + data.user + " : </strong>" + data.message + "</span></p></div>";
     }
     //insert messageHTML in the chat
     chatContent.innerHTML += messageHTML;
@@ -51,11 +51,7 @@ function addNotifToTopic(topic){
     var badge = channel.querySelector(".badge");
     var notifs = +badge.textContent;
 
-    console.log(notifs);
-
     var newNotifs = notifs + 1;
-
-    console.log(newNotifs);
 
     badge.innerHTML = newNotifs ;
 }

@@ -7,9 +7,16 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-4 sidebar">
                     <div class="pt-3">
-                        <div id="notifications" data-userid="{{ app.user.id }}" data-url="{{ path('save_notification') }}" hidden></div>
-                        <h2 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h2>
-                        <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
+                        <div class="user">
+                            {% if app.user.profile.photo is empty %}
+                                <img src="/images/default_user.png" class="img-fluid" alt="">
+                            {% else %}
+                                <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                            {% endif %}
+                            <div id="notifications" data-userid="{{ app.user.id }}" data-url="{{ path('save_notification') }}" hidden></div>
+                            <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h4>
+                            <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
+                        </div>
                         <hr>
                         {#{% for channel in app.user.channels %}
                             {% set channelStr = '#' ~ channel %}

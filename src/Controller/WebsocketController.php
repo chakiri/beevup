@@ -66,8 +66,8 @@ class WebsocketController extends AbstractController
             ->setCreatedAt(new \DateTime())
         ;
 
-        //$manager->persist($message);
-        //$manager->flush();
+        $manager->persist($message);
+        $manager->flush();
 
         return $this->json($entryData);
     }
