@@ -889,6 +889,56 @@ spinner-visible {
   color: #004a99;
   padding: 20px;
 }
+/* posts section*/
+.post {
+border: 1px solid #eee;
+margin-bottom: 10PX;
+padding-top: 10PX;
+padding-bottom: 10px;
+}
+.post-title{
+  font-size:13PX;
+  font-weight:bold;
+}
+.post-user{
+  font-size:14px;
+  font-weight:bold;
+}
+.post-created-at{
+  font-size:12px;
+}
+.post-category{
+  font-size:12px;
+}
+.post-description{
+ margin-bottom:10px;
+ font-size:13px;
+}
+.like-number{
+   margin-bottom:10px;
+   font-size:12px;
+}
+
+.notification {
+  text-decoration: none;
+  padding: 0 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: 8px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+/*end posts section*/
 
 /* Service Section
 --------------------------------*/

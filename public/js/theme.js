@@ -178,5 +178,17 @@
   })
  /*end new recommandation message */ 
 
+ /**
+  * publish a new post
+  */
+ $('.add-post').click(function(){
+  $('.modal').modal();
+  url = $(this).attr('data-target');
+  $.get(url, function (data) {
+    $('.modal-content').html(data);
+    $('#modal1').modal('open');
+  });
+ })
+
 })(jQuery);
 

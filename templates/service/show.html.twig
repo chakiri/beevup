@@ -20,7 +20,9 @@
                         <h4>Proposé par : {{ service.user.profile.firstname|capitalize ?: 'Inconnu' }}</h4>
                         <p>Type : {{ service.type.name }}</p>
                         <p> Service Payant:{% if service.isfree == 1 %} Oui {% else %} Non {% endif %}
+                        {% if service.user.id == app.user.id %}   
                         <p class="mt-3"><a href="{{ path('service_edit', {'id': service.id}) }}">Editer mon service</a></p>
+                        {% endif %}
                      </div>
                      
                 </div>

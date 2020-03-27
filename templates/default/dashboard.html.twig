@@ -76,6 +76,84 @@
                 </div>
                 <div class="col-lg-9 col-md-6">
                     <div class="box">
+                        <div class="row">
+                            <div>
+                            <button type="button" 
+                                    class="btn btn-primary btn-sm btn-radius add-post"
+                                    data-toggle="modal"
+                                    data-target="{{ path('post_create') }}"
+                                    data-whatever="@mdo" >
+                                <i class="fa fa-pencil-square-o"></i> Commencer un post
+                            </button>
+                            </div>
+                            <div>
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-star" style="margin-left:15px;font-size: 30px;" aria-hidden="true"></i></span>
+                                    <span class="badge">3</span>
+                                </a>
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-bell" style="font-size: 30px;" aria-hidden="true"></i></span>
+                                    <span class="badge">5</span>
+                                </a>
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-comment" style="font-size: 30px;" aria-hidden="true"></i></span>
+                                    <span class="badge">10</span>
+                                </a>
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-trophy" style="font-size: 30px;" aria-hidden="true"></i></span>
+                                   
+                                </a>
+                            </div>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    {% if posts and postNumber > 0 %}
+                    <div class="box">
+                        <h4>Fil d'actualité</h4>
+                        <div class="posts">
+                            {% for post in posts %}
+                                <div class="row post">
+                                    <div class="col-2">
+                                        <div class="avatar">
+                                            {% if post.user.profile.photo is empty %}
+                                                <img src="/images/default_user.png" class="img-fluid" alt="">
+                                            {% else %}
+                                                <img src="/images/profil/photo/{{ post.user.profile.photo }}" class="img-fluid" alt="">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="lead">
+                                            <strong class="post-user">{{post.user.profile.firstname}} {{post.user.profile.lastname}}</strong>
+                                            <strong class="post-created-at">{{post.createdAt|date("d/m/Y")}}</strong>
+                                        </div>
+                                        <div class="lead post-category"><i class="fa fa-list-alt" aria-hidden="true"></i> {{post.category|capitalize}}</div>
+                                        <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
+                                        <div class="lead post-description">{{post.description}}</div>
+                                        <div class="like-number">
+                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 21.
+                                            <span>3 commentaire</span>
+                                        </div>
+                                        <button type="button" class="btn btn-light btn-sm"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                                        <button type="button" class="btn btn-light btn-sm"><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                                        <button type="button" class="btn btn-light btn-sm"><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</button>
+                                        <button type="button" class="btn btn-light btn-sm"><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <p><a href=>Voir plus</a></p>
+                            </div>
+                        </div>
+                     </div>   
+                    {% endif %}                   
+                    <div class="box">
                         <h4>Mon activité</h4>
                         <div class="row">
                             <div class="col-6">
