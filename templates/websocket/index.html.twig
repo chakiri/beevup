@@ -23,7 +23,7 @@
                         {% set notifs = {} %}
                         {% for topic in topics %}
                             {% for notifTopic in notifTopics %}
-                                {% if notifTopic.topic == topic.name %}
+                                {% if notifTopic.topic.name == topic.name %}
                                     {% set notifs = notifs|merge({ (topic.name) : notifTopic.nbMessages }) %}
                                 {% endif %}
                             {% endfor %}

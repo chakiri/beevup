@@ -28,9 +28,11 @@ class Notification
     private $nbMessages;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Topic")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $topic;
+
 
     public function getId(): ?int
     {
@@ -61,12 +63,12 @@ class Notification
         return $this;
     }
 
-    public function getTopic(): ?string
+    public function getTopic(): ?Topic
     {
         return $this->topic;
     }
 
-    public function setTopic(string $topic): self
+    public function setTopic(?Topic $topic): self
     {
         $this->topic = $topic;
 

@@ -27,10 +27,10 @@ class WebsocketController extends AbstractController
         $topics = $topicRepository->findAll();
 
         //Get all messages from topics with limit
-        $messages = $messageRepository->findBy(['topic' => $topic->getName()], ['createdAt' => 'ASC']);
+        $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
 
         //Empty notification for this topic & user
-        $this->emptyNotificationTopic($topic->getName(), $manager, $notificationRepository);
+        $this->emptyNotificationTopic($topic, $manager, $notificationRepository);
 
         //Get all notifications for other Topics
         $notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
@@ -46,15 +46,17 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager)
+    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository)
     {
-        $user = $this->getUser();
-        $topic = $_POST['topic'];
+        $topicName = $_POST['topic'];
         $content = $_POST['message'];
+
+        //Get current user
+        $user = $this->getUser();
 
         $entryData = [
             'user' => $user->getProfile()->getFirstname(),
-            'topic' => $topic,
+            'topic' => $topicName,
             'message' => $content,
         ];
 
@@ -64,6 +66,9 @@ class WebsocketController extends AbstractController
         $socket->connect("tcp://127.0.0.1:5555");
 
         $socket->send(json_encode($entryData));
+
+        //Get topic object
+        $topic = $topicRepository->findOneBy(['name' => $topicName]);
 
         //Stock in database
         $message = new Message();
@@ -84,12 +89,14 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository)
+    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
     {
         $userId = $_POST['userid'];
-        $topic = $_POST['topic'];
+        $topicName = $_POST['topic'];
 
+        //Find objects
         $user = $userRepository->find($userId);
+        $topic = $topicRepository->findOneBy(['name' => $topicName]);
 
         $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
 
@@ -119,19 +126,19 @@ class WebsocketController extends AbstractController
 
     }
 
-    protected function emptyNotificationTopic($topic, $manager, $notificationRepository)
+    protected function emptyNotificationTopic(Topic $topic, $manager, $notificationRepository)
     {
         $user = $this->getUser();
 
         $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
 
         if ($notification){
-
             $notification->setNbMessages(null);
 
             $manager->persist($notification);
             $manager->flush();
-
         }
+
+        return $this->json($notification);
     }
 }

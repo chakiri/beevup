@@ -28,14 +28,15 @@ class Message
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $topic;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Topic")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $topic;
 
     public function getId(): ?int
     {
@@ -66,17 +67,6 @@ class Message
         return $this;
     }
 
-    public function getTopic(): ?string
-    {
-        return $this->topic;
-    }
-
-    public function setTopic(string $topic): self
-    {
-        $this->topic = $topic;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -86,6 +76,18 @@ class Message
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): self
+    {
+        $this->topic = $topic;
 
         return $this;
     }
