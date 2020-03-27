@@ -18,10 +18,11 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/chat/{name}", name="chat")
      */
-    public function index(Topic $topic, EntityManagerInterface $manager, MessageRepository $messageRepository, TopicRepository $topicRepository, NotificationRepository $notificationRepository)
+    public function index(?Topic $topic, EntityManagerInterface $manager, MessageRepository $messageRepository, TopicRepository $topicRepository, NotificationRepository $notificationRepository)
     {
+        //Verification passing bad topic to url
         if (!$topic){
-            $this->redirectToRoute('home');
+            return $this->redirectToRoute('home');
         }
         //Get all topics
         $topics = $topicRepository->findAll();

@@ -57,6 +57,8 @@ class ProfileType extends AbstractType
             ->add('function', EntityType::class, [
                 'label' => 'Fonction',
                 'multiple'=>false,
+                'required' => true,
+                'placeholder' => 'Saisissez votre fonction',
                 'class' => UserFunction::class,
                 'choice_label' =>'name'
             ])
