@@ -13,7 +13,7 @@ Header
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ path('service') }}">Services</a></li>
-                <li><a href="{{ path('chat', {'topic': 'general'}) }}">Chat</a></li>
+                <li><a href="{{ path('chat', {'name': 'general'}) }}">Chat</a></li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>
                         <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>

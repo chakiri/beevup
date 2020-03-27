@@ -3,7 +3,7 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <section id="chatPlateform" data-topic="{{ topic }}">
+    <section id="chatPlateform" data-topic="{{ currentTopic.name }}">
             <div class="row">
                 <div class="col-lg-3 col-sm-4 sidebar">
                     <div class="pt-3">
@@ -18,29 +18,21 @@
                             <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
                         </div>
                         <hr>
-                        {#{% for channel in app.user.channels %}
-                            {% set channelStr = '#' ~ channel %}
-                            <ul>
-                                <li><a data-channel="{{ channel }}" href='{{ channelStr }}'><span>#{{ channel|capitalize }}</span></a></li>
-                            </ul>
-                        {% endfor %}#}
-                        <ul class="channels">
-                            {% set badgeGeneral = '<div class="badge badge-primary badge-pill"></div>' %}
-                            {% set badgeConception = '<div class="badge badge-primary badge-pill"></div>' %}
-                            {% set badgeHelp = '<div class="badge badge-primary badge-pill"></div>' %}
+
+                        {# Get nb of notifications by topic#}
+                        {% set notifs = {} %}
+                        {% for topic in topics %}
                             {% for notifTopic in notifTopics %}
-                                {% if notifTopic.topic == 'general' %}
-                                    {% set badgeGeneral = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
-                                {% elseif notifTopic.topic == 'conception' %}
-                                    {% set badgeConception = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
-                                {% elseif notifTopic.topic == 'help' %}
-                                    {% set badgeHelp = '<div class="badge badge-primary badge-pill">' ~ notifTopic.nbMessages ~ '</div>' %}
+                                {% if notifTopic.topic == topic.name %}
+                                    {% set notifs = notifs|merge({ (topic.name) : notifTopic.nbMessages }) %}
                                 {% endif %}
                             {% endfor %}
+                        {% endfor %}
 
-                            <li><a data-channel="general" href='{{ path('chat', {'topic': 'general'}) }}'><span>#general </span>{{ badgeGeneral|raw }}</a></li>
-                            <li><a data-channel="conception" href='{{ path('chat', {'topic': 'conception'}) }}'><span>#conception </span>{{ badgeConception|raw }}</a></li>
-                            <li><a data-channel="help" href='{{ path('chat', {'topic': 'help'}) }}'><span>#help </span>{{ badgeHelp|raw }}</a></li>
+                        <ul class="channels">
+                            {% for topic in topics %}
+                                <li><a data-channel={{ topic.name }} href='{{ path('chat', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{{ notifs[topic.name] ?? null }}</div></a></li>
+                            {% endfor %}
                         </ul>
                         <ul id="channelsList">
                         </ul>

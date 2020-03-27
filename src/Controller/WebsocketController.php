@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Notification;
+use App\Entity\Topic;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,21 +16,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsocketController extends AbstractController
 {
     /**
-     * @Route("/chat/{topic}", name="chat")
+     * @Route("/chat/{name}", name="chat")
      */
-    public function index($topic, EntityManagerInterface $manager, MessageRepository $messageRepository, NotificationRepository $notificationRepository)
+    public function index(Topic $topic, EntityManagerInterface $manager, MessageRepository $messageRepository, TopicRepository $topicRepository, NotificationRepository $notificationRepository)
     {
+        if (!$topic){
+            $this->redirectToRoute('home');
+        }
+        //Get all topics
+        $topics = $topicRepository->findAll();
+
         //Get all messages from topics with limit
-        $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+        $messages = $messageRepository->findBy(['topic' => $topic->getName()], ['createdAt' => 'ASC']);
 
         //Empty notification for this topic & user
-        $this->emptyNotificationTopic($topic, $manager, $notificationRepository);
+        $this->emptyNotificationTopic($topic->getName(), $manager, $notificationRepository);
 
         //Get all notifications for other Topics
         $notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('websocket/index.html.twig', [
-            'topic' => $topic,
+            'topics' => $topics,
+            'currentTopic' => $topic,
             'messages' => $messages,
             'notifTopics' => $notifTopics
         ]);
