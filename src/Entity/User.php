@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\TopicRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -88,11 +91,17 @@ class User implements UserInterface
      */
     private $type;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic")
+     */
+    private $topics;
+
     public function __construct()
     {
         $this->isValid = false;
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
+        $this->topics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +263,32 @@ class User implements UserInterface
     {
        return strval( $this->getId() );
       
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
+        }
+
+        return $this;
     }
     
 }

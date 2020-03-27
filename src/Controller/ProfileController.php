@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Topic;
+use App\Repository\TopicRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +27,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/myaccount/{id}/edit", name="profile_edit")
      */
-    public function edit(Profile $profile, EntityManagerInterface $manager, Request $request)
+    public function edit(Profile $profile, EntityManagerInterface $manager, Request $request, TopicRepository $topicRepository)
     {
         $form = $this->createForm(ProfileType::class, $profile);
 
@@ -55,6 +58,9 @@ class ProfileController extends AbstractController
             $manager->persist($profile);
             $manager->flush();
 
+            //Add function topic to the list of topics
+            $this->initTopicFunction($topicRepository, $profile, $manager);
+
             return $this->redirectToRoute('profile_show', [
                'id' => $profile->getId()
             ]);
@@ -63,5 +69,37 @@ class ProfileController extends AbstractController
         return $this->render('profile/edit.html.twig', [
             'EditProfileForm' => $form->createView(),
         ]);
+    }
+
+    private function initTopicFunction(TopicRepository $topicRepository, Profile $profile, EntityManagerInterface $manager)
+    {
+        //Verif if topic function exist already
+        $topic = $topicRepository->findOneBy(['name' => $profile->getSlugFunction(), 'type' => 'function']);
+        if (!$topic){
+            $topic = new Topic();
+            $topic
+                ->setName($profile->getSlugFunction())
+                ->setType('function')
+            ;
+            $manager->persist($topic);
+        }
+
+        //Add this topic to user and delete the other
+        $user = $profile->getUser();
+
+        //Delete the other function topic
+        $userTopics = $user->getTopics();
+
+        foreach ($userTopics as $userTopic){
+            if ($userTopic->getType() == 'function'){
+                $user->removeTopic($userTopic);
+            }
+        }
+
+        $user->addTopic($topic);
+
+        $manager->persist($user);
+
+        $manager->flush();
     }
 }

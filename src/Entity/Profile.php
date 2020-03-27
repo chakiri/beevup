@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -86,6 +87,15 @@ class Profile
         $this->isCompleted = false;
     }
 
+    public function getSlugFunction(){
+        if (!empty($this->function)){
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($this->function->getName());
+
+            return $slug;
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -166,8 +176,6 @@ class Profile
     {
         $this->phoneNumber = $phoneNumber;
     }
-
-
 
     public function getUser(): ?User
     {
