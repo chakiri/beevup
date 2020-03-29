@@ -190,5 +190,81 @@
   });
  })
 
+ /* end publish post */
+  $('.like-button').click(function(){
+    var postId = $(this).attr('data-post-id');
+    var postLikesNumber = $(this).attr('data-post-likes-number');
+    url = 'post/'+postId+'/update-post-likes';
+    $.get(url, function (data) {
+      $('#post-likes-number-'+postId).text(Number(postLikesNumber) + 1);
+      $('#like-button-'+postId).addClass('text-primary')
+    });
+    
+  })
+ /* like button*/
+
+ /* comment button*/
+ $('.comment-button').click(function(){
+  var postId = $(this).attr('data-post-id');
+  $('#comment-section-'+postId).removeClass('hidden').addClass('visible');
+ })
+ /* end comment*/
+ $( '.add-comment-form' ).submit(function( event ) {
+  var postId = $(this).attr('data-post-id');
+   var comment = $("#post-add-comment-"+postId).val();
+   var commentStructure = `
+   <div class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
+    <div class="user-image col-1" style="flot:left">
+      <a href='#'>
+          <img class='media-object photo-profile' src='http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g' width='32' height='32' alt=''>
+        </a>
+    </div>
+    <div class='comment col-8'  style='flot:left'>
+        <a href='#' class='comment-user'><p>Nihel Loukil</p></a> 
+        <a href='#' class='comment-time'>à l\'instant</a>
+        <div class='comment-text'>`
+        +comment+
+        `</div>
+    </div>
+</div>`
+   $('#comments-section-'+postId).prepend(commentStructure);
+   $(".post-add-comment").val('');
+   event.preventDefault();
+});
+
+ /* end like button*/
+ var span = $('<span>').css('display','inline-block')
+.css('word-break','break-all').appendTo('body').css('visibility','hidden');
+ function initSpan(textarea){
+  span.text(textarea.text())
+      .width(textarea.width())      
+      .css('font',textarea.css('font'));
+}
+ $('textarea').on({
+  input: function(){
+     var text = $(this).val();      
+     span.text(text);      
+     $(this).height(text ? span.height() : '1.1em');
+  },
+  focus: function(){           
+     initSpan($(this));
+  },
+  keypress: function(e){
+     //cancel the Enter keystroke, otherwise a new line will be created
+     //This ensures the correct behavior when user types Enter 
+     //into an input field
+      if(e.which == 13 ) {
+      $(this).closest("form").submit();
+     e.preventDefault();
+     }
+  }
+
+ });
+ $('.comments-link').click(function(e){
+  e.preventDefault();
+  var postId = $(this).attr('data-post-id');
+  $('#comments-section-'+postId).removeClass('hidden').addClass('visible');
+ })
+
 })(jQuery);
 
