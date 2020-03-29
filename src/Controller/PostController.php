@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PostType;
 use App\Repository\RecommandationRepository;
+use App\Repository\PostRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -67,9 +69,10 @@ class PostController extends AbstractController
     * @Route("/post/{id}/edit", name="post_edit")
     */
 
-    public function edit(Post $post, EntityManagerInterface $manager, Request $request)
+    public function edit(Post $post, EntityManagerInterface $manager, Request $request, PostRepository $repository)
     {
-        $form = $this->createForm(CompanyType::class, $post);
+        
+        $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -86,4 +89,25 @@ class PostController extends AbstractController
             'EditPostorm' => $form->createView(),
         ]);
     }
+    
+    /**
+    * @Route("/post/{id}/update-post-likes", name="post_update_likes_number")
+    */
+    public function updateLikesNumber(Post $post, EntityManagerInterface $manager, Request $request, PostRepository $repository)
+    {
+        $likesNumber = $post->getLikesNumber() + 1 ;
+        $post->setLikesNumber($likesNumber);
+        $manager->persist($post);
+        $manager->flush();
+        $response = new Response(
+            'Content',
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+        return $response;
+        
+    }
+
+
+
 }

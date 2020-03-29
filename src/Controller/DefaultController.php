@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
     public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
-        $posts = $postRepository->findBy([], array('createdAt' => 'ASC'));
+        $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
         
         $companyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Validated'], []);
         
