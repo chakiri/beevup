@@ -63,12 +63,12 @@ class RecommandationController extends AbstractController
         $recommandation->setUser( $this->getUser());
          $manager->persist($recommandation);
          $manager->flush();
-         if($company != null && $service != null) {
+         if($company != null) {
          return $this->redirectToRoute('company_show', [
              'slug' => $company->getSlug()
          ]);
          }
-         if ( $service != null) {
+         if ( $service != null && $company != null) {
             return $this->redirectToRoute('service_show', [
                 'id' => $service->getId()
             ]);
