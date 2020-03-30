@@ -1,0 +1,19 @@
+
+
+{% form_theme commentForm 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+  <div class="card-body card-block">
+      {{ form_start(commentForm, {'action': path('comment_create')}) }}
+          <div class="form-group">
+            {{ form_row(commentForm.description) }}
+          </div>
+          <div class="form-actions form-group">
+            <button type="submit" class="btn btn-success btn-sm">Publier</button>
+          </div>
+           {{ form_end(commentForm) }}
+       </div>
+
+       </div>
+{% endblock %} 

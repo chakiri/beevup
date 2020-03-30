@@ -8,6 +8,13 @@
         <div class="container">
 
             {# Notice warning#}
+            {% if is_granted('ROLE_ADMIN_COMPANY') and (untreatedRecommandationsNumber > 0) %}
+            <div class="alert alert-dismissible alert-warning">
+                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Recommandations</h4>
+                <p class="mb-0">Vous avez des recommandations à gérer <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a>.</p>
+            </div>
+           {% endif %}
+
             {% if is_granted('ROLE_ADMIN_COMPANY') and app.user.company.isCompleted == false %}
                 <div class="alert alert-dismissible alert-danger">
                     <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Entreprise non visible !</h4>
@@ -68,6 +75,111 @@
                     {% endif %}
                 </div>
                 <div class="col-lg-9 col-md-6">
+                    <div class="box dashboard-header">
+                        <div class="row">
+                            <div>
+                            <button type="button" 
+                                    class="btn btn-primary btn-sm btn-radius add-post"
+                                    data-toggle="modal"
+                                    data-target="{{ path('post_create') }}"
+                                    data-whatever="@mdo" >
+                                <i class="fa fa-pencil-square-o"></i> Commencer un post
+                            </button>
+                            </div>
+                            <div class="dashboard-header-buttons">
+                           
+                              
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
+                                    <span class="badge">5</span>
+                                </a>
+                                <a href="#" class="notification">
+                                    <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
+                                    <span class="badge">10</span>
+                                </a>
+                                <a href="#" class="notification">
+                                    <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
+                                    <span class="badge">3</span>
+                                </a>
+                            </div>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    {% if posts and postNumber > 0 %}
+                    <div class="box">
+                        <h4>Fil d'actualité</h4>
+                        <div class="posts">
+                            {% for post in posts %}
+                                <div class="row post">
+                                    <div class="col-1">
+                                        <div class="user-profil">
+                                            {% if post.user.profile.photo is empty %}
+                                                <img src="/images/default_user.png" class="user-profil-sm" alt="">
+                                            {% else %}
+                                                <img src="/images/profil/photo/{{ post.user.profile.photo }}" class="user-profil-sm" alt="">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-11">
+                                        <div class="lead">
+                                            <strong class="post-user">{{post.user.profile.firstname}} {{post.user.profile.lastname}}</strong>
+                                            <strong class="post-created-at">{{post.createdAt|date("d/m/Y")}}</strong>
+                                        </div>
+                                        <div class="lead post-category"><i class="fa fa-list-alt" aria-hidden="true"></i> {{post.category|capitalize}}</div>
+                                        <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
+                                        <div class="lead post-description">{{post.description}}</div>
+                                        <div class="like-number">
+                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
+                                            <span id ="post-likes-number-{{post.id}}" class="post-likes-number">{{post.likesNumber}}</span>
+                                            <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">3 commentaires</a></span>
+                                        </div>
+
+                                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                                        <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                                        <button id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</button>
+                                        <button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>
+                                        
+                                        <div id = "comment-section-{{post.id}}" class="add-new-comment hidden">
+                                            <form class="add-comment-form" data-post-id = "{{post.id}}">
+                                                <img class="media-object photo-profile" style="float:left" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
+                                                <textarea id ="post-add-comment-{{post.id}}" class="post-add-comment input-radius" placeholder="Ajouter un commentaire"></textarea>
+                                             </form>
+                                        </div>
+                                        
+                                        <div id ="comments-section-{{post.id}}"  class="comments-section hidden">
+                                            <div class="row user-comment">
+                                                <div class="user-image col-1">
+                                                    <a href="#">
+                                                        <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="comment col-11">
+                                                    <a href="#" class="comment-user"><p>Nihel Loukil</p></a> 
+                                                    <a href="#" class="comment-time"><i class="fa fa-calendar mr-1"></i>51 mins</a>
+                                                    <div class="comment-text">
+                                                        Congratulations to you! Your dedication and perseverance shine bright, Dr. Jones!
+                                                    </div>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <button class="btn-shadow btn-wide btn-pill btn btn-focus">
+                                    <span class="badge badge-dot badge-dot-lg badge-warning badge-pulse">Badge</span>
+                                      Afficher plus de postes
+                                </button>
+                            </div>
+                        </div>
+                     </div>   
+                    {% endif %}                   
                     <div class="box">
                         <h4>Mon activité</h4>
                         <div class="row">
@@ -85,7 +197,7 @@
                         <div class="box">
                             <h4>Mes services</h4>
                             {% if services is empty %}
-                            <p>Vous n'avez pas crée de service.</p>
+                            <p>Vous n'avez pas créé de service.</p>
                             <p><a href="{{ path('service_create') }}">Créer un service</a></p>
                             {% else %}
                                 <div class="row">
@@ -111,22 +223,31 @@
                         </div>
                     </div>
                     <div class="recommandations">
-                        <div class="box">
-                            <h4>Mes recommandations</h4>
-                            <div class="row">
-                                <div class="col-2">
-                                    <div class="avatar">
-                                        <img src="/images/default_user.png" class="img-fluid" alt="">
+                        <h4>Mes recommandations</h4>
+                        {% if recommandations %}
+                            {% for recommandation in recommandations %}
+                                <div class="box">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="avatar">
+                                                <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
+                                            <p class="text-muted">{{recommandation.message }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-9">
-                                    <p><strong>Nicolas Strugarek</strong></p>
-                                    <p class="text-muted">Je recommande vivement cette personne pour sa qualité de travail en tant que développeur</p>
+                            {% endfor %}
+                        {% else %}  
+                            <div class="box">
+                                <div class="row">
+                                    <p class="text-muted">Acune recommandation </p>
                                 </div>
-                            </div>
-                        </div>
+                            </div> 
+                         {% endif %}                               
                     </div>
-                </div>
             </div>
         </div>
     </section>

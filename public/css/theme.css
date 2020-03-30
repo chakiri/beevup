@@ -50,8 +50,23 @@ h6 {
   margin: 0 0 20px 0;
   padding: 0;
 }
+.hidden {
+  display:none;
+}
+
+/* admin panel display fix */
+
+.admin-panel-fix {
+ height: 70px;
+}
+
+/* end */
 
 /* Back to top button */
+
+.btn-radius {
+  border-radius:10px;
+}
 
 .back-to-top {
   position: fixed;
@@ -751,6 +766,14 @@ h6 {
 #dashboard .services .info h4{
   margin: 0 0 0 25px;
 }
+.dashboard-header{
+  padding:15px 30px !important;
+}
+.dashboard-header-buttons{
+  position:relative;
+  top:5px;
+}
+
 
   /* Chat Section
   --------------------------------*/
@@ -760,12 +783,40 @@ h6 {
  /* position: fixed;*/
 }
 
+  /* recommandation Section
+  --------------------------------*/
+.approved-box {
+border:2px solid green;
+}
+.rejected-box {
+  border:3px solid red;
+}
+.spinner-hidden {
+  display:none !important
+}
+spinner-visible {
+  display:inline-block !important
+}
+.add-recommandation {
+  margin-right: 10px;
+}
+
 #chatPlateform .sidebar{
   background: #004a99;
   position: fixed;
   height: 100%;
   color: white;
   padding: 30px;
+}
+
+#chatPlateform .user {
+  text-align: center;
+}
+
+#chatPlateform .user img{
+  width: 80px;
+  border-radius: 50%;
+  border: 4px solid #fff;
 }
 
 #chatPlateform .sidebar ul {
@@ -798,10 +849,18 @@ h6 {
   margin: 15px 10px 15px 10px;
 }
 
+#chatPlateform .message .name-user{
+  font-size: 80%;
+  color: #868e96;
+  padding: 7px;
+  text-transform: capitalize;
+}
+
 #chatPlateform .message .span-style{
-  border: 1.5px solid #3899ff;
+  border: 1.5px solid #ececec;
   padding: 5px;
   border-radius: 30px;
+  background: #ececec;
 }
 #chatPlateform .message .span-style-me{
   border: 1.5px solid #3899ff;
@@ -841,6 +900,116 @@ h6 {
   color: #004a99;
   padding: 20px;
 }
+/* posts section*/
+.post {
+border: 1px solid #eee;
+margin-bottom: 10PX;
+padding-top: 10PX;
+padding-bottom: 10px;
+padding-right: 10px;
+}
+.post-title{
+  font-size:13PX;
+  font-weight:bold;
+}
+.post-user{
+  font-size:14px;
+  font-weight:bold;
+}
+.post-created-at{
+  font-size:12px;
+}
+.post-category{
+  font-size:12px;
+}
+.post-description{
+ margin-bottom:10px;
+ font-size:13px;
+}
+.like-number{
+   margin-bottom:10px;
+   font-size:12px;
+}
+  
+.post-add-comment{
+  min-width: 434px;
+  min-height: 40px;
+  padding-left:10px;
+  font-size:12px;
+  border-radius:5px;
+  border-color:#eee;
+}
+.comment-user {
+  font-size:12px;
+  color:#000;
+}
+.comment-time {
+  font-size:11px;
+  color:#ccc;
+}
+.comment-text{
+  font-size:12px;
+}
+.user-comment{
+  margin-top:3px;
+  background-color:#f3f6f8;
+  border-radius:10px;
+  padding:10px
+}
+
+.user-profil-sm{
+  width:45px;
+  height:45px;
+  border:1px solid #eee;
+}
+textarea {
+  width:200px;
+  resize:none;
+  overflow:hidden;
+  font-size:18px;
+  height:1.1em;
+  padding:2px;
+}
+.add-new-comment{
+  margin-top:5px;
+}
+
+.notification {
+  text-decoration: none;
+  padding: 0 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+
+.notification .badge {
+  position: absolute;
+  top: -6px;
+  right: 17px;
+  padding: 5px 10px;
+  border-radius: 8.35rem;;
+  background-color: #e74a3b;
+  color: white;
+  transform: scale(.7);
+  transform-origin: top right;
+}
+.comments-link{
+  color: #000;
+}
+.notification-icon{
+  font-size: 25px;
+  color:#d92550
+}
+.message-icon{
+  font-size: 25px;
+  color:#444054
+}
+.recommandation-icon{
+  font-size: 25px;
+  color:#0b6bd3
+}
+/*end posts section*/
 
 /* Service Section
 --------------------------------*/
@@ -1793,7 +1962,155 @@ h6 {
 
 @media (max-width: 640px) {
   #chatPlateform .chat {
-    margin: 0 0 0 10em;
+    margin: 0 0 0 14em;
   }
 
 }
+
+/********/
+.btn.btn-pill.btn-wide, .btn.btn-pill {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  margin: 0 auto;
+}
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn.btn-wide {
+  padding: .375rem 1.5rem;
+  font-size: .8rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+.btn {
+  position: relative;
+  transition: color 0.15s,background-color 0.15s,border-color 0.15s,box-shadow 0.15s;
+}
+.btn-focus {
+  color: #fff;
+  background-color: #444054;
+  border-color: #444054;
+}
+.btn .badge-dot.badge-dot-lg {
+  width: 14px;
+  height: 14px;
+}
+.btn .badge-dot {
+  position: absolute !important;
+  border: #fff solid 2px;
+  top: -5px;
+  right: -5px;
+  width: 11px;
+  height: 11px;
+}
+.btn .badge {
+  margin-left: 8px;
+  position: relative; 
+  top: -1px;
+}
+/*.badge-pulse {
+  -webkit-animation: pulse 2s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  position: relative;
+}*/
+.badge-dot-lg {
+  width: 10px;
+  height: 10px;
+}
+.badge-dot {
+  text-indent: -999em;
+  padding: 0;
+  width: 8px;
+  height: 8px;
+  border: transparent solid 1px;
+  border-radius: 30px;
+  min-width: 2px;
+}
+.badge {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  min-width: 19px;
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+.badge-warning {
+  color: #212529;
+  background-color: #f7b924;
+}
+/*.badge-pulse::after {
+   -webkit-animation-delay: .33s; 
+   -webkit-animation-duration: 2.2s;
+}
+.badge-pulse::before, .badge-pulse::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -webkit-animation: sploosh 2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-animation-iteration-count: infinite;
+}*/
+
+.badge-dot {
+  text-indent: -999em;
+  padding: 0;
+  width: 8px;
+  height: 8px;
+  border: transparent solid 1px;
+  border-radius: 30px;
+  min-width: 2px;
+}
+.btn-focus.btn-shadow:hover {
+  box-shadow: 0 0.125rem 0.625rem rgba(68,64,84,0.5), 0 0.0625rem 0.125rem rgba(68,64,84,0.6);
+  color:#fff !important;
+}
+/*.icon-anim-pulse {
+  animation: pulse_animation;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}*/
+.icon-wrapper-bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  opacity: .2;
+}
+.icon-wrapper-bg {
+  opacity: .1;
+  transition: opacity .2s;
+  border-radius: 40px;
+}
+.bg-danger {
+  background-color: #d92550 !important;
+}
+.icon-wrapper-alt {
+  margin: 0;
+  height: 44px;
+  width: 44px;
+  text-align: center;
+  overflow: visible;
+}
+.icon-wrapper {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+/********/

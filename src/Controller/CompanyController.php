@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\CompanyType;
+use App\Repository\RecommandationRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -15,8 +16,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CompanyController extends AbstractController
 {
     /**
-     * @Route("/company", name="company")
-     */
+    * @Route("/company", name="company")
+    */
+
     public function index()
     {
         return $this->render('company/show.html.twig', [
@@ -26,18 +28,22 @@ class CompanyController extends AbstractController
 
 
     /**
-     * @Route("/company/{slug}", name="company_show")
-     */
-    public function show(Company $company)
+    * @Route("/company/{slug}", name="company_show")
+    */
+
+    public function show(Company $company, RecommandationRepository $recommandationRepository)
     {
+        $recommandations = $recommandationRepository->findBy(['company' => $company->getId(), 'status'=>'Validated'], []);
         return $this->render('company/show.html.twig', [
-            'company' => $company
+            'company' => $company,
+            'recommandations'=> $recommandations
         ]);
     }
 
     /**
-     * @Route("/company/{id}/edit", name="company_edit")
-     */
+    * @Route("/company/{id}/edit", name="company_edit")
+    */
+
     public function edit(Company $company, EntityManagerInterface $manager, Request $request)
     {
         $form = $this->createForm(CompanyType::class, $company);
@@ -46,8 +52,6 @@ class CompanyController extends AbstractController
             $file = $form['imageFile']->getData();
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                 $safeFilename =  $originalFilename;
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
                 try {
@@ -55,11 +59,8 @@ class CompanyController extends AbstractController
                         $this->getParameter('entreprise_logos'),
                         $newFilename
                     );
-                    //dump( $file->move($this->getParameter('entreprise_logos'), $newFilename));
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                   
-                }
+                  
+                } catch (FileException $e) {}
                 $company->setLogo($newFilename);
             }
 
@@ -76,7 +77,5 @@ class CompanyController extends AbstractController
             'company' => $company,
             'EditCompanyForm' => $form->createView(),
         ]);
-
-      
     }
 }

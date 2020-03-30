@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|split('_')|first|default('en') }}" dir="{{ easyadmin_config('design.rtl') ? 'rtl' : 'ltr' }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate, nocache" />
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta name="generator" content="EasyAdmin" />
+
+        <title>{% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
+         {% block header_stylesheets %}
+            <link href="/css/theme.css" rel="stylesheet">
+        {% endblock %}
+        {% block head_stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+        {% endblock %}
+
+        {% block head_custom_stylesheets %}
+            {% for css_asset in easyadmin_config('design.assets.css') %}
+                <link rel="stylesheet" href="{{ asset(css_asset) }}">
+            {% endfor %}
+        {% endblock head_custom_stylesheets %}
+        
+	
+
+        {% if easyadmin_config('design.brand_color') != 'hsl(230, 55%, 60%)' %}
+        <style>
+            :root { --color-primary: {{ easyadmin_config('design.brand_color') }}; }
+        </style>
+        {% endif %}
+
+        {% block head_favicon %}
+            {% set favicon = easyadmin_config('design.assets.favicon') %}
+            <link rel="icon" type="{{ favicon.mime_type }}" href="{{ asset(favicon.path) }}" />
+        {% endblock %}
+
+        {% block head_javascript %}
+            <script src="{{ asset('bundles/easyadmin/app.js') }}"></script>
+        {% endblock head_javascript %}
+
+        {% if easyadmin_config('design.rtl') %}
+            <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.rtl.css') }}">
+            <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app-custom-rtl.css') }}">
+        {% endif %}
+    </head>
+	
+	<div class="clearfix"></div>
+		{% block body %}
+    <body id="{% block body_id %}{% endblock %}" class="easyadmin {% block body_class %}{% endblock %}">
+        <script>
+            document.body.classList.add(
+                'easyadmin-content-width-' + (localStorage.getItem('easyadmin/content/width') || 'normal'),
+                'easyadmin-sidebar-width-' + (localStorage.getItem('easyadmin/sidebar/width') || 'normal')
+            );
+        </script>
+        
+		{% block header %}
+	  {% include 'partials/header.html.twig' %}
+       {% endblock header %}
+       <div class="clearfix"></div>
+        {% block wrapper_wrapper %}
+        <div class="wrapper">
+        {% block wrapper %}
+
+           
+
+            <aside class="main-sidebar">
+            {% block sidebar %}
+                <section class="sidebar">
+                    {% block main_menu_wrapper %}
+                        {{ include([
+                            _entity_config is defined ? _entity_config.templates.menu,
+                            easyadmin_config('design.templates.menu'),
+                            '@EasyAdmin/default/menu.html.twig'
+                        ]) }}
+                    {% endblock main_menu_wrapper %}
+                </section>
+
+            {% endblock sidebar %}
+            </aside>
+
+            <div class="content-wrapper">
+                {% block flash_messages %}
+                    {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
+                {% endblock flash_messages %}
+
+                <div id="sidebar-resizer-handler" class="resizer-handler resizer-handler-left"></div>
+
+                {% block content %}
+                    <div class="content">
+                        {% block content_header_wrapper %}
+                        {% set _has_content_help = _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
+                        <section class="content-header {{ _has_content_help ? 'has-content-help' }}">
+                            {% block content_header %}
+                                <div class="d-flex flex-row justify-content-between align-content-center w-100">
+                                    <div class="content-header-title">
+                                        <h1 class="title">{% block content_title %}{% endblock %}</h1>
+                                    </div>
+
+                                    {% block global_actions_wrapper %}
+                                        <div class="global-actions">{% block global_actions %}{% endblock %}</div>
+                                    {% endblock %}
+                                </div>
+
+                                {% block content_help %}
+                                    {% if _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
+                                        <div class="content-header-help">
+                                            {{ _entity_config[app.request.query.get('action')]['help']|trans(domain = _entity_config.translation_domain)|raw }}
+                                        </div>
+                                    {% endif %}
+                                {% endblock content_help %}
+                            {% endblock content_header %}
+                        </section>
+                        {% endblock content_header_wrapper %}
+
+                        <section id="main" class="content-body">
+                            {% block main %}{% endblock %}
+                        </section>
+
+                        {% block content_footer_wrapper %}
+                            <section class="content-footer">
+                                {% block content_footer %}{% endblock %}
+                            </section>
+                        {% endblock %}
+                    </div>
+                {% endblock content %}
+
+                <div id="content-resizer-handler" class="resizer-handler resizer-handler-right"></div>
+            </div>
+        {% endblock wrapper %}
+        </div>
+        {% endblock wrapper_wrapper %}
+
+        {% block body_javascript %}{% endblock body_javascript %}
+
+        {% block body_custom_javascript %}
+            {% for js_asset in easyadmin_config('design.assets.js') %}
+                <script src="{{ asset(js_asset) }}"></script>
+            {% endfor %}
+        {% endblock body_custom_javascript %}
+
+    </body>
+    {% endblock body %}
+</html>
