@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Notification;
 use App\Entity\Topic;
+use App\Entity\User;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\TopicRepository;
@@ -16,10 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsocketController extends AbstractController
 {
     /**
-     * @Route("/chat/{name}", name="chat")
+     * @Route("/chat/{name}", name="chat_topic")
      */
     public function index(?Topic $topic, EntityManagerInterface $manager, MessageRepository $messageRepository, TopicRepository $topicRepository, NotificationRepository $notificationRepository, UserRepository $userRepository)
     {
+
         //Verification passing bad topic to url
         if (!$topic){
             return $this->redirectToRoute('home');
@@ -41,6 +43,26 @@ class WebsocketController extends AbstractController
             'currentTopic' => $topic,
             'messages' => $messages,
             'notifTopics' => $notifTopics
+        ]);
+    }
+
+    /**
+     * @Route("/chat/user/{id}", name="chat_user")
+     */
+    public function toUser(?User $user, EntityManagerInterface $manager, MessageRepository $messageRepository, TopicRepository $topicRepository, NotificationRepository $notificationRepository, UserRepository $userRepository)
+    {
+
+        //Verification passing bad topic to url
+        if (!$user){
+            return $this->redirectToRoute('home');
+        }
+
+        //Get all users
+        $users = $userRepository->findAll();
+
+        return $this->render('websocket/user.html.twig', [
+            'toUser' => $user,
+            'users' => $users
         ]);
     }
 
@@ -83,6 +105,29 @@ class WebsocketController extends AbstractController
 
         $manager->persist($message);
         $manager->flush();
+
+        return $this->json($entryData);
+    }
+
+    /**
+     * @Route("/sender/user", name="sender_user")
+     */
+    public function senderToUser(EntityManagerInterface $manager, TopicRepository $topicRepository)
+    {
+        $toUserId = $_POST['userId'];
+        $content = $_POST['message'];
+
+        $entryData = [
+            'toUserId' => $toUserId,
+            'message' => $content,
+        ];
+
+        //Send data by ZMQ transporter to the Wamp server
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+        $socket->connect("tcp://127.0.0.1:5555");
+
+        $socket->send(json_encode($entryData));
 
         return $this->json($entryData);
     }

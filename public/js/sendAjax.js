@@ -19,6 +19,27 @@ function sender() {
     return false;
 }
 
+function senderToUser() {
+    var toUserId = document.getElementById("chat").dataset.toUserId;
+    var message = document.getElementById("message").value;
+    var url = document.getElementById("message").dataset.url;
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {
+            userId: toUserId,
+            message: message
+        },
+        success: function (response) {
+            // $('#res').html("Vos données sont envoyés");
+        }
+    });
+
+    document.getElementById("message").value = '';
+
+    return false;
+}
+
 //Function ajax to send data to php for saving not seeied message
 function saveNotifToUser(topic){
     var currentUserId = document.getElementById("notifications").dataset.userid;

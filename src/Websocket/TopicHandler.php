@@ -4,8 +4,10 @@
 namespace App\Websocket;
 
 
+use App\Entity\User;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class TopicHandler implements WampServerInterface
 {
@@ -14,13 +16,21 @@ class TopicHandler implements WampServerInterface
 
     protected $subscribedTopics = [];
 
+    protected $users = [];
+
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
     }
 
+    public function onSubscribe(ConnectionInterface $conn, $currentUser)
+    {
+        echo "Subsribe user : {$currentUser->getId()} \n";
+        $this->users [$currentUser->getId()] = $currentUser;
 
-    public function onSubscribe(ConnectionInterface $conn, $topic)
+    }
+
+    /*public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         //if (!array_key_exists($topic->getId(), $this->subscribedTopics)){
             $this->subscribedTopics[$topic->getId()] = $topic;
@@ -28,7 +38,7 @@ class TopicHandler implements WampServerInterface
         //}
 
         //$this->clients->attach($conn);
-    }
+    }*/
 
     /**
      * @param string JSON'ified string we'll receive from ZeroMQ
@@ -36,23 +46,34 @@ class TopicHandler implements WampServerInterface
     public function onMessage($entry) {
         $entryData = json_decode($entry, true);
 
-        // If the lookup topic object isn't set there is no one to publish to
-        if (!array_key_exists($entryData['topic'], $this->subscribedTopics)) {
-            return;
-        }
-        $topic = $this->subscribedTopics[$entryData['topic']];
+        if ($entryData['toUserId']){
+            foreach ($this->users as $key => $user) {
+                //if reciever is connected
+                if ($key == $entryData['toUserId']){
+                    echo 'oui';
+                    $user->broadcast($entryData['message']);
+                }
+            }
 
-        // re-send the data to all the clients subscribed to that category
-        $topic->broadcast($entryData);
+        }else{
+            // If the lookup topic object isn't set there is no one to publish to
+            if (!array_key_exists($entryData['topic'], $this->subscribedTopics)) {
+                return;
+            }
+            $topic = $this->subscribedTopics[$entryData['topic']];
 
-        //Send notification to all topics
-        foreach ($this->subscribedTopics as $otherTopic){
-            if ($otherTopic !== $topic){
-                $notifData = [
-                    'topicFrom' => $entryData['topic'],
-                    'type' => 'notification'
-                ];
-                $otherTopic->broadcast($notifData);
+            // re-send the data to all the clients subscribed to that category
+            $topic->broadcast($entryData);
+
+            //Send notification to all topics
+            foreach ($this->subscribedTopics as $otherTopic){
+                if ($otherTopic !== $topic){
+                    $notifData = [
+                        'topicFrom' => $entryData['topic'],
+                        'type' => 'notification'
+                    ];
+                    $otherTopic->broadcast($notifData);
+                }
             }
         }
 
