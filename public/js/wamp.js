@@ -1,25 +1,32 @@
-var currentTopic = document.getElementById("chatPlateform").dataset.topic;
-var currentUserFirstname = document.getElementById("userStatus").dataset.userfirstname;
+var from = document.getElementById("chatPlateform").dataset.from;
+var subject = document.getElementById("chatPlateform").dataset.subject;
 var message = document.getElementById("message").value;
+var currentUserFirstname = document.getElementById("userStatus").dataset.userfirstname;
 var enterKeyCode = 13;
 
-console.log('current topic : ' + currentTopic);
+console.log('current subject : ' + from);
 updateScroll();
 
 ab.debug(true, true);
 var conn = new ab.Session('ws://127.0.0.1:8080',
     function() {
-        console.log('Connection established on ' + currentTopic);
-        conn.subscribe(currentTopic, function(topic, data) {
+        console.log('Connection established on ' + subject);
+        conn.subscribe(from, function(current, data) {
             if (data.type === 'notification'){
                 console.log('Notif from topic : ' + data.topicFrom);
                 addNotifToTopic(data.topicFrom);
                 //Save notif not saw by user on topic
                 saveNotifToUser(data.topicFrom);
             }else{
-                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
-                console.log('New message published by ' + data.user + ' to topic ' + data.topic + ' : ' + data.message);
-                addMessageToCanvas(data);
+                // This called when subscribe callback is executed
+                console.log('New message published by ' + data.user + ' to ' + data.subject + ' : ' + data.message);
+                //Add message if it's the sender or if it's subject page
+                if (data.from === subject || data.from === from){
+                    addMessageToCanvas(data);
+                }else{
+                    //send notification
+                    console.log("send notif");
+                }
             }
         });
     },
@@ -30,7 +37,6 @@ var conn = new ab.Session('ws://127.0.0.1:8080',
 );
 
 function addMessageToCanvas(data){
-
     const chatContent = document.getElementById("chat");
 
     //Get message HTML

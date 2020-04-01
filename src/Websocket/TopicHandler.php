@@ -14,31 +14,19 @@ class TopicHandler implements WampServerInterface
 
     protected $clients;
 
-    protected $subscribedTopics = [];
-
-    protected $users = [];
+    protected $subscribed = [];
 
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function onSubscribe(ConnectionInterface $conn, $currentUser)
+    public function onSubscribe(ConnectionInterface $conn, $subject)
     {
-        echo "Subsribe user : {$currentUser->getId()} \n";
-        $this->users [$currentUser->getId()] = $currentUser;
-
+        echo "Subsribed : {$subject->getId()} \n";
+        //Push current connection by it's id as key
+        $this->subscribed[$subject->getId()] = $subject;
     }
-
-    /*public function onSubscribe(ConnectionInterface $conn, $topic)
-    {
-        //if (!array_key_exists($topic->getId(), $this->subscribedTopics)){
-            $this->subscribedTopics[$topic->getId()] = $topic;
-            echo "Subscribing to $topic\n";
-        //}
-
-        //$this->clients->attach($conn);
-    }*/
 
     /**
      * @param string JSON'ified string we'll receive from ZeroMQ
@@ -46,30 +34,32 @@ class TopicHandler implements WampServerInterface
     public function onMessage($entry) {
         $entryData = json_decode($entry, true);
 
-        if ($entryData['toUserId']){
-            foreach ($this->users as $key => $user) {
-                //if reciever is connected
-                if ($key == $entryData['toUserId']){
-                    echo 'oui';
-                    $user->broadcast($entryData['message']);
+        //If it's private chat
+        if ($entryData['isprivate'] == true){
+            foreach ($this->subscribed as $key => $user) {
+                //If reciever is connected
+                if ($key == $entryData['subject']){
+                    $user->broadcast($entryData);
+                //Send it also to proper user
+                }elseif($key == $entryData['from']){
+                    $user->broadcast($entryData);
                 }
             }
-
         }else{
             // If the lookup topic object isn't set there is no one to publish to
-            if (!array_key_exists($entryData['topic'], $this->subscribedTopics)) {
+            if (!array_key_exists($entryData['subject'], $this->subscribed)) {
                 return;
             }
-            $topic = $this->subscribedTopics[$entryData['topic']];
+            $topic = $this->subscribed[$entryData['subject']];
 
             // re-send the data to all the clients subscribed to that category
             $topic->broadcast($entryData);
 
             //Send notification to all topics
-            foreach ($this->subscribedTopics as $otherTopic){
+            foreach ($this->subscribed as $otherTopic){
                 if ($otherTopic !== $topic){
                     $notifData = [
-                        'topicFrom' => $entryData['topic'],
+                        'topicFrom' => $entryData['subject'],
                         'type' => 'notification'
                     ];
                     $otherTopic->broadcast($notifData);
@@ -87,7 +77,6 @@ class TopicHandler implements WampServerInterface
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
         echo "Publishing to $topic\n";
-        //$topic->broadcast($event);
     }
 
     public function onOpen(ConnectionInterface $conn)

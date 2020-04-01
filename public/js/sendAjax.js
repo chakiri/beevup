@@ -1,34 +1,17 @@
 function sender() {
-    var sentToTopic = document.getElementById("chatPlateform").dataset.topic;
+    var from = document.getElementById("chatPlateform").dataset.from;
+    var subject = document.getElementById("chatPlateform").dataset.subject;
     var message = document.getElementById("message").value;
+    var isprivate = document.getElementById("chatPlateform").dataset.private;
     var url = document.getElementById("message").dataset.url;
     $.ajax({
         type: 'post',
         url: url,
         data: {
-            topic: sentToTopic,
+            from: from,
+            subject: subject,
             message: message,
-        },
-        success: function (response) {
-            // $('#res').html("Vos données sont envoyés");
-        }
-    });
-
-    document.getElementById("message").value = '';
-
-    return false;
-}
-
-function senderToUser() {
-    var toUserId = document.getElementById("chat").dataset.toUserId;
-    var message = document.getElementById("message").value;
-    var url = document.getElementById("message").dataset.url;
-    $.ajax({
-        type: 'post',
-        url: url,
-        data: {
-            userId: toUserId,
-            message: message
+            isprivate: isprivate
         },
         success: function (response) {
             // $('#res').html("Vos données sont envoyés");
