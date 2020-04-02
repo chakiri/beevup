@@ -34,9 +34,18 @@ class Message
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topic")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $topic;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $receiver;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPrivate;
 
     public function getId(): ?int
     {
@@ -88,6 +97,30 @@ class Message
     public function setTopic(?Topic $topic): self
     {
         $this->topic = $topic;
+
+        return $this;
+    }
+
+    public function getReceiver(): ?User
+    {
+        return $this->receiver;
+    }
+
+    public function setReceiver(?User $receiver): self
+    {
+        $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    public function getIsPrivate(): ?bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): self
+    {
+        $this->isPrivate = $isPrivate;
 
         return $this;
     }

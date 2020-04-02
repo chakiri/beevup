@@ -34,37 +34,40 @@ class WebsocketController extends AbstractController
         //Get all users
         $users = $userRepository->findAll();
 
-        if($request->get('_route') == 'chat_topic'){
-            //Get all messages from topics with limit
-            $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
-            //Assign topic to the subject
-            $subject = $topic->getName();
-
-        } elseif ($request->get('_route') == 'chat_private'){
+        if ($request->get('_route') == 'chat_private'){
             //Assign user to the subject
             $subject = $user->getId();
+            //Get all messages from receiver with limit
+            $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
+        }elseif($request->get('_route') == 'chat_topic'){
+            //Assign topic to the subject
+            $subject = $topic->getName();
+            //Get all messages from topics with limit
+            $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
         }
 
         //Empty notification for this topic & user
         //$this->emptyNotificationTopic($topic, $manager, $notificationRepository);
 
         //Get all notifications for other Topics
-        $notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
+        //$notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('websocket/index.html.twig', [
             'topics' => $topics,
             'users' => $users,
             'subject' => $subject,
-            //'messages' => $messages,
-            'notifTopics' => $notifTopics,
+            'messages' => $messages,
+            //'notifTopics' => $notifTopics,
             'isPrivate' => $request->get('_route') == 'chat_private'
         ]);
     }
 
     /**
+     * Send data to WAMP Server with ZMQ
+     *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository)
+    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository)
     {
         $subject = $_POST['subject'];
         $from = $_POST['from'];
@@ -89,23 +92,36 @@ class WebsocketController extends AbstractController
 
         $socket->send(json_encode($entryData));
 
+        //Save data in DB
+        $message = new Message();
+
+        $message
+            ->setUser($user)
+            ->setContent($content)
+            ->setCreatedAt(new \DateTime())
+        ;
+
         if ($isPrivate == false){
             //Get topic object
             $topic = $topicRepository->findOneBy(['name' => $subject]);
 
-            //Stock in database
-            $message = new Message();
-
             $message
-                ->setUser($user)
-                ->setContent($content)
                 ->setTopic($topic)
-                ->setCreatedAt(new \DateTime())
+                ->setIsPrivate($isPrivate)
             ;
 
-            $manager->persist($message);
-            $manager->flush();
+        }else {
+            //Get topic object
+            $receiver = $userRepository->findOneBy(['id' => $subject]);
+
+            $message
+                ->setReceiver($receiver)
+                ->setIsPrivate($isPrivate)
+            ;
         }
+
+        $manager->persist($message);
+        $manager->flush();
 
         return $this->json($entryData);
     }

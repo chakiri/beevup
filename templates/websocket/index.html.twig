@@ -19,7 +19,7 @@
                     </div>
                     <hr>
 
-                    {# Get nb of notifications by topic#}
+                    {# Get nb of notifications by topic#}{#
                     {% set notifs = {} %}
                     {% for topic in topics %}
                         {% for notifTopic in notifTopics %}
@@ -27,13 +27,13 @@
                                 {% set notifs = notifs|merge({ (topic.name) : notifTopic.nbMessages }) %}
                             {% endif %}
                         {% endfor %}
-                    {% endfor %}
+                    {% endfor %}#}
 
                     <div id="channels">
                         <h6><strong>Canaux</strong></h6>
                         <ul class="channels">
                             {% for topic in topics %}
-                                <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{{ notifs[topic.name] ?? null }}</div></a></li>
+                                <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -52,13 +52,13 @@
             </div>
             <div class="col-lg-9 col-sm-8 chat mt-3">
                 <div id="chat" class="box channel">
-                    {#{% for message in messages %}
+                    {% for message in messages %}
                         {% if message.user == app.user %}
                             <div class='message'><div class="text-right"><p class="name-user">Moi</p><span class="span-style-me">{{ message.content }} </span></div></div>
                         {% else %}
                             <div class='message'><div><p class="name-user">{{ message.user.profile.firstname|capitalize }}</p><span class="span-style"> {{ message.content }} </span></div></div>
                         {% endif %}
-                    {% endfor %}#}
+                    {% endfor %}
                 </div>
                 <div class="box input">
                     <form onsubmit="return sender();" method="post">
