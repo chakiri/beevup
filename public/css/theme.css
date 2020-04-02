@@ -778,6 +778,10 @@ h6 {
   border: 4px solid #fff;
 }
 
+#chatPlateform h6{
+  margin: 0;
+}
+
 #chatPlateform .sidebar ul {
   padding: 0;
 }

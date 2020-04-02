@@ -29,19 +29,25 @@
                         {% endfor %}
                     {% endfor %}
 
-                    <ul class="channels">
-                        {% for topic in topics %}
-                            <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{{ notifs[topic.name] ?? null }}</div></a></li>
-                        {% endfor %}
-                    </ul>
+                    <div id="channels">
+                        <h6><strong>Canaux</strong></h6>
+                        <ul class="channels">
+                            {% for topic in topics %}
+                                <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{{ notifs[topic.name] ?? null }}</div></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                    <ul class="users">
-                        {% for user in users %}
-                            {% if user != app.user %}
-                                <li><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><span>{{ user.profile.firstname|capitalize }} </span><div class="badge badge-primary badge-pill"></div></a></li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                    <div id="privates" class="mt-5">
+                        <h6 ><strong>Messages directs</strong></h6>
+                        <ul class="users">
+                            {% for user in users %}
+                                {% if user != app.user %}
+                                    <li><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><span>• {{ user.profile.firstname|capitalize }} </span><div class="badge badge-primary badge-pill"></div></a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-9 col-sm-8 chat mt-3">
