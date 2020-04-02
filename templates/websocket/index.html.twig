@@ -17,6 +17,7 @@
                         <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h4>
                         <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
                     </div>
+                    <h6><i class="fa fa-commenting-o" aria-hidden="true"></i><strong> Fils de discussion</strong></h6>
                     <hr>
 
                     {# Get nb of notifications by topic#}{#
@@ -30,21 +31,30 @@
                     {% endfor %}#}
 
                     <div id="channels">
-                        <h6><strong>Canaux</strong></h6>
+                        <h6>Canaux</h6>
                         <ul class="channels">
                             {% for topic in topics %}
-                                <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><span>#{{ topic.name }} </span><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
+                                {% if topic.name == subject %}
+                                    <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
+                                {% else %}
+                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
 
                     <div id="privates" class="mt-5">
-                        <h6 ><strong>Messages directs</strong></h6>
+                        <h6 >Messages directs</h6>
                         <ul class="users">
                             {% for user in users %}
                                 {% if user != app.user %}
-                                    <li><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><span>• {{ user.profile.firstname|capitalize }} </span><div class="badge badge-primary badge-pill"></div></a></li>
+                                    {% if user.id == subject %}
+                                        <li class="active"><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p><div class="badge badge-primary badge-pill"></div></a></li>
+                                    {% else %}
+                                        <li><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p><div class="badge badge-primary badge-pill"></div></a></li>
+                                    {% endif %}
                                 {% endif %}
+
                             {% endfor %}
                         </ul>
                     </div>

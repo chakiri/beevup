@@ -754,7 +754,7 @@ h6 {
 
   /* Chat Section
   --------------------------------*/
-#chatPlateform {
+#chatPlateform .row{
   width: 100%;
   height: 100%;
  /* position: fixed;*/
@@ -762,8 +762,7 @@ h6 {
 
 #chatPlateform .sidebar{
   background: #004a99;
-  position: fixed;
-  height: 100%;
+  position: relative;
   color: white;
   padding: 30px;
 }
@@ -779,7 +778,7 @@ h6 {
 }
 
 #chatPlateform h6{
-  margin: 0;
+  margin: 0
 }
 
 #chatPlateform .sidebar ul {
@@ -792,6 +791,14 @@ h6 {
   padding: 5px;
 }
 
+#chatPlateform .sidebar a{
+  color: inherit;
+}
+
+#chatPlateform .sidebar .active{
+  background-color: #2371c4;
+}
+
 #chatPlateform .sidebar a:link{
   text-decoration: none;
   color: white;
@@ -802,10 +809,6 @@ h6 {
   text-decoration: none;
   font-weight: 400;
   letter-spacing: 1.5px;
-}
-
-#chatPlateform .chat{
-  margin: 0 0 0 22em;
 }
 
 #chatPlateform .message {
@@ -1814,8 +1817,5 @@ h6 {
 }
 
 @media (max-width: 640px) {
-  #chatPlateform .chat {
-    margin: 0 0 0 14em;
-  }
 
 }
