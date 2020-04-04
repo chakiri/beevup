@@ -3,7 +3,7 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" {% if isPrivate == true %} data-from="{{ app.user.id }}" {% else %} data-from="{{ subject }}" {% endif %}>
+    <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}">
         <div class="row">
             <div class="col-lg-3 col-sm-4 sidebar">
                 <div class="pt-3">
@@ -35,9 +35,9 @@
                         <ul class="channels">
                             {% for topic in topics %}
                                 {% if topic.name == subject %}
-                                    <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
+                                    <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p></a></li>
                                 {% else %}
-                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p><div class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</div></a></li>
+                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</span></p></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -49,9 +49,9 @@
                             {% for user in users %}
                                 {% if user != app.user %}
                                     {% if user.id == subject %}
-                                        <li class="active"><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p><div class="badge badge-primary badge-pill"></div></a></li>
+                                        <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
                                     {% else %}
-                                        <li><a data-user={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p><div class="badge badge-primary badge-pill"></div></a></li>
+                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} <span class="badge badge-primary badge-pill"></span></p></a></li>
                                     {% endif %}
                                 {% endif %}
 

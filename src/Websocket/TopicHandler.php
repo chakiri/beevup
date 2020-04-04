@@ -38,10 +38,8 @@ class TopicHandler implements WampServerInterface
         if ($entryData['isprivate'] == true){
             foreach ($this->subscribed as $key => $user) {
                 //If reciever is connected
-                if ($key == $entryData['subject']){
-                    $user->broadcast($entryData);
                 //Send it also to proper user
-                }elseif($key == $entryData['from']){
+                if ($key == $entryData['subject'] || $key == $entryData['from']){
                     $user->broadcast($entryData);
                 }
             }
@@ -52,19 +50,19 @@ class TopicHandler implements WampServerInterface
             }
             $topic = $this->subscribed[$entryData['subject']];
 
-            // re-send the data to all the clients subscribed to that category
+            // re-send the data to all the clients subscribed to that topic
             $topic->broadcast($entryData);
 
-            //Send notification to all topics
-            foreach ($this->subscribed as $otherTopic){
-                if ($otherTopic !== $topic){
-                    $notifData = [
-                        'topicFrom' => $entryData['subject'],
-                        'type' => 'notification'
-                    ];
-                    $otherTopic->broadcast($notifData);
+            //Send notification to all connected user
+            foreach ($this->subscribed as $key => $user){
+                //Send only to user not topics
+                if ($key !== $entryData['subject'] && is_int($key) == true){
+                    echo ("notif à tous les users $key");
+                    $user->broadcast($entryData);
                 }
             }
+
+            // !! Send only to users who have this topic !! //
         }
 
     }

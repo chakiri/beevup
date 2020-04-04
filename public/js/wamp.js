@@ -1,34 +1,56 @@
-var from = document.getElementById("chatPlateform").dataset.from;
-var subject = document.getElementById("chatPlateform").dataset.subject;
+var from = document.getElementById("chatPlateform").dataset.from;           //current User
+var subject = document.getElementById("chatPlateform").dataset.subject;     //Subject send to
+var isPrivate = document.getElementById("chatPlateform").dataset.private;   //If private chat
 var message = document.getElementById("message").value;
 var currentUserFirstname = document.getElementById("userStatus").dataset.userfirstname;
 var enterKeyCode = 13;
 
-console.log('current subject : ' + from);
+console.log('current user : ' + from);
 updateScroll();
 
 ab.debug(true, true);
 var conn = new ab.Session('ws://127.0.0.1:8080',
     function() {
         console.log('Connection established on ' + subject);
+        //Subscribe user
         conn.subscribe(from, function(current, data) {
-            if (data.type === 'notification'){
-                console.log('Notif from topic : ' + data.topicFrom);
-                addNotifToTopic(data.topicFrom);
-                //Save notif not saw by user on topic
-                saveNotifToUser(data.topicFrom);
-            }else{
-                // This called when subscribe callback is executed
-                console.log('New message published by ' + data.user + ' to ' + data.subject + ' : ' + data.message);
+            // This called when subscribe callback is executed
+            console.log('New message published by ' + data.user + ' to ' + data.subject + ' : ' + data.message);
+            //If is private chat
+            if (data.isprivate == true){
                 //Add message if it's the sender or if it's subject page
                 if (data.from === subject || data.from === from){
                     addMessageToCanvas(data);
                 }else{
                     //send notification
-                    console.log("send notif");
+                    console.log("notif to user " +data.from);
+                    addNotification(data.from);
+                }
+            }else{
+                //If it's topics
+                if (data.subject == subject){
+                    addMessageToCanvas(data);
+                }else{
+                    //send notification
+                    console.log("notif to topic " +data.subject);
+                    addNotification(data.subject);
                 }
             }
         });
+
+        //If topic, subscribe also topic
+        if (isPrivate != true){
+            conn.subscribe(subject, function(current, data) {
+                //If it's topics
+                if (data.subject == subject){
+                    addMessageToCanvas(data);
+                }else{
+                    //send notification
+                    console.log("notif to topic " +data.subject);
+                    addNotification(data.subject);
+                }
+            });
+        }
     },
     function() {
         console.warn('WebSocket connection closed');
@@ -52,14 +74,18 @@ function addMessageToCanvas(data){
     updateScroll();
 }
 
-function addNotifToTopic(topic){
-    var channel = document.querySelector('[data-channel~="' + topic +'"]');
-    var badge = channel.querySelector(".badge");
-    var notifs = +badge.textContent;
+function addNotification(from){
+    var channel = document.querySelector('[data-channel~="' + from +'"]');
 
-    var newNotifs = notifs + 1;
+    //If channel exist in user channels
+    if (channel !== null){
+        var badge = channel.querySelector(".badge");
+        var notifs = +badge.textContent;
 
-    badge.innerHTML = newNotifs ;
+        var newNotifs = notifs + 1;
+
+        badge.innerHTML = newNotifs ;
+    }
 }
 
 function updateScroll(){
