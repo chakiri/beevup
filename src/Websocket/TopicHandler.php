@@ -48,16 +48,14 @@ class TopicHandler implements WampServerInterface
             if (!array_key_exists($entryData['subject'], $this->subscribed)) {
                 return;
             }
-            $topic = $this->subscribed[$entryData['subject']];
-
+            //$topic = $this->subscribed[$entryData['subject']];
             // re-send the data to all the clients subscribed to that topic
-            $topic->broadcast($entryData);
+            //$topic->broadcast($entryData);
 
             //Send notification to all connected user
             foreach ($this->subscribed as $key => $user){
                 //Send only to user not topics
-                if ($key !== $entryData['subject'] && is_int($key) == true){
-                    echo ("notif à tous les users $key");
+                if (/*$key != $entryData['subject'] && */is_int($key) == true){
                     $user->broadcast($entryData);
                 }
             }

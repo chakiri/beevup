@@ -23,8 +23,8 @@ function sender() {
     return false;
 }
 
-//Function ajax to send data to php for saving not seeied message
-function saveNotifToUser(topic){
+//Function ajax to send data to php for saving not seeied messages
+function saveNotification(topic){
     var currentUserId = document.getElementById("notifications").dataset.userid;
     var url = document.getElementById("notifications").dataset.url;
     $.ajax({

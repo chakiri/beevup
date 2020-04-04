@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserNotifiedRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Notification")
  */
 class Notification
 {
@@ -28,8 +28,14 @@ class Notification
     private $nbMessages;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $subject;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topic")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $topic;
 
@@ -63,6 +69,18 @@ class Notification
         return $this;
     }
 
+    public function getSubject(): ?User
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(?User $subject): self
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
     public function getTopic(): ?Topic
     {
         return $this->topic;
@@ -74,4 +92,6 @@ class Notification
 
         return $this;
     }
+
+
 }
