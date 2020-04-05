@@ -25,10 +25,6 @@ class UserAdminController extends EasyAdminController
     {
         $currentUser = $this->getUser();
         $user->setStore($currentUser->getStore());
-        if($currentUser->getCompany()!= null )
-        {
-            $user->setCompany($currentUser->getCompany());
-        }
         $this->updatePassword($user);
         $this->updateRoles($user);
         parent::persistEntity($user);
@@ -41,10 +37,6 @@ class UserAdminController extends EasyAdminController
     {
         $currentUser = $this->getUser();
         $user->setStore($currentUser->getStore());
-        if($currentUser->getCompany()!= null )
-        {
-            $user->setCompany($currentUser->getCompany());
-        }
         $this->updatePassword($user);
         parent::updateEntity($user);
         

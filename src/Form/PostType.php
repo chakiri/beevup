@@ -6,6 +6,8 @@ use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PostType extends AbstractType
 {
@@ -13,8 +15,18 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
-            ->add('category')
+            ->add('description', TextareaType::class, [
+                'attr' => ['placeholder' => 'Description'],
+            ])
+            ->add('category', ChoiceType::class, [
+                'choices'  => [
+                    'Informations' => 'Informations',
+                    'Opportunities' => 'Opportunities',
+                    'Recommendations' => 'Recommendations',
+                    'Emploi' => 'Emploi',
+                ],
+                ])
+               
         ;
     }
 

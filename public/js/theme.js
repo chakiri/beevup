@@ -182,57 +182,72 @@
   * publish a new post
   */
  $('.add-post').click(function(){
-  $('.modal').modal();
+  $('.modal-add-post').modal();
   url = $(this).attr('data-target');
   $.get(url, function (data) {
-    $('.modal-content').html(data);
-    $('#modal1').modal('open');
+    $('.modal-post-content').html(data);
+    //$('#modal1').modal('open');
   });
  })
 
  /* end publish post */
+
   $('.like-button').click(function(){
     var postId = $(this).attr('data-post-id');
-    var postLikesNumber = $(this).attr('data-post-likes-number');
-    url = 'post/'+postId+'/update-post-likes';
+    var postLikesNumber = Number($('#post-likes-number-'+postId).text());
+    var newLikeStructure = '';
+    var action = '';
+    if($(this).hasClass('post-liked')== false)
+    {
+      action = 'add';
+      $(this).addClass('post-liked');
+      url = 'post/'+postId+'/update-post-likes/add';
+      var dataPath = $('#post-'+postId+'-likes-number').attr('data-path');
+      newLikeStructure = `<span id="likes-list-`+postId+`" 
+      class="post-likes"  
+      data-post="`+postId+`"  
+      data-toggle="modal" 
+      data-target="#LikesList"
+      data-whatever="@mdo"
+      data-path="`+dataPath+`">
+      <i id="post-likes-icon-`+postId+`" class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
+                            <span id ="post-likes-number-`+postId+`" class="post-likes-number">1</span></span>`;
+    }
+    else{
+      action = 'remove';
+      $(this).removeClass('post-liked');
+      url = 'post/'+postId+'/update-post-likes/remove';
+    }
     $.get(url, function (data) {
-      $('#post-likes-number-'+postId).text(Number(postLikesNumber) + 1);
-      $('#like-button-'+postId).addClass('text-primary')
+      if(action =='add') {
+         if(Number(postLikesNumber) > 0) {
+          $('#post-likes-number-'+postId).text(Number(postLikesNumber) + 1);
+          } else {
+            $('#post-'+postId+'-likes-number').prepend(newLikeStructure);
+        }
+    }  else {
+      if(Number(postLikesNumber) - 1 == 0) {
+        $('#post-likes-icon-'+postId).remove();
+        $('#post-likes-number-'+postId).remove();
+      } else {
+      $('#post-likes-number-'+postId).text(Number(postLikesNumber) - 1);
+      }
+    }
     });
     
   })
- /* like button*/
+
 
  /* comment button*/
  $('.comment-button').click(function(){
   var postId = $(this).attr('data-post-id');
   $('#comment-section-'+postId).removeClass('hidden').addClass('visible');
+  $('#comments-section-'+postId).removeClass('hidden').addClass('visible');
  })
  /* end comment*/
- $( '.add-comment-form' ).submit(function( event ) {
-  var postId = $(this).attr('data-post-id');
-   var comment = $("#post-add-comment-"+postId).val();
-   var commentStructure = `
-   <div class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
-    <div class="user-image col-1" style="flot:left">
-      <a href='#'>
-          <img class='media-object photo-profile' src='http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g' width='32' height='32' alt=''>
-        </a>
-    </div>
-    <div class='comment col-8'  style='flot:left'>
-        <a href='#' class='comment-user'><p>Nihel Loukil</p></a> 
-        <a href='#' class='comment-time'>à l\'instant</a>
-        <div class='comment-text'>`
-        +comment+
-        `</div>
-    </div>
-</div>`
-   $('#comments-section-'+postId).prepend(commentStructure);
-   $(".post-add-comment").val('');
-   event.preventDefault();
-});
 
- /* end like button*/
+
+
  var span = $('<span>').css('display','inline-block')
 .css('word-break','break-all').appendTo('body').css('visibility','hidden');
  function initSpan(textarea){
@@ -240,6 +255,7 @@
       .width(textarea.width())      
       .css('font',textarea.css('font'));
 }
+
  $('textarea').on({
   input: function(){
      var text = $(this).val();      
@@ -254,17 +270,165 @@
      //This ensures the correct behavior when user types Enter 
      //into an input field
       if(e.which == 13 ) {
+    
+      var postId = $(this).attr('data-post-id');
       $(this).closest("form").submit();
-     e.preventDefault();
-     }
+      var url = $('.add-comment-form').attr('data-target')+'/'+postId;
+      var userName = $(this).attr('data-user');
+      var currentCommentNumber = parseInt($("#post-"+postId+'-comments-number').text());
+      var newCommentsNumber = 0;
+      newCommentsNumber = currentCommentNumber + 1;
+      if(newCommentsNumber > 1)
+       {
+          $('#post-'+postId+'-comments-number').text(newCommentsNumber);
+       } else {
+        newCommentsNumber = 1;
+        var numberOfCommentsStructure = `<span id="post-`+postId+`-comments-number">` +newCommentsNumber+ ` </span>
+                                          commentaire`;
+        $('#comments-button-'+postId).prepend(numberOfCommentsStructure);
+      }
+       
+      var comment = $("#post-add-comment-"+postId).val();
+      var commentUserImg = $("#current-user-img-"+postId).attr('data-img');
+      
+       
+      if(comment != '')
+      {
+          $.ajax({
+            type: "POST",
+            url: url,
+            data: "comment=" + comment,
+            success: function(data) {
+              $(".post-add-comment").val('');
+              var newCommentId = data;
+              var target = $('.delete-comment-btn').attr('data-target');
+              if(target != null && target != undefined) {
+                target = target.replace(/[0-9]+/, newCommentId);
+              }
+              var commentStructure = `
+                  <div id='comment-id-`+newCommentId+`' class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
+                    <div class="user-image col-1" style="flot:left">
+                      <a href='#'>
+                          <img class='media-object photo-profile' src='/images/profil/photo/`+commentUserImg+`'  width='32' height='32' alt=''>
+                        </a>
+                    </div>
+                    <div class='comment col-10'  style='flot:left'>
+                        <a href='#' class='comment-user'><p>`+userName+`</p></a> 
+                        <a href='#' class='comment-time'>à l\'instant</a>
+                        <div class='comment-text'>`
+                        +comment+
+                        `</div>
+                    </div>
+                    <div class='delete-comment col-1'>
+                      <button class='delete-comment-btn' data-comment-id='`+newCommentId+`' data-post-id='`+postId+`' data-target="`+target+`">
+                          <i class='fa fa-times' aria-hidden='true'></i>
+                      </button>
+                    </div>
+                </div>`
+          $('#comments-section-'+postId).prepend(commentStructure);
+          $("#post-add-comment-"+postId).removeAttr('style');
+            }
+          });
+    }
+    e.preventDefault();
+  }
   }
 
  });
  $('.comments-link').click(function(e){
-  e.preventDefault();
-  var postId = $(this).attr('data-post-id');
-  $('#comments-section-'+postId).removeClass('hidden').addClass('visible');
+    e.preventDefault();
+    var postId = $(this).attr('data-post-id');
+    $('#comments-section-'+postId).removeClass('hidden').addClass('visible');
+ });
+
+ $('.delete-post-btn').click(function(e){
+ 
+ var postId = $(this).attr('data-post-id');
+ var url = $(this).attr('data-target');
+ 
+  $.get(url, function (data) {
+   $('.modal').modal('hide');
+   $('#post-id-'+postId).addClass('post-deleted');
+  });
+
+ });
+ $('.delete-post-btn-lg').click(function(e){
+   var postId = $(this).attr('data-post')
+   $('#modal-delete-post-'+postId).modal();
  })
+
+ $( '.add-comment-form' ).submit(function( event ) {
+  event.preventDefault();
+});
+
+$('body').on('click', '.delete-comment-btn', function () {
+  var commentId = $(this).attr('data-comment-id');
+  var postId = $(this).attr('data-post-id');
+  var url = $(this).attr('data-target');
+  var commentNumber = parseInt($('#post-'+postId+'-comments-number').text()) - 1;
+   if(commentNumber > 0) {
+    $('#post-'+postId+'-comments-number').text(commentNumber);
+  } else {
+    $('#comments-button-'+postId).empty();
+  }
+  $('#comment-id-'+commentId).remove();
+  $.get(url, function (data) {
+ });
+})
+
+
+/**
+ * filter News
+ */
+
+ $('#news-filter').change(function() {
+ 
+  var selectedItem = $('#news-filter').val();
+  $(".post").each(function(){
+
+    if(selectedItem == 'LastPublished'){
+      if ($(this).attr('data-post-pusblished') > 1)
+      {
+        $(this).addClass('hide-item');
+      } else {
+        $(this).removeClass('hide-item');
+      }
+    } else if (selectedItem == 'All'){
+      $(this).removeClass('hide-item');
+
+    }
+    else{
+    if ($(this).attr('data-category') != selectedItem)
+    {
+      $(this).addClass('hide-item');
+    }
+    else{
+      $(this).removeClass('hide-item');
+    }
+    }
+});
+});
+
+$('.btn-show-more').click(function(){
+   $('.post-hidden').removeClass('post-hidden');
+});
+$('.dashboard-notification').click(function(){
+  var notificationNumber = $(this).attr('data-notif');
+  if(notificationNumber > 0) {
+    $('.bell-badge').hide();
+    $.get('/updateNotifications', function (data) {
+    });
+  }
+})
+$('body').on('click', '.post-likes', function () {
+
+  
+  var url = $(this).attr('data-path');
+  $.get(url, function (data) {
+   
+    $('.modal-likes-list').html(data);
+  });
+})
 
 })(jQuery);
 

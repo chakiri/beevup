@@ -1,0 +1,26 @@
+<div class="recommandations">
+  <h4>Mes recommandations</h4>
+  {% if recommandations %}
+      {% for recommandation in recommandations %}
+          <div class="box">
+              <div class="row">
+                  <div class="col-2">
+                      <div class="avatar">
+                          <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
+                      </div>
+                  </div>
+                  <div class="col-9">
+                      <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
+                      <p class="text-muted">{{recommandation.message }}</p>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  {% else %}  
+      <div class="box">
+          <div class="row">
+              <p class="text-muted">Acune recommandation </p>
+          </div>
+      </div> 
+   {% endif %}                               
+</div>

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -88,11 +90,17 @@ class User implements UserInterface
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="user")
+     */
+    private $post;
+
     public function __construct()
     {
         $this->isValid = false;
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
+        $this->post = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +262,37 @@ class User implements UserInterface
     {
        return strval( $this->getId() );
       
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    public function addPost(PostLike $post): self
+    {
+        if (!$this->post->contains($post)) {
+            $this->post[] = $post;
+            $post->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(PostLike $post): self
+    {
+        if ($this->post->contains($post)) {
+            $this->post->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
+            }
+        }
+
+        return $this;
     }
     
 }
