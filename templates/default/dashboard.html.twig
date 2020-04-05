@@ -31,16 +31,15 @@
 
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="box">
+                    <div class="box dashboard-box">
                         <div class="row avatar">
                         {% if app.user.profile.photo %}
-                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
                          {% else %}
-                            <img src="/images/default_user.png" class="img-fluid" alt="">
+                            <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
                         {% endif %}
                         </div>
                         <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                        {#<p class="mb-3"> {{ app.user.profile.function.name|capitalize }}</p>#}
                         <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
                     </div>
 
@@ -78,21 +77,59 @@
                     <div class="box dashboard-header">
                         <div class="row">
                             <div>
-                            <button type="button" 
-                                    class="btn btn-primary btn-sm btn-radius add-post"
-                                    data-toggle="modal"
-                                    data-target="{{ path('post_create') }}"
-                                    data-whatever="@mdo" >
-                                <i class="fa fa-pencil-square-o"></i> Commencer un post
-                            </button>
+                                <button type="button" 
+                                        class="btn btn-primary btn-sm btn-radius add-post"
+                                        data-toggle="modal-add-post"
+                                        data-target="{{ path('post_create') }}"
+                                        data-whatever="create-post" >
+                                    <i class="fa fa-pencil-square-o"></i> Commencer un post
+                                </button>
+                                <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content modal-post-content">
+                                            <div class="text-center">
+                                                <div class="spinner-grow" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="dashboard-header-buttons">
-                           
-                              
-                                <a href="#" class="notification">
+                               <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
                                     <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
-                                    <span class="badge">5</span>
+                                    {% if notificationNumber > 0 %}
+                                      <span class="badge bell-badge">{{notificationNumber}}</span>
+                                    {% endif %}
                                 </a>
+                                {% if notificationNumber > 0 %}
+                                    <div class="dropdown-menu notification-dropdown">
+                                        {% for notification in dashboardNotifications %} 
+                                            <div class="notification-item clearfix">
+                                                <div class="user-photo">
+                                                    <img style="float:left" src="/images/profil/photo/{{ notification.user.profile.photo }}" class="user-profil-sm" alt="">
+                                                </div>
+                                                <div class="notification-text">
+                                                    <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
+                                                      {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }} 
+                                                    </a> 
+                                                    {% if notification.type ==  'comment' %} 
+                                                        {% if notification.post.distinctUserCommentNumber > 1  %}
+                                                           et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                        {% else %}
+                                                           a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                        {% endif %} 
+                                                    {% else %} 
+                                                    a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                    {% endif %} 
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    
+                                    </div>
+                                {% endif %}
                                 <a href="#" class="notification">
                                     <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
                                     <span class="badge">10</span>
@@ -101,83 +138,33 @@
                                     <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
                                     <span class="badge">3</span>
                                 </a>
+                               
                             </div>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                </div>
-                                </div>
-                              </div>
+                            
                         </div>
                     </div>
                     {% if posts and postNumber > 0 %}
                     <div class="box">
-                        <h4>Fil d'actualité</h4>
-                        <div class="posts">
-                            {% for post in posts %}
-                                <div class="row post">
-                                    <div class="col-1">
-                                        <div class="user-profil">
-                                            {% if post.user.profile.photo is empty %}
-                                                <img src="/images/default_user.png" class="user-profil-sm" alt="">
-                                            {% else %}
-                                                <img src="/images/profil/photo/{{ post.user.profile.photo }}" class="user-profil-sm" alt="">
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="col-11">
-                                        <div class="lead">
-                                            <strong class="post-user">{{post.user.profile.firstname}} {{post.user.profile.lastname}}</strong>
-                                            <strong class="post-created-at">{{post.createdAt|date("d/m/Y")}}</strong>
-                                        </div>
-                                        <div class="lead post-category"><i class="fa fa-list-alt" aria-hidden="true"></i> {{post.category|capitalize}}</div>
-                                        <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
-                                        <div class="lead post-description">{{post.description}}</div>
-                                        <div class="like-number">
-                                            <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
-                                            <span id ="post-likes-number-{{post.id}}" class="post-likes-number">{{post.likesNumber}}</span>
-                                            <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">3 commentaires</a></span>
-                                        </div>
-
-                                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
-                                        <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
-                                        <button id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</button>
-                                        <button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>
-                                        
-                                        <div id = "comment-section-{{post.id}}" class="add-new-comment hidden">
-                                            <form class="add-comment-form" data-post-id = "{{post.id}}">
-                                                <img class="media-object photo-profile" style="float:left" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
-                                                <textarea id ="post-add-comment-{{post.id}}" class="post-add-comment input-radius" placeholder="Ajouter un commentaire"></textarea>
-                                             </form>
-                                        </div>
-                                        
-                                        <div id ="comments-section-{{post.id}}"  class="comments-section hidden">
-                                            <div class="row user-comment">
-                                                <div class="user-image col-1">
-                                                    <a href="#">
-                                                        <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
-                                                    </a>
-                                                </div>
-                                                <div class="comment col-11">
-                                                    <a href="#" class="comment-user"><p>Nihel Loukil</p></a> 
-                                                    <a href="#" class="comment-time"><i class="fa fa-calendar mr-1"></i>51 mins</a>
-                                                    <div class="comment-text">
-                                                        Congratulations to you! Your dedication and perseverance shine bright, Dr. Jones!
-                                                    </div>
-                                                  </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <h4 class="col-3">Fil d'actualité</h4>
+                            <div class="col-7">
+                                <div class="filter-dropdown">
+                                
+                                    <select id="news-filter">
+                                        <option value="All">Tous</option>
+                                        <option value="Informations">Informations</option>
+                                        <option value="LastPublished">Derniers arrivés</option>
+                                        <option value="Opportunities">Opportunités</option>
+                                        <option value="Recommendations">Recommandations</option>
+                                        <option value="Employment">Emploi</option>
+                                    </select>
                                 </div>
-                            {% endfor %}
-                            <div class="row">
-                                <button class="btn-shadow btn-wide btn-pill btn btn-focus">
-                                    <span class="badge badge-dot badge-dot-lg badge-warning badge-pulse">Badge</span>
-                                      Afficher plus de postes
-                                </button>
                             </div>
                         </div>
+                        {% include 'dashboard/posts.html.twig' %}
+                        
+
                      </div>   
                     {% endif %}                   
                     <div class="box">
@@ -222,32 +209,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="recommandations">
-                        <h4>Mes recommandations</h4>
-                        {% if recommandations %}
-                            {% for recommandation in recommandations %}
-                                <div class="box">
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <div class="avatar">
-                                                <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-9">
-                                            <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
-                                            <p class="text-muted">{{recommandation.message }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}  
-                            <div class="box">
-                                <div class="row">
-                                    <p class="text-muted">Acune recommandation </p>
-                                </div>
-                            </div> 
-                         {% endif %}                               
-                    </div>
+                    {% include 'dashboard/recommandations.html.twig'%}
             </div>
         </div>
     </section>

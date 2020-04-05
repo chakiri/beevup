@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/myaccount/{id}", name="profile_show")
+     * @Route("/account/{id}", name="profile_show")
      */
     public function show(Profile $profile)
     {
@@ -22,7 +22,7 @@ class ProfileController extends AbstractController
         ]);
     }
     /**
-     * @Route("/myaccount/{id}/edit", name="profile_edit")
+     * @Route("/account/{id}/edit", name="profile_edit")
      */
     public function edit(Profile $profile, EntityManagerInterface $manager, Request $request)
     {

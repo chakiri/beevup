@@ -60,14 +60,25 @@ class Post
     private $commentsNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post" , cascade={"persist", "remove"})
      */
     private $comment;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="post" , cascade={"persist", "remove"})
+     */
+    private $likes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $distinctUserCommentNumber;
 
     public function __construct()
     {
         $this->createdAt = new \Datetime();
         $this->comment = new ArrayCollection();
+        $this->likes = new ArrayCollection();
       
     }
 
@@ -195,6 +206,49 @@ class Post
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(PostLike $postLike): self
+    {
+        if (!$this->likes->contains($postLike)) {
+            $this->likes[] = $postLike;
+            $postLike->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(PostLike $postLike): self
+    {
+        if ($this->likes->contains($postLike)) {
+            $this->likes->removeElement($postLike);
+            // set the owning side to null (unless already changed)
+            if ($postLike->getPost() === $this) {
+                $postLike->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDistinctUserCommentNumber(): ?int
+    {
+        return $this->distinctUserCommentNumber;
+    }
+
+    public function setDistinctUserCommentNumber(?int $distinctUserCommentNumber): self
+    {
+        $this->distinctUserCommentNumber = $distinctUserCommentNumber;
 
         return $this;
     }

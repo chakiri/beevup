@@ -10,11 +10,7 @@
       </button>
     </div>
     <div class="card-body card-block">
-      {% for message in app.flashes('create-post-success') %}
-        <div class="alert alert-success">
-          {{ message }}
-        </div>
-      {% endfor %}
+  
       <div class="card-body card-block">
         {{ form_start(PostForm, {'action': path('post_create')}) }}
             <div class="form-group">

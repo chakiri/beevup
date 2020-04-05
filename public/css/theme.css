@@ -63,7 +63,18 @@ h6 {
 /* end */
 
 /* Back to top button */
-
+.hide-item{
+  display:none !important;
+}
+.post-hidden{
+  display:none;
+}
+.post-deleted{
+  display:none;
+}
+.link-to-company{
+  color:#000;
+}
 .btn-radius {
   border-radius:10px;
 }
@@ -84,10 +95,15 @@ h6 {
   transition: background 0.5s;
   z-index: 11;
 }
-
+.lead{
+  font-size:14px;
+}
 .back-to-top i {
   padding-top: 12px;
   color: #fff;
+}
+p.text-muted {
+  font-size: 13px;
 }
 
 /* Prelaoder */
@@ -622,17 +638,17 @@ h6 {
 #company .box-image{
   overflow: hidden;
   border-radius: 10px;
-  margin: 0 10px 40px 10px;
+  margin: 0 10px 20px 10px;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
 }
 
 #company .box {
-  padding: 30px;
+  padding: 15px;
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  margin: 0 10px 40px 10px;
+  margin: 0 10px 10px 10px;
   background: #fff;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
@@ -670,6 +686,10 @@ h6 {
 
 /* Dashboard
 --------------------------------*/
+.notification-dropdown{
+  min-width: 450px;
+  padding:0;
+}
 
 #dashboard .box-image{
   overflow: hidden;
@@ -680,9 +700,8 @@ h6 {
 }
 
 #dashboard .box {
-  padding: 30px;
+  padding: 15px;
   position: relative;
-  overflow: hidden;
   border-radius: 10px;
   margin: 0 0 20px 0;
   background: #fff;
@@ -768,13 +787,26 @@ h6 {
 }
 .dashboard-header{
   padding:15px 30px !important;
+  background-color:#fff;
 }
 .dashboard-header-buttons{
   position:relative;
   top:5px;
 }
-
-
+.dashboard-profil-img{
+  margin:0 auto;
+}
+.dashboard-box{
+  text-align:center;
+}
+.trophy-icon{
+  font-size:25px;
+  color:gold;
+}
+.user-company-name{
+  color:rgba(0,0,0,.6);
+  font-size:12px;
+}
   /* Chat Section
   --------------------------------*/
 #chatPlateform {
@@ -917,7 +949,8 @@ padding-right: 10px;
   font-weight:bold;
 }
 .post-created-at{
-  font-size:12px;
+  font-size:11px;
+  color:#ccc;
 }
 .post-category{
   font-size:12px;
@@ -938,6 +971,25 @@ padding-right: 10px;
   font-size:12px;
   border-radius:5px;
   border-color:#eee;
+  margin-left:10px;
+}
+.photo-profile {
+  margin-top: 1px;
+  border-radius: 5px;
+}
+.delete-comment-btn {
+  font-size: 12px;
+  color: #ccc;
+  background-color: #f3f6f8;
+  border: none;
+}
+button.delete-post {
+  border: none;
+  background-color: #fff;
+  font-size: 16px;
+}
+.post-liked{
+  color:blue !important;
 }
 .comment-user {
   font-size:12px;
@@ -961,6 +1013,7 @@ padding-right: 10px;
   width:45px;
   height:45px;
   border:1px solid #eee;
+  border-radius: 8px;
 }
 textarea {
   width:200px;
@@ -1009,6 +1062,7 @@ textarea {
   font-size: 25px;
   color:#0b6bd3
 }
+
 /*end posts section*/
 
 /* Service Section
@@ -2112,5 +2166,17 @@ textarea {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+}
+.notification-item{
+  border-bottom:1px solid #ccc;
+  padding:10px;
+}
+.post-likes-list{
+  padding:10px;
+}
+.post-likes-user{
+  font-size: 14px;
+  top: 5px;
+  position: relative;
 }
 /********/
