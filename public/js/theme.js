@@ -302,8 +302,14 @@
               $(".post-add-comment").val('');
               var newCommentId = data;
               var target = $('.delete-comment-btn').attr('data-target');
+             
               if(target != null && target != undefined) {
                 target = target.replace(/[0-9]+/, newCommentId);
+              }
+              else{
+                target = $('.post-add-comment').attr('data-target');
+                target = target.replace(/[0-9]+/, newCommentId);
+                
               }
               var commentStructure = `
                   <div id='comment-id-`+newCommentId+`' class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
