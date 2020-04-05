@@ -3,7 +3,7 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}">
+    <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}">
         <div class="row">
             <div class="col-lg-3 col-sm-4 sidebar">
                 <div class="pt-3">
@@ -13,22 +13,22 @@
                         {% else %}
                             <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
                         {% endif %}
-                        <div id="notifications" data-current-userid="{{ app.user.id }}" data-url="{{ path('save_notification') }}" hidden></div>
+                        <div id="notifications" data-url="{{ path('save_notification') }}" hidden></div>
                         <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h4>
                         <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
                     </div>
                     <h6><i class="fa fa-commenting-o" aria-hidden="true"></i><strong> Fils de discussion</strong></h6>
                     <hr>
 
-                    {# Get nb of notifications by topic#}{#
-                    {% set notifs = {} %}
+                    {# Get nb of notifications by topic#}
+                    {% set notificationsTopics = {} %}
                     {% for topic in topics %}
-                        {% for notifTopic in notifTopics %}
-                            {% if notifTopic.topic.name == topic.name %}
-                                {% set notifs = notifs|merge({ (topic.name) : notifTopic.nbMessages }) %}
+                        {% for notification in notifications %}
+                            {% if notification.topic != null and notification.topic.name == topic.name %}
+                                {% set notificationsTopics = notificationsTopics|merge({ (topic.name) : notification.nbMessages }) %}
                             {% endif %}
                         {% endfor %}
-                    {% endfor %}#}
+                    {% endfor %}
 
                     <div id="channels">
                         <h6>Canaux</h6>
@@ -37,11 +37,22 @@
                                 {% if topic.name == subject %}
                                     <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p></a></li>
                                 {% else %}
-                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{#{{ notifs[topic.name] ?? null }}#}</span></p></a></li>
+                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{{ notificationsTopics[topic.name] ?? null }}</span></p></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
+
+                    {# Get nb of notifications by user#}
+                    {% set notificationsUsers = {} %}
+                    {% for user in users %}
+                        {% for notification in notifications %}
+                            {% if notification.receiver != null and notification.receiver.id == user.id %}
+                                {% set notificationsUsers = notificationsUsers + {(user.id): notification.nbMessages} %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
 
                     <div id="privates" class="mt-5">
                         <h6 >Messages directs</h6>
@@ -51,7 +62,7 @@
                                     {% if user.id == subject %}
                                         <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
                                     {% else %}
-                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} <span class="badge badge-primary badge-pill"></span></p></a></li>
+                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
                                     {% endif %}
                                 {% endif %}
 

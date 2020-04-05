@@ -49,15 +49,15 @@ class WebsocketController extends AbstractController
         //Empty notification for this topic & user
         //$this->emptyNotificationTopic($topic, $manager, $notificationRepository);
 
-        //Get all notifications for other Topics
-        //$notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
+        //Get all notifications for User
+        $notifications = $notificationRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('websocket/index.html.twig', [
             'topics' => $topics,
             'users' => $users,
             'subject' => $subject,
             'messages' => $messages,
-            //'notifTopics' => $notifTopics,
+            'notifications' => $notifications,
             'isPrivate' => $request->get('_route') == 'chat_private'
         ]);
     }
@@ -131,14 +131,24 @@ class WebsocketController extends AbstractController
      */
     public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
     {
-        $userId = $_POST['userid'];
-        $topicName = $_POST['topic'];
+        $userId = $_POST['user'];
+        $subject = $_POST['subject'];
 
-        //Find objects
         $user = $userRepository->find($userId);
-        $topic = $topicRepository->findOneBy(['name' => $topicName]);
 
-        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        $receiver = null;
+        $topic = null;
+
+        //If subject is user
+        if (ctype_digit($subject) == true)   {
+            $receiver = $userRepository->findOneBy(['id' => $subject]);
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
+        }else{
+            //Find subject
+            $topic = $topicRepository->findOneBy(['name' => $subject]);
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        }
+
 
         if (!$notification){
             $notification = new Notification();
@@ -146,6 +156,7 @@ class WebsocketController extends AbstractController
             $notification
                 ->setUser($user)
                 ->setTopic($topic)
+                ->setReceiver($receiver)
                 ->setNbMessages(1)
                 ;
 

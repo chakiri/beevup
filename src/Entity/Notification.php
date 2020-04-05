@@ -31,7 +31,7 @@ class Notification
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $subject;
+    private $receiver;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Topic")
@@ -69,14 +69,14 @@ class Notification
         return $this;
     }
 
-    public function getSubject(): ?User
+    public function getReceiver(): ?User
     {
-        return $this->subject;
+        return $this->receiver;
     }
 
-    public function setSubject(?User $subject): self
+    public function setReceiver(?User $receiver): self
     {
-        $this->subject = $subject;
+        $this->receiver = $receiver;
 
         return $this;
     }

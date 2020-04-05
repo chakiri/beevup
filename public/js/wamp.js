@@ -18,37 +18,16 @@ var conn = new ab.Session('ws://127.0.0.1:8080',
             console.log('New message published by ' + data.user + ' to ' + data.subject + ' : ' + data.message);
             //If is private chat
             if (data.isprivate == true){
-                //Add message if it's the sender or if it's subject page
-                if (data.from === subject || data.from === from){
-                    addMessageToCanvas(data);
-                }else{
-                    //send notification
-                    console.log("notif to user " +data.from);
-                    addNotification(data.from);
-                }
+                handlePrivateMessage(data);
             }else{
-                //If it's topics
-                if (data.subject == subject){
-                    addMessageToCanvas(data);
-                }else{
-                    //send notification
-                    console.log("notif to topic " +data.subject);
-                    addNotification(data.subject);
-                }
+                handleTopicMessage(data);
             }
         });
 
         //If topic, subscribe also topic
         if (isPrivate != true){
             conn.subscribe(subject, function(current, data) {
-                //If it's topics
-                if (data.subject == subject){
-                    addMessageToCanvas(data);
-                }else{
-                    //send notification
-                    console.log("notif to topic " +data.subject);
-                    addNotification(data.subject);
-                }
+                handleTopicMessage(data);
             });
         }
     },
@@ -57,6 +36,31 @@ var conn = new ab.Session('ws://127.0.0.1:8080',
     },
     {'skipSubprotocolCheck': true}
 );
+
+
+function handlePrivateMessage(data){
+    //Add message if it's the sender or if it's subject page
+    if (data.from === subject || data.from === from){
+        addMessageToCanvas(data);
+    }else{
+        //send notification
+        console.log("notif to user " +data.from);
+        addNotification(data.from);
+        saveNotification(data.from);
+    }
+}
+
+function handleTopicMessage(data){
+    //If it's topics
+    if (data.subject == subject){
+        addMessageToCanvas(data);
+    }else{
+        //send notification
+        console.log("notif to topic " +data.subject);
+        addNotification(data.subject);
+        saveNotification(data.subject);
+    }
+}
 
 function addMessageToCanvas(data){
     const chatContent = document.getElementById("chat");

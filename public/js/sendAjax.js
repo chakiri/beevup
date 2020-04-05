@@ -24,15 +24,15 @@ function sender() {
 }
 
 //Function ajax to send data to php for saving not seeied messages
-function saveNotification(topic){
-    var currentUserId = document.getElementById("notifications").dataset.userid;
-    var url = document.getElementById("notifications").dataset.url;
+function saveNotification(subject){
+    var user = document.getElementById("chatPlateform").dataset.from;
+    var url = document.getElementById("chatPlateform").dataset.url;
     $.ajax({
         type: 'post',
         url: url,
         data: {
-            topic: topic,
-            userid: currentUserId,
+            user: user,
+            subject: subject
         },
         success: function (response) {
             console.log('notify ajax success');
