@@ -21,7 +21,7 @@ class WebsocketController extends AbstractController
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index(?Topic $topic, ?User $user, Request $request , MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository)
+    public function index(?Topic $topic, ?User $user, Request $request, EntityManagerInterface $manager, MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository)
     {
         //Verification passing bad subject to url
         if (!$topic && !$user){
@@ -34,23 +34,24 @@ class WebsocketController extends AbstractController
         //Get all users
         $users = $userRepository->findAll();
 
+        //Get all notifications for User
+        $notifications = $notificationRepository->findBy(['user' => $this->getUser()]);
+
         if ($request->get('_route') == 'chat_private'){
+            //Empty notification for user
+            $this->emptyNotification($user, $manager, $notificationRepository);
             //Assign user to the subject
             $subject = $user->getId();
             //Get all messages from receiver with limit
             $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
         }elseif($request->get('_route') == 'chat_topic'){
+            //Empty notification for topic
+            $this->emptyNotification($topic, $manager, $notificationRepository);
             //Assign topic to the subject
             $subject = $topic->getName();
             //Get all messages from topics with limit
             $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
         }
-
-        //Empty notification for this topic & user
-        //$this->emptyNotificationTopic($topic, $manager, $notificationRepository);
-
-        //Get all notifications for User
-        $notifications = $notificationRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('websocket/index.html.twig', [
             'topics' => $topics,
@@ -177,11 +178,16 @@ class WebsocketController extends AbstractController
 
     }
 
-    protected function emptyNotificationTopic(Topic $topic, $manager, $notificationRepository)
+    protected function emptyNotification($subject, EntityManagerInterface $manager, NotificationRepository $notificationRepository)
     {
         $user = $this->getUser();
 
-        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        if ($subject instanceof Topic){
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $subject]);
+
+        }elseif ($subject instanceof User){
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'receiver' => $subject]);
+        }
 
         if ($notification){
             $notification->setNbMessages(null);
