@@ -4,30 +4,28 @@
 namespace App\Websocket;
 
 
+use App\Entity\User;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class TopicHandler implements WampServerInterface
 {
 
     protected $clients;
 
-    protected $subscribedTopics = [];
+    protected $subscribed = [];
 
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
     }
 
-
-    public function onSubscribe(ConnectionInterface $conn, $topic)
+    public function onSubscribe(ConnectionInterface $conn, $subject)
     {
-        //if (!array_key_exists($topic->getId(), $this->subscribedTopics)){
-            $this->subscribedTopics[$topic->getId()] = $topic;
-            echo "Subscribing to $topic\n";
-        //}
-
-        //$this->clients->attach($conn);
+        echo "Subsribed : {$subject->getId()} \n";
+        //Push current connection by it's id as key
+        $this->subscribed[$subject->getId()] = $subject;
     }
 
     /**
@@ -36,24 +34,33 @@ class TopicHandler implements WampServerInterface
     public function onMessage($entry) {
         $entryData = json_decode($entry, true);
 
-        // If the lookup topic object isn't set there is no one to publish to
-        if (!array_key_exists($entryData['topic'], $this->subscribedTopics)) {
-            return;
-        }
-        $topic = $this->subscribedTopics[$entryData['topic']];
-
-        // re-send the data to all the clients subscribed to that category
-        $topic->broadcast($entryData);
-
-        //Send notification to all topics
-        foreach ($this->subscribedTopics as $otherTopic){
-            if ($otherTopic !== $topic){
-                $notifData = [
-                    'topicFrom' => $entryData['topic'],
-                    'type' => 'notification'
-                ];
-                $otherTopic->broadcast($notifData);
+        //If it's private chat
+        if ($entryData['isprivate'] == true){
+            foreach ($this->subscribed as $key => $user) {
+                //If reciever is connected
+                //Send it also to proper user
+                if ($key == $entryData['subject'] || $key == $entryData['from']){
+                    $user->broadcast($entryData);
+                }
             }
+        }else{
+            // If the lookup topic object isn't set there is no one to publish to
+            if (!array_key_exists($entryData['subject'], $this->subscribed)) {
+                return;
+            }
+            //$topic = $this->subscribed[$entryData['subject']];
+            // re-send the data to all the clients subscribed to that topic
+            //$topic->broadcast($entryData);
+
+            //Send notification to all connected user
+            foreach ($this->subscribed as $key => $user){
+                //Send only to user not topics
+                if (/*$key != $entryData['subject'] && */is_int($key) == true){
+                    $user->broadcast($entryData);
+                }
+            }
+
+            // !! Send only to users who have this topic !! //
         }
 
     }
@@ -66,7 +73,6 @@ class TopicHandler implements WampServerInterface
     public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
         echo "Publishing to $topic\n";
-        //$topic->broadcast($event);
     }
 
     public function onOpen(ConnectionInterface $conn)

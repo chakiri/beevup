@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200321220501 extends AbstractMigration
+final class Version20200404150151 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,9 @@ final class Version20200321220501 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, content VARCHAR(255) NOT NULL, topic VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_B6BD307FA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307FA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE notification ADD subject_id INT DEFAULT NULL, CHANGE topic_id topic_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE notification ADD CONSTRAINT FK_BF5476CA23EDC87 FOREIGN KEY (subject_id) REFERENCES user (id)');
+        $this->addSql('CREATE INDEX IDX_BF5476CA23EDC87 ON notification (subject_id)');
     }
 
     public function down(Schema $schema) : void
@@ -31,6 +32,8 @@ final class Version20200321220501 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE message');
+        $this->addSql('ALTER TABLE notification DROP FOREIGN KEY FK_BF5476CA23EDC87');
+        $this->addSql('DROP INDEX IDX_BF5476CA23EDC87 ON notification');
+        $this->addSql('ALTER TABLE notification DROP subject_id, CHANGE topic_id topic_id INT NOT NULL');
     }
 }

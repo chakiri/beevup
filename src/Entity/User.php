@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -90,17 +91,11 @@ class User implements UserInterface
      */
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="user")
-     */
-    private $post;
-
     public function __construct()
     {
         $this->isValid = false;
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
-        $this->post = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +257,32 @@ class User implements UserInterface
     {
        return strval( $this->getId() );
       
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
+        }
+
+        return $this;
     }
 
     /**

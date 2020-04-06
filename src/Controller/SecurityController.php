@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\TopicRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository): Response
     {
         $user = new User();
 
@@ -44,6 +45,12 @@ class SecurityController extends AbstractController
             $user->setCompany($company);
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+
+            //Get all admin topics
+            $topics = $topicRepository->findBy(['type' => 'admin']);
+            foreach ($topics as $topic){
+                $user->addTopic($topic);
+            }
 
             $manager->persist($user);
 
