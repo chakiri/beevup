@@ -4,7 +4,6 @@
 
 {% block body %}
     <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}">
-        <div class="row">
             <div class="col-lg-3 col-sm-4 sidebar">
                 <div class="pt-3">
                     <div class="user">
@@ -14,7 +13,7 @@
                             <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
                         {% endif %}
                         <div id="notifications" data-url="{{ path('save_notification') }}" hidden></div>
-                        <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.lastname|capitalize }}</h4>
+                        <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.firstname|capitalize}}</h4>
                         <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
                     </div>
                     <h6><i class="fa fa-commenting-o" aria-hidden="true"></i><strong> Fils de discussion</strong></h6>
@@ -62,7 +61,7 @@
                                     {% if user.id == subject %}
                                         <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
                                     {% else %}
-                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
+                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname ?? 'non defini'|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
                                     {% endif %}
                                 {% endif %}
 
@@ -96,7 +95,6 @@
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
 
