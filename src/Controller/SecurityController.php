@@ -48,6 +48,7 @@ class SecurityController extends AbstractController
 
             //Get all admin topics
             $topics = $topicRepository->findBy(['type' => 'admin']);
+
             foreach ($topics as $topic){
                 $user->addTopic($topic);
             }
