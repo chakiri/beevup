@@ -35,7 +35,7 @@ class DashboardNotificationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->Where('u.owner = :val1')
             ->andWhere('u.seen = :val2')
-            ->groupBy('u.post, u.type')
+            ->groupBy('u.id', 'u.post, u.type')
             ->setParameters(array('val1' => $value1,'val2' => 0))
             ->getQuery()
             ->getResult()
