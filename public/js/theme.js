@@ -256,7 +256,7 @@
       .css('font',textarea.css('font'));
 }
 
- $('textarea').on({
+ $('.post-add-comment').on({
   input: function(){
      var text = $(this).val();      
      span.text(text);      
@@ -318,17 +318,24 @@
                           <img class='media-object photo-profile' src='/images/profil/photo/`+commentUserImg+`'  width='32' height='32' alt=''>
                         </a>
                     </div>
-                    <div class='comment col-10'  style='flot:left'>
+                    <div class='comment col-9'  style='flot:left'>
                         <a href='#' class='comment-user'><p>`+userName+`</p></a> 
                         <a href='#' class='comment-time'>à l\'instant</a>
-                        <div class='comment-text'>`
+                        <div id="comment-description-`+newCommentId+`" class='comment-text'>`
                         +comment+
                         `</div>
                     </div>
-                    <div class='delete-comment col-1'>
+                    <div class='delete-comment col-2'>
                       <button class='delete-comment-btn' data-comment-id='`+newCommentId+`' data-post-id='`+postId+`' data-target="`+target+`">
                           <i class='fa fa-times' aria-hidden='true'></i>
                       </button>
+                      <button class="edit-comment-btn"
+                      data-comment-id='`+newCommentId+`'
+                      data-post-id='`+postId+`'
+                      >
+                         <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </button>
+
                     </div>
                 </div>`
           $('#comments-section-'+postId).prepend(commentStructure);
@@ -435,6 +442,61 @@ $('body').on('click', '.post-likes', function () {
     $('.modal-likes-list').html(data);
   });
 })
+
+/** edit post */
+$('body').on('click', '.edit-comment-btn', function () {
+  $('.edit-comment-btn').prop('disabled', true);
+  var commentId = $(this).attr('data-comment-id');
+  var isAlreadyUpdated = $('.updated-comment-text').text();
+  if(isAlreadyUpdated)
+  {
+    $('.updated-comment-text').text('');
+  }
+ var oldDescription = $('#comment-description-'+commentId).text();
+ $('#comment-description-'+commentId).text('');
+ 
+ $('#comment-description-'+commentId).append(`<textarea id ='post-edit-comment-`+commentId+`' class='post-edit-comment'>`+$.trim(oldDescription)+`</textarea>
+                                              <div id ='update-comment-btns-`+commentId+`' class="update-comment-btns">
+                                                <button id ='comment-cancel-`+commentId+`'
+                                                        class="comment-cancel-update custom-btn" 
+                                                        data-comment-id='`+commentId+`'
+                                                        data-old-description=`+oldDescription+`
+                                                > Annuler
+                                                </button>
+                                                <button id ='comment-confirm-`+commentId+`' 
+                                                        class="comment-confirm-update custom-btn" 
+                                                        data-comment-id='`+commentId+`'>
+                                                        Actualiser
+                                                </button>
+                                                </div>`);
+});
+
+$('body').on('click', '.comment-confirm-update', function () {
+  var commentId = $(this).attr('data-comment-id');
+  var updatedText = $('#post-edit-comment-'+commentId).val();
+  $('#post-edit-comment-'+commentId).hide();
+  $('#update-comment-btns-'+commentId).hide();
+  
+  $('#comment-description-'+commentId).text(updatedText)
+  /** if we need to add the word updated to the comment */
+  //.append("  <span class='updated-comment-text'>(modifié)</span>");
+  url = 'comment/'+commentId+'/update-comment/'+updatedText;
+  $.get(url, function (data) {
+    $('.edit-comment-btn').prop('disabled', false);
+   });
+  /** update comment */
+});
+
+$('body').on('click', '.comment-cancel-update', function () {
+  var oldDescription = $(this).attr('data-old-description');
+  var commentId = $(this).attr('data-comment-id');
+  $('#post-edit-comment-'+commentId).hide();
+  $('#update-comment-btns-'+commentId).hide();
+  $('#comment-description-'+commentId).text(oldDescription);
+  $('.edit-comment-btn').prop('disabled', false);
+});
+
+/** end edit post */
 
 })(jQuery);
 

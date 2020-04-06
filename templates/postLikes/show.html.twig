@@ -8,12 +8,22 @@
    {% for Like in postLikes %} 
    <div class="row post-likes-list">
      <div class="col-1">
-            <img class="media-object photo-profile" 
-                 style="float:left" 
-                 src="/images/profil/photo/{{Like.user.profile.photo}}" 
-                 width="32" 
-                 height="32" 
-                 alt="...">
+      {% if Like.user.profile.photo is empty %}
+          <img class="media-object photo-profile" 
+          style="float:left" 
+          src="/images/default_user.png"
+          width="32" 
+          height="32" 
+          alt="...">
+
+      {% else %}
+          <img class="media-object photo-profile" 
+          style="float:left" 
+          src="/images/profil/photo/{{Like.user.profile.photo}}" 
+          width="32" 
+          height="32" 
+          alt="...">
+        {% endif %}
       </div>                                            
       <div class="col-7" style="float:left">
         <p class="post-likes">
