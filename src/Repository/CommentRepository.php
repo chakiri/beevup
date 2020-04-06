@@ -35,16 +35,37 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+        public function findByPost($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.post = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    /*
-    public function findOneBySomeField($value): ?Comments
+    public function findPostAndUser($value1,$value2)
+    {
+         return $this->createQueryBuilder('u')
+            ->andWhere('u.user = :val1')
+            ->andWhere('u.post = :val2')
+            ->setParameters(array('val1' => $value1,'val2' => $value2))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    
+    public function findOneByID($value): ?Comment
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
+            ->andWhere('c.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }

@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\DashboardNotification;
 use App\Entity\Post;
+use App\Entity\PostLike;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PostType;
+use App\Repository\CommentRepository;
+use App\Repository\DashboardNotificationRepository;
+use App\Repository\PostLikeRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,15 +94,76 @@ class PostController extends AbstractController
             'EditPostorm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/post/{id}/delete", name="post_delete")
+     */
+
+    public function delete(Request $request, EntityManagerInterface $manager, PostRepository $postRepository,PostLikeRepository $postLikeRepository,CommentRepository $commentRepository,DashboardNotificationRepository $dashboardNotificationRepo, $id)
+    {
+     $post = $postRepository->findOneByID($id);
+    
+    
+     $postLikes = $postLikeRepository->findByPost($post);
+     $comments = $commentRepository->findByPost($post);
+     $dashboardNotifications = $dashboardNotificationRepo->findByPost($post);
+     
+     foreach ($postLikes as $object) {
+        $manager->remove($object);
+     }
+     foreach ($comments as $object) {
+        $manager->remove($object);
+     }
+     foreach ($dashboardNotifications as $object) {
+        $manager->remove($object);
+     }
+     
+     $manager->remove($post);
+     $manager->flush();
+     $response = new Response(
+        'Content',
+        Response::HTTP_OK,
+        ['content-type' => 'text/html']
+    );
+    return $response;
+
+    }
     
     /**
-    * @Route("/post/{id}/update-post-likes", name="post_update_likes_number")
+    * @Route("/post/{id}/update-post-likes/{variable}", name="post_update_likes_number")
     */
-    public function updateLikesNumber(Post $post, EntityManagerInterface $manager, Request $request, PostRepository $repository)
+    public function updateLikesNumber(Post $post, EntityManagerInterface $manager, Request $request, PostRepository $repository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepo, $variable)
     {
-        $likesNumber = $post->getLikesNumber() + 1 ;
+        $like = new PostLike();
+        $user = $this->getUser();
+        $dashboardNotification = new DashboardNotification();
+        if($variable == 'add'){
+          $likesNumber = $post->getLikesNumber() + 1 ;
+          $dashboardNotification->setType('like');
+          $dashboardNotification->setSeen(0);
+          $dashboardNotification->setPost($post);
+          $dashboardNotification->setUser($this->getUser());
+          $dashboardNotification->setOwner($post->getUser());
+        } else{
+            $likesNumber = $post->getLikesNumber() - 1 ;
+        }
+        
+        
         $post->setLikesNumber($likesNumber);
         $manager->persist($post);
+        if($variable == 'add'){
+            $like->setUser( $user);
+            $like->setPost($post);
+            $manager->persist($like);
+            $manager->persist($dashboardNotification);
+        }
+        else{
+            $type ='like';
+            $like =  $postLikeRepository->findOneByPostAndUser($user, $post);
+            $dashboardNotification = $dashboardNotificationRepo->findOneByPostAndUser($user, $post, $type);
+            $manager->remove($dashboardNotification);
+            $manager->remove($like);
+        }
         $manager->flush();
         $response = new Response(
             'Content',
@@ -107,6 +173,7 @@ class PostController extends AbstractController
         return $response;
         
     }
+
 
 
 

@@ -10,11 +10,7 @@
       </button>
     </div>
     <div class="card-body card-block">
-      {% for message in app.flashes('create-post-success') %}
-        <div class="alert alert-success">
-          {{ message }}
-        </div>
-      {% endfor %}
+  
       <div class="card-body card-block">
         {{ form_start(PostForm, {'action': path('post_create')}) }}
             <div class="form-group">
@@ -28,7 +24,7 @@
             </div>
              
             <div class="form-actions form-group">
-              <button type="submit" class="btn btn-success btn-sm">Publier</button>
+              <button type="submit" class="btn btn-primary btn-sm btn-radius float-right">Publier</button>
             </div>
              {{ form_end(PostForm) }}
          </div>

@@ -1,0 +1,156 @@
+<div class="posts">
+  {% for message in app.flashes('create-post-success') %}
+  <div class="alert alert-success">
+    {{ message }}
+  </div>
+{% endfor %}
+  {% for post in posts %}
+      {% set difference = date(post.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+      {% set leftDays = difference.days %}
+      {% set days = difference.days %}
+      {% if leftDays == 0 %}
+      {% set leftDays = post.createdAt|date("h:m") %}
+      {% elseif leftDays == 1 %}
+      {% set leftDays =  '1 jour' %}
+      {% else %}
+      {% set leftDays =  leftDays ~ ' jours' %} 
+      {% endif %}
+
+      <div id="post-id-{{post.id}}" class="row post {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
+          <div class="col-1">
+              <div class="user-profil">
+                  {% if post.user.profile.photo is empty %}
+                    <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                       <img src="/images/default_user.png" class="user-profil-sm" alt="">
+                    </a>
+                  {% else %}
+                  <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                      <img src="/images/profil/photo/{{ post.user.profile.photo }}" class="user-profil-sm" alt="">
+                  </a>
+                  {% endif %}
+              </div>
+          </div>
+
+          <div class="col-10">
+              <div class="lead">
+                  <strong class="post-user">
+                      <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                        {{post.user.profile.firstname}} {{post.user.profile.lastname}}
+                      </a>
+                  </strong>
+
+             
+                  <strong class="post-created-at">{{leftDays}}</strong>
+                  <p>
+                      <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
+                          {{post.user.company.name|capitalize}} 
+                      </a>
+                  </p>
+              </div>
+              <div class="lead post-category"><i class="fa fa-list-alt" aria-hidden="true"></i> {{post.category|capitalize}}</div>
+              <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
+              <div class="lead post-description">{{post.description}}</div>
+              <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
+                {% if post.likesNumber > 0 %}
+                    <span id="likes-list-{{post.id}}" 
+                            class="post-likes" 
+                            data-post="{{post.id}}" 
+                            data-toggle="modal" 
+                            data-target="#LikesList" 
+                            data-whatever="@mdo"
+                            data-path="{{path('post_likes', { 'id': post.id})}}">
+                        <i id ="post-likes-icon-{{post.id}}" class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
+                        <span id ="post-likes-number-{{post.id}}" class="post-likes-number">
+                          {{post.likesNumber}}</span>
+                    </span>
+                {% endif %}
+                    <div class="modal fade LikesList" id="LikesList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content modal-likes-list">
+                                
+                                <div class="modal-body">
+                                    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                </div>
+                                <div class="modal-footer">
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                  <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">
+                      {% if post.commentsNumber > 0 %}
+                        <span id="post-{{post.id}}-comments-number">{{post.commentsNumber}} </span> commentaire
+                      {% endif %}
+                  </a></span>
+              </div>
+              {% if likedPost[loop.index - 1] == 1 %}
+                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+              {% else %}
+                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+              {% endif %}
+                <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                <button id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</button>
+              <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
+              
+              {% include 'dashboard/add-comment.html.twig' %}
+              {% include 'dashboard/comments.html.twig' %}
+         </div>
+         <div class="col-1">
+             {% if app.user.id == post.user.id %}
+                  <div class="delete-post-btn-lg" data-post="{{post.id}}">
+                      <button class="delete-post" data-toggle="modal" data-target="">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      </button>
+
+                      <!-- Modal to delete post -->
+                          <div id="modal-delete-post-{{post.id}}" class="modal modal-delete-post fade" id="deletePopUp" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Supprimer le post</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      Êtes-vous sûr(e) de vouloir supprimer définitivement ce post ?
+                                  </div>
+                                  <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                  <button id ="delete-post-btn-{{post.id}}" 
+                                          class ="btn btn-primary delete-post-btn" 
+                                          data-dismiss="modal"
+                                          type="button" 
+                                          data-post-id = {{post.id }}
+                                          data-target = {{ path('post_delete', {'id': post.id}) }}
+                                          >
+                                      Supprimer
+                                  </button>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                       <!-- Modal -->
+                  </div>
+             {% endif %}
+         </div>
+      </div>
+  {% endfor %}
+  {% if postNumber > 15 %}
+      <div class="row">
+          <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
+              <span class="badge badge-dot badge-dot-lg badge-warning badge-pulse">Badge</span>
+              Afficher plus de postes
+          </button>
+      </div>
+  {% endif  %}
+</div>

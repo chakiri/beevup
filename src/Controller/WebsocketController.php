@@ -4,49 +4,86 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Notification;
+use App\Entity\Topic;
+use App\Entity\User;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WebsocketController extends AbstractController
 {
     /**
-     * @Route("/chat/{topic}", name="chat")
+     * @Route("/chat/private/{id}", name="chat_private")
+     * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index($topic, EntityManagerInterface $manager, MessageRepository $messageRepository, NotificationRepository $notificationRepository)
+    public function index(?Topic $topic, ?User $user, Request $request, EntityManagerInterface $manager, MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository)
     {
-        //Get all messages from topics with limit
-        $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+        //Verification passing bad subject to url
+        if (!$topic && !$user){
+            return $this->redirectToRoute('home');
+        }
 
-        //Empty notification for this topic & user
-        $this->emptyNotificationTopic($topic, $manager, $notificationRepository);
+        //Get all topics of user
+        $topics = $this->getUser()->getTopics();
 
-        //Get all notifications for other Topics
-        $notifTopics = $notificationRepository->findBy(['user' => $this->getUser()]);
+        //Get all users
+        $users = $userRepository->findAll();
+
+        //Get all notifications for User
+        $notifications = $notificationRepository->findBy(['user' => $this->getUser()]);
+
+        if ($request->get('_route') == 'chat_private'){
+            //Empty notification for user
+            $this->emptyNotification($user, $manager, $notificationRepository);
+            //Assign user to the subject
+            $subject = $user->getId();
+            //Get all messages from receiver with limit
+            $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
+        }elseif($request->get('_route') == 'chat_topic'){
+            //Empty notification for topic
+            $this->emptyNotification($topic, $manager, $notificationRepository);
+            //Assign topic to the subject
+            $subject = $topic->getName();
+            //Get all messages from topics with limit
+            $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+        }
 
         return $this->render('websocket/index.html.twig', [
-            'topic' => $topic,
+            'topics' => $topics,
+            'users' => $users,
+            'subject' => $subject,
             'messages' => $messages,
-            'notifTopics' => $notifTopics
+            'notifications' => $notifications,
+            'isPrivate' => $request->get('_route') == 'chat_private'
         ]);
     }
 
     /**
+     * Send data to WAMP Server with ZMQ
+     *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager)
+    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository)
     {
-        $user = $this->getUser();
-        $topic = $_POST['topic'];
+        $subject = $_POST['subject'];
+        $from = $_POST['from'];
         $content = $_POST['message'];
+        $isPrivate = $_POST['isprivate'];
+
+        //Get current user
+        $user = $this->getUser();
 
         $entryData = [
             'user' => $user->getProfile()->getFirstname(),
-            'topic' => $topic,
+            'from' => $from,
+            'subject' => $subject,
             'message' => $content,
+            'isprivate' => $isPrivate,
         ];
 
         //Send data by ZMQ transporter to the Wamp server
@@ -56,15 +93,33 @@ class WebsocketController extends AbstractController
 
         $socket->send(json_encode($entryData));
 
-        //Stock in database
+        //Save data in DB
         $message = new Message();
 
         $message
             ->setUser($user)
             ->setContent($content)
-            ->setTopic($topic)
             ->setCreatedAt(new \DateTime())
         ;
+
+        if ($isPrivate == false){
+            //Get topic object
+            $topic = $topicRepository->findOneBy(['name' => $subject]);
+
+            $message
+                ->setTopic($topic)
+                ->setIsPrivate($isPrivate)
+            ;
+
+        }else {
+            //Get topic object
+            $receiver = $userRepository->findOneBy(['id' => $subject]);
+
+            $message
+                ->setReceiver($receiver)
+                ->setIsPrivate($isPrivate)
+            ;
+        }
 
         $manager->persist($message);
         $manager->flush();
@@ -75,14 +130,26 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository)
+    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
     {
-        $userId = $_POST['userid'];
-        $topic = $_POST['topic'];
+        $userId = $_POST['user'];
+        $subject = $_POST['subject'];
 
         $user = $userRepository->find($userId);
 
-        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        $receiver = null;
+        $topic = null;
+
+        //If subject is user
+        if (ctype_digit($subject) == true)   {
+            $receiver = $userRepository->findOneBy(['id' => $subject]);
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
+        }else{
+            //Find subject
+            $topic = $topicRepository->findOneBy(['name' => $subject]);
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        }
+
 
         if (!$notification){
             $notification = new Notification();
@@ -90,6 +157,7 @@ class WebsocketController extends AbstractController
             $notification
                 ->setUser($user)
                 ->setTopic($topic)
+                ->setReceiver($receiver)
                 ->setNbMessages(1)
                 ;
 
@@ -110,19 +178,24 @@ class WebsocketController extends AbstractController
 
     }
 
-    protected function emptyNotificationTopic($topic, $manager, $notificationRepository)
+    protected function emptyNotification($subject, EntityManagerInterface $manager, NotificationRepository $notificationRepository)
     {
         $user = $this->getUser();
 
-        $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        if ($subject instanceof Topic){
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $subject]);
+
+        }elseif ($subject instanceof User){
+            $notification = $notificationRepository->findOneBy(['user' => $user, 'receiver' => $subject]);
+        }
 
         if ($notification){
-
             $notification->setNbMessages(null);
 
             $manager->persist($notification);
             $manager->flush();
-
         }
+
+        return $this->json($notification);
     }
 }

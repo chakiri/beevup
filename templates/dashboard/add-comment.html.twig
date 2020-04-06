@@ -1,0 +1,16 @@
+<div id = "comment-section-{{post.id}}" class="add-new-comment hidden">
+  <form class="add-comment-form" data-post-id = "{{post.id}}" data-target="{{ path('comment_create') }}" >
+      <img id ="current-user-img-{{post.id}}" class="media-object photo-profile" style="float:left" src="/images/profil/photo/{{app.user.profile.photo}}" 
+           width="32" 
+           height="32" 
+           alt="..."
+           data-img="{{app.user.profile.photo}}">
+      <textarea id ="post-add-comment-{{post.id}}" 
+                class="post-add-comment input-radius" 
+                data-post-id = "{{post.id}}" 
+                data-user="{{app.user.profile.firstname|capitalize}} {{app.user.profile.lastname|capitalize}}"
+                data-target="{{ path('comment_delete', {'id': 0}) }}"
+                placeholder="Ajouter un commentaire"> </textarea>
+     
+   </form>
+</div>

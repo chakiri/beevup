@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\TopicRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -82,6 +85,11 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $store;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic")
+     */
+    private $topics;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
@@ -254,6 +262,63 @@ class User implements UserInterface
     {
        return strval( $this->getId() );
       
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PostLike[]
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    public function addPost(PostLike $post): self
+    {
+        if (!$this->post->contains($post)) {
+            $this->post[] = $post;
+            $post->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(PostLike $post): self
+    {
+        if ($this->post->contains($post)) {
+            $this->post->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getUser() === $this) {
+                $post->setUser(null);
+            }
+        }
+
+        return $this;
     }
     
 }

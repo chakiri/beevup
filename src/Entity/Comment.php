@@ -43,7 +43,10 @@ class Comment
      */
     private $parentId;
 
-
+    public function __construct()
+    {
+       $this->createdAt = new \Datetime();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +110,10 @@ class Comment
         $this->parentId = $parentId;
 
         return $this;
+    }
+    public function __toString()
+    {
+       return strval( $this->getId() );
+      
     }
 }
