@@ -87,6 +87,11 @@ class User implements UserInterface
     private $store;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic")
+     */
+    private $topics;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
      */
     private $type;
