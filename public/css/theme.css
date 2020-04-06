@@ -2030,12 +2030,18 @@ textarea {
     padding: 100px 0 20px 0;
   }
 
+  #chatPlateform .sidebar {
+    position: relative;
+  }
+
 }
 
 @media (max-width: 300px) {
   #chatPlateform .chat {
     margin: 0;
   }
+
+
 }
 
 @media (max-width: 990px) {
