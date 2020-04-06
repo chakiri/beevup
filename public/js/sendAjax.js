@@ -4,6 +4,12 @@ function sender() {
     var message = document.getElementById("message").value;
     var isprivate = document.getElementById("chatPlateform").dataset.private;
     var url = document.getElementById("message").dataset.url;
+
+    if (message == "") {
+        alert("Enter a valid message");
+        return false;
+    }
+
     $.ajax({
         type: 'post',
         url: url,
