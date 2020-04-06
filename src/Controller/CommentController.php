@@ -81,5 +81,21 @@ class CommentController extends AbstractController
 
     }
 
+    /**
+    * @Route("/comment/{id}/update-comment/{variable}", name="comment_update")
+    */
+    public function updateLikesNumber(Comment $comment, EntityManagerInterface $manager, Request $request, CommentRepository $repository, $variable)
+    {
+      $comment->setDescription($variable);
+      $manager->persist($comment);
+      $manager->flush();
+      $response = new Response(
+        'Content',
+        Response::HTTP_OK,
+        ['content-type' => 'text/html']
+    );
+    return $response;
+    }
+
 
 }

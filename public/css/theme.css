@@ -973,11 +973,28 @@ padding-right: 10px;
   border-color:#eee;
   margin-left:10px;
 }
+.post-edit-comment{
+  min-width: 434px;
+  min-height: 40px;
+  padding-left: 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  border-color: #eee;
+}
+.updated-comment-text{
+  font-size: 11px;
+  color:#ccc;
+}
+.custom-btn{
+  background-color: #f3f6f8;
+  border: 1px solid #f3f6f8;
+  font-size: 11px;
+}
 .photo-profile {
   margin-top: 1px;
   border-radius: 5px;
 }
-.delete-comment-btn {
+.delete-comment-btn , .edit-comment-btn {
   font-size: 12px;
   color: #ccc;
   background-color: #f3f6f8;
