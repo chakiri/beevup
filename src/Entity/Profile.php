@@ -87,15 +87,6 @@ class Profile
         $this->isCompleted = false;
     }
 
-    public function getSlugFunction(){
-        if (!empty($this->function)){
-            $slugify = new Slugify();
-            $slug = $slugify->slugify($this->function->getName());
-
-            return $slug;
-        }
-    }
-
     public function getId(): ?int
     {
         return $this->id;
