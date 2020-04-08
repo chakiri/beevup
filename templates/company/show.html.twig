@@ -19,7 +19,9 @@
                         <h1 class="display-6">{{ company.name }}</h1>
                         <h3><small class="text-muted">SIRET : </small>{{ company.siret }}</h3>
                         <p class="lead">{{ company.introduction }}</p>
-                        <a href="{{ path('company_edit', {'id': company.id}) }}">Editer mon entreprise</a>
+                        {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+                         <a href="{{ path('company_edit', {'id': company.id}) }}">Editer mon entreprise</a>
+                        {% endif %}
                     </div>
                     <div class="box">
                         <h4>Mon magasin Bureau Vallée</h4>
@@ -40,8 +42,8 @@
                             <h4>Mes recommandations</h4>
                         </div>
                         <div class="col-sm-5">
-                            <div class="float-right">
-                                {% if company.id != app.user.company.id %}
+                            <div class="float-right">  
+                                {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
                                     <button type="button" 
                                             class="btn btn-primary btn-sm btn-radius add-recommandation" 
                                             data-toggle="modal"

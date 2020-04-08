@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AbuseRepository")
  */
-class Comment
+class Abuse
 {
     /**
      * @ORM\Id()
@@ -19,53 +19,58 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comment")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post")
      */
     private $post;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comment")
+     */
+    private $comment;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $parentId;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
 
     public function __construct()
     {
        $this->createdAt = new \Datetime();
     }
 
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDescription(): ?string
+    public function getType(): ?string
     {
-        return $this->description;
+        return $this->type;
     }
 
-    public function setDescription(string $description): self
+    public function setType(string $type): self
     {
-        $this->description = $description;
+        $this->type = $type;
 
         return $this;
     }
@@ -81,6 +86,19 @@ class Comment
 
         return $this;
     }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -105,31 +123,26 @@ class Comment
         return $this;
     }
 
-    public function getParentId(): ?int
-    {
-        return $this->parentId;
-    }
-
-    public function setParentId(?int $parentId): self
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
-    public function __toString()
-    {
-       return strval( $this->getId() );
-      
-    }
-
-    public function getStatus(): ?bool
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

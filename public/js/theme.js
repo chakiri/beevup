@@ -270,7 +270,6 @@
      //This ensures the correct behavior when user types Enter 
      //into an input field
       if(e.which == 13 ) {
-    
       var postId = $(this).attr('data-post-id');
       $(this).closest("form").submit();
       var url = $('.add-comment-form').attr('data-target')+'/'+postId;
@@ -290,7 +289,17 @@
        
       var comment = $("#post-add-comment-"+postId).val();
       var commentUserImg = $("#current-user-img-"+postId).attr('data-img');
-      
+      var WindowWidth = $( window ).width();
+      if(WindowWidth < 1024)
+      {
+        var userImageWidth = 'col-2';
+        var commentWidth = 'col-8';
+      }
+      else
+      {
+        var userImageWidth = 'col-1';
+        var commentWidth = 'col-9';
+      }
        
       if(comment != '')
       {
@@ -313,12 +322,12 @@
               }
               var commentStructure = `
                   <div id='comment-id-`+newCommentId+`' class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
-                    <div class="user-image col-1" style="flot:left">
+                    <div class="user-image `+userImageWidth+`" style="flot:left">
                       <a href='#'>
                           <img class='media-object photo-profile' src='/images/profil/photo/`+commentUserImg+`'  width='32' height='32' alt=''>
                         </a>
                     </div>
-                    <div class='comment col-9'  style='flot:left'>
+                    <div class='comment `+commentWidth+`'  style='flot:left'>
                         <a href='#' class='comment-user'><p>`+userName+`</p></a> 
                         <a href='#' class='comment-time'>à l\'instant</a>
                         <div id="comment-description-`+newCommentId+`" class='comment-text'>`
@@ -497,6 +506,131 @@ $('body').on('click', '.comment-cancel-update', function () {
 });
 
 /** end edit post */
+
+/**report  abuse */
+$('.report-abuse-btn').click(function(e){
+  var postId = $(this).attr('data-post');
+  
+ $('#modal-report-abuse-post-'+postId).modal();
+  var url = $(this).attr('data-target') ;
+  
+  $.get(url, function (data) {
+    
+    $('#modal-report-abuse-post-content-'+postId).html(data);
+    $('#modal-report-abuse-post-'+postId).modal();
+   });
+})
+$('.report-post-btn').click(function(){
+  var postId = $(this).attr('data-post');
+ 
+
+ 
+})
+$('body').on('click', '.report-abuse-submit-btn', function (e) {
+
+  e.preventDefault();
+ 
+ var postId = $(this).attr('data-post');
+ var commentId = $(this).attr('data-comment');
+ var url = $(this).attr('data-target');
+ var description =$('.abuse-description-'+postId).val();
+ var data = {description : description};
+
+ $.ajax({
+     type: "POST",
+     url: url,
+     data: data,
+     success: function (data, dataType) {
+       if(postId !=0) {
+    $('#modal-report-abuse-post-'+postId).modal('hide');
+      } else {
+   $('#modal-report-abuse-comment-'+commentId).modal('hide');
+      }
+     }
+ });
+})
+
+$('.report-comment-abuse-btn').click(function(e){
+  var commentId = $(this).attr('data-comment');
+  
+ $('#modal-report-abuse-comment-'+commentId).modal();
+  var url = $(this).attr('data-target') ;
+  
+  $.get(url, function (data) {
+   
+    $('#modal-report-abuse-comment-content-'+commentId).html(data);
+    $('#modal-report-abuse-comment-'+commentId).modal();
+   });
+})
+
+$('.abuse-approve').click(function () {
+  var abuseId = $(this).data("abuse-id");
+  var untreatedAbuseNb = 0;
+  $('#spinner-approve-'+abuseId).removeClass('spinner-hidden');
+  $('#spinner-approve-'+abuseId).addClass('spinner-visible');
+    
+  url = 'edit/abuse/1/'+abuseId;
+    $.get(url, function (data) {
+     
+      untreatedAbuseNb = $('.abuse-approve').length;
+      $('#abuse-'+abuseId).addClass('approved-box');
+      $('#abuse-'+abuseId).slideToggle( "slow");
+      if(untreatedAbuseNb == 1) {
+        $('.abuse-section').append( "<div class='box'>Vous avez traité tous les abus</div>" );
+      }
+    });
+})
+
+$('.abuse-reject').click(function () {
+  var abuseId = $(this).data("abuse-id");
+  var untreatedAbuseNb = 0;
+  $('#spinner-reject-'+abuseId).removeClass('spinner-hidden');
+  $('#spinner-reject-'+abuseId).addClass('spinner-visible');
+    
+  url = 'edit/abuse/0/'+abuseId;
+    $.get(url, function (data) {
+      untreatedAbuseNb = $('.abuse-reject').length;
+      $('#abuse-'+abuseId).addClass('rejeccted-box');
+      $('#abuse-'+abuseId).slideToggle( "slow");
+      if(untreatedAbuseNb == 1) {
+        $('.abuse-section').append( "<div class='box'>Vous avez traité tous les abus</div>" );
+      }
+    });
+})
+
+
+/** end report abuse */
+$( window ).resize(function() {
+  if ($(window).width() < 1024)
+  {
+    $('.post').children('.user-profil-photo').removeClass('col-1').addClass('col-2');
+    $('.post').children('.col-10').removeClass('col-10').addClass('col-9');
+
+    $('.page').children('.col-lg-3').removeClass('col-lg-3').removeClass('col-md-6').addClass('col-12 asid-section');
+    $('.page').children('.col-lg-9').removeClass('col-lg-9').removeClass('col-md-6').addClass('col-12 content-section');
+  
+    $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
+    $('.user-comment').children('.comment').removeClass('col-9').addClass('col-7');
+  }
+  else {
+    $('.post').children('.col-2').removeClass('col-2').addClass('col-1');
+    $('.post').children('.col-8').removeClass('col-8').addClass('col-9');
+
+    $('.page').children('.asid-section').removeClass('col-12').addClass('col-lg-3').addClass('col-md-6');
+    $('.page').children('.content-section').removeClass('col-12').addClass('col-md-9').addClass('col-md-6');
+  }
+});
+if ($(window).width() < 1024)
+{
+  $('.post').children('.user-profil-photo').removeClass('col-1').addClass('col-2');
+  $('.post').children('.col-10').removeClass('col-10').addClass('col-9');
+
+  $('.page').children('.col-lg-3').removeClass('col-lg-3').removeClass('col-md-6').addClass('col-12');
+  $('.page').children('.col-lg-9').removeClass('col-lg-9').removeClass('col-md-6').addClass('col-12');
+
+  $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
+  $('.user-comment').children('.comment').removeClass('col-9').addClass('col-8');
+}
 
 })(jQuery);
 

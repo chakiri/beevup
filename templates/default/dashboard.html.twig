@@ -8,6 +8,13 @@
         <div class="container">
 
             {# Notice warning#}
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="alert alert-dismissible alert-secondary">
+                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Abus</h4>
+                <p class="mb-0">Vous avez des abus à gérer <a href="{{ path('abuses') }}" class="alert-link">cliquer ici</a>.</p>
+            </div>
+           {% endif %}
+
             {% if is_granted('ROLE_ADMIN_COMPANY') and (untreatedRecommandationsNumber > 0) %}
             <div class="alert alert-dismissible alert-warning">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Recommandations</h4>
@@ -29,7 +36,7 @@
                 </div>
             {% endif %}
 
-            <div class="row">
+            <div class="row page">
                 <div class="col-lg-3 col-md-6">
                     <div class="box dashboard-box">
                         <div class="row avatar">
@@ -50,7 +57,7 @@
                             {% if app.user.company.logo %}
                                 <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
                             {% else %}
-                                <img src="/images/unknow-company.png" class="img-fluid" alt="">
+                                <img src="/images/unknow-company.jpg" class="img-fluid" alt="">
                             {% endif %}
                             </div>
                             <p class="lead">{{ app.user.company.name|capitalize }}</p>
@@ -77,13 +84,21 @@
                     <div class="box dashboard-header">
                         <div class="row">
                             <div>
+                               {% if  app.user.profile.isCompleted == true %}
+                                    <button type="button" 
+                                            class="btn btn-primary btn-sm btn-radius add-post"
+                                            data-toggle="modal-add-post"
+                                            data-target="{{ path('post_create') }}"
+                                            data-whatever="create-post" >
+                                        <i class="fa fa-pencil-square-o"></i> Commencer un post
+                                    </button>
+                                {% else %}
                                 <button type="button" 
-                                        class="btn btn-primary btn-sm btn-radius add-post"
-                                        data-toggle="modal-add-post"
-                                        data-target="{{ path('post_create') }}"
-                                        data-whatever="create-post" >
-                                    <i class="fa fa-pencil-square-o"></i> Commencer un post
-                                </button>
+                                            class="btn btn-primary btn-sm btn-radius add-post"
+                                            disabled=true >
+                                        <i class="fa fa-pencil-square-o"></i> Commencer un post
+                                    </button>    
+                                {% endif %}
                                 <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content modal-post-content">
@@ -146,9 +161,9 @@
                     </div>
                     {% if posts and postNumber > 0 %}
                     <div class="box">
-                        <div class="row">
-                            <h4 class="col-3">Fil d'actualité</h4>
-                            <div class="col-7">
+                        <div class="row col-12">
+                            <h4 class="col-8">Fil d'actualité</h4>
+                            <div class="col-3">
                                 <div class="filter-dropdown">
                                 
                                     <select id="news-filter">

@@ -24,7 +24,7 @@ class Post
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=512)
      */
     private $description;
 
@@ -73,6 +73,11 @@ class Post
      * @ORM\Column(type="integer", nullable=true)
      */
     private $distinctUserCommentNumber;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -249,6 +254,18 @@ class Post
     public function setDistinctUserCommentNumber(?int $distinctUserCommentNumber): self
     {
         $this->distinctUserCommentNumber = $distinctUserCommentNumber;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

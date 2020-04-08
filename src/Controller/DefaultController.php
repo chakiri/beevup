@@ -56,7 +56,7 @@ class DefaultController extends AbstractController
         $totalUntraitedRecommandation = $untreatedCompanyRecommandationsNumber + $untreatedServiceRecommandationsNumber;
         $postNumber = count($posts);
         //$comments = $CommentRepository->findAll();
-        $comments = $CommentRepository->findBy([], array('createdAt' => 'DESC'));
+        $comments = $CommentRepository->findBy([], []);
         //$dashboardNotifications = $dashboardNotificationRepository->findBy(['owner' => $this->getUser(),'seen' => 0], array('createdAt' => 'DESC'));
         $dashboardNotifications = $dashboardNotificationRepository->findByDistinctPostAndType($this->getUser());
         $notificationNumber = count($dashboardNotifications);
