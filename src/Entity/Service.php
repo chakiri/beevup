@@ -45,7 +45,7 @@ class Service
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="services")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
     private $user;
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Service\InitTopic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +27,7 @@ class CompanyController extends AbstractController
         ]);
     }
 
+
     /**
     * @Route("/company/{slug}", name="company_show")
     */
@@ -43,7 +45,7 @@ class CompanyController extends AbstractController
     * @Route("/company/{id}/edit", name="company_edit")
     */
 
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, InitTopic $initTopic)
     {
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
@@ -65,7 +67,11 @@ class CompanyController extends AbstractController
 
             $company->setIsCompleted(true);
             $manager->persist($company);
+
             $manager->flush();
+
+            //init topic company category to user
+            $initTopic->init($company->getCategory());
 
            return $this->redirectToRoute('company_show', [
                'slug' => $company->getSlug()

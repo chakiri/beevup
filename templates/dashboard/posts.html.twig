@@ -107,6 +107,11 @@
                 </div> 
                   {% include 'dashboard/add-comment.html.twig' %}
               {% endif %}
+             <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
+              <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
+              
+              {% include 'dashboard/add-comment.html.twig' %}
               {% include 'dashboard/comments.html.twig' %}
          </div>
          <div class="col-1">

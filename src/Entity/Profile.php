@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -166,8 +167,6 @@ class Profile
     {
         $this->phoneNumber = $phoneNumber;
     }
-
-
 
     public function getUser(): ?User
     {

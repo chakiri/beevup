@@ -27,7 +27,7 @@
 
 {% block body %}{% endblock %}
 
-{% if app.request.attributes.get('_route') != 'chat' and app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_registration' %}
+{% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private' and app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_registration' %}
     {% include 'partials/footer.html.twig' %}
 {% endif %}
 

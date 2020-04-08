@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -85,22 +86,23 @@ class User implements UserInterface
      */
     private $store;
 
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
      */
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Topic")
      */
-    private $post;
+    private $topics;
 
     public function __construct()
     {
         $this->isValid = false;
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
-        $this->post = new ArrayCollection();
+        $this->topics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +266,8 @@ class User implements UserInterface
       
     }
 
+
+
     /**
      * @return Collection|PostLike[]
      */
@@ -290,6 +294,32 @@ class User implements UserInterface
             if ($post->getUser() === $this) {
                 $post->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Topic[]
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics[] = $topic;
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->contains($topic)) {
+            $this->topics->removeElement($topic);
         }
 
         return $this;

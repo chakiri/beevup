@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
  */
-class CompanyCategory
+class Topic
 {
     /**
      * @ORM\Id()
@@ -18,23 +17,14 @@ class CompanyCategory
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $name;
 
     /**
-     * Get slug name
-     *
-     * @return string
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
-    public function getSlug(){
-        if (!empty($this->name)){
-            $slugify = new Slugify();
-            $slug = $slugify->slugify($this->name);
-
-            return $slug;
-        }
-    }
+    private $type;
 
     public function getId(): ?int
     {
@@ -49,6 +39,18 @@ class CompanyCategory
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
