@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Message;
-use App\Entity\Notification;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
+use App\Service\SaveNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,51 +130,15 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
+    public function saveNotification(UserRepository $userRepository, TopicRepository $topicRepository, SaveNotification $saveNotification)
     {
-        $userId = $_POST['user'];
+        $user = $_POST['user'];
         $subject = $_POST['subject'];
 
-        $user = $userRepository->find($userId);
+        //Add notification to user
+        $saveNotification->save($user, $subject);
 
-        $receiver = null;
-        $topic = null;
-
-        //If subject is user
-        if (ctype_digit($subject) == true)   {
-            $receiver = $userRepository->findOneBy(['id' => $subject]);
-            $notification = $notificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
-        }else{
-            //Find subject
-            $topic = $topicRepository->findOneBy(['name' => $subject]);
-            $notification = $notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
-        }
-
-
-        if (!$notification){
-            $notification = new Notification();
-
-            $notification
-                ->setUser($user)
-                ->setTopic($topic)
-                ->setReceiver($receiver)
-                ->setNbMessages(1)
-                ;
-
-            $manager->persist($notification);
-        }else{
-            $nbMessages = $notification->getNbMessages();
-            $nbMessages++;
-
-            $notification->setNbMessages($nbMessages);
-
-        }
-
-        $manager->persist($notification);
-
-        $manager->flush();
-
-        return $this->json($notification);
+        return $this->json('notification');
 
     }
 

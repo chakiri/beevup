@@ -61,7 +61,7 @@
                                     {% if user.id == subject %}
                                         <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
                                     {% else %}
-                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname ?? 'non defini'|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
+                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ (user.profile.firstname ?? 'non defini' )|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
                                     {% endif %}
                                 {% endif %}
 

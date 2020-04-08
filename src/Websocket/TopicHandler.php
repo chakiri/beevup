@@ -3,8 +3,7 @@
 
 namespace App\Websocket;
 
-
-use App\Entity\User;
+use App\Service\SaveNotification;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -16,10 +15,14 @@ class TopicHandler implements WampServerInterface
 
     protected $subscribed = [];
 
-    public function __construct()
+    protected $saveNotification;
+
+    public function __construct(SaveNotification $saveNotification)
     {
         $this->clients = new \SplObjectStorage;
+        $this->saveNotification = $saveNotification;
     }
+
 
     public function onSubscribe(ConnectionInterface $conn, $subject)
     {
@@ -42,6 +45,10 @@ class TopicHandler implements WampServerInterface
                 if ($key == $entryData['subject'] || $key == $entryData['from']){
                     $user->broadcast($entryData);
                 }
+            }
+            //Save notif if user not connected
+            if (array_key_exists($entryData['subject'], $this->subscribed) == false){
+                $this->saveNotification->save($entryData['subject'], $entryData['from']);
             }
         }else{
             // If the lookup topic object isn't set there is no one to publish to
