@@ -1,11 +1,15 @@
 <div id ="comments-section-{{post.id}}"  class="comments-section hidden">
   {% for comment in comments %}
-  {% if comment.post.id == post.id %} 
+  {% if comment.post.id == post.id  and comment.status != 1 %} 
   <div id = "comment-id-{{comment.id}}"class="row user-comment">
       <div class="user-image col-1">
           <a href="#">
+            {% if comment.user.profile.photo is empty %}
+            <img class="media-object photo-profile" src="/images/default_user.png" width="32" height="32" alt="...">
+            {% else %}
               <img class="media-object photo-profile" src="/images/profil/photo/{{comment.user.profile.photo}}" width="32" height="32" alt="...">
-          </a>
+              {% endif %}
+            </a>
       </div>
       <div class="comment col-9">
           <a href="#" class="comment-user"><p>{{comment.user.profile.firstname}} {{comment.user.profile.lastname}}</p></a> 
@@ -14,8 +18,9 @@
               {{comment.description}}
           </div>
       </div>
-      {% if comment.user.id == app.user.id %} 
-          <div class="delete-comment col-2">
+     
+          <div class="col-2">
+            {% if comment.user.id == app.user.id %} 
               <button class="delete-comment-btn"
                       data-comment-id="{{comment.id}}"
                       data-post-id="{{post.id}}"
@@ -28,8 +33,38 @@
                       >
                       <i class="fa fa-pencil" aria-hidden="true"></i>
               </button>
-          </div>
-      {% endif %}    
+            
+            {% endif %}
+            {% if app.user.id != comment.user.id %}
+               <button class="report-comment-abuse-btn" data-toggle="modal" data-comment="{{comment.id}}" data-target="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                </button>
+                {% endif %}
+            </div>
+            {% if app.user.id != comment.user.id %}
+                 <!-- Modal to report abuse  -->
+                 <div id="modal-report-abuse-comment-{{comment.id}}"  data-comment="{{comment.id}}" class="modal modal-report-comment fade"  tabindex="-1" role="dialog" aria-labelledby="report-post" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div id="modal-report-abuse-comment-content-{{comment.id}}" class="modal-content">
+                        <div class="modal-body">
+                            <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                        </div>
+                       
+                    </div>
+                    </div>
+                </div>
+                {% endif %}
+             <!-- Modal -->
+           
+            
   </div>
   {% endif %}
   {% endfor %}

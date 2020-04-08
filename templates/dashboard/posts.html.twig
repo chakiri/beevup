@@ -4,6 +4,7 @@
     {{ message }}
   </div>
 {% endfor %}
+
   {% for post in posts %}
       {% set difference = date(post.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
       {% set leftDays = difference.days %}
@@ -15,9 +16,9 @@
       {% else %}
       {% set leftDays =  leftDays ~ ' jours' %} 
       {% endif %}
-
-      <div id="post-id-{{post.id}}" class="row post {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
-          <div class="col-1">
+      {% if post.status != 1%}
+      <div id="post-id-{{post.id}}" class="row post col-12 {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
+          <div class="user-profil-photo col-1">
               <div class="user-profil">
                   {% if post.user.profile.photo is empty %}
                     <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
@@ -38,16 +39,15 @@
                         {{post.user.profile.firstname}} {{post.user.profile.lastname}}
                       </a>
                   </strong>
-
-             
                   <strong class="post-created-at">{{leftDays}}</strong>
                   <p>
-                      <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
+                      <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
                           {{post.user.company.name|capitalize}} 
                       </a>
                   </p>
               </div>
-              <div class="lead post-category"><i class="fa fa-list-alt" aria-hidden="true"></i> {{post.category|capitalize}}</div>
+              
+              <div class="lead post-category"> <span>{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
               <div class="lead post-description">{{post.description}}</div>
               <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
@@ -92,12 +92,22 @@
                       {% endif %}
                   </a></span>
               </div>
-              {% if likedPost[loop.index - 1] == 1 %}
-                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
-              {% else %}
-                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+              {% if  app.user.company.isCompleted == true %}  
+                <div class="col-14">
+                  
+                      {% if likedPost[loop.index - 1] == 1 %}
+                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                      {% else %}
+                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                      {% endif %}
+                        <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                        <button id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</button>
+                      <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
+                      
+                </div> 
+                  {% include 'dashboard/add-comment.html.twig' %}
               {% endif %}
-                <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+             <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
                 <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
               <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
               
@@ -110,7 +120,7 @@
                       <button class="delete-post" data-toggle="modal" data-target="">
                           <i class="fa fa-trash-o" aria-hidden="true"></i>
                       </button>
-
+                  
                       <!-- Modal to delete post -->
                           <div id="modal-delete-post-{{post.id}}" class="modal modal-delete-post fade" id="deletePopUp" tabindex="-1" role="dialog" aria-labelledby="delete-post" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered" role="document">
@@ -142,8 +152,38 @@
                        <!-- Modal -->
                   </div>
              {% endif %}
+             {% if app.user.id != post.user.id %}
+             <div id ="report-abuse-post-btn-{{post.id}}"  class="report-post-btn-lg" data-post="{{post.id}}">
+                <button class="report-abuse-btn" data-toggle="modal" data-post="{{post.id}}" data-target="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                </button>
+                 <!-- Modal to report abuse  -->
+                 <div id="modal-report-abuse-post-{{post.id}}"  data-post="{{post.id}}" class="modal modal-report-post fade"  tabindex="-1" role="dialog" aria-labelledby="report-post" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div id="modal-report-abuse-post-content-{{post.id}}" class="modal-content <modal-report-abuse-post-content>">
+                        <div class="modal-body">
+                            <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div>
+                        </div>
+                       
+                    </div>
+                    </div>
+                </div>
+             <!-- Modal -->
+            </div>
+            {% endif %}
+
          </div>
+         
       </div>
+      {% endif %}
   {% endfor %}
   {% if postNumber > 15 %}
       <div class="row">

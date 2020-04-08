@@ -15,6 +15,7 @@ use App\Repository\DashboardNotificationRepository;
 use App\Repository\PostLikeRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\PostRepository;
+use App\Repository\AbuseRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -99,7 +100,7 @@ class PostController extends AbstractController
      * @Route("/post/{id}/delete", name="post_delete")
      */
 
-    public function delete(Request $request, EntityManagerInterface $manager, PostRepository $postRepository,PostLikeRepository $postLikeRepository,CommentRepository $commentRepository,DashboardNotificationRepository $dashboardNotificationRepo, $id)
+    public function delete(Request $request, EntityManagerInterface $manager, PostRepository $postRepository,PostLikeRepository $postLikeRepository,CommentRepository $commentRepository,DashboardNotificationRepository $dashboardNotificationRepo, AbuseRepository $abuseRepo, $id)
     {
      $post = $postRepository->findOneByID($id);
     
@@ -107,11 +108,22 @@ class PostController extends AbstractController
      $postLikes = $postLikeRepository->findByPost($post);
      $comments = $commentRepository->findByPost($post);
      $dashboardNotifications = $dashboardNotificationRepo->findByPost($post);
+     $abuses = $abuseRepo->findByPost($post);
      
      foreach ($postLikes as $object) {
         $manager->remove($object);
      }
+     foreach ($abuses as $object) {
+        $manager->remove($object);
+     }
+
      foreach ($comments as $object) {
+        $abuses = $abuseRepo->findByComment($object);
+        if($abuses !=null ){
+        foreach ($abuses as $obj) {
+        $manager->remove($obj);
+        }
+    }
         $manager->remove($object);
      }
      foreach ($dashboardNotifications as $object) {

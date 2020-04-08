@@ -1,0 +1,33 @@
+
+
+{% form_theme AbuseForm 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+  <div class="modal-header">
+    
+    <h5 class="modal-title" >   {% if postId != 0 %}  signaler un post {% else %}  signaler un commentaire {% endif %} </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body card-block">
+
+    <div class="card-body card-block">
+      {{ form_start(AbuseForm) }}
+       
+          <div class="form-group abuse-description abuse-description"+postId>
+            {{ form_row(AbuseForm.description, {'attr': {'class': 'abuse-description-'~ postId }}) }}
+          </div>
+           <div class="form-actions form-group">
+            <button type="submit" 
+                    class="btn btn-primary btn-sm btn-radius float-right report-abuse-submit-btn"
+                    data-post="{{postId}}"
+                    data-comment="{{commentId}}"
+                    data-target="{{path('abuse_insert',{'val1':postId, 'val2':commentId})}}"
+                    >Signaler</button>
+          </div>
+           {{ form_end(AbuseForm) }}
+       </div>
+
+       </div>
+{% endblock %} 

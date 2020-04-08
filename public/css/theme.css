@@ -945,6 +945,10 @@ margin-bottom: 10PX;
 padding-top: 10PX;
 padding-bottom: 10px;
 padding-right: 10px;
+padding-left:0;
+margin-right:5px;
+margin-left:5px;
+border-radius: 5px;
 }
 .post-title{
   font-size:13PX;
@@ -971,13 +975,21 @@ padding-right: 10px;
 }
   
 .post-add-comment{
-  min-width: 434px;
+ 
   min-height: 40px;
   padding-left:10px;
   font-size:12px;
   border-radius:5px;
   border-color:#eee;
   margin-left:10px;
+}
+.custom_post-category{
+ border-radius: 5px;
+  padding: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  background-color:red;
+  color:#fff
 }
 .post-edit-comment{
   min-width: 434px;
@@ -1000,17 +1012,25 @@ padding-right: 10px;
   margin-top: 1px;
   border-radius: 5px;
 }
-.delete-comment-btn , .edit-comment-btn {
+.delete-comment-btn , .edit-comment-btn , button.report-comment-abuse-btn {
   font-size: 12px;
   color: #ccc;
   background-color: #f3f6f8;
   border: none;
+}
+.delete-post-btn-lg{
+  float:left;
 }
 button.delete-post {
   border: none;
   background-color: #fff;
   font-size: 16px;
 }
+button.report-abuse-btn {
+    background-color: #fff;
+    border: none;
+}
+
 .post-liked{
   color:blue !important;
 }
