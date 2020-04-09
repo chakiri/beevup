@@ -31,62 +31,9 @@
                         </div>
                     </div>
                     {{ form_end(SearchForm) }}
-                    {%  if favorits is defined %}
-                    <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Afficher list des favoris
-                    </a>
-                    {% endif %}
                 </div>
                 <div class="clearfix"></div>
                 <div>
-                <div class="favorits">
-                    {%  if favorits is defined %}
-
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                        {% for favorit in favorits %}
-                            <div class="row result-item">
-                                <div class="col-2">
-                                    <div class="box-image">
-                                        {% if favorit.favoritUser.profile.photo is empty %}
-                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                <img src="/images/default_user.png" class="img-fluid" alt="">
-                                            </a>
-                                        {% else %}
-                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                <img src="/images/profil/photo/{{ favorit.favoritUser.profile.photo }}" class="img-fluid" alt="">
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="col-9">
-                                    <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}" class="text-dark">
-                                        <p><strong>{{favorit.favoritUser.profile.firstname|capitalize }} {{favorit.favoritUser.profile.lastname|capitalize }}</strong></p>
-                                    </a>
-                                    <p class="text-muted">{{favorit.favoritUser.profile.function.name|capitalize }}
-                                        chez
-                                        <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">
-                                            {{favorit.favoritUser.company.name|capitalize }}
-                                        </a>
-                                    </p>
-                                    <button class="btn btn-success btn-radius">Contacter</button>
-                                </div>
-                                <div class="Add-favoris">
-                                    <i id="result-user-item-{{ favorit.favoritUser.id }}"
-                                       class="fa fa-star add-favoris text-warning"
-                                       aria-hidden="true"
-                                       data-user-id ="{{ favorit.favoritUser.id }}"
-                                       data-target="{{path('favorit_add', {'userId': favorit.favoritUser.id})  }}"
-                                       data-delete="{{path('favorit_delete', {'userId': favorit.favoritUser.id})  }}"
-                                    ></i>
-                                </div>
-                            </div>
-
-                        {% endfor %}
-                        </div></div>
-                    {% endif %}
-                </div>
                 <div class="search-result col-12">
                     {% if usersCount is defined  %}
                         {% if usersCount > 0 %}
@@ -117,9 +64,7 @@
                                     </div>
 
                                     <div class="col-9">
-                                        <a href="{{path('profile_show', { 'id': user.profile.id}) }}" class="text-dark">
-                                          <p><strong>{{user.profile.firstname|capitalize }} {{user.profile.lastname|capitalize }}</strong></p>
-                                        </a>
+                                        <p><strong>{{user.profile.firstname|capitalize }} {{user.profile.lastname|capitalize }}</strong></p>
                                         <p class="text-muted">{{user.profile.function.name|capitalize }}
                                             chez
                                             <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': user.company.slug}) }}">
@@ -127,15 +72,6 @@
                                             </a>
                                         </p>
                                         <button class="btn btn-success btn-radius">Contacter</button>
-                                    </div>
-                                    <div class="Add-favoris">
-                                        <i id="result-user-item-{{ user.id }}"
-                                           class="fa fa-star {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
-                                           aria-hidden="true"
-                                           data-user-id ="{{ user.id }}"
-                                           data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                           data-delete="{{path('favorit_delete', {'userId': user.id})  }}"
-                                        ></i>
                                     </div>
                                 </div>
 

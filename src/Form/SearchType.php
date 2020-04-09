@@ -3,15 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Search;
-use App\Entity\CompanyCategory;
-use App\Repository\CategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
 
 class SearchType extends AbstractType
 {
@@ -22,7 +18,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr'  => [
-                    'placeholder' => '...',
+                    'placeholder' => 'Nom',
                     'class'=>'btn-radius'
                 ]
             ])
@@ -36,19 +32,15 @@ class SearchType extends AbstractType
                     'Entreprise' => 'company'
                 ],
             ])
-            ->add('category', EntityType::class, [
+            ->add('category', TextType::class, [
                 'label' => false,
                 'required' => false,
                 'attr'  => [
                     'placeholder' => 'Catégorie',
                     'class'=>'btn-radius'
-                ],
-                'query_builder' => function (CategoryRepository $categoryRepository) {
-                        return $categoryRepository->createQueryBuilder('a');
-                },
-                'class' => CompanyCategory::class,
-                'choice_label' =>'name'
 
+
+                ]
             ])
         ;
     }
