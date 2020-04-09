@@ -12,7 +12,6 @@ Header
         <ul>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="active"><a href="{{ path('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ path('search') }}">communauté </a></li>
                 <li><a href="{{ path('service') }}">Services</a></li>
                 <li><a href="{{ path('chat_topic', {'name': 'general'}) }}">Chat</a></li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
