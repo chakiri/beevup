@@ -60,9 +60,6 @@ class SaveNotification
             if (isset($nbNotifications)) $nbMessages = $nbNotifications;
             else $nbMessages = $notification->getNbMessages();
 
-            dump($nbNotifications);
-            dump($nbMessages);
-
             $nbMessages++;
 
             $notification->setNbMessages($nbMessages);
