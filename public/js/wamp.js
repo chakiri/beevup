@@ -9,7 +9,7 @@ console.log('current user : ' + from);
 updateScroll();
 
 ab.debug(true, true);
-var conn = new ab.Session('ws://127.0.0.1:8080',
+var conn = new ab.Session('ws://'+window.location.hostname+ ':8080',
     function() {
         console.log('Connection established on ' + subject);
         //Subscribe user
