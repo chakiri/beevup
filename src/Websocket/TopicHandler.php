@@ -6,12 +6,13 @@ namespace App\Websocket;
 use App\Service\SaveNotification;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
-use Symfony\Component\Security\Core\Security;
 
 class TopicHandler implements WampServerInterface
 {
 
     protected $clients;
+
+    protected $connections = [];
 
     protected $subscribed = [];
 
@@ -29,6 +30,7 @@ class TopicHandler implements WampServerInterface
         echo "Subsribed : {$subject->getId()} \n";
         //Push current connection by it's id as key
         $this->subscribed[$subject->getId()] = $subject;
+        $this->connections[$subject->getId()] = $conn->resourceId;
     }
 
     /**
@@ -47,8 +49,8 @@ class TopicHandler implements WampServerInterface
                 }
             }
             //Save notif if user not connected
-            if (array_key_exists($entryData['subject'], $this->subscribed) == false){
-                $this->saveNotification->save($entryData['subject'], $entryData['from']);
+            if (!array_key_exists($entryData['subject'], $this->subscribed)){
+                $this->saveNotification->save($entryData['subject'], $entryData['from'], $entryData['nbNotifications']);
             }
         }else{
             // If the lookup topic object isn't set there is no one to publish to
@@ -72,6 +74,24 @@ class TopicHandler implements WampServerInterface
 
     }
 
+    public function onOpen(ConnectionInterface $conn)
+    {
+        $this->clients->attach($conn);
+        echo "New connection! ({$conn->resourceId})\n";
+    }
+
+    public function onClose(ConnectionInterface $conn)
+    {
+        $this->clients->detach($conn);
+        //Unset connexion user from list
+        foreach ($this->connections as $key => $connection){
+            if ($connection == $conn->resourceId){
+                unset($this->subscribed[$key]);
+            }
+        }
+        echo "Closed\n";
+    }
+
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
         echo "Unsubscribing to $topic\n";
@@ -82,22 +102,9 @@ class TopicHandler implements WampServerInterface
         echo "Publishing to $topic\n";
     }
 
-    public function onOpen(ConnectionInterface $conn)
-    {
-        $this->clients->attach($conn);
-        echo "New connection! ({$conn->resourceId})\n";
-    }
-
-    public function onClose(ConnectionInterface $conn)
-    {
-        $this->clients->detach($conn);
-        echo "Closed\n";
-    }
-
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
     {
         echo "Calling $topic\n";
-
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)

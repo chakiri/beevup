@@ -4,8 +4,6 @@ namespace App\Service;
 
 
 use App\Entity\Notification;
-use App\Entity\Topic;
-use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
@@ -30,7 +28,7 @@ class SaveNotification
         $this->topicRepository = $topicRepository;
     }
 
-    public function save($userid, $subject)
+    public function save($userid, $subject, $nbNotifications = null)
     {
         $user = $this->userRepository->find($userid);
 
@@ -58,7 +56,13 @@ class SaveNotification
 
             $this->manager->persist($notification);
         }else{
-            $nbMessages = $notification->getNbMessages();
+            //Problem nbNotif not update
+            if (isset($nbNotifications)) $nbMessages = $nbNotifications;
+            else $nbMessages = $notification->getNbMessages();
+
+            dump($nbNotifications);
+            dump($nbMessages);
+
             $nbMessages++;
 
             $notification->setNbMessages($nbMessages);

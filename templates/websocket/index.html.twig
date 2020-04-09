@@ -36,7 +36,7 @@
                                 {% if topic.name == subject %}
                                     <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p></a></li>
                                 {% else %}
-                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{{ notificationsTopics[topic.name] ?? null }}</span></p></a></li>
+                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></p></a></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -61,7 +61,7 @@
                                     {% if user.id == subject %}
                                         <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
                                     {% else %}
-                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ (user.profile.firstname ?? 'non defini' )|capitalize }} <span class="badge badge-primary badge-pill">{{ notificationsUsers[user.id] ?? null }}</span></p></a></li>
+                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ (user.profile.firstname ?? 'non defini' )|capitalize }} <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span></p></a></li>
                                     {% endif %}
                                 {% endif %}
 

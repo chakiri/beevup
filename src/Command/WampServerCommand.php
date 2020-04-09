@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Service\SaveNotification;
 use App\Websocket\TopicHandler;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
