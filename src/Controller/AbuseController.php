@@ -45,26 +45,22 @@ class AbuseController extends AbstractController
      $user  = $this->getUser();
      if($val1 !=0)
      {
-      
-      $post = $postRepo->findOneBy(['id' => $val1]);
-      
-      $abuse->setPost( $post)
-           ->setType('Post')
-           ->setDescription($description)
-           ->setUser($user)
-           ->setStatus(0);
-      
-     
+         $post = $postRepo->findOneBy(['id' => $val1]);
+         $abuse->setPost( $post)
+               ->setType('Post')
+               ->setDescription($description)
+               ->setUser($user)
+               ->setStatus(0);
      }
      if($val2 !=0)
      {
-      // this abuse is related to comment
-      $comment = $commentRepo->findOneBy(['id' => $val2]);
-      $abuse->setComment( $comment)
-      ->setType('Comment')
-      ->setDescription($description)
-      ->setUser($user)
-      ->setStatus(0);
+          // this abuse is related to comment
+          $comment = $commentRepo->findOneBy(['id' => $val2]);
+          $abuse->setComment( $comment)
+          ->setType('Comment')
+          ->setDescription($description)
+          ->setUser($user)
+          ->setStatus(0);
      }
      $manager->persist($abuse);
      $manager->flush();
@@ -94,6 +90,7 @@ class AbuseController extends AbstractController
      /**
      * @Route("/edit/abuse/{variable}/{variable2}", defaults={"variable" = 0, "variable2" = 0}, name="abuse_edit")
      */
+
     public function edit(Request $request, EntityManagerInterface $manager, AbuseRepository $repository,PostRepository $postRepository, CommentRepository $commentRepository, $variable, $variable2)
     {
         $abuse = $repository->findOneById($variable2);
@@ -124,7 +121,6 @@ class AbuseController extends AbstractController
           $manager->persist($comment);
         }
         $manager->flush();
-       die();
         $response = new Response(
             'Content',
             Response::HTTP_OK,

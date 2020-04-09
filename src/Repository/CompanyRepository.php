@@ -29,6 +29,44 @@ class CompanyRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByValue($value)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.email = :value')
+            ->orWhere('p.siret LIKE :value')
+            ->orWhere('p.phone LIKE :value')
+            ->orWhere('p.city LIKE :value')
+            ->orWhere('p.country LIKE :value')
+            ->orWhere('p.name LIKE :value')
+            ->setParameters(array('value' => '%'.$value.'%'));
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findByValueAndCategory($value, $value2)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->where('p.email = :value')
+            ->orWhere('p.siret = :value')
+            ->orWhere('p.phone = :value')
+            ->orWhere('p.city = :value')
+            ->orWhere('p.country = :value')
+            ->andWhere('c.name LIKE  :value2')
+
+            ->setParameters(array('value' => $value, 'value2'=>$value2));
+
+
+        return $qb->getQuery()->getResult();
+    }
+    public function findByCategory($value)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.comapnyCatgory', 'c')
+            ->where('c.name = :value')
+            ->setParameters(array('value' => $value));
+        return $qb->getQuery()->getResult();
+    }
+
     
     // /**
     //  * @return Company[] Returns an array of Company objects

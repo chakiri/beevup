@@ -660,7 +660,7 @@ p.text-muted {
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
-#store .box-image{
+.box-image{
   overflow: hidden;
   border-radius: 10px;
   margin: 0 10px 40px 10px;
@@ -699,7 +699,7 @@ p.text-muted {
   transition: all 0.3s ease-in-out;
 }
 
-#dashboard .box {
+.box {
   padding: 15px;
   position: relative;
   border-radius: 10px;
@@ -2229,3 +2229,15 @@ textarea {
   position: relative;
 }
 /********/
+#search-page .filter{
+
+  background-color:#fff;
+  border-radius: 5px;
+  padding:10px;
+  margin-bottom:10px;
+}
+.result-item{
+  padding-bottom:10px;
+  padding-top:10px;
+  border-bottom:1px solid #eee;
+}
