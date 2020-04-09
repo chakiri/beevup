@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+{% block body %}
+<section id="search-page">
+    <div class="container mt-5">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6">
+                {% include 'default/aside.html.twig' %}
+            </div>
+
+            <div class="col-lg-9">
+                <div class="filter">
+                    <h4>Recherche</h4>
+                    {{ form_start(SearchForm) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(SearchForm.type) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(SearchForm.name) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(SearchForm.category) }}
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary btn-radius">
+                                Chercher
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(SearchForm) }}
+                </div>
+                <div class="clearfix"></div>
+                <div>
+                <div class="search-result col-12">
+                    {% if usersCount is defined  %}
+                        {% if usersCount > 0 %}
+                            {{ usersCount }} resultas
+                        {% elseif usersCount == 0 %}
+                            Aucun résultat trouvé.
+                        {%  endif %}
+                    {%  endif %}
+                </div>
+                    {% if users %}
+
+                        <div class="box">
+                        {% for user in users %}
+
+                                <div class="row result-item">
+                                    <div class="col-2">
+                                        <div class="box-image">
+                                          {% if user.profile.photo is empty %}
+                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                              <img src="/images/default_user.png" class="img-fluid" alt="">
+                                            </a>
+                                          {% else %}
+                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                              <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
+                                            </a>
+                                          {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <p><strong>{{user.profile.firstname|capitalize }} {{user.profile.lastname|capitalize }}</strong></p>
+                                        <p class="text-muted">{{user.profile.function.name|capitalize }}
+                                            chez
+                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                              {{user.company.name|capitalize }}
+                                            </a>
+                                        </p>
+                                        <button class="btn btn-success btn-radius">Contacter</button>
+                                    </div>
+                                </div>
+
+                        {% endfor %}
+                        </div>
+
+                   {% endif %}
+                    <div class="search-result col-12">
+                        {% if companiesCount is defined  %}
+                            {% if companiesCount > 0 %}
+                                {{ companiesCount }} resultas
+                            {% elseif companiesCount == 0 %}
+                                Aucun résultat trouvé.
+                            {%  endif %}
+                        {%  endif %}
+                    </div>
+                    {% if companies %}
+                        <div class="box">
+                            {% for company in companies %}
+
+                                <div class="row result-item">
+                                    <div class="col-2">
+                                        <div class="box-image">
+                                            {% if company.logo is empty %}
+                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
+                                               <i class="fa fa-university" aria-hidden="true" style="font-size:40px"></i>
+                                            </a>
+                                            {% else %}
+                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
+                                               <img src="/images/logos/{{ company.logo }}" class="img-fluid" alt="">
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9">
+                                        <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
+                                          <p><strong>{{company.name|capitalize }}</strong></p>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
