@@ -634,14 +634,19 @@ if ($(window).width() < 1024)
     $('.add-favoris').click(function(){
         var url = '';
         var userId = $(this).attr('data-user-id');
+
         if($(this).hasClass( "text-warning" ))
         {
             url  = $(this).attr('data-delete');
+            $('#result-user-item-'+userId).removeClass('text-warning').addClass('text-muted');
+
         } else {
             url  = $(this).attr('data-target');
+            $('#result-user-item-'+userId).removeClass('text-muted').addClass('text-warning');
+
         }
 
-        $('#result-user-item-'+userId).removeClass('text-muted').addClass('text-warning');
+
         $.get(url, function (data) {
        });
 
