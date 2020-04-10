@@ -631,6 +631,7 @@ if ($(window).width() < 1024)
   $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
   $('.user-comment').children('.comment').removeClass('col-9').addClass('col-8');
 }
+
     $('.add-favoris').click(function(){
         var url = '';
         var userId = $(this).attr('data-user-id');
@@ -650,6 +651,6 @@ if ($(window).width() < 1024)
         $.get(url, function (data) {
        });
 
-    })
+
 })(jQuery);
 
