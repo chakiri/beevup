@@ -47,7 +47,6 @@ h5,
 h6 {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  margin: 0 0 20px 0;
   padding: 0;
 }
 .hidden {
@@ -162,8 +161,8 @@ p.text-muted {
 --------------------------------------------------------------*/
 
 #header {
-  height: 80px;
-  padding: 20px 5em;
+  height: 65px;
+  padding: 15px 2em;
   transition: all 0.5s;
   z-index: 997;
   transition: all 0.5s;
@@ -171,10 +170,10 @@ p.text-muted {
   box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.3);
 }
 
-#header.header-scrolled,
+/*#header.header-scrolled,
 #header.header-pages {
   height: 60px;
-}
+}*/
 
 #header .logo h1 {
   font-size: 27px;
@@ -195,19 +194,19 @@ p.text-muted {
 #header .logo img {
   transition: all 0.5s;
   padding: 0;
-  margin: -10px 0 0 10px;
-  max-height: 60px;
+  margin: -8px 0 0 10px;
+  max-height: 50px;
 }
 
 .main-pages {
   margin-top: 60px;
 }
 
-.logo-scrolled {
+/*.logo-scrolled {
   transition: all 0.5s;
   margin: -10px 0 0 10px !important;
   max-height: 40px !important;
-}
+}*/
 
 /*--------------------------------------------------------------
 # Intro Section
@@ -660,14 +659,6 @@ p.text-muted {
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
-.box-image{
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0 10px 40px 10px;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
 #store .box {
   padding: 30px;
   position: relative;
@@ -699,16 +690,6 @@ p.text-muted {
   transition: all 0.3s ease-in-out;
 }
 
-.box {
-  padding: 15px;
-  position: relative;
-  border-radius: 10px;
-  margin: 0 0 20px 0;
-  background: #fff;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
 #dashboard .alert{
   border-left: 0.6rem solid;
   border-radius: 5px;
@@ -718,12 +699,15 @@ p.text-muted {
   margin: 0;
 }
 
-#dashboard .avatar img{
+.sidebar .contact{
+  text-align: center;
+}
+
+.avatar img{
   width: 70px;
   height: 70px;
   border-radius: 50%;
   border: 4px solid #fff;
-  float: left;
 }
 
 #dashboard .logo-company {
@@ -736,7 +720,7 @@ p.text-muted {
   margin: 0;
 }
 
-#dashboard .activity{
+.activity{
   margin: 0 0 5px 0;
   padding: 15px;
   border-radius: 5px;
@@ -837,6 +821,7 @@ spinner-visible {
   height: 100%;
   color: white;
   padding: 30px;
+  overflow: scroll;
 }
 
 #chatPlateform .user {
@@ -1115,32 +1100,6 @@ textarea {
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
-#service .box-image{
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0 0 40px 0;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-  height: 250px;
-}
-
-#service .box {
-  width: 100%;
-  padding: 30px;
-  position: relative;
-  margin: 0 0 40px 0;
-  overflow: hidden;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-#service .box-image img{
-  width: 100%;
-  height: 100%;
-}
-
 /* profile Section
 --------------------------------*/
 #profile .box{
@@ -1172,7 +1131,6 @@ textarea {
 --------------------------------*/
 
 #services {
-  padding: 20px 0 40px 0;
   box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
 }
 
@@ -1200,6 +1158,26 @@ textarea {
   border-left: 1px solid #a6a6a6;
 }
 
+#services .row{
+  margin-right: 0;
+}
+
+#services .sidebar{
+  background-color: white;
+  height: 100%;
+  overflow: scroll;
+}
+
+.container-sidebar{
+  padding: 20px;
+  margin: 5px 0;
+
+}
+
+.position-fixed{
+  height: 100%;
+}
+
 #services .box {
   position: relative;
   border-radius: 10px;
@@ -1208,6 +1186,7 @@ textarea {
   background: #fff;
   box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
   transition: all 0.3s ease-in-out;
+  padding: 0;
 }
 
 #services .box a{
@@ -1216,7 +1195,7 @@ textarea {
 
 #services .box img{
   width: 100%;
-  height: 250px;
+  height: 220px;
 }
 
 #services .box .info{
@@ -1256,6 +1235,7 @@ textarea {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: 42px;
 }
 
 #services .title a {
@@ -1276,6 +1256,7 @@ textarea {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: 48px;
 }
 
 #why-us {
@@ -2240,4 +2221,9 @@ textarea {
   padding-bottom:10px;
   padding-top:10px;
   border-bottom:1px solid #eee;
+}
+
+footer {
+  margin-bottom: -22px;
+  width: 100%;
 }

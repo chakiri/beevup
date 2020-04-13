@@ -16,43 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceController extends AbstractController
 {
-    /**
-     * @Route("/service/create", name="service_create")
-     */
-    public function create(Request $request, EntityManagerInterface $manager){
-        $service = new Service();
-
-        $form = $this->createForm(ServiceType::class, $service);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['imageFile']->getData();
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename =  $originalFilename;
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-                try {
-                    $file->move(
-                        $this->getParameter('service_photo'),
-                        $newFilename
-                    );
-                    
-                } catch (FileException $e) {}
-                $service->setPhoto($newFilename);
-               
-            }
-            $service->setUser($this->getUser());
-            $manager->persist($service);
-            $manager->flush();
-            $this->addFlash('create-service-success', 'Votre Service a été bien crée !');
-            return $this->redirectToRoute('service_show', [
-               'id' => $service->getId()
-            ]);
-        }
-        return $this->render('service/form.html.twig', [
-            'ServiceForm' => $form->createView(),
-            'edit' => 0
-        ]);
-    }
 
     /**
     * @Route("/service", name="service")
@@ -67,24 +30,15 @@ class ServiceController extends AbstractController
     }
 
     /**
-    * @Route("/service/{id}", name="service_show")
-    */
+     * @Route("/service/{id}/edit", name="service_edit")
+     * @Route("/service/new", name="service_new")
+     */
 
-    public function show(Service $service, RecommandationRepository $recommandationRepository, UserRepository $userRepository, CompanyRepository $companyRepository){
-        $recommandations = $recommandationRepository->findBy(['service' => $service->getId(), 'status'=>'Validated'], []);
-        $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
-        return $this->render('service/show.html.twig', [
-            'service' => $service,
-            'companyId'  => $company->getId(),
-            'recommandations'=> $recommandations
-        ]);
-    }
-
-    /**
-    * @Route("/service/{id}/edit", name="service_edit")
-    */
-
-    public function edit(Request $request, Service $service, EntityManagerInterface $manager){
+    public function form(?Service $service, Request $request, EntityManagerInterface $manager)
+    {
+        if (!$service){
+            $service = new Service();
+        }
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -99,13 +53,13 @@ class ServiceController extends AbstractController
                         $this->getParameter('service_photo'),
                         $newFilename
                     );
-                    
+
                 } catch (FileException $e) { }
                 $service->setPhoto($newFilename);
             }
-           $manager->persist($service);
-           $manager->flush();
-           $this->addFlash('update-service-success', 'Votre Service a été mis à jour !');
+            $manager->persist($service);
+            $manager->flush();
+            $this->addFlash('success', 'Votre Service a été mis à jour !');
 
             return $this->redirectToRoute('service_show', [
                 'id' => $service->getId()
@@ -114,7 +68,21 @@ class ServiceController extends AbstractController
         return $this->render('service/form.html.twig', [
             'service' => $service,
             'ServiceForm' => $form->createView(),
-            'edit' => 1
+            'edit' => $service->getId() != null
+        ]);
+    }
+
+    /**
+    * @Route("/service/{id}", name="service_show")
+    */
+
+    public function show(Service $service, RecommandationRepository $recommandationRepository, UserRepository $userRepository, CompanyRepository $companyRepository){
+        $recommandations = $recommandationRepository->findBy(['service' => $service->getId(), 'status'=>'Validated'], []);
+        $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
+        return $this->render('service/show.html.twig', [
+            'service' => $service,
+            'companyId'  => $company->getId(),
+            'recommandations'=> $recommandations
         ]);
     }
 }
