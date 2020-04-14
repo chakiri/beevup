@@ -76,7 +76,7 @@ h6 {
   color:#000;
 }
 .btn-radius {
-  border-radius:10px;
+  border-radius:10px !important;
 }
 
 .back-to-top {
@@ -2259,4 +2259,15 @@ textarea {
   border-radius: 50%;
   border: 4px solid #fff;
   float: left;
+}
+.contact-btn{
+  font-size:12px;
+  padding:4px;
+  margin-top:10px;
+}
+.search-result{
+  margin-bottom:10px;
+}
+.result-item:last-child{
+  border-bottom:0 !important
 }

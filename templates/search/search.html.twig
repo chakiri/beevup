@@ -31,9 +31,9 @@
                         </div>
                     </div>
                     {{ form_end(SearchForm) }}
-                    {%  if favorits is defined %}
+                    {%  if favorits is defined and favoritsNb > 0 %}
                     <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Afficher list des favoris
+                        Afficher la liste des favoris
                     </a>
                     {% endif %}
                 </div>
@@ -70,7 +70,7 @@
                                             {{favorit.favoritUser.company.name|capitalize }}
                                         </a>
                                     </p>
-                                    <button class="btn btn-success btn-radius">Contacter</button>
+                                    <button class="btn btn-success btn-radius contact-btn">Contacter</button>
                                 </div>
                                 <div class="Add-favoris">
                                     <i id="result-user-item-{{ favorit.favoritUser.id }}"
@@ -126,7 +126,7 @@
                                               {{user.company.name|capitalize }}
                                             </a>
                                         </p>
-                                        <button class="btn btn-success btn-radius">Contacter</button>
+                                        <button class="btn btn-success btn-radius contact-btn">Contacter</button>
                                     </div>
                                     <div class="Add-favoris">
                                         <i id="result-user-item-{{ user.id }}"
@@ -165,7 +165,8 @@
                                             </a>
                                             {% else %}
                                             <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
-                                               <img src="/images/logos/{{ company.logo }}" class="img-fluid" alt="">
+                                                {% set companyLogo = company.logo  %}
+                                               <img src="{{ asset('/images/logos/'~ companyLogo) }}" class="img-fluid" alt="">
                                             </a>
                                             {% endif %}
                                         </div>
@@ -175,7 +176,18 @@
                                         <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
                                           <p><strong>{{company.name|capitalize }}</strong></p>
                                         </a>
+                                        <button class="btn btn-success btn-radius contact-btn">Contacter</button>
+                                    </div>
+                                    <div class="Add-company-favoris">
+                                        <i id="result-company-item-{{ company.id }}"
+                                           class="fa fa-star {% if company.id in favoritsCompanyIds %}  text-warning {% else %} text-muted {% endif %}  add-company-favoris"
+                                           aria-hidden="true"
+                                           data-company-id ="{{ company.id }}"
+                                           data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
+                                           data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
 
+
+                                        ></i>
                                     </div>
                                 </div>
 
