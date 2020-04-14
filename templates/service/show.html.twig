@@ -16,10 +16,49 @@
                         {% endif %}
                     </div>
                     <div class="box">
-                        <h4>Proposé par : {{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h4>
+                        <h4><small>Proposé par : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h4>
                         <p class="mt-3"> Service {% if service.isfree == 1 %} <strong>Payant</strong> {% else %} <strong>Gratuit</strong> {% endif %}
-                        <p><a target="_blank" href="{{ path('chat_private', {'id': service.user.id}) }}">Discuter avec {{ service.user.profile.firstname|capitalize }}</a></p>
+                        {% if service.user != app.user %}
+                            <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
+                            <p><a target="_blank" href="{{ path('chat_private', {'id': service.user.id}) }}">Discuter avec {{ service.user.profile.firstname|capitalize }}</a></p>
+                        {% else %}
+                            <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Mes informations</a></p>
+                        {% endif %}
                      </div>
+
+                    <div class="box">
+                        <h4 class="mb-4">Services similaires</h4>
+                        <div class="row mt-3">
+                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
+                                <div class="avatar text-center">
+                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                                </div>
+                            </div>
+                            <div class="col-9 mt-2">
+                                <strong>{{ service.title }}</strong>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
+                                <div class="avatar text-center">
+                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                                </div>
+                            </div>
+                            <div class="col-9 mt-2">
+                                <strong>{{ service.title }}</strong>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
+                                <div class="avatar text-center">
+                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                                </div>
+                            </div>
+                            <div class="col-9 mt-2">
+                                <strong>{{ service.title }}</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-8">
@@ -38,9 +77,24 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="box">
                         <h4>Description</h4>
                         <p class="lead">{{ service.description|raw }}</p>
+                        <a href="#"><small>Voir plus ...<span class="."></span></small></a>
+                    </div>
+
+                    <div id="photos" class="box">
+                        <h4 class="mb-3">Photos</h4>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <img src="/images/unknow-service.jpg" class="img-fluid active" alt="">
+                            </div>
+                            <div class="col-lg-4">
+                                <img src="/images/unknow-service.jpg" class="img-fluid second" alt="">
+                                <img src="/images/unknow-service.jpg" class="img-fluid second mt-3" alt="">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="box">

@@ -44,3 +44,16 @@
     background-color: #f3f5ff;
     color: #465192;
 }
+
+#photos img{
+    border-radius: 10px;
+    width: 100%;
+}
+
+#photos .active{
+    height: 318px;
+}
+
+#photos .second{
+    height: 150px;
+}
