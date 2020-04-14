@@ -15,7 +15,9 @@
                 <h2>Nous nous efforçons à vous trouver les meilleurs <span>solutions</span><br>pour votre business!</h2>
                 <div>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
+                        {% if  app.user.company %}
+                          <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
+                        {% endif %}
                     {% else %}
                         <a href="{{ path('security_login') }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
                     {% endif %}

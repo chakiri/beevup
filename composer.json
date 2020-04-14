@@ -12,6 +12,7 @@
         "easycorp/easyadmin-bundle": "^2.3",
         "fzaninotto/faker": "^1.9",
         "react/zmq": "^0.4.0",
+        "liip/imagine-bundle": "^2.3",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",

@@ -75,7 +75,7 @@ h6 {
   color:#000;
 }
 .btn-radius {
-  border-radius:10px;
+  border-radius:10px !important;
 }
 
 .back-to-top {
@@ -2231,4 +2231,16 @@ footer {
 .favorits{
   background-color:#fff;
   border-radius: 5px;
+}
+
+.contact-btn{
+  font-size:12px;
+  padding:4px;
+  margin-top:10px;
+}
+.search-result{
+  margin-bottom:10px;
+}
+.result-item:last-child{
+  border-bottom:0 !important
 }

@@ -28,6 +28,11 @@ class Favorit
      */
     private $favoritUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company")
+     */
+    private $company;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class Favorit
     public function setFavoritUser(?User $favoritUser): self
     {
         $this->favoritUser = $favoritUser;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

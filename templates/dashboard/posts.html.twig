@@ -25,8 +25,9 @@
                        <img src="/images/default_user.png" class="user-profil-sm" alt="">
                     </a>
                   {% else %}
+                      {% set variable = post.user.profile.photo  %}
                   <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
-                      <img src="/images/profil/photo/{{ post.user.profile.photo }}" class="user-profil-sm" alt="">
+                      <img src="{{ asset('/images/profil/photo/'~ variable) | imagine_filter('thumbnail45') }}" class="user-profil-sm" alt="">
                   </a>
                   {% endif %}
               </div>
@@ -92,20 +93,22 @@
                       {% endif %}
                   </a></span>
               </div>
-              {% if  app.user.company.isCompleted == true %}  
-                <div class="col-14">
-                  
-                      {% if likedPost[loop.index - 1] == 1 %}
-                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
-                      {% else %}
-                        <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+              {% if  app.user.company %}
+                  {% if  app.user.company.isCompleted == true %}
+                        <div class="col-14">
+
+                              {% if likedPost[loop.index - 1] == 1 %}
+                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                              {% else %}
+                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                              {% endif %}
+                                <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                                <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
+                              <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
+
+                        </div>
+                          {% include 'dashboard/add-comment.html.twig' %}
                       {% endif %}
-                        <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
-                        <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
-                      <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
-                      
-                </div> 
-                  {% include 'dashboard/add-comment.html.twig' %}
               {% endif %}
               {% include 'dashboard/comments.html.twig' %}
          </div>
@@ -147,34 +150,35 @@
                        <!-- Modal -->
                   </div>
              {% endif %}
-             {% if app.user.id != post.user.id and app.user.company.isCompleted == true %}
-             <div id ="report-abuse-post-btn-{{post.id}}"  class="report-post-btn-lg" data-post="{{post.id}}">
-                <button class="report-abuse-btn" data-toggle="modal" data-post="{{post.id}}" data-target="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                </button>
-                 <!-- Modal to report abuse  -->
-                 <div id="modal-report-abuse-post-{{post.id}}"  data-post="{{post.id}}" class="modal modal-report-post fade"  tabindex="-1" role="dialog" aria-labelledby="report-post" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div id="modal-report-abuse-post-content-{{post.id}}" class="modal-content <modal-report-abuse-post-content>">
-                        <div class="modal-body">
-                            <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                              </div>
-                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                              </div>
-                              <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                <span class="sr-only">Loading...</span>
-                              </div>
-                        </div>
-                       
-                    </div>
-                    </div>
-                </div>
-             <!-- Modal -->
-            </div>
-            {% endif %}
+             {% if app.user.company %}
+                     {% if app.user.id != post.user.id and app.user.company.isCompleted == true %}
+                     <div id ="report-abuse-post-btn-{{post.id}}"  class="report-post-btn-lg" data-post="{{post.id}}">
+                        <button class="report-abuse-btn" data-toggle="modal" data-post="{{post.id}}" data-target="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </button>
+                         <!-- Modal to report abuse  -->
+                         <div id="modal-report-abuse-post-{{post.id}}"  data-post="{{post.id}}" class="modal modal-report-post fade"  tabindex="-1" role="dialog" aria-labelledby="report-post" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div id="modal-report-abuse-post-content-{{post.id}}" class="modal-content <modal-report-abuse-post-content>">
+                                <div class="modal-body">
+                                    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                </div>
 
+                            </div>
+                            </div>
+                        </div>
+                     <!-- Modal -->
+                    </div>
+                     {% endif %}
+               {% endif %}
          </div>
          
       </div>
