@@ -5,7 +5,7 @@
 {% block body %}
 
     <section id="dashboard" class="mt-5">
-        <div class="container">
+        <div class="container-mvp">
 
             {# Notice warning#}
             {% if is_granted('ROLE_ADMIN') %}
@@ -50,10 +50,10 @@
                         <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
                     </div>
 
-                    {% if is_granted('ROLE_ADMIN_COMPANY') %} 
+                    {#{% if is_granted('ROLE_ADMIN_COMPANY') %} #}
                         <div class="box">
                             <h4>Mon entreprise</h4>
-                            <div class="row logo-company">
+                            <div class="logo-company">
                             {% if app.user.company.logo %}
                                 <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
                             {% else %}
@@ -61,59 +61,28 @@
                             {% endif %}
                             </div>
                             <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                            <p class="text-muted">{{ app.user.company.phone }}</p>
-                            <p class="text-muted">{{ app.user.company.email }}</p>
-                            <p class="text-muted mb-3">{{ app.user.company.website }}</p>
+                            <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a>
                             {% if is_granted('ROLE_ADMIN_COMPANY') %} 
-                            <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                                <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
                             {% endif %}
-
                         </div>
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} 
+                    {#{% endif %}#}
+                    {#{% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} #}
                     <div class="box">
-                        <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}"><h4>Mon magasin</h4></a>
+                        <h4>Mon magasin</h4>
                         <p class="lead">{{ app.user.store.name|capitalize }}</p>
                         <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
                         <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
-                        <a href="#">Contacter mon conseillé</a>
+                        <p><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a></p>
+                        <p class="mt-3"><a href="#">Contacter mon conseillé</a></p>
                     </div>
-                    {% endif %}
+                    {#{% endif %}#}
                 </div>
-                <div class="col-lg-9 col-md-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="box dashboard-header">
-                        <div class="row">
-                            <div>
-                               {% if  app.user.profile.isCompleted == true %}
-                                    <button type="button" 
-                                            class="btn btn-primary btn-sm btn-radius add-post"
-                                            data-toggle="modal-add-post"
-                                            data-target="{{ path('post_create') }}"
-                                            data-whatever="create-post" >
-                                        <i class="fa fa-pencil-square-o"></i> Commencer un post
-                                    </button>
-                                {% else %}
-                                <button type="button" 
-                                            class="btn btn-primary btn-sm btn-radius add-post"
-                                            disabled=true >
-                                        <i class="fa fa-pencil-square-o"></i> Commencer un post
-                                    </button>    
-                                {% endif %}
-                                <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content modal-post-content">
-                                            <div class="text-center">
-                                                <div class="spinner-grow" role="status">
-                                                    <span class="sr-only">Loading...</span>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="">
                             <div class="dashboard-header-buttons">
-                               <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
+                                <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
                                     <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
                                     {% if notificationNumber > 0 %}
                                       <span class="badge bell-badge">{{notificationNumber}}</span>
@@ -121,28 +90,27 @@
                                 </a>
                                 {% if notificationNumber > 0 %}
                                     <div class="dropdown-menu notification-dropdown">
-                                        {% for notification in dashboardNotifications %} 
+                                        {% for notification in dashboardNotifications %}
                                             <div class="notification-item clearfix">
                                                 <div class="user-photo">
                                                     <img style="float:left" src="/images/profil/photo/{{ notification.user.profile.photo }}" class="user-profil-sm" alt="">
                                                 </div>
                                                 <div class="notification-text">
                                                     <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
-                                                      {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }} 
-                                                    </a> 
-                                                    {% if notification.type ==  'comment' %} 
+                                                      {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
+                                                    </a>
+                                                    {% if notification.type ==  'comment' %}
                                                         {% if notification.post.distinctUserCommentNumber > 1  %}
                                                            et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% else %}
                                                            a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
-                                                        {% endif %} 
-                                                    {% else %} 
+                                                        {% endif %}
+                                                    {% else %}
                                                     a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
-                                                    {% endif %} 
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                    
                                     </div>
                                 {% endif %}
                                 <a href="#" class="notification">
@@ -153,14 +121,22 @@
                                     <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
                                     <span class="badge">3</span>
                                 </a>
-                                <a href="{{path('search')}}" class="notification">
-                                    <i class="fa fa-search recommandation-icon" aria-hidden="true"></i>
 
-                                </a>
-                               
+
+                                {% if  app.user.profile.isCompleted == true %}
+                                    <div style="float: right">
+                                        <button type="button"
+                                                class="btn btn-primary btn-sm btn-radius add-post"
+                                                data-toggle="modal-add-post"
+                                                data-target="{{ path('post_create') }}"
+                                                data-whatever="create-post" >
+                                            <i class="fa fa-pencil-square-o"></i> Publier un post
+                                        </button>
+                                    </div>
+                                {% endif %}
+
                             </div>
 
-                            
                         </div>
                     </div>
                     {% if posts and postNumber > 0 %}
@@ -183,53 +159,41 @@
                         </div>
                         {% include 'dashboard/posts.html.twig' %}
                         
-
-                     </div>   
+                     </div>
                     {% endif %}                   
+
+                </div>
+                <div class="col-lg-3 col-md-6">
                     <div class="box">
                         <h4>Mon activité</h4>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="activity">Score BV</div>
-                                <div class="activity">Impact environnemental</div>
-                                <div class="activity">Nombre de recommandations</div>
-                            </div>
-                            <div class="col-6">
-                                <div class="activity">Mes stats</div>
-                            </div>
-                        </div>
+                        <div class="activity">Score : <strong>300 pts</strong></div>
+                        <div class="activity">IE : <strong>250 pts</strong></div>
+                        <div class="activity">Recommandations : <strong>2</strong> <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}"><small style="float: right;">Voir ...</small></a></div>
                     </div>
-                    <div class="services">
-                        <div class="box">
-                            <h4>Mes services</h4>
-                            {% if services is empty %}
-                            <p>Vous n'avez pas créé de service.</p>
-                            <p><a href="{{ path('service_create') }}">Créer un service</a></p>
-                            {% else %}
-                                <div class="row">
-                                    {% for service in services %}
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <div class="info">
-                                                    <div class="icon"><i class="ion-ios-analytics-outline" style="color: #ff689b;"></i></div>
-                                                    <p class="title service-title">
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}">
-                                                            {{ service.title }}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="row float-right">
-                                    <a href="{{ path('service') }}">Voir plus ...</a>
-                                </div>
-                            {% endif %}
-                        </div>
+                    <div class="box">
+                        <h4>Mes services</h4>
+                        <div class="activity">Générique : <strong>2</strong></div>
+                        <div class="activity">Local Bv : <strong>17</strong></div>
+                        <div class="activity">Local entreprise : <strong>5</strong></div>
+                        <div class="activity">National : <strong>0</strong></div>
+                        <a href="" ><small>Voir plus ...</small></a>
                     </div>
-                    {% include 'dashboard/recommandations.html.twig'%}
-            </div>
+                </div>
         </div>
     </section>
+{% endblock %}
+
+
+{% block modals %}
+    <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-post-content">
+                <div class="text-center">
+                    <div class="spinner-grow" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

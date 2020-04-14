@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Search;
 use App\Form\SearchType;
+use App\Repository\CategoryRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
 use App\Repository\ProfilRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +23,7 @@ class SearchController extends AbstractController
      */
 
 
- public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo)
+ public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo)
  {
      $search = new Search();
      $form = $this->createForm(SearchType::class, $search);
@@ -29,6 +31,20 @@ class SearchController extends AbstractController
      $companies = null;
      $usersCount = '-1';
      $companiesCount = '-1';
+     $favorits = $favoritRepo->findBy(['user'=> $this->getUser()]);
+     $favoritUserIds = [];
+     $favoritsCompanyIds = [];
+     $favoritsNb = count($favorits);
+     foreach ($favorits as $favorit)
+     {
+         array_push( $favoritUserIds, $favorit->getFavoritUser()->getId());
+     }
+     foreach ($favorits as $favorit)
+     {
+         if($favorit->getCompany()!= null) {
+             array_push($favoritsCompanyIds, $favorit->getCompany()->getId());
+         }
+     }
      $form->handleRequest($request);
      if($form->isSubmitted() && $form->isValid())
      {
@@ -44,7 +60,15 @@ class SearchController extends AbstractController
 
              if($category != null && $category !='')
              {
-                 $companies = $companyRepo->findByValueAndCategory($name,$category);
+                 if($name =='')
+                 {
+                      $companies = $companyRepo->findBy(['category' => $category], []);
+
+                 }
+                 else {
+                     $companies = $companyRepo->findByValueAndCategory($name, $category);
+
+                 }
                  $companiesCount = count( $companies);
              } else {
                  $companies = $companyRepo->findByValue($name);
@@ -68,7 +92,11 @@ class SearchController extends AbstractController
              'users'=> $users ? $users : null,
              'companies'=> $companies ? $companies : null,
              'usersCount' =>   $usersCount,
-             'companiesCount' => $companiesCount
+             'companiesCount' => $companiesCount,
+             'favorits' =>  $favorits,
+             'favoritUserIds' => $favoritUserIds,
+             'favoritsNb' => $favoritsNb,
+             'favoritsCompanyIds' => $favoritsCompanyIds
 
          ]);
 
@@ -76,7 +104,10 @@ class SearchController extends AbstractController
      return $this->render('search/search.html.twig', [
          'SearchForm' => $form->createView(),
          'users'=>null,
-         'companies'=> null
+         'companies'=> null,
+         'favorits' =>  $favorits,
+         'favoritUserIds' => $favoritUserIds,
+         'favoritsNb' => $favoritsNb
 
 
      ]);

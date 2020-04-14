@@ -54,12 +54,7 @@ class Service
      */
     private $introduction;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-        /**
+    /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
     */
@@ -81,12 +76,21 @@ class Service
      */
     private $modifiedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ServiceCategory")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
       
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getTitle(): ?string
     {
@@ -220,6 +224,18 @@ class Service
     public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    public function getCategory(): ?ServiceCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?ServiceCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
