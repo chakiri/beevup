@@ -34,6 +34,9 @@ class DefaultController extends AbstractController
         $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
         $currentUser =$this->getUser();
         $likedPost = [];
+        $untreatedCompanyRecommandationsNumber = 0;
+        $untreatedServiceRecommandationsNumber = 0;
+        $companyRecommandations = [];
         foreach ($posts as $post){
             $result = $postLikeRepository->findOneByPostAndUser($currentUser, $post->getId());
             if($result != null) {
@@ -43,12 +46,14 @@ class DefaultController extends AbstractController
             }
             
         }
+        if($this->getUser()->getCompany() != null) {
+            $companyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status' => 'Validated'], []);
+            $untreatedCompanyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Open'], []);
+            $untreatedCompanyRecommandationsNumber = count($untreatedCompanyRecommandations);
+        }
         
-        $companyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Validated'], []);
         
-        
-        $untreatedCompanyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Open'], []);
-        $untreatedCompanyRecommandationsNumber = count($untreatedCompanyRecommandations);
+
 
         $serviceRecommandationToBeTraited = $recommandationRepository->findByUserRecommandation($this->getUser(), 'Open');
         $untreatedServiceRecommandationsNumber = count($serviceRecommandationToBeTraited);

@@ -649,16 +649,15 @@ if ($(window).width() < 1024)
         });
     });
     $('.add-company-favoris').click(function() {
-        alert('nihel');
         var url = '';
         var companyId = $(this).attr('data-company-id');
         if ($(this).hasClass("text-warning")) {
             url = $(this).attr('data-delete');
-            $('#result-user-item-' + companyId).removeClass('text-warning').addClass('text-muted');
+            $('#result-company-item-' + companyId).removeClass('text-warning').addClass('text-muted');
 
         } else {
             url = $(this).attr('data-target');
-            $('#result-user-item-' + companyId).removeClass('text-muted').addClass('text-warning');
+            $('#result-company-item-' + companyId).removeClass('text-muted').addClass('text-warning');
 
         }
         $.get(url, function (data) {
