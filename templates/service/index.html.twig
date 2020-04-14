@@ -5,66 +5,97 @@
 {% block body %}
 
     <section id="services">
-        <div class="container mt-5">
-
-            <header class="section-header">
-                <h3>Services</h3>
-                <p>Les services créés par votre communauté pour vous !</p>
-            </header>
-
-            <div class="filter">
-                <div class="row">
-                    <div class="col-5">
-                        <div class="">
-                            <input type="text" class="form-control" placeholder="Trouvez le service qu'il vous faut !" id="inputDefault">
+        <div class="">
+            <div class="row">
+                <div class="col-lg-3 position-fixed">
+                    <div class="sidebar">
+                        <div class="container-sidebar">
+                            <div class="contact">
+                                <div class="avatar">
+                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                                </div>
+                                <p>Mon conseiller <strong>Richard Bryand</strong></p>
+                            </div>
+                            <div class="mt-4">
+                                Magasin : Les clayes sous-bois
+                                <a href="#"><small>Contacter mon conseiller</small></a>
+                            </div>
+                            <hr/>
+                            <h5>Mes services</h5>
+                            <div class="activity">Générique : <strong>2</strong></div>
+                            <div class="activity">Local Bv : <strong>17</strong></div>
+                            <div class="activity">Local entreprise : <strong>5</strong></div>
+                            <div class="activity">National : <strong>0</strong></div>
+                            <a href="#"><small>Voir plus ...</small></a>
+                            <hr/>
+                            <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée un service</a>
                         </div>
-                    </div>
-                    <div class="col-4 categories-search">
-                        <div class="">
-                            <select class="custom-select">
-                                <option selected="">Type de service</option>
-                                <option value="1">Categorie 1</option>
-                                <option value="2">Categorie 2</option>
-                                <option value="3">Categorie 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="float-right"><button type="submit" class="btn-filter-search" title="Chercher">Chercher</button></div>
                     </div>
                 </div>
-            </div>
+                <div class="offset-3 col-lg-9 mt-5">
+                    <div class="">
+                        <header class="section-header">
+                            <h3>Services</h3>
+                            <p>Les services créés par votre communauté pour vous !</p>
+                        </header>
 
-            <div class="row">
+                        <div class="filter">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="">
+                                        <input type="text" class="form-control" placeholder="Trouvez le service qu'il vous faut !" id="inputDefault">
+                                    </div>
+                                </div>
+                                <div class="col-4 categories-search">
+                                    <div class="">
+                                        <select class="custom-select">
+                                            <option selected="">Type de service</option>
+                                            <option value="1">Categorie 1</option>
+                                            <option value="2">Categorie 2</option>
+                                            <option value="3">Categorie 3</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                {% for service in services %}
-                    {% set icons = [
-                        '<i class="ion-ios-analytics-outline" style="color: #ff689b;"></i>',
-                        '<i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i>',
-                        '<i class="ion-ios-world-outline" style="color: #d6ff22;"></i>',
-                        '<i class="ion-ios-speedometer-outline" style="color:#41cf2e;"></i>',
-                        '<i class="ion-ios-clock-outline" style="color: #4680ff;"></i>'
-                    ] %}
-                    <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
-                        <div class="box">
-                            <a href="{{ path('service_show', {'id': service.id}) }}">
-                            <div class="portfolio-wrap dashboard-service-image">
-                                {% if service.photo %}
-                                    <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
-                                {% else %}
-                                    <img src="/images/unknow-service.jpg" class="img-fluid" alt="">
-                                {% endif %}
+                                <div class="col-3">
+                                    <div class="float-right"><button type="submit" class="btn-filter-search" title="Chercher">Chercher</button></div>
+                                </div>
                             </div>
-                            <div class="info">
-                                <div class="icon">{{ random(icons)|raw }}</div>
-                                <h4 class="title">{{ service.title }}</h4>
-                                <p class="description">{{ service.introduction }}</p>
-                            </div>
-                            </a>
+                        </div>
+
+                        <div class="row">
+
+                            {% for service in services %}
+                                {% set icons = [
+                                '<i class="ion-ios-analytics-outline" style="color: #ff689b;"></i>',
+                                '<i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i>',
+                                '<i class="ion-ios-world-outline" style="color: #d6ff22;"></i>',
+                                '<i class="ion-ios-speedometer-outline" style="color:#41cf2e;"></i>',
+                                '<i class="ion-ios-clock-outline" style="color: #4680ff;"></i>'
+                                ] %}
+                                <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                    <div class="box">
+                                        <a href="{{ path('service_show', {'id': service.id}) }}">
+                                            <div class="portfolio-wrap dashboard-service-image">
+                                                {% if service.photo %}
+                                                    <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/unknow-service.jpg" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="info">
+                                                <div class="icon">{{ random(icons)|raw }}</div>
+                                                <h4 class="title">{{ service.title }}</h4>
+                                                <p class="description">{{ service.introduction }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
                         </div>
                     </div>
-                {% endfor %}
-
+                </div>
             </div>
 
         </div>

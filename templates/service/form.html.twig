@@ -9,24 +9,11 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <div class="bg-light py-3 px-3 mt-5 mb-5">
-            {% if edit == 1 %}
+            {% if edit == true %}
             <h1>Modifier mon service</h1>
             {% else %}
             <h1>Ajouter un service</h1>
             {% endif %}
-
-            {% for message in app.flashes('create-service-success') %}
-              <div class="alert alert-success">
-                  {{ message }}
-              </div>
-            {% endfor %}
-
-            {% for message in app.flashes('update-service-success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-            {% endfor %}
-           
      
             <div class="card-body card-block">
                 {{ form_start(ServiceForm) }}
@@ -51,7 +38,7 @@
                 <div class="form-group">
                     {{ form_row(ServiceForm.isFree) }}
                 </div>
-                {% if edit == 1 %}
+                {% if edit == true %}
                   <div class="box-image service-box-image">
                     <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
                 </div>
