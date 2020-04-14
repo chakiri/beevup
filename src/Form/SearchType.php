@@ -41,7 +41,8 @@ class SearchType extends AbstractType
                 'required' => false,
                 'attr'  => [
                     'placeholder' => 'Catégorie',
-                    'class'=>'btn-radius'
+                    'class'=>'btn-radius',
+                    'disabled'=> true
                 ],
                 'query_builder' => function (CategoryRepository $categoryRepository) {
                         return $categoryRepository->createQueryBuilder('a');

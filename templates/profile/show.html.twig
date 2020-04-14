@@ -24,8 +24,14 @@
                               {% endif %}
                             <p><i class="fa fa-map-marker"></i> {{ profile.user.store.name }}</p>
                             <p><i class="fa fa-phone"></i> {{ profile.phoneNumber ?: 'non saisi' }}</p>
+                            {% if app.user.id == profile.id %}
                             <a href="{{ path('profile_edit', {'id': profile.id}) }}">Editer mon profile</a>
+
+                            <p><a href="{{ path('service_create') }}">Ajouter un service</a></p>
+                            {%  endif  %}
+
                             <p><a href="{{ path('service_new') }}">Ajouter un service</a></p>
+
                         </div>
                     </div>
                 </div>

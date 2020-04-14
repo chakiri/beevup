@@ -33,9 +33,17 @@ class SearchController extends AbstractController
      $companiesCount = '-1';
      $favorits = $favoritRepo->findBy(['user'=> $this->getUser()]);
      $favoritUserIds = [];
+     $favoritsCompanyIds = [];
+     $favoritsNb = count($favorits);
      foreach ($favorits as $favorit)
      {
          array_push( $favoritUserIds, $favorit->getFavoritUser()->getId());
+     }
+     foreach ($favorits as $favorit)
+     {
+         if($favorit->getCompany()!= null) {
+             array_push($favoritsCompanyIds, $favorit->getCompany()->getId());
+         }
      }
      $form->handleRequest($request);
      if($form->isSubmitted() && $form->isValid())
@@ -52,7 +60,15 @@ class SearchController extends AbstractController
 
              if($category != null && $category !='')
              {
-                 $companies = $companyRepo->findByValueAndCategory($name,$category);
+                 if($name =='')
+                 {
+                      $companies = $companyRepo->findBy(['category' => $category], []);
+
+                 }
+                 else {
+                     $companies = $companyRepo->findByValueAndCategory($name, $category);
+
+                 }
                  $companiesCount = count( $companies);
              } else {
                  $companies = $companyRepo->findByValue($name);
@@ -78,7 +94,9 @@ class SearchController extends AbstractController
              'usersCount' =>   $usersCount,
              'companiesCount' => $companiesCount,
              'favorits' =>  $favorits,
-             'favoritUserIds' => $favoritUserIds
+             'favoritUserIds' => $favoritUserIds,
+             'favoritsNb' => $favoritsNb,
+             'favoritsCompanyIds' => $favoritsCompanyIds
 
          ]);
 
@@ -88,7 +106,8 @@ class SearchController extends AbstractController
          'users'=>null,
          'companies'=> null,
          'favorits' =>  $favorits,
-         'favoritUserIds' => $favoritUserIds
+         'favoritUserIds' => $favoritUserIds,
+         'favoritsNb' => $favoritsNb
 
 
      ]);
