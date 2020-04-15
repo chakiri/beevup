@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
+use App\Repository\UserTypeRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -12,21 +13,25 @@ class UserEntrepriseController extends EasyAdminController
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+    private $userTypeRepo;
   
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->userTypeRepo = $userTypeRepo;
     }
     
     public function persistUserEntrepriseEntity($user)
     {
         $currentUser = $this->getUser();
+        $type = $this->userTypeRepo->findOneBy(['id'=> 6], []);
         $user->setStore($currentUser->getStore());
         if($currentUser->getCompany()!= null )
         {
             $user->setCompany($currentUser->getCompany());
         }
         $user->setRoles(['ROLE_USER']);
+        $user->setType($type);
         $this->updatePassword($user);
         parent::persistEntity($user);
         $profile = new Profile();
