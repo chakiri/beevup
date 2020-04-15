@@ -100,6 +100,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->isValid = false;
+        $this->isDeleted = false;
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
         $this->topics = new ArrayCollection();

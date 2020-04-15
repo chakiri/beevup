@@ -54,16 +54,20 @@
                         <div class="box">
                             <h4>Mon entreprise</h4>
                             <div class="logo-company">
-                            {% if app.user.company.logo %}
-                                <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
-                            {% else %}
-                                <img src="/images/unknow-company.jpg" class="img-fluid" alt="">
-                            {% endif %}
+                                {% if app.user.company %}
+                                    {% if app.user.company.logo %}
+                                        <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+                                    {% else %}
+                                        <img src="/images/unknow-company.jpg" class="img-fluid" alt="">
+                                    {% endif %}
+                                {% endif %}
                             </div>
-                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                            <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a>
-                            {% if is_granted('ROLE_ADMIN_COMPANY') %} 
-                                <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                            {% if app.user.company %}
+                                <p class="lead">{{ app.user.company.name|capitalize }}</p>
+                                <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a>
+                                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                                    <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     {#{% endif %}#}

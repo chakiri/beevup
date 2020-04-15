@@ -16,3 +16,9 @@
 .resizer-handler {
     display: none;
 }
+aside.main-sidebar {
+    background-color: #fff !important;
+    padding-left: 10px;
+    border-radius: 5px;
+    padding-top: 10px;
+}

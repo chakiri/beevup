@@ -17,7 +17,9 @@
                         <p class="lead">{{ store.introduction }}</p>
                         <p>{{ store.email }}</p>
                         <p>{{ store.phone }}</p>
+                        {% if app.user.store.id == store.id and (is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE')) %}
                         <a href="{{ path('store_edit', {'id': store.id}) }}">Editer mon magasin</a>
+                        {% endif %}
                     </div>
                     <div class="box">
                         <h4>Carte</h4>

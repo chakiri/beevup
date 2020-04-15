@@ -25,7 +25,7 @@ class UserTypeRepository extends ServiceEntityRepository
       if($currentUserTpe->getId() == 4)
       {
         $qb = $this->createQueryBuilder('u')
-                   ->where("u.id in (1,2,3,4)")
+                   ->where("u.id in (1,2)")
                    ->orderBy('u.id', 'ASC');
       }
       else {
