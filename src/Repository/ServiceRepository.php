@@ -29,6 +29,32 @@ class ServiceRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findSearch($query, $category){
+        $q = $this->createQueryBuilder('s');
+
+        if ($query){
+            $q
+                ->andWhere('s.title LIKE :query')
+                ->orWhere('s.introduction LIKE :query')
+                ->orWhere('s.description LIKE :query')
+                ->setParameter('query', '%' .$query . '%')
+            ;
+        }
+
+        if ($category)
+            $q
+                ->andWhere('s.category = :category')
+                ->setParameter('category', $category)
+        ;
+
+        $q->orderBy('s.createdAt', 'DESC');
+
+        return $q
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */

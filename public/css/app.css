@@ -1,3 +1,9 @@
+
+.alert{
+    border-left: 0.6rem solid;
+    border-radius: 5px;
+}
+
 .container-mvp{
     margin-right: 25px;
     margin-left: 25px;

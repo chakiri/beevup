@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\SeveralFiles;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
@@ -56,25 +58,26 @@ class Service
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
     */
-    private $photo;
+    private $filename;
     
-    /*
+    /**
      * @var File|null
-     * @Vich\UploadableField(mapping="service_photo", fileNameProperty = "photo")
+     * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
      */
     private $imageFile;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $isFree;
+    private $isPayant;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $modifiedAt;
+    private $updatedAt;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ServiceCategory")
@@ -175,55 +178,28 @@ class Service
 
         return $this;
     }
-    public function getPhoto(): ?string
+
+    public function getIsPayant(): ?bool
     {
-        return $this->photo;
+        return $this->isPayant;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setIsPayant(?bool $isPayant): self
     {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->modifiedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getIsFree(): ?bool
-    {
-        return $this->isFree;
-    }
-
-    public function setIsFree(?bool $isFree): self
-    {
-        $this->isFree = $isFree;
+        $this->isPayant = $isPayant;
 
         return $this;
     }
 
     
-    public function getModifiedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->modifiedAt;
+        return $this->updatedAt;
     }
 
-    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->modifiedAt = $modifiedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -236,6 +212,42 @@ class Service
     public function setCategory(?ServiceCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param null|string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param null|File $imageFile
+     * @return $this
+     */
+    public function setImageFile(?File $imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }
