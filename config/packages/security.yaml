@@ -37,10 +37,19 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_USER }
-        - { path: ^/admin, roles: ROLE_PATRON }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
         - { path: ^/, roles: ROLE_USER}
+
+    role_hierarchy:
+        #GLOBAL ROLES
+        ROLE_ADMIN:    ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+        #OUR ROLES
+        ROLE_ADMIN_PLATEFORM: ROLE_SUPER_ADMIN
+        ROLE_ADMIN_STORE: ROLE_ADMIN
+        ROLE_ADMIN_COMPANY: ROLE_ADMIN
