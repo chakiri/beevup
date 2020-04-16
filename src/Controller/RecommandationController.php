@@ -51,29 +51,30 @@ class RecommandationController extends AbstractController
         
         if($company != null) {
           $recommandation->setCompany($company);
-          $this->addFlash('recommandation-success', 'Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message');
-
          }
         if ( $service != null)
         {
           $recommandation->setService($service);
-          $this->addFlash('recommandation-success', 'Merci pour votre proposition de recommandation, '.$service->getUser()->getProfile()->getFirstname().' '.$service->getUser()->getProfile()->getLastname().'  a été notifié et va pouvoir valider votre message');
-
         }
         $recommandation->setUser( $this->getUser());
          $manager->persist($recommandation);
          $manager->flush();
-         if($company != null) {
-         return $this->redirectToRoute('company_show', [
-             'slug' => $company->getSlug()
-         ]);
-         }
+
          if ( $service != null && $company != null) {
-            return $this->redirectToRoute('service_show', [
+             $this->addFlash('success', 'Merci pour votre proposition de recommandation, '.$service->getUser()->getProfile()->getFirstname().' '.$service->getUser()->getProfile()->getLastname().'  a été notifié et va pouvoir valider votre message');
+
+             return $this->redirectToRoute('service_show', [
                 'id' => $service->getId()
             ]);
-
          }
+
+          if($company != null) {
+              $this->addFlash('success', 'Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message');
+
+              return $this->redirectToRoute('company_show', [
+                  'slug' => $company->getSlug()
+              ]);
+          }
       }
       return $this->render('recommandation/form.html.twig', [
           'RecommandationForm' => $form->createView(),

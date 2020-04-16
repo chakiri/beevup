@@ -18,10 +18,18 @@
                     <div class="box">
                         <h4><small>Proposé par : </small>{{ service.user.company.name|capitalize }}</h4>
                         <h6><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
-                        <p class="mt-3"> Service {% if service.isPayant == 1 %} <strong>Payant</strong> {% else %} <strong>Gratuit</strong> {% endif %}</p>
                         <div class="mt-3">
                             {% if service.user != app.user %}
-                                <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
+                                <p class="mt-3">Prix : {% if service.isQuote == 1 %} <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}">Demander un devis</a> {% else %}{{ service.price }} €{% endif %}</p>
+                                <p class="mt-3">Offre découverte :
+                                    {% if service.isDiscovery == 1 %}
+                                        <strong>
+                                            <span data-container="body" data-toggle="popover" data-placement="left" data-content="{{ service.discoveryContent }}" data-original-title="Desciption de l'offre découverte" style="cursor: pointer;">Oui</span>
+                                        </strong>
+                                    {% else %}
+                                        <strong>Non</strong>
+                                    {% endif %}</p>
+                                <p class="mt-3"><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
                                 <p><a target="_blank" href="{{ path('chat_private', {'id': service.user.id}) }}">Discuter avec {{ service.user.profile.firstname|capitalize }}</a></p>
                             {% else %}
                                 <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Mes informations</a></p>
@@ -31,36 +39,22 @@
 
                     <div class="box">
                         <h4 class="mb-4">Services similaires</h4>
-                        <div class="row mt-3">
-                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
-                                <div class="avatar text-center">
-                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                        {% for service in similarServices %}
+                            <div class="row mt-3">
+                                <div class="col-3" style="padding-right: 0;padding-left: 0;">
+                                    <div class="avatar text-center">
+                                        {% if service.filename %}
+                                            <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/services/unknow-service.jpg" class="img-fluid" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-9 mt-2">
+                                    <strong>{{ service.title }}</strong>
                                 </div>
                             </div>
-                            <div class="col-9 mt-2">
-                                <strong>{{ service.title }}</strong>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
-                                <div class="avatar text-center">
-                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
-                                </div>
-                            </div>
-                            <div class="col-9 mt-2">
-                                <strong>{{ service.title }}</strong>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-3" style="padding-right: 0;padding-left: 0;">
-                                <div class="avatar text-center">
-                                    <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
-                                </div>
-                            </div>
-                            <div class="col-9 mt-2">
-                                <strong>{{ service.title }}</strong>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -88,7 +82,7 @@
                     <div class="box">
                         <h4>Description</h4>
                         <p class="lead">{{ service.description|raw }}</p>
-                        <a href="#"><small>Voir plus ...<span class="."></span></small></a>
+                        {#<a href="#"><small>Voir plus ...<span class="."></span></small></a>#}
                     </div>
 
                     <div id="photos" class="box">
@@ -109,17 +103,26 @@
                     </div>
 
                     <div class="box">
-                        <h4>Recommandations</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Recommandations</h4>
+                            </div>
+                            <div class="col-6 text-right">
+                                {% if service.user.id != app.user.id  %}
+                                    <p><a href="#" type="button" class="add-recommandation btn btn-sm btn-2"  data-whatever="@getbootstrap"  data-toggle="modal" data-target="{{ path('recommandation') }}" data-service="{{service.id}}" data-company="{{companyId}}"><i class="fa fa-thumbs-up"></i> Laisser une recommandation </a></p>
+                                {% endif %}
+                            </div>
+                        </div>
                         {% if recommandations %}
                             {% for recommandation in recommandations %}
                                 <div class="row">
-                                    <div class="col-2">
+                                    <div class="col-2 p-0">
                                         <div class="avatar">
                                             <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
                                         </div>
                                     </div>
 
-                                    <div class="col-9">
+                                    <div class="col-9 mt-3">
                                         <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
                                         <p class="text-muted">{{recommandation.message }}</p>
                                     </div>
@@ -128,12 +131,27 @@
                         {% else %}
                             <p class="text-muted">Aucune recommandation pour l'instant</p>
                         {% endif %}
-
-                        {% if service.user.id != app.user.id  %}
-                            <p class="mt-3"><a href="#" type="button" class="add-recommandation" data-whatever="@getbootstrap"  data-toggle="modal" data-target="{{ path('recommandation') }}" data-service="{{service.id}}" data-company="{{companyId}}">Laisser une recommandation </a></p>
-                        {% endif %}
                     </div>
 
+                    {% if recommandationsCompany %}
+                        <div class="box">
+                            <h5>D'autres personnes ont recommandé {{ service.user.company|capitalize }}</h5>
+                            {% for recommandationCompany in recommandationsCompany %}
+                                <div class="row">
+                                    <div class="col-2 p-0">
+                                        <div class="avatar">
+                                            <img src="/images/profil/photo/{{ recommandationCompany.user.profile.photo }}" class="img-fluid" alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-9 mt-3">
+                                        <p><strong>{{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}</strong></p>
+                                        <p class="text-muted">{{recommandationCompany.message }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
        </div>
@@ -143,7 +161,7 @@
 
 {% block modals %}
     <div class="modal fade"
-         id="exampleModal"
+         id="recommandation"
          tabindex="-1"
          role="dialog"
          aria-labelledby="exampleModalLabel"
@@ -170,4 +188,3 @@
         </div>
     </div>
 {% endblock %}
-

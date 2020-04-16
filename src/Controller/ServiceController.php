@@ -8,14 +8,11 @@ use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
-use App\Repository\TypeServiceRepository;
-use App\Repository\UserRepository;
 use App\Repository\CompanyRepository;
 use App\Service\ServiceSetType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ServiceController extends AbstractController
@@ -60,6 +57,7 @@ class ServiceController extends AbstractController
         if (!$service){
             $service = new Service();
             $message = "Votre Service a bien été crée !";
+            $service->setUser($this->getUser());
         }
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
@@ -69,7 +67,6 @@ class ServiceController extends AbstractController
                 //Set type depending on user role
                 $serviceSetType->set($service);
             }
-            $service->setUser($this->getUser());
             $manager->persist($service);
             $manager->flush();
 
@@ -89,16 +86,22 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service/{id}", name="service_show")
     */
-    public function show(Service $service, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository)
+    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository)
     {
-        $recommandations = $recommandationRepository->findBy(['service' => $service->getId(), 'status'=>'Validated'], []);
-
         $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
+
+        $similarServices = $serviceRepository->findBy(['category' => $service->getCategory()], [], 3);
+
+        $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
+
+        $recommandationsCompany = $recommandationRepository->findBy(['company' => $company, 'service' => null, 'status'=>'Validated']);
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
             'companyId'  => $company->getId(),
-            'recommandations'=> $recommandations
+            'similarServices' => $similarServices,
+            'recommandations'=> $recommandations,
+            'recommandationsCompany'=> $recommandationsCompany,
         ]);
     }
 

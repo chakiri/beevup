@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Service;
+use App\Entity\ServiceCategory;
 use App\Entity\TypeService;
 use App\Repository\TypeServiceRepository;
 use Doctrine\ORM\EntityRepository;
@@ -48,17 +49,40 @@ class ServiceType extends AbstractType
                     'class'       =>'form-control'
                 ],
             ])
-            ->add('isPayant', CheckboxType::class, [
-                'label_attr' => ['class' => 'switch-custom'],
-                'required' => false,
-                'label'    => 'Service Payant',
-                'attr'     => [
-                    'class' => 'custom-control custom-switch',
-                ],
+            ->add('category', EntityType::class, [
+                'placeholder' => 'Choisir catégorie',
+                'label' => 'Catégorie de service',
+                'multiple'=>false,
+                'class' => ServiceCategory::class,
+                'choice_label' => 'name'
             ])
             ->add('price', TextType::class, [
                 'label'    => 'Prix',
                 'required' => false,
+            ])
+            ->add('isQuote', CheckboxType::class, [
+                'label_attr' => ['class' => 'switch-custom'],
+                'required' => false,
+                'label'    => 'Sur devis',
+                'attr'     => [
+                    'class' => 'custom-control custom-switch',
+                ],
+            ])
+            ->add('isDiscovery', CheckboxType::class, [
+                'label_attr' => ['class' => 'switch-custom'],
+                'required' => false,
+                'label'    => 'Proposer une offre découverte',
+                'attr'     => [
+                    'class' => 'custom-control custom-switch',
+                ],
+            ])
+            ->add('discoveryContent', TextareaType::class, [
+                'label'    => 'Description de l\'offre découverte',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'En quelques mots, décrivez votre offre découvrte du service',
+                    'class'       =>'form-control'
+                ],
             ])
             ->add('imageFile', FileType::class, [
                 'required' => false,

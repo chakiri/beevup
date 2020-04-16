@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\SeveralFiles;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -28,7 +27,7 @@ class Service
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=1500)
      */
     private $description;
 
@@ -70,11 +69,6 @@ class Service
     private $imageFile;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isPayant;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -85,6 +79,21 @@ class Service
      * @ORM\ManyToOne(targetEntity="App\Entity\ServiceCategory")
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isQuote;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDiscovery;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $discoveryContent;
 
     public function __construct()
     {
@@ -179,19 +188,6 @@ class Service
 
         return $this;
     }
-
-    public function getIsPayant(): ?bool
-    {
-        return $this->isPayant;
-    }
-
-    public function setIsPayant(?bool $isPayant): self
-    {
-        $this->isPayant = $isPayant;
-
-        return $this;
-    }
-
     
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -249,6 +245,42 @@ class Service
         if ($this->imageFile instanceof UploadedFile) {
             $this->updatedAt = new \DateTime('now');
         }
+
+        return $this;
+    }
+
+    public function getIsQuote(): ?bool
+    {
+        return $this->isQuote;
+    }
+
+    public function setIsQuote(bool $isQuote): self
+    {
+        $this->isQuote = $isQuote;
+
+        return $this;
+    }
+
+    public function getIsDiscovery(): ?bool
+    {
+        return $this->isDiscovery;
+    }
+
+    public function setIsDiscovery(?bool $isDiscovery): self
+    {
+        $this->isDiscovery = $isDiscovery;
+
+        return $this;
+    }
+
+    public function getDiscoveryContent(): ?string
+    {
+        return $this->discoveryContent;
+    }
+
+    public function setDiscoveryContent(?string $discoveryContent): self
+    {
+        $this->discoveryContent = $discoveryContent;
 
         return $this;
     }
