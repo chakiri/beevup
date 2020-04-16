@@ -25,16 +25,9 @@
 {% include 'partials/header.html.twig' %}
 
 {#Afficher flash messages #}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="container-mvp mt-5 ">
-            <div class="alert alert-dismissible alert-{{ label }} mb-0">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>{{ message }}</strong>
-            </div>
-        </div>
-    {% endfor %}
-{% endfor %}
+{% if app.request.attributes.get('_route') != 'service' %}
+    {% include 'partials/flashes.html.twig' %}
+{% endif %}
 
 
 {% block body %}{% endblock %}

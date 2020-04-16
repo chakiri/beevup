@@ -38,13 +38,13 @@ class ServiceType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre',
+                    'placeholder' => 'Description',
                     'class'       =>'form-control'
                 ],
             ])
             ->add('introduction', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre',
+                    'placeholder' => 'Introduction',
                     'class'       =>'form-control'
                 ],
             ])
@@ -65,6 +65,30 @@ class ServiceType extends AbstractType
                 'label' => 'Images',
                 'attr'  => [
                     'placeholder' => 'Photo principale',
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('imageFile1', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 1',
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('imageFile2', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 2',
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('imageFile3', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 3',
                     'class'       =>'form-control'
                 ]
             ])

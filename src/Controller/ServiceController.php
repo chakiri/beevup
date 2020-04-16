@@ -8,8 +8,10 @@ use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\CompanyRepository;
+use App\Service\ServiceSetType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,8 +27,8 @@ class ServiceController extends AbstractController
     */
     public function index(?User $user, Request $request, ServiceRepository $repository)
     {
-        if ($user) $services = $repository->findBy(['user' => $user]);
-        else $services = $repository->findAll();
+        if ($user) $services = $repository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+        else $services = $repository->findBy([], ['createdAt' =>'DESC']);
 
         $searchForm = $this->createForm(ServiceSearchType::class);
 
@@ -52,18 +54,26 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new", name="service_new")
      */
-    public function form(?Service $service, Request $request, EntityManagerInterface $manager)
+    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetType $serviceSetType)
     {
+        $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();
+            $message = "Votre Service a bien été crée !";
         }
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            if (!$service->getType()){
+                //Set type depending on user role
+                $serviceSetType->set($service);
+            }
+            $service->setUser($this->getUser());
             $manager->persist($service);
             $manager->flush();
-            $this->addFlash('success', 'Votre Service a bien été mis à jour !');
+
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('service_show', [
                 'id' => $service->getId()

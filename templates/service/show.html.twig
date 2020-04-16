@@ -12,7 +12,7 @@
                         {% if service.filename %}
                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                         {% else %}
-                            <img src="/images/unknow-service.jpg" class="img-fluid" alt="">
+                            <img src="/images/services/unknow-service.jpg" class="img-fluid" alt="">
                         {% endif %}
                     </div>
                     <div class="box">
@@ -93,15 +93,19 @@
 
                     <div id="photos" class="box">
                         <h4 class="mb-3">Photos</h4>
+                        {% if service.filename1 %}
                         <div class="row">
                             <div class="col-lg-8">
-                                <img src="/images/services/unknow-service.jpg" class="img-fluid active" alt="">
+                                <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" class="img-fluid active" alt="">
                             </div>
                             <div class="col-lg-4">
-                                <img src="/images/services/unknow-service.jpg" class="img-fluid second" alt="">
-                                <img src="/images/services/unknow-service.jpg" class="img-fluid second mt-3" alt="">
+                                <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" class="img-fluid second" alt="">
+                                <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" class="img-fluid second mt-3" alt="">
                             </div>
                         </div>
+                        {% else %}
+                            <p class="text-muted">Aucune image pour ce service</p>
+                        {% endif %}
                     </div>
 
                     <div class="box">

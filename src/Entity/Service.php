@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\SeveralFiles;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Security;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -58,7 +59,7 @@ class Service
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
     */
     private $filename;
     
@@ -78,6 +79,7 @@ class Service
      */
     private $updatedAt;
 
+    use SeveralFiles;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ServiceCategory")
@@ -87,7 +89,6 @@ class Service
     public function __construct()
     {
         $this->createdAt = new \Datetime();
-      
     }
 
     public function getId(): ?int

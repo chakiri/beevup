@@ -31,9 +31,20 @@
                         {{ form_row(ServiceForm.type) }}
                     </div>
                 {% endif %}
+                <label class="form-control-label" for="">Images</label>
                 <div class="form-group">
-                    {{ form_row(ServiceForm.imageFile) }}
+                    {{ form_widget(ServiceForm.imageFile) }}
                 </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile1) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile2) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile3) }}
+                </div>
+
                 <div id="price" class="form-group" {% if service.isPayant == false %} style="display: none" {% endif %}>
                     {{ form_label(ServiceForm.price) }}
                     <div class="input-group mb-3">

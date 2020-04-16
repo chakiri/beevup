@@ -11,7 +11,7 @@ trait SeveralFiles
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $filename1;
 
@@ -23,7 +23,7 @@ trait SeveralFiles
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $filename2;
 
@@ -35,7 +35,7 @@ trait SeveralFiles
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $filename3;
 
