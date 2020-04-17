@@ -17,7 +17,7 @@ class RecommandationType extends AbstractType
             'label' => false,
                'attr'  => [
                'placeholder' => 'Message',
-               'class'       =>'form-control form-message'
+               'class'       =>'form-control form-message textArea-min-height'
                ]
            ])
            ->add('companyId', HiddenType::class, [

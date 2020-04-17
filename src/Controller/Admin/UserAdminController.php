@@ -32,16 +32,17 @@ class UserAdminController extends EasyAdminController
         $userRoles = $user->getRoles();
 
 
-        if(in_array('ROLE_PATRON', $userRoles))
+        if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
             $type = $this->userTypeRepo->findOneBy(['id'=> 4], []);
             $user->setType($type);
         }
-        else if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
+        if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
             $type = $this->userTypeRepo->findOneBy(['id'=> 3], []);
             $user->setType($type);
 
-        } else {
+        }
+        if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
             $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
             $user->setType($type);
 
@@ -62,20 +63,22 @@ class UserAdminController extends EasyAdminController
     {
         $currentUser = $this->getUser();
         $userRoles = $user->getRoles();
-        if(in_array('ROLE_PATRON', $userRoles))
+        if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
             $type = $this->userTypeRepo->findOneBy(['id'=> 4], []);
             $user->setType($type);
         }
-        else if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
-            $type = $this->userTypeRepo->findOneBy(['id'=> 3], []);
+         if(in_array('ROLE_ADMIN_COMPANY', $userRoles)) {
+            $type = $this->userTypeRepo->findOneBy(['id' => 3], []);
             $user->setType($type);
+         }
 
-        } else {
-            $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
-            $user->setType($type);
+         if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
+                $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
+                $user->setType($type);
+         }
 
-        }
+
         array_push($userRoles, 'ROLE_USER');
         $user->setRoles($userRoles);
         $this->updatePassword($user);

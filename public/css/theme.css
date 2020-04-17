@@ -1038,8 +1038,8 @@ button.report-abuse-btn {
 }
 
 .user-profil-sm{
-  width:45px;
-  height:45px;
+  width:35px;
+  height:35px;
   border:1px solid #eee;
   border-radius: 8px;
 }
@@ -2228,11 +2228,6 @@ footer {
   margin-bottom: -22px;
   width: 100%;
 }
-.favorits{
-  background-color:#fff;
-  border-radius: 5px;
-}
-
 .contact-btn{
   font-size:12px;
   padding:4px;
@@ -2243,4 +2238,188 @@ footer {
 }
 .result-item:last-child{
   border-bottom:0 !important
+}
+#abuse_description{
+  height:100px;
+  margin-top:10px;
+}
+.btn-close{
+  margin-right:5px;
+}
+.success-message{
+  background-color: #c3e6cb;
+  color: #155724;
+  border-radius: .25rem;
+  border-color:#c3e6cb;
+  margin-bottom: 5px;
+  padding: .75rem 1.25rem;
+}
+.comments-link{
+  margin-left:10px;
+}
+.modal-header{
+  background-color:#1967be;
+  color:#fff;
+}
+#post_description{
+  min-height:100px;
+}
+.textArea-min-height{
+  min-height:100px;
+}
+.sm-profile-block{
+  padding-right:0;
+}
+.sm-profile-img{
+  border-radius:8px;
+  margin-top:5px;
+}
+.result-box{
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+  border:1px solid #eee;
+}
+.padding-rf-2{
+  padding-right:2px;
+  padding-left:2px;
+}
+.margin-r-10{
+  margin-right:10px;
+}
+.company-informations{
+  font-size:13px;
+  color:#253561;
+  font-weight:bold;
+  line-height: 23px;
+  width:100%;
+}
+.company-title {
+  color: #253561;
+  font-size: 27px !important;
+  text-align: center;
+}
+company-introduction{
+  color:#000;
+  font-size:13px;
+  font-family:arial
+}
+.company-introduction{
+  text-align: center;
+}
+.company-description{
+  font-size:14px;
+  font-family:arial;
+  color:#000;
+  margin-top:20px;
+}
+.company-user {
+color: #253561;
+font-size: 14px;
+text-align: center;
+font-weight: bold;
+margin-top: 10px;
+}
+.company-user-job{
+  color:gray;
+  font-size:12px;
+  text-align: center;
+}
+.user-action{
+  font-size:11px;
+  background-color:#465192;
+  padding:5px;
+  color:#fff;
+}
+.user-contact{
+  margin-top:5px;
+  text-align: center;
+}
+.company-recommandation {
+  padding-left: 10px;
+}
+.company-image{
+ max-height:200px;
+}
+.store-informations{
+  width:100%;
+}
+.store-description{
+  color:#000;
+  font-size:13px;
+  font-family:arial
+}
+.recommandation-description{
+  color:#000;
+  font-family:'arial';
+  font-size:12px;
+}
+.company-service-description{
+  font-size:12px;
+  color:#000;
+  font-family:arial;
+  margin-top:10px;
+  min-height: 150px;
+}
+.user-link, .user-link:hover{
+  color:#fff;
+}
+.recommandation-user{
+  color:#000
+}
+.aside-box{
+  background-color:#fff;
+  padding:15px;
+  margin-bottom:10px;
+}
+.logo-company{
+  padding:10px;
+}
+.user-profile_img img{
+  min-height:163px;
+}
+.search-btn, .search-btn:hover{
+  background-color:#465192;
+  color:#fff;
+}
+.form-control {
+  border: 1px solid #000;
+}
+#search-page .search-company-photo{
+  min-height:111px;
+}
+.search-description{
+  font-size:12px;
+  font-family:arial;
+  color:#000;
+  margin-bottom:10px;
+}
+.Add-favoris{
+  text-align: center;
+}
+.disaply-favorits-link, .disaply-favorits-link:hover{
+  color:#465192;
+}
+html {
+  --scrollbarBG: #CFD8DC;
+  --thumbBG: #90A4AE;
+}
+body::-webkit-scrollbar {
+  width: 11px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+body::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
 }

@@ -329,7 +329,7 @@
                     </div>
                     <div class='comment `+commentWidth+`'  style='flot:left'>
                         <a href='#' class='comment-user'><p>`+userName+`</p></a> 
-                        <a href='#' class='comment-time'>à l\'instant</a>
+                        <p class='comment-time'>à l\'instant</p>
                         <div id="comment-description-`+newCommentId+`" class='comment-text'>`
                         +comment+
                         `</div>
@@ -522,10 +522,8 @@ $('.report-abuse-btn').click(function(e){
 })
 $('.report-post-btn').click(function(){
   var postId = $(this).attr('data-post');
- 
-
- 
 })
+
 $('body').on('click', '.report-abuse-submit-btn', function (e) {
 
   e.preventDefault();
@@ -533,7 +531,13 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
  var postId = $(this).attr('data-post');
  var commentId = $(this).attr('data-comment');
  var url = $(this).attr('data-target');
- var description =$('.abuse-description-'+postId).val();
+ var description ='';
+ if(postId > 0) {
+   description =$('.abuse-description-'+postId).val();
+ }
+ else {
+  description =$('.abuse-description-'+commentId).val();
+ }
  var data = {description : description};
 
  $.ajax({
@@ -541,11 +545,24 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
      url: url,
      data: data,
      success: function (data, dataType) {
+         $('.message').addClass('success-message ').append('Nous avons bien enregistré votre demande ');
        if(postId !=0) {
-    $('#modal-report-abuse-post-'+postId).modal('hide');
+           setTimeout(function(){
+               $('#modal-report-abuse-post-'+postId).modal('hide');
+               $('.message').removeClass('success-message').empty();
+               $('.abuse-description-'+postId).val('');
+
+           },1500);
+    //
       } else {
-   $('#modal-report-abuse-comment-'+commentId).modal('hide');
-      }
+           setTimeout(function(){
+               $('#modal-report-abuse-comment-'+commentId).modal('hide');
+               $('.message').removeClass('success-message').empty();
+               $('.abuse-description-'+commentId).val('');
+
+           },1500);
+     }
+
      }
  });
 })
