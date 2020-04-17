@@ -2,20 +2,20 @@
 
 {% form_theme ServiceForm 'bootstrap_4_layout.html.twig' %}
 
-  {% block body %}
+{% block body %}
 
     <div class="container">
        <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="offset-3 col-md-6">
           <div class="bg-light py-3 px-3 mt-5 mb-5">
-            {% if edit == true %}
-            <h1>Modifier mon service</h1>
-            {% else %}
-            <h1>Ajouter un service</h1>
-            {% endif %}
-     
             <div class="card-body card-block">
+                <div class="text-center">
+                    {% if edit == true %}
+                        <h1>Modifier mon service</h1>
+                    {% else %}
+                        <h1>Ajouter un service</h1>
+                    {% endif %}
+                </div>
                 {{ form_start(ServiceForm) }}
                 <div class="form-group">
                   {{ form_row(ServiceForm.title) }}
@@ -27,24 +27,50 @@
                   {{ form_row(ServiceForm.description) }}
                 </div>
                 <div class="form-group">
-                  {{ form_row(ServiceForm.type) }}
+                  {{ form_row(ServiceForm.category) }}
                 </div>
-                <div class="form-group">
-                    {{ form_row(ServiceForm.imageFile) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(ServiceForm.price) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(ServiceForm.isFree) }}
-                </div>
-                {% if edit == true %}
-                  <div class="box-image service-box-image">
-                    <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
-                </div>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <div class="form-group">
+                        {{ form_row(ServiceForm.type) }}
+                    </div>
                 {% endif %}
-                <div class="form-actions form-group">
-                  <button type="submit" class="btn btn-success btn-sm">Enregistrer</button>
+                <label class="form-control-label" for="">Images</label>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile1) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile2) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(ServiceForm.imageFile3) }}
+                </div>
+
+                <div id="price" class="form-group" {% if service.isQuote == true %} style="display: none" {% endif %}>
+                    {{ form_label(ServiceForm.price) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">€</span>
+                        </div>
+                        {{ form_widget(ServiceForm.price) }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="discovery" class="form-group" {% if service.isDiscovery == false %} style="display: none" {% endif %}>
+                    {{ form_row(ServiceForm.discoveryContent) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(ServiceForm.isQuote) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(ServiceForm.isDiscovery) }}
+                </div>
+                <div class="form-actions form-group text-right">
+                  <button type="submit" class="btn btn-success btn-md">Enregistrer</button>
                 </div>
                 {{ form_end(ServiceForm) }}
             </div>
@@ -54,4 +80,8 @@
       </div>
     </div>
 
-  {% endblock %} 
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/form.js"></script>
+{% endblock %}

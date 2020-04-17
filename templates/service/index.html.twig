@@ -10,28 +10,27 @@
                 <div class="col-lg-3 position-fixed">
                     <div class="sidebar">
                         <div class="container-sidebar">
-                            <div class="filters">
+                            <div class="filters mt-4">
                                 <h4>Recherche</h4>
+                                {{ form_start(searchForm) }}
                                 <div class="mt-3">
-                                    <input type="text" class="form-control" placeholder="Trouvez le service qu'il vous faut !" id="inputDefault">
+                                    {{ form_widget(searchForm.query) }}
                                 </div>
                                 <div class="mt-3">
-                                    <select class="custom-select">
-                                        <option selected="">Type de service</option>
-                                        <option value="1">Categorie 1</option>
-                                        <option value="2">Categorie 2</option>
-                                        <option value="3">Categorie 3</option>
-                                    </select>
+                                    {{ form_widget(searchForm.category) }}
                                 </div>
                                 <div class="mt-3">
                                     <div class="text-center"><button type="submit" class="btn-filter-search" title="Chercher">Chercher</button></div>
                                 </div>
+                                {{ form_end(searchForm) }}
                             </div>
-                            <hr/>
-                            <div>
-                                <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
-                                <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
-                            </div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <hr/>
+                                <div>
+                                    <a href="{{ path('service_user', {'id': app.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                    <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
+                                </div>
+                            {% endif %}
                             <hr/>
                             <div class="contact">
                                 <div class="avatar">
@@ -46,11 +45,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="offset-3 col-lg-9 mt-5">
-                    <div class="">
+                <div class="offset-3 col-lg-9 ">
+                    {% include 'partials/flashes.html.twig' %}
+                    <div class="mt-5">
                         <header class="section-header">
-                            <h3>Services</h3>
-                            <p>Les services créés par votre communauté pour vous !</p>
+                            {% if isPrivate != true %}
+                                <h3>Services</h3>
+                                <p>Les services créés par votre communauté pour vous !</p>
+                            {% else %}
+                                <h3>Mes services</h3>
+                                <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
+                            {% endif %}
                         </header>
 
                         {#<div class="filter">
@@ -91,10 +96,10 @@
                                     <div class="box">
                                         <a href="{{ path('service_show', {'id': service.id}) }}">
                                             <div class="portfolio-wrap dashboard-service-image">
-                                                {% if service.photo %}
-                                                    <img src="/images/service/photo/{{ service.photo }}" class="img-fluid" alt="">
+                                                {% if service.filename %}
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="/images/unknow-service.jpg" class="img-fluid" alt="">
+                                                    <img src="/images/services/unknow-service.jpg" class="img-fluid" alt="">
                                                 {% endif %}
                                             </div>
                                             <div class="info">

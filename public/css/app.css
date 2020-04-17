@@ -1,3 +1,9 @@
+
+.alert{
+    border-left: 0.6rem solid;
+    border-radius: 5px;
+}
+
 .container-mvp{
     margin-right: 25px;
     margin-left: 25px;
@@ -56,4 +62,19 @@
 
 #photos .second{
     height: 150px;
+}
+
+.sidebar .contact{
+    text-align: center;
+}
+
+.avatar {
+    text-align: center;
+}
+
+.avatar img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 4px solid #fff;
 }
