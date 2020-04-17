@@ -51,6 +51,8 @@ class RecommandationController extends AbstractController
         
         if($company != null) {
           $recommandation->setCompany($company);
+          $this->addFlash('success', 'Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message');
+
          }
         if ( $service != null)
         {

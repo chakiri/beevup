@@ -59,6 +59,7 @@ class ServiceController extends AbstractController
             $message = "Votre Service a bien été crée !";
             $service->setUser($this->getUser());
         }
+        $service->setUser($this->getUser());
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())

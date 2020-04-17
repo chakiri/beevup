@@ -8,7 +8,7 @@
         <div class="container-mvp">
 
             {# Notice warning#}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN_PLATEFORM') %}
             <div class="alert alert-dismissible alert-secondary">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Abus</h4>
                 <p class="mb-0">Vous avez des abus à gérer <a href="{{ path('abuses') }}" class="alert-link">cliquer ici</a>.</p>
@@ -46,8 +46,8 @@
                             <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
                         {% endif %}
                         </div>
-                        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                        <p class="text-muted">{{ app.user.profile.firstname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.lastname|capitalize }}</p>
+                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profil</a>
                     </div>
 
                     {#{% if is_granted('ROLE_ADMIN_COMPANY') %} #}
@@ -64,21 +64,21 @@
                             </div>
                             {% if app.user.company %}
                                 <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                                <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a>
+                               <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
                                 {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                                    <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                                   <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
                                 {% endif %}
                             {% endif %}
                         </div>
                     {#{% endif %}#}
                     {#{% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} #}
                     <div class="box">
-                        <h4>Mon magasin</h4>
+                        <h4>Mon conseiller </h4>
                         <p class="lead">{{ app.user.store.name|capitalize }}</p>
                         <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
                         <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
                         <p><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a></p>
-                        <p class="mt-3"><a href="#">Contacter mon conseillé</a></p>
+                        <p class="mt-3"><a href="#">Contacter mon conseiller </a></p>
                     </div>
                     {#{% endif %}#}
                 </div>
@@ -154,9 +154,8 @@
                                         <option value="All">Tous</option>
                                         <option value="Informations">Informations</option>
                                         <option value="LastPublished">Derniers arrivés</option>
-                                        <option value="Opportunities">Opportunités</option>
-                                        <option value="Recommendations">Recommandations</option>
-                                        <option value="Employment">Emploi</option>
+                                        <option value="Opportunities">Opportunité commerciale</option>
+                                        <option value="Employment">Offres d’emplois</option>
                                     </select>
                                 </div>
                             </div>

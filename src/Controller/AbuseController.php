@@ -64,7 +64,6 @@ class AbuseController extends AbstractController
      }
      $manager->persist($abuse);
      $manager->flush();
-     $this->addFlash('abuse-success', 'Votre réclamation a été bien envoyé');
      $response = new Response(
       'Content',
       Response::HTTP_OK,

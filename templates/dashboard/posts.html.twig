@@ -94,7 +94,7 @@
                   </a></span>
               </div>
               {% if  app.user.company %}
-                  {% if  app.user.company.isCompleted == true %}
+                  {% if  app.user.profile.isCompleted == true %}
                         <div class="col-14">
 
                               {% if likedPost[loop.index - 1] == 1 %}
@@ -151,7 +151,7 @@
                   </div>
              {% endif %}
              {% if app.user.company %}
-                     {% if app.user.id != post.user.id and app.user.company.isCompleted == true %}
+                     {% if app.user.id != post.user.id and app.user.profile.isCompleted == true %}
                      <div id ="report-abuse-post-btn-{{post.id}}"  class="report-post-btn-lg" data-post="{{post.id}}">
                         <button class="report-abuse-btn" data-toggle="modal" data-post="{{post.id}}" data-target="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
