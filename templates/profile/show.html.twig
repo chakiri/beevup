@@ -7,14 +7,14 @@
         <div class="container-mvp">
             <div class="box-head">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-lg-4">
                         {% if profile.filename is empty %}
                             <img src="/images/default_user.png" class="img-fluid" alt="">
                         {% else %}
                             <img src="{{ vich_uploader_asset(profile, 'imageFile') }}" class="img-fluid" alt="">
                         {% endif %}
                     </div>
-                    <div class="col-8">
+                    <div class="col-lg-8">
                         <div class="box-head-content">
                             <div class="row">
                                 <div class="col-8">
@@ -109,14 +109,11 @@
                         <h4>La communauté a recommandé les services de {{ profile.firstname|capitalize }}</h4>
                         {% if recommandations %}
                             {% for recommandation in recommandations %}
-                                <div class="row">
-                                    <div class="col-lg-2 col-sm-4 p-0">
-                                        <div class="avatar">
-                                            <img src="/images/profil/photo/{{ recommandation.user.profile.imageFile }}" class="img-fluid" alt="">
-                                        </div>
+                                <div class="recommandation">
+                                    <div class="avatar">
+                                        <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                     </div>
-
-                                    <div class="col-lg-10 col-sm-8 mt-2">
+                                    <div class="content p-2">
                                         <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
                                         <p class="text-muted">{{recommandation.message }}</p>
                                     </div>

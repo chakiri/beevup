@@ -3,6 +3,12 @@
     width: 100% !important;
 }
 
+/* Dashboard */
+
+.dashboard-box{
+    display: flex;
+}
+
 /*------------*/
 .alert{
     border-left: 0.6rem solid;
@@ -185,6 +191,13 @@
     font-size: 12px;
 }
 
+/* Recommandation
+------------------------------- */
+.recommandation{
+    display: flex;
+}
+
+
 /* Services
 ------------------------------- */
 .card {
@@ -316,6 +329,12 @@
     }
     .sidebar .contact{
         display: none;
+    }
+    .box{
+        margin: 0 10px 20px 10px;
+    }
+    .main-info {
+        height: auto;
     }
 
 }

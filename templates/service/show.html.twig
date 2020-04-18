@@ -115,14 +115,11 @@
                         </div>
                         {% if recommandations %}
                             {% for recommandation in recommandations %}
-                                <div class="row">
-                                    <div class="col-lg-2 col-sm-4 p-0">
-                                        <div class="avatar">
-                                            <img src="/images/profil/photo/{{ recommandation.user.profile.photo }}" class="img-fluid" alt="">
-                                        </div>
+                                <div class="recommandation">
+                                    <div class="avatar">
+                                        <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                     </div>
-
-                                    <div class="col-lg-10 col-sm-8 mt-2">
+                                    <div class="content p-2">
                                         <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
                                         <p class="text-muted">{{recommandation.message }}</p>
                                     </div>
@@ -137,14 +134,11 @@
                         <div class="box">
                             <h5>D'autres personnes ont recommandé {{ service.user.company|capitalize }}</h5>
                             {% for recommandationCompany in recommandationsCompany %}
-                                <div class="row">
-                                    <div class="col-lg-2 col-sm-2 p-0">
-                                        <div class="avatar">
-                                            <img src="/images/profil/photo/{{ recommandationCompany.user.profile.photo }}" class="img-fluid" alt="">
-                                        </div>
+                                <div class="recommandation">
+                                    <div class="avatar">
+                                        <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                     </div>
-
-                                    <div class="col-lg-10 col-sm-10 mt-2">
+                                    <div class="content p-2">
                                         <p><strong>{{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}</strong></p>
                                         <p class="text-muted">{{recommandationCompany.message }}</p>
                                     </div>

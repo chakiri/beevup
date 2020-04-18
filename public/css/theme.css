@@ -758,14 +758,11 @@ p.text-muted {
   background-color:#fff;
 }
 .dashboard-header-buttons{
-  position:relative;
+  display: flex;
   top:5px;
 }
 .dashboard-profil-img{
   margin:0 auto;
-}
-.dashboard-box{
-  text-align:center;
 }
 .trophy-icon{
   font-size:25px;
