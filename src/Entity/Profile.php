@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -12,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="App\Repository\ProfilRepository")
  * @Vich\Uploadable
  */
-class Profile
+class Profile implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -38,16 +39,20 @@ class Profile
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9] (?:[\s.-]*\d{2}){4}$/")
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      */
     private $mobileNumber;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex("/^(?:(?:\+|00)33|0)\s*[1-9] (?:[\s.-]*\d{2}){4}$/")
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      */
     private $phoneNumber;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="profile", cascade={"persist", "remove"})
@@ -58,12 +63,12 @@ class Profile
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
-    */
-    private $photo;
-    
-    /*
+     */
+    private $filename;
+
+    /**
      * @var File|null
-     * @Vich\UploadableField(mapping="profil_photo", fileNameProperty = "photo")
+     * @Vich\UploadableField(mapping="profile_image", fileNameProperty = "filename")
      */
     private $imageFile;
 
@@ -179,26 +184,51 @@ class Profile
 
         return $this;
     }
-    public function getPhoto(): ?string
+
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->photo;
+        return $this->updatedAt;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->photo = $photo;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getImageFile(): ?string
+    /**
+     * @return null|string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param null|string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(?string $imageFile): self
+    /**
+     * @param null|File $imageFile
+     * @return $this
+     */
+    public function setImageFile(?File $imageFile)
     {
         $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }
@@ -242,6 +272,17 @@ class Profile
     {
        return strval( $this->getId() );
       
+    }
+
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
     }
 
 }

@@ -39,15 +39,17 @@
             <div class="row page">
                 <div class="col-lg-3 col-md-6">
                     <div class="box dashboard-box">
-                        <div class="row avatar">
-                        {% if app.user.profile.photo %}
-                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                        <div class="avatar">
+                        {% if app.user.profile.filename %}
+                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                          {% else %}
                             <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
                         {% endif %}
                         </div>
-                        <p class="text-muted">{{ app.user.profile.firstname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.lastname|capitalize }}</p>
-                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profil</a>
+                        <div class="info mt-3">
+                            <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                            <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                        </div>
                     </div>
 
                     {#{% if is_granted('ROLE_ADMIN_COMPANY') %} #}
@@ -84,12 +86,12 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="box dashboard-header">
-                        <div class="">
-                            <div class="dashboard-header-buttons">
+                        <div class="dashboard-header-buttons">
+                            <div class="notifs">
                                 <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
                                     <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
                                     {% if notificationNumber > 0 %}
-                                      <span class="badge bell-badge">{{notificationNumber}}</span>
+                                        <span class="badge bell-badge">{{notificationNumber}}</span>
                                     {% endif %}
                                 </a>
                                 {% if notificationNumber > 0 %}
@@ -97,20 +99,20 @@
                                         {% for notification in dashboardNotifications %}
                                             <div class="notification-item clearfix">
                                                 <div class="user-photo">
-                                                    <img style="float:left" src="/images/profil/photo/{{ notification.user.profile.photo }}" class="user-profil-sm" alt="">
+                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                 </div>
                                                 <div class="notification-text">
                                                     <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
-                                                      {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
+                                                        {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
                                                     </a>
                                                     {% if notification.type ==  'comment' %}
                                                         {% if notification.post.distinctUserCommentNumber > 1  %}
-                                                           et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% else %}
-                                                           a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% endif %}
                                                     {% else %}
-                                                    a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                        a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -125,23 +127,22 @@
                                     <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
                                     <span class="badge">3</span>
                                 </a>
-
-
-                                {% if  app.user.profile.isCompleted == true %}
-                                    <div style="float: right">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm btn-radius add-post"
-                                                data-toggle="modal-add-post"
-                                                data-target="{{ path('post_create') }}"
-                                                data-whatever="create-post" >
-                                            <i class="fa fa-pencil-square-o"></i> Publier un post
-                                        </button>
-                                    </div>
-                                {% endif %}
-
                             </div>
 
+                            {% if  app.user.profile.isCompleted == true %}
+                                <div class="add" style="float: right">
+                                    <button type="button"
+                                            class="btn btn-primary btn-sm btn-radius add-post"
+                                            data-toggle="modal-add-post"
+                                            data-target="{{ path('post_create') }}"
+                                            data-whatever="create-post" >
+                                        <i class="fa fa-pencil-square-o"></i> Publier un post
+                                    </button>
+                                </div>
+                            {% endif %}
+
                         </div>
+
                     </div>
                     {% if posts and postNumber > 0 %}
                     <div class="box">

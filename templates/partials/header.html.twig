@@ -17,7 +17,7 @@ Header
                 <li><a href="{{ path('chat_topic', {'name': 'general'}) }}">Chat</a></li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>
-                        <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profile</a></li>
+                        <li><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon compte</a></li>
                         {%  if app.user.company %}
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
                         {% endif %}

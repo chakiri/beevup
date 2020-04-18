@@ -86,7 +86,7 @@ class CompanyController extends AbstractController
            ]);
 
         }
-        return $this->render('company/edit.html.twig', [
+        return $this->render('company/form.html.twig', [
             'company' => $company,
             'EditCompanyForm' => $form->createView(),
         ]);

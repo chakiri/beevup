@@ -71,16 +71,16 @@ class ServiceType extends AbstractType
             ->add('isDiscovery', CheckboxType::class, [
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false,
-                'label'    => 'Proposer une offre découverte',
+                'label'    => 'Proposer une offre spéciale',
                 'attr'     => [
                     'class' => 'custom-control custom-switch',
                 ],
             ])
             ->add('discoveryContent', TextareaType::class, [
-                'label'    => 'Description de l\'offre découverte',
+                'label'    => 'Description de l\'offre spéciale',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'En quelques mots, décrivez votre offre découvrte du service',
+                    'placeholder' => 'En quelques mots, décrivez votre offre spéciale du service',
                     'class'       =>'form-control'
                 ],
             ])
