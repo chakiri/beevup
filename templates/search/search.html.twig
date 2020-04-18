@@ -53,13 +53,13 @@
                                         <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
                                             <div class="box">
                                                     <div class="portfolio-wrap dashboard-service-image">
-                                                        {% if favorit.favoritUser.profile.photo is empty %}
+                                                        {% if favorit.favoritUser.profile.filename is empty %}
                                                             <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                                <img src="/images/default_user.png" class="img-fluid" alt="">
+                                                                <img src="/images/default/user.png" class="img-fluid" alt="">
                                                             </a>
                                                         {% else %}
                                                             <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                                <img src="/images/profil/photo/{{ favorit.favoritUser.profile.photo }}" class="img-fluid sm-profile-img" alt="">
+                                                                <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                             </a>
                                                         {% endif %}
                                                     </div>
@@ -119,13 +119,13 @@
                                <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
                                    <div class="box">
                                        <div class="portfolio-wrap dashboard-service-image user-profile_img">
-                                           {% if user.profile.photo is empty %}
+                                           {% if user.profile.filename is empty %}
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                     <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                                                 </a>
                                            {% else %}
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                  <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                 </a>
                                            {% endif %}
                                        </div>

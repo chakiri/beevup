@@ -20,15 +20,15 @@
       <div id="post-id-{{post.id}}" class="row post col-12 {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
           <div class="user-profil-photo col-1">
               <div class="user-profil">
-                  {% if post.user.profile.filename is empty %}
-                    <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
-                       <img src="/images/default_user.png" class="user-profil-sm" alt="">
-                    </a>
+                  {% if post.user.profile.filename %}
+                      {% set variable = post.user.profile.imageFile  %}
+                      <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                          <img src="{{ asset('/images/profiles/'~ variable) | imagine_filter('thumbnail45') }}" class="user-profil-sm" alt="">
+                      </a>
                   {% else %}
-                      {% set variable = post.user.profile.filename  %}
-                  <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
-                      <img src="{{ asset('/images/profil/photo/'~ variable) | imagine_filter('thumbnail45') }}" class="user-profil-sm" alt="">
-                  </a>
+                      <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                          <img src="/images/default/user.png" class="user-profil-sm" alt="">
+                      </a>
                   {% endif %}
               </div>
           </div>

@@ -21,6 +21,7 @@ class ProfileController extends AbstractController
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
 
         $allRecommandations = [];
+        //dd($services);
         foreach ($services as $service){
             $recommandations = $recommandationRepository->findBy(['service' => $service]);
             if ($recommandations)

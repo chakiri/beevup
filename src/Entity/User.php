@@ -36,7 +36,7 @@ class User implements UserInterface
      * @Assert\Regex(
      * pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
      * match=true,
-     * message="Votre mot de passe doit contenir 1 Majuscule et 1 minuscule"
+     * message="Votre mot de passe doit contenir 1 Majuscule, 1 minuscule, les caractères spéciaux ne sont pas autorisés"
      * )
      * @ORM\Column(type="string", length=255)
      */
@@ -84,7 +84,6 @@ class User implements UserInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $store;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
@@ -264,39 +263,6 @@ class User implements UserInterface
     {
        return strval( $this->getId() );
       
-    }
-
-
-
-    /**
-     * @return Collection|PostLike[]
-     */
-    public function getPost(): Collection
-    {
-        return $this->post;
-    }
-
-    public function addPost(PostLike $post): self
-    {
-        if (!$this->post->contains($post)) {
-            $this->post[] = $post;
-            $post->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePost(PostLike $post): self
-    {
-        if ($this->post->contains($post)) {
-            $this->post->removeElement($post);
-            // set the owning side to null (unless already changed)
-            if ($post->getUser() === $this) {
-                $post->setUser(null);
-            }
-        }
-
-        return $this;
     }
 
     /**

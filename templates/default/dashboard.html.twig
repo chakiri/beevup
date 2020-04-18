@@ -43,7 +43,7 @@
                         {% if app.user.profile.filename %}
                             <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                          {% else %}
-                            <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
+                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
                         {% endif %}
                         </div>
                         <div class="info mt-3">
@@ -52,37 +52,44 @@
                         </div>
                     </div>
 
-                    {#{% if is_granted('ROLE_ADMIN_COMPANY') %} #}
-                        <div class="box">
-                            <h4>Mon entreprise</h4>
-                            <div class="logo-company">
-                                {% if app.user.company %}
-                                    {% if app.user.company.logo %}
-                                        <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
-                                    {% else %}
-                                        <img src="/images/unknow-company.jpg" class="img-fluid" alt="">
-                                    {% endif %}
-                                {% endif %}
-                            </div>
+                    <div class="box">
+                        <h4>Mon entreprise</h4>
+                        <div class="logo-company">
                             {% if app.user.company %}
-                                <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                               <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
-                                {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                                   <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
+                                {% if app.user.company.logo %}
+                                    <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+                                {% else %}
+                                    <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
                                 {% endif %}
                             {% endif %}
                         </div>
-                    {#{% endif %}#}
-                    {#{% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} #}
+                        {% if app.user.company %}
+                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
+                           <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
+                            {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                               <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
                     <div class="box">
-                        <h4>Mon conseiller </h4>
+                        <h4>Mon magasin </h4>
                         <p class="lead">{{ app.user.store.name|capitalize }}</p>
                         <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
                         <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
                         <p><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a></p>
-                        <p class="mt-3"><a href="#">Contacter mon conseiller </a></p>
                     </div>
-                    {#{% endif %}#}
+
+                    <div class="box">
+                        <h4>Mon conseiller </h4>
+                        <div class="avatar">
+                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+                        </div>
+                        <p>Mon conseiller <strong>Richard Bryand</strong></p>
+                        <a href="#">Contacter mon Mr Bryand</a>
+                    </div>
+
+
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="box dashboard-header">
@@ -146,12 +153,12 @@
                     </div>
                     {% if posts and postNumber > 0 %}
                     <div class="box">
-                        <div class="row col-12">
+                        <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="filter-dropdown">
                                 
-                                    <select id="news-filter">
+                                    <select id="news-filter" class="form-control">
                                         <option value="All">Tous</option>
                                         <option value="Informations">Informations</option>
                                         <option value="LastPublished">Derniers arrivés</option>

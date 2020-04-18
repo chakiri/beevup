@@ -12,7 +12,7 @@
                         {% if service.filename %}
                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                         {% else %}
-                            <img src="/images/services/unknow-service.jpg" class="img-fluid" alt="">
+                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                         {% endif %}
                     </div>
                     <div class="box">
@@ -29,10 +29,10 @@
                                     {% else %}
                                         <strong>Non</strong>
                                     {% endif %}</p>
-                                <p class="mt-3"><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
+                                <p class="mt-3"><a target="_blank" href="{{ path('profile_show', {'id': service.user.profile.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
                                 <p><a target="_blank" href="{{ path('chat_private', {'id': service.user.id}) }}">Discuter avec {{ service.user.profile.firstname|capitalize }}</a></p>
                             {% else %}
-                                <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.id}) }}">Mes informations</a></p>
+                                <p><a target="_blank" href="{{ path('profile_show', {'id': service.user.profile.id}) }}">Mes informations</a></p>
                             {% endif %}
                         </div>
                      </div>
@@ -40,19 +40,22 @@
                     <div class="box">
                         <h4 class="mb-4">Services similaires</h4>
                         {% for service in similarServices %}
-                            <div class="row mt-3">
-                                <div class="col-3" style="padding-right: 0;padding-left: 0;">
+                            <div class="similar-service">
+                                <a href="{{ path('service_show', {id: 'service.id'}) }}">
                                     <div class="avatar text-center">
                                         {% if service.filename %}
                                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                                         {% else %}
-                                            <img src="/images/services/unknow-service.jpg" class="img-fluid" alt="">
+                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                                         {% endif %}
                                     </div>
-                                </div>
-                                <div class="col-9 mt-2">
-                                    <strong>{{ service.title }}</strong>
-                                </div>
+                                </a>
+                                <a href="{{ path('service_show', {id: 'service.id'}) }}">
+                                    <div class="p-2">
+                                        <strong>{{ service.title }}</strong>
+                                    </div>
+
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
@@ -117,7 +120,11 @@
                             {% for recommandation in recommandations %}
                                 <div class="recommandation">
                                     <div class="avatar">
-                                        <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% if recommandation.user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/default/user.png" class="img-fluid" alt="">
+                                        {% endif %}
                                     </div>
                                     <div class="content p-2">
                                         <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
@@ -136,7 +143,11 @@
                             {% for recommandationCompany in recommandationsCompany %}
                                 <div class="recommandation">
                                     <div class="avatar">
-                                        <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% if recommandationCompany.user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/default/user.png" class="img-fluid" alt="">
+                                        {% endif %}
                                     </div>
                                     <div class="content p-2">
                                         <p><strong>{{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}</strong></p>

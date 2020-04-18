@@ -3,7 +3,7 @@
         {% if app.user.profile.filename %}
             <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
         {% else %}
-            <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
+            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
         {% endif %}
     </div>
     <div class="info mt-3">
@@ -19,7 +19,7 @@
       {% if app.user.company.logo %}
           <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
       {% else %}
-          <img src="/images/unknow-company.png" class="img-fluid" alt="">
+          <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
       {% endif %}
       </div>
       <div class="company-informations">
