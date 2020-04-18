@@ -89,7 +89,7 @@ class PostController extends AbstractController
            ]);
 
         }
-        return $this->render('post/edit.html.twig', [
+        return $this->render('post/form.html.twig', [
             'company' => $post,
             'EditPostorm' => $form->createView(),
         ]);
