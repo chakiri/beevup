@@ -39,25 +39,24 @@
 
                     <div class="box">
                         <h4 class="mb-4">Services similaires</h4>
-                        {% for service in similarServices %}
-                            <div class="similar-service">
-                                <a href="{{ path('service_show', {id: 'service.id'}) }}">
-                                    <div class="avatar text-center">
+                        {% if similarServices %}
+                            {% for service in similarServices %}
+                                <div class="similar-service">
+                                    <div class="avatar">
                                         {% if service.filename %}
                                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                                         {% else %}
                                             <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                                         {% endif %}
                                     </div>
-                                </a>
-                                <a href="{{ path('service_show', {id: 'service.id'}) }}">
-                                    <div class="p-2">
+                                    <div class="content p-2">
                                         <strong>{{ service.title }}</strong>
                                     </div>
-
-                                </a>
-                            </div>
-                        {% endfor %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">Aucun service similaire pour l'instant</p>
+                        {% endif %}
                     </div>
                 </div>
 

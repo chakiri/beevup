@@ -325,6 +325,9 @@
 .similar-service a{
     color: inherit;
 }
+.similar-service .content{
+    width: 250px;
+}
 
 
 /* Websocket

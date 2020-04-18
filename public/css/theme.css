@@ -906,7 +906,8 @@ spinner-visible {
 }
 /* posts section*/
 .post {
-border: 1px solid #eee;
+/*border: 1px solid #eee;*/
+background-color: #f9f9fc;
 margin-bottom: 10PX;
 padding-top: 10PX;
 padding-bottom: 10px;
