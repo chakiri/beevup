@@ -7,10 +7,10 @@
             <div class="col-lg-3 col-sm-4 sidebar">
                 <div class="pt-3">
                     <div class="user">
-                        {% if app.user.profile.photo is empty %}
-                            <img src="/images/default_user.png" class="img-fluid" alt="">
+                        {% if app.user.profile.filename is empty %}
+                            <img src="/images/default/user.png" class="img-fluid" alt="">
                         {% else %}
-                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid" alt="">
+                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                         {% endif %}
                         <div id="notifications" data-url="{{ path('save_notification') }}" hidden></div>
                         <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.firstname|capitalize}}</h4>

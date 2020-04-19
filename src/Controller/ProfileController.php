@@ -2,54 +2,51 @@
 
 namespace App\Controller;
 
+use App\Repository\RecommandationRepository;
+use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
 use App\Form\ProfileType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProfileController extends AbstractController
 {
     /**
      * @Route("/account/{id}", name="profile_show")
      */
-    public function show(Profile $profile)
+    public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository)
     {
+        $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
+
+        $allRecommandations = [];
+        //dd($services);
+        foreach ($services as $service){
+            $recommandations = $recommandationRepository->findBy(['service' => $service]);
+            if ($recommandations)
+                $allRecommandations = array_merge($allRecommandations, $recommandations);
+        }
+
         return $this->render('profile/show.html.twig', [
             'profile' => $profile,
+            'services' => array_slice($services, 0, 3),
+            'countServices' => count($services),
+            'recommandations' => $allRecommandations
         ]);
     }
+
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function edit(Profile $profile, EntityManagerInterface $manager, Request $request)
+    public function form(Profile $profile, EntityManagerInterface $manager, Request $request)
     {
         $form = $this->createForm(ProfileType::class, $profile);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['imageFile']->getData();
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $safeFilename =  $originalFilename;
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-                try {
-                    $file->move(
-                        $this->getParameter('profil_photo'),
-                        $newFilename
-                    );
-                    
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                   
-                }
-                $profile->setPhoto($newFilename);
-            }
+
             $profile->setIsCompleted(true);
 
             $manager->persist($profile);
@@ -60,7 +57,7 @@ class ProfileController extends AbstractController
             ]);
         }
 
-        return $this->render('profile/edit.html.twig', [
+        return $this->render('profile/form.html.twig', [
             'EditProfileForm' => $form->createView(),
         ]);
     }

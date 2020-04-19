@@ -1,13 +1,15 @@
 <div class="box dashboard-box">
-  <div class="row avatar">
-  {% if app.user.profile.photo %}
-      <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
-   {% else %}
-      <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
-  {% endif %}
-  </div>
-  <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-  <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profil</a>
+    <div class="avatar">
+        {% if app.user.profile.filename %}
+            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+        {% else %}
+            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+        {% endif %}
+    </div>
+    <div class="info mt-3">
+        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+    </div>
 </div>
 
 {% if is_granted('ROLE_ADMIN_COMPANY') %} 
@@ -17,7 +19,7 @@
       {% if app.user.company.logo %}
           <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
       {% else %}
-          <img src="/images/unknow-company.png" class="img-fluid" alt="">
+          <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
       {% endif %}
       </div>
       <div class="company-informations">
@@ -35,7 +37,7 @@
 
   </div>
 {% endif %}
-{% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} 
+{% if is_granted('ROLE_ADMIN_STORE') %}
 <div class="box">
   <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}"><h4>Mon magasin</h4></a>
   <p class="lead">{{ app.user.store.name|capitalize }}</p>

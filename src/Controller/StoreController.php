@@ -49,7 +49,7 @@ class StoreController extends AbstractController
             ]);
         }
 
-        return $this->render('store/edit.html.twig', [
+        return $this->render('store/form.html.twig', [
             'store' => $store,
             'form' => $form->createView()
         ]);
