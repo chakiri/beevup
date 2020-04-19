@@ -2270,6 +2270,9 @@ margin-top: 10px;
 .no-result{
   min-height:190px;
 }
+.add-post{
+  font-weight: bold;
+}
 html {
   --scrollbarBG: #CFD8DC;
   --thumbBG: #90A4AE;

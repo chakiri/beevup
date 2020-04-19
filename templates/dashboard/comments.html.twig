@@ -4,10 +4,10 @@
   <div id = "comment-id-{{comment.id}}"class="row user-comment">
       <div class="user-image col-1 padding-rf-2">
           <a  href="{{path('profile_show', { 'id': comment.user.profile.id}) }}">
-            {% if comment.user.profile.photo is empty %}
-            <img class="media-object photo-profile" src="/images/default_user.png" width="32" height="32" alt="...">
+            {% if comment.user.profile.filename is empty %}
+            <img class="media-object photo-profile" src="/images/default/user.png" width="32" height="32" alt="...">
             {% else %}
-              <img class="media-object photo-profile" src="/images/profil/photo/{{comment.user.profile.photo}}" width="32" height="32" alt="...">
+              <img class="media-object photo-profile" src="/images/profiles/{{comment.user.profile.filename}}" width="32" height="32" alt="...">
               {% endif %}
             </a>
       </div>
