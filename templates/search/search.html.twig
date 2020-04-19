@@ -86,7 +86,7 @@
                                                                         {{favorit.favoritUser.company.name|capitalize }}
                                                                     </a>
                                                                 {% else %}
-                                                                <a class="user-company-name text-primary" href="{{path('store_show', { 'id': favorit.favoritUser.store.id}) }}">
+                                                                <a class="user-company-name text-primary" href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}">
                                                                     {{favorit.favoritUser.store.name|capitalize }}
                                                                 </a>
                                                                 {% endif %}
@@ -109,7 +109,9 @@
                             {% if usersCount > 0 %}
                                 {{ usersCount }} resultas
                             {% elseif usersCount == 0 %}
-                                Aucun résultat trouvé.
+                                <div class="no-result">
+                                    Aucun résultat trouvé.
+                                </div>
                             {%  endif %}
                         {%  endif %}
                     </div>
@@ -118,7 +120,7 @@
                             {% for user in users %}
                                <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
                                    <div class="box">
-                                       <div class="portfolio-wrap dashboard-service-image user-profile_img">
+                                       <div class="portfolio-wrap dashboard-service-image company-contact-img">
                                            {% if user.profile.photo is empty %}
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                     <img src="/images/no-available-photo.png" class="img-fluid" alt="">
@@ -168,12 +170,14 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    <div class="row">
+                    <div class="row col-12">
                         {% if companiesCount is defined  %}
                             {% if companiesCount > 0 %}
                                 {{ companiesCount }} resultas
                             {% elseif companiesCount == 0 %}
+                              <div class="no-result">
                                 Aucun résultat trouvé.
+                              </div>
                             {%  endif %}
                         {%  endif %}
                     </div>
@@ -182,10 +186,10 @@
                             {% for company in companies %}
                                 <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
                                     <div class="box">
-                                        <div class="portfolio-wrap dashboard-service-image">
+                                        <div class="portfolio-wrap search-company-img">
                                                 {% if company.logo is empty %}
                                                     <a href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                        <img src="/images/default_user.png" class="img-fluid search-company-photo" alt="">
+                                                        <img src="/images/no-available-photo.png" class="img-fluid search-company-photo" alt="">
                                                     </a>
                                                 {% else %}
                                                     <a href="{{path('company_show', { 'slug': company.slug}) }}">

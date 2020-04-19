@@ -33,7 +33,14 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function findByIsCompletedProfile()
+    {
+        $qb = $this->createQueryBuilder('u')
+                    ->leftJoin('u.profile', 'p')
+                    ->where('p.isCompleted = true');
 
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
