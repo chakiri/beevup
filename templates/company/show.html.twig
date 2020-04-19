@@ -59,7 +59,7 @@
                                                 <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
 
                                               {% else %}
-                                                 <img src="/images/profil/photo/{{ user.profile.filename }}" class="img-fluid" alt="">
+                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
 
                                               {% endif %}
 
@@ -124,7 +124,7 @@
                                             {% else %}
 
                                             <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                                <img src="{{ asset('/images/profil/photo/'~ recommandation.user.profile.filename) | imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
+                                                <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')| imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
                                             </a>
                                                 {% endif %}
                                         </div>
