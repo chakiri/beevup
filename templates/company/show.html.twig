@@ -10,20 +10,24 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="box-image company-image">
                         {% if company.logo is empty %}
-                            <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+                            <img class="company-no-available-img" src="/images/no-available-company-photo.png" class="img-fluid" alt="">
                         {% else %}
                             <img src="/images/logos/{{ company.logo }}" class="img-fluid" alt="">
+
                         {% endif %}
                     </div>
                     <div class="box company-informations">
                         {% if company.category %}
                         <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
                         {% endif %}
+
                         <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
-                        <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
-                        <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
-                        {% if company.website %}
-                        <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
+                        {% if company.isCompleted %}
+                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
+                            <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
+                            {% if company.website %}
+                             <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
+                            {% endif %}
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
                          <a href="{{ path('company_edit', {'id': company.id}) }}"><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
@@ -46,17 +50,18 @@
                    <div class="row">
                       {% if users %}
                           {%  for user in users %}
+                              {% if user.profile.isCompleted %}
                                <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
                                    <div class="box">
-                                      <div class="portfolio-wrap dashboard-service-image">
+                                      <div class="portfolio-wrap dashboard-service-image company-contact-img">
                                           <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                               {% if user.profile.photo is empty %}
-                                                <img src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+                                                <img class ="contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+
                                               {% else %}
+                                                 <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
 
-                                                  <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
-
-                                               {% endif %}
+                                              {% endif %}
 
                                           </a>
                                       </div>
@@ -76,6 +81,7 @@
                                        </div>
                                    </div>
                                </div>
+                              {% endif %}
                           {% endfor %}
                        {% endif %}
                   </div>
@@ -87,21 +93,14 @@
                             <div class="float-right">  
                                 {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
                                     <button type="button" 
-                                            class="btn btn-primary btn-sm btn-radius add-recommandation" 
+                                            class="btn bv-btn btn-sm btn-radius add-recommandation"
                                             data-toggle="modal"
                                             data-target="{{ path('recommandation') }}" 
                                             data-whatever="@getbootstrap"
                                             data-company="{{company.id}}">
                                        + Proposer une recommandation
                                     </button>
-                            
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            {% include 'default/spinner.html.twig' %}
-                                        </div>
-                                        </div>
-                                    </div>
+
                                 {% endif %}
                             </div>
                         </div>
@@ -123,9 +122,9 @@
                                                 <img src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
                                             </a>
                                             {% else %}
-                                            {% set variable = recommandation.user.profile.photo  %}
+
                                             <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                                <img src="{{ asset('/images/profil/photo/'~ variable) | imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
+                                                <img src="{{ asset('/images/profil/photo/'~ recommandation.user.profile.photo) | imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
                                             </a>
                                                 {% endif %}
                                         </div>
@@ -160,10 +159,10 @@
                                     <div class="box">
                                         <div class="portfolio-wrap dashboard-service-image">
                                             <a href="{{path('service_show', { 'id': service.id}) }}">
-                                                {% if service.photo is empty %}
-                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% if service.filename is empty %}
+                                                    <img class="service-no-available-img" src="/images/no-available-photo.png" class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="/images/service/photo/{{service.photo}}" class="img-fluid" alt="">
+                                                    <img src="/images/services/{{service.filename}}" class="img-fluid" alt="">
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -185,12 +184,27 @@
                                     </div>
                                 </div>
                             {%  endfor %}
+                                {% else  %}
+                                <div class="col-12">
+                                    <div class="box col-12">
+                                        Aucune service n'a été trouvé
+                                    </div>
+                                </div>
                             {% endif %}
-
                     </div>
+
                 </div>
             </div>
         </div>
     </section>
       
+{% endblock %}
+{% block modals %}
+<div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {% include 'default/spinner.html.twig' %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -27,7 +27,7 @@ class SearchController extends AbstractController
  {
      $search = new Search();
      $form = $this->createForm(SearchType::class, $search);
-     $users = null ;
+     $users = $useRepo->findByIsCompletedProfile();
      $companies = null;
      $usersCount = '-1';
      $companiesCount = '-1';
@@ -62,7 +62,7 @@ class SearchController extends AbstractController
              {
                  if($name =='')
                  {
-                      $companies = $companyRepo->findBy(['category' => $category], []);
+                      $companies = $companyRepo->findBy(['category' => $category , 'isCompleted'=>true], []);
 
                  }
                  else {
@@ -71,6 +71,7 @@ class SearchController extends AbstractController
                  }
                  $companiesCount = count( $companies);
              } else {
+                 $users = null;
                  $companies = $companyRepo->findByValue($name);
                  $companiesCount = count( $companies);
              }
@@ -103,7 +104,7 @@ class SearchController extends AbstractController
      }
      return $this->render('search/search.html.twig', [
          'SearchForm' => $form->createView(),
-         'users'=>null,
+         'users'=>$users,
          'companies'=> null,
          'favorits' =>  $favorits,
          'favoritUserIds' => $favoritUserIds,

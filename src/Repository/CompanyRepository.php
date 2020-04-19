@@ -38,6 +38,7 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.city LIKE :value')
             ->orWhere('p.country LIKE :value')
             ->orWhere('p.name LIKE :value')
+            ->andWhere('p.isCompleted = true')
             ->setParameters(array('value' => '%'.$value.'%'));
 
         return $qb->getQuery()->getResult();
@@ -51,6 +52,7 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.phone = :value')
             ->orWhere('p.city = :value')
             ->orWhere('p.country = :value')
+            ->andWhere('p.isCompleted = true')
             ->andWhere('c.name LIKE  :value2')
 
             ->setParameters(array('value' => $value, 'value2'=>$value2));
