@@ -55,11 +55,11 @@
                                    <div class="box">
                                       <div class="portfolio-wrap dashboard-service-image company-contact-img">
                                           <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                              {% if user.profile.photo is empty %}
-                                                <img class ="contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+                                              {% if user.profile.filename is empty %}
+                                                <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
 
                                               {% else %}
-                                                 <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
+                                                 <img src="/images/profil/photo/{{ user.profile.filename }}" class="img-fluid" alt="">
 
                                               {% endif %}
 
@@ -117,14 +117,14 @@
                                 <div class="row">
                                     <div class="col-1 sm-profile-block">
                                         <div>
-                                            {% if recommandation.user.profile.photo is empty %}
+                                            {% if recommandation.user.profile.filename is empty %}
                                             <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
                                                 <img src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
                                             </a>
                                             {% else %}
 
                                             <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                                <img src="{{ asset('/images/profil/photo/'~ recommandation.user.profile.photo) | imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
+                                                <img src="{{ asset('/images/profil/photo/'~ recommandation.user.profile.filename) | imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
                                             </a>
                                                 {% endif %}
                                         </div>
