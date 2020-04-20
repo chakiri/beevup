@@ -267,7 +267,7 @@
                   <div id='comment-id-`+newCommentId+`' class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
                     <div class="user-image `+userImageWidth+`" style="flot:left">
                       <a href='#'>
-                          <img class='media-object photo-profile' src='/images/profil/photo/`+commentUserImg+`'  width='32' height='32' alt=''>
+                          <img class='media-object photo-profile' src='/images/profiles/`+commentUserImg+`'  width='32' height='32' alt=''>
                         </a>
                     </div>
                     <div class='comment `+commentWidth+`'  style='flot:left'>
