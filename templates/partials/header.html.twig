@@ -21,9 +21,9 @@ Header
                         {%  if app.user.company %}
                         <li><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
                         {% endif %}
-                        {%  if app.user.type.id != 6 %}
+                        {#{%  if app.user.type.id != 6 %}#}
                           <li><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon magasin</a></li>
-                        {% endif %}
+                        {#{% endif %}#}
                         {% if is_granted('ROLE_ADMIN_COMPANY') %} 
                          <li><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
                          {% elseif is_granted('ROLE_ADMIN_STORE')  %}
