@@ -78,30 +78,31 @@
 
                     <div class="box">
                         <h4 class="mb-4">{{ countServices }} Services Bureau Vallée</h4>
-                        <div class="row">
                         {% if services %}
-                            {% for service in services %}
-                                <div class="col-lg-4 col-md-6">
-                                    <div class="box card">
-                                        <a href="{{ path('service_show', {'id': service.id}) }}">
-                                            <div class="portfolio-wrap dashboard-service-image">
-                                                {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
-                                                {% else %}
-                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                                {% endif %}
-                                            </div>
-                                            <div class="info">
-                                                <h4 class="title preview">{{ service.title }}</h4>
-                                            </div>
-                                        </a>
+                            <div class="row">
+                                {% for service in services %}
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="box card">
+                                            <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                <div class="portfolio-wrap dashboard-service-image">
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                    {% else %}
+                                                        <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="info">
+                                                    <h4 class="title preview">{{ service.title }}</h4>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
+                                {% endfor %}
+                            </div>
                         {% else %}
                             <p class="text-muted">Aucun service pour l'instant</p>
                         {% endif %}
+
                         <p><a href="{{ path('service_user', {'id': profile.user.id}) }}" type="button" class="btn btn-md btn-2 full-width">Voir tous les services de {{ profile.firstname|capitalize }} </a></p>
                     </div>
 
