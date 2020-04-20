@@ -27,8 +27,10 @@
               <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ app.user.company.category.name }}</p>
           {% endif %}
           <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ app.user.company.email }}</p>
-          <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}</p>
-          <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}</p>
+          {% if company.isCompleted %}
+            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}</p>
+            <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}</p>
+          {% endif %}
           {% if app.user.company.website %}
               <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ app.user.company.website }}</p>
           {% endif %}
