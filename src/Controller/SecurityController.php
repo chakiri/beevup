@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\TopicRepository;
+use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +22,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository): Response
     {
         $user = new User();
 
@@ -33,6 +34,7 @@ class SecurityController extends AbstractController
             
             /* insert company data*/
             $company = new Company();
+            $userType = $userTypeRepository->findOneBy(['name'=> 'admin']);
             $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
@@ -43,6 +45,7 @@ class SecurityController extends AbstractController
             /* insert user data*/
             $user->setStore($user->getStore());
             $user->setCompany($company);
+            $user->setType($userType);
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
@@ -63,9 +66,9 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('create-service-success', 'Votre compte a bien été crée !');
+            $this->addFlash('success', 'Votre compte a bien été crée !');
 
-            return ($this->redirectToRoute('security_login'));
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('security/registration.html.twig', [

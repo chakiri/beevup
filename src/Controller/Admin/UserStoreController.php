@@ -86,7 +86,7 @@ class UserStoreController extends EasyAdminController
     {
         $store = $this->getUser()->getStore();
         $dqlFilter = sprintf('entity.store = %s', $store->getId());
-        $dqlFilter .= sprintf(' and entity.type in (1,2,3) ');
+        $dqlFilter .= sprintf(' and entity.type in (1,2,3,4) ');
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }

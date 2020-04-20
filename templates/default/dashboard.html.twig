@@ -8,7 +8,7 @@
         <div class="container-mvp">
 
             {# Notice warning#}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN_PLATEFORM') %}
             <div class="alert alert-dismissible alert-secondary">
                 <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Abus</h4>
                 <p class="mb-0">Vous avez des abus à gérer <a href="{{ path('abuses') }}" class="alert-link">cliquer ici</a>.</p>
@@ -39,53 +39,78 @@
             <div class="row page">
                 <div class="col-lg-3 col-md-6">
                     <div class="box dashboard-box">
-                        <div class="row avatar">
-                        {% if app.user.profile.photo %}
-                            <img src="/images/profil/photo/{{ app.user.profile.photo }}" class="img-fluid dashboard-profil-img" alt="">
+                        <div class="avatar">
+                        {% if app.user.profile.filename %}
+                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                          {% else %}
-                            <img src="/images/default_user.png" class="img-fluid dashboard-profil-img" alt="">
+                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
                         {% endif %}
                         </div>
-                        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                        <div class="info mt-3">
+                            <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                            <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                        </div>
                     </div>
 
-                    {#{% if is_granted('ROLE_ADMIN_COMPANY') %} #}
-                        <div class="box">
-                            <h4>Mon entreprise</h4>
-                            <div class="logo-company">
-                            {% if app.user.company.logo %}
-                                <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
-                            {% else %}
-                                <img src="/images/unknow-company.jpg" class="img-fluid" alt="">
-                            {% endif %}
-                            </div>
-                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                            <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a>
-                            {% if is_granted('ROLE_ADMIN_COMPANY') %} 
-                                <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a>
+                    <div class="box">
+                        <h4>Mon entreprise</h4>
+                        <div class="logo-company">
+                            {% if app.user.company %}
+                                {% if app.user.company.logo %}
+                                    <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+                                {% else %}
+                                    <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+                                {% endif %}
                             {% endif %}
                         </div>
-                    {#{% endif %}#}
-                    {#{% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_PATRON') %} #}
+                        {% if app.user.company %}
+                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
+                           <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
+                            {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                               <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
                     <div class="box">
-                        <h4>Mon magasin</h4>
+                        <h4>Mon magasin </h4>
                         <p class="lead">{{ app.user.store.name|capitalize }}</p>
                         <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
                         <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
                         <p><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a></p>
-                        <p class="mt-3"><a href="#">Contacter mon conseillé</a></p>
                     </div>
-                    {#{% endif %}#}
+
+                    <div class="box">
+                        <h4>Mon conseiller </h4>
+                        <div class="avatar">
+                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+                        </div>
+                        <p>Mon conseiller <strong>Richard Bryand</strong></p>
+                        <a href="#">Contacter mon Mr Bryand</a>
+                    </div>
+
+
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="box dashboard-header">
-                        <div class="">
-                            <div class="dashboard-header-buttons">
+                        <div class="dashboard-header-buttons">
+
+                            {% if  app.user.profile.isCompleted == true %}
+                                <div class="add" style="float: right">
+                                    <button type="button"
+                                            class="btn  btn-sm btn-radius add-post"
+                                            data-toggle="modal-add-post"
+                                            data-target="{{ path('post_create') }}"
+                                            data-whatever="create-post" >
+                                        <i class="fa fa-pencil-square-o"></i> Publier un post
+                                    </button>
+                                </div>
+                            {% endif %}
+                            <div class="notifs">
                                 <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
                                     <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
                                     {% if notificationNumber > 0 %}
-                                      <span class="badge bell-badge">{{notificationNumber}}</span>
+                                        <span class="badge bell-badge">{{notificationNumber}}</span>
                                     {% endif %}
                                 </a>
                                 {% if notificationNumber > 0 %}
@@ -93,20 +118,20 @@
                                         {% for notification in dashboardNotifications %}
                                             <div class="notification-item clearfix">
                                                 <div class="user-photo">
-                                                    <img style="float:left" src="/images/profil/photo/{{ notification.user.profile.photo }}" class="user-profil-sm" alt="">
+                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                 </div>
                                                 <div class="notification-text">
                                                     <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
-                                                      {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
+                                                        {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
                                                     </a>
                                                     {% if notification.type ==  'comment' %}
                                                         {% if notification.post.distinctUserCommentNumber > 1  %}
-                                                           et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% else %}
-                                                           a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% endif %}
                                                     {% else %}
-                                                    a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                        a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -121,61 +146,45 @@
                                     <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
                                     <span class="badge">3</span>
                                 </a>
-
-
-                                {% if  app.user.profile.isCompleted == true %}
-                                    <div style="float: right">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm btn-radius add-post"
-                                                data-toggle="modal-add-post"
-                                                data-target="{{ path('post_create') }}"
-                                                data-whatever="create-post" >
-                                            <i class="fa fa-pencil-square-o"></i> Publier un post
-                                        </button>
-                                    </div>
-                                {% endif %}
-
                             </div>
 
+
                         </div>
+
                     </div>
                     {% if posts and postNumber > 0 %}
                     <div class="box">
-                        <div class="row col-12">
+                        <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div class="filter-dropdown">
                                 
-                                    <select id="news-filter">
+                                    <select id="news-filter" class="form-control">
                                         <option value="All">Tous</option>
                                         <option value="Informations">Informations</option>
                                         <option value="LastPublished">Derniers arrivés</option>
-                                        <option value="Opportunities">Opportunités</option>
-                                        <option value="Recommendations">Recommandations</option>
-                                        <option value="Employment">Emploi</option>
+                                        <option value="Opportunities">Opportunité commerciale</option>
+                                        <option value="Employment">Offres d’emplois</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         {% include 'dashboard/posts.html.twig' %}
-                        
                      </div>
                     {% endif %}                   
 
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="box">
-                        <h4>Mon activité</h4>
+                        <h4>Mon score</h4>
                         <div class="activity">Score : <strong>300 pts</strong></div>
                         <div class="activity">IE : <strong>250 pts</strong></div>
                         <div class="activity">Recommandations : <strong>2</strong> <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}"><small style="float: right;">Voir ...</small></a></div>
                     </div>
                     <div class="box">
-                        <h4>Mes services</h4>
-                        <div class="activity">Générique : <strong>2</strong></div>
-                        <div class="activity">Local Bv : <strong>17</strong></div>
-                        <div class="activity">Local entreprise : <strong>5</strong></div>
-                        <div class="activity">National : <strong>0</strong></div>
+                        <h4>Mon activité</h4>
+                        <div class="activity"><strong>3</strong> services crées</div>
+                        <div class="activity"><strong>2</strong> personnes vous ont ajouté à leurs favoris</div>
                         <a href="" ><small>Voir plus ...</small></a>
                     </div>
                 </div>

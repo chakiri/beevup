@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Repository\ServiceRepository;
+use App\Repository\UserRepository;
 use App\Service\InitTopic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,12 +34,18 @@ class CompanyController extends AbstractController
     * @Route("/company/{slug}", name="company_show")
     */
 
-    public function show(Company $company, RecommandationRepository $recommandationRepository)
+    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, ServiceRepository $servicesRepo)
     {
         $recommandations = $recommandationRepository->findBy(['company' => $company->getId(), 'status'=>'Validated'], []);
+        $users = $userRepo->findBy(['company' => $company->getId()], []);
+        $emailAdmin = $company->getEmail();
+        $companyAdmin = $userRepo->findOneBy(['email'=> $emailAdmin],[]);
+        $services = $servicesRepo->findBy(['user' => $companyAdmin->getId()], []);
         return $this->render('company/show.html.twig', [
             'company' => $company,
-            'recommandations'=> $recommandations
+            'recommandations'=> $recommandations,
+            'users' => $users,
+            'services' => $services
         ]);
     }
 
@@ -78,7 +86,7 @@ class CompanyController extends AbstractController
            ]);
 
         }
-        return $this->render('company/edit.html.twig', [
+        return $this->render('company/form.html.twig', [
             'company' => $company,
             'EditCompanyForm' => $form->createView(),
         ]);

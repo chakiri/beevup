@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Service;
+use App\Entity\ServiceCategory;
 use App\Entity\TypeService;
+use App\Repository\TypeServiceRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,9 +15,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Security\Core\Security;
 
 class ServiceType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -28,36 +39,105 @@ class ServiceType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre',
+                    'placeholder' => 'Description',
                     'class'       =>'form-control'
                 ],
             ])
             ->add('introduction', TextareaType::class, [
                 'attr' => [
-                    'placeholder' => 'Titre',
+                    'placeholder' => 'Introduction',
                     'class'       =>'form-control'
                 ],
             ])
-            ->add('type', EntityType::class, [
-                'label' => 'Type de service',
+            ->add('category', EntityType::class, [
+                'placeholder' => 'Choisir catégorie',
+                'label' => 'Catégorie de service',
                 'multiple'=>false,
-                'class' => TypeService::class,
-                'choice_label' =>'name'
+                'class' => ServiceCategory::class,
+                'choice_label' => 'name'
             ])
-            ->add('isFree', CheckboxType::class, [
-                'label'    => 'Service Payant',
+            ->add('price', TextType::class, [
+                'label'    => 'Prix',
                 'required' => false,
             ])
-            ->add('price')
+            ->add('isQuote', CheckboxType::class, [
+                'label_attr' => ['class' => 'switch-custom'],
+                'required' => false,
+                'label'    => 'Sur devis',
+                'attr'     => [
+                    'class' => 'custom-control custom-switch',
+                ],
+            ])
+            ->add('isDiscovery', CheckboxType::class, [
+                'label_attr' => ['class' => 'switch-custom'],
+                'required' => false,
+                'label'    => 'Proposer une offre spéciale',
+                'attr'     => [
+                    'class' => 'custom-control custom-switch',
+                ],
+            ])
+            ->add('discoveryContent', TextareaType::class, [
+                'label'    => 'Description de l\'offre spéciale',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'En quelques mots, décrivez votre offre spéciale du service',
+                    'class'       =>'form-control'
+                ],
+            ])
             ->add('imageFile', FileType::class, [
                 'required' => false,
+                'label' => 'Images',
                 'attr'  => [
-                    'placeholder' => 'Photo',
+                    'placeholder' => 'Photo principale',
                     'class'       =>'form-control'
                 ]
             ])
-           
+            ->add('imageFile1', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 1',
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('imageFile2', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 2',
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('imageFile3', FileType::class, [
+                'required' => false,
+                'label' => 'Images',
+                'attr'  => [
+                    'placeholder' => 'Photo secondaire 3',
+                    'class'       =>'form-control'
+                ]
+            ])
         ;
+
+        if ($this->security->isGranted('ROLE_SUPER_ADMIN')){
+            $builder
+                ->add('type', EntityType::class, [
+                    'label' => 'Type de service',
+                    'multiple'=>false,
+                    'class' => TypeService::class,
+                    'query_builder' => function (TypeServiceRepository $er) {
+                        return $er->createQueryBuilder('t')
+                            ->where('t.name = :val1')
+                            ->orWhere('t.name = :val2')
+                            ->setParameter('val1', 'plateform')
+                            ->setParameter('val2', 'foreign');
+                    },
+                    'choice_label' => function ($type) {
+                        if ($type->getName() == 'plateform') return 'plateforme';
+                        elseif ($type->getName() == 'foreign') return 'externe';
+                    }
+                ])
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

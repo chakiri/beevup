@@ -1,18 +1,18 @@
 <div id = "comment-section-{{post.id}}" class="add-new-comment hidden col-14">
   <form class="add-comment-form" data-post-id = "{{post.id}}" data-target="{{ path('comment_create') }}" >
     <div class="col-2">
-            {% if app.user.profile.photo is empty %} 
-      <img id ="current-user-img-{{post.id}}" class="media-object photo-profile" style="float:left" src="/images/default_user.png" 
+            {% if app.user.profile.filename is empty %}
+      <img id ="current-user-img-{{post.id}}" class="media-object photo-profile" style="float:left" src="/images/default/user.png"
             width="32" 
             height="32" 
             alt="..."
             data-img="default_user.png">
       {% else %}
-      <img id ="current-user-img-{{post.id}}" class="media-object photo-profile " style="float:left" src="/images/profil/photo/{{app.user.profile.photo}}" 
+      <img id ="current-user-img-{{post.id}}" class="media-object photo-profile " style="float:left" src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}"
             width="32" 
             height="32" 
             alt="..."
-            data-img="{{app.user.profile.photo}}">
+            data-img="{{app.user.profile.filename}}">
       {% endif %}
       </div>
       <textarea id ="post-add-comment-{{post.id}}" 

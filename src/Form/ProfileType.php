@@ -63,14 +63,12 @@ class ProfileType extends AbstractType
                 'choice_label' =>'name'
             ])
             ->add('imageFile', FileType::class, [
-                'mapped' => false,
                 'required' => false,
-                'label' => 'Photo',
+                'label' => 'Images',
                 'attr'  => [
                     'placeholder' => 'Photo',
                     'class'       =>'form-control'
                 ]
-        
             ])
             
         ;

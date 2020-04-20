@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme EditProfileForm 'bootstrap_4_layout.html.twig' %}
+
+  {% block body %}
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="bg-light py-3 px-3 mt-5 mb-5">
+              <div class="text-center">
+                <h1>Editer mes informations</h1>
+              </div>
+                <div class="card-body card-block">
+                    {{ form_start(EditProfileForm) }}
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.lastname) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(EditProfileForm.firstname) }}
+                    </div>
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.gender) }}
+                    </div>
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.mobileNumber) }}
+                    </div>
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.phoneNumber) }}
+                    </div>
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.function) }}
+                    </div>
+                    <div class="form-group">
+                      {{ form_row(EditProfileForm.imageFile) }}
+                    </div>
+                    <div class="form-actions form-group text-right">
+                        <button type="submit" class="btn btn-success btn-md">Enregistrer</button>
+                    </div>
+                    {{ form_end(EditProfileForm) }}
+                </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+
+  {% endblock %} 

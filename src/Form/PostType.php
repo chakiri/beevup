@@ -28,9 +28,8 @@ class PostType extends AbstractType
                 'label'=>'Catégorie',
                 'choices'  => [
                     'Informations' => 'Informations',
-                    'Opportunities' => 'Opportunities',
-                    'Recommendations' => 'Recommendations',
-                    'Emploi' => 'Emploi',
+                    'Opportunité commerciale' => 'Opportunities',
+                    'Offres d’emplois' => 'Emploi',
                 ],
                 ])
                

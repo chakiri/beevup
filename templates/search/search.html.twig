@@ -6,13 +6,17 @@
     <div class="container mt-5">
         <div class="row">
 
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-12">
                 {% include 'default/aside.html.twig' %}
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="filter">
-                    <h4>Recherche</h4>
+                    <h4>Communauté</h4>
+                    <div class="search-description">
+                        Lorem Ipsum est un générateur de faux textes aléatoires. Vous choisissez le nombre de paragraphes, de mots ou de listes.
+                        Vous obtenez alors un texte aléatoire que vous pourrez ensuite utiliser librement dans vos maquettes.
+                    </div>
                     {{ form_start(SearchForm) }}
                     <div class="row">
                         <div class="col">
@@ -25,172 +29,198 @@
                             {{ form_row(SearchForm.category) }}
                         </div>
                         <div class="col">
-                            <button type="submit" class="btn btn-primary btn-radius">
+                            <button type="submit" class="btn search-btn btn-radius">
                                 Chercher
                             </button>
                         </div>
                     </div>
                     {{ form_end(SearchForm) }}
+
                     {%  if favorits is defined and favoritsNb > 0 %}
-                    <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Afficher la liste des favoris
-                    </a>
+                        <a class="disaply-favorits-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Afficher la liste des favoris
+                        </a>
                     {% endif %}
                 </div>
-                <div class="clearfix"></div>
+
+
                 <div>
-                <div class="favorits">
-                    {%  if favorits is defined %}
-
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body">
-                        {% for favorit in favorits %}
-                            <div class="row result-item">
-                                <div class="col-2">
-                                    <div class="box-image">
-                                        {% if favorit.favoritUser.profile.photo is empty %}
-                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                <img src="/images/default_user.png" class="img-fluid" alt="">
-                                            </a>
-                                        {% else %}
-                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                <img src="/images/profil/photo/{{ favorit.favoritUser.profile.photo }}" class="img-fluid" alt="">
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <div class="col-9">
-                                    <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}" class="text-dark">
-                                        <p><strong>{{favorit.favoritUser.profile.firstname|capitalize }} {{favorit.favoritUser.profile.lastname|capitalize }}</strong></p>
-                                    </a>
-                                    <p class="text-muted">{{favorit.favoritUser.profile.function.name|capitalize }}
-                                        chez
-                                        <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">
-                                            {{favorit.favoritUser.company.name|capitalize }}
-                                        </a>
-                                    </p>
-                                    <button class="btn btn-success btn-radius contact-btn">Contacter</button>
-                                </div>
-                                <div class="Add-favoris">
-                                    <i id="result-user-item-{{ favorit.favoritUser.id }}"
-                                       class="fa fa-star add-favoris text-warning"
-                                       aria-hidden="true"
-                                       data-user-id ="{{ favorit.favoritUser.id }}"
-                                       data-target="{{path('favorit_add', {'userId': favorit.favoritUser.id})  }}"
-                                       data-delete="{{path('favorit_delete', {'userId': favorit.favoritUser.id})  }}"
-                                    ></i>
+                    <div class="favorits">
+                        {%  if favorits is defined %}
+                            <div class="collapse" id="collapseExample">
+                                <div class="row">
+                                    {% for favorit in favorits %}
+                                        <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
+                                            <div class="box">
+                                                    <div class="portfolio-wrap dashboard-service-image">
+                                                        {% if favorit.favoritUser.profile.filename is empty %}
+                                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                                <img src="/images/default/user.png" class="img-fluid" alt="">
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                                <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                            </a>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="user-information">
+                                                        <p class="company-user">
+                                                            <a class="company-user" href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                                {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
+                                                            </a>
+                                                        </p>
+                                                        <div class="Add-favoris">
+                                                            <i id="result-user-item-{{ favorit.favoritUser.id }}"
+                                                               class="fa fa-star {% if favorit.favoritUser.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
+                                                               aria-hidden="true"
+                                                               data-user-id ="{{ favorit.favoritUser.id }}"
+                                                               data-target="{{path('favorit_add', {'userId':favorit.favoritUser.id})  }}"
+                                                               data-delete="{{path('favorit_delete', {'userId': favorit.favoritUser.id})  }}"
+                                                            ></i>
+                                                        </div>
+                                                        {% if favorit.favoritUser.profile.function  %}
+                                                            <p class="company-user-job">{{ favorit.favoritUser.profile.function.name|capitalize }}
+                                                                chez
+                                                                {% if favorit.favoritUser.company %}
+                                                                    <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">
+                                                                        {{favorit.favoritUser.company.name|capitalize }}
+                                                                    </a>
+                                                                {% else %}
+                                                                <a class="user-company-name text-primary" href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}">
+                                                                    {{favorit.favoritUser.store.name|capitalize }}
+                                                                </a>
+                                                                {% endif %}
+                                                            </p>
+                                                        {% endif %}
+                                                        <p class="user-contact">
+                                                            <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': favorit.favoritUser.id}) }}">Contacter</a></span>
+                                                            <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">Voir fiche</a></span>
+                                                        </p>
+                                                     </div>
+                                             </div>
+                                         </div>
+                                     {% endfor %}
                                 </div>
                             </div>
-
-                        {% endfor %}
-                        </div></div>
-                    {% endif %}
-                </div>
-                <div class="search-result col-12">
-                    {% if usersCount is defined  %}
-                        {% if usersCount > 0 %}
-                            {{ usersCount }} resultas
-                        {% elseif usersCount == 0 %}
-                            Aucun résultat trouvé.
+                        {% endif %}
+                    </div>
+                    <div class="search-result col-12">
+                        {% if usersCount is defined  %}
+                            {% if usersCount > 0 %}
+                                {{ usersCount }} resultas
+                            {% elseif usersCount == 0 %}
+                                <div class="no-result">
+                                    Aucun résultat trouvé.
+                                </div>
+                            {%  endif %}
                         {%  endif %}
-                    {%  endif %}
-                </div>
+                    </div>
                     {% if users %}
+                       <div class="row">
+                            {% for user in users %}
+                               <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
+                                   <div class="box">
 
-                        <div class="box">
-                        {% for user in users %}
+                                       <div class="portfolio-wrap dashboard-service-image company-contact-img">
+                                           {% if user.profile.filename is empty %}
 
-                                <div class="row result-item">
-                                    <div class="col-2">
-                                        <div class="box-image">
-                                          {% if user.profile.photo is empty %}
-                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                              <img src="/images/default_user.png" class="img-fluid" alt="">
-                                            </a>
-                                          {% else %}
-                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                              <img src="/images/profil/photo/{{ user.profile.photo }}" class="img-fluid" alt="">
-                                            </a>
-                                          {% endif %}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-9">
-                                        <a href="{{path('profile_show', { 'id': user.profile.id}) }}" class="text-dark">
-                                          <p><strong>{{user.profile.firstname|capitalize }} {{user.profile.lastname|capitalize }}</strong></p>
-                                        </a>
-                                        <p class="text-muted">{{user.profile.function.name|capitalize }}
-                                            chez
-                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': user.company.slug}) }}">
-                                              {{user.company.name|capitalize }}
-                                            </a>
-                                        </p>
-                                        <button class="btn btn-success btn-radius contact-btn">Contacter</button>
-                                    </div>
-                                    <div class="Add-favoris">
-                                        <i id="result-user-item-{{ user.id }}"
-                                           class="fa fa-star {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
-                                           aria-hidden="true"
-                                           data-user-id ="{{ user.id }}"
-                                           data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                           data-delete="{{path('favorit_delete', {'userId': user.id})  }}"
-                                        ></i>
+                                                <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                </a>
+                                           {% else %}
+                                                <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                </a>
+                                           {% endif %}
+                                       </div>
+                                       <div class="user-information">
+                                           <p class="company-user">
+                                               <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                   {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
+                                                </a>
+                                           </p>
+                                           <div class="Add-favoris">
+                                               <i id="result-user-item-{{ user.id }}"
+                                                       class="fa fa-star {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
+                                                       aria-hidden="true"
+                                                       data-user-id ="{{ user.id }}"
+                                                       data-target="{{path('favorit_add', {'userId':user.id})  }}"
+                                                       data-delete="{{path('favorit_delete', {'userId': user.id})  }}"
+                                               ></i>
+                                           </div>
+                                           {% if user.profile.function  %}
+                                               <p class="company-user-job">{{ user.profile.function.name|capitalize }}
+                                                  chez
+                                                   {% if user.company %}
+                                                       <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                                           {{user.company.name|capitalize }}
+                                                       </a>
+                                                   {% else %}
+                                                      <a class="user-company-name text-primary" href="{{path('store_show', { 'slug': user.store.slug}) }}">
+                                                          {{user.store.name|capitalize }}
+                                                      </a>
+                                                   {% endif %}
+                                                </p>
+                                           {% endif %}
+                                           <p class="user-contact">
+                                               <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
+                                               <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
+                                           </p>
+                                       </div>
                                     </div>
                                 </div>
-
-                        {% endfor %}
+                            {% endfor %}
                         </div>
-
-                   {% endif %}
-                    <div class="search-result col-12">
+                    {% endif %}
+                    <div class="row col-12">
                         {% if companiesCount is defined  %}
                             {% if companiesCount > 0 %}
                                 {{ companiesCount }} resultas
                             {% elseif companiesCount == 0 %}
+                              <div class="no-result">
                                 Aucun résultat trouvé.
+                              </div>
                             {%  endif %}
                         {%  endif %}
                     </div>
                     {% if companies %}
-                        <div class="box">
+                        <div class="row">
                             {% for company in companies %}
-
-                                <div class="row result-item">
-                                    <div class="col-2">
-                                        <div class="box-image">
-                                            {% if company.logo is empty %}
-                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
-                                               <i class="fa fa-university" aria-hidden="true" style="font-size:40px"></i>
-                                            </a>
-                                            {% else %}
-                                            <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                {% set companyLogo = company.logo  %}
-                                               <img src="{{ asset('/images/logos/'~ companyLogo) }}" class="img-fluid" alt="">
-                                            </a>
-                                            {% endif %}
+                                <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
+                                    <div class="box">
+                                        <div class="portfolio-wrap search-company-img">
+                                                {% if company.logo is empty %}
+                                                    <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                        <img src="/images/no-available-photo.png" class="img-fluid search-company-photo" alt="">
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                        {% set companyLogo = company.logo  %}
+                                                       <img src="{{ asset('/images/logos/'~ companyLogo) }}" class="img-fluid search-company-photo" alt="">
+                                                    </a>
+                                                {% endif %}
+                                        </div>
+                                        <div class="user-information">
+                                            <a class="company-user" href="{{path('company_show', { 'slug': company.slug}) }}">
+                                               <p>{{company.name|capitalize }}</p>
+                                             </a>
+                                            <div class="Add-company-favoris" style="text-align: center">
+                                                <i id="result-company-item-{{ company.id }}"
+                                                   class="fa fa-star {% if company.id in favoritsCompanyIds %}  text-warning {% else %} text-muted {% endif %}  add-company-favoris"
+                                                   aria-hidden="true"
+                                                   data-company-id ="{{ company.id }}"
+                                                   data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
+                                                   data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
+                                                ></i>
+                                            </div>
+                                            <p class="user-contact">
+                                                <span class="user-action btn-radius">
+                                                    <a class="user-link" href="{{path('company_show', { 'slug': company.slug}) }}"> Voir fiche</a>
+                                                </span>
+                                            </p>
                                         </div>
                                     </div>
-
-                                    <div class="col-9">
-                                        <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': company.slug}) }}">
-                                          <p><strong>{{company.name|capitalize }}</strong></p>
-                                        </a>
-                                        <button class="btn btn-success btn-radius contact-btn">Contacter</button>
-                                    </div>
-                                    <div class="Add-company-favoris">
-                                        <i id="result-company-item-{{ company.id }}"
-                                           class="fa fa-star {% if company.id in favoritsCompanyIds %}  text-warning {% else %} text-muted {% endif %}  add-company-favoris"
-                                           aria-hidden="true"
-                                           data-company-id ="{{ company.id }}"
-                                           data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
-                                           data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
-
-
-                                        ></i>
-                                    </div>
                                 </div>
-
                             {% endfor %}
                         </div>
                     {% endif %}
