@@ -21,7 +21,7 @@
           <div class="user-profil-photo col-1">
               <div class="user-profil">
                   {% if post.user.profile.filename %}
-                      {% set variable = post.user.profile.imageFile  %}
+                      {% set variable = post.user.profile.filename  %}
                       <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
                           <img src="{{ asset('/images/profiles/'~ variable) | imagine_filter('thumbnail45') }}" class="user-profil-sm" alt="">
                       </a>

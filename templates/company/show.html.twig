@@ -18,17 +18,18 @@
                     </div>
                     <div class="box company-informations">
                         {% if company.category %}
-                        <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
+                          <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
                         {% endif %}
 
-                        <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
-                        {% if company.isCompleted %}
-                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
-                            <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
-                            {% if company.website %}
-                             <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
-                            {% endif %}
-                        {% endif %}
+                            <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
+                                {% if company.isCompleted %}
+                                    <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
+                                    <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
+                                {% endif %}
+                                {% if company.website %}
+                                  <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
+                                {% endif %}
+
                         {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
                          <a href="{{ path('company_edit', {'id': company.id}) }}"><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
                         {% endif %}
@@ -90,17 +91,28 @@
                             <h4>Mes recommandations</h4>
                         </div>
                         <div class="col-sm-5">
-                            <div class="float-right">  
-                                {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                    <button type="button" 
-                                            class="btn bv-btn btn-sm btn-radius add-recommandation"
-                                            data-toggle="modal"
-                                            data-target="{{ path('recommandation') }}" 
-                                            data-whatever="@getbootstrap"
-                                            data-company="{{company.id}}">
-                                       + Proposer une recommandation
-                                    </button>
+                            <div class="float-right">
+                                {% if app.user.company %}
+                                    {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                                        <button type="button"
+                                                class="btn bv-btn btn-sm btn-radius add-recommandation"
+                                                data-toggle="modal"
+                                                data-target="{{ path('recommandation') }}"
+                                                data-whatever="@getbootstrap"
+                                                data-company="{{company.id}}">
+                                           + Proposer une recommandation
+                                        </button>
 
+                                    {% endif %}
+                                 {% else  %}
+                                     <button type="button"
+                                             class="btn bv-btn btn-sm btn-radius add-recommandation"
+                                             data-toggle="modal"
+                                             data-target="{{ path('recommandation') }}"
+                                             data-whatever="@getbootstrap"
+                                             data-company="{{company.id}}">
+                                         + Proposer une recommandation
+                                     </button>
                                 {% endif %}
                             </div>
                         </div>
