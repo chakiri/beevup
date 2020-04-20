@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+
+    <section id="chatPlateform">
+        <div class="wrapper row">
+            <div class="col-3 conversations">
+                <div class="channels">
+                    <h4>Canaux</h4>
+                    <ul>
+                        <li><strong>#General</strong></li>
+                        <li><strong>#Help</strong></li>
+                    </ul>
+                </div>
+                <h4>Conversations directes</h4>
+                <ul>
+                    <li>
+                        <div class="conversation">
+                            <div class="conversation-avatar avatar">
+                                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                            </div>
+                            <div class="conversation-content">
+                                <strong>Yassir Chakiri</strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="conversation">
+                            <div class="conversation-avatar avatar">
+                                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                            </div>
+                            <div class="conversation-content">
+                                <strong>Yassir Chakiri</strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-9 inbox">
+                <div class="inbox-header">
+                    <div class="inbox-avatar avatar">
+                        <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                    </div>
+                    <div class="content">
+                        <strong>Yassir Chakiri</strong>
+                    </div>
+                </div>
+                <div class="inbox-content">
+                    <div class="row">
+                        <div class="col-8 inbox-message">
+                            <div class="message-body">
+sdc
+                            </div>
+                            <div class="message-text">
+                                <input type="text" id="message" data-url="{{ path('sender') }}" class="form-control" placeholder="Votre message ...">
+                                <button id="sendBtn" class="btn icon" type="submit" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-4 inbox-profile">
+                            <div class="profile-header">
+                                <div class="profile-avatar avatar">
+                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                </div>
+                                <div class="profile-content">
+                                    <h4>Yassir Chakiri</h4>
+                                    <p class="text-muted">Magasin bureau vallée</p>
+                                    <strong>4 Services proposés</strong>
+                                </div>
+                            </div>
+                            <div class="profile-footer">
+                                <a href="#" type="button" class="btn btn-design btn-1">Voir le profil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

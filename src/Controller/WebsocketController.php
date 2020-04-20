@@ -19,6 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsocketController extends AbstractController
 {
     /**
+     * @Route("/chat/design", name="chat_design")
+     */
+    public function tmp()
+    {
+        return $this->render("websocket/design.html.twig");
+    }
+
+    /**
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
