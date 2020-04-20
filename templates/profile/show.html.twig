@@ -98,10 +98,10 @@
                                     </div>
                                 </div>
                             {% endfor %}
+                        </div>
                         {% else %}
                             <p class="text-muted">Aucun service pour l'instant</p>
                         {% endif %}
-                        </div>
                         <p><a href="{{ path('service_user', {'id': profile.user.id}) }}" type="button" class="btn btn-md btn-2 full-width">Voir tous les services de {{ profile.firstname|capitalize }} </a></p>
                     </div>
 
