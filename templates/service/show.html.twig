@@ -12,7 +12,7 @@
                         {% if service.filename %}
                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
                         {% else %}
-                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                            <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
                         {% endif %}
                     </div>
                     <div class="box">
@@ -40,20 +40,24 @@
                     <div class="box">
                         <h4 class="mb-4">Services similaires</h4>
                         {% if similarServices %}
-                            {% for service in similarServices %}
-                                <div class="similar-service">
-                                    <div class="avatar">
-                                        {% if service.filename %}
-                                            <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
-                                        {% else %}
-                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <div class="content p-2">
-                                        <strong>{{ service.title }}</strong>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                            <div class="similars-services">
+                                {% for service in similarServices %}
+                                    <a href="{{ path('service_show', {'id': service.id}) }}">
+                                        <div class="similar-service">
+                                            <div class="avatar">
+                                                {% if service.filename %}
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="content p-2">
+                                                <strong>{{ service.title }}</strong>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
                         {% else %}
                             <p class="text-muted">Aucun service similaire pour l'instant</p>
                         {% endif %}
@@ -82,8 +86,8 @@
                     </div>
 
                     <div class="box">
-                        <h4>Description</h4>
-                        <p class="lead">{{ service.description|raw }}</p>
+                        <h4 class="mb-3">Description</h4>
+                        <p class="text-secondary">{{ service.description|raw }}</p>
                         {#<a href="#"><small>Voir plus ...<span class="."></span></small></a>#}
                     </div>
 

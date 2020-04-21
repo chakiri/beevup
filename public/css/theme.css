@@ -873,9 +873,9 @@ spinner-visible {
   background: #ececec;
 }
 #chatPlateform .message .span-style-me{
-  border: 1.5px solid #3899ff;
-  background: #3899ff;
-  color: white;
+  border: 1.5px solid #ecf5ff;
+  background: #ecf5ff;
+  color: #444444;
   padding: 5px;
   border-radius: 30px;
 }

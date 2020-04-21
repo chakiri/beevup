@@ -19,14 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsocketController extends AbstractController
 {
     /**
-     * @Route("/chat/design", name="chat_design")
-     */
-    public function tmp()
-    {
-        return $this->render("websocket/design.html.twig");
-    }
-
-    /**
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
@@ -59,7 +51,9 @@ class WebsocketController extends AbstractController
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
             'subject' => $subject,
             'messages' => $messages,
-            'isPrivate' => $request->get('_route') == 'chat_private'
+            'isPrivate' => $request->get('_route') == 'chat_private',
+            'user' => $user ?: null,
+            'topic' => $topic ?: null
         ]);
     }
 
