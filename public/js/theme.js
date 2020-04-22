@@ -634,6 +634,16 @@ $('#search_type').change(function(){
         $('#search_category').val('');
     }
 })
+    $('.input-textarea').on({
+        input: function(){
 
+            var text = $(this).val();
+            span.text(text);
+            $(this).height(text ? span.height() : '1.1em');
+        },
+        focus: function(){
+            initSpan($(this));
+        }
+    });
 })(jQuery);
 

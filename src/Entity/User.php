@@ -95,6 +95,11 @@ class User implements UserInterface
      */
     private $topics;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $barCode;
+
     public function __construct()
     {
         $this->isValid = false;
@@ -287,6 +292,18 @@ class User implements UserInterface
         if ($this->topics->contains($topic)) {
             $this->topics->removeElement($topic);
         }
+
+        return $this;
+    }
+
+    public function getBarCode(): ?string
+    {
+        return $this->barCode;
+    }
+
+    public function setBarCode(string $barCode): self
+    {
+        $this->barCode = $barCode;
 
         return $this;
     }

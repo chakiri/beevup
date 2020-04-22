@@ -16,7 +16,11 @@
                         {% endif %}
                     </div>
                     <div class="box">
+                        {% if serviceType =='company' %}
                         <h4><small>Proposé par : </small>{{ service.user.company.name|capitalize }}</h4>
+                        {% else %}
+                        <h4><small>Proposé par : </small>{{ service.user.store.name|capitalize }}</h4>
+                        {% endif %}
                         <h6><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
                         <div class="mt-3">
                             {% if service.user != app.user %}

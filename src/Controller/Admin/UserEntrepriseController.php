@@ -3,8 +3,11 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
+use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Service\BarCode;
+
 
 
 class UserEntrepriseController extends EasyAdminController
@@ -14,11 +17,16 @@ class UserEntrepriseController extends EasyAdminController
      */
     private $passwordEncoder;
     private $userTypeRepo;
+    private $barCode;
+    private $userRepo;
+
   
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
+        $this->barCode = $barCode;
+        $this->userRepo = $userRepo;
     }
     
     public function persistUserEntrepriseEntity($user)
@@ -30,8 +38,15 @@ class UserEntrepriseController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
+        /*** generate bar code*/
+        $userId =  $this->userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
+        $code = $this->barCode->generate( $userId);
+        $user->setBarCode($code);
+        /**end ******/
+
         $user->setRoles(['ROLE_USER']);
         $user->setType($type);
+
         $this->updatePassword($user);
         parent::persistEntity($user);
         $profile = new Profile();
@@ -47,6 +62,8 @@ class UserEntrepriseController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
+        $code = $this->barCode->generate($user->getId());
+        $user->setBarCode($code);
         $this->updatePassword($user);
         parent::updateEntity($user);
         

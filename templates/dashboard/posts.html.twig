@@ -93,7 +93,7 @@
                       {% endif %}
                   </a></span>
               </div>
-              {% if  app.user.company %}
+
                   {% if  app.user.profile.isCompleted == true %}
                         <div class="col-14">
 
@@ -108,8 +108,8 @@
 
                         </div>
                           {% include 'dashboard/add-comment.html.twig' %}
-                      {% endif %}
-              {% endif %}
+                  {% endif %}
+
               {% include 'dashboard/comments.html.twig' %}
          </div>
          <div class="col-1">

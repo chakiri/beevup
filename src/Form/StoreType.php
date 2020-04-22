@@ -74,7 +74,7 @@ class StoreType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('avatar', FileType::class, [
+            ->add('imageFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Photo',

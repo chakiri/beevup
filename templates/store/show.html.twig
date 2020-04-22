@@ -5,18 +5,23 @@
 {% block body %}
 
     <section id="store" class="mt-3">
-        <div class="container">
+        <div class="container-mvp">
             <div class="row">
                 <div class="col-lg-4 col-md-12">
-                    <div class="box-image">
-                        <img src="/images/service.jpg" class="img-fluid" alt="">
+                    <div class="box-image store-img">
+                        {% if store.filename is empty %}
+                            <img class="company-no-available-img" src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+                        {% else %}
+                           <img src="{{ vich_uploader_asset(store, 'imageFile') }}" class="img-fluid" alt="{{ store.name }}">
+                        {% endif %}
                     </div>
-                    <div class="box">
-                        <h2 class="display-6">{{ store.name }}</h2>
-                        <h3><small class="text-muted">Ref : </small>{{ store.reference }}</h3>
-                        <p class="lead">{{ store.introduction }}</p>
-                        <p>{{ store.email }}</p>
-                        <p>{{ store.phone }}</p>
+                    <div class="box company-informations">
+                        <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ store.email }}</p>
+                        <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ store.phone }}</p>
+                        <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</p>
+
+
+
                         {% if app.user.store.id == store.id and (is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE')) %}
                         <a href="{{ path('store_edit', {'id': store.id}) }}">Editer mon magasin</a>
                         {% endif %}
@@ -28,12 +33,152 @@
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="box">
-                        <h4>Description du magasin</h4>
-                        <p class="lead">{{ store.description }}</p>
+                        <p class="company-title">{{ store.name }}</p>
+                        <p class="company-introduction">{{ store.introduction }}</p>
+                        <p class="company-description">{{ store.description }}</p>
                     </div>
-                    <div class="box">
-                        <h4>Mes conseillés</h4>
-                        <p class="lead">Pas de conseillés</p>
+                    <div class="col-12">
+                        <h4>Contacts</h4>
+                    </div>
+                    <div class="row">
+                        {% if users is defined %}
+                            {%  for user in users %}
+                                {% if user.profile.isCompleted %}
+                                    <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                        <div class="box">
+                                            <div class="portfolio-wrap dashboard-service-image company-contact-img">
+                                                <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                    {% if user.profile.filename is empty %}
+                                                        <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+
+                                                    {% else %}
+                                                        <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+
+                                                    {% endif %}
+
+                                                </a>
+                                            </div>
+                                            <div class="user-information">
+                                                <p class="company-user">
+                                                    <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                        {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
+                                                    </a>
+                                                </p>
+                                                {% if user.profile.function  %}
+                                                    <p class="company-user-job">{{ user.profile.function.name|capitalize }}</p>
+                                                {% endif %}
+                                                <p class="user-contact">
+                                                    <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
+                                                    <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <h4>Mes services</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if services %}
+                            {% for service in services %}
+                                <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                    <div class="box">
+                                        <div class="portfolio-wrap dashboard-service-image">
+                                            <a href="{{path('service_show', { 'id': service.id}) }}">
+                                                {% if service.filename is empty %}
+                                                    <img class="service-no-available-img" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/services/{{service.filename}}" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="user-information">
+
+                                            <p class="company-service-description">
+                                                {{ service.description|length > 200 ? service.description|slice(0, 200)~ '...' : service.description}}
+
+                                            </p>
+                                            <p class="user-contact">
+                                                <span class="user-action btn-radius">
+                                                    <a class="user-link" href="{{path('service_show', { 'id': service.id}) }}">
+                                                        Voir plus
+                                                    </a>
+                                                </span>
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {%  endfor %}
+                        {% else  %}
+                            <div class="col-12">
+                                <div class="box col-12">
+                                    {%  set emptyData = 'Aucun service n\'a été trouvé' %}
+                                    {%  include 'default/no-data.html.twig'  %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row col-12">
+                        <div class="col-12">
+                            <h4>Ils nous font confiance</h4>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        {% if companies is defined %}
+                            {% for company in companies %}
+                                <div class="col-lg-6 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                    <div class="box">
+                                        <div class="portfolio-wrap dashboard-service-image" style="height:79px;overflow: hidden">
+                                            <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                {% if company.logo is empty %}
+                                                    <img class="service-no-available-img" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/logos/{{company.logo}}" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="user-information">
+
+                                            <p class="store-company-name">
+                                                {{ company.name }}
+                                              </p>
+                                            <p class="" style="text-align:center">
+                                                {{ company.category.name }}
+                                            </p>
+                                            <p class="store-companies-introduction" >
+
+                                                {{ company.introduction|length > 100 ? company.introduction|slice(0, 100)~ '...' : company.introduction}}
+                                            </p>
+                                            <p class="user-contact">
+
+                                                <span class="user-action btn-radius">
+                                                    <a class="user-link" href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                        Voir plus
+                                                    </a>
+                                                </span>
+
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {%  endfor %}
+                        {% else  %}
+                            <div class="col-12">
+                                <div class="box col-12">
+                                    {%  set emptyData = 'Aucun service n\'a été trouvé' %}
+                                    {% include 'default/no-data.html.twig' %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
