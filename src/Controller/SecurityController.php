@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\TopicRepository;
+use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,14 +16,14 @@ use App\Entity\User;
 use App\Entity\Company;
 use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use App\Service\BarCode;
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode): Response
     {
         $user = new User();
 
@@ -39,6 +40,13 @@ class SecurityController extends AbstractController
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
             $company->setStore($user->getStore());
+
+            /*** generate bar code*/
+
+            $userId =  $userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
+            $code = $barCode->generate( $userId);
+            $user->setBarCode($code);
+            /**end ******/
 
             $manager->persist($company);
 

@@ -4,6 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Store;
 use App\Form\StoreType;
+use App\Repository\CompanyRepository;
+use App\Repository\ServiceRepository;
+use App\Repository\StoreRepository;
+use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,10 +29,21 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/{slug}", name="store_show")
      */
-    public function show(Store $store)
+    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository)
     {
+        $users =  $userRepository->findByStore($store);
+        $companies = $companyRepository->findBy(['store'=> $store, 'isCompleted'=>true]);
+        $usersType = $userTypeRepository->findBy(['id'=>array(1,2,4)]);
+        $storeUsers =$userRepository->findBy(['store'=> $store, 'type'=> $usersType]);
+
+        $services = $serviceRepository->findBy(['user'=>$storeUsers]);
+
+
         return $this->render('store/show.html.twig', [
-            'store' => $store
+            'store' => $store,
+            'users' => $users,
+            'companies' =>$companies,
+            'services' =>$services
         ]);
     }
 
@@ -38,10 +54,24 @@ class StoreController extends AbstractController
     {
         $form = $this->createForm(StoreType::class, $store);
         $form->handleRequest($request);
+        $store->setModifiedAt( new \DateTime());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($store);
+            $file = $form['imageFile']->getData();
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename =  $originalFilename;
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('stores_images'),
+                        $newFilename
+                    );
 
+                } catch (FileException $e) {}
+                $store->setFilename($newFilename);
+            }
+            $manager->persist($store);
             $manager->flush();
 
             return $this->redirectToRoute('store_show', [
@@ -49,7 +79,7 @@ class StoreController extends AbstractController
             ]);
         }
 
-        return $this->render('store/form.html.twig', [
+        return $this->render('store/edit.html.twig', [
             'store' => $store,
             'form' => $form->createView()
         ]);

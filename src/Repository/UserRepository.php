@@ -41,6 +41,15 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function findByStore( $store)
+    {
+
+        $qb = $this->createQueryBuilder('u')
+           ->where('u.company is NULL')
+           ->andWhere('u.store = :value')
+           ->setParameters(array('value' => $store));
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

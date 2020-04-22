@@ -81,10 +81,10 @@ class Store
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private $filename;
         
     /**
-     * @Vich\UploadableField(mapping="company_logos", fileNameProperty="avatar")
+     * @Vich\UploadableField(mapping="stores_images", fileNameProperty="filename")
      * @var File
      */
     private $imageFile;
@@ -276,14 +276,14 @@ class Store
         return $this;
     }
 
-    public function getAvatar(): ?string
+    public function getFileName(): ?string
     {
-        return $this->avatar;
+        return $this->filename;
     }
 
-    public function setAvatar(?string $avatar): self
+    public function setFilename(?string $filename): self
     {
-        $this->avatar = $avatar;
+        $this->filename = $filename;
 
         return $this;
     }

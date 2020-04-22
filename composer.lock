@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3a48781fcf590e87de4105d930cff8e",
+    "content-hash": "c0ad98bef8b923006a32f74735076fb5",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -128,6 +128,55 @@
                 "slugify"
             ],
             "time": "2019-12-14T13:04:14+00:00"
+        },
+        {
+            "name": "codeitnowin/barcode",
+            "version": "3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeitnowin/barcode-generator.git",
+                "reference": "6325a15ae904ec401b947e1a3e868de1c2cc80b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeitnowin/barcode-generator/zipball/6325a15ae904ec401b947e1a3e868de1c2cc80b0",
+                "reference": "6325a15ae904ec401b947e1a3e868de1c2cc80b0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CodeItNow\\": "CodeItNow/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Akhtar Khan",
+                    "email": "er.akhtarkhan@gmail.com"
+                }
+            ],
+            "description": "Barcode & Qr Code generator library by http://www.codeitnow.in. You can use it with Custom PHP application or any PHP Framework such as Laravel, Cakephp, Yii, Codeigneter etc.",
+            "homepage": "http://www.codeitnow.in",
+            "keywords": [
+                "Symfony2",
+                "barcode",
+                "cakephp",
+                "code",
+                "generator",
+                "laravel",
+                "qr",
+                "qrcode",
+                "symfony"
+            ],
+            "time": "2018-10-25T18:32:10+00:00"
         },
         {
             "name": "doctrine/annotations",

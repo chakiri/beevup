@@ -47,8 +47,17 @@
                         {% endif %}
                         </div>
                         <div class="info mt-3">
-                            <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                            <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+                            <p class="text-muted user-name">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+                            <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+
+
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <h4>Mon code à barre </h4>
+                        <div class="logo-company">
+                            <img src="data:image/png;base64,{{ app.user.barCode }}" />
                         </div>
                     </div>
 

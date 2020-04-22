@@ -89,7 +89,16 @@ class ServiceController extends AbstractController
     */
     public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository)
     {
-        $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
+        $companyId = 0;
+        $storeId = 0;
+        $company = null;
+        $store = null;
+        $serviceType = $service->getType()->getName();
+
+        if(!is_null($service->getUser()->getCompany())) {
+            $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
+            $companyId = $company->getId();
+        }
 
         $similarServices = $serviceRepository->findBy(['category' => $service->getCategory()], [], 3);
 
@@ -99,10 +108,11 @@ class ServiceController extends AbstractController
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
-            'companyId'  => $company->getId(),
+            'companyId'  => $companyId,
             'similarServices' => $similarServices,
             'recommandations'=> $recommandations,
             'recommandationsCompany'=> $recommandationsCompany,
+            'serviceType' => $serviceType
         ]);
     }
 
