@@ -72,7 +72,7 @@ class ServiceController extends AbstractController
             $manager->persist($store);
             $manager->flush();
 
-            $this->addFlash('success', 'Ce service a bien été ajouté à vos proposition !');
+            $this->addFlash('success', 'Ce service a bien été ajouté à vos propositions !');
 
             return $this->redirectToRoute('service_user', [
                 'id' => $this->getUser()->getId()

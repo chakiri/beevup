@@ -113,7 +113,7 @@ html, body{
     transition: all 0.3s;
     background-color: white;
     height: 93%;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .sidebar .contact{
@@ -396,7 +396,7 @@ html, body{
 }
 .channels{
     max-height: 180px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .channels li{
@@ -405,7 +405,7 @@ html, body{
 
 .private{
     max-height: 356px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .conversation{
@@ -461,7 +461,7 @@ html, body{
 .message-body{
     flex: 1;
     padding: 20px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .message-text{
