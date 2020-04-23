@@ -111,10 +111,26 @@ html, body{
 
 .sidebar{
     transition: all 0.3s;
+    background-color: white;
+    height: 93%;
+    overflow: scroll;
 }
 
 .sidebar .contact{
     text-align: center;
+}
+
+#services .row{
+    margin-right: 0;
+}
+
+.container-sidebar{
+    padding: 20px;
+    margin: 5px 0;
+}
+
+.position-fixed{
+    height: 100%;
 }
 
 .avatar {

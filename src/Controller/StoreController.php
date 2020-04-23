@@ -22,24 +22,20 @@ class StoreController extends AbstractController
     }
 
     /**
-     * @Route("/store/{slug}", name="store_show")
-     */
-    public function show(Store $store)
-    {
-        return $this->render('store/show.html.twig', [
-            'store' => $store
-        ]);
-    }
-
-    /**
      * @Route("/store/{id}/edit", name="store_edit")
+     * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, Store $store, EntityManagerInterface $manager)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager)
     {
+        if (!$store){
+            $store = new Store();
+            $store->setReference('12323434');
+        }
         $form = $this->createForm(StoreType::class, $store);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $manager->persist($store);
 
             $manager->flush();
@@ -54,4 +50,15 @@ class StoreController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/store/{slug}", name="store_show")
+     */
+    public function show(Store $store)
+    {
+        return $this->render('store/show.html.twig', [
+            'store' => $store
+        ]);
+    }
+
 }

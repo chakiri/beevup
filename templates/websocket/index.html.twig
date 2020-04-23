@@ -137,7 +137,7 @@
                             </div>
                             {% if user is defined and user is not null%}
                                 <div class="profile-footer">
-                                    <a href="#" type="button" class="btn btn-design btn-1">Voir le profil</a>
+                                    <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}" type="button" class="btn btn-design btn-1">Voir le profil</a>
                                 </div>
                             {% elseif topic is defined and topic is not null %}
                                 <div class="profile-footer">

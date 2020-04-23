@@ -1093,26 +1093,6 @@ textarea {
   border-left: 1px solid #a6a6a6;
 }
 
-#services .row{
-  margin-right: 0;
-}
-
-#services .sidebar{
-  background-color: white;
-  height: 100%;
-  overflow: scroll;
-}
-
-.container-sidebar{
-  padding: 20px;
-  margin: 5px 0;
-
-}
-
-.position-fixed{
-  height: 100%;
-}
-
 #why-us {
   padding: 60px 0;
   background: #004a99;
