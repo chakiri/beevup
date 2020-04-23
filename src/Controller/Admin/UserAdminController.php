@@ -19,10 +19,6 @@ class UserAdminController extends EasyAdminController
     private $barCode;
     private $userRepo;
 
-
-   
-    
-
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode)
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -57,8 +53,7 @@ class UserAdminController extends EasyAdminController
         array_push($userRoles, 'ROLE_USER');
         /*** generate bar code*/
         $userId =  $this->userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-        $code = $this->barCode->generate( $userId);
-        $user->setBarCode($code);
+        $user->setBarCode($this->barCode->generate( $userId));
         /**end ******/
 
         $user->setIsValid(1);
@@ -73,8 +68,8 @@ class UserAdminController extends EasyAdminController
 
     public function updateUserEntity($user)
     {
-        $currentUser = $this->getUser();
-        $userRoles = $user->getRoles();
+
+        $userRoles = array_unique($user->getRoles());
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
             $type = $this->userTypeRepo->findOneBy(['id'=> 4], []);
@@ -93,8 +88,7 @@ class UserAdminController extends EasyAdminController
 
         array_push($userRoles, 'ROLE_USER');
         $user->setRoles($userRoles);
-        $code = $this->barCode->generate($user->getId());
-        $user->setBarCode($code);
+        $user->setBarCode($this->barCode->generate($user->getId()));
         $this->updatePassword($user);
         parent::updateEntity($user);
         

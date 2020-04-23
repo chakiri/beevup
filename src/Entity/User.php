@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    const DEFAULT_BAR_CODE = 42;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
