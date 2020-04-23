@@ -26,9 +26,12 @@
                             </div>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <hr/>
-                                <div>
+                                <div class="acces_service">
                                     <a href="{{ path('service_user', {'id': app.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
                                     <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
+                                    {% if is_granted('ROLE_ADMIN_STORE') %}
+                                        <a href="{{ path('service_generic') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">J'associe un service</a>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                             <div class="contact">
@@ -59,35 +62,39 @@
                         </header>
 
                         <div class="row">
-
-                            {% for service in services %}
-                                {% set icons = [
-                                '<i class="ion-ios-analytics-outline" style="color: #ff689b;"></i>',
-                                '<i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i>',
-                                '<i class="ion-ios-world-outline" style="color: #d6ff22;"></i>',
-                                '<i class="ion-ios-speedometer-outline" style="color:#41cf2e;"></i>',
-                                '<i class="ion-ios-clock-outline" style="color: #4680ff;"></i>'
-                                ] %}
-                                <div class="col-lg-4 col-md-6 col-sm-12 wow bounceInUp position-content" data-wow-duration="1.4s">
-                                    <div class="box card">
-                                        <a href="{{ path('service_show', {'id': service.id}) }}">
-                                            <div class="portfolio-wrap dashboard-service-image">
-                                                {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
-                                                {% else %}
-                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                                {% endif %}
-                                            </div>
-                                            <div class="info">
-                                                <div class="icon">{{ random(icons)|raw }}</div>
-                                                <h4 class="title">{{ service.title }}</h4>
-                                                <p class="description">{{ service.introduction }}</p>
-                                            </div>
-                                        </a>
+                            {% if services %}
+                                {% for service in services %}
+                                    {% set icons = [
+                                    '<i class="ion-ios-analytics-outline" style="color: #ff689b;"></i>',
+                                    '<i class="ion-ios-paper-outline" style="color: #3fcdc7;"></i>',
+                                    '<i class="ion-ios-world-outline" style="color: #d6ff22;"></i>',
+                                    '<i class="ion-ios-speedometer-outline" style="color:#41cf2e;"></i>',
+                                    '<i class="ion-ios-clock-outline" style="color: #4680ff;"></i>'
+                                    ] %}
+                                    <div class="col-lg-4 col-md-6 col-sm-12 wow bounceInUp position-content" data-wow-duration="1.4s">
+                                        <div class="box card">
+                                            <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                <div class="portfolio-wrap dashboard-service-image">
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                    {% else %}
+                                                        <img src="/images/default/unknown.png" class="img-fluid" alt="">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="info">
+                                                    <div class="icon">{{ random(icons)|raw }}</div>
+                                                    <h4 class="title">{{ service.title }}</h4>
+                                                    <p class="description">{{ service.introduction }}</p>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="box full-width text-center">
+                                    <p class="text-muted">Aucun service dans cette catégorie</p>
                                 </div>
-                            {% endfor %}
-
+                            {% endif %}
                         </div>
                     </div>
                 </div>

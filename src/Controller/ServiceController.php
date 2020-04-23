@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Entity\Store;
 use App\Entity\User;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\StoreRepository;
+use App\Repository\TypeServiceRepository;
 use App\Service\ServiceSetType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +24,19 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service", name="service")
     * @Route("/service/user/{id}", name="service_user")
+    * @Route("/service/generic", name="service_generic")
     */
-    public function index(?User $user, Request $request, ServiceRepository $repository)
+    public function index(?User $user, Request $request, ServiceRepository $repository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository)
     {
-        if ($user) $services = $repository->findBy(['user' => $user], ['createdAt' => 'DESC']);
-        else $services = $repository->findBy([], ['createdAt' =>'DESC']);
+        if ($user) {
+            $servicesUser = $repository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+            $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
+            $servicesAssociated = $store->getServices();
+            $services = array_merge($servicesAssociated->toArray(), $servicesUser);
+        }elseif ($request->get('_route') == 'service_generic') {
+            $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
+            $services = $repository->findBy(['type' => $typeService]);
+        }else $services = $repository->findBy([], ['createdAt' =>'DESC']);
 
         $searchForm = $this->createForm(ServiceSearchType::class);
 
@@ -45,6 +56,50 @@ class ServiceController extends AbstractController
             'isPrivate' => isset($user),
             'searchForm' => $searchForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/service/{service}/associate", name="service_associate")
+     */
+    public function associate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository)
+    {
+        if ($service && $service->getType()->getName() == 'plateform'){
+
+            $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
+
+            $store->addService($service);
+
+            $manager->persist($store);
+            $manager->flush();
+
+            $this->addFlash('success', 'Ce service a bien été ajouté à vos proposition !');
+
+            return $this->redirectToRoute('service_user', [
+                'id' => $this->getUser()->getId()
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/service/{id}/dissociate", name="service_dissociate")
+     */
+    public function dissociate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository)
+    {
+        if ($service && $service->getType()->getName() == 'plateform'){
+
+            $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
+
+            $store->removeService($service);
+
+            $manager->persist($store);
+            $manager->flush();
+
+            $this->addFlash('success', 'Ce service a été retiré de vos propositions !');
+
+            return $this->redirectToRoute('service_user', [
+                'id' => $this->getUser()->getId()
+            ]);
+        }
     }
 
     /**

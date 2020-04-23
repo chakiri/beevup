@@ -9,6 +9,7 @@
 # General
 --------------------------------------------------------------*/
 
+
 body {
   background: #ecf5ff !important;
   color: #444;
@@ -871,9 +872,9 @@ spinner-visible {
   background: #ececec;
 }
 #chatPlateform .message .span-style-me{
-  border: 1.5px solid #3899ff;
-  background: #3899ff;
-  color: white;
+  border: 1.5px solid #ecf5ff;
+  background: #ecf5ff;
+  color: #444444;
   padding: 5px;
   border-radius: 30px;
 }
@@ -1089,26 +1090,6 @@ textarea {
 
 .categories-search{
   border-left: 1px solid #a6a6a6;
-}
-
-#services .row{
-  margin-right: 0;
-}
-
-#services .sidebar{
-  background-color: white;
-  height: 100%;
-  overflow: scroll;
-}
-
-.container-sidebar{
-  padding: 20px;
-  margin: 5px 0;
-
-}
-
-.position-fixed{
-  height: 100%;
 }
 
 #why-us {
