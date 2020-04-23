@@ -44,8 +44,7 @@ class UserStoreController extends EasyAdminController
         }
         /*** generate bar code*/
         $userId =  $this->userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-        $code = $this->barCode->generate( $userId);
-        $user->setBarCode($code);
+        $user->setBarCode($this->barCode->generate( $userId));
         /**end ******/
       
         $this->updatePassword($user);
@@ -63,8 +62,9 @@ class UserStoreController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
-        $code = $this->barCode->generate($user->getId());
-        $user->setBarCode($code);
+
+
+        $user->setBarCode($this->barCode->generate($user->getId()));
         $this->updatePassword($user);
         parent::updateEntity($user);
         

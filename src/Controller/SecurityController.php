@@ -18,6 +18,7 @@ use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\BarCode;
 
+
 class SecurityController extends AbstractController
 {
     /**
@@ -42,10 +43,8 @@ class SecurityController extends AbstractController
             $company->setStore($user->getStore());
 
             /*** generate bar code*/
-
             $userId =  $userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-            $code = $barCode->generate( $userId);
-            $user->setBarCode($code);
+            $user->setBarCode($barCode->generate( $userId));
             /**end ******/
 
             $manager->persist($company);
