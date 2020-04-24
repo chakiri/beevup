@@ -49,8 +49,6 @@
                         <div class="info mt-3">
                             <p class="text-muted user-name">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
                             <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
-
-
                         </div>
                     </div>
 
@@ -116,45 +114,84 @@
                                 </div>
                             {% endif %}
                             <div class="notifs">
-                                <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
-                                    <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
+                                <div class="nav-item dropdown notification posts-notifications">
+                                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
+                                        <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
+                                        {% if notificationNumber > 0 %}
+                                            <span class="badge bell-badge">{{notificationNumber}}</span>
+                                        {% endif %}
+                                    </a>
                                     {% if notificationNumber > 0 %}
-                                        <span class="badge bell-badge">{{notificationNumber}}</span>
-                                    {% endif %}
-                                </a>
-                                {% if notificationNumber > 0 %}
-                                    <div class="dropdown-menu notification-dropdown">
-                                        {% for notification in dashboardNotifications %}
-                                            <div class="notification-item clearfix">
-                                                <div class="user-photo">
-                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-                                                </div>
-                                                <div class="notification-text">
-                                                    <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
-                                                        {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
-                                                    </a>
-                                                    {% if notification.type ==  'comment' %}
-                                                        {% if notification.post.distinctUserCommentNumber > 1  %}
-                                                            et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                        <div class="dropdown-menu notification-dropdown">
+                                            {% for notification in dashboardNotifications %}
+                                                <div class="notification-item clearfix">
+                                                    <div class="user-photo">
+                                                        <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <div class="notification-text">
+                                                        <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
+                                                            {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
+                                                        </a>
+                                                        {% if notification.type ==  'comment' %}
+                                                            {% if notification.post.distinctUserCommentNumber > 1  %}
+                                                                et {{notification.post.distinctUserCommentNumber }} autres personnes ont commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            {% else %}
+                                                                a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            {% endif %}
                                                         {% else %}
-                                                            a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
+                                                            a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
                                                         {% endif %}
-                                                    {% else %}
-                                                        a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
-                                                    {% endif %}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="nav-item dropdown notification messages-notifications">
+                                    <a href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                                        <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
+                                        <span class="badge">{% if notificationMessages|length != 0 %}{{ notificationMessages|length }}{% endif %}</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" style="">
+                                        {% if notificationMessages %}
+                                            {% for message in notificationMessages %}
+                                                <a class="dropdown-item" target="_blank" {% if message.receiver %}href="{{ path('chat_private', {'id': message.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': message.topic.name}) }}"{% endif %}>
+                                                <div class="message">
+                                                    <div class="avatar message-avatar">
+                                                        {% if message.receiver %}
+                                                            {% if message.receiver.profile.filename %}
+                                                                <img src="{{ vich_uploader_asset(message.receiver.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                            {% else %}
+                                                                <img src="/images/default/user.png" class="img-fluid" alt="">
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <img src="/images/default/channel.png" class="img-fluid" alt="">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="message-content">
+                                                        <p class="text-muted">
+                                                            {% if message.receiver %}
+                                                                {{ message.receiver.profile.firstname|capitalize }} {{ message.receiver.profile.lastname|capitalize }} vous a envoyé {{ message.nbMessages }} messages
+                                                            {% else %}
+                                                                Vous avez {{ message.nbMessages }} messages dans #{{ message.topic.name }}
+                                                            {% endif %}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                </a>
+                                            {% endfor %}
+                                            <p class="text-center"><a target="_blank" href="{{ path('chat_topic', {'name': 'general'}) }}"><small>Voir plus ...</small></a></p>
+                                        {% else %}
+                                            <p class="text-muted p-3">Aucune notification pour l'instant</p>
+                                        {% endif %}
                                     </div>
-                                {% endif %}
-                                <a href="#" class="notification">
-                                    <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
-                                    <span class="badge">10</span>
-                                </a>
-                                <a href="#" class="notification">
-                                    <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
-                                    <span class="badge">3</span>
-                                </a>
+                                </div>
+                                <div class="nav-item dropdown notification other-notifications">
+                                    <a href="#" class="">
+                                        <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
+                                        <span class="badge">3</span>
+                                    </a>
+                                </div>
                             </div>
 
 

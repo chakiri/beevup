@@ -3,10 +3,6 @@ html, body{
    height: 100%;
 }
 
-/* Commun */
-.full-width{
-    width: 100% !important;
-}
 
 /* Dashboard */
 
@@ -14,7 +10,36 @@ html, body{
     display: flex;
 }
 
-/*------------*/
+/*----Notif dahsbord----*/
+.notification .message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification .dropdown-menu{
+   width: 300px;
+}
+.notification .dropdown-item{
+    padding: 0;
+}
+
+.message-avatar img{
+    width: 50px !important;
+    height: 50px !important;
+}
+.message-content p{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 230px;
+}
+
+
+/* Commun */
+.full-width{
+    width: 100% !important;
+}
+
 .alert{
     border-left: 0.6rem solid;
     border-radius: 5px;
