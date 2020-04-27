@@ -49,14 +49,20 @@ class StoreController extends AbstractController
 
     /**
      * @Route("/store/{id}/edit", name="store_edit")
+     * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, Store $store, EntityManagerInterface $manager)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager)
     {
+        if (!$store){
+            $store = new Store();
+            $store->setReference('12323434');
+        }
         $form = $this->createForm(StoreType::class, $store);
         $form->handleRequest($request);
-        $store->setModifiedAt( new \DateTime());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $store->setModifiedAt( new \DateTime());
+
             $file = $form['imageFile']->getData();
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -79,9 +85,10 @@ class StoreController extends AbstractController
             ]);
         }
 
-        return $this->render('store/edit.html.twig', [
+        return $this->render('store/form.html.twig', [
             'store' => $store,
             'form' => $form->createView()
         ]);
     }
+
 }

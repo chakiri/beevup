@@ -26,7 +26,7 @@
 {% include 'partials/header.html.twig' %}
 
 {#Afficher flash messages #}
-{% if app.request.attributes.get('_route') != 'service' %}
+{% if app.request.attributes.get('_route') != 'service' and app.request.attributes.get('_route') != 'service_user'%}
     {% include 'partials/flashes.html.twig' %}
 {% endif %}
 
@@ -35,8 +35,9 @@
 
 {% block modals %}{% endblock %}
 
+
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
-    {% include 'partials/footer.html.twig' %}
+ {% include 'partials/footer.html.twig' %}
 {% endif %}
 
 

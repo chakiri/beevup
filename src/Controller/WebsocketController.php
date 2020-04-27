@@ -51,7 +51,9 @@ class WebsocketController extends AbstractController
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
             'subject' => $subject,
             'messages' => $messages,
-            'isPrivate' => $request->get('_route') == 'chat_private'
+            'isPrivate' => $request->get('_route') == 'chat_private',
+            'user' => $user ?: null,
+            'topic' => $topic ?: null
         ]);
     }
 

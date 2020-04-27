@@ -18,22 +18,19 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CompanyController extends AbstractController
 {
-    /**
-    * @Route("/company", name="company")
-    */
-
-    public function index()
-    {
-        return $this->render('company/show.html.twig', [
-            'controller_name' => 'CompanyController',
-        ]);
-    }
-
+//    /**
+//     * @Route("/company", name="company")
+//     */
+//    public function index()
+//    {
+//        return $this->render('company/show.html.twig', [
+//            'controller_name' => 'CompanyController',
+//        ]);
+//    }
 
     /**
-    * @Route("/company/{slug}", name="company_show")
-    */
-
+     * @Route("/company/{slug}", name="company_show")
+     */
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, ServiceRepository $servicesRepo)
     {
         $recommandations = $recommandationRepository->findBy(['company' => $company->getId(), 'status'=>'Validated'], []);
@@ -52,7 +49,6 @@ class CompanyController extends AbstractController
     /**
     * @Route("/company/{id}/edit", name="company_edit")
     */
-
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, InitTopic $initTopic)
     {
         $form = $this->createForm(CompanyType::class, $company);
@@ -68,7 +64,7 @@ class CompanyController extends AbstractController
                         $this->getParameter('entreprise_logos'),
                         $newFilename
                     );
-                  
+
                 } catch (FileException $e) {}
                 $company->setLogo($newFilename);
             }

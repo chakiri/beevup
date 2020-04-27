@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\DashboardNotification;
 use App\Entity\PostLike;
+use App\Entity\User;
+use App\Repository\NotificationRepository;
 use App\Repository\RecommandationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +30,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
@@ -51,8 +53,6 @@ class DefaultController extends AbstractController
             $untreatedCompanyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Open'], []);
             $untreatedCompanyRecommandationsNumber = count($untreatedCompanyRecommandations);
         }
-        
-        
 
 
         $serviceRecommandationToBeTraited = $recommandationRepository->findByUserRecommandation($this->getUser(), 'Open');
@@ -65,9 +65,10 @@ class DefaultController extends AbstractController
         //$dashboardNotifications = $dashboardNotificationRepository->findBy(['owner' => $this->getUser(),'seen' => 0], array('createdAt' => 'DESC'));
         $dashboardNotifications = $dashboardNotificationRepository->findByDistinctPostAndType($this->getUser());
         $notificationNumber = count($dashboardNotifications);
-       
 
-        
+        //Get notification chat
+        $notificationMessages = $notificationRepository->findMessageNotifs($this->getUser());
+
         return $this->render('default/dashboard.html.twig', [
             'services' => $services,
             'posts'   => $posts,
@@ -77,7 +78,8 @@ class DefaultController extends AbstractController
             'comments' => $comments,
             'likedPost' => $likedPost,
             'dashboardNotifications'=>$dashboardNotifications,
-            'notificationNumber'=>$notificationNumber
+            'notificationNumber'=>$notificationNumber,
+            'notificationMessages' => $notificationMessages
         ]);
     }
 }

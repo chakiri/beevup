@@ -3,105 +3,156 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
+
     <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}">
-            <div class="col-lg-3 col-sm-4 sidebar">
-                <div class="pt-3">
-                    <div class="user">
-                        {% if app.user.profile.filename is empty %}
-                            <img src="/images/default/user.png" class="img-fluid" alt="">
-                        {% else %}
-                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+        <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}" hidden></div>
+        <div class="wrapper row">
+            <div class="col-3 conversations">
+
+                {# Get nb of notifications by topic#}
+                {% set notificationsTopics = {} %}
+                {% for topic in topics %}
+                    {% for notification in notifications %}
+                        {% if notification.topic != null and notification.topic.name == topic.name %}
+                            {% set notificationsTopics = notificationsTopics|merge({ (topic.name) : notification.nbMessages }) %}
                         {% endif %}
-                        <div id="notifications" data-url="{{ path('save_notification') }}" hidden></div>
-                        <h4 id="userName" data-username="{{ app.user.profile.lastname }}" class="text-center">{{ app.user.profile.firstname|capitalize}}</h4>
-                        <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}"></div>
-                    </div>
-                    <h6><i class="fa fa-commenting-o" aria-hidden="true"></i><strong> Fils de discussion</strong></h6>
-                    <hr>
+                    {% endfor %}
+                {% endfor %}
 
-                    {# Get nb of notifications by topic#}
-                    {% set notificationsTopics = {} %}
+                <h4>Canaux</h4>
+                <ul class="channels">
                     {% for topic in topics %}
-                        {% for notification in notifications %}
-                            {% if notification.topic != null and notification.topic.name == topic.name %}
-                                {% set notificationsTopics = notificationsTopics|merge({ (topic.name) : notification.nbMessages }) %}
+                        {% if topic.name == subject %}
+                            <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong>#{{ topic.name }} </strong></a></li>
+                        {% else %}
+                            <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong>#{{ topic.name }} <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></strong></a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                {# Get nb of notifications by user#}
+                {% set notificationsUsers = {} %}
+                {% for user in users %}
+                    {% for notification in notifications %}
+                        {% if notification.receiver != null and notification.receiver.id == user.id %}
+                            {% set notificationsUsers = notificationsUsers + {(user.id): notification.nbMessages} %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+                <h4>Conversations directes</h4>
+                <div class="private">
+                    <ul class="users">
+                        {% for user in users %}
+                            {% if user != app.user %}
+                                <li {% if user.id == subject %} class="active" {% endif %}>
+                                    <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
+                                        <div class="conversation">
+                                            <div class="conversation-avatar avatar">
+                                                {% if user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="conversation-content">
+                                                <strong>{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
+                                            </div>
+                                            <div class="notifications">
+                                                <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                             {% endif %}
                         {% endfor %}
-                    {% endfor %}
-
-                    <div id="channels">
-                        <h6>Canaux</h6>
-                        <ul class="channels">
-                            {% for topic in topics %}
-                                {% if topic.name == subject %}
-                                    <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} </p></a></li>
-                                {% else %}
-                                    <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><p>#{{ topic.name }} <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></p></a></li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    {# Get nb of notifications by user#}
-                    {% set notificationsUsers = {} %}
-                    {% for user in users %}
-                        {% for notification in notifications %}
-                            {% if notification.receiver != null and notification.receiver.id == user.id %}
-                                {% set notificationsUsers = notificationsUsers + {(user.id): notification.nbMessages} %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-
-
-                    <div id="privates" class="mt-5">
-                        <h6 >Messages directs</h6>
-                        <ul class="users">
-                            {% for user in users %}
-                                {% if user != app.user %}
-                                    {% if user.id == subject %}
-                                        <li class="active"><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ user.profile.firstname|capitalize }} </p></a></li>
-                                    {% else %}
-                                        <li><a data-channel={{ user.id }} href='{{ path('chat_private', {'id': user.id}) }}'><p><i class="fa fa-circle" style="font-size:10px;"></i> {{ (user.profile.firstname ?? 'non defini' )|capitalize }} <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span></p></a></li>
-                                    {% endif %}
-                                {% endif %}
-
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    </ul>
                 </div>
             </div>
-            <div class="col-lg-9 col-sm-8 chat mt-3">
-                <div id="chat" class="box channel">
-                    {% for message in messages %}
-                        {% if message.user == app.user %}
-                            <div class='message'><div class="text-right"><p class="name-user">Moi</p><span class="span-style-me">{{ message.content }} </span></div></div>
-                        {% else %}
-                            <div class='message'><div><p class="name-user">{{ message.user.profile.firstname|capitalize }}</p><span class="span-style"> {{ message.content }} </span></div></div>
+            <div class="col-9 inbox">
+                <div class="inbox-header">
+                    <div class="inbox-avatar avatar">
+                        {% if user is defined and user is not null %}
+                            {% if user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                            {% else %}
+                                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                            {% endif %}
+                        {% elseif topic is defined and topic is not null %}
+                            <img src="/images/default/channel.png" class="img-fluid" alt="">
                         {% endif %}
-                    {% endfor %}
+                    </div>
+                    <div class="content">
+                        {% if user is defined and user is not null %}
+                            <strong>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
+                        {% elseif topic is defined and topic is not null %}
+                            <strong>{{ topic.name|capitalize }}</strong>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="box input">
-                    <form onsubmit="return sender();" method="post">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-10 col-sm-8">
+                <div class="inbox-content">
+                    <div class="row">
+                        <div class="col-8 inbox-message">
+                            <div id="chat" class="message-body">
+                                {% for message in messages %}
+                                    {% if message.user == app.user %}
+                                        <div class='message'><div class="text-right"><p class="name-user">Moi</p><span class="span-style-me">{{ message.content }} </span></div></div>
+                                    {% else %}
+                                        <div class='message'><div><p class="name-user">{{ message.user.profile.firstname|capitalize }}</p><span class="span-style"> {{ message.content }} </span></div></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <form onsubmit="return sender();" method="post">
+                                <div class="message-text">
                                     <input type="text" id="message" data-url="{{ path('sender') }}" class="form-control" placeholder="Votre message ...">
-                                </div>
-                                <div class="col-lg-1 col-sm-2">
                                     <button id="sendBtn" class="btn icon" type="submit" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="col-4 inbox-profile">
+                            <div class="profile-header">
+                                {% if user is defined and user is not null %}
+                                    <div class="profile-avatar avatar">
+                                        {% if user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="profile-content">
+                                        <h4>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
+                                        <p class="text-muted">{{ user.store.name }}</p>
+                                        <strong>4 Services proposés</strong>
+                                    </div>
+                                {% elseif topic is defined and topic is not null %}
+                                    <div class="profile-avatar avatar">
+                                        <img src="/images/default/channel.png" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="profile-content">
+                                        <h4>{{ topic.name|capitalize }}</h4>
+                                        <strong>18 participants</strong>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                            {% if user is defined and user is not null%}
+                                <div class="profile-footer">
+                                    <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}" type="button" class="btn btn-design btn-1">Voir le profil</a>
+                                </div>
+                            {% elseif topic is defined and topic is not null %}
+                                <div class="profile-footer">
+                                    <a href="#" type="button" class="btn btn-design btn-1">Se désabonner</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-
+        </div>
     </section>
 
-
-
-
 {% endblock %}
+
 
 {% block javascripts %}
     <script type="text/javascript" src="/lib/autobahn/autobahn.js"></script>

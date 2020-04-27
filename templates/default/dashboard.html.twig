@@ -9,18 +9,18 @@
 
             {# Notice warning#}
             {% if is_granted('ROLE_ADMIN_PLATEFORM') %}
-            <div class="alert alert-dismissible alert-secondary">
-                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Abus</h4>
-                <p class="mb-0">Vous avez des abus à gérer <a href="{{ path('abuses') }}" class="alert-link">cliquer ici</a>.</p>
-            </div>
-           {% endif %}
+                <div class="alert alert-dismissible alert-secondary">
+                    <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Abus</h4>
+                    <p class="mb-0">Vous avez des abus à gérer <a href="{{ path('abuses') }}" class="alert-link">cliquer ici</a>.</p>
+                </div>
+            {% endif %}
 
             {% if is_granted('ROLE_ADMIN_COMPANY') and (untreatedRecommandationsNumber > 0) %}
-            <div class="alert alert-dismissible alert-warning">
-                <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Recommandations</h4>
-                <p class="mb-0">Vous avez des recommandations à gérer <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a>.</p>
-            </div>
-           {% endif %}
+                <div class="alert alert-dismissible alert-warning">
+                    <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Recommandations</h4>
+                    <p class="mb-0">Vous avez des recommandations à gérer <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a>.</p>
+                </div>
+            {% endif %}
 
             {% if is_granted('ROLE_ADMIN_COMPANY') and app.user.company.isCompleted == false %}
                 <div class="alert alert-dismissible alert-danger">
@@ -83,7 +83,7 @@
                                                         {% if notification.post.likesNumber > 1 %}
                                                             et {{ notification.post.likesNumber }} autres personnes ont aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
                                                         {% else %}
-                                                           a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                            a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
                                                         {% endif %}
                                                     {% endif %}
                                                 </div>
@@ -91,10 +91,45 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                <a href="#" class="notification">
-                                    <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
-                                    <span class="badge">10</span>
-                                </a>
+                                <div class="nav-item dropdown notification messages-notifications">
+                                    <a href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                                        <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
+                                        <span class="badge">{% if notificationMessages|length != 0 %}{{ notificationMessages|length }}{% endif %}</span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" style="">
+                                        {% if notificationMessages %}
+                                            {% for message in notificationMessages %}
+                                                <a class="dropdown-item" target="_blank" {% if message.receiver %}href="{{ path('chat_private', {'id': message.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': message.topic.name}) }}"{% endif %}>
+                                                    <div class="message">
+                                                        <div class="avatar message-avatar">
+                                                            {% if message.receiver %}
+                                                                {% if message.receiver.profile.filename %}
+                                                                    <img src="{{ vich_uploader_asset(message.receiver.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                                {% else %}
+                                                                    <img src="/images/default/user.png" class="img-fluid" alt="">
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <img src="/images/default/channel.png" class="img-fluid" alt="">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="message-content">
+                                                            <p class="text-muted">
+                                                                {% if message.receiver %}
+                                                                    {{ message.receiver.profile.firstname|capitalize }} {{ message.receiver.profile.lastname|capitalize }} vous a envoyé {{ message.nbMessages }} messages
+                                                                {% else %}
+                                                                    Vous avez {{ message.nbMessages }} messages dans #{{ message.topic.name }}
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            {% endfor %}
+                                            <p class="text-center"><a target="_blank" href="{{ path('chat_topic', {'name': 'general'}) }}"><small>Voir plus ...</small></a></p>
+                                        {% else %}
+                                            <p class="text-muted p-3">Aucune notification pour l'instant</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
                                 <a href="#" class="notification">
                                     <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
                                     <span class="badge">3</span>
@@ -106,32 +141,32 @@
 
                     </div>
                     {% if posts and postNumber > 0 %}
-                    <div class="box post-box">
-                        <div class="row mb-3">
-                            <h4 class="col-8">Fil d'actualité</h4>
-                            <div class="col-4">
-                                <div class="filter-dropdown">
-                                
-                                    <select id="news-filter" class="form-control">
-                                        <option value="All">Tous</option>
-                                        <option value="Informations">Informations</option>
-                                        <option value="LastPublished">Derniers arrivés</option>
-                                        <option value="Opportunities">Opportunité commerciale</option>
-                                        <option value="Employment">Offres d’emplois</option>
-                                    </select>
+                        <div class="box post-box">
+                            <div class="row mb-3">
+                                <h4 class="col-8">Fil d'actualité</h4>
+                                <div class="col-4">
+                                    <div class="filter-dropdown">
+
+                                        <select id="news-filter" class="form-control">
+                                            <option value="All">Tous</option>
+                                            <option value="Informations">Informations</option>
+                                            <option value="LastPublished">Derniers arrivés</option>
+                                            <option value="Opportunities">Opportunité commerciale</option>
+                                            <option value="Employment">Offres d’emplois</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
+                            {% include 'dashboard/posts.html.twig' %}
                         </div>
-                        {% include 'dashboard/posts.html.twig' %}
-                     </div>
-                    {% endif %}                   
+                    {% endif %}
 
                 </div>
                 <div class="col-lg-3 col-md-6">
-                      {% include 'default/boxes/score-box.html.twig' %}
-                      {% include 'default/boxes/activity-box.html.twig' %}
+                    {% include 'default/boxes/score-box.html.twig' %}
+                    {% include 'default/boxes/activity-box.html.twig' %}
                 </div>
-        </div>
+            </div>
     </section>
 {% endblock %}
 

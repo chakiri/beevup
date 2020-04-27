@@ -19,6 +19,18 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
+    public function findMessageNotifs($user)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.user = :user')
+            ->andWhere('n.nbMessages != :value')
+            ->setParameter('user', $user)
+            ->setParameter('value', 0)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Notification[] Returns an array of Notification objects
     //  */
