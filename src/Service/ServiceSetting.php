@@ -7,7 +7,7 @@ use App\Entity\Service;
 use App\Repository\TypeServiceRepository;
 use Symfony\Component\Security\Core\Security;
 
-class ServiceSetType
+class ServiceSetting
 {
     private $security;
 
@@ -19,7 +19,7 @@ class ServiceSetType
         $this->typeServiceRepository = $typeServiceRepository;
     }
 
-    public function set(Service $service): Service
+    public function setType(Service $service): Service
     {
         if($this->security->isGranted('ROLE_ADMIN_STORE') ){
             $type = $this->typeServiceRepository->findOneBy(['name' => 'store']);
@@ -27,6 +27,17 @@ class ServiceSetType
         }elseif ($this->security->isGranted('ROLE_ADMIN_COMPANY')){
             $type = $this->typeServiceRepository->findOneBy(['name' => 'company']);
             $service->setType($type);
+        }
+
+        return $service;
+    }
+
+    public function setToParent(Service $service): Service
+    {
+        if($this->security->isGranted('ROLE_ADMIN_STORE') ){
+            $this->security->getUser()->getStore()->addService($service);
+        }elseif ($this->security->isGranted('ROLE_ADMIN_COMPANY')){
+            $this->security->getUser()->getCompany()->addService($service);
         }
 
         return $service;

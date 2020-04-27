@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\Service;
 use App\Entity\Store;
 use App\Entity\User;
@@ -12,7 +13,8 @@ use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
 use App\Repository\TypeServiceRepository;
-use App\Service\ServiceSetType;
+use App\Repository\UserRepository;
+use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,20 +25,31 @@ class ServiceController extends AbstractController
 
     /**
     * @Route("/service", name="service")
-    * @Route("/service/user/{id}", name="service_user")
     * @Route("/service/generic", name="service_generic")
+    * @Route("/service/company/{company}", name="service_company")
+    * @Route("/service/store/{store}", name="service_store")
+    * @Route("/service/user/{user}", name="service_user")
     */
-    public function index(?User $user, Request $request, ServiceRepository $repository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository)
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository)
     {
-        if ($user) {
-            $servicesUser = $repository->findBy(['user' => $user], ['createdAt' => 'DESC']);
-            $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
-            $servicesAssociated = $store->getServices();
-            $services = array_merge($servicesAssociated->toArray(), $servicesUser);
-        }elseif ($request->get('_route') == 'service_generic') {
+        $services = $serviceRepository->findBy([], ['createdAt' =>'DESC']);
+
+        if ($request->get('_route') == 'service_generic') {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
-            $services = $repository->findBy(['type' => $typeService]);
-        }else $services = $repository->findBy([], ['createdAt' =>'DESC']);
+            $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+        }
+        if ($company){
+            $company = $companyRepository->findOneBy(['id' => $company]);
+            $services = $company->getServices();
+        }
+        if ($store){
+            $store = $storeRepository->findOneBy(['id' => $store]);
+            $services = $store->getServices();
+        }
+        if ($user) {
+            $user = $userRepository->findBy(['id' => $user]);
+            $services = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+        }
 
         $searchForm = $this->createForm(ServiceSearchType::class);
 
@@ -46,7 +59,7 @@ class ServiceController extends AbstractController
             $query = $searchForm->get('query')->getData();
             $category = $searchForm->get('category')->getData();
 
-            $services = $repository->findSearch($query, $category);
+            $services = $serviceRepository->findSearch($query, $category);
 
             $user = null;
         }
@@ -74,8 +87,8 @@ class ServiceController extends AbstractController
 
             $this->addFlash('success', 'Ce service a bien été ajouté à vos propositions !');
 
-            return $this->redirectToRoute('service_user', [
-                'id' => $this->getUser()->getId()
+            return $this->redirectToRoute('service_store', [
+                'store' => $this->getUser()->getStore()->getId()
             ]);
         }
     }
@@ -96,8 +109,8 @@ class ServiceController extends AbstractController
 
             $this->addFlash('success', 'Ce service a été retiré de vos propositions !');
 
-            return $this->redirectToRoute('service_user', [
-                'id' => $this->getUser()->getId()
+            return $this->redirectToRoute('service_store', [
+                'store' => $this->getUser()->getStore()->getId()
             ]);
         }
     }
@@ -106,7 +119,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new", name="service_new")
      */
-    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetType $serviceSetType)
+    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting)
     {
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
@@ -114,15 +127,15 @@ class ServiceController extends AbstractController
             $message = "Votre Service a bien été crée !";
             $service->setUser($this->getUser());
         }
-        $service->setUser($this->getUser());
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
             if (!$service->getType()){
                 //Set type depending on user role
-                $serviceSetType->set($service);
+                $serviceSetting->setType($service);
             }
+            $serviceSetting->setToParent($service);
             $manager->persist($service);
             $manager->flush();
 
@@ -148,7 +161,6 @@ class ServiceController extends AbstractController
         $storeId = 0;
         $company = null;
         $store = null;
-        $serviceType = $service->getType()->getName();
 
         if(!is_null($service->getUser()->getCompany())) {
             $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
@@ -167,7 +179,6 @@ class ServiceController extends AbstractController
             'similarServices' => $similarServices,
             'recommandations'=> $recommandations,
             'recommandationsCompany'=> $recommandationsCompany,
-            'serviceType' => $serviceType
         ]);
     }
 

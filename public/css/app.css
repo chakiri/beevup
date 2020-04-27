@@ -102,12 +102,12 @@ html, body{
 }
 
 .btn-1:hover{
-    background-color: #c42f52;
+    background-color: #00a5ea;
     color: white;
 }
 
 .btn-1{
-    background-color: #ff396c;
+    background-color: #00a5ea;
     color: white;
 }
 
@@ -255,6 +255,7 @@ html, body{
     transition: all 0.3s ease-in-out;
     padding: 0;
     border: none;
+    margin: 15px 0;
 }
 
 .card a{

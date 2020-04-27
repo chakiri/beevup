@@ -27,7 +27,11 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <hr/>
                                 <div class="acces_service">
-                                    <a href="{{ path('service_user', {'id': app.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                    {% if is_granted('ROLE_ADMIN_STORE') %}
+                                        <a href="{{ path('service_store', {'store': app.user.store.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                    {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
+                                        <a href="{{ path('service_company', {'company': app.user.company.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                    {% endif %}
                                     <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
                                     {% if is_granted('ROLE_ADMIN_STORE') %}
                                         <a href="{{ path('service_generic') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">J'associe un service</a>

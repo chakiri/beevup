@@ -150,12 +150,18 @@ class Company
      */
     private $isCompleted;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Service")
+     */
+    private $services;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->isValid = false;
         $this->isCompleted = false;
         $this->updatedAt = new \Datetime();
+        $this->services = new ArrayCollection();
        
     }
 
@@ -499,6 +505,32 @@ class Company
     public function __toString()
     {
        return strval( $this->getName() );
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+        }
+
+        return $this;
     }
 
 

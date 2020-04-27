@@ -33,16 +33,17 @@ class CompanyController extends AbstractController
      */
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, ServiceRepository $servicesRepo)
     {
-        $recommandations = $recommandationRepository->findBy(['company' => $company->getId(), 'status'=>'Validated'], []);
-        $users = $userRepo->findBy(['company' => $company->getId()], []);
-        $emailAdmin = $company->getEmail();
-        $companyAdmin = $userRepo->findOneBy(['email'=> $emailAdmin],[]);
-        $services = $servicesRepo->findBy(['user' => $companyAdmin->getId()], []);
+        $recommandations = $recommandationRepository->findBy(['company' => $company, 'status'=>'Validated']);
+        $users = $userRepo->findBy(['company' => $company]);
+
+        $services = $company->getServices()->toArray();
+
         return $this->render('company/show.html.twig', [
             'company' => $company,
             'recommandations'=> $recommandations,
             'users' => $users,
-            'services' => $services
+            'countServices' => count($services),
+            'services' => array_slice($services, 0, 3)
         ]);
     }
 
