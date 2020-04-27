@@ -1,0 +1,16 @@
+<div class="box company-informations"">
+    <div class="box-title-container">
+        <p class="box-title">Magasin</p>
+    </div>
+    <p class="company-tel"><i class="fa fa-university margin-r-10" aria-hidden="true"></i>{{ app.user.store.name|capitalize }}</p>
+    <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
+      {{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }} {{ app.user.store.addressPostCode }}
+    </p>
+    <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>
+        {{ app.user.store.city }}
+    </p>
+    <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
+        <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a>
+    </p>
+
+</div>

@@ -3,104 +3,229 @@
 {% form_theme EditCompanyForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-  <div id="editCompany">
-    <div class="container">
-      <div class="bg-light py-3 px-3 mt-5 mb-5">
-        <h1>Compléter ma fiche entreprise</h1>
-            <div class="card-body card-block">
-                {{ form_start(EditCompanyForm) }}
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="">N° SIRET</label>
-                                {{ form_errors(EditCompanyForm.siret) }}
-                                {{ form_widget(EditCompanyForm.siret) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Nom de l'entreprsie</label>
-                                {{ form_errors(EditCompanyForm.name) }}
-                                {{ form_widget(EditCompanyForm.name) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Introduction</label>
-                                {{ form_errors(EditCompanyForm.introduction) }}
-                                {{ form_widget(EditCompanyForm.introduction) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Description de l'entreprise</label>
-                                {{ form_errors(EditCompanyForm.description) }}
-                                {{ form_widget(EditCompanyForm.description) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Votre magasin Bureau vallée de référence</label>
-                                {{ form_errors(EditCompanyForm.store) }}
-                                {{ form_widget(EditCompanyForm.store) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Catégorie de l'entreprise</label>
-                                {{ form_errors(EditCompanyForm.category) }}
-                                {{ form_widget(EditCompanyForm.category) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                {{ form_errors(EditCompanyForm.email) }}
-                                {{ form_widget(EditCompanyForm.email) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Numéro de téléphone</label>
-                                {{ form_errors(EditCompanyForm.phone) }}
-                                {{ form_widget(EditCompanyForm.phone) }}
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="">Numéro de rue</label>
-                                {{ form_errors(EditCompanyForm.addressNumber) }}
-                                {{ form_widget(EditCompanyForm.addressNumber) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Rue</label>
-                                {{ form_errors(EditCompanyForm.addressStreet) }}
-                                {{ form_widget(EditCompanyForm.addressStreet) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Code postal</label>
-                                {{ form_errors(EditCompanyForm.addressPostCode) }}
-                                {{ form_widget(EditCompanyForm.addressPostCode) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Ville</label>
-                                {{ form_errors(EditCompanyForm.city) }}
-                                {{ form_widget(EditCompanyForm.city) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Pays</label>
-                                {{ form_errors(EditCompanyForm.country) }}
-                                {{ form_widget(EditCompanyForm.country) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Image</label>
-                                {{ form_errors(EditCompanyForm.imageFile) }}
-                                {{ form_widget(EditCompanyForm.imageFile) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Lien vidéo</label>
-                                {{ form_errors(EditCompanyForm.video) }}
-                                {{ form_widget(EditCompanyForm.video) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="">Site web de l'entreprise</label>
-                                {{ form_errors(EditCompanyForm.website) }}
-                                {{ form_widget(EditCompanyForm.website) }}
-                            </div>
+  <div id="editCompany" class="mt-5">
+    <div class="container-mvp">
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'default/aside.html.twig' %}
+            </div>
+            <div class="col-md-9 mb-4">
+                  <div class="bg-light pt-4 pl-4">
+
+                      <div class="mvp-color">
+                          <h4><i class="fa fa-pencil" aria-hidden="true"></i>
+                              <span class="m-1">Compléter ma fiche entreprise</span>
+                          </h4>
+                      </div>
+                        <div class="card-body card-block">
+                            {{ form_start(EditCompanyForm) }}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="">N° SIRET</label>
+                                            {{ form_errors(EditCompanyForm.siret) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                {{ form_widget(EditCompanyForm.siret) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Nom de l'entreprsie</label>
+                                            {{ form_errors(EditCompanyForm.name) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.name) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Introduction</label>
+                                            {{ form_errors(EditCompanyForm.introduction) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                       <i class="fa fa-book" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.introduction) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Description de l'entreprise</label>
+                                            {{ form_errors(EditCompanyForm.description) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                 {{ form_widget(EditCompanyForm.description) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Votre magasin Bureau vallée de référence</label>
+                                            {{ form_errors(EditCompanyForm.store) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                {{ form_widget(EditCompanyForm.store) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Catégorie de l'entreprise</label>
+                                            {{ form_errors(EditCompanyForm.category) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.category) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Email</label>
+                                            {{ form_errors(EditCompanyForm.email) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.email) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Numéro de téléphone</label>
+                                            {{ form_errors(EditCompanyForm.phone) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.phone) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="">Numéro de rue</label>
+                                            {{ form_errors(EditCompanyForm.addressNumber) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-list-ol" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.addressNumber) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Rue</label>
+                                            {{ form_errors(EditCompanyForm.addressStreet) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.addressStreet) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Code postal</label>
+                                            {{ form_errors(EditCompanyForm.addressPostCode) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                       <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.addressPostCode) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Ville</label>
+                                            {{ form_errors(EditCompanyForm.city) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-flag" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.city) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Pays</label>
+                                            {{ form_errors(EditCompanyForm.country) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-globe" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.country) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Image</label>
+                                            {{ form_errors(EditCompanyForm.imageFile) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.imageFile) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Lien vidéo</label>
+                                            {{ form_errors(EditCompanyForm.video) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.video) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Site web de l'entreprise</label>
+                                            {{ form_errors(EditCompanyForm.website) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-link" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            {{ form_widget(EditCompanyForm.website) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <div class="form-actions form-group text-center">
+                                    <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Editer</button>
+                                </div>
+
+
+                            {{ form_end(EditCompanyForm) }}
                         </div>
                     </div>
-
-                    <div class="form-actions form-group">
-                        <button type="submit" class="btn btn-success">Editer</button>
-                    </div>
-
-                {{ form_end(EditCompanyForm) }}
             </div>
         </div>
       </div>

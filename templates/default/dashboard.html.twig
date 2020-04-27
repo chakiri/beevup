@@ -38,67 +38,7 @@
 
             <div class="row page">
                 <div class="col-lg-3 col-md-6">
-                    <div class="box dashboard-box">
-                        <div class="avatar">
-                        {% if app.user.profile.filename %}
-                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-                         {% else %}
-                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
-                        {% endif %}
-                        </div>
-                        <div class="info mt-3">
-                            <p class="text-muted user-name">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-                            <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
-
-
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <h4>Mon code à barre </h4>
-                        <div class="logo-company">
-                            <img src="data:image/png;base64,{{ app.user.barCode }}" />
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <h4>Mon entreprise</h4>
-                        <div class="logo-company">
-                            {% if app.user.company %}
-                                {% if app.user.company.logo %}
-                                    <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
-                                {% else %}
-                                    <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                        {% if app.user.company %}
-                            <p class="lead">{{ app.user.company.name|capitalize }}</p>
-                           <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
-                            {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                               <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-
-                    <div class="box">
-                        <h4>Mon magasin </h4>
-                        <p class="lead">{{ app.user.store.name|capitalize }}</p>
-                        <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
-                        <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
-                        <p><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a></p>
-                    </div>
-
-                    <div class="box">
-                        <h4>Mon conseiller </h4>
-                        <div class="avatar">
-                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
-                        </div>
-                        <p>Mon conseiller <strong>Richard Bryand</strong></p>
-                        <a href="#">Contacter mon Mr Bryand</a>
-                    </div>
-
-
+                    {% include 'default/dashboard-aside.html.twig' %}
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="box dashboard-header">
@@ -125,11 +65,11 @@
                                 {% if notificationNumber > 0 %}
                                     <div class="dropdown-menu notification-dropdown">
                                         {% for notification in dashboardNotifications %}
-                                            <div class="notification-item clearfix">
-                                                <div class="user-photo">
+                                            <div class="row col-12 notification-item clearfix">
+                                                <div class="user-photo col-2">
                                                     <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                 </div>
-                                                <div class="notification-text">
+                                                <div class="notification-text col-10">
                                                     <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
                                                         {{ notification.user.profile.firstname|capitalize }} {{ notification.user.profile.lastName|capitalize }}
                                                     </a>
@@ -140,7 +80,11 @@
                                                             a commenté un <a href="#post-id-{{notification.post.id}}">post </a>que vous avez partagé
                                                         {% endif %}
                                                     {% else %}
-                                                        a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                        {% if notification.post.likesNumber > 1 %}
+                                                            et {{ notification.post.likesNumber }} autres personnes ont aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                        {% else %}
+                                                           a aimé un <a href="#post-id-{{notification.post.id}}">post </a> que vous avez partagé
+                                                        {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -162,7 +106,7 @@
 
                     </div>
                     {% if posts and postNumber > 0 %}
-                    <div class="box">
+                    <div class="box post-box">
                         <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
                             <div class="col-4">
@@ -184,18 +128,8 @@
 
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <div class="box">
-                        <h4>Mon score</h4>
-                        <div class="activity">Score : <strong>300 pts</strong></div>
-                        <div class="activity">IE : <strong>250 pts</strong></div>
-                        <div class="activity">Recommandations : <strong>2</strong> <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}"><small style="float: right;">Voir ...</small></a></div>
-                    </div>
-                    <div class="box">
-                        <h4>Mon activité</h4>
-                        <div class="activity"><strong>3</strong> services crées</div>
-                        <div class="activity"><strong>2</strong> personnes vous ont ajouté à leurs favoris</div>
-                        <a href="" ><small>Voir plus ...</small></a>
-                    </div>
+                      {% include 'default/boxes/score-box.html.twig' %}
+                      {% include 'default/boxes/activity-box.html.twig' %}
                 </div>
         </div>
     </section>

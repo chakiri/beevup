@@ -153,7 +153,7 @@
       data-target="#LikesList"
       data-whatever="@mdo"
       data-path="`+dataPath+`">
-      <i id="post-likes-icon-`+postId+`" class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
+      <i id="post-likes-icon-`+postId+`" class="fa fa-thumbs-up text-primary" aria-hidden="true"></i> 
                             <span id ="post-likes-number-`+postId+`" class="post-likes-number">1</span></span>`;
     }
     else{
@@ -271,7 +271,7 @@
                         </a>
                     </div>
                     <div class='comment `+commentWidth+`'  style='flot:left'>
-                        <a href='#' class='comment-user'><p>`+userName+`</p></a> 
+                        <a href='#' class='comment-user'><p class="comment-owner">`+userName+`</p></a> 
                         <p class='comment-time'>à l\'instant</p>
                         <div id="comment-description-`+newCommentId+`" class='comment-text'>`
                         +comment+
@@ -599,10 +599,16 @@ if ($(window).width() < 1024)
         if ($(this).hasClass("text-warning")) {
             url = $(this).attr('data-delete');
             $('#result-user-item-' + userId).removeClass('text-warning').addClass('text-muted');
+            if( $('.profil-add-favoris').length ) {
+                $('.profil-add-favoris').text('').append("<i class='fa fa-heart'></i> Ajouter aux Favoris");
+            }
 
         } else {
             url = $(this).attr('data-target');
             $('#result-user-item-' + userId).removeClass('text-muted').addClass('text-warning');
+            if( $('.profil-add-favoris').length ) {
+                $('.profil-add-favoris').text('').append("<i class='fa fa-heart'></i> Favoris");
+            }
 
         }
        $.get(url, function (data) {

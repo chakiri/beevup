@@ -3,40 +3,123 @@
 {% form_theme EditProfileForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-
-    <div class="container">
+<div class="mt-5">
+    <div class="container-mvp">
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="bg-light py-3 px-3 mt-5 mb-5">
-              <div class="text-center">
-                <h1>Editer mes informations</h1>
-              </div>
+        <div class="col-md-3">
+            {% include 'default/aside.html.twig' %}
+        </div>
+        <div class="col-md-9 mb-4">
+
+          <div class="bg-light btn-radius">
+
+
                 <div class="card-body card-block">
+                    <div class="mvp-color">
+                        <h4><i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span class="m-1">Editer mes informations</span>
+                        </h4>
+                    </div>
                     {{ form_start(EditProfileForm) }}
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.lastname) }}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                           {{ form_label(EditProfileForm.lastname) }}
+                            {{ form_errors(EditProfileForm.lastname) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                             <i class="fa fa-id-badge" aria-hidden="true"></i>
+                                        </span>
+                                </div>
+                                {{ form_widget(EditProfileForm.lastname) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.firstname) }}
+                            {{ form_errors(EditProfileForm.firstname) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                             <i class="fa fa-address-book-o" aria-hidden="true"></i>
+                                        </span>
+                                </div>
+                            {{ form_widget(EditProfileForm.firstname) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        {{ form_row(EditProfileForm.firstname) }}
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.gender) }}
+                            {{ form_errors(EditProfileForm.gender) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                             <i class="fa fa-venus-mars" aria-hidden="true"></i>
+                                        </span>
+                                </div>
+                                {{ form_widget(EditProfileForm.gender) }}
+                             </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.function) }}
+                            {{ form_errors(EditProfileForm.function) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                           <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                               {{ form_widget(EditProfileForm.function) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.gender) }}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+
+                            {{ form_label(EditProfileForm.mobileNumber) }}
+                            {{ form_errors(EditProfileForm.mobileNumber) }}
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                {{ form_widget(EditProfileForm.mobileNumber) }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.phoneNumber) }}
+                            {{ form_errors(EditProfileForm.phoneNumber) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-mobile" aria-hidden="true"></i>
+                                        </span>
+                                </div>
+                                {{ form_widget(EditProfileForm.phoneNumber) }}
+                             </div>
+                        </div>
                     </div>
+
+
                     <div class="form-group">
-                      {{ form_row(EditProfileForm.mobileNumber) }}
+                        {{ form_label(EditProfileForm.imageFile) }}
+                        {{ form_errors(EditProfileForm.imageFile) }}
+                        <div class="input-group">
+                                <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                                            </span>
+                                </div>
+                            {{ form_widget(EditProfileForm.imageFile) }}
+                        </div>
                     </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.phoneNumber) }}
-                    </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.function) }}
-                    </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.imageFile) }}
-                    </div>
-                    <div class="form-actions form-group text-right">
-                        <button type="submit" class="btn btn-success btn-md">Enregistrer</button>
+                    <div class="form-actions form-group text-center">
+                        <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Enregistrer</button>
                     </div>
                     {{ form_end(EditProfileForm) }}
                 </div>
@@ -45,5 +128,5 @@
         </div>
       </div>
     </div>
-
+</div>
   {% endblock %} 

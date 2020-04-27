@@ -1,0 +1,13 @@
+<div class="box dashboard-box">
+    <div class="avatar">
+        {% if app.user.profile.filename %}
+            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+        {% else %}
+            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+        {% endif %}
+    </div>
+    <div class="info mt-3">
+        <p class="text-muted user-name">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
+        <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+    </div>
+</div>

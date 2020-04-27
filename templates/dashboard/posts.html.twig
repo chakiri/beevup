@@ -34,7 +34,7 @@
           </div>
 
           <div class="col-10">
-              <div class="lead">
+              <div class="lead post-user-profile">
                   <strong class="post-user">
                       <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
                         {{post.user.profile.firstname}} {{post.user.profile.lastname}}
@@ -42,13 +42,13 @@
                   </strong>
                   <strong class="post-created-at">{{leftDays}}</strong>
                   <p>
-                      <a class="user-company-name text-primary" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
+                      <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
                           {{post.user.company.name|capitalize}} 
                       </a>
                   </p>
               </div>
               
-              <div class="lead post-category"> <span>{{post.category|capitalize}}</span></div>
+
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
               <div class="lead post-description">{{post.description}}</div>
               <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
@@ -60,7 +60,7 @@
                             data-target="#LikesList" 
                             data-whatever="@mdo"
                             data-path="{{path('post_likes', { 'id': post.id})}}">
-                        <i id ="post-likes-icon-{{post.id}}" class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i> 
+                        <i id ="post-likes-icon-{{post.id}}" class="fa fa-thumbs-up mvp-color" aria-hidden="true"></i>
                         <span id ="post-likes-number-{{post.id}}" class="post-likes-number">
                           {{post.likesNumber}}</span>
                     </span>
@@ -98,12 +98,12 @@
                         <div class="col-14">
 
                               {% if likedPost[loop.index - 1] == 1 %}
-                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-liked post-btns" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
                               {% else %}
-                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
+                                <button id = "like-button-{{post.id}}" type="button" class="btn btn-light btn-sm like-button post-btns" data-post-likes-number = "{{post.likesNumber}}" data-post-id = "{{post.id}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> J'aime</button>
                               {% endif %}
-                                <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
-                                <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
+                                <button id = "comment-button-{{post.id}}" type="button" class="btn btn-light btn-sm comment-button post-btns" data-post-id = {{post.id}}><i class="fa fa-commenting-o" aria-hidden="true"></i> Commenter</button>
+                                <a href="{{ path('chat_private', {'id': post.user.id}) }}" id = "chat-button-{{post.id}}" type="button" class="btn btn-light btn-sm chat-button post-btns" data-post-id = {{post.id}}><i class="fa fa-comments-o" aria-hidden="true"></i> Chater avec l'auteur</a>
                               <!--<button id = "share-button-{{post.id}}" type="button" class="btn btn-light btn-sm share-button" data-post-id = {{post.id}}><i class="fa fa-retweet" aria-hidden="true"></i> Partager</button>-->
 
                         </div>

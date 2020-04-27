@@ -3,60 +3,74 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
+    <section id="login-page" class="clearfix section-bg-light">
+        <div class="container mt-6">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="bg-light py-3 px-3 mt-5 btn-radius">
+                        <form action="{{ path('security_login') }}" method="post">
+                            <fieldset>
+                                <h1 class="mvp-color security-title">Connexion</h1>
 
-    <div class="container mt-6">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="bg-light py-3 px-3 mt-5">
-                    <form action="{{ path('security_login') }}" method="post">
-                        <fieldset>
-                            <h1>Connexion</h1>
+                                {% for message in app.flashes('create-service-success') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
 
-                            {% for message in app.flashes('create-service-success') %}
-                                <div class="alert alert-success">
-                                    {{ message }}
+                                {% for message in app.flashes('update-service-success') %}
+                                    <div class="alert alert-success">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
+                                {% if hasError %}
+                                    <div class="alert alert-dismissible alert-danger">Une erreur est survenu, veuillez ressayer</div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Adresse Email</label>
+                                    <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                   <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                </span>
+                                                </div>
+                                                <input type="email" name="_username" value="{{ lastUsername }}" class="form-control" id="exampleInputEmail1"  placeholder="Entrez email" required>
+                                            </div>
                                 </div>
-                            {% endfor %}
-
-                            {% for message in app.flashes('update-service-success') %}
-                                <div class="alert alert-success">
-                                    {{ message }}
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                  <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                                </span>
+                                        </div>
+                                        <input type="password" name="_password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                                    </div>
                                 </div>
-                            {% endfor %}
 
-                            {% if hasError %}
-                                <div class="alert alert-dismissible alert-danger">Une erreur est survenu, veuillez ressayer</div>
-                            {% endif %}
+                                <div class="text-center">
+                                    <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Connexion</button>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Adresse Email</label>
-                                <input type="email" name="_username" value="{{ lastUsername }}" class="form-control" id="exampleInputEmail1"  placeholder="Entrez email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" name="_password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-                            </div>
+                                <div class="login-checkbox text-center">
+                                    <label>
+                                        <a class="forget-password-link" href="#">Mot de passe oublié ?</a>
+                                    </label>
+                                </div>
 
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Connexion</button>
-                            </div>
+                            </fieldset>
+                        </form>
+                    </div>
 
-                            <div class="login-checkbox text-center">
-                                <label>
-                                    <a href="#">Mot de passe oublié ?</a>
-                                </label>
-                            </div>
-
-                        </fieldset>
-                    </form>
-                </div>
-
-                <div class="register-link text-center">
-                    <p>Pas encore inscrit ? <a href="{{ path('security_registration') }}">Inscrivez-vous !</a></p>
+                    <div class="register-link text-center">
+                        <p class="text-white mt-2">Pas encore inscrit ? <a  class="text-white" href="{{ path('security_registration') }}">Inscrivez-vous !</a></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+</section>
 {% endblock %}

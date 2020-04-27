@@ -23,7 +23,7 @@ class RegistrationType extends AbstractType
             'label' => false,
          ])
             ->add('name', TextType::class, [
-                'label' => false,
+
                 'mapped'=>false,
                    'attr'  => [
                    'placeholder' => 'Raison Sociale',
@@ -31,27 +31,31 @@ class RegistrationType extends AbstractType
                 ]
             ])
              ->add('store', EntityType::class, [
-                'label' => false,
+
                 'multiple'=>false,
                 'class' => Store::class,
                 'choice_label' =>'name'
 
             ])
             ->add('email', EmailType::class, [
-                'label' => false,
+
                    'attr'  => [
                    'placeholder' => 'Email',
                    'class'       =>'form-control'
                    ]
                ])
             ->add('password', PasswordType::class, [
-                   'label' => false,
+
                    'attr'  => [
                      'placeholder' => 'Mot de passe',
                      'class'       =>'form-control'
                    ]
                ])
-               ->add('Inscription', SubmitType::class)
+               /*->add('Inscription', SubmitType::class , [
+                   'attr' =>[
+                       'class' =>'text-center btn mvp-bg btn-radius'
+                   ]
+               ])*/
         ;
     }
 

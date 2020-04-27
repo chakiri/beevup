@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                  {% include 'default/aside.html.twig' %}
+                  {% include 'default/dashboard-aside.html.twig' %}
                 </div>
                 <div class="col-lg-9 col-md-6 abuse-section">
                     <h4>Les abus</h4>
@@ -18,10 +18,10 @@
                                     <div class="row">
                                         <div class="col-2">
                                             <div class="avatar">
-                                                {% if abuse.user.profile.photo is empty %}
+                                                {% if abuse.user.profile.filename is empty %}
                                                     <img src="/images/default_user.png" class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="/images/profil/photo/{{ abuse.user.profile.photo }}" class="img-fluid" alt="">
+                                                    <img src="/images/profiles/{{ abuse.user.profile.filename }}" class="img-fluid" alt="">
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -37,7 +37,7 @@
                                             <p class="text-muted"><strong class="text-dark">Date de création:</strong> {{abuse.createdAt|date("d/m/Y") }}</p>
                                             <div class="float-right">
                                                 <button type="submit" 
-                                                        class="btn btn-success abuse-approve" 
+                                                        class="btn btn-success abuse-approve btn-radius"
                                                         data-abuse-id="{{abuse.id}}">
                                                     <span id = "spinner-approve-{{abuse.id}}" 
                                                           class="spinner-grow spinner-grow-sm spinner-hidden"
@@ -48,7 +48,7 @@
                                                     Valider
                                                 </button>
                                                 <button type="submit" 
-                                                        class="btn btn-danger abuse-reject" 
+                                                        class="btn btn-danger abuse-reject btn-radius"
                                                         data-abuse-id="{{abuse.id}}">
                                                     <span id = "spinner-reject-{{abuse.id}}" 
                                                           class="spinner-grow spinner-grow-sm spinner-hidden" 

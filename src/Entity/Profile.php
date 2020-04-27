@@ -270,7 +270,8 @@ class Profile implements \Serializable
     }
     public function __toString()
     {
-       return strval( $this->getId() );
+       //return strval( $this->getId() );
+        return strval( $this->getFirstname().' '.$this->getLastname() );
       
     }
 

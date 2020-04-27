@@ -8,6 +8,51 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+:root {
+  --mvp-color: #15377a;
+  --mvp-font-family:'arial'
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url(/fonts/Roboto/Roboto-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  --scrollbarBG: #CFD8DC;
+  --thumbBG: #90A4AE;
+}
+body::-webkit-scrollbar {
+  width: 11px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+body::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee;;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #eee ;
+  border-radius: 6px;
+  border: 3px solid #fff;
+}
 
 body {
   background: #ecf5ff !important;
@@ -2050,8 +2095,7 @@ textarea {
   overflow: hidden;
 }
 .notification-item{
-  border-bottom:1px solid #ccc;
-  padding:10px;
+ padding:10px;
 }
 .post-likes-list{
   padding:10px;
@@ -2110,7 +2154,7 @@ footer {
   margin-left:10px;
 }
 .modal-header{
-  background-color:#1967be;
+  background-color:#15377a;
   color:#fff;
 }
 #post_description{
@@ -2405,38 +2449,148 @@ margin-top: 10px;
   font-weight:bold;
   font-size:12px;
 }
-html {
-  --scrollbarBG: #CFD8DC;
-  --thumbBG: #90A4AE;
+.mvp-bg{
+  background-color:#15377a;
+  color:#fff
 }
-body::-webkit-scrollbar {
-  width: 11px;
+.mvp-close{
+  color:#FFFFFF;
 }
-body {
-  scrollbar-width: thin;
-  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+.mvp-close:hover{
+  color:#FFFFFF;
 }
-body::-webkit-scrollbar-track {
-  background: var(--scrollbarBG);
+.mvp-color{
+  color:var(--mvp-color);
 }
-body::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG) ;
-  border-radius: 6px;
-  border: 3px solid var(--scrollbarBG);
+.form-group > label, #registration-form label{
+  color:var(--mvp-color);
+  font-weight:bold;
+  font-size:13px;
 }
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
+.input-group-text >i{
+  color:var(--mvp-color);
+}
+.box-title{
+  color:var(--mvp-color);
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:10px;
+
+
+}
+.box-title-container{
+  margin-bottom:10px;
+  padding-bottom: 1Opx;
+  border-bottom: 1px solid #eee;
+}
+.adviser-bloc-description{
+  font-size: 12px;
+  font-family: var(--mvp-font-family);
+  margin-bottom:10px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #eee;;
+.barCode-text{
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:5px;
 }
+#login-page {
+  width: 100%;
+  position: relative;
+  background: url(../images/intro-bg.png) center bottom no-repeat;
+  background-size: cover;
+  padding: 0px 0 58px 0
+}
+.forget-password-link{
+  color:#000;
+  font-size:12px;
+  font-weight:bold;
+}
+.footer-copyright{
+  color:var(--mvp-color);
+  font-weight:bold;
+  font-size:12px;
+}
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.siret-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  margin-bottom: 0;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color:var(--mvp-color);
+  text-align: center;
+  white-space: nowrap;
+  background-color: #e9ecef;
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background-color: #eee ;
-  border-radius: 6px;
-  border: 3px solid #fff;
+}
+#registration_company .form-group
+{
+  margin:0;
+}
+#registration_company_siret{
+  min-width: 467px;
+}
+.security-title
+{
+  font-size:24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family:var(--font-family-sans-serif);
+}
+.mvp-btn:hover
+{
+  color:#fff;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.post-user-profile{
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.post-user a {
+  color:var(--mvp-color);
+}
+.user-company-name {
+  color: gray;
+  font-weight: bold;
+  font-size: 10px;
+}
+.post-description{
+  font-family: var(--mvp-font-family);
+  font-size:12px;
+}
+.post-box{
+  padding:15px !important;
+}
+.post-btns{
+  background-color:transparent !important;
+  color:var(--mvp-color);
+  font-weight:bold;
+  font-size:12px;
+}
+.box{
+  box-shadow: 0px 1px 15px 0px rgba(51, 51, 51, 0.2);
+}
+.comment-owner{
+  color:var(--mvp-color);
+  font-size:12px;
+  font-weight:bold
+}
+.profil-add-favoris
+{
+  color:#fff !important;
+}
+.profil-add-favoris .text-warning{
+  color:#fff !important;
 }

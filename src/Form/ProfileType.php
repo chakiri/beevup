@@ -64,7 +64,7 @@ class ProfileType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => 'Photo',
                 'attr'  => [
                     'placeholder' => 'Photo',
                     'class'       =>'form-control'

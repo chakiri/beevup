@@ -30,6 +30,7 @@ class InscriptionCompanyType extends AbstractType
                 'class'       =>'form-control'
                 ]
             ]);
+
            
     }
 
