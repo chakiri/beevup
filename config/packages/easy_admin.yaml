@@ -73,6 +73,7 @@ easy_admin:
               - { property: 'store', label: 'Magasin' }
               - { property: 'company', label: 'Entreprise' }
               - { property: 'type', label: 'Type' }
+              - { property: 'profile', label: 'Prénom/Nom' }
               - { property: 'isDeleted', label: 'compte désactivé' }
             form:
               fields:
@@ -99,7 +100,8 @@ easy_admin:
               - { name: 'new', label: 'Ajouter', icon: 'plus' }
               - { name: 'edit', icon: 'pencil' }
               - { name: 'delete', icon: 'close' }
-              fields:  
+              fields:
+              - { property: 'profile', label: 'Prénom/Nom' }
               - { property: 'Email', label: 'Email' }
               - { property: 'type', label: 'Type' }
               - { property: 'isDeleted', label: 'compte désactivé' }
@@ -119,9 +121,11 @@ easy_admin:
               - { name: 'new', label: 'Ajouter', icon: 'plus' }
               - { name: 'edit', icon: 'pencil' }
               - { name: 'delete', icon: 'close' }
-              fields:  
+              fields:
+              - { property: 'profile', label: 'Prénom/Nom' }
               - { property: 'Email', label: 'Email' }
               - { property: 'type', label: 'Type' }
+
            
             form:
               fields:

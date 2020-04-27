@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Repository\ProfilRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\FavoritRepository;
+use App\Repository\UserRepository;use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,9 +18,16 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}", name="profile_show")
      */
-    public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository)
+    public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, FavoritRepository $favoritRepository, UserRepository $userRepo, ProfilRepository $profileRepo, $id)
     {
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
+        $favoritUser= $userRepo->findBy(['id'=>$profile->getUser()]);
+
+        $isFavorit = "";
+       if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'favoritUser'=>$favoritUser])) > 0)
+            {
+                $isFavorit = "is-favorit-profile text-warning";
+            }
 
         $allRecommandations = [];
         //dd($services);
@@ -32,7 +41,8 @@ class ProfileController extends AbstractController
             'profile' => $profile,
             'services' => array_slice($services, 0, 3),
             'countServices' => count($services),
-            'recommandations' => $allRecommandations
+            'recommandations' => $allRecommandations,
+            'isFavorit' => $isFavorit
         ]);
     }
 

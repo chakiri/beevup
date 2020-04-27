@@ -49,6 +49,19 @@ class UserAdminController extends EasyAdminController
             $user->setType($type);
 
         }
+        if(in_array('ROLE_USER', $userRoles)){
+            if($user->getCompany()!= null)
+            {
+                $type = $this->userTypeRepo->findOneBy(['id'=> 6], []);
+            }
+            else{
+                $type = $this->userTypeRepo->findOneBy(['id'=> 2], []);
+            }
+
+            $user->setType($type);
+
+        }
+
 
         array_push($userRoles, 'ROLE_USER');
         /*** generate bar code*/

@@ -3,29 +3,84 @@
 {% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
+<section id="login-page" class="clearfix section-bg-light">
     <div class="container">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <div class="bg-light py-3 px-3 mt-5">
-                    <h1>Inscription</h1>
+                <div class="bg-light py-3 px-3 mt-5 btn-radius">
+                    <h1 class="mvp-color security-title">Inscription</h1>
 
                     {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
 
-                       {{ form_row(RegistrationForm.name) }}    
-                       {{ form_row(RegistrationForm.company) }}
-                       {{ form_row(RegistrationForm.store) }}
-                        {{ form_row(RegistrationForm.email) }}
-                        {{ form_row(RegistrationForm.password) }}
+
+                    {{ form_errors(RegistrationForm.name) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                       {{ form_widget(RegistrationForm.name) }}
+                    </div>
+
+
+
+                        {{ form_errors(RegistrationForm.company) }}
+                    <div class="input-container">
+
+                        <i class="fa fa-sort-numeric-asc siret-icon" aria-hidden="true"></i>
+                       {{ form_widget(RegistrationForm.company) }}
+                    </div>
+
+
+
+
+                    {{ form_errors(RegistrationForm.store) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+
+                                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                                </span>
+                        </div>
+                    {{ form_widget(RegistrationForm.store) }}
+                    </div>
+
+
+                    {{ form_errors(RegistrationForm.email) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                 <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </span>
+                        </div>
+                       {{ form_widget(RegistrationForm.email) }}
+                    </div>
+
+
+                    {{ form_errors(RegistrationForm.password) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                   <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                </span>
+                        </div>
+                       {{ form_widget(RegistrationForm.password) }}
+                    </div>
+                    <div class="form-actions form-group text-center">
+                        <button type="submit" class="btn  mvp-btn btn mvp-bg btn-radius">Inscription</button>
+                    </div>
 
                     {{ form_end(RegistrationForm) }}
                 </div>
 
-                <div class="register-link text-center">
-                    <p>Vous avez déjà un compte ? <a href="{{ path('security_login') }}">Connectez-vous !</a></p>
+                <div class="register-link text-center"">
+                    <p class="text-white mt-2">Vous avez déjà un compte ? <a class="text-white" href="{{ path('security_login') }}">Connectez-vous !</a></p>
                 </div>
             </div>
         </div>
     </div>
+</section>
   {% endblock %}       
   

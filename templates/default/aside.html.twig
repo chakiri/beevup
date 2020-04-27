@@ -1,16 +1,4 @@
-<div class="box dashboard-box">
-    <div class="avatar">
-        {% if app.user.profile.filename %}
-            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-        {% else %}
-            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
-        {% endif %}
-    </div>
-    <div class="info mt-3">
-        <p class="text-muted">{{ app.user.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.firstname|capitalize }}</p>
-        <a href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
-    </div>
-</div>
+{% include 'default/boxes/avatar-box.html.twig' %}
 
 {% if is_granted('ROLE_ADMIN_COMPANY') %} 
   <div class="aside-box">
@@ -42,11 +30,5 @@
   </div>
 {% endif %}
 {% if is_granted('ROLE_ADMIN_STORE') %}
-<div class="box">
-  <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}"><h4>Mon magasin</h4></a>
-  <p class="lead">{{ app.user.store.name|capitalize }}</p>
-  <p><small>{{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }}</small></p>
-  <p class="mb-3"><small>{{ app.user.store.addressPostCode }} {{ app.user.store.city }}</small></p>
-  <a href="#">Contacter mon conseillé</a>
-</div>
+    {% include 'default/boxes/store-box.html.twig' %}
 {% endif %}

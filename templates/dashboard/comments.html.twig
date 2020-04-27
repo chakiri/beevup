@@ -12,8 +12,22 @@
             </a>
       </div>
       <div class="comment col-9">
-          <a  href="{{path('profile_show', { 'id': comment.user.profile.id}) }}" class="comment-user"><p>{{comment.user.profile.firstname}} {{comment.user.profile.lastname}}</p></a>
-          <p href="#" class="comment-time"><i class="fa fa-calendar mr-1"></i>{{comment.createdAt|date('h:s')}}</p>
+          <a  href="{{path('profile_show', { 'id': comment.user.profile.id}) }}" class="comment-user">
+              <p class="comment-owner">{{comment.user.profile.firstname}} {{comment.user.profile.lastname}}</p></a>
+          {% if comment.user.company %}
+           <p  class="comment-time">
+               <a class="user-company-name" href="{{path('company_show', { 'slug': comment.user.company.slug}) }}">
+                 {{comment.user.company.name}}
+               </a>
+           </p>
+          {% else  %}
+            <p  class="comment-time">
+                <a class="user-company-name" href="{{path('store_show', { 'slug': comment.user.store.slug}) }}">
+                    {{comment.user.store.name}}
+                </a>
+            </p>
+          {% endif %}
+          <p  class="comment-time">{{comment.createdAt|date('h:s')}}</p>
           <div id="comment-description-{{comment.id}}" class="comment-text">
               {{comment.description}}
           </div>

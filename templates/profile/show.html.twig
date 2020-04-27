@@ -41,7 +41,21 @@
                                     {% if profile.user == app.user  %}
                                         <p><a href="{{ path('profile_edit', {'id': profile.id}) }}" type="button" class="btn btn-md btn-2"><i class="fa fa-pencil"></i>  Editer profile </a></p>
                                     {% else %}
-                                        <a href="#" type="button" class="btn btn-design btn-1"><i class="fa fa-heart"></i> Ajouter en favoris</a>
+                                        <a id="result-user-item-{{ profile.user.id }}"
+                                           href="#"
+                                           type="button"
+                                           class="btn btn-design btn-1 profil-add-favoris add-favoris {{ isFavorit }}"
+                                           data-user-id="{{ profile.user.id }}"
+                                           data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
+                                           data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
+                                        >
+                                            <i class="fa fa-heart"></i>
+                                            {% if isFavorit !="" %}
+                                            Favoris
+                                            {% else %}
+                                                Ajouter aux favoris
+                                            {% endif %}
+                                        </a>
                                         <a href="{{ path('chat_private', {'id': app.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3">Chater avec {{ profile.firstname|capitalize }}</a>
                                     {% endif %}
                                 </div>
