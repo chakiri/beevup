@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Entity\Company;
 use App\Entity\UserFunction;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,6 +41,12 @@ class ProfileType extends AbstractType
                     'Femme' => 0,
                     'Homme' => 1,
                 ],
+            ])
+            ->add('introduction', TextareaType::class, [
+                'label' => 'Introduction',
+                'attr'  => [
+                    'placeholder' => 'Intro ...'
+                 ]
             ])
             ->add('mobileNumber', TextType::class, [
                 'label' => 'Téléphone',

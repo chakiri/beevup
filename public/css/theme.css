@@ -684,40 +684,11 @@ p.text-muted {
   padding: 20px 0 40px 0;
   /*box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);*/
 }
-
-#company .box-image{
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0 10px 20px 10px;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-#company .box {
-  padding: 15px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0 10px 10px 10px;
-  background: #fff;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
-}
 /* Store Section
 --------------------------------*/
 #store {
   padding: 20px 0 40px 0;
   /*box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);*/
-}
-
-#store .box {
-  padding: 15px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
 }
 
 
@@ -730,14 +701,6 @@ p.text-muted {
 .notification-dropdown{
   min-width: 450px;
   padding:0;
-}
-
-#dashboard .box-image{
-  overflow: hidden;
-  border-radius: 10px;
-  margin: 0 0 20px 0;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
 }
 
 #dashboard .alert h4{
@@ -759,15 +722,6 @@ p.text-muted {
   padding: 15px;
   border-radius: 5px;
   background-color: #f9f9fc;
-}
-
-#dashboard .services .box {
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
-  transition: all 0.3s ease-in-out;
 }
 
 #dashboard .services .info {
@@ -1128,8 +1082,8 @@ textarea {
 /*end posts section*/
 
 .btn-filter-search {
-  background: #ff396c;
-  border: 2px solid #ff396c;
+  background: #00a5ea;
+  border: 2px solid #00a5ea;
   color: #fff;
   padding: 7px 26px;
   border-radius: 50px;
@@ -2173,7 +2127,7 @@ footer {
 .company-informations{
   font-size:13px;
   color:#253561;
-  font-weight:bold;
+  /*font-weight:bold;*/
   line-height: 23px;
   width:100%;
 }
@@ -2217,9 +2171,6 @@ margin-top: 10px;
 .user-contact{
   margin-top:5px;
   text-align: center;
-}
-.company-recommandation {
-  padding-left: 10px;
 }
 .company-image{
  max-height:200px;
@@ -2305,7 +2256,7 @@ margin-top: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  max-width: 1200px;
+  width: 100%;
   min-height: 230px;
   background-color: #f7f7f7;
   overflow: hidden;

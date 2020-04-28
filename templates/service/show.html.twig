@@ -16,12 +16,16 @@
                         {% endif %}
                     </div>
                     <div class="box">
-                        {% if serviceType =='company' %}
-                        <h4><small>Proposé par : </small>{{ service.user.company.name|capitalize }}</h4>
+                        {% if service.type.name =='company' %}
+                            <h4><small>Proposé par : </small>{{ service.user.company.name|capitalize }}</h4>
+                            <p><a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">Voir les informations de {{ service.user.company.name }}</a></p>
+                        {% elseif service.type.name =='store' %}
+                            <h4><small>Proposé par : </small>{{ service.user.store.name|capitalize }}</h4>
+                            <p><a href="{{ path('store_show', {'slug': service.user.store.slug}) }}">Voir les informations de {{ service.user.store.name }}</a></p>
                         {% else %}
-                        <h4><small>Proposé par : </small>{{ service.user.store.name|capitalize }}</h4>
+                            <h4><small>Proposé par : </small>Bureau Vallée</h4>
                         {% endif %}
-                        <h6><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
+                        <h6 class="mt-3"><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
                         <div class="mt-3">
                             {% if service.user != app.user %}
                                 <p class="mt-3">Prix : {% if service.isQuote == 1 %} <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}">Demander un devis</a> {% else %}{{ service.price }} €{% endif %}</p>

@@ -13,43 +13,80 @@
                             <img class="company-no-available-img" src="/images/no-available-company-photo.png" class="img-fluid" alt="">
                         {% else %}
                             <img src="/images/logos/{{ company.logo }}" class="img-fluid" alt="">
-
                         {% endif %}
                     </div>
+
                     <div class="box company-informations">
                         {% if company.category %}
-                          <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
+                          <p><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
                         {% endif %}
-
-                            <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
-                                {% if company.isCompleted %}
-                                    <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
-                                    <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
-                                {% endif %}
-                                {% if company.website %}
-                                  <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
-                                {% endif %}
-
-                        {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                         <a href="{{ path('company_edit', {'id': company.id}) }}"><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
+                        <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
+                        {% if company.isCompleted %}
+                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
+                            <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
+                        {% endif %}
+                        {% if company.website %}
+                          <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
                         {% endif %}
                     </div>
+
                     <div class="box store-informations">
                         <h4>Mon magasin Bureau Vallée</h4>
-                        <p class="lead store-description">{{ company.store.introduction ?: 'Pas d\'introduction'}}</p>
+                        <p>{{ company.store.introduction ?: 'Pas d\'introduction'}}</p>
                     </div>
                 </div>
+
                 <div class="col-lg-8 col-md-12">
                     <div class="box">
-                       <p class="company-title">{{ company.name }}</p>
-                        <p class="company-introduction">{{ company.introduction }}</p>
-                        <p class="company-description">{{ company.description }}</p>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="info-company">
+                                    <h2>{{ company.name }}</h2>
+                                    <p class="lead">{{ company.introduction }}</p>
+                                    <p>{{ company.description }}</p>
+                                </div>
+                            </div>
+                            <div class="col-4 text-right">
+                                {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+                                    <a href="{{ path('company_edit', {'id': company.id}) }}" class="btn btn-design btn-2 p-3"><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12">
-                           <h4>Contacts</h4>
+
+                    <div class="box">
+                        <h4 class="mb-4">{{ countServices }} Services Bureau Vallée</h4>
+                        {% if services %}
+                            <div class="row">
+                                {% for service in services %}
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="box card">
+                                            <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                <div class="portfolio-wrap dashboard-service-image">
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                    {% else %}
+                                                        <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="info">
+                                                    <h4 class="title preview">{{ service.title }}</h4>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Aucun service pour l'instant</p>
+                        {% endif %}
+
+                        <p><a href="{{ path('service_company', {'company': company.id}) }}" type="button" class="btn btn-md btn-2 full-width">Voir tous les services de {{ company.name|capitalize }} </a></p>
                     </div>
-                   <div class="row">
-                      {% if users %}
+
+                    <div class="box">
+                       <h4 class="mb-3">Contacts</h4>
+                       {% if users %}
                           {%  for user in users %}
                               {% if user.profile.isCompleted %}
                                <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
@@ -85,126 +122,50 @@
                               {% endif %}
                           {% endfor %}
                        {% endif %}
-                  </div>
-                    <div class="row col-12">
-                        <div class="col-sm-7">
-                            <h4>Mes recommandations</h4>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="float-right">
-                                {% if app.user.company %}
-                                    {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                        <button type="button"
-                                                class="btn bv-btn btn-sm btn-radius add-recommandation"
-                                                data-toggle="modal"
-                                                data-target="{{ path('recommandation') }}"
-                                                data-whatever="@getbootstrap"
-                                                data-company="{{company.id}}">
-                                           + Proposer une recommandation
-                                        </button>
+                    </div>
 
-                                    {% endif %}
-                                 {% else  %}
-                                     <button type="button"
-                                             class="btn bv-btn btn-sm btn-radius add-recommandation"
-                                             data-toggle="modal"
-                                             data-target="{{ path('recommandation') }}"
-                                             data-whatever="@getbootstrap"
-                                             data-company="{{company.id}}">
-                                         + Proposer une recommandation
-                                     </button>
+
+                    <div class="box">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Recommandations</h4>
+                            </div>
+                            <div class="col-6 text-right">
+                                {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                                    <a href="#" type="button"
+                                            class="add-recommandation btn btn-sm btn-2"
+                                            data-toggle="modal"
+                                            data-target="{{ path('recommandation') }}"
+                                            data-whatever="@getbootstrap"
+                                            data-company="{{company.id}}">
+                                        <i class="fa fa-thumbs-up"></i> Proposer une recommandation
+                                    </a>
                                 {% endif %}
                             </div>
                         </div>
-                    </div> 
-                    <div class="clearfix"></div>
-                    {% for message in app.flashes('recommandation-success') %}
-                        <div class="alert alert-success btn-radius">
-                          {{ message }}
-                        </div>
-                    {% endfor %}  
-                    {% if recommandations %}
-                        {% for recommandation in recommandations %}
-                            <div class="box">
-                                <div class="row">
-                                    <div class="col-1 sm-profile-block">
-                                        <div>
-                                            {% if recommandation.user.profile.filename is empty %}
-                                            <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                                <img src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
-                                            </a>
-                                            {% else %}
-
-                                            <a href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                                <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')| imagine_filter('medium') }}" class="img-fluid sm-profile-img" alt="">
-                                            </a>
-                                                {% endif %}
-                                        </div>
+                        {% if recommandations %}
+                            {% for recommandation in recommandations %}
+                                <div class="recommandation">
+                                    <div class="avatar">
+                                        {% if recommandation.user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/default/user.png" class="img-fluid" alt="">
+                                        {% endif %}
                                     </div>
-                                    <div class="col-11">
-                                        <p>
-                                            <a class="recommandation-user" href="{{path('profile_show', { 'id': recommandation.user.profile.id}) }}">
-                                              <strong>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</strong>
-                                            </a>
-                                        </p>
-                                        <p class="recommandation-description">{{recommandation.message }}</p>
+                                    <div class="content p-2">
+                                        <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
+                                        <p class="text-muted">{{recommandation.message }}</p>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
                         {% else %}
-                            <div class="box">
-                                <div class="row company-recommandation">
-                                    {%  set emptyData = 'Aucun recommandation n\'a été trouvé' %}
-                                    {%  include 'default/no-data.html.twig'  %}
-                                </div>
+                            {#<p class="text-muted">Aucune recommandation pour l'instant</p>#}
+                            <div class="company-recommandation">
+                                {%  set emptyData = 'Aucun recommandation n\'a été trouvé' %}
+                                {%  include 'default/no-data.html.twig'  %}
                             </div>
-                       {% endif %}
-                    <div class="row col-12">
-                        <div class="col-12">
-                           <h4>Mes services</h4>
-                        </div>
-                    </div>
-                        <div class="row">
-                            {% if services %}
-                            {% for service in services %}
-                                <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
-                                    <div class="box">
-                                        <div class="portfolio-wrap dashboard-service-image">
-                                            <a href="{{path('service_show', { 'id': service.id}) }}">
-                                                {% if service.filename is empty %}
-                                                    <img class="service-no-available-img" src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                                {% else %}
-                                                    <img src="/images/services/{{service.filename}}" class="img-fluid" alt="">
-                                                {% endif %}
-                                            </a>
-                                        </div>
-                                        <div class="user-information">
-
-                                            <p class="company-service-description">
-                                               {{ service.description|length > 200 ? service.description|slice(0, 200)~ '...' : service.description}}
-
-                                            </p>
-                                            <p class="user-contact">
-                                                <span class="user-action btn-radius">
-                                                    <a class="user-link" href="{{path('service_show', { 'id': service.id}) }}">
-                                                        Voir plus
-                                                    </a>
-                                                </span>
-
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {%  endfor %}
-                                {% else  %}
-                                <div class="col-12">
-                                    <div class="box col-12">
-                                        {%  set emptyData = 'Aucun service n\'a été trouvé' %}
-                                        {%  include 'default/no-data.html.twig'  %}
-                                    </div>
-                                </div>
-                            {% endif %}
+                        {% endif %}
                     </div>
 
                 </div>
@@ -214,7 +175,7 @@
       
 {% endblock %}
 {% block modals %}
-<div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 {% include 'default/spinner.html.twig' %}

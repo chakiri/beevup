@@ -29,7 +29,7 @@ class ServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextareaType::class, [
+            ->add('title', TextType::class, [
                 'label'    => 'Titre',
                 'attr'  => [
                     'placeholder' => 'Titre',
