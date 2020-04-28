@@ -46,5 +46,23 @@ class PostRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function findByNotSeenOpportunityPost($value, $value2)
+    {
+
+
+        $from =   date("Y-m-d H:i:s");
+        $to = date("Y-m-d H:i:s",strtotime("-1 month"));
+
+       return $this->createQueryBuilder('p')
+           ->where('p.category = :val')
+           ->andWhere('p.createdAt BETWEEN :to AND :from')
+           ->andWhere('p.id NOT IN (:val2)')
+           ->setParameters(array('val' => $value,'val2'=>$value2, 'from'=>$from, 'to'=>$to ))
+           ->getQuery()
+           ->getResult();
+
+
+    }
    
 }

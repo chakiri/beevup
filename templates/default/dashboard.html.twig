@@ -62,8 +62,9 @@
                                         <span class="badge bell-badge">{{notificationNumber}}</span>
                                     {% endif %}
                                 </a>
-                                {% if notificationNumber > 0 %}
+
                                     <div class="dropdown-menu notification-dropdown">
+                                        {% if notificationNumber > 0 %}
                                         {% for notification in dashboardNotifications %}
                                             <div class="row col-12 notification-item clearfix">
                                                 <div class="user-photo col-2">
@@ -89,8 +90,13 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
+
+                                        {% else %}
+                                        <p class="text-muted p-3">Aucune notification pour l'instant</p>
+                                        {% endif %}
                                     </div>
-                                {% endif %}
+
+
                                 <div class="nav-item dropdown notification messages-notifications">
                                     <a href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
                                         <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
@@ -130,10 +136,29 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <a href="#" class="notification">
-                                    <i class="fa fa-file-text recommandation-icon" aria-hidden="true"></i>
-                                    <span class="badge">3</span>
-                                </a>
+                                <div class="nav-item dropdown notification opportunity-notifications">
+                                    <a id ="{% if opportunityPostNb > 0   %}opportunity-notification{% else  %}no-opportunity-notification{% endif %}"
+                                       href="#"
+                                       data-toggle="dropdown"
+                                       data-target="{{ path('opportunityNotification_add') }}">
+                                        <i class="fa fa-eur recommandation-icon" aria-hidden="true"></i>
+
+                                        {% if opportunityPostNb > 0 %}
+                                          <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
+                                        {%  endif %}
+                                    </a>
+                                    <div class="dropdown-menu opportunity-notification"  aria-labelledby="opportunity-notification">
+                                      {% if opportunityPostNb %}
+
+                                          Nous avons trouvé {{ opportunityPostNb }} offre(s) commerciale(s)
+                                          <p class="text-center">
+                                            <button id="display-opportunity-offer" > voir tous  les offres  </a>
+                                          </p>
+                                          {% else  %}
+                                              <p class="text-muted p-3">Aucune notification pour l'instant</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
 
 

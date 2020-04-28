@@ -6,6 +6,7 @@ use App\Entity\DashboardNotification;
 use App\Entity\PostLike;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
+use App\Repository\OpportunityNotificationRepository;
 use App\Repository\RecommandationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,10 +31,28 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
+
+        /****************************** opportunity notifications****/
+            $OpportunityPostsIds = [''];
+            //$displayedOpportunityPosts = $opportunityNotificationRepo->findBy(['user'=>$this->getUser()],[]);
+            $displayedOpportunityPosts =$opportunityNotificationRepo->findByLastMonthNotification($this->getUser());
+
+
+           foreach ($displayedOpportunityPosts as $post )
+           {
+            array_push($OpportunityPostsIds , $post->getPost()->getId());
+           }
+           $opportunityPost = $postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds);
+
+           $opportunityPostNb = count($opportunityPost);
+
+           /**********************************************************************/
+
+
         $currentUser =$this->getUser();
         $likedPost = [];
         $untreatedCompanyRecommandationsNumber = 0;
@@ -60,9 +79,7 @@ class DefaultController extends AbstractController
 
         $totalUntraitedRecommandation = $untreatedCompanyRecommandationsNumber + $untreatedServiceRecommandationsNumber;
         $postNumber = count($posts);
-        //$comments = $CommentRepository->findAll();
         $comments = $CommentRepository->findBy([], []);
-        //$dashboardNotifications = $dashboardNotificationRepository->findBy(['owner' => $this->getUser(),'seen' => 0], array('createdAt' => 'DESC'));
         $dashboardNotifications = $dashboardNotificationRepository->findByDistinctPostAndType($this->getUser());
         $notificationNumber = count($dashboardNotifications);
 
@@ -79,7 +96,8 @@ class DefaultController extends AbstractController
             'likedPost' => $likedPost,
             'dashboardNotifications'=>$dashboardNotifications,
             'notificationNumber'=>$notificationNumber,
-            'notificationMessages' => $notificationMessages
+            'notificationMessages' => $notificationMessages,
+            'opportunityPostNb'  => $opportunityPostNb
         ]);
     }
 }
