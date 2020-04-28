@@ -103,26 +103,37 @@
                                 {{ form_widget(EditProfileForm.phoneNumber) }}
                              </div>
                         </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.introduction) }}
-                    </div>
-                    <div class="form-group">
-                      {{ form_row(EditProfileForm.gender) }}
                     </div>
 
-
-                    <div class="form-group">
-                        {{ form_label(EditProfileForm.imageFile) }}
-                        {{ form_errors(EditProfileForm.imageFile) }}
-                        <div class="input-group">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.imageFile) }}
+                            {{ form_errors(EditProfileForm.imageFile) }}
+                            <div class="input-group">
                                 <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <i class="fa fa-camera-retro" aria-hidden="true"></i>
                                             </span>
                                 </div>
-                            {{ form_widget(EditProfileForm.imageFile) }}
+                                {{ form_widget(EditProfileForm.imageFile) }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_label(EditProfileForm.introduction) }}
+                            {{ form_errors(EditProfileForm.introduction) }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-id-badge" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                {{ form_widget(EditProfileForm.introduction) }}
+                            </div>
                         </div>
                     </div>
+
+
+
                     <div class="form-actions form-group text-center">
                         <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Enregistrer</button>
                     </div>
