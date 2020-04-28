@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Company;
 use App\Entity\Service;
-use App\Entity\Store;
-use App\Entity\User;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\RecommandationRepository;
