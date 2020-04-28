@@ -23,6 +23,7 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service", name="service")
     * @Route("/service/generic", name="service_generic")
+    * @Route("/service/discovery", name="service_discovery")
     * @Route("/service/company/{company}", name="service_company")
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
@@ -31,6 +32,9 @@ class ServiceController extends AbstractController
     {
         $services = $serviceRepository->findBy([], ['createdAt' =>'DESC']);
 
+        if ($request->get('_route') == 'service_discovery') {
+            $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
+        }
         if ($request->get('_route') == 'service_generic') {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
             $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
