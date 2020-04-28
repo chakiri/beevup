@@ -651,5 +651,29 @@ $('#search_type').change(function(){
             initSpan($(this));
         }
     });
+
+    $('body').on('click', '#opportunity-notification', function (e) {
+
+    var url ='';
+    var opportunityNumber = 0;
+    url = $(this).attr('data-target');
+    $.get(url, function (data) {
+        $('#opportunity-notification').attr('id', 'no-opportunity-notification');
+        $('.opportunity-badge').hide();
+    });
+});
+
+$('#display-opportunity-offer').click(function(){
+    $('.post').each(function(){
+        if ($(this).attr('data-category') != 'Opportunities')
+        {
+            $(this).addClass('hide-item');
+        }
+        else {
+                $(this).removeClass('hide-item');
+        }
+    });
+    });
+
 })(jQuery);
 

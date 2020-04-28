@@ -42,9 +42,11 @@
                   </strong>
                   <strong class="post-created-at">{{leftDays}}</strong>
                   <p>
-                      <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
-                          {{post.user.company.name|capitalize}} 
-                      </a>
+                      {% if  post.user.company %}
+                          <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
+                              {{post.user.company.name|capitalize}}
+                          </a>
+                      {% endif %}
                   </p>
               </div>
               

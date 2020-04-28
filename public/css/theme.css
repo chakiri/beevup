@@ -1120,7 +1120,9 @@ textarea {
 }
 .recommandation-icon{
   font-size: 25px;
-  color:#0b6bd3
+  color:#0b6bd3;
+  position:relative;
+  right:7px;
 }
 
 /*end posts section*/
@@ -2574,4 +2576,14 @@ margin-top: 10px;
 }
 .profil-add-favoris .text-warning{
   color:#fff !important;
+}
+#display-opportunity-offer{
+border-radius: 5px;
+background-color: var(--mvp-color);
+color: #fff;
+border: 1px solid var(--mvp-color);
+  margin-top:5px;
+}
+.opportunity-notification{
+  padding:10px;
 }
