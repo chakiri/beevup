@@ -192,7 +192,10 @@
                 <div class="col-lg-3 col-md-6">
                     {% include 'default/boxes/score-box.html.twig' %}
                     {% include 'default/boxes/activity-box.html.twig' %}
+
+                    {% if specialOfferNb > 0 %}
                     {% include 'default/boxes/specialOffer-box.html.twig' %}
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN_COMPANY') %}
                         {% include 'default/boxes/createSpecialOffer-box.html.twig' %}
                     {% endif %}
