@@ -310,8 +310,7 @@
  
  var postId = $(this).attr('data-post-id');
  var url = $(this).attr('data-target');
- 
-  $.get(url, function (data) {
+ $.get(url, function (data) {
    $('.modal').modal('hide');
    $('#post-id-'+postId).addClass('post-deleted');
   });
@@ -674,6 +673,11 @@ $('#display-opportunity-offer').click(function(){
         }
     });
     });
+    $('.post-action-icon').click(function(){
+        var postId = $(this).attr('data-post');
+        $('#post-actions-'+postId).toggle();
+    });
+
 
 })(jQuery);
 
