@@ -34,7 +34,10 @@ class DefaultController extends AbstractController
     public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
+        $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));
         $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
+
+
 
         /****************************** opportunity notifications****/
             $OpportunityPostsIds = [''];
@@ -97,7 +100,8 @@ class DefaultController extends AbstractController
             'dashboardNotifications'=>$dashboardNotifications,
             'notificationNumber'=>$notificationNumber,
             'notificationMessages' => $notificationMessages,
-            'opportunityPostNb'  => $opportunityPostNb
+            'opportunityPostNb'  => $opportunityPostNb,
+            'specialOfferNb'=>$specialOfferNb
         ]);
     }
 }
