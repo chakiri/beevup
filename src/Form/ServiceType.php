@@ -29,7 +29,7 @@ class ServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextareaType::class, [
+            ->add('title', TextType::class, [
                 'label'    => 'Titre',
                 'attr'  => [
                     'placeholder' => 'Titre',
@@ -86,7 +86,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => 'Photo principale',
                 'attr'  => [
                     'placeholder' => 'Photo principale',
                     'class'       =>'form-control'
@@ -94,7 +94,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile1', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => 'Photo secondaire 1',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 1',
                     'class'       =>'form-control'
@@ -102,7 +102,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile2', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => 'Photo secondaire 2',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 2',
                     'class'       =>'form-control'
@@ -110,7 +110,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile3', FileType::class, [
                 'required' => false,
-                'label' => 'Images',
+                'label' => 'Photo secondaire 3',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 3',
                     'class'       =>'form-control'
