@@ -45,6 +45,16 @@
                                     <p class="lead">{{ company.introduction }}</p>
                                     <p>{{ company.description }}</p>
                                 </div>
+                                <ul class="info-list mt-5">
+                                    <li class="main">
+                                        <span class="info-title">Score BV</span>
+                                        <span><strong>{{ score ?? 0 }}</strong> Pts</span>
+                                    </li>
+                                    <li>
+                                        <span class="info-title">Services</span>
+                                        <span><strong>{{ countServices }}</strong> Services crées</span>
+                                    </li>
+                                </ul>
                             </div>
                             <div class="col-4 text-right">
                                 {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}

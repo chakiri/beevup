@@ -1,9 +1,9 @@
 <div class="box">
     <div  class="box-title-container">
-        <p class="box-title">Mon score</p>
+        <p class="box-title">Score</p>
     </div>
 
-    <div class="activity">Score : <strong>300 pts</strong></div>
-    <div class="activity">IE : <strong>250 pts</strong></div>
-    <div class="activity">Recommandations : <strong>2</strong> <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}"><small style="float: right;">Voir ...</small></a></div>
+        <div class="activity">Score BV : <strong>{{ app.user.score.points ?? 0 }}</strong> pts</div>
+    <div class="activity">IE : <strong>...</strong> pts</div>
+    <div class="activity">Recommandations : <strong>2</strong> <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}"><small class="float-right pt-1">Voir ...</small></a></div>
 </div>

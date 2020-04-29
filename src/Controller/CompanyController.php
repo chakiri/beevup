@@ -36,6 +36,11 @@ class CompanyController extends AbstractController
         $recommandations = $recommandationRepository->findBy(['company' => $company, 'status'=>'Validated']);
         $users = $userRepo->findBy(['company' => $company]);
 
+        $score = 0;
+        foreach ($users as $user){
+            if ($user->getScore()) $score += $user->getScore()->getPoints();
+        }
+
         $services = $company->getServices()->toArray();
 
         return $this->render('company/show.html.twig', [
@@ -43,7 +48,8 @@ class CompanyController extends AbstractController
             'recommandations'=> $recommandations,
             'users' => $users,
             'countServices' => count($services),
-            'services' => array_slice($services, 0, 3)
+            'services' => array_slice($services, 0, 3),
+            'score' => $score
         ]);
     }
 

@@ -101,6 +101,11 @@ class User implements UserInterface
      */
     private $barCode;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Score", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $score;
+
     public function __construct()
     {
         $this->isValid = false;
@@ -309,5 +314,20 @@ class User implements UserInterface
         return $this;
     }
 
-    
+    public function getScore(): ?Score
+    {
+        return $this->score;
+    }
+
+    public function setScore(Score $score): self
+    {
+        $this->score = $score;
+
+        // set the owning side of the relation if necessary
+        if ($score->getUser() !== $this) {
+            $score->setUser($this);
+        }
+
+        return $this;
+    }
 }

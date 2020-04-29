@@ -11,6 +11,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
+use App\Service\HandleScore;
 use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -120,7 +121,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new", name="service_new")
      */
-    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting)
+    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, HandleScore $handleScore)
     {
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
@@ -132,11 +133,16 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            if (!$service->getType()){
+            if (!$service->getType())
                 //Set type depending on user role
                 $serviceSetting->setType($service);
-            }
+
             $serviceSetting->setToParent($service);
+
+            //Add score to user if creation
+            if ($service->getIsDiscovery())
+                if (!$service->getId()) $handleScore->handle($this->getUser(), 20);
+
             $manager->persist($service);
             $manager->flush();
 
