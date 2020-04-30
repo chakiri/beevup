@@ -3,6 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Store;
+use App\Entity\UserFunction;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -15,8 +20,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreType extends AbstractType
 {
+    private $userRepository;
+    private $userTypeRepository;
+
+
+    public function __construct(UserRepository $userRepository, UserTypeRepository $userTypeRepository)
+    {
+        $this->userRepository = $userRepository;
+        $this->userTypeRepository =$userTypeRepository;
+
+
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $users = $this->userRepository->findAdvisersOfStore($builder->getData(), $this->userTypeRepository->findBy(['id'=>2],[]));
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
@@ -33,14 +52,14 @@ class StoreType extends AbstractType
                 ]
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphonse',
+                'label' => 'Téléphone',
                 'attr'  => [
                     'placeholder' => 'téléphone',
                     'class'       =>'form-control'
                 ]
             ])
             ->add('addressNumber', IntegerType::class, [
-                'label' => 'Num',
+                'label' => 'Numéro de rue',
                 'attr'  => [
                     'placeholder' => 'Numéro de rue',
                     'class'       =>'form-control'
@@ -97,7 +116,20 @@ class StoreType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-        ;
+
+            ->add('defaultAdviser', EntityType::class, [
+            'label' => 'conseiller',
+            'multiple'=>false,
+            'required' => true,
+            'placeholder' => '-Séléctionner-',
+            'class' => User::class,
+            'choices' =>$users,
+           // 'choice_label' =>'profile.firstname',
+                'choice_label'  => function ($users) {
+                    return $users->getProfile()->getFirstName().' '.$users->getProfile()->getLastname();
+                }
+
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

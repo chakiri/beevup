@@ -14,19 +14,20 @@ use App\Form\CompanyType;
 use App\Repository\RecommandationRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Service\BarCode;
 
 
 class CompanyController extends AbstractController
 {
-//    /**
-//     * @Route("/company", name="company")
-//     */
-//    public function index()
-//    {
-//        return $this->render('company/show.html.twig', [
-//            'controller_name' => 'CompanyController',
-//        ]);
-//    }
+    private $barCode;
+
+    public function __construct(BarCode $barCode)
+    {
+
+        $this->barCode = $barCode;
+
+    }
+
 
     /**
      * @Route("/company/{slug}", name="company_show")
@@ -71,6 +72,9 @@ class CompanyController extends AbstractController
             }
 
             $company->setIsCompleted(true);
+            /*** generate bar code*/
+             $company->setBarCode($this->barCode->generate($company->getId()));
+            /**end ******/
             $manager->persist($company);
 
             $manager->flush();

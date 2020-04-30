@@ -96,11 +96,6 @@ class User implements UserInterface
      */
     private $topics;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $barCode;
-
     public function __construct()
     {
         $this->isValid = false;
@@ -297,17 +292,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBarCode(): ?string
-    {
-        return $this->barCode;
-    }
-
-    public function setBarCode(string $barCode): self
-    {
-        $this->barCode = $barCode;
-
-        return $this;
-    }
 
     
 }

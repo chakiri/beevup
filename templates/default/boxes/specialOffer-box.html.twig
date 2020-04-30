@@ -1,10 +1,28 @@
 <div class="box special-offer">
 <div class="box-title-container">
-    <p class="box-title">Offres spéciales</p>
+    <p class="box-title">Offres dédiées à la communauté Beev'Up </p>
 </div>
-<p>Découvrez tous les offres spéciales</p>
-<p class="company-tel">
-    <a href="{{ path('service_discovery') }}">Voir tous les offres speciales</a>
+<div class="last-special-offer">
+    <div class="avatar">
+           {% if lastSpecialOffer.filename %}
+            <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile') }}" class="img-fluid" alt="">
+            {% else %}
+                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+        {% endif %}
+    </div>
+   <a class="specialOfferLink" href="{{ path('service_show',{'id':lastSpecialOffer.id}) }}">
+      {{ lastSpecialOffer.title }}
+   </a>
+</div>
+<p class="company-tel mt-2 text-center">
+   <span class="user-action btn-radius">
+      <a class="user-link" href="{{ path('service_discovery') }}">Voir tous les offres</a>
+    </span>
+    {% if is_granted('ROLE_ADMIN_COMPANY') %}
+    <span class="user-action btn-radius ml-1">
+      <a class="user-link" href="{{ path('service_new') }}">Créer un offre </a>
+    </span>
+    {% endif %}
 </p>
 
 </div>

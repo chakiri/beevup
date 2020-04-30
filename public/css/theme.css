@@ -2553,3 +2553,9 @@ border: 1px solid var(--mvp-color);
 .post-actions{
   display: none;
 }
+.specialOfferLink{
+  color: #444;
+  font-family: arial;
+  font-size: 13px;
+  font-weight: bold;
+}

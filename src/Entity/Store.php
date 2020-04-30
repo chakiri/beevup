@@ -125,6 +125,12 @@ class Store
      */
     private $services;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $defaultAdviser;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -451,6 +457,18 @@ class Store
         if ($this->services->contains($service)) {
             $this->services->removeElement($service);
         }
+
+        return $this;
+    }
+
+    public function getDefaultAdviser(): ?User
+    {
+        return $this->defaultAdviser;
+    }
+
+    public function setDefaultAdviser(?User $defaultAdviser): self
+    {
+        $this->defaultAdviser = $defaultAdviser;
 
         return $this;
     }

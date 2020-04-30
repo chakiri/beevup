@@ -29,7 +29,7 @@ class UserAdminController extends EasyAdminController
     
     public function persistUserEntity($user)
     {
-        $currentUser = $this->getUser();
+
         $this->updatePassword($user);
         $userRoles = $user->getRoles();
 
@@ -64,10 +64,7 @@ class UserAdminController extends EasyAdminController
 
 
         array_push($userRoles, 'ROLE_USER');
-        /*** generate bar code*/
-        $userId =  $this->userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-        $user->setBarCode($this->barCode->generate( $userId));
-        /**end ******/
+
 
         $user->setIsValid(1);
         $user->setIsDeleted(0);
@@ -101,7 +98,6 @@ class UserAdminController extends EasyAdminController
 
         array_push($userRoles, 'ROLE_USER');
         $user->setRoles($userRoles);
-        $user->setBarCode($this->barCode->generate($user->getId()));
         $this->updatePassword($user);
         parent::updateEntity($user);
         

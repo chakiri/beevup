@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\OpportunityNotificationRepository;
 use App\Repository\RecommandationRepository;
+use App\Repository\StoreRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
@@ -31,30 +33,23 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));
+        $lastSpecialOffer = $repository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
         $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
+        $currentUserStore = $storeRepo->findOneBy(['id'=>$this->getUser()->getStore()]);
+        $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
+        $OpportunityPostsIds = [''];
 
 
-
-        /****************************** opportunity notifications****/
-            $OpportunityPostsIds = [''];
-            //$displayedOpportunityPosts = $opportunityNotificationRepo->findBy(['user'=>$this->getUser()],[]);
-            $displayedOpportunityPosts =$opportunityNotificationRepo->findByLastMonthNotification($this->getUser());
-
-
-           foreach ($displayedOpportunityPosts as $post )
-           {
-            array_push($OpportunityPostsIds , $post->getPost()->getId());
+         /****************************** opportunity notifications****/
+         $displayedOpportunityPosts =$opportunityNotificationRepo->findByLastMonthNotification($this->getUser());
+            foreach ($displayedOpportunityPosts as $post ) {
+              array_push($OpportunityPostsIds , $post->getPost()->getId());
            }
-           $opportunityPost = $postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds);
-
-           $opportunityPostNb = count($opportunityPost);
-
-           /**********************************************************************/
-
+         $opportunityPostNb = count($postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds));
 
         $currentUser =$this->getUser();
         $likedPost = [];
@@ -101,7 +96,9 @@ class DefaultController extends AbstractController
             'notificationNumber'=>$notificationNumber,
             'notificationMessages' => $notificationMessages,
             'opportunityPostNb'  => $opportunityPostNb,
-            'specialOfferNb'=>$specialOfferNb
+            'specialOfferNb'=>$specialOfferNb,
+            'lastSpecialOffer'=>$lastSpecialOffer,
+            'adviser'=> $adviser
         ]);
     }
 }
