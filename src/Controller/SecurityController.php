@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CompanyRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -24,7 +25,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode, CompanyRepository $companyRepo): Response
     {
         $user = new User();
 
@@ -43,8 +44,8 @@ class SecurityController extends AbstractController
             $company->setStore($user->getStore());
 
             /*** generate bar code*/
-            $userId =  $userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-            $user->setBarCode($barCode->generate( $userId));
+            $companyId =  $companyRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
+            $company->setBarCode($barCode->generate( $companyId));
             /**end ******/
 
             $manager->persist($company);

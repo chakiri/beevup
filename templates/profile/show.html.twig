@@ -84,12 +84,13 @@
                             </div>
                         </div>
                     {% endif %}
-
-                    <div class="box">
-                        <h4>{{ profile.user.company.name }}</h4>
-                        <p class="text-muted">{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }}</p>
-                        <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" type="button" class="btn btn-md btn-2 full-width">Voir plus d'information</a>
-                    </div>
+                     {% if profile.user.company %}
+                        <div class="box">
+                            <h4>{{ profile.user.company.name }}</h4>
+                            <p class="text-muted">{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }}</p>
+                            <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" type="button" class="btn btn-md btn-2 full-width">Voir plus d'information</a>
+                        </div>
+                    {% endif %}
 
 
                     {% if 'ROLE_USER' not in profile.user.roles %}

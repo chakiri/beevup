@@ -5,7 +5,8 @@
 {% endif %}
 
 {% include 'default/boxes/store-box.html.twig' %}
-
+{% if adviser != null %}
 {% include 'default/boxes/adviser-box.html.twig' %}
-{% include 'default/boxes/barCode-box.html.twig' %}
+{% endif %}
+
 

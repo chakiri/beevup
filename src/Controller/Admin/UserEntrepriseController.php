@@ -38,10 +38,7 @@ class UserEntrepriseController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
-        /*** generate bar code*/
-        $userId =  $this->userRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-        $user->setBarCode($this->barCode->generate( $userId));
-        /**end ******/
+
 
         $user->setRoles(['ROLE_USER']);
         $user->setType($type);
@@ -62,7 +59,7 @@ class UserEntrepriseController extends EasyAdminController
             $user->setCompany($currentUser->getCompany());
         }
 
-        $user->setBarCode($this->barCode->generate($user->getId()));
+
         $this->updatePassword($user);
         parent::updateEntity($user);
         

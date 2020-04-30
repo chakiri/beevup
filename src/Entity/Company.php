@@ -155,6 +155,11 @@ class Company
      */
     private $services;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $barCode;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -529,6 +534,18 @@ class Company
         if ($this->services->contains($service)) {
             $this->services->removeElement($service);
         }
+
+        return $this;
+    }
+
+    public function getBarCode(): ?string
+    {
+        return $this->barCode;
+    }
+
+    public function setBarCode(string $barCode): self
+    {
+        $this->barCode = $barCode;
 
         return $this;
     }
