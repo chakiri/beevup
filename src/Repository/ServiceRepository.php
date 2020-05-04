@@ -29,7 +29,7 @@ class ServiceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSearch($query, $category){
+    public function findSearch($query, $category, $isDiscovery){
         $q = $this->createQueryBuilder('s');
 
         if ($query){
@@ -46,6 +46,13 @@ class ServiceRepository extends ServiceEntityRepository
                 ->andWhere('s.category = :category')
                 ->setParameter('category', $category)
         ;
+
+        if ($isDiscovery)
+            $q
+                ->andWhere('s.isDiscovery = :isDiscovery')
+                ->setParameter('isDiscovery', $isDiscovery)
+        ;
+
 
         $q->orderBy('s.createdAt', 'DESC');
 

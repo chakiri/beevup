@@ -716,13 +716,6 @@ p.text-muted {
   height: 70px;
   margin: 0;
 }
-#store .box
-.activity{
-  margin: 0 0 5px 0;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: #f9f9fc;
-}
 
 #dashboard .services .info {
   padding: 20px 0 0 52px;
@@ -2141,7 +2134,7 @@ footer {
 }
 .company-informations{
   font-size:13px;
-  color:#253561;
+  /*color:#253561;*/
   /*font-weight:bold;*/
   line-height: 23px;
   width:100%;
@@ -2391,7 +2384,6 @@ margin-top: 10px;
 .user-name{
   color:rgb(21,55,112) !important;
   font-weight:bold;
-  margin-left:10px;
 }
 .update-profile-link{
   color:#000;
@@ -2420,21 +2412,20 @@ margin-top: 10px;
   color:var(--mvp-color);
 }
 .box-title{
-  color:var(--mvp-color);
+  /*color:var(--mvp-color);*/
   font-size:20px;
-  font-weight:bold;
+  /*font-weight:bold;*/
   margin-bottom:10px;
 
 
 }
 .box-title-container{
   margin-bottom:10px;
-  padding-bottom: 1Opx;
   border-bottom: 1px solid #eee;
+  width: 100%;
 }
 .adviser-bloc-description{
   font-size: 12px;
-  font-family: var(--mvp-font-family);
   margin-bottom:10px;
 }
 
@@ -2445,10 +2436,11 @@ margin-top: 10px;
 }
 #login-page {
   width: 100%;
+  height: 100%;
   position: relative;
   background: url(../images/intro-bg.png) center bottom no-repeat;
   background-size: cover;
-  padding: 0px 0 58px 0
+  padding: 0px 0 58px 0;
 }
 .forget-password-link{
   color:#000;

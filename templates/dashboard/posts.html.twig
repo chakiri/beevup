@@ -17,7 +17,7 @@
       {% set leftDays =  leftDays ~ ' jours' %} 
       {% endif %}
       {% if post.status != 1%}
-      <div id="post-id-{{post.id}}" class="row post col-12 {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
+      <div id="post-id-{{post.id}}" class="row post {% if (loop.index - 1) > 20 %} post-hidden {% endif %}" data-category= "{{post.category}}" data-post-pusblished={{days}}>
           <div class="user-profil-photo col-1">
               <div class="user-profil">
                   {% if post.user.profile.filename %}

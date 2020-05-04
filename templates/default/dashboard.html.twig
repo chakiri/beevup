@@ -66,7 +66,7 @@
                                     <div class="dropdown-menu notification-dropdown">
                                         {% if notificationNumber > 0 %}
                                         {% for notification in dashboardNotifications %}
-                                            <div class="row col-12 notification-item clearfix">
+                                            <div class="row notification-item clearfix">
                                                 <div class="user-photo col-2">
                                                     <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
                                                 </div>

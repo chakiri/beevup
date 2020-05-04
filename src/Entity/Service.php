@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
  * @Vich\Uploadable
  */
-class Service
+class Service implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -284,5 +284,15 @@ class Service
 
         return $this;
     }
-    
+
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
+    }
 }

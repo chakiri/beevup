@@ -4,6 +4,11 @@
     </div>
 
     {% if app.user.company  %}
+           {% if app.user.company.logo %}
+                <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
+            {% else %}
+                <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+            {% endif %}
         <p class="company-tel">{{ app.user.company.name|capitalize }}</p>
         {% if app.user.profile.isCompleted %}
             <p class="company-tel">

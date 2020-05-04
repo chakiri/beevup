@@ -28,8 +28,13 @@
                                     </div>
                                     <ul class="info-list">
                                         <li class="main">
-                                            <span class="info-title">Score</span>
-                                            <span><strong>350</strong> Pts</span>
+                                            <span class="info-title">Score BV</span>
+                                            <span><strong>
+                                                    {% if profile.user.score %}
+                                                        {{ profile.user.score.points }}
+                                                    {% else %} 0
+                                                    {% endif %}
+                                                </strong> Pts</span>
                                         </li>
                                         <li>
                                             <span class="info-title">Services</span>

@@ -11,6 +11,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
+use App\Service\HandleScore;
 use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +31,7 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository)
     {
-        $services = $serviceRepository->findBy([], ['createdAt' =>'DESC']);
+        $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
 
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
@@ -59,8 +60,9 @@ class ServiceController extends AbstractController
         if ($searchForm->isSubmitted()){
             $query = $searchForm->get('query')->getData();
             $category = $searchForm->get('category')->getData();
+            $isDiscovery = $searchForm->get('isDiscovery')->getData();
 
-            $services = $serviceRepository->findSearch($query, $category);
+            $services = $serviceRepository->findSearch($query, $category, $isDiscovery);
 
             $user = null;
         }
@@ -68,6 +70,7 @@ class ServiceController extends AbstractController
         return $this->render('service/index.html.twig', [
             'services' => $services,
             'isPrivate' => isset($user),
+            'isDiscovery' => $request->get('_route') == 'service_discovery',
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -120,7 +123,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new", name="service_new")
      */
-    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting)
+    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, HandleScore $handleScore)
     {
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
@@ -132,11 +135,16 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            if (!$service->getType()){
+            if (!$service->getType())
                 //Set type depending on user role
                 $serviceSetting->setType($service);
-            }
+
             $serviceSetting->setToParent($service);
+
+            //Add score to user if creation
+            if ($service->getIsDiscovery())
+                if (!$service->getId()) $handleScore->handle($this->getUser(), 20);
+
             $manager->persist($service);
             $manager->flush();
 

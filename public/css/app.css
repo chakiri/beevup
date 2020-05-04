@@ -3,11 +3,20 @@ html, body{
    height: 100%;
 }
 
+section{
+    min-height: 100%;
+}
 
 /* Dashboard */
 
 .dashboard-box{
     display: flex;
+}
+.activity{
+    margin: 0 0 5px 0;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9fc;
 }
 
 /*----Notif dahsbord----*/
@@ -243,6 +252,10 @@ html, body{
 ------------------------------- */
 .recommandation{
     display: flex;
+    align-items: center;
+}
+.recommandation .avatar{
+    min-width: 80px;
 }
 
 
@@ -340,6 +353,16 @@ html, body{
     overflow: hidden;
     text-overflow: ellipsis;
     min-height: 48px;
+}
+
+.card .badge-box{
+    position: absolute;
+    font-size: 85%;
+    right: 0;
+    margin: 5px;
+}
+.card .badge-box .badge{
+    border-radius: 0;
 }
 
 .box-notification{
