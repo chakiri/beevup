@@ -363,6 +363,7 @@ section{
 }
 .card .badge-box .badge{
     border-radius: 0;
+    text-transform: none;
 }
 
 .box-notification{
