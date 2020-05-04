@@ -47,8 +47,11 @@
                                 </div>
                                 <ul class="info-list mt-5">
                                     <li class="main">
-                                        <span class="info-title">Score BV</span>
-                                        <span><strong>{{ score ?? 0 }}</strong> Pts</span>
+                                        <span class="info-title">Score</span>
+                                        <span>
+                                            <strong>
+                                               {{ score ?? 0 }}</strong> Pts
+                                        </span>
                                     </li>
                                     <li>
                                         <span class="info-title">Services</span>
@@ -97,40 +100,39 @@
                     <div class="box">
                        <h4 class="mb-3">Contacts</h4>
                        {% if users %}
-                          {%  for user in users %}
-                              {% if user.profile.isCompleted %}
-                               <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
-                                   <div class="box">
-                                      <div class="portfolio-wrap dashboard-service-image company-contact-img">
-                                          <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                              {% if user.profile.filename is empty %}
-                                                <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
-
-                                              {% else %}
-                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
-
-                                              {% endif %}
-
-                                          </a>
-                                      </div>
-                                       <div class="user-information">
-                                           <p class="company-user">
-                                               <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                 {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
-                                               </a>
-                                           </p>
-                                           {% if user.profile.function  %}
-                                             <p class="company-user-job">{{ user.profile.function.name|capitalize }}</p>
-                                           {% endif %}
-                                           <p class="user-contact">
-                                               <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
-                                               <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
-                                           </p>
+                           <div class="row">
+                               {%  for user in users %}
+                                   {% if user.profile.isCompleted %}
+                                       <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                           <div class="box">
+                                               <div class="portfolio-wrap dashboard-service-image company-contact-img">
+                                                   <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                       {% if user.profile.filename is empty %}
+                                                           <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+                                                       {% else %}
+                                                           <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                       {% endif %}
+                                                   </a>
+                                               </div>
+                                               <div class="user-information">
+                                                   <p class="company-user">
+                                                       <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                           {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
+                                                       </a>
+                                                   </p>
+                                                   {% if user.profile.function  %}
+                                                       <p class="company-user-job">{{ user.profile.function.name|capitalize }}</p>
+                                                   {% endif %}
+                                                   <p class="user-contact">
+                                                       <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
+                                                       <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
+                                                   </p>
+                                               </div>
+                                           </div>
                                        </div>
-                                   </div>
-                               </div>
-                              {% endif %}
-                          {% endfor %}
+                                   {% endif %}
+                               {% endfor %}
+                           </div>
                        {% endif %}
                     </div>
 
@@ -182,7 +184,7 @@
             </div>
         </div>
     </section>
-      
+
 {% endblock %}
 {% block modals %}
     <div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -3,6 +3,9 @@ html, body{
    height: 100%;
 }
 
+section{
+    min-height: 100%;
+}
 
 /* Dashboard */
 
@@ -249,6 +252,10 @@ html, body{
 ------------------------------- */
 .recommandation{
     display: flex;
+    align-items: center;
+}
+.recommandation .avatar{
+    min-width: 80px;
 }
 
 
@@ -346,6 +353,16 @@ html, body{
     overflow: hidden;
     text-overflow: ellipsis;
     min-height: 48px;
+}
+
+.card .badge-box{
+    position: absolute;
+    font-size: 85%;
+    right: 0;
+    margin: 5px;
+}
+.card .badge-box .badge{
+    border-radius: 0;
 }
 
 .box-notification{

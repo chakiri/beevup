@@ -31,7 +31,7 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository)
     {
-        $services = $serviceRepository->findBy([], ['createdAt' =>'DESC']);
+        $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
 
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
@@ -60,8 +60,9 @@ class ServiceController extends AbstractController
         if ($searchForm->isSubmitted()){
             $query = $searchForm->get('query')->getData();
             $category = $searchForm->get('category')->getData();
+            $isDiscovery = $searchForm->get('isDiscovery')->getData();
 
-            $services = $serviceRepository->findSearch($query, $category);
+            $services = $serviceRepository->findSearch($query, $category, $isDiscovery);
 
             $user = null;
         }
@@ -69,6 +70,7 @@ class ServiceController extends AbstractController
         return $this->render('service/index.html.twig', [
             'services' => $services,
             'isPrivate' => isset($user),
+            'isDiscovery' => $request->get('_route') == 'service_discovery',
             'searchForm' => $searchForm->createView()
         ]);
     }
