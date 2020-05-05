@@ -28,6 +28,11 @@
                         {% if company.website %}
                           <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
                         {% endif %}
+
+                            {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+                                <a href="{{ path('company_edit', {'id': company.id}) }}" ><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
+                            {% endif %}
+
                     </div>
 
                     <div class="box store-informations">
@@ -39,10 +44,10 @@
                 <div class="col-lg-8 col-md-12">
                     <div class="box">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-12">
                                 <div class="info-company">
                                     <h2>{{ company.name }}</h2>
-                                    <p class="lead">{{ company.introduction }}</p>
+                                    <p class="lead company-introduction">{{ company.introduction }}</p>
                                     <p>{{ company.description }}</p>
                                 </div>
                                 <ul class="info-list mt-5">
@@ -59,11 +64,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-4 text-right">
-                                {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                    <a href="{{ path('company_edit', {'id': company.id}) }}" class="btn btn-design btn-2 p-3"><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
-                                {% endif %}
-                            </div>
+
                         </div>
                     </div>
 
@@ -94,7 +95,15 @@
                             <p class="text-muted">Aucun service pour l'instant</p>
                         {% endif %}
 
-                        <p><a href="{{ path('service_company', {'company': company.id}) }}" type="button" class="btn btn-md btn-2 full-width">Voir tous les services de {{ company.name|capitalize }} </a></p>
+
+                        <div class="row">
+                            <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
+
+                                <a href="{{ path('service_company', {'company': company.id}) }}" type="button" class="text-white">
+                                    Voir tous les services de {{ company.name|capitalize }}
+                                </a>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="box">
@@ -104,7 +113,7 @@
                                {%  for user in users %}
                                    {% if user.profile.isCompleted %}
                                        <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
-                                           <div class="box">
+                                           <div class="box contact-box">
                                                <div class="portfolio-wrap dashboard-service-image company-contact-img">
                                                    <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                        {% if user.profile.filename is empty %}

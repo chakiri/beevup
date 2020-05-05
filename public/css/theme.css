@@ -1917,8 +1917,8 @@ textarea {
 }
 .btn-focus {
   color: #fff;
-  background-color: #444054;
-  border-color: #444054;
+  background-color: #465192;
+  border-color: #465192;
 }
 .btn .badge-dot.badge-dot-lg {
   width: 14px;
@@ -2134,7 +2134,7 @@ footer {
 }
 .company-informations{
   font-size:13px;
-  /*color:#253561;*/
+  color:#253561;
   /*font-weight:bold;*/
   line-height: 23px;
   width:100%;
@@ -2144,14 +2144,10 @@ footer {
   font-size: 27px !important;
   text-align: center;
 }
-company-introduction{
-  color:#000;
-  font-size:13px;
-  font-family:arial
-}
 .company-introduction{
-  text-align: center;
+ font-weight:bold !important;
 }
+
 .company-description{
   font-size:14px;
   font-family:arial;
@@ -2412,7 +2408,7 @@ margin-top: 10px;
   color:var(--mvp-color);
 }
 .box-title{
-  /*color:var(--mvp-color);*/
+  color:var(--mvp-color);
   font-size:20px;
   /*font-weight:bold;*/
   margin-bottom:10px;
@@ -2560,4 +2556,10 @@ border: 1px solid var(--mvp-color);
 {
   font-size:135PX;
   color: var(--mvp-color);
+}
+.contact-box{
+  border:1px solid #eee;
+}
+.company-name{
+  font-weight: bold;
 }
