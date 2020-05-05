@@ -2551,3 +2551,13 @@ border: 1px solid var(--mvp-color);
   font-size: 13px;
   font-weight: bold;
 }
+.content-wrapper-404{
+  height:355px;
+  text-align: center;
+
+}
+.content-wrapper-404 p
+{
+  font-size:135PX;
+  color: var(--mvp-color);
+}
