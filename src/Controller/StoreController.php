@@ -50,14 +50,13 @@ class StoreController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN_STORE")
-     * @Route("/store/{id}/edit", name="store_edit")
+    * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
     public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id)
     {
-
-        if($id == $this->getUser()->getStore()->getId()) {
+        
+        if($id == $this->getUser()->getStore()->getId() && $this->getUser()->getType()->getId() == 4) {
 
             if (!$store) {
                 $store = new Store();
