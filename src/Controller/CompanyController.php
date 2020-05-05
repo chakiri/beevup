@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Form\CompanyType;
 use App\Repository\RecommandationRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\BarCode;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class CompanyController extends AbstractController
@@ -49,10 +51,17 @@ class CompanyController extends AbstractController
     }
 
     /**
-    * @Route("/company/{id}/edit", name="company_edit")
-    */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, InitTopic $initTopic)
+     * @IsGranted("ROLE_ADMIN_COMPANY")
+     * @Route("/company/{id}/edit", name="company_edit")
+     */
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, InitTopic $initTopic, $id)
     {
+
+        if($id == $this->getUser()->getCompany()->getId())
+        {
+
+
+
         $form = $this->createForm(CompanyType::class, $company);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,5 +100,9 @@ class CompanyController extends AbstractController
             'company' => $company,
             'EditCompanyForm' => $form->createView(),
         ]);
+        }
+        else{
+            return $this->redirectToRoute('page_not_found', []);
+        }
     }
 }

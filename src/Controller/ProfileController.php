@@ -7,6 +7,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,26 +50,30 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile, EntityManagerInterface $manager, Request $request)
+    public function form(Profile $profile, EntityManagerInterface $manager, Request $request, $id)
     {
-        $form = $this->createForm(ProfileType::class, $profile);
 
-        $form->handleRequest($request);
+        if($id == $this->getUser()->getProfile()->getId()) {
+            $form = $this->createForm(ProfileType::class, $profile);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $profile->setIsCompleted(true);
+                $profile->setIsCompleted(true);
 
-            $manager->persist($profile);
-            $manager->flush();
+                $manager->persist($profile);
+                $manager->flush();
 
-            return $this->redirectToRoute('profile_show', [
-               'id' => $profile->getId()
+                return $this->redirectToRoute('profile_show', [
+                    'id' => $profile->getId()
+                ]);
+            }
+
+            return $this->render('profile/form.html.twig', [
+                'EditProfileForm' => $form->createView(),
             ]);
+        } else {
+            return $this->redirectToRoute('page_not_found', []);
         }
-
-        return $this->render('profile/form.html.twig', [
-            'EditProfileForm' => $form->createView(),
-        ]);
     }
 }

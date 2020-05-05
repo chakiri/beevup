@@ -15,7 +15,9 @@ use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ServiceController extends AbstractController
 {
@@ -117,11 +119,18 @@ class ServiceController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new", name="service_new")
      */
     public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting)
     {
+        //if (route == service_edit && service not related to the current user return )
+        if($service != null) {
+            if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
+                return $this->redirectToRoute('page_not_found', []);
+            }
+        }
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();

@@ -12,7 +12,9 @@ use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class StoreController extends AbstractController
 {
@@ -48,47 +50,56 @@ class StoreController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN_STORE")
      * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, ?Store $store, EntityManagerInterface $manager)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id)
     {
-        if (!$store){
-            $store = new Store();
-            $store->setReference('12323434');
-        }
-        $form = $this->createForm(StoreType::class, $store);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $store->setModifiedAt( new \DateTime());
+        if($id == $this->getUser()->getStore()->getId()) {
 
-            $file = $form['imageFile']->getData();
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename =  $originalFilename;
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-                try {
-                    $file->move(
-                        $this->getParameter('stores_images'),
-                        $newFilename
-                    );
-
-                } catch (FileException $e) {}
-                $store->setFilename($newFilename);
+            if (!$store) {
+                $store = new Store();
+                $store->setReference('12323434');
             }
-            $manager->persist($store);
-            $manager->flush();
+            $form = $this->createForm(StoreType::class, $store);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('store_show', [
-                'slug' => $store->getSlug()
+            if ($form->isSubmitted() && $form->isValid()) {
+                $store->setModifiedAt(new \DateTime());
+
+                $file = $form['imageFile']->getData();
+                if ($file) {
+                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $originalFilename;
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('stores_images'),
+                            $newFilename
+                        );
+
+                    } catch (FileException $e) {
+                    }
+                    $store->setFilename($newFilename);
+                }
+                $manager->persist($store);
+                $manager->flush();
+
+                return $this->redirectToRoute('store_show', [
+                    'slug' => $store->getSlug()
+                ]);
+            }
+
+            return $this->render('store/form.html.twig', [
+                'store' => $store,
+                'form' => $form->createView()
             ]);
         }
-
-        return $this->render('store/form.html.twig', [
-            'store' => $store,
-            'form' => $form->createView()
-        ]);
+        else{
+            return $this->redirectToRoute('page_not_found', []);
+        }
     }
 
 }

@@ -12,8 +12,8 @@
         "doctrine/orm": "^2.7",
         "easycorp/easyadmin-bundle": "^2.3",
         "fzaninotto/faker": "^1.9",
-        "react/zmq": "^0.4.0",
         "liip/imagine-bundle": "^2.3",
+        "react/zmq": "^0.4.0",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",
@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
-        "symfony/maker-bundle": "^1.14",
+        "symfony/maker-bundle": "^1.15",
         "symfony/profiler-pack": "^1.0",
         "symfony/web-server-bundle": "4.4.2"
     },
