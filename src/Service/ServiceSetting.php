@@ -4,7 +4,9 @@ namespace App\Service;
 
 
 use App\Entity\Service;
+use App\Entity\StoreService;
 use App\Repository\TypeServiceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
 class ServiceSetting
@@ -13,10 +15,13 @@ class ServiceSetting
 
     private $typeServiceRepository;
 
-    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository)
+    private $manager;
+
+    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository, EntityManagerInterface $manager)
     {
         $this->security = $security;
         $this->typeServiceRepository = $typeServiceRepository;
+        $this->manager = $manager;
     }
 
     public function setType(Service $service): Service
@@ -35,11 +40,25 @@ class ServiceSetting
     public function setToParent(Service $service): Service
     {
         if($this->security->isGranted('ROLE_ADMIN_STORE') ){
-            $this->security->getUser()->getStore()->addService($service);
+            //avoid manyToMany with StoreService entity
+            $storeService = $this->setStoreService($this->security->getUser()->getStore(), $service);
+
+            $this->security->getUser()->getStore()->addService($storeService);
         }elseif ($this->security->isGranted('ROLE_ADMIN_COMPANY')){
             $this->security->getUser()->getCompany()->addService($service);
         }
 
         return $service;
+    }
+
+    public function setStoreService($store, $service)
+    {
+        $storeService = new StoreService();
+        $storeService->setStore($store);
+        $storeService->setService($service);
+
+        $this->manager->persist($storeService);
+
+        return $storeService;
     }
 }

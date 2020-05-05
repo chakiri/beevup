@@ -121,21 +121,20 @@ class Store
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Service")
-     */
-    private $services;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $defaultAdviser;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StoreService", mappedBy="store", orphanRemoval=true)
+     */
+    private $services;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->users = new ArrayCollection();
-        $this->services = new ArrayCollection();
     }
 
     /**
@@ -435,32 +434,6 @@ class Store
       
     }
 
-    /**
-     * @return Collection|Service[]
-     */
-    public function getServices(): Collection
-    {
-        return $this->services;
-    }
-
-    public function addService(Service $service): self
-    {
-        if (!$this->services->contains($service)) {
-            $this->services[] = $service;
-        }
-
-        return $this;
-    }
-
-    public function removeService(Service $service): self
-    {
-        if ($this->services->contains($service)) {
-            $this->services->removeElement($service);
-        }
-
-        return $this;
-    }
-
     public function getDefaultAdviser(): ?User
     {
         return $this->defaultAdviser;
@@ -469,6 +442,37 @@ class Store
     public function setDefaultAdviser(?User $defaultAdviser): self
     {
         $this->defaultAdviser = $defaultAdviser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StoreService[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(StoreService $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(StoreService $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getStore() === $this) {
+                $service->setStore(null);
+            }
+        }
 
         return $this;
     }
