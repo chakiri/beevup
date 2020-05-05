@@ -9,10 +9,10 @@
             {% else %}
                 <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
             {% endif %}
-        <p class="company-tel">{{ app.user.company.name|capitalize }}</p>
+        <p class="company-tel mt-2 ml-3 company-name">{{ app.user.company.name|capitalize }}</p>
         {% if app.user.profile.isCompleted %}
             <p class="company-tel">
-                <i class="fa fa-phone" aria-hidden="true"></i>{{ app.user.company.phone }}
+                <i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}
             </p>
             <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
                 {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}
@@ -23,7 +23,7 @@
             <img src="data:image/png;base64,{{ app.user.company.barCode }}" />
         </div>
 
-        <p> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
+        <p class="mt-1"> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
         {% if is_granted('ROLE_ADMIN_COMPANY') %}
             <p> <a href="{{ path('company_edit', {'id': app.user.company.id}) }}">Modifier ma fiche</a></p>
         {% endif %}
