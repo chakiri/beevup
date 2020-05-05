@@ -57,58 +57,57 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/company/{id}/edit", name="company_edit")
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, InitTopic $initTopic, $id)
     {
+        if ($this->getUser()->getCompany() != NULL) {
+            if ($id == $this->getUser()->getCompany()->getId()) {
+                $form = $this->createForm(CompanyType::class, $company);
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $file = $form['imageFile']->getData();
+                    if ($file) {
+                        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $originalFilename;
+                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                        try {
+                            $file->move(
+                                $this->getParameter('entreprise_logos'),
+                                $newFilename
+                            );
 
-        if($id == $this->getUser()->getCompany()->getId())
-        {
+                        } catch (FileException $e) {
+                        }
+                        $company->setLogo($newFilename);
+                    }
 
+                    $company->setIsCompleted(true);
+                    /*** generate bar code*/
+                    $company->setBarCode($this->barCode->generate($company->getId()));
+                    /**end ******/
+                    $manager->persist($company);
 
+                    $manager->flush();
 
-        $form = $this->createForm(CompanyType::class, $company);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form['imageFile']->getData();
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename =  $originalFilename;
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-                try {
-                    $file->move(
-                        $this->getParameter('entreprise_logos'),
-                        $newFilename
-                    );
+                    //init topic company category to user
+                    $initTopic->init($company->getCategory());
 
-                } catch (FileException $e) {}
-                $company->setLogo($newFilename);
+                    return $this->redirectToRoute('company_show', [
+                        'slug' => $company->getSlug()
+                    ]);
+
+                }
+                return $this->render('company/form.html.twig', [
+                    'company' => $company,
+                    'EditCompanyForm' => $form->createView(),
+                ]);
+            } else {
+                return $this->redirectToRoute('page_not_found', []);
             }
-
-            $company->setIsCompleted(true);
-            /*** generate bar code*/
-             $company->setBarCode($this->barCode->generate($company->getId()));
-            /**end ******/
-            $manager->persist($company);
-
-            $manager->flush();
-
-            //init topic company category to user
-            $initTopic->init($company->getCategory());
-
-           return $this->redirectToRoute('company_show', [
-               'slug' => $company->getSlug()
-           ]);
-
         }
-        return $this->render('company/form.html.twig', [
-            'company' => $company,
-            'EditCompanyForm' => $form->createView(),
-        ]);
-        }
-        else{
-            return $this->redirectToRoute('page_not_found', []);
-        }
+    else{
+        return $this->redirectToRoute('page_not_found', []);
+    }
     }
 }
