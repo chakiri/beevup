@@ -2563,3 +2563,8 @@ border: 1px solid var(--mvp-color);
 .company-name{
   font-weight: bold;
 }
+#login-page .container-mvp
+{
+  margin-right: 0;
+  margin-left: 0;
+}

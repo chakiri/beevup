@@ -6,7 +6,7 @@
         Nihil morati post haec militares avidi saepe turbarum adorti sunt Montium
     </div>
     <div class="avatar">
-        {% if app.user.profile.filename %}
+        {% if adviser.profile.filename %}
             <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile') }}" class="img-fluid" alt="">
         {% else %}
             <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">

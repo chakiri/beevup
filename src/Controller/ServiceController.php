@@ -34,6 +34,8 @@ class ServiceController extends AbstractController
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository)
     {
         $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
+        $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
+        $adviser= $userRepository->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
 
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
@@ -73,6 +75,8 @@ class ServiceController extends AbstractController
             'services' => $services,
             'isPrivate' => isset($user),
             'isDiscovery' => $request->get('_route') == 'service_discovery',
+            'adviser'=> $adviser,
+            'store'=>$currentUserStore,
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -128,8 +132,7 @@ class ServiceController extends AbstractController
      */
     public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, HandleScore $handleScore)
     {
-        //if (route == service_edit && service not related to the current user return )
-        if($service != null) {
+         if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
             }

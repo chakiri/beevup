@@ -12,7 +12,7 @@
                         <form action="{{ path('security_login') }}" method="post">
                             <fieldset>
                                 <h1 class="mvp-color security-title">Connexion</h1>
-
+                                {% include 'partials/flashes.html.twig' %}
                                 {% for message in app.flashes('create-service-success') %}
                                     <div class="alert alert-success">
                                         {{ message }}
@@ -58,7 +58,7 @@
 
                                 <div class="login-checkbox text-center">
                                     <label>
-                                        <a class="forget-password-link" href="#">Mot de passe oublié ?</a>
+                                        <a class="forget-password-link" href="{{ path('security_forgotten_password') }}">Mot de passe oublié ?</a>
                                     </label>
                                 </div>
 
