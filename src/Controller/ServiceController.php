@@ -9,6 +9,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
+use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\HandleScore;
@@ -31,7 +32,7 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository)
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository)
     {
         $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
         $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
@@ -50,8 +51,14 @@ class ServiceController extends AbstractController
         }
         if ($store){
             $store = $storeRepository->findOneBy(['id' => $store]);
-            $services = $store->getServices();
+            $services = [];
+            $storeServices = $store->getServices();
+            foreach ($storeServices as $service){
+                array_push($services, $service->getService());
+
+            }
         }
+
         if ($user) {
             $user = $userRepository->findBy(['id' => $user]);
             $services = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
@@ -84,13 +91,15 @@ class ServiceController extends AbstractController
     /**
      * @Route("/service/{service}/associate", name="service_associate")
      */
-    public function associate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository)
+    public function associate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository, ServiceSetting $serviceSetting)
     {
         if ($service && $service->getType()->getName() == 'plateform'){
 
             $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
 
-            $store->addService($service);
+            //New StoreService entity
+            $storeService = $serviceSetting->setStoreService($store, $service);
+            $store->addService($storeService);
 
             $manager->persist($store);
             $manager->flush();
@@ -106,13 +115,16 @@ class ServiceController extends AbstractController
     /**
      * @Route("/service/{id}/dissociate", name="service_dissociate")
      */
-    public function dissociate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository)
+    public function dissociate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository, StoreServicesRepository $storeServicesRepository)
     {
         if ($service && $service->getType()->getName() == 'plateform'){
 
             $store = $storeRepository->findOneBy(['id' => $this->getUser()->getStore()]);
 
-            $store->removeService($service);
+            //Get ServiceStore
+            $storeService = $storeServicesRepository->findOneBy(['store' => $store, 'service' => $service]);
+
+            $store->removeService($storeService);
 
             $manager->persist($store);
             $manager->flush();
@@ -176,17 +188,16 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service/{id}", name="service_show")
     */
-    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository)
+    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository)
     {
-        $companyId = 0;
-        $storeId = 0;
         $company = null;
-        $store = null;
 
         if(!is_null($service->getUser()->getCompany())) {
             $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
             $companyId = $company->getId();
         }
+
+        $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
 
         $similarServices = $serviceRepository->findBy(['category' => $service->getCategory()], [], 3);
 
@@ -196,6 +207,7 @@ class ServiceController extends AbstractController
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
+            'storeService' => $storeService,
             'companyId'  => $companyId,
             'similarServices' => $similarServices,
             'recommandations'=> $recommandations,
@@ -216,5 +228,28 @@ class ServiceController extends AbstractController
         }
 
         return $this->redirectToRoute('service');
+    }
+
+    /**
+     * @Route("/service/{id}/config", name="service_config")
+     */
+    public function configAssociation(Service $service, Request $request, StoreServicesRepository $storeServicesRepository, EntityManagerInterface $manager)
+    {
+        $price = $request->get('price');
+
+        if ($service){
+            $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
+            $storeService->setPrice($price);
+
+            $manager->persist($storeService);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre prix a bien été pris en compte !');
+
+            return $this->redirectToRoute('service_show', [
+                'id' => $service->getId()
+            ]);
+        }
     }
 }
