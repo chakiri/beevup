@@ -217,4 +217,27 @@ class ServiceController extends AbstractController
 
         return $this->redirectToRoute('service');
     }
+
+    /**
+     * @Route("/service/{id}/config", name="service_config")
+     */
+    public function configAssociation(Service $service, Request $request, StoreServicesRepository $storeServicesRepository, EntityManagerInterface $manager)
+    {
+        $price = $request->get('price');
+
+        if ($service){
+            $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
+            $storeService->setPrice($price);
+
+            $manager->persist($storeService);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre prix a bien été pris en compte !');
+
+            return $this->redirectToRoute('service_show', [
+                'id' => $service->getId()
+            ]);
+        }
+    }
 }
