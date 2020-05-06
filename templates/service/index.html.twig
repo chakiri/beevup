@@ -41,33 +41,32 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-                            <div class="contact">
-                                <hr/>
-                                <div class="avatar">
-
-                                    {% if adviser.profile.filename %}
-                                    <a class="user-link" href="{{ path('profile_show', {'id': adviser.id}) }}">
-                                        <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile') }}" class="img-fluid dashboard-profil-img" alt="">
-                                    </a>
-                                    {% else %}
-                                        <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
-                                    {% endif %}
-                                </div>
-                                <p><strong>Mon conseiller:</strong>
-                                    <a style="color:#000" href="{{ path('profile_show', {'id': adviser.id}) }}">
-                                      {{ adviser.profile.firstname|capitalize }} {{ adviser.profile.lastname|capitalize }}
-                                    </a>
-                                </p>
-                                <p><strong>Magasin : </strong><a  style="color:#000" href="{{ path('store_show',{'slug':store.slug}) }}">{{ store.name }}</a></p>
-                                <div class="mt-4">
-
-
-                                    <p class="user-contact">
-                                        <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter conseiller</a></span>
-                                        <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': adviser.profile.id}) }}">Voir fiche conseiller</a></span>
+                            {% if adviser %}
+                                <div class="contact">
+                                    <hr/>
+                                    <div class="avatar">
+                                        {% if adviser.profile.filename %}
+                                            <a class="user-link" href="{{ path('profile_show', {'id': adviser.id}) }}">
+                                                <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile') }}" class="img-fluid dashboard-profil-img" alt="">
+                                            </a>
+                                        {% else %}
+                                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <p><strong>Mon conseiller:</strong>
+                                        <a style="color:#000" href="{{ path('profile_show', {'id': adviser.id}) }}">
+                                            {{ adviser.profile.firstname|capitalize }} {{ adviser.profile.lastname|capitalize }}
+                                        </a>
                                     </p>
+                                    <p><strong>Magasin : </strong><a  style="color:#000" href="{{ path('store_show',{'slug':app.user.store.slug}) }}">{{ app.user.store.name }}</a></p>
+                                    <div class="mt-4">
+                                        <p class="user-contact">
+                                            <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter conseiller</a></span>
+                                            <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': adviser.profile.id}) }}">Voir fiche conseiller</a></span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </nav>
                 </div>

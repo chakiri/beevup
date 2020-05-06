@@ -35,8 +35,7 @@ class ServiceController extends AbstractController
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository)
     {
         $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
-        $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
-        $adviser= $userRepository->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
+        $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
 
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
@@ -55,7 +54,6 @@ class ServiceController extends AbstractController
             $storeServices = $store->getServices();
             foreach ($storeServices as $service){
                 array_push($services, $service->getService());
-
             }
         }
 
@@ -83,7 +81,6 @@ class ServiceController extends AbstractController
             'isPrivate' => isset($user),
             'isDiscovery' => $request->get('_route') == 'service_discovery',
             'adviser'=> $adviser,
-            'store'=>$currentUserStore,
             'searchForm' => $searchForm->createView()
         ]);
     }
