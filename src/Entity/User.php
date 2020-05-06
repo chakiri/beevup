@@ -101,6 +101,11 @@ class User implements UserInterface
      */
     private $score;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $resetToken;
+
     public function __construct()
     {
         $this->isValid = false;
@@ -311,6 +316,18 @@ class User implements UserInterface
         if ($score->getUser() !== $this) {
             $score->setUser($this);
         }
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

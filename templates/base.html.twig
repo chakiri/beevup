@@ -26,7 +26,15 @@
 {% include 'partials/header.html.twig' %}
 
 {#Afficher flash messages #}
-{% if app.request.attributes.get('_route') != 'service' and app.request.attributes.get('_route') != 'service_user' and app.request.attributes.get('_route') != 'service_company' and app.request.attributes.get('_route') != 'service_store'%}
+{% if app.request.attributes.get('_route') != 'service'
+          and app.request.attributes.get('_route') != 'service_user'
+          and app.request.attributes.get('_route') != 'service_company'
+          and app.request.attributes.get('_route') != 'service_store'
+          and app.request.attributes.get('_route') != 'service_store'
+          and app.request.attributes.get('_route') != 'security_forgotten_password'
+          and app.request.attributes.get('_route') != 'security_reset_password'
+          and app.request.attributes.get('_route') != 'security_login'
+%}
     {% include 'partials/flashes.html.twig' %}
 {% endif %}
 

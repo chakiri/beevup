@@ -42,6 +42,8 @@ security:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
+        - { path: ^/forgottenPassword, allow_if: "!is_authenticated()"}
+        - { path: ^/resetPassword, allow_if: "!is_authenticated()"}
         - { path: ^/, roles: ROLE_USER}
 
     role_hierarchy:
