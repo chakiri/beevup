@@ -36,26 +36,26 @@ class UserAdminController extends EasyAdminController
 
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
-            $type = $this->userTypeRepo->findOneBy(['id'=> 4], []);
+            $type = $this->userTypeRepo->findOneBy(['name'=> 'patron_magasin']);
             $user->setType($type);
         }
         if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
-            $type = $this->userTypeRepo->findOneBy(['id'=> 3], []);
+            $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_entreprise']);
             $user->setType($type);
 
         }
         if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
-            $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
+            $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_platforme']);
             $user->setType($type);
 
         }
         if(in_array('ROLE_USER', $userRoles)){
             if($user->getCompany()!= null)
             {
-                $type = $this->userTypeRepo->findOneBy(['id'=> 6], []);
+                $type = $this->userTypeRepo->findOneBy(['name'=> 'collaborateur_entreprise']);
             }
             else{
-                $type = $this->userTypeRepo->findOneBy(['id'=> 2], []);
+                $type = $this->userTypeRepo->findOneBy(['name'=> 'conseiller_magasin']);
             }
 
             $user->setType($type);
@@ -82,16 +82,16 @@ class UserAdminController extends EasyAdminController
         $userRoles = array_unique($user->getRoles());
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
-            $type = $this->userTypeRepo->findOneBy(['id'=> 4], []);
+            $type = $this->userTypeRepo->findOneBy(['name'=> 'patron_magasin']);
             $user->setType($type);
         }
          if(in_array('ROLE_ADMIN_COMPANY', $userRoles)) {
-            $type = $this->userTypeRepo->findOneBy(['id' => 3], []);
+            $type = $this->userTypeRepo->findOneBy(['name' => 'admin_entreprise']);
             $user->setType($type);
          }
 
          if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
-                $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
+                $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_platforme'], []);
                 $user->setType($type);
          }
 

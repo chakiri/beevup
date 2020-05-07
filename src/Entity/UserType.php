@@ -40,6 +40,6 @@ class UserType
     public function __toString()
     {
        return strval( $this->getName() );
-      
+
     }
 }

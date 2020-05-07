@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller\Admin;
+use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
@@ -19,32 +20,43 @@ class UserEntrepriseController extends EasyAdminController
     private $userTypeRepo;
     private $barCode;
     private $userRepo;
+    private $topicHandler;
 
   
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, BarCode $barCode, TopicHandler $topicHandler)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
         $this->barCode = $barCode;
         $this->userRepo = $userRepo;
+        $this->topicHandler = $topicHandler;
     }
     
     public function persistUserEntrepriseEntity($user)
     {
         $currentUser = $this->getUser();
-        $type = $this->userTypeRepo->findOneBy(['id'=> 6], []);
+        $type = $this->userTypeRepo->findOneBy(['name'=> 'collaborateur_entreprise']);
         $user->setStore($currentUser->getStore());
         if($currentUser->getCompany()!= null )
         {
             $user->setCompany($currentUser->getCompany());
         }
 
-
         $user->setRoles(['ROLE_USER']);
         $user->setType($type);
 
         $this->updatePassword($user);
         parent::persistEntity($user);
+
+        /* add admin topics to user */
+        $this->topicHandler->addAdminTopicsToUser($user);
+
+        /* add company topic to user */
+        $this->topicHandler->initCompanyTopic($currentUser->getCompany(), $user);
+
+        /* add category company topic to user */
+        $this->topicHandler->initCategoryCompanyTopic($currentUser->getCompany()->getCategory(), $user);
+
         $profile = new Profile();
         $profile->setUser($user);
         parent::persistEntity($profile);

@@ -10,7 +10,7 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="box-image company-image">
                         {% if company.logo is empty %}
-                            <img class="company-no-available-img" src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+                            <img class="company-no-available-img" src="/images/no-available-company-photo.png" alt="">
                         {% else %}
                             <img src="/images/logos/{{ company.logo }}" class="img-fluid" alt="">
                         {% endif %}
@@ -28,11 +28,9 @@
                         {% if company.website %}
                           <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ company.website }}</p>
                         {% endif %}
-
-                            {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                <a href="{{ path('company_edit', {'id': company.id}) }}" ><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Editer mon entreprise</a>
-                            {% endif %}
-
+                        {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+                            <a href="{{ path('company_edit', {'id': company.id}) }}" ><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Modifier mon entreprise</a>
+                        {% endif %}
                     </div>
 
                     <div class="box store-informations">

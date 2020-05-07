@@ -111,7 +111,7 @@ class User implements UserInterface
         $this->isValid = false;
         $this->isDeleted = false;
         $this->createdAt = new \Datetime();
-        $this->roles = array('ROLE_USER','ROLE_ADMIN_COMPANY');
+        $this->roles = array('ROLE_ADMIN_COMPANY');
         $this->topics = new ArrayCollection();
     }
 

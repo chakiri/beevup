@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TopicRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TopicTypeRepository")
  */
-class Topic
+class TopicType
 {
     /**
      * @ORM\Id()
@@ -17,15 +17,9 @@ class Topic
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TopicType")
-     */
-    private $type;
-
 
     public function getId(): ?int
     {
@@ -43,17 +37,4 @@ class Topic
 
         return $this;
     }
-
-    public function getType(): ?TopicType
-    {
-        return $this->type;
-    }
-
-    public function setType(?TopicType $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
 }
