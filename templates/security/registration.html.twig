@@ -68,8 +68,11 @@
                         </div>
                        {{ form_widget(RegistrationForm.password) }}
                     </div>
+                    <div class="input-group mb-3">
+                        {{ form_widget(RegistrationForm.acceptConditions) }}
+                    </div>
                     <div class="form-actions form-group text-center">
-                        <button type="submit" class="btn  mvp-btn btn mvp-bg btn-radius">Inscription</button>
+                        <button id ="inscription-btn" type="submit" class="btn  mvp-btn btn mvp-bg btn-radius" disabled>Inscription</button>
                     </div>
 
                     {{ form_end(RegistrationForm) }}
