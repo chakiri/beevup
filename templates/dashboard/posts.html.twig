@@ -48,9 +48,10 @@
                           </a>
                       {% endif %}
                   </p>
-              </div>
-              
 
+              </div>
+
+              <div class="lead"> <span class="post-category">{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
               <div class="lead post-description">{{post.description}}</div>
               <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
