@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 
 class RegistrationType extends AbstractType
 {
@@ -26,13 +29,19 @@ class RegistrationType extends AbstractType
 
                 'mapped'=>false,
                    'attr'  => [
-                   'placeholder' => 'Raison Sociale',
+                   'placeholder' => 'Raison sociale (Société)',
                    'class'       =>'form-control'
                 ]
             ])
              ->add('store', EntityType::class, [
 
-                'multiple'=>false,
+                 'multiple'=>false,
+
+
+                 'attr' => [
+                    'placeholder' => 'Votre magasin Bureau Vallée le plus proche',
+
+                ],
                 'class' => Store::class,
                 'choice_label' =>'name'
 
@@ -50,14 +59,9 @@ class RegistrationType extends AbstractType
                      'placeholder' => 'Mot de passe',
                      'class'       =>'form-control'
                    ]
-               ])
-               /*->add('Inscription', SubmitType::class , [
-                   'attr' =>[
-                       'class' =>'text-center btn mvp-bg btn-radius'
-                   ]
-               ])*/
-        ;
+               ]);
     }
+
 
     public function configureOptions(OptionsResolver $resolver)
     {

@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Security\LoginFormAuthenticator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
 use App\Form\ServiceType;
@@ -14,7 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use App\Form\RegistrationType;
 use App\Entity\User;
 use App\Entity\Company;
@@ -27,21 +29,23 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
 
+
+
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode, CompanyRepository $companyRepo): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode, CompanyRepository $companyRepo,  TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
     {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
-       
+
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             /* insert company data*/
             $company = new Company();
             $userType = $userTypeRepository->findOneBy(['name'=> 'admin']);
@@ -64,6 +68,23 @@ class SecurityController extends AbstractController
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
+            $token = $tokenGenerator->generateToken();
+            $user->setResetToken($token);
+            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+            $message = (new \Swift_Message())
+                ->setSubject('Confirmation email')
+                ->setFrom($_ENV['DEFAULT_EMAIL'])
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/confirmEmail.html.twig',
+                        ['url' => $url,'user'=> $user]
+                    ),
+                    'text/html'
+                )
+            ;
+
+
             //Get all admin topics
             $topics = $topicRepository->findBy(['type' => 'admin']);
 
@@ -80,8 +101,8 @@ class SecurityController extends AbstractController
             $manager->persist($profile);
 
             $manager->flush();
-
-            $this->addFlash('success', 'Votre compte a bien été crée !');
+            $result = $mailer->send($message);
+            $this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
 
             return $this->redirectToRoute('security_login');
         }
@@ -89,7 +110,7 @@ class SecurityController extends AbstractController
         return $this->render('security/registration.html.twig', [
             'RegistrationForm' => $form->createView(),
         ]);
-        
+
     }
 
 
@@ -100,11 +121,15 @@ class SecurityController extends AbstractController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        $isActivated = true;
+        if (strpos($error, 'Account disabled') !== false) {
+            $isActivated= false;
+        }
 
         return $this->render("security/login.html.twig", [
             'hasError' => $error !== null,
-            'lastUsername' => $lastUsername
+            'lastUsername' => $lastUsername,
+            'isActivated'=>$isActivated
         ]);
     }
 
@@ -123,8 +148,6 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() ) {
             $email = $form->getData()->getEmail();
-
-
             $user = $userRepository->findOneBy(['email' => $email]);
 
             if (!$user){
@@ -145,7 +168,6 @@ class SecurityController extends AbstractController
                 ->setTo($email)
                 ->setBody(
                     $this->renderView(
-
                         'emails/forgotPassword.html.twig',
                         ['url' => $url,'user'=> $user]
                     ),
@@ -207,4 +229,36 @@ class SecurityController extends AbstractController
             'token',$token
         ]);
     }
+
+    /**
+     * @Route("/confirmEmail/{token}", name="security_confirm_email")
+     */
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler)
+    {
+
+       $user = $userRepository->findOneBy(['resetToken' => $token]);
+
+            if (!$user){
+                $this->addFlash('danger', 'le lien de confirmation a été expiré');
+                return $this->redirectToRoute('security_login');
+            }
+
+            $user->setResetToken(null);
+             $user->setIsValid(1);
+            $manager->persist($user);
+            $manager->flush();
+
+
+
+         $guardHandler->authenticateUserAndHandleSuccess(
+            $user,
+            $request,
+            $authenticator,
+            'main'
+        );
+        $this->addFlash('success', 'votre compte a été activé');
+        return $this->redirectToRoute('dashboard');
+
+    }
+
 }

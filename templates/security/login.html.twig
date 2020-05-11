@@ -26,7 +26,13 @@
                                 {% endfor %}
 
                                 {% if hasError %}
-                                    <div class="alert alert-dismissible alert-danger">Une erreur est survenu, veuillez ressayer</div>
+                                    {% if isActivated == false %}
+                                        <div class="alert alert-dismissible alert-danger">
+                                            Votre compte n'est pas encore activé
+                                        </div>
+                                    {% else  %}
+                                       <div class="alert alert-dismissible alert-danger">Une erreur est survenu, veuillez ressayer</div>
+                                    {% endif %}
                                 {% endif %}
 
                                 <div class="form-group">

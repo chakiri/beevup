@@ -35,9 +35,9 @@ class User implements UserInterface
      * @Assert\Length(min=8)
      * @Assert\Length(max=4096)
      * @Assert\Regex(
-     * pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$^",
+     * pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$^",
      * match=true,
-     * message="Votre mot de passe doit contenir 1 Majuscule, 1 minuscule, les caractères spéciaux ne sont pas autorisés"
+     * message="Votre mot de passe doit contenir 1 Majuscule, 1 minuscule et 1 chiffre"
      * )
      * @ORM\Column(type="string", length=255)
      */
