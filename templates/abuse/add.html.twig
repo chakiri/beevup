@@ -5,7 +5,7 @@
 {% block body %}
   <div class="modal-header">
     
-    <h5 class="modal-title" >signaler un abus </h5>
+    <h5 class="modal-title" >Signaler un abus </h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -16,8 +16,8 @@
       {{ form_start(AbuseForm) }}
           <div class="message"></div>
           <div class="form-group abuse-description abuse-description"+postId>
-              <p>Notre équipe sera informée de votre demande et vérifiera ce post.</p>
-              <p> Merci d’utiliser la zone Commentaire </p>
+              <p> Merci de nous indiquer les raisons de votre demande.</p>
+
               {% if postId > 0 %}
               {%  set id = postId %}
               {% else  %}

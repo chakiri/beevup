@@ -74,7 +74,7 @@ easy_admin:
               - { property: 'company', label: 'Entreprise' }
               - { property: 'type', label: 'Type' }
               - { property: 'profile', label: 'Prénom/Nom' }
-              - { property: 'isDeleted', label: 'compte désactivé' }
+              - { property: 'isValid', label: 'compte désactivé' }
             form:
               fields:
               - { property: 'email', label: 'Email' }
@@ -104,7 +104,7 @@ easy_admin:
               - { property: 'profile', label: 'Prénom/Nom' }
               - { property: 'Email', label: 'Email' }
               - { property: 'type', label: 'Type' }
-              - { property: 'isDeleted', label: 'compte désactivé' }
+              - { property: 'isValid', label: 'compte désactivé' }
             form:
               fields:
               - { property: 'email', label: 'Email' }
