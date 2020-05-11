@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormView;
@@ -36,13 +37,8 @@ class RegistrationType extends AbstractType
              ->add('store', EntityType::class, [
 
                  'multiple'=>false,
-
-
-                 'attr' => [
-                    'placeholder' => 'Votre magasin Bureau Vallée le plus proche',
-
-                ],
-                'class' => Store::class,
+                 'placeholder' => 'Votre magasin Bureau Vallée le plus proche',
+                 'class' => Store::class,
                 'choice_label' =>'name'
 
             ])
@@ -59,7 +55,17 @@ class RegistrationType extends AbstractType
                      'placeholder' => 'Mot de passe',
                      'class'       =>'form-control'
                    ]
-               ]);
+               ])
+            ->add('acceptConditions', CheckboxType::class, [
+                'mapped'=>false,
+                'label'    => 'J\'accepte les Conditions Générales d\'Utilisation de la plateforme Beev\'Up et j\'accepte de recevoir des e-mails, SMS et notifications liées aux fonctions de la plateforme',
+                'required' => false,
+                'attr'  => [
+                   'class'       =>'accpet-condition'
+                ]
+            ]);
+        ;
+
     }
 
 

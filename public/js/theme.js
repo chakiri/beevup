@@ -417,7 +417,7 @@ $('body').on('click', '.edit-comment-btn', function () {
                                                 <button id ='comment-confirm-`+commentId+`' 
                                                         class="comment-confirm-update custom-btn" 
                                                         data-comment-id='`+commentId+`'>
-                                                        Actualiser
+                                                        Valider
                                                 </button>
                                                 </div>`);
 });
@@ -677,7 +677,16 @@ $('#display-opportunity-offer').click(function(){
         var postId = $(this).attr('data-post');
         $('#post-actions-'+postId).toggle();
     });
+    $('.accpet-condition').click(function () {
 
+        if ($(this).is(':checked')) {
+
+            $('#inscription-btn').removeAttr('disabled');
+
+        } else {
+            $('#inscription-btn').attr('disabled', true);
+        }
+    });
 
 })(jQuery);
 

@@ -8,6 +8,6 @@
     </div>
     <div class="info mt-3 ml-1">
         <p class="text-muted user-name">{{ app.user.profile.firstname|capitalize ?: 'Profil incomplet'}} {{ app.user.profile.lastname|capitalize }}</p>
-        <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profile</a>
+        <a class ="update-profile-link" href="{{ path('profile_edit', {'id': app.user.profile.id }) }}">Modifier mon profil</a>
     </div>
 </div>
