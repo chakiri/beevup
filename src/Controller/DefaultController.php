@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DashboardNotification;
 use App\Entity\PostLike;
 use App\Entity\User;
+use App\Repository\AbuseRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\OpportunityNotificationRepository;
 use App\Repository\RecommandationRepository;
@@ -33,12 +34,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));
         $lastSpecialOffer = $repository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
-        $posts = $postRepository->findBy([], array('createdAt' => 'DESC'));
+        $posts = $postRepository->findByNotReportedPosts();
         $currentUserStore = $storeRepo->findOneBy(['id'=>$this->getUser()->getStore()]);
         $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
         $OpportunityPostsIds = [''];
@@ -53,15 +54,25 @@ class DefaultController extends AbstractController
 
         $currentUser =$this->getUser();
         $likedPost = [];
+        $reportedPosts = [];
+        $reportedComment = [];
         $untreatedCompanyRecommandationsNumber = 0;
         $untreatedServiceRecommandationsNumber = 0;
         $companyRecommandations = [];
         foreach ($posts as $post){
             $result = $postLikeRepository->findOneByPostAndUser($currentUser, $post->getId());
+            $isReported = $abuseRepository->findOneBy(['post'=>$post->getId(), 'user'=>$this->getUser()]);
             if($result != null) {
-               array_push($likedPost, 1);
+                array_push($likedPost, 1);
             } else {
                 array_push($likedPost, 0);
+            }
+
+            // to check if the post is already reported by the current user
+            if($isReported != null) {
+                array_push($reportedPosts, 1);
+            } else {
+                array_push($reportedPosts, 0);
             }
             
         }
@@ -77,7 +88,16 @@ class DefaultController extends AbstractController
 
         $totalUntraitedRecommandation = $untreatedCompanyRecommandationsNumber + $untreatedServiceRecommandationsNumber;
         $postNumber = count($posts);
-        $comments = $CommentRepository->findBy([], []);
+        $comments = $CommentRepository->findByNotReportedComment();
+        foreach($comments as $comment)
+        {
+            $isReported = $abuseRepository->findOneBy(['comment'=>$comment->getId(), 'user'=>$this->getUser()]);
+            if($isReported != null) {
+                array_push($reportedComment, 1);
+            } else {
+                array_push($reportedComment, 0);
+            }
+        }
         $dashboardNotifications = $dashboardNotificationRepository->findByDistinctPostAndType($this->getUser());
         $notificationNumber = count($dashboardNotifications);
 
@@ -98,7 +118,9 @@ class DefaultController extends AbstractController
             'opportunityPostNb'  => $opportunityPostNb,
             'specialOfferNb'=>$specialOfferNb,
             'lastSpecialOffer'=>$lastSpecialOffer,
-            'adviser'=> $adviser
+            'adviser'=> $adviser,
+            'reportedPosts'=>$reportedPosts,
+            'reportedComments'=>$reportedComment
         ]);
     }
 }

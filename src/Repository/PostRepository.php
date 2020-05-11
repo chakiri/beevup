@@ -64,5 +64,16 @@ class PostRepository extends ServiceEntityRepository
 
 
     }
-   
+
+    public function findByNotReportedPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.status = 0')
+            ->orWhere('p.status IS NULL')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
 }

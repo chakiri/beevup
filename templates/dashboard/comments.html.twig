@@ -1,6 +1,6 @@
 <div id ="comments-section-{{post.id}}"  class="comments-section hidden">
   {% for comment in comments %}
-  {% if comment.post.id == post.id  and comment.status != 1 %} 
+  {% if comment.post.id == post.id %}
   <div id = "comment-id-{{comment.id}}"class="row user-comment">
       <div class="user-image col-1 padding-rf-2">
           <a  href="{{path('profile_show', { 'id': comment.user.profile.id}) }}">
@@ -49,8 +49,8 @@
               </button>
             
             {% endif %}
-            {% if app.user.id != comment.user.id %}
-               <button class="report-comment-abuse-btn" data-toggle="modal" data-comment="{{comment.id}}" data-target="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}">
+            {% if app.user.id != comment.user.id and reportedComments[loop.index - 1] == 0 %}
+               <button id = "report-comment-abuse-btn-{{ comment.id }}" class="report-comment-abuse-btn" data-toggle="modal" data-comment="{{comment.id}}" data-target="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}">
                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 </button>
                 {% endif %}

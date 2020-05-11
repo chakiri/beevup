@@ -5,7 +5,7 @@
 {% endif %}
 
 {% include 'default/boxes/store-box.html.twig' %}
-{% if adviser != null %}
+{% if adviser is defined and  adviser != null %}
 {% include 'default/boxes/adviser-box.html.twig' %}
 {% endif %}
 

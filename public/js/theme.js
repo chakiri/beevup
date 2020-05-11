@@ -487,7 +487,8 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
      url: url,
      data: data,
      success: function (data, dataType) {
-         $('.message').addClass('success-message ').append('Nous avons bien enregistré votre demande ');
+         $('.message').addClass('success-message ').append('Notre équipe traitera votre réclamation au plus vite.\n' +
+             'Merci pour votre aide et bonne journée');
        if(postId !=0) {
            setTimeout(function(){
                $('#modal-report-abuse-post-'+postId).modal('hide');
@@ -501,6 +502,7 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
                $('#modal-report-abuse-comment-'+commentId).modal('hide');
                $('.message').removeClass('success-message').empty();
                $('.abuse-description-'+commentId).val('');
+               $('#report-comment-abuse-btn-'+commentId).hide();
 
            },1500);
      }
@@ -675,7 +677,10 @@ $('#display-opportunity-offer').click(function(){
     });
     $('.post-action-icon').click(function(){
         var postId = $(this).attr('data-post');
-        $('#post-actions-'+postId).toggle();
+
+        if ( $( '#post-actions-'+postId ).length >= 1) {
+            $('#post-actions-' + postId).toggle();
+        }
     });
     $('.accpet-condition').click(function () {
 

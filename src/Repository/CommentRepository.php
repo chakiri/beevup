@@ -67,5 +67,13 @@ class CommentRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    
+    public function findByNotReportedComment()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.status = 0')
+            ->orWhere('c.status IS NULL')
+            ->getQuery()
+            ->getResult();
+
+    }
 }
