@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\AbuseRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\OpportunityNotificationRepository;
+use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
@@ -34,7 +35,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));
@@ -43,6 +44,7 @@ class DefaultController extends AbstractController
         $currentUserStore = $storeRepo->findOneBy(['id'=>$this->getUser()->getStore()]);
         $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
         $OpportunityPostsIds = [''];
+        $publicity =  $publicityRepo->findOneBy([],['createdAt'=>'DESC']);
 
 
          /****************************** opportunity notifications****/
@@ -120,7 +122,8 @@ class DefaultController extends AbstractController
             'lastSpecialOffer'=>$lastSpecialOffer,
             'adviser'=> $adviser,
             'reportedPosts'=>$reportedPosts,
-            'reportedComments'=>$reportedComment
+            'reportedComments'=>$reportedComment,
+            'publicity'=> $publicity
         ]);
     }
 }

@@ -6,6 +6,7 @@ easy_admin:
           - { entity: 'Store', icon: 'institution', permission: ['ROLE_ADMIN_STORE','ROLE_ADMIN_PLATEFORM']}
           - { entity: 'User', icon: 'user', permission: 'ROLE_ADMIN_PLATEFORM'}
           - { entity: 'UserStore', icon: 'user', permission: ['ROLE_ADMIN_STORE']}
+          - { entity: 'Publicity', icon: 'institution', permission: ['ROLE_ADMIN_PLATEFORM']}
         templates:
           layout: 'admin/layout.html.twig' # templates/layout.html.twig
          
@@ -57,6 +58,25 @@ easy_admin:
               - { property: 'phone', label: 'Téléphone' }
               - { type: 'group', columns: 6, label: 'Attachement', icon: 'phone'}
               - { property: 'imageFile', label: 'Photo du magasin', type: 'vich_image', upload_dir: 'public/images/company/' }
+        Publicity:
+            class: App\Entity\Publicity
+            label: 'Publicité'
+            new:
+               title:  'Ajouter publicité'
+            edit:
+               title:  'Modifier publicité'
+            list:
+               actions:
+                 - { name: 'new', label: 'Ajouter', icon: 'plus' }
+                 - { name: 'edit', icon: 'pencil', permission: 'ROLE_ADMIN_PLATEFORM' }
+                 - { name: 'delete', icon: 'close' , permission: 'ROLE_ADMIN_PLATEFORM'}
+               fields:
+                 - { property: 'link', label: 'URL'}
+                 - { property: 'filename', label: 'Image' }
+            form:
+               fields:
+                 - { property: 'link', label: 'URl' }
+                 - { property: 'imageFile', label: 'Image', type: 'vich_image', upload_dir: 'public/images/publicity/' }
         User:
             class: App\Entity\User
             controller: App\Controller\Admin\UserAdminController
