@@ -2577,3 +2577,6 @@ font-weight: bold;
 margin-bottom: 5px;
 font-size: 10px;
 }
+.pub-without-link img{
+  pointer-events: auto;
+}

@@ -8,6 +8,7 @@ parameters:
       profil_photo: '%kernel.project_dir%/public/images/profil/photo' 
       service_photo: '%kernel.project_dir%/public/images/service/photo'
       stores_images: '%kernel.project_dir%/public/images/stores'
+      publicity_images: '%kernel.project_dir%/public/images/publicity'
       mappings:
         entreprise_logos:
             uri_prefix:         /images/logos
@@ -25,7 +26,7 @@ parameters:
             uri_prefix:         /images/stores
             upload_destination: '%kernel.project_dir%/public/images/stores'
             namer: vich_uploader.namer_uniqid
-      
+
 
 services:
     # default configuration for services in *this* file
