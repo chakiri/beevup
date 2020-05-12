@@ -1,15 +1,15 @@
 <div class="box special-offer">
 <div class="box-title-container">
-    <p class="box-title">Offres dédiées à la communauté Beev'Up </p>
+    <p class="box-title">Offres dédiées<br> à la communauté Beev'Up </p>
 </div>
 <div class="last-special-offer">
-    <div class="avatar">
+
            {% if lastSpecialOffer.filename %}
             <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile') }}" class="img-fluid" alt="">
             {% else %}
                 <img src="/images/no-available-photo.png" class="img-fluid" alt="">
         {% endif %}
-    </div>
+
    <a class="specialOfferLink" href="{{ path('service_show',{'id':lastSpecialOffer.id}) }}">
       {{ lastSpecialOffer.title }}
    </a>
@@ -20,7 +20,9 @@
     </span>
     {% if is_granted('ROLE_ADMIN_COMPANY') %}
     <span class="user-action btn-radius ml-1">
-      <a class="user-link" href="{{ path('service_new') }}">Créer un offre </a>
+      <a class="user-link" href="{{ path('service_new_special_offer') }}">Créer un offre </a>
+        <p class="box-description">Proposez une offre dédiée à la communauté locale pour faire connaitre vos services et participer
+        au développement de la communauté.  Gagnez 40 points BeeV'Up</p>
     </span>
     {% endif %}
 </p>

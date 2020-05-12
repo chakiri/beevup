@@ -49,11 +49,13 @@
               </button>
             
             {% endif %}
-            {% if app.user.id != comment.user.id and reportedComments[loop.index - 1] == 0 %}
-               <button id = "report-comment-abuse-btn-{{ comment.id }}" class="report-comment-abuse-btn" data-toggle="modal" data-comment="{{comment.id}}" data-target="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                </button>
-                {% endif %}
+              {% if app.user.profile.isCompleted == true %}
+                    {% if app.user.id != comment.user.id and reportedComments[loop.index - 1] == 0 %}
+                       <button id = "report-comment-abuse-btn-{{ comment.id }}" class="report-comment-abuse-btn" data-toggle="modal" data-comment="{{comment.id}}" data-target="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </button>
+                        {% endif %}
+              {% endif %}
             </div>
             {% if app.user.id != comment.user.id %}
                  <!-- Modal to report abuse  -->

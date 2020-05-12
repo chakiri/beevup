@@ -115,18 +115,20 @@
 
               {% include 'dashboard/comments.html.twig' %}
          </div>
-      {% if (reportedPosts[loop.index - 1] == 0  or  post.user.id == app.user.id)  %}
-          <div class="col-1 dropdown">
-              <i class="fa fa-ellipsis-h post-action-icon" aria-hidden="true" data-toggle="dropdown" data-post="{{ post.id }}" aria-haspopup="true" aria-expanded="false"></i>
+          {% if app.user.profile.isCompleted == true %}
+              {% if (reportedPosts[loop.index - 1] == 0  or  post.user.id == app.user.id)  %}
+                   <div class="col-1 dropdown">
+                      <i class="fa fa-ellipsis-h post-action-icon" aria-hidden="true" data-toggle="dropdown" data-post="{{ post.id }}" aria-haspopup="true" aria-expanded="false"></i>
 
-              <div id="post-actions-{{ post.id }}" class="post-actions" aria-labelledby="dropdownMenuButton">
-                  {% include 'dashboard/post/post-delete.html.twig' %}
-                  {% if reportedPosts[loop.index - 1] == 0 %}
-                    {% include 'dashboard/post/post-report-abuse.html.twig' %}
-                  {% endif %}
-              </div>
-          </div>
-      {% endif %}
+                      <div id="post-actions-{{ post.id }}" class="post-actions" aria-labelledby="dropdownMenuButton">
+                          {% include 'dashboard/post/post-delete.html.twig' %}
+                         {% if reportedPosts[loop.index - 1] == 0 %}
+                            {% include 'dashboard/post/post-report-abuse.html.twig' %}
+                          {% endif %}
+                      </div>
+                  </div>
+              {% endif %}
+          {% endif %}
       </div>
       {% endif %}
   {% endfor %}

@@ -64,7 +64,7 @@ easy_admin:
             new:
                title:  'Ajouter publicité'
             edit:
-               title:  'Modifier publicité'
+               title:  'Modifier la publicité'
             list:
                actions:
                  - { name: 'new', label: 'Ajouter', icon: 'plus' }
