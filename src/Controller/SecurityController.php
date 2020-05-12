@@ -84,10 +84,6 @@ class SecurityController extends AbstractController
                     'text/html'
                 )
             ;
-
-
-            //Get all admin topics
-            $topics = $topicRepository->findBy(['type' => 'admin']);
             
             /* add admin topics to user */
             $topicHandler->addAdminTopicsToUser($user);
@@ -242,7 +238,7 @@ class SecurityController extends AbstractController
        $user = $userRepository->findOneBy(['resetToken' => $token]);
 
             if (!$user){
-                $this->addFlash('danger', 'le lien de confirmation a été expiré');
+                $this->addFlash('danger', 'le lien de confirmation a expiré');
                 return $this->redirectToRoute('security_login');
             }
 
