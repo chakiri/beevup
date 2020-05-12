@@ -104,7 +104,7 @@ easy_admin:
                   type: 'choice' 
                   type_options:
                      multiple: true
-                     choices: { 'Admin Platform': 'ROLE_ADMIN_PLATEFORM','Patron Magasin': 'ROLE_ADMIN_STORE', 'Administrateur entreprise': 'ROLE_ADMIN_COMPANY', 'utilisateur': 'ROLE_USER'}
+                     choices: { 'Admin platforme': 'ROLE_ADMIN_PLATEFORM','Admin Magasin': 'ROLE_ADMIN_STORE', 'Admin entreprise': 'ROLE_ADMIN_COMPANY', 'Utilisateur': 'ROLE_USER'}
               - { property: 'company', label: 'Entreprise' }
               - { property: 'store', label: 'Magasin' }
 
