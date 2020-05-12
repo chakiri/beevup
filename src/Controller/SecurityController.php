@@ -12,6 +12,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\TopicHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,7 +37,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode, CompanyRepository $companyRepo,  TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, TopicRepository $topicRepository, UserTypeRepository $userTypeRepository, UserRepository $userRepo, BarCode $barCode, CompanyRepository $companyRepo,   TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
     {
         $user = new User();
 
@@ -48,16 +49,16 @@ class SecurityController extends AbstractController
 
             /* insert company data*/
             $company = new Company();
-            $userType = $userTypeRepository->findOneBy(['name'=> 'admin']);
+            $userType = $userTypeRepository->findOneBy(['id'=> 3]);
             $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
             $company->setStore($user->getStore());
 
-            /*** generate bar code*/
+            /* generate bar code*/
             $companyId =  $companyRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
             $company->setBarCode($barCode->generate( $companyId));
-            /**end ******/
+            /* end ******/
 
             $manager->persist($company);
 
@@ -87,12 +88,14 @@ class SecurityController extends AbstractController
 
             //Get all admin topics
             $topics = $topicRepository->findBy(['type' => 'admin']);
-
-            foreach ($topics as $topic){
-                $user->addTopic($topic);
-            }
+            
+            /* add admin topics to user */
+            $topicHandler->addAdminTopicsToUser($user);
 
             $manager->persist($user);
+
+            /* add company topic to user */
+            $topicHandler->initCompanyTopic($company, $user);
 
             // new profile
             $profile = new Profile();

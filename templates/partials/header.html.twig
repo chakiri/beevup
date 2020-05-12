@@ -16,7 +16,9 @@ Header
                 <li class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li class="{{ route == 'search' ? 'active':'deactivate-link' }}"><a href="{{ path('search') }}">Communauté </a></li>
                 <li class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
-                <li class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general'}) }}">Chat</a></li>
+                <li class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}">
+                    <a href="{{ path('chat_topic', {'name': 'general'}) }}">Chat</a>
+                </li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>
                         <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon compte</a></li>

@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TopicTypeRepository")
  */
-class UserType
+class TopicType
 {
     /**
      * @ORM\Id()
@@ -36,9 +36,5 @@ class UserType
         $this->name = $name;
 
         return $this;
-    }
-    public function __toString()
-    {
-       return strval( $this->getName());
     }
 }

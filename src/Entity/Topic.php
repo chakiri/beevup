@@ -22,9 +22,10 @@ class Topic
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\TopicType")
      */
     private $type;
+
 
     public function getId(): ?int
     {
@@ -43,15 +44,16 @@ class Topic
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TopicType
     {
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    public function setType(?TopicType $type): self
     {
         $this->type = $type;
 
         return $this;
     }
+
 }
