@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use App\Repository\UserRepository;
+use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Repository\UserTypeRepository;
@@ -18,18 +19,21 @@ class UserStoreController extends EasyAdminController
     private $passwordEncoder;
     private $barCode;
     private $userRepo;
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo,  BarCode $barCode)
+    private $topicHandler;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo,  BarCode $barCode, TopicHandler $topicHandler)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->barCode = $barCode;
         $this->userRepo = $userRepo;
+        $this->topicHandler = $topicHandler;
     }
     
     public function persistUserStoreEntity($user)
     {
         $currentUser = $this->getUser();
         $user->setStore($currentUser->getStore());
-        
+
         if($currentUser->getCompany()!= null )
         {
             $user->setCompany($currentUser->getCompany());
@@ -43,9 +47,12 @@ class UserStoreController extends EasyAdminController
             $user->setRoles(['ROLE_USER']);
         }
 
+        /* add store topic to user */
+        $this->topicHandler->initStoreTopic($user->getStore(), $user);
       
         $this->updatePassword($user);
         parent::persistEntity($user);
+
         $profile = new Profile();
         $profile->setUser($user);
         parent::persistEntity($profile);
@@ -59,8 +66,6 @@ class UserStoreController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
-
-
 
         $this->updatePassword($user);
         parent::updateEntity($user);

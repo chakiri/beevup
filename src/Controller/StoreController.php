@@ -35,7 +35,7 @@ class StoreController extends AbstractController
     {
         $users =  $userRepository->findByStore($store);
         $companies = $companyRepository->findBy(['store'=> $store, 'isCompleted'=>true]);
-        $usersType = $userTypeRepository->findBy(['name'=>array('admin_magasin', 'conseiller_magasin', 'patron_magasin')]);
+        $usersType = $userTypeRepository->findBy(['id'=>array(1,2,4)]);
         $storeUsers =$userRepository->findBy(['store'=> $store, 'type'=> $usersType]);
 
         $services = $serviceRepository->findBy(['user'=>$storeUsers]);

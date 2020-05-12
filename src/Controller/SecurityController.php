@@ -45,7 +45,7 @@ class SecurityController extends AbstractController
             
             /* insert company data*/
             $company = new Company();
-            $userType = $userTypeRepository->findOneBy(['name'=> 'admin_entreprise']);
+            $userType = $userTypeRepository->findOneBy(['id'=> 3]);
             $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());

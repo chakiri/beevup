@@ -25,8 +25,15 @@ class WebsocketController extends AbstractController
     public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository, EmptyNotification $emptyNotification)
     {
         //Verification passing bad subject to url
-        if (!$topic && !$user){
-            return $this->redirectToRoute('home');
+        if (!$topic && !$user) return $this->redirectToRoute('home');
+
+        //If profile is incomplete
+        if ($this->getUser()->getProfile()->getIsCompleted() == false){
+            $this->addFlash('warning', 'Veuillez completer votre profil pour accéder au chat !');
+
+            return $this->redirectToRoute('profile_edit', [
+                'id' => $this->getUser()->getProfile()->getId()
+            ]);
         }
 
         if ($request->get('_route') == 'chat_private'){

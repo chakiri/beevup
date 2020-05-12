@@ -35,7 +35,7 @@ class UserEntrepriseController extends EasyAdminController
     public function persistUserEntrepriseEntity($user)
     {
         $currentUser = $this->getUser();
-        $type = $this->userTypeRepo->findOneBy(['name'=> 'collaborateur_entreprise']);
+        $type = $this->userTypeRepo->findOneBy(['id'=> 6]);
         $user->setStore($currentUser->getStore());
         if($currentUser->getCompany()!= null )
         {
@@ -48,6 +48,10 @@ class UserEntrepriseController extends EasyAdminController
         $this->updatePassword($user);
         parent::persistEntity($user);
 
+        $profile = new Profile();
+        $profile->setUser($user);
+        parent::persistEntity($profile);
+
         /* add admin topics to user */
         $this->topicHandler->addAdminTopicsToUser($user);
 
@@ -56,10 +60,6 @@ class UserEntrepriseController extends EasyAdminController
 
         /* add category company topic to user */
         $this->topicHandler->initCategoryCompanyTopic($currentUser->getCompany()->getCategory(), $user);
-
-        $profile = new Profile();
-        $profile->setUser($user);
-        parent::persistEntity($profile);
    }
 
     public function updateUserEntrepriseEntity($user)

@@ -6,7 +6,9 @@ use App\Repository\ProfilRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
-use App\Repository\UserRepository;use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use App\Service\TopicHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,10 +52,10 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile, EntityManagerInterface $manager, Request $request, $id)
+    public function form(Profile $profile, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler)
     {
 
-        if($id == $this->getUser()->getProfile()->getId()) {
+        if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
             $form->handleRequest($request);
 
@@ -63,6 +65,10 @@ class ProfileController extends AbstractController
 
                 $manager->persist($profile);
                 $manager->flush();
+
+                /* Add topic function to user type 2 */
+                if ($profile->getUser()->getType()->getId() == 2)
+                    $topicHandler->initFunctionStoreTopic($profile->getUser());
 
                 return $this->redirectToRoute('profile_show', [
                     'id' => $profile->getId()

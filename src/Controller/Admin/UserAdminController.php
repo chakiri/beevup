@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
@@ -18,13 +19,15 @@ class UserAdminController extends EasyAdminController
     private $userTypeRepo;
     private $barCode;
     private $userRepo;
+    private $topicHandler;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode, TopicHandler $topicHandler)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
         $this->barCode = $barCode;
         $this->userRepo = $userRepo;
+        $this->topicHandler = $topicHandler;
     }
     
     public function persistUserEntity($user)
@@ -33,29 +36,43 @@ class UserAdminController extends EasyAdminController
         $this->updatePassword($user);
         $userRoles = $user->getRoles();
 
-
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
-            $type = $this->userTypeRepo->findOneBy(['name'=> 'patron_magasin']);
+            $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
+
+            /* add store topic to user */
+            $this->topicHandler->initStoreTopic($user->getStore(), $user);
+
+            /* add admin store topic to user */
+            $this->topicHandler->initAdminStoreTopic($user);
         }
         if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
-            $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_entreprise']);
+            $type = $this->userTypeRepo->findOneBy(['id'=> 3]);
             $user->setType($type);
+
+            /* add admin topics to user */
+            $this->topicHandler->addAdminTopicsToUser($user);
+
+            /* add company topic to user */
+            $this->topicHandler->initCompanyTopic($user->getCompany(), $user);
+
+            /* add category company topic to user */
+            $this->topicHandler->initCategoryCompanyTopic($user->getCompany()->getCategory(), $user);
 
         }
         if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
-            $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_platforme']);
+            $type = $this->userTypeRepo->findOneBy(['id'=> 5]);
             $user->setType($type);
 
         }
         if(in_array('ROLE_USER', $userRoles)){
             if($user->getCompany()!= null)
             {
-                $type = $this->userTypeRepo->findOneBy(['name'=> 'collaborateur_entreprise']);
+                $type = $this->userTypeRepo->findOneBy(['id'=> 6]);
             }
             else{
-                $type = $this->userTypeRepo->findOneBy(['name'=> 'conseiller_magasin']);
+                $type = $this->userTypeRepo->findOneBy(['id'=> 2]);
             }
 
             $user->setType($type);
@@ -82,16 +99,16 @@ class UserAdminController extends EasyAdminController
         $userRoles = array_unique($user->getRoles());
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
-            $type = $this->userTypeRepo->findOneBy(['name'=> 'patron_magasin']);
+            $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
         }
          if(in_array('ROLE_ADMIN_COMPANY', $userRoles)) {
-            $type = $this->userTypeRepo->findOneBy(['name' => 'admin_entreprise']);
+            $type = $this->userTypeRepo->findOneBy(['id' => 3]);
             $user->setType($type);
          }
 
          if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
-                $type = $this->userTypeRepo->findOneBy(['name'=> 'admin_platforme'], []);
+                $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
                 $user->setType($type);
          }
 

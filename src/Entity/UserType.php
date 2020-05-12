@@ -39,7 +39,6 @@ class UserType
     }
     public function __toString()
     {
-       return strval( str_replace("_", " ", $this->getName()) );
-
+       return strval( $this->getName());
     }
 }

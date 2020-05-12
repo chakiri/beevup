@@ -17,7 +17,7 @@ Header
                 <li class="{{ route == 'search' ? 'active':'deactivate-link' }}"><a href="{{ path('search') }}">Communauté </a></li>
                 <li class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
                 <li class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}">
-                    <a {% if app.user.profile.isCompleted == false %} href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" {% else %}href="{{ path('chat_topic', {'name': 'general'}) }}" {% endif %}>Chat</a>
+                    <a href="{{ path('chat_topic', {'name': 'general'}) }}">Chat</a>
                 </li>
                 <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
                     <ul>

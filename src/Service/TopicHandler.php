@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Company;
 use App\Entity\CompanyCategory;
+use App\Entity\Store;
 use App\Entity\Topic;
 use App\Entity\TopicType;
 use App\Entity\User;
@@ -51,6 +52,21 @@ class TopicHandler
     public function initCompanyTopic(Company $company, User $user): void
     {
         $this->init('company', $company->getSlug(), $user);
+    }
+
+    public function initAdminStoreTopic(User $user): void
+    {
+        $this->init('admin_store', 'franchisé', $user);
+    }
+
+    public function initStoreTopic(Store $store, User $user): void
+    {
+        $this->init('function', $store->getSlug(), $user);
+    }
+
+    public function initFunctionStoreTopic(User $user): void
+    {
+        $this->init('store', $user->getProfile()->getFunction()->getSlug(), $user);
     }
 
     protected function init(String $typeName, String $topicName, ?User $user = null): void
