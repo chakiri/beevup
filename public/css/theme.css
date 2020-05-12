@@ -2580,3 +2580,8 @@ font-size: 10px;
 .pub-without-link img{
   pointer-events: auto;
 }
+.box-description{
+  font-size:12px;
+  margin-top:10PX;
+  color:#000;
+}
