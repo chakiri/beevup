@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Intl\Intl;
+
 
 class StoreController extends AbstractController
 {
@@ -45,7 +47,8 @@ class StoreController extends AbstractController
             'store' => $store,
             'users' => $users,
             'companies' =>$companies,
-            'services' =>$services
+            'services' =>$services,
+
         ]);
     }
 
