@@ -93,15 +93,16 @@
                             <p class="text-muted">Aucun service pour l'instant</p>
                         {% endif %}
 
+                        {% if countServices > 0 %}
+                            <div class="row">
+                                <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
 
-                        <div class="row">
-                            <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
-
-                                <a href="{{ path('service_company', {'company': company.id}) }}" type="button" class="text-white">
-                                    Voir tous les services de {{ company.name|capitalize }}
-                                </a>
-                            </button>
-                        </div>
+                                    <a href="{{ path('service_company', {'company': company.id}) }}" type="button" class="text-white">
+                                        Voir tous les services de {{ company.name|capitalize }}
+                                    </a>
+                                </button>
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="box">

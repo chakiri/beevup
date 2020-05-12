@@ -15,21 +15,9 @@
                            <img src="{{ vich_uploader_asset(store, 'imageFile') }}" class="img-fluid" alt="{{ store.name }}">
                         {% endif %}
                     </div>
-                    <div class="box company-informations">
-                        <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ store.email }}</p>
-                        <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ store.phone }}</p>
-                        <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</p>
+                    {%  include 'default/boxes/store-box.html.twig'  %}
 
 
-
-                        {% if app.user.store.id == store.id and (is_granted('ROLE_PATRON') or is_granted('ROLE_ADMIN_STORE')) %}
-                        <a href="{{ path('store_edit', {'id': store.id}) }}">Editer mon magasin</a>
-                        {% endif %}
-                    </div>
-                    <div class="box">
-                        <h4>Carte</h4>
-                        <p class="lead">Map non disponible actuellement</p>
-                    </div>
                 </div>
                 <div class="col-lg-8 col-md-12">
                     <div class="box">
@@ -38,7 +26,7 @@
                         <p class="company-description">{{ store.description }}</p>
                     </div>
                     <div class="col-12">
-                        <h4>Contacts</h4>
+                        <h4>Notre équipe pour vous servir</h4>
                     </div>
                     <div class="row">
                         {% if users is defined %}
@@ -80,7 +68,7 @@
                     </div>
                     <div class="row col-12">
                         <div class="col-12">
-                            <h4>Mes services</h4>
+                            <h4>Les services proposés par votre magasin Bureau Vallée</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -124,12 +112,14 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% if companies is defined %}
                     <div class="row col-12">
                         <div class="col-12">
                             <h4>Ils nous font confiance</h4>
 
                         </div>
                     </div>
+                    {% endif %}
                     <div class="row">
 
                         {% if companies is defined %}
