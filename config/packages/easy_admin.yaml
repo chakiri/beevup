@@ -35,7 +35,7 @@ easy_admin:
               - { property: 'name', label: 'Nom' }
               - { property: 'email', label: 'Email' }
               - { property: 'phone', label: 'Téléphone' }
-              - { property: 'country', label: 'Pays' }
+              - { property: 'country', label: 'Pays' , type: 'country' }
               - { property: 'city', label: 'Ville' }
             form:
               fields:
@@ -44,13 +44,13 @@ easy_admin:
               - { property: 'name', label: 'Nom' }
               - { property: 'introduction', label: 'Introduction', type: 'textarea'}
               - { property: 'description', label: 'Description', type: 'textarea' }
-              - { property: 'slug', label: 'slug' }
+              - { property: 'slug', label: 'slug (URL conviviale)' }
               - { type: 'group', label: 'Adresse', icon: 'map-marker', columns: 6 }
               - { property: 'address_number', label: 'Numéro Adresse', type: 'text' }
               - { property: 'address_street', label: 'Rue', type: 'text'  }
               - { property: 'address_post_code', label: 'Code postale', type: 'text'  }
+              - { property: 'country', label: 'Pays' , type: 'country'}
               - { property: 'city', label: 'Ville' }
-              - { property: 'country', label: 'Pays' }
               - { property: 'latitude', label: 'Latitude' }
               - { property: 'longitude', label: 'Longitude' }
               - { type: 'group', columns: 6, label: 'Contact', icon: 'phone'}

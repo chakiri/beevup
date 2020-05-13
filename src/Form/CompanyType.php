@@ -73,8 +73,8 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('country', CountryType::class, [
+                'placeholder' => 'Sélectionnez votre pays',
                 'attr'  => [
-                    'placeholder' => 'Pays',
                     'class'       =>'form-control'
                 ]
             ])
