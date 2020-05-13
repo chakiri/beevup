@@ -20,7 +20,6 @@ class PostLikesController extends AbstractController
     public function show(PostLikeRepository $postLikesRepository, PostRepository $postReporsitory, $id)
     {
         $postLikes = new PostLike();
-        //$recommandations = $recommandationRepository->findBy(['company' => $company->getId(), 'status'=>'Validated'], []);
         $post = $postReporsitory->findOneBy(['id' => $id]);
         $postLikes = $postLikesRepository->findBy(['post' => $post->getId()], []);
         return $this->render('postLikes/show.html.twig', [

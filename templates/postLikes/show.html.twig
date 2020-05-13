@@ -8,10 +8,10 @@
    {% for Like in postLikes %} 
    <div class="row post-likes-list">
      <div class="col-1">
-      {% if Like.user.profile.photo is empty %}
+      {% if Like.user.profile.filename is empty %}
           <img class="media-object photo-profile" 
           style="float:left" 
-          src="/images/default_user.png"
+          src="/images/default/user.png"
           width="32" 
           height="32" 
           alt="...">
@@ -19,7 +19,7 @@
       {% else %}
           <img class="media-object photo-profile" 
           style="float:left" 
-          src="/images/profil/photo/{{Like.user.profile.photo}}" 
+          src="/images/profiles/{{Like.user.profile.filename}}"
           width="32" 
           height="32" 
           alt="...">
@@ -31,8 +31,12 @@
             {{Like.user.profile.firstname|capitalize}} {{Like.user.profile.lastname|capitalize}}
         </a>
         </p>
-        <p class="post-likes"><a class="link-to-company"  href="{{path('company_show', { 'slug': Like.user.company.slug}) }}">{{Like.user.company.name|capitalize}}</a> </p>
-        
+          {% if Like.user.company %}
+             <p class="post-likes"><a class="link-to-company"  href="{{path('company_show', { 'slug': Like.user.company.slug}) }}">{{Like.user.company.name|capitalize}}</a> </p>
+         {% else %}
+             <p class="post-likes"><a class="link-to-company"  href="{{path('store_show', { 'slug': Like.user.store.slug}) }}">{{Like.user.store.name|capitalize}}</a> </p>
+
+          {% endif %}
       
       </div> 
   </div>  
