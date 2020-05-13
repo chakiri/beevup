@@ -58,8 +58,7 @@ class StoreController extends AbstractController
      */
     public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id)
     {
-        
-        if($id == $this->getUser()->getStore()->getId() && $this->getUser()->getType()->getId() == 4) {
+       if($id == $this->getUser()->getStore()->getId() &&( $this->getUser()->getType()->getId() == 4 || $this->getUser()->getType()->getId() == 1)) {
 
             if (!$store) {
                 $store = new Store();

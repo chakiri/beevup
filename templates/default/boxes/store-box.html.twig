@@ -11,9 +11,9 @@
         <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>
             {{ store.city }}  {{ store.country|country_name }}
         </p>
-        {% if is_granted('ROLE_ADMIN_PLATEFORM') %}
+        {% if is_granted('ROLE_ADMIN_STORE') %}
         <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
-            <a href="{{ path('store_show', {'slug': store.slug}) }}">Voir la fiche magasin</a>
+            <a href="{{ path('store_edit', {'id': store.id}) }}">Modifier les informations du magasin</a>
         </p>
         {% endif %}
 
