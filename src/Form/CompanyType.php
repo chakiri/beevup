@@ -48,7 +48,7 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('addressNumber', IntegerType::class, [
+            ->add('addressNumber', TextType::class, [
                 'attr'  => [
                     'placeholder' => 'Numéro adresse',
                     'class'       =>'form-control'

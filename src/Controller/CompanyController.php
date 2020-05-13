@@ -38,7 +38,7 @@ class CompanyController extends AbstractController
     {
         $recommandations = $recommandationRepository->findBy(['company' => $company, 'status'=>'Validated']);
         $users = $userRepo->findBy(['company' => $company]);
-
+        $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
         $score = 0;
         foreach ($users as $user){
             if ($user->getScore()) $score += $user->getScore()->getPoints();
@@ -52,7 +52,8 @@ class CompanyController extends AbstractController
             'users' => $users,
             'countServices' => count($services),
             'services' => array_slice($services, 0, 3),
-            'score' => $score
+            'score' => $score,
+            'adviser'=>$adviser
         ]);
     }
 

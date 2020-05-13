@@ -40,7 +40,7 @@ class Company
     private $phone;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $addressNumber;
 
@@ -225,12 +225,12 @@ class Company
         return $this;
     }
 
-    public function getAddressNumber(): ?int
+    public function getAddressNumber(): ?string
     {
         return $this->addressNumber;
     }
 
-    public function setAddressNumber(int $addressNumber): self
+    public function setAddressNumber(string $addressNumber): self
     {
         $this->addressNumber = $addressNumber;
 

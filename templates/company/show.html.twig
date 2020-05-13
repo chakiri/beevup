@@ -32,11 +32,9 @@
                             <a href="{{ path('company_edit', {'id': company.id}) }}" ><i class="fa fa-pencil margin-r-10" aria-hidden="true"></i>Modifier mon entreprise</a>
                         {% endif %}
                     </div>
+                   {% include 'default/boxes/store-box.html.twig' %}
+                    {% include 'default/boxes/adviser-box.html.twig' %}
 
-                    <div class="box store-informations">
-                        <h4>Mon magasin Bureau Vallée</h4>
-                        <p>{{ company.store.introduction ?: 'Pas d\'introduction'}}</p>
-                    </div>
                 </div>
 
                 <div class="col-lg-8 col-md-12">
@@ -67,7 +65,7 @@
                     </div>
 
                     <div class="box">
-                        <h4 class="mb-4">{{ countServices }} Services Bureau Vallée</h4>
+                        <h4 class="mb-4">{{ company.name }} vous propose les services suivants</h4>
                         {% if services %}
                             <div class="row">
                                 {% for service in services %}
@@ -90,7 +88,11 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <p class="text-muted">Aucun service pour l'instant</p>
+
+                            <div class="company-recommandation">
+                                {%  set emptyData = 'Aucun service pour l\'instant' %}
+                                {%  include 'default/no-data.html.twig'  %}
+                            </div>
                         {% endif %}
 
                         {% if countServices > 0 %}
