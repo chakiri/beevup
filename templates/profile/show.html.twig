@@ -23,9 +23,10 @@
                                         {% if profile.function %}
                                             <p><strong>{{ profile.function.name|capitalize}}</strong></p>
                                         {% endif %}
-                                        <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|capitalize }}</p>
+                                        <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|country_name  }}</p>
                                         <p><i class="fa fa-phone"></i>  {{ profile.phoneNumber ?: 'non saisi' }}</p>
                                     </div>
+                                    {#
                                     <ul class="info-list">
                                         <li class="main">
                                             <span class="info-title">Score BV</span>
@@ -41,6 +42,7 @@
                                             <span><strong>{{ countServices }}</strong> Services crées</span>
                                         </li>
                                     </ul>
+                                    #}
                                 </div>
                                 <div class="col-4 text-right">
                                     {% if profile.user == app.user  %}
@@ -61,7 +63,7 @@
                                                 Ajouter aux favoris
                                             {% endif %}
                                         </a>
-                                        <a href="{{ path('chat_private', {'id': app.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3">Chater avec {{ profile.firstname|capitalize }}</a>
+                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3">Chater avec {{ profile.firstname|capitalize }}</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -91,9 +93,21 @@
                     {% endif %}
                      {% if profile.user.company %}
                         <div class="box">
-                            <h4>{{ profile.user.company.name }}</h4>
+                            <h4>
+                                {% if profile.user.company %}
+                                  {{ profile.firstname }} travaille chez
+                                {% endif %}
+                                {{ profile.user.company.name }}
+                            </h4>
                             <p class="text-muted">{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }}</p>
-                            <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" type="button" class="btn btn-md btn-2 full-width">Voir plus d'information</a>
+                            <div class="row">
+                                <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
+
+                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" type="button" class="text-white">
+                                        Voir l'entreprise {{ profile.user.company.name }}
+                                    </a>
+                                </button>
+                            </div>
                         </div>
                     {% endif %}
 
