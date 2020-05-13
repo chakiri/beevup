@@ -27,9 +27,9 @@ class PostType extends AbstractType
             ->add('category', ChoiceType::class, [
                 'label'=>'Catégorie',
                 'choices'  => [
-                    'Informations' => 'Informations',
-                    'Opportunité commerciale' => 'Opportunities',
-                    'Offres d’emplois' => 'Emploi',
+                    'Informations' => 'information',
+                    'Opportunité commerciale' => 'opportunite',
+                    'Offres d’emplois' => 'emploi',
                 ],
                 ])
                

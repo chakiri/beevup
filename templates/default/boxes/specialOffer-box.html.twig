@@ -16,11 +16,11 @@
 </div>
 <p class="company-tel mt-2 text-center">
    <span class="user-action btn-radius">
-      <a class="user-link mvp-st-btn" href="{{ path('service_discovery') }}">Voir tous les offres</a>
+      <a class="user-link mvp-st-btn" href="{{ path('service_discovery') }}">Voir toutes les offres</a>
     </span>
     {% if is_granted('ROLE_ADMIN_COMPANY') %}
     <span class="user-action btn-radius ml-1">
-      <a class="user-link" href="{{ path('service_new_special_offer') }}">Créer un offre </a>
+      <a class="user-link" href="{{ path('service_new', {'isOffer': true}) }}">Créer une offre </a>
         <p class="box-description">Proposez une offre dédiée à la communauté locale pour faire connaitre vos services et participer
         au développement de la communauté.  Gagnez 40 points BeeV'Up</p>
     </span>

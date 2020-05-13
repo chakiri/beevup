@@ -13,7 +13,7 @@ use App\Entity\Score;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class HandleScore
+class ScoreHandler
 {
     private $manager;
 
@@ -22,7 +22,7 @@ class HandleScore
         $this->manager = $manager;
     }
 
-    public function handle(User $user, Int $pts)
+    public function add(User $user, Int $pts): void
     {
         $score = $user->getScore() ?: new Score();
 
@@ -33,7 +33,9 @@ class HandleScore
 
         $user->setScore($score);
 
+
         $this->manager->persist($score);
         $this->manager->persist($user);
+
     }
 }

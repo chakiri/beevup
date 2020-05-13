@@ -6,6 +6,7 @@ use App\Entity\DashboardNotification;
 use App\Entity\Post;
 use App\Entity\PostLike;
 use App\Repository\OpportunityNotificationRepository;
+use App\Service\ScoreHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,23 +28,36 @@ class PostController extends AbstractController
    /**
      * @Route("/post/create", name="post_create")
      */
-    public function create(Request $request, EntityManagerInterface $manager){
+    public function create(Request $request, EntityManagerInterface $manager, ScoreHandler $scoreHandler){
       $post = new Post();
       $post->setUser($this->getUser());
       $form = $this->createForm(PostType::class, $post);
       $form->handleRequest($request);
       if ($form->isSubmitted() && $form->isValid()) {
 
+          $optionsRedirect = [];
+          if ($post->getCategory() == 'opportunite'){
+              $nbPoints = 30;
+              $scoreHandler->add($this->getUser(), $nbPoints);
+              $optionsRedirect = ['toastScore' => $nbPoints];
+          }elseif ($post->getCategory() == 'emploi'){
+              $nbPoints = 20;
+              $scoreHandler->add($this->getUser(), $nbPoints);
+              $optionsRedirect = ['toastScore' => $nbPoints];
+          }
+
           $manager->persist($post);
           $manager->flush();
-          $this->addFlash('success', 'Le post a bien été publié. !');
-          return $this->redirectToRoute('dashboard', [
-             'id' => $post->getId()
-          ]);
+
+          $this->addFlash('success', 'Le post a bien été publié !');
+
+          //Get all options redirect in array
+          $optionsRedirect = array_merge($optionsRedirect, ['id' => $post->getId()]);
+
+          return $this->redirectToRoute('dashboard', $optionsRedirect);
       }
       return $this->render('post/create.html.twig', [
           'PostForm' => $form->createView(),
-         
       ]);
   }
 
