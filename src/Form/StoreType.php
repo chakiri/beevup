@@ -88,6 +88,7 @@ class StoreType extends AbstractType
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Pays',
+                'placeholder' => 'Sélectionnez votre pays',
                 'attr'  => [
                     'placeholder' => 'Pays',
                     'class'       =>'form-control'
