@@ -28,10 +28,6 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $specialOffer = $options['special_offer'];
-
-
-
         $builder
             ->add('title', TextType::class, [
                 'label'    => 'Titre',
@@ -78,7 +74,7 @@ class ServiceType extends AbstractType
                 'label'    => 'Proposer une offre spéciale',
                 'attr'     => [
                     'class' => 'custom-control custom-switch',
-                    'checked'=> $specialOffer
+                    'checked'=> $options['isOffer']
                 ],
             ])
             ->add('discoveryContent', TextareaType::class, [
@@ -149,7 +145,7 @@ class ServiceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Service::class,
-            'special_offer' => Service::class,
+            'isOffer' => null,
         ]);
     }
 }

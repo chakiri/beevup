@@ -197,6 +197,14 @@ section{
     border: none;
 }
 
+/* Toast */
+.toast {
+    position: absolute;
+    top: 5.5em;
+    right: 0;
+    z-index: 1;
+}
+
 /*Profile */
 .main-info{
     height: 100%;

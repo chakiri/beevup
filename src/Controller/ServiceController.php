@@ -12,7 +12,7 @@ use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
-use App\Service\HandleScore;
+use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -135,31 +135,24 @@ class ServiceController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/service/{id}/edit", name="service_edit")
-     * @Route("/service/new/special-offer", name="service_new_special_offer")
-     * @Route("/service/new", name="service_new")
+     * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, HandleScore $handleScore)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler)
     {
-        $specialOffer = false;
         if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
             }
-
         }
 
-        if ($request->get('_route') == 'service_new_special_offer' ){
-            $specialOffer = true;
-        }
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();
             $message = "Votre Service a bien été crée !";
             $service->setUser($this->getUser());
         }
-        $form = $this->createForm(ServiceType::class, $service, array('special_offer'=>$specialOffer));
+        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
@@ -169,24 +162,30 @@ class ServiceController extends AbstractController
 
             $serviceSetting->setToParent($service);
 
+            $optionsRedirect = [];
             //Add score to user if creation
-            if ($service->getIsDiscovery())
-                if (!$service->getId()) $handleScore->handle($this->getUser(), 20);
+            if ($service->getIsDiscovery()){
+                $nbPoints = 20;
+                if (!$service->getId()){
+                    $scoreHandler->add($this->getUser(), $nbPoints);
+                    $optionsRedirect = ['toastScore' => $nbPoints];
+                }
+            }
 
             $manager->persist($service);
             $manager->flush();
 
+            //Merge score option to options array
+            $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
+
             $this->addFlash('success', $message);
 
-            return $this->redirectToRoute('service_show', [
-                'id' => $service->getId()
-            ]);
+            return $this->redirectToRoute('service_show', $optionsRedirect);
         }
         return $this->render('service/form.html.twig', [
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => $service->getId() != null,
-            'specialOffer'=>$specialOffer
         ]);
     }
 
