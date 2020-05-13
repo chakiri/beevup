@@ -200,9 +200,14 @@ section{
 /* Toast */
 .toast {
     position: absolute;
-    top: 5.5em;
-    right: 0;
+    background-color: #222222;
+    color: white;
+    top: 6.5em;
+    right: 1em;
     z-index: 1;
+}.toast .toast-header{
+     background-color: #222222;
+     color: white;
 }
 
 /*Profile */

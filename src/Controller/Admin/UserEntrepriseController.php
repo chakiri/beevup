@@ -54,10 +54,8 @@ class UserEntrepriseController extends EasyAdminController
 
         /* add admin topics to user */
         $this->topicHandler->addAdminTopicsToUser($user);
-
         /* add company topic to user */
         $this->topicHandler->initCompanyTopic($currentUser->getCompany(), $user);
-
         /* add category company topic to user */
         $this->topicHandler->initCategoryCompanyTopic($currentUser->getCompany()->getCategory(), $user);
    }

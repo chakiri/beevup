@@ -47,6 +47,8 @@ class UserStoreController extends EasyAdminController
             $user->setRoles(['ROLE_USER']);
         }
 
+        /* add admin topics to user */
+        $this->topicHandler->addAdminTopicsToUser($user);
         /* add store topic to user */
         $this->topicHandler->initStoreTopic($user->getStore(), $user);
       

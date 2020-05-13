@@ -41,9 +41,10 @@ class UserAdminController extends EasyAdminController
             $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
 
+            /* add admin topics to user */
+            $this->topicHandler->addAdminTopicsToUser($user);
             /* add store topic to user */
             $this->topicHandler->initStoreTopic($user->getStore(), $user);
-
             /* add admin store topic to user */
             $this->topicHandler->initAdminStoreTopic($user);
         }
@@ -53,10 +54,8 @@ class UserAdminController extends EasyAdminController
 
             /* add admin topics to user */
             $this->topicHandler->addAdminTopicsToUser($user);
-
             /* add company topic to user */
             $this->topicHandler->initCompanyTopic($user->getCompany(), $user);
-
             /* add category company topic to user */
             $this->topicHandler->initCategoryCompanyTopic($user->getCompany()->getCategory(), $user);
 
