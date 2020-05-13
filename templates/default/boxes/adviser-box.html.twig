@@ -13,7 +13,7 @@
         {% endif %}
     </div>
     <div class="info mt-3">
-        <p class="text-muted user-name">{{ adviser.profile.lastname|capitalize ?: 'Profil incomplet'}} {{ adviser.profile.firstname|capitalize }}</p>
+        <p class="text-muted user-name">{{ adviser.profile.firstname|capitalize ?: 'Profil incomplet'}} {{ adviser.profile.lastname|capitalize }}</p>
         <p class="user-contact">
             <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter</a></span>
             <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': adviser.profile.id}) }}">Voir fiche</a></span>
