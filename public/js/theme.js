@@ -457,7 +457,7 @@ $('.report-abuse-btn').click(function(e){
   var url = $(this).attr('data-target') ;
   
   $.get(url, function (data) {
-    
+    //$('#abuse-post-btn-'+postId).toggle();
     $('#modal-report-abuse-post-content-'+postId).html(data);
     $('#modal-report-abuse-post-'+postId).modal();
    });
@@ -481,34 +481,37 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
   description =$('.abuse-description-'+commentId).val();
  }
  var data = {description : description};
+if(description != '') {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function (data, dataType) {
+            $('.message').addClass('success-message ').append('Notre équipe traitera votre réclamation au plus vite.\n' +
+                'Merci pour votre aide et bonne journée');
+            if (postId != 0) {
+                setTimeout(function () {
+                    $('#modal-report-abuse-post-' + postId).modal('hide');
+                    $('.message').removeClass('success-message').empty();
+                    $('.abuse-description-' + postId).val('');
+                    $('#abuse-post-btn-'+ postId).hide();
 
- $.ajax({
-     type: "POST",
-     url: url,
-     data: data,
-     success: function (data, dataType) {
-         $('.message').addClass('success-message ').append('Notre équipe traitera votre réclamation au plus vite.\n' +
-             'Merci pour votre aide et bonne journée');
-       if(postId !=0) {
-           setTimeout(function(){
-               $('#modal-report-abuse-post-'+postId).modal('hide');
-               $('.message').removeClass('success-message').empty();
-               $('.abuse-description-'+postId).val('');
+                }, 1500);
+                //
+            } else {
+                setTimeout(function () {
+                    $('#modal-report-abuse-comment-' + commentId).modal('hide');
+                    $('.message').removeClass('success-message').empty();
+                    $('.abuse-description-' + commentId).val('');
+                    $('#report-comment-abuse-btn-' + commentId).hide();
+                    
 
-           },1500);
-    //
-      } else {
-           setTimeout(function(){
-               $('#modal-report-abuse-comment-'+commentId).modal('hide');
-               $('.message').removeClass('success-message').empty();
-               $('.abuse-description-'+commentId).val('');
-               $('#report-comment-abuse-btn-'+commentId).hide();
+                }, 1500);
+            }
 
-           },1500);
-     }
-
-     }
- });
+        }
+    });
+}
 })
 
 $('.report-comment-abuse-btn').click(function(e){

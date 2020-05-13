@@ -47,7 +47,7 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByNotSeenOpportunityPost($value, $value2)
+    public function findByNotSeenOpportunityPost($value, $value2, $value3)
     {
 
 
@@ -57,8 +57,9 @@ class PostRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('p')
            ->where('p.category = :val')
            ->andWhere('p.createdAt BETWEEN :to AND :from')
+           ->andWhere('p.user != :val3')
            ->andWhere('p.id NOT IN (:val2)')
-           ->setParameters(array('val' => $value,'val2'=>$value2, 'from'=>$from, 'to'=>$to ))
+           ->setParameters(array('val' => $value,'val2'=>$value2,'val3'=>$value3, 'from'=>$from, 'to'=>$to ))
            ->getQuery()
            ->getResult();
 
