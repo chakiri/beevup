@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Service;
+use App\Entity\Store;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,14 +16,17 @@ class ResetPasswordType extends AbstractType
     {
         $builder
 
-            ->add('password', PasswordType::class)
-        ;
+            ->add('password', PasswordType::class, [
+                'label'=>'Mot de passe',
+             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'isNewAccount' => User::class,
         ]);
     }
 }

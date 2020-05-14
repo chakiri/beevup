@@ -50,6 +50,7 @@ security:
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
         - { path: ^/forgottenPassword, allow_if: "!is_authenticated()"}
         - { path: ^/resetPassword, allow_if: "!is_authenticated()"}
+        - { path: ^/newAccount, allow_if: "!is_authenticated()"}
         - { path: ^/confirmEmail, allow_if: "!is_authenticated()"}
         - { path: ^/, roles: ROLE_USER}
 

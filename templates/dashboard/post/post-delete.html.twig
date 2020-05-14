@@ -19,9 +19,9 @@
                         Êtes-vous sûr(e) de vouloir supprimer définitivement ce post ?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-secondary btn-radius btn-sm" data-dismiss="modal">Annuler</button>
                         <button id ="delete-post-btn-{{post.id}}"
-                                class ="btn btn-primary delete-post-btn"
+                                class ="btn mvp-btn mvp-bg delete-post-btn btn-radius btn-sm"
                                 data-dismiss="modal"
                                 type="button"
                                 data-target = {{ path('post_delete', {'id': post.id}) }}

@@ -98,7 +98,6 @@ easy_admin:
             form:
               fields:
               - { property: 'email', label: 'Email' }
-              - { property: 'password', label: 'Mot de passe' }
               -   property: 'roles'
                   label: 'Roles'
                   type: 'choice' 
@@ -128,7 +127,7 @@ easy_admin:
             form:
               fields:
               - { property: 'email', label: 'Email' }
-              - { property: 'password', label: 'Mot de passe' }
+
             
         UserStore:
             class: App\Entity\User
@@ -150,7 +149,6 @@ easy_admin:
             form:
               fields:
               - { property: 'email', label: 'Email' }
-              - { property: 'password', label: 'Mot de passe' }
               - { property: 'type', label: 'Type' }
                      
              

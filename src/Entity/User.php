@@ -113,6 +113,7 @@ class User implements UserInterface
         $this->createdAt = new \Datetime();
         $this->roles = array('ROLE_ADMIN_COMPANY');
         $this->topics = new ArrayCollection();
+        $this->password ='BeeVµ$67**89P';
     }
 
     public function getId(): ?int
