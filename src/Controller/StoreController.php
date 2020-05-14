@@ -36,7 +36,7 @@ class StoreController extends AbstractController
     public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository)
     {
         $users =  $userRepository->findByStore($store);
-        $companies = $companyRepository->findBy(['store'=> $store, 'isCompleted'=>true]);
+        $companies = $companyRepository->findBy(['store'=> $store, 'isCompleted'=>true],['id'=>'DESC'],3);
         $usersType = $userTypeRepository->findBy(['id'=>array(1,2,4)]);
         $storeUsers =$userRepository->findBy(['store'=> $store, 'type'=> $usersType]);
 

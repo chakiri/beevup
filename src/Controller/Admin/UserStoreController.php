@@ -6,10 +6,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Repository\UserTypeRepository;
 use App\Entity\Profile;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\UserType;
-use App\Service\BarCode;
+use App\Service\Email;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserStoreController extends EasyAdminController
 {
@@ -17,16 +19,18 @@ class UserStoreController extends EasyAdminController
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
-    private $barCode;
     private $userRepo;
     private $topicHandler;
+    private $email;
+    private $token;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo,  BarCode $barCode, TopicHandler $topicHandler)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo, TopicHandler $topicHandler, Email $email, TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
-        $this->barCode = $barCode;
         $this->userRepo = $userRepo;
         $this->topicHandler = $topicHandler;
+        $this->email = $email;
+        $this->token = $tokenGenerator->generateToken();
     }
     
     public function persistUserStoreEntity($user)
@@ -53,12 +57,17 @@ class UserStoreController extends EasyAdminController
         $this->topicHandler->initStoreTopic($user->getStore(), $user);
       
         $this->updatePassword($user);
+        $user->setResetToken($this->token);
         parent::persistEntity($user);
 
         $profile = new Profile();
         $profile->setUser($user);
         parent::persistEntity($profile);
-   }
+        /*send email confirmation*/
+        $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
+        $this->email->send($this->token, $url, $user,'createNewAccount.html.twig','Bienvenu à Beevup');
+
+    }
 
     public function updateUserStoreEntity($user)
     {

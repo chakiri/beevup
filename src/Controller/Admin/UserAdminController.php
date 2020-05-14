@@ -8,7 +8,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Service\BarCode;
+use App\Service\Email;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+
 class UserAdminController extends EasyAdminController
 {
     /**
@@ -17,17 +21,20 @@ class UserAdminController extends EasyAdminController
 
     private $passwordEncoder;
     private $userTypeRepo;
-    private $barCode;
     private $userRepo;
     private $topicHandler;
+    private $email;
+    private $token;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo,  BarCode $barCode, TopicHandler $topicHandler)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, TopicHandler $topicHandler, Email $email,TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
-        $this->barCode = $barCode;
         $this->userRepo = $userRepo;
         $this->topicHandler = $topicHandler;
+        $this->email = $email;
+        $this->token = $tokenGenerator->generateToken();
+
     }
     
     public function persistUserEntity($user)
@@ -82,14 +89,19 @@ class UserAdminController extends EasyAdminController
         array_push($userRoles, 'ROLE_USER');
 
 
-        $user->setIsValid(1);
+
         $user->setIsDeleted(0);
         $user->setRoles($userRoles);
         $this->updateRoles($user);
+        $user->setResetToken($this->token);
         parent::persistEntity($user);
         $profile = new Profile();
         $profile->setUser($user);
         parent::persistEntity($profile);
+        /*send email confirmation*/
+        $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
+        $this->email->send($this->token, $url, $user,'createNewAccount.html.twig', 'Bienvenu à Beevup');
+
    }
 
     public function updateUserEntity($user)
