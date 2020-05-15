@@ -34,8 +34,17 @@ class CompanyType extends AbstractType
             ->add('category', EntityType::class, [
                 'multiple'=>false,
                 'class' => CompanyCategory::class,
-                'choice_label' =>'name'
+                'choice_label' =>'name',
+                'attr'  => [
+                   'class'       =>'form-control company-category'
+                ]
             ])
+            ->add('otherCategory', TextType::class, [
+                'attr'  => [
+                    'placeholder' => 'Autre',
+                    'class'       =>'form-control'
+                 ]
+           ])
             ->add('email', EmailType::class, [
                 'attr'  => [
                     'placeholder' => 'Email',
@@ -48,7 +57,7 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('addressNumber', TextType::class, [
+            ->add('addressNumber', IntegerType::class, [
                 'attr'  => [
                     'placeholder' => 'Numéro adresse',
                     'class'       =>'form-control'
