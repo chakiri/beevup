@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Post;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,13 +62,14 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, $id)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, UserRepository $userRepository, UserTypeRepository $userType, $id)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
+
                     $file = $form['imageFile']->getData();
                     if ($file) {
                         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -82,12 +85,25 @@ class CompanyController extends AbstractController
                         }
                         $company->setLogo($newFilename);
                     }
-
-                    $company->setIsCompleted(true);
+                   if($company->getIsCompleted() == false) {
+                       $company->setIsCompleted(true);
+                       // create a new welcome post
+                       $AdminPLatformeType = $userType->findOneBy(['id' =>5]);
+                       $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                       $post = new Post();
+                       $post->setUser($user);
+                       $post->setCategory('LastPublished');
+                       $post->setTitle('Bienvenu à l\'entreprise'.$company->getName());
+                       $post->setDescription($company->getDescription());
+                       $post->setToCompany($company);
+                       $manager->persist($post);
+                   }
                     /* generate bar code*/
                     $company->setBarCode($this->barCode->generate($company->getId()));
                     /* end ******/
                     $manager->persist($company);
+
+
 
                     $manager->flush();
 

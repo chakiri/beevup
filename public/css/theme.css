@@ -2592,3 +2592,10 @@ font-size: 10px;
 .none{
   display:none
 }
+
+.see-more
+{
+  font-weight: bold;
+  color:#0b6bd3;
+}
+
