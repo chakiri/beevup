@@ -79,7 +79,12 @@ class Post
      */
     private $status;
 
-    public function __construct()
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Company", cascade={"persist", "remove"})
+     */
+    private $toCompany;
+
+     public function __construct()
     {
         $this->createdAt = new \Datetime();
         $this->comment = new ArrayCollection();
@@ -266,6 +271,18 @@ class Post
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getToCompany(): ?Company
+    {
+        return $this->toCompany;
+    }
+
+    public function setToCompany(?Company $toCompany): self
+    {
+        $this->toCompany = $toCompany;
 
         return $this;
     }

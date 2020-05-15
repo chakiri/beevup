@@ -53,7 +53,13 @@
 
               <div class="lead"> <span class="post-category">{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
-              <div class="lead post-description">{{post.description}}</div>
+               {% if post.toCompany != null %}
+                   <div class="lead post-description">{{post.description|length > 200 ? post.description|slice(0, 200) ~ '...' : post.description}}
+                       <a class="see-more" href="{{ path('company_show',{'slug':post.toCompany.slug}) }}">voir fiche entreprise </a>
+                   </div>
+               {% else %}
+                   <div class="lead post-description">{{post.description}}</div>
+              {% endif %}
               <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
                 {% if post.likesNumber > 0 %}
                     <span id="likes-list-{{post.id}}" 
