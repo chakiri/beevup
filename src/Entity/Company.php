@@ -137,7 +137,7 @@ class Company
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
-    
+
     private $introduction;
 
     /**
@@ -162,6 +162,11 @@ class Company
      */
     private $barCode;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $otherCategory;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -180,7 +185,7 @@ class Company
         if (empty($this->getSlug() )){
             $slugify = new Slugify();
             $slug = $slugify->slugify($this->getName());
-            $this->setSlug($slug);        
+            $this->setSlug($slug);
         }
     }
 
@@ -559,6 +564,18 @@ class Company
     public function setBarCode(string $barCode): self
     {
         $this->barCode = $barCode;
+
+        return $this;
+    }
+
+    public function getOtherCategory(): ?string
+    {
+        return $this->otherCategory;
+    }
+
+    public function setOtherCategory(?string $otherCategory): self
+    {
+        $this->otherCategory = $otherCategory;
 
         return $this;
     }

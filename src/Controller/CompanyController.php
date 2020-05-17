@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Post;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,6 +66,8 @@ class CompanyController extends AbstractController
                     $company->setBarCode($barCode->generate($company->getId()));
                     /* end ******/
                     $manager->persist($company);
+
+
 
                     $manager->flush();
 

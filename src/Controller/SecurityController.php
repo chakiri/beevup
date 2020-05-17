@@ -192,34 +192,63 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/newAccount/{token}", name="security_new_account")
      * @Route("/resetPassword/{token}", name="security_reset_password")
      */
-    public function resetPassword(Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function resetPassword(Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, LoginFormAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler)
     {
+       $isNewAccount =  $request->get('_route') == 'security_new_account' ? true :false ;
+       $action =  $request->get('_route') == 'security_new_account' ? $this->generateUrl('security_new_account', ['token' => $token]) : $this->generateUrl('security_reset_password', ['token' => $token]);
 
-        $form = $this->createForm(ResetPasswordType::class);
+
+
+        $form = $this->createForm(ResetPasswordType::class,null, [
+            'action' => $action,
+            'method' => 'post',
+        ]);
         $form->handleRequest($request);
+
 
         if($form->isSubmitted()) {
 
             $user = $userRepository->findOneBy(['resetToken' => $token]);
 
             if (!$user){
-                $this->addFlash('danger', 'Token unknown');
+                $this->addFlash('danger', 'le lien de confirmation a expiré');
 
                 return $this->redirectToRoute('security_login');
             }
 
             $user->setResetToken(null);
             $user->setPassword($encoder->encodePassword($user,   $email = $form->getData()->getPassword()));
-
+            if($isNewAccount) {
+                $user->setIsValid(1) ;
+            }
             $manager->persist($user);
 
             $manager->flush();
 
-            $this->addFlash('success', 'Le mot de passe a été modifié');
+           if($user->isValid()) {
+               $guardHandler->authenticateUserAndHandleSuccess(
+                   $user,
+                   $request,
+                   $authenticator,
+                   'main'
+               );
+           }
 
-            return $this->redirectToRoute('security_login');
+
+            if ($request->get('_route')=='security_new_account') {
+
+                $this->addFlash('success', 'Bienvenu à Beeveup');
+            } else {
+                $this->addFlash('success', 'Le mot de passe a été modifié');
+            }
+
+            return $this->redirectToRoute('dashboard');
+
+
+
 
         }
         return $this->render('security/resetPassword.html.twig', [

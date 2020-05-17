@@ -93,6 +93,18 @@
                                             {{ form_widget(EditCompanyForm.category) }}
                                             </div>
                                         </div>
+                                        <div class="form-group other-category none">
+                                            <label for="">Autre categories</label>
+                                            {{ form_errors(EditCompanyForm.otherCategory) }}
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                         <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                {{ form_widget(EditCompanyForm.otherCategory) }}
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label for="">Email</label>
                                             {{ form_errors(EditCompanyForm.email) }}
