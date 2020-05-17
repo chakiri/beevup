@@ -2,7 +2,7 @@
 
 {% form_theme EditCompanyForm 'bootstrap_4_layout.html.twig' %}
 
-  {% block body %}
+{% block body %}
   <div id="editCompany" class="mt-5">
     <div class="container-mvp">
         <div class="row">
@@ -201,7 +201,7 @@
                                                          <i class="fa fa-camera-retro" aria-hidden="true"></i>
                                                     </span>
                                                 </div>
-                                            {{ form_widget(EditCompanyForm.imageFile) }}
+                                                {{ form_widget(EditCompanyForm.imageFile) }}
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -245,4 +245,4 @@
     </div>
   </div>
 
-  {% endblock %} 
+{% endblock %}

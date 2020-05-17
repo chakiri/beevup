@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @Vich\Uploadable
  * @UniqueEntity("siret", message="Siret déjà prise")
  */
-class Company
+class Company implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -141,10 +141,8 @@ class Company
     private $introduction;
 
     /**
-    * @ORM\Column(type="datetime")
-    *
-    * @var \DateTime
-    */
+     * @ORM\Column(type="datetime", nullable=true)
+     */
     private $updatedAt;
 
     /**
@@ -580,6 +578,15 @@ class Company
         return $this;
     }
 
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
 
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
+    }
     
 }

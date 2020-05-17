@@ -88,11 +88,10 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('imageFile', FileType::class, [
-                'mapped' => false,
                 'required' => false,
                 'attr'  => [
-                    'placeholder' => 'Logo',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+                    'placeholder' => 'Sélectionnez une image',
                 ]
         
             ])
