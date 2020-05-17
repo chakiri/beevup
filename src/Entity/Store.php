@@ -84,7 +84,7 @@ class Store
     private $filename;
         
     /**
-     * @Vich\UploadableField(mapping="stores_images", fileNameProperty="filename")
+     * @Vich\UploadableField(mapping="store_image", fileNameProperty="filename")
      * @var File
      */
     private $imageFile;

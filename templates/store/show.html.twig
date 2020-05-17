@@ -128,10 +128,10 @@
                                     <div class="box">
                                         <div class="portfolio-wrap dashboard-service-image" style="height:79px;overflow: hidden">
                                             <a href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                {% if company.logo is empty %}
-                                                    <img class="service-no-available-img" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% if company.filename %}
+                                                    <img src="{{ vich_uploader_asset(company, 'imageFile') }}" class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="/images/logos/{{company.logo}}" class="img-fluid" alt="">
+                                                    <img src="/images/no-available-photo.png" class="service-no-available-img" alt="">
                                                 {% endif %}
                                             </a>
                                         </div>

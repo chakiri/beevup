@@ -21,15 +21,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class CompanyController extends AbstractController
 {
-    private $barCode;
-
-    public function __construct(BarCode $barCode)
-    {
-
-        $this->barCode = $barCode;
-
-    }
-
 
     /**
      * @Route("/company/{slug}", name="company_show")
@@ -60,32 +51,17 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, $id)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, $id)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $file = $form['imageFile']->getData();
-                    if ($file) {
-                        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $originalFilename;
-                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-                        try {
-                            $file->move(
-                                $this->getParameter('entreprise_logos'),
-                                $newFilename
-                            );
-
-                        } catch (FileException $e) {
-                        }
-                        $company->setLogo($newFilename);
-                    }
 
                     $company->setIsCompleted(true);
                     /* generate bar code*/
-                    $company->setBarCode($this->barCode->generate($company->getId()));
+                    $company->setBarCode($barCode->generate($company->getId()));
                     /* end ******/
                     $manager->persist($company);
 
@@ -93,6 +69,8 @@ class CompanyController extends AbstractController
 
                     //init topic company category to user
                     $topicHandler->initCategoryCompanyTopic($company->getCategory());
+
+                    $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
 
                     return $this->redirectToRoute('company_show', [
                         'slug' => $company->getSlug()
