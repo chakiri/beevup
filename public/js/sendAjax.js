@@ -6,7 +6,7 @@ function sender() {
     var url = document.getElementById("message").dataset.url;
 
     if (message == "") {
-        alert("Enter a valid message");
+        alert("Entrez un message valide");
         return false;
     }
 

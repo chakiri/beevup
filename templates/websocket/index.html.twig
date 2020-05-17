@@ -23,9 +23,9 @@
                 <ul class="channels">
                     {% for topic in topics %}
                         {% if topic.name == subject %}
-                            <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong>#{{ topic.name }} </strong></a></li>
+                            <li class="active"><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong># {{ topic.name|capitalize }} </strong></a></li>
                         {% else %}
-                            <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong>#{{ topic.name }} <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></strong></a></li>
+                            <li><a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong># {{ topic.name|capitalize }} <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></strong></a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
@@ -140,9 +140,9 @@
                                     <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}" type="button" class="btn btn-design btn-1">Voir le profil</a>
                                 </div>
                             {% elseif topic is defined and topic is not null %}
-                                <div class="profile-footer">
+                                {#<div class="profile-footer">
                                     <a href="#" type="button" class="btn btn-design btn-1">Se désabonner</a>
-                                </div>
+                                </div>#}
                             {% endif %}
                         </div>
                     </div>

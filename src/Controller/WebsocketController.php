@@ -25,7 +25,7 @@ class WebsocketController extends AbstractController
     public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository, EmptyNotification $emptyNotification)
     {
         //Verification passing bad subject to url
-        if (!$topic && !$user) return $this->redirectToRoute('home');
+        if (!$topic && !$user) return $this->redirectToRoute('page_not_found');
 
         //If profile is incomplete
         if ($this->getUser()->getProfile()->getIsCompleted() == false){
@@ -43,7 +43,13 @@ class WebsocketController extends AbstractController
             $subject = $user->getId();
             //Get all messages from receiver with limit
             $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
+
         }elseif($request->get('_route') == 'chat_topic'){
+            //if user not having this topic
+            if (!in_array($topic, $this->getUser()->getTopics()->toArray())){
+                return $this->redirectToRoute('page_not_found');
+            }
+
             //Empty notification for topic
             $emptyNotification->empty($this->getUser(), $topic);
             //Assign topic to the subject
@@ -69,7 +75,7 @@ class WebsocketController extends AbstractController
      *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, NotificationRepository $notificationRepository)
+    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, NotificationRepository $notificationRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer)
     {
 
         $subject = $_POST['subject'];
@@ -119,8 +125,16 @@ class WebsocketController extends AbstractController
             ;
 
         }else {
-            //Get topic object
+            //Get receiver object
             $receiver = $userRepository->findOneBy(['id' => $subject]);
+
+            //Get all messages between user and subject
+            $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
+            if (empty($messages)){
+                //If no previous messages
+                $this->sendEmail($receiver, $mailer);
+                var_dump('sent mail');
+            }
 
             $message
                 ->setReceiver($receiver)
@@ -146,5 +160,25 @@ class WebsocketController extends AbstractController
         $saveNotification->save($user, $subject);
 
         return $this->json('save notification');
+    }
+
+    /**
+     * Send Email when first private message
+     * @param User $user
+     * @param \Swift_Mailer $mailer
+     */
+    private function sendEmail(User $user, \Swift_Mailer $mailer): void
+    {
+        $message = (new \Swift_Message())
+            ->setSubject('Confirmation email')
+            ->setFrom($_ENV['DEFAULT_EMAIL'])
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('emails/firstMessage.html.twig'),
+                'text/html'
+            )
+        ;
+
+        $mailer->send($message);
     }
 }
