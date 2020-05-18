@@ -58,9 +58,12 @@ class WebsocketController extends AbstractController
             $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
         }
 
+        //Get recent users in conversation
+        $users = $this->getRecentUsersChat($messageRepository);
+
         return $this->render('websocket/index.html.twig', [
             'topics' => $this->getUser()->getTopics(),
-            'users' => $userRepository->findAll(),
+            'users' => $users,
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
             'subject' => $subject,
             'messages' => $messages,
@@ -180,5 +183,32 @@ class WebsocketController extends AbstractController
         ;
 
         $mailer->send($message);
+    }
+
+
+    /**
+     * Get all recent users in chating
+     * @param MessageRepository $messageRepository
+     * @return array
+     */
+    private function getRecentUsersChat(MessageRepository $messageRepository): array
+    {
+        $messages = $messageRepository->findMessagesBetweenUserAndOthers($this->getUser());
+        $users = [];
+        foreach($messages as $message){
+            if ($message->getIsPrivate() == true) {
+                if ($message->getUser() == $this->getUser()){
+                    if (!in_array($message->getReceiver(), $users)){
+                        array_push($users, $message->getReceiver());
+                    }
+                }elseif ($message->getReceiver() == $this->getUser()){
+                    if (!in_array($message->getUser(), $users)){
+                        array_push($users, $message->getUser());
+                    }
+                }
+            }
+        }
+
+        return $users;
     }
 }
