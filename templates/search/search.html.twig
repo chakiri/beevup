@@ -189,14 +189,13 @@
                                 <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
                                     <div class="box">
                                         <div class="portfolio-wrap search-company-img">
-                                                {% if company.logo is empty %}
+                                                {% if company.filename is empty %}
                                                     <a href="{{path('company_show', { 'slug': company.slug}) }}">
                                                         <img src="/images/no-available-photo.png" class="img-fluid search-company-photo" alt="">
                                                     </a>
                                                 {% else %}
                                                     <a href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                        {% set companyLogo = company.logo  %}
-                                                       <img src="{{ asset('/images/logos/'~ companyLogo) }}" class="img-fluid search-company-photo" alt="">
+                                                       <img src="{{ vich_uploader_asset(company, 'imageFile') }}" class="img-fluid search-company-photo" alt="">
                                                     </a>
                                                 {% endif %}
                                         </div>

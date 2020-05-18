@@ -4,11 +4,11 @@
     </div>
 
     {% if app.user.company  %}
-           {% if app.user.company.logo %}
-                <img src="/images/logos/{{ app.user.company.logo }}" class="img-fluid" alt="">
-            {% else %}
-                <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
-            {% endif %}
+        {% if app.user.company.filename %}
+            <img src="{{ vich_uploader_asset(app.user.company, 'imageFile') }}" class="img-fluid" alt="">
+        {% else %}
+            <img src="/images/no-available-company-photo.png" class="img-fluid" alt="">
+        {% endif %}
         <p class="company-tel mt-2 ml-3 company-name">{{ app.user.company.name|capitalize }}</p>
         {% if app.user.company.isCompleted %}
             <p class="company-tel">

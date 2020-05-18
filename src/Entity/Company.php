@@ -8,14 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  * @UniqueEntity("siret", message="Siret déjà prise")
  */
-
-class Company
+class Company implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -67,12 +69,12 @@ class Company
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
-    */
-    private $logo;
+     */
+    private $filename;
 
-    /*
+    /**
      * @var File|null
-     * @Vich\UploadableField(mapping="entreprise_logos", fileNameProperty = "logo")
+     * @Vich\UploadableField(mapping="company_image", fileNameProperty="filename")
      */
     private $imageFile;
 
@@ -139,10 +141,8 @@ class Company
     private $introduction;
 
     /**
-    * @ORM\Column(type="datetime")
-    *
-    * @var \DateTime
-    */
+     * @ORM\Column(type="datetime", nullable=true)
+     */
     private $updatedAt;
 
     /**
@@ -172,7 +172,6 @@ class Company
         $this->isCompleted = false;
         $this->updatedAt = new \Datetime();
         $this->services = new ArrayCollection();
-
     }
 
     /**
@@ -290,26 +289,38 @@ class Company
         return $this;
     }
 
-    public function getLogo(): ?string
+    /**
+     * @return null|string
+     */
+    public function getFilename()
     {
-        return $this->logo;
+        return $this->filename;
     }
 
-    public function setLogo(?string $logo): self
+    /**
+     * @param null|string $filename
+     */
+    public function setFilename($filename)
     {
-        $this->logo = $logo;
-
-        return $this;
+        $this->filename = $filename;
     }
 
-    public function getImageFile(): ?string
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(?string $imageFile): self
+    /**
+     * @param null|File $imageFile
+     * @return $this
+     */
+    public function setImageFile(?File $imageFile)
     {
         $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
 
         return $this;
     }
@@ -567,6 +578,15 @@ class Company
         return $this;
     }
 
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
 
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
+    }
     
 }

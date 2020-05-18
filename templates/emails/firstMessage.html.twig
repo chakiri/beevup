@@ -1,0 +1,8 @@
+<div style="background-color:#eee;border:1px solid #eee;padding:20px">
+    <h1 style="color:#15377a;font-weight:bold;font-size:18px">Nouveau message de {{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}</h1>
+    <p style="color:#000;font-size:15px">{{ app.user.profile.firstname|capitalize }} souhaite discuter avec vous. Chatez avec {{ app.user.profile.firstname|capitalize }} <a style="color:#000;font-size:15px" href="{{ url('chat_private', {'id': app.user.id}) }}">Ici</a>
+    </p>
+
+    <p style="color:#000;font-size:15px">À bientôt L'équipe Beevup</p>
+
+</div>
