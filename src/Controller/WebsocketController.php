@@ -58,6 +58,24 @@ class WebsocketController extends AbstractController
             $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
         }
 
+        $recentMessages = $messageRepository->findMessagesBetweenUserAndOthers($this->getUser());
+        $recentUsers = [];
+        foreach($recentMessages as $message){
+            if ($message->getIsPrivate() == true) {
+                if ($message->getUser() == $this->getUser()){
+                    if (!in_array($message->getReceiver(), $recentUsers)){
+                        array_push($recentUsers, $message->getReceiver());
+                    }
+                }elseif ($message->getReceiver() == $this->getUser()){
+                    if (!in_array($message->getUser(), $recentUsers)){
+                        array_push($recentUsers, $message->getUser());
+                    }
+                }
+            }
+        }
+
+        dd($recentUsers);
+
         return $this->render('websocket/index.html.twig', [
             'topics' => $this->getUser()->getTopics(),
             'users' => $userRepository->findAll(),
