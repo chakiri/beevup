@@ -63,7 +63,7 @@
                                     {% endif %}
                                 </a>
 
-                                    <div class="dropdown-menu notification-dropdown">
+                                    <div class="dropdown-menu notification-dropdown notification-box">
                                         {% if notificationNumber > 0 %}
                                         {% for notification in dashboardNotifications %}
                                             <div class="row notification-item clearfix">
@@ -102,7 +102,7 @@
                                         <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
                                         <span class="badge">{% if notificationMessages|length != 0 %}{{ notificationMessages|length }}{% endif %}</span>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-right" style="">
+                                    <div class="dropdown-menu dropdown-menu-right notification-box" style="">
                                         {% if notificationMessages %}
                                             {% for message in notificationMessages %}
                                                 <a class="dropdown-item" target="_blank" {% if message.receiver %}href="{{ path('chat_private', {'id': message.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': message.topic.name}) }}"{% endif %}>
@@ -147,7 +147,7 @@
                                           <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
                                         {%  endif %}
                                     </a>
-                                    <div class="dropdown-menu opportunity-notification"  aria-labelledby="opportunity-notification">
+                                    <div class="dropdown-menu opportunity-notification notification-box"  aria-labelledby="opportunity-notification">
                                       {% if opportunityPostNb %}
 
                                           Nous avons trouvé {{ opportunityPostNb }} opportunité(s) commerciale(s)
@@ -175,7 +175,7 @@
                                         <select id="news-filter" class="form-control">
                                             <option value="All">Tous</option>
                                             <option value="Informations">Informations</option>
-                                            <option value="LastPublished">Derniers arrivés</option>
+                                            <option value="Derniers Arrivés">Derniers arrivés</option>
                                             <option value="Opportunities">Opportunité commerciale</option>
                                             <option value="Employment">Offres d’emplois</option>
                                         </select>

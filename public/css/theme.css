@@ -2598,4 +2598,29 @@ font-size: 10px;
   font-weight: bold;
   color:#0b6bd3;
 }
+.report-abuse-btn:before, .delete-post:before {
+  bottom: 100%;
+  left: 75%;
+  border-right: 6px solid transparent;
+  border-bottom: 7px solid #EEE;
+  border-left: 6px solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+/*.notification-box:before{
+  bottom: 100%;
+  left: 50%;
+  border-right: 6px solid transparent;
+  border-bottom: 7px solid #EEE;
+  border-left: 6px solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}*/
+
 

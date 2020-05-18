@@ -564,6 +564,7 @@ $('.abuse-reject').click(function () {
 
 
 /** end report abuse */
+/**
 $( window ).resize(function() {
   if ($(window).width() < 1024)
   {
@@ -594,7 +595,7 @@ if ($(window).width() < 1024)
 
   $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
   $('.user-comment').children('.comment').removeClass('col-9').addClass('col-8');
-}
+}*/
 
     $('.add-favoris').click(function() {
         var url = '';

@@ -61,7 +61,36 @@ class CompanyController extends AbstractController
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
 
-                    $company->setIsCompleted(true);
+
+                    $file = $form['imageFile']->getData();
+                    if ($file) {
+                        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $originalFilename;
+                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                        try {
+                            $file->move(
+                                $this->getParameter('entreprise_logos'),
+                                $newFilename
+                            );
+
+                        } catch (FileException $e) {
+                        }
+                        $company->setLogo($newFilename);
+                    }
+                   if($company->getIsCompleted() == false) {
+                       $company->setIsCompleted(true);
+                       // create a new welcome post
+                       $AdminPLatformeType = $userType->findOneBy(['id' =>5]);
+                       $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                       $post = new Post();
+                       $post->setUser($user);
+                       $post->setCategory('LastPublished');
+                       $post->setTitle('Bienvenu à l\'entreprise '.$company->getName());
+                       $post->setDescription($company->getDescription());
+                       $post->setToCompany($company);
+                       $manager->persist($post);
+                   }
+
                     /* generate bar code*/
                     $company->setBarCode($barCode->generate($company->getId()));
                     /* end ******/
