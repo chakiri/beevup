@@ -706,5 +706,15 @@ $('.company-category').change(function(){
    }
 
 })
+/*fix responsive issues*/
+
+   $('#registration_company_siret').width($('#registration_name').width());
+    var footerHeight = $('.footer-copyright').height();
+    var headerHeight = $('#header').height();
+    var mt5Margin = parseInt($(".container-mvp").css("marginTop").replace('px', ''))
+   $('.content-wrapper-404').height($( document ).height() - headerHeight - footerHeight -mt5Margin - 80);
+
+/*fix responsive issues*/
+
 })(jQuery);
 

@@ -2477,9 +2477,7 @@ margin-top: 10px;
 {
   margin:0;
 }
-#registration_company_siret{
-  min-width: 467px;
-}
+
 .security-title
 {
   font-size:24px;
@@ -2533,8 +2531,9 @@ margin-top: 10px;
 border-radius: 5px;
 background-color: var(--mvp-color);
 color: #fff;
+margin-top:5px;
 border: 1px solid var(--mvp-color);
-  margin-top:5px;
+
 }
 .opportunity-notification{
   padding:10px;
@@ -2549,8 +2548,7 @@ border: 1px solid var(--mvp-color);
   font-weight: bold;
 }
 .content-wrapper-404{
-  height:355px;
-  text-align: center;
+ text-align: center;
 
 }
 .content-wrapper-404 p
@@ -2622,5 +2620,14 @@ font-size: 10px;
   position: absolute;
   pointer-events: none;
 }*/
+
+@media (min-width: 768px) {
+  .container, .container-sm, .container-md {
+    max-width: 95%;
+  }
+  #login-page{
+     padding: 0;
+  }
+}
 
 

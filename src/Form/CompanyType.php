@@ -40,9 +40,12 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('otherCategory', TextType::class, [
+                'required'   => false,
                 'attr'  => [
                     'placeholder' => 'Autre',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+
+
                  ]
            ])
             ->add('email', EmailType::class, [
