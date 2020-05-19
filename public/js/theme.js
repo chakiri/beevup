@@ -669,6 +669,7 @@ $('#search_type').change(function(){
 });
 
 $('#display-opportunity-offer').click(function(){
+    $('#news-filter').val("Opportunities");
     $('.post').each(function(){
         if ($(this).attr('data-category') != 'Opportunities')
         {
