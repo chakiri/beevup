@@ -44,6 +44,7 @@ class ProfileType extends AbstractType
             ])
             ->add('introduction', TextareaType::class, [
                 'label' => 'Introduction',
+                'required' => false,
                 'attr'  => [
                     'placeholder' => 'Intro ...'
                  ]
