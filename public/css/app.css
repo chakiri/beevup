@@ -427,9 +427,12 @@ section{
 #chatPlateform{
     background-color: #fff;
     height: 100%;
+	display: initial;
 }
 #chatPlateform .wrapper{
     padding-top: 18px;
+	background-color:#fff;
+	height: 100%;
 }
 
 #chatPlateform .row{
@@ -541,7 +544,8 @@ section{
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 82vh;
+	position:relative
+   /* height: 82vh;*/
 }
 
 /* Responsive */

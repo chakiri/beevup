@@ -2608,6 +2608,21 @@ font-size: 10px;
   position: absolute;
   pointer-events: none;
 }
+.specialOfferLink{
+  float: left;
+  width: 100%;
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+.search-filter{
+  padding:0
+}
+.form-chat{
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+}
 /*.notification-box:before{
   bottom: 100%;
   left: 50%;

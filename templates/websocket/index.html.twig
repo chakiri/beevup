@@ -102,7 +102,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <form onsubmit="return sender();" method="post">
+                            <form onsubmit="return sender();" method="post" class="form-chat">
                                 <div class="message-text">
                                     <input type="text" id="message" data-url="{{ path('sender') }}" class="form-control" placeholder="Votre message ...">
                                     <button id="sendBtn" class="btn icon" type="submit" ><i class="icon icon ion-ios-arrow-thin-right"></i></button>
