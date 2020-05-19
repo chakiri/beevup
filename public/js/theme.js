@@ -136,6 +136,7 @@
  /* end publish post */
 
   $('.like-button').click(function(){
+      $('.like-button').attr("disabled", true);
     var postId = $(this).attr('data-post-id');
     var postLikesNumber = Number($('#post-likes-number-'+postId).text());
     var newLikeStructure = '';
@@ -176,8 +177,9 @@
       $('#post-likes-number-'+postId).text(Number(postLikesNumber) - 1);
       }
     }
+        $('.like-button').attr("disabled", false);
     });
-    
+
   });
 
 
