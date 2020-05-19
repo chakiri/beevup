@@ -470,6 +470,9 @@ section{
     max-height: 356px;
     overflow-y: scroll;
 }
+.private .empty{
+    padding: 5px 30px;
+}
 
 .conversation{
     display: flex;
