@@ -710,9 +710,21 @@ $('.company-category').change(function(){
 
    $('#registration_company_siret').width($('#registration_name').width());
     var footerHeight = $('.footer-copyright').height();
+    var mt5Margin = 0;
     var headerHeight = $('#header').height();
-    var mt5Margin = parseInt($(".container-mvp").css("marginTop").replace('px', ''))
-   $('.content-wrapper-404').height($( document ).height() - headerHeight - footerHeight -mt5Margin - 80);
+
+    $('.inbox-message').height($(document).height() - headerHeight - 120);
+   // $('.inbox-message').height(300);
+
+    if ((".mt-5").length > 0) {
+        if($(".mt-5").css("marginTop")) {
+            mt5Margin = parseInt($(".mt-5").css("marginTop").replace('px', ''));
+        }
+    }
+    if($('.content-wrapper-404').length > 0) {
+        $('.content-wrapper-404').height($(document).height() - headerHeight - footerHeight - mt5Margin - 76);
+    }
+
 
 /*fix responsive issues*/
 

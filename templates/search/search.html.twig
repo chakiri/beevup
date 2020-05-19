@@ -4,13 +4,14 @@
 {% block body %}
 <section id="search-page">
     <div class="container-mvp mt-5">
+        <div class="col-12">
         <div class="row">
 
             <div class="col-lg-4 col-md-12">
                 {% include 'default/aside.html.twig' %}
             </div>
 
-            <div class="col-lg-8">
+            <div class="col-lg-8 search-filter">
                 <div class="filter">
                     <h4 class="box-title">Communauté</h4>
                     <div class="search-description">
@@ -45,7 +46,7 @@
 
 
                 <div>
-                    <div class="favorits">
+                    <div class="favorits col-12">
                         {%  if favorits is defined %}
                             <div class="collapse" id="collapseExample">
                                 <div class="row">
@@ -116,6 +117,7 @@
                         {%  endif %}
                     </div>
                     {% if users %}
+                    <div class="col-12">
                        <div class="row">
                             {% for user in users %}
                                <div class="col-lg-4 col-md-6 wow bounceInUp result-item" data-wow-duration="1.4s">
@@ -171,6 +173,7 @@
                                 </div>
                             {% endfor %}
                         </div>
+                </div>
                     {% endif %}
                     <div class="row col-12">
                         {% if companiesCount is defined  %}
@@ -226,6 +229,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 
