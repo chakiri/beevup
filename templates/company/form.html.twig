@@ -6,10 +6,10 @@
   <div id="editCompany" class="mt-5">
     <div class="container-mvp">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-lg-3 col-md-12">
                 {% include 'default/aside.html.twig' %}
             </div>
-            <div class="col-md-9 mb-4">
+            <div class="col-lg-9 col-md-12">
                   <div class="bg-light pt-4 pl-4 btn-radius">
 
                       <div class="mvp-color">
@@ -20,7 +20,7 @@
                         <div class="card-body card-block">
                             {{ form_start(EditCompanyForm) }}
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-md-12">
                                         <div class="form-group">
                                             <label for="">N° SIRET</label>
                                             {{ form_errors(EditCompanyForm.siret) }}
@@ -130,7 +130,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-lg-6 col-md-12">
                                         <div class="form-group">
                                             <label for="">Numéro de rue</label>
                                             {{ form_errors(EditCompanyForm.addressNumber) }}

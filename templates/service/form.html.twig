@@ -6,11 +6,11 @@
 <section class="mt-5">
     <div class="container-mvp">
        <div class="row">
-           <div class="col-md-3">
+           <div class="col-lg-3 col-md-12">
                {% include 'default/aside.html.twig' %}
            </div>
 
-            <div class="col-md-9 mb-4">
+            <div class="col-lg-9 col-md-12">
           <div class="bg-light">
             <div class="card-body card-block">
                 <div class="mvp-color">
@@ -28,7 +28,7 @@
                 </div>
                 {{ form_start(ServiceForm) }}
                 <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-lg-6 col-md-12">
                             {{ form_label(ServiceForm.title) }}
                             {{ form_errors(ServiceForm.title) }}
                             <div class="input-group">
@@ -40,7 +40,7 @@
                                   {{ form_widget(ServiceForm.title) }}
                              </div>
                         </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.category) }}
                         {{ form_errors(ServiceForm.category) }}
                         <div class="input-group">
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.introduction) }}
                         {{ form_errors(ServiceForm.introduction) }}
                         <div class="input-group">
@@ -69,7 +69,7 @@
                             {{ form_widget(ServiceForm.introduction) }}
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.description) }}
                         {{ form_errors(ServiceForm.description) }}
                         <div class="input-group">
@@ -92,7 +92,7 @@
                 {% endif %}
 
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.imageFile) }}
                         {{ form_errors(ServiceForm.imageFile) }}
                         <div class="input-group">
@@ -104,7 +104,7 @@
                             {{ form_widget(ServiceForm.imageFile) }}
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.imageFile1) }}
                         {{ form_errors(ServiceForm.imageFile1) }}
                         <div class="input-group">
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.imageFile2) }}
                         {{ form_errors(ServiceForm.imageFile2) }}
                         <div class="input-group">
@@ -130,7 +130,7 @@
                            {{ form_widget(ServiceForm.imageFile2) }}
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.imageFile3) }}
                         {{ form_errors(ServiceForm.imageFile3) }}
                         <div class="input-group">
@@ -144,20 +144,20 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.isQuote) }}
                         {{ form_errors(ServiceForm.isQuote) }}
                         {{ form_widget(ServiceForm.isQuote) }}
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.isDiscovery) }}
                         {{ form_errors(ServiceForm.isDiscovery) }}
                         {{ form_widget(ServiceForm.isDiscovery) }}
                     </div>
                 </div>
                 <div class="form-row">
-                    <div id="price"  class="form-group col-md-6" {% if service.isQuote == true %} style="display: none" {% endif %}>
+                    <div id="price"  class="form-group col-lg-6 col-md-12" {% if service.isQuote == true %} style="display: none" {% endif %}>
                         {{ form_label(ServiceForm.price) }}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -171,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="discovery" class="form-group col-md-6" >
+                    <div id="discovery" class="form-group col-lg-6 col-md-12" >
                         {{ form_label(ServiceForm.discoveryContent) }}
                         {{ form_errors(ServiceForm.discoveryContent) }}
                         <div class="input-group">
