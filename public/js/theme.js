@@ -729,6 +729,11 @@ $('.company-category').change(function(){
     }
 
 
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        $('body').css('zoom','170%')
+    }
+
+
 /*fix responsive issues*/
 
 })(jQuery);
