@@ -562,5 +562,8 @@ section{
     .main-info {
         height: auto;
     }
+	 .inbox-profile{
+		 display:none
+	 }
 
 }
