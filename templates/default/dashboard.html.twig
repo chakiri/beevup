@@ -160,31 +160,30 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
-                    {% if posts and postNumber > 0 %}
-                        <div class="box post-box">
-                            <div class="row mb-3">
-                                <h4 class="col-8">Fil d'actualité</h4>
-                                <div class="col-4">
-                                    <div class="filter-dropdown">
 
-                                        <select id="news-filter" class="form-control">
-                                            <option value="All">Tous</option>
-                                            <option value="Informations">Informations</option>
-                                            <option value="Derniers Arrivés">Derniers arrivés</option>
-                                            <option value="Opportunities">Opportunité commerciale</option>
-                                            <option value="Employment">Offres d’emplois</option>
-                                        </select>
-                                    </div>
+                    <div class="box post-box">
+                        <div class="row mb-3">
+                            <h4 class="col-8">Fil d'actualité</h4>
+                            <div class="col-4">
+                                <div class="filter-dropdown">
+                                    <select id="news-filter" class="form-control">
+                                        <option value="All">Tous</option>
+                                        <option value="Informations">Informations</option>
+                                        <option value="LastPublished">Derniers arrivés</option>
+                                        <option value="Opportunities">Opportunité commerciale</option>
+                                        <option value="Employment">Offres d’emplois</option>
+                                    </select>
                                 </div>
                             </div>
-                            {% include 'dashboard/posts.html.twig' %}
                         </div>
-                    {% endif %}
+                        {% if posts and postNumber > 0 %}
+                            {% include 'dashboard/posts.html.twig' %}
+                        {% else %}
+                            <p>Aucun post pour l'instant</p>
+                        {% endif %}
+                    </div>
 
                 </div>
                 <div class="col-lg-3 col-md-12">
@@ -194,10 +193,6 @@
                     {% if specialOfferNb > 0 %}
                         {% include 'default/boxes/specialOffer-box.html.twig' %}
                     {% endif %}
-                    
-
-
-
                 </div>
             </div>
     </section>
