@@ -24,7 +24,9 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('siret')
-            ->add('introduction', TextType::class)
+            ->add('introduction', TextType::class, [
+                'required' => false
+            ])
             ->add('description', TextareaType::class)
             ->add('store', EntityType::class, [
                 'multiple'=>false,
