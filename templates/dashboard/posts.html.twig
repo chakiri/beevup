@@ -33,23 +33,44 @@
               </div>
           </div>
 
-          <div class="col-10">
+          <div class="col-11 post-content">
               <div class="lead post-user-profile">
-                  <strong class="post-user">
-                      <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
-                        {{post.user.profile.firstname}} {{post.user.profile.lastname}}
-                      </a>
-                  </strong>
-                  <strong class="post-created-at">{{leftDays}}</strong>
+                  <div class="post-header col-12">
+                      <strong class="post-user col-6">
+                          <a href="{{path('profile_show', { 'id': post.user.profile.id}) }}">
+                            {{post.user.profile.firstname}} {{post.user.profile.lastname}}
+                          </a>
+                      </strong>
+                      <strong class="post-created-at col-5">{{leftDays}}</strong>
+                      {% if app.user.profile.isCompleted == true %}
+                          {% if (reportedPosts[loop.index - 1] == 0  or  post.user.id == app.user.id)  %}
+                              <div class="col-1 dropdown post-action-btn" style="float:right">
+                                  <i class="fa fa-ellipsis-h post-action-icon" aria-hidden="true" data-toggle="dropdown" data-post="{{ post.id }}" aria-haspopup="true" aria-expanded="false"></i>
+
+                                  <div id="post-actions-{{ post.id }}" class="post-actions" aria-labelledby="dropdownMenuButton">
+                                      {% include 'dashboard/post/post-delete.html.twig' %}
+                                      {% if reportedPosts[loop.index - 1] == 0 %}
+                                          {% include 'dashboard/post/post-report-abuse.html.twig' %}
+                                      {% endif %}
+                                  </div>
+                              </div>
+                          {% endif %}
+                      {% endif %}
+                  </div>
+              </div>
                   <p>
                       {% if  post.user.company %}
                           <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
                               {{post.user.company.name|capitalize}}
                           </a>
+                          {% elseif  post.user.store %}
+                              <a class="user-company-name" href="{{path('store_show', { 'slug': post.user.store.slug}) }}">
+                                  {{post.user.store.name|capitalize}}
+                              </a>
                       {% endif %}
                   </p>
 
-              </div>
+
 
               <div class="lead"> <span class="post-category">{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
@@ -121,21 +142,8 @@
 
               {% include 'dashboard/comments.html.twig' %}
          </div>
-          {% if app.user.profile.isCompleted == true %}
-              {% if (reportedPosts[loop.index - 1] == 0  or  post.user.id == app.user.id)  %}
-                   <div class="col-1 dropdown">
-                      <i class="fa fa-ellipsis-h post-action-icon" aria-hidden="true" data-toggle="dropdown" data-post="{{ post.id }}" aria-haspopup="true" aria-expanded="false"></i>
-
-                      <div id="post-actions-{{ post.id }}" class="post-actions" aria-labelledby="dropdownMenuButton">
-                          {% include 'dashboard/post/post-delete.html.twig' %}
-                         {% if reportedPosts[loop.index - 1] == 0 %}
-                            {% include 'dashboard/post/post-report-abuse.html.twig' %}
-                          {% endif %}
-                      </div>
-                  </div>
-              {% endif %}
-          {% endif %}
       </div>
+            {#postActionbtns#}
       {% endif %}
   {% endfor %}
   {% if postNumber > 15 %}

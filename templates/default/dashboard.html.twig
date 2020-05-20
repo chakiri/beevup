@@ -37,10 +37,7 @@
             {% endif %}
 
             <div class="row page">
-                <div class="col-lg-3 col-md-12">
-                    {% include 'default/dashboard-aside.html.twig' %}
-                </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 order-sm-2">
                     <div class="box dashboard-header">
                         <div class="dashboard-header-buttons">
 
@@ -63,8 +60,8 @@
                                     {% endif %}
                                 </a>
 
-                                    <div class="dropdown-menu notification-dropdown notification-box">
-                                        {% if notificationNumber > 0 %}
+                                <div class="dropdown-menu notification-dropdown notification-box">
+                                    {% if notificationNumber > 0 %}
                                         {% for notification in dashboardNotifications %}
                                             <div class="row notification-item clearfix">
                                                 <div class="user-photo col-2">
@@ -91,10 +88,10 @@
                                             </div>
                                         {% endfor %}
 
-                                        {% else %}
+                                    {% else %}
                                         <p class="text-muted p-3">Aucune notification pour l'instant</p>
-                                        {% endif %}
-                                    </div>
+                                    {% endif %}
+                                </div>
 
 
                                 <div class="nav-item dropdown notification messages-notifications">
@@ -143,19 +140,19 @@
                                        data-target="{{ path('opportunityNotification_add') }}">
 
                                         <i class="fa fa-eur recommandation-icon" aria-hidden="true"></i>
-                                       {% if opportunityPostNb > 0 %}
-                                          <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
+                                        {% if opportunityPostNb > 0 %}
+                                            <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
                                         {%  endif %}
                                     </a>
                                     <div class="dropdown-menu opportunity-notification notification-box"  aria-labelledby="opportunity-notification">
-                                      {% if opportunityPostNb %}
+                                        {% if opportunityPostNb %}
 
-                                          Nous avons trouvé {{ opportunityPostNb }} opportunité(s) commerciale(s)
-                                          <p class="text-center">
-                                              <button id="display-opportunity-offer" > voir tous  les offres  </button>
-                                          </p>
-                                          {% else  %}
-                                              <p class="text-muted p-3">Aucune notification pour l'instant</p>
+                                            Nous avons trouvé {{ opportunityPostNb }} opportunité(s) commerciale(s)
+                                            <p class="text-center">
+                                                <button id="display-opportunity-offer" > voir tous  les offres  </button>
+                                            </p>
+                                        {% else  %}
+                                            <p class="text-muted p-3">Aucune notification pour l'instant</p>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -186,7 +183,12 @@
                     </div>
 
                 </div>
-                <div class="col-lg-3 col-md-12">
+
+                <div class="col-lg-3 col-md-12 order-sm-1">
+                    {% include 'default/dashboard-aside.html.twig' %}
+                </div>
+
+                <div class="col-lg-3 col-md-12 order-sm-3">
                     {% if publicity is not null %}
                       {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
