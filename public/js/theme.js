@@ -727,10 +727,9 @@ $('.company-category').change(function(){
     if($('.content-wrapper-404').length > 0) {
         $('.content-wrapper-404').height($(document).height() - headerHeight - footerHeight - mt5Margin - 76);
     }
-
-
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-        $('body').css('zoom','170%')
+    if ($(window).width() < 415)
+    {
+        $('.post-add-comment').removeClass('col-10').addClass('col-8');
     }
 
 

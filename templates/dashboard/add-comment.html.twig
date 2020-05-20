@@ -16,7 +16,7 @@
       {% endif %}
       </div>
       <textarea id ="post-add-comment-{{post.id}}" 
-                class="post-add-comment input-radius col-9" 
+                class="post-add-comment input-radius col-10"
                 data-post-id = "{{post.id}}" 
                 data-user="{{app.user.profile.firstname|capitalize}} {{app.user.profile.lastname|capitalize}}"
                 data-target="{{ path('comment_delete', {'id': 0}) }}"
