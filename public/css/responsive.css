@@ -1,3 +1,8 @@
+@media (max-width: 320px) {
+  .col-11.post-content{
+    padding-left:25px
+  }
+}
 @media (min-width: 992px) {
   #testimonials .testimonial-item p {
     width: 80%;
@@ -112,6 +117,9 @@
   .communaute-search-btn{
     text-align: center;
     width:100%;
+  }
+  .add-recommandation-service{
+    text-align: left !important;
   }
 }
 
