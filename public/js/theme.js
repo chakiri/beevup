@@ -265,7 +265,7 @@
                 target = target.replace(/[0-9]+/, newCommentId);
                 
               }
-              var commentStructure = `
+                var commentStructure = `
                   <div id='comment-id-`+newCommentId+`' class='row user-comment' style='background-color:#f3f6f8;border-radius:10px;padding:10px'>
                     <div class="user-image `+userImageWidth+`" style="flot:left">
                       <a href='#'>
@@ -276,8 +276,8 @@
                         <a href='#' class='comment-user'><p class="comment-owner">`+userName+`</p></a> 
                         <p class='comment-time'>à l\'instant</p>
                         <div id="comment-description-`+newCommentId+`" class='comment-text'>`
-                        +comment+
-                        `</div>
+                    +comment+
+                    `</div>
                     </div>
                     <div class='delete-comment col-2'>
                       <button class='delete-comment-btn' data-comment-id='`+newCommentId+`' data-post-id='`+postId+`' data-target="`+target+`">
@@ -289,7 +289,6 @@
                       >
                          <i class="fa fa-pencil" aria-hidden="true"></i>
                       </button>
-
                     </div>
                 </div>`
           $('#comments-section-'+postId).prepend(commentStructure);
@@ -352,18 +351,7 @@ $('body').on('click', '.delete-comment-btn', function () {
   var selectedItem = $('#news-filter').val();
   $(".post").each(function(){
 
-    if(selectedItem == 'LastPublished'){
-      if ($(this).attr('data-post-pusblished') > 1)
-      {
-        $(this).addClass('hide-item');
-      } else {
-        $(this).removeClass('hide-item');
-      }
-    } else if (selectedItem == 'All'){
-      $(this).removeClass('hide-item');
 
-    }
-    else{
     if ($(this).attr('data-category') != selectedItem)
     {
       $(this).addClass('hide-item');
@@ -371,7 +359,7 @@ $('body').on('click', '.delete-comment-btn', function () {
     else{
       $(this).removeClass('hide-item');
     }
-    }
+
 });
 });
 

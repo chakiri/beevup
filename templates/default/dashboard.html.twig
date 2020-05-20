@@ -32,7 +32,7 @@
             {% if app.user.profile.isCompleted == false %}
                 <div class="alert alert-dismissible alert-primary">
                     <h4 class="alert-heading"><i class="fa fa-eye-slash"></i> Votre profil n’est pas encore visible</h4>
-                    <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profile</a>.</p>
+                    <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profil</a>.</p>
                 </div>
             {% endif %}
 
@@ -168,7 +168,7 @@
                                     <select id="news-filter" class="form-control">
                                         <option value="All">Tous</option>
                                         <option value="Informations">Informations</option>
-                                        <option value="LastPublished">Derniers arrivés</option>
+                                        <option value="Derniers arrivés">Derniers arrivés</option>
                                         <option value="Opportunities">Opportunité commerciale</option>
                                         <option value="Employment">Offres d’emplois</option>
                                     </select>

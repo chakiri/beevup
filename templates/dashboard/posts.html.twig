@@ -58,7 +58,7 @@
                       {% endif %}
                   </div>
               </div>
-                  <p>
+                  <p class="post-user-company">
                       {% if  post.user.company %}
                           <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
                               {{post.user.company.name|capitalize}}
