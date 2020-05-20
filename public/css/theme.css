@@ -2520,8 +2520,18 @@ font-size: 10px;
   left: 0;
   width: 100%;
 }
-.post-header, .post-user{
+.post-header, .post-user, .comment-header{
   padding: 0;
+}
+.comment-header, .comment-user, .comment-actions {
+  padding: 0;
+  margin:0;
+}
+.comment-actions {
+  text-align: right;
+}
+.post-user-company{
+  margin-top:-10px;
 }
 /*.notification-box:before{
   bottom: 100%;

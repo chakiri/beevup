@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\OpportunityNotification;
+use App\Repository\OpportunityNotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PostRepository;
@@ -19,12 +20,21 @@ class OpportunityNotificationController extends AbstractController
      * @Route("/opportunityNotification/add", name="opportunityNotification_add")
      */
 
-    public function add(EntityManagerInterface $manager, PostRepository $postRepository)
+    public function add(EntityManagerInterface $manager, PostRepository $postRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
     {
-        $notification = new OpportunityNotification();
-        $opportunityPosts = $postRepository->findBy(['category'=>'Opportunities'],[]);
+        $OpportunityPostsIds = [''];
+        $displayedOpportunityPosts =$opportunityNotificationRepo->findByLastMonthNotification($this->getUser());
+
+        foreach ($displayedOpportunityPosts as $post ) {
+            array_push($OpportunityPostsIds , $post->getPost()->getId());
+        }
+        $opportunityPosts = $postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds, $this->getUser());
+
+       // $opportunityPosts = $postRepository->findBy(['category'=>'Opportunities'],[]);
+
         foreach($opportunityPosts as $post)
         {
+            $notification = new OpportunityNotification();
             $notification->setUser($this->getUser());
             $notification->setPost($post);
             $notification->setSeen(1);

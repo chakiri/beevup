@@ -84,7 +84,7 @@ class CompanyController extends AbstractController
                        $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
                        $post = new Post();
                        $post->setUser($user);
-                       $post->setCategory('LastPublished');
+                       $post->setCategory('Derniers arrivés');
                        $post->setTitle('Bienvenu à l\'entreprise '.$company->getName());
                        $post->setDescription($company->getDescription());
                        $post->setToCompany($company);

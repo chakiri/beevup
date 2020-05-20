@@ -7,7 +7,7 @@
     <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}">
         <div id="userStatus" data-userfirstname="{{ app.user.profile.firstname }}" hidden></div>
         <div class="wrapper row">
-            <div class="col-3 conversations">
+            <div class="col-lg-3 conversations">
 
                 {# Get nb of notifications by topic#}
                 {% set notificationsTopics = {} %}
@@ -74,7 +74,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-9 inbox">
+            <div class="col-lg-9 inbox">
                 <div class="inbox-header">
                     <div class="inbox-avatar avatar">
                         {% if user is defined and user is not null %}

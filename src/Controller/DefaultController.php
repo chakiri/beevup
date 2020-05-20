@@ -53,7 +53,6 @@ class DefaultController extends AbstractController
               array_push($OpportunityPostsIds , $post->getPost()->getId());
            }
          $opportunityPostNb = count($postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds, $this->getUser()));
-
         $currentUser =$this->getUser();
         $likedPost = [];
         $reportedPosts = [];

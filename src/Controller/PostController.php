@@ -36,7 +36,7 @@ class PostController extends AbstractController
       if ($form->isSubmitted() && $form->isValid()) {
 
           $optionsRedirect = [];
-          if ($post->getCategory() == 'opportunite'){
+          if ($post->getCategory() == 'Opportunities'){
               $nbPoints = 30;
               $scoreHandler->add($this->getUser(), $nbPoints);
               $optionsRedirect = ['toastScore' => $nbPoints];

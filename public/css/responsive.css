@@ -103,6 +103,10 @@
   .post-content{
     padding-right:10px;
   }
+  .communaute-search-btn{
+    text-align: center;
+    width:100%;
+  }
 }
 
 @media (max-width: 574px) {

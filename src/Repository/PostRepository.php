@@ -50,7 +50,6 @@ class PostRepository extends ServiceEntityRepository
     public function findByNotSeenOpportunityPost($value, $value2, $value3)
     {
 
-
         $from =   date("Y-m-d H:i:s");
         $to = date("Y-m-d H:i:s",strtotime("-1 month"));
 
