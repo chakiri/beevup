@@ -32,8 +32,19 @@ Header
                          <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
                          {% elseif is_granted('ROLE_ADMIN_STORE')  %}
                          <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>
+                             <ul class="admin-menu-items">
+                                 <li><a href='/admin/?entity=Store'>Magasin</a></li>
+                                 <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
+
+                             </ul>
                          {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
-                         <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=User'>Administration</a></li>
+                         <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>
+                           <ul class="admin-menu-items">
+                               <li><a href='/admin/?entity=Store'>Magasin</a></li>
+                                <li><a href='/admin/?entity=User'>utilisateurs</a></li>
+                                <li><a href='/admin/?entity=Publicity'>Publicité</a></li>
+                            </ul>
+                         </li>
                          {% endif %}
                         <li><div class="dropdown-divider"></div></li>
                         <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
