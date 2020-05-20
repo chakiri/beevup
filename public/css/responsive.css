@@ -44,6 +44,12 @@
   #login-page{
     padding: 0;
   }
+  .admin-menu-items{
+    display:none !important
+  }
+  .administration-link a::after {
+    display: none;
+  }
 }
 
 

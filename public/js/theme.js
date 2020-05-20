@@ -721,6 +721,7 @@ $('.company-category').change(function(){
     }
 
 
+
 /*fix responsive issues*/
 
 })(jQuery);

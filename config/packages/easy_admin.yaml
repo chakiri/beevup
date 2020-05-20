@@ -14,6 +14,8 @@ easy_admin:
         assets:
             css:
                - 'css/admin.css'
+            js:
+              - 'lib/mobile-nav/mobile-nav.js'
     entities:
         # List the entity class name you want to manage
         Store:
@@ -39,24 +41,23 @@ easy_admin:
               - { property: 'city', label: 'Ville' }
             form:
               fields:
-              - { type: 'group', columns: 6, label: 'Informations Générale',icon: 'address-card-o', }
+              - { type: 'group',  label: 'Informations Générale',icon: 'address-card-o', css_class: 'col-lg-6' }
               - { property: 'reference', label: 'Reference' }
               - { property: 'name', label: 'Nom' }
               - { property: 'introduction', label: 'Introduction', type: 'textarea'}
               - { property: 'description', label: 'Description', type: 'textarea' }
-              - { property: 'slug', label: 'slug (URL conviviale)' }
-              - { type: 'group', label: 'Adresse', icon: 'map-marker', columns: 6 }
-              - { property: 'address_number', label: 'Numéro Adresse', type: 'text' }
-              - { property: 'address_street', label: 'Rue', type: 'text'  }
-              - { property: 'address_post_code', label: 'Code postale', type: 'text'  }
+              - { type: 'group', label: 'Adresse', icon: 'map-marker',  css_class: 'col-lg-6'}
+              - { property: 'address_number', label: 'Numéro Adresse', type: 'text' , type_options: { required: true } }
+              - { property: 'address_street', label: 'Rue', type: 'text' , type_options: { required: true } }
+              - { property: 'address_post_code', label: 'Code postale', type: 'text' , type_options: { required: true } }
               - { property: 'country', label: 'Pays' , type: 'country'}
               - { property: 'city', label: 'Ville' }
               - { property: 'latitude', label: 'Latitude' }
               - { property: 'longitude', label: 'Longitude' }
-              - { type: 'group', columns: 6, label: 'Contact', icon: 'phone'}
+              - { type: 'group',  label: 'Contact', icon: 'phone', css_class: 'col-lg-6'}
               - { property: 'email', label: 'Email' }
               - { property: 'phone', label: 'Téléphone' }
-              - { type: 'group', columns: 6, label: 'Attachement', icon: 'phone'}
+              - { type: 'group',  label: 'Attachement', icon: 'phone', css_class: 'col-lg-6'}
               - { property: 'imageFile', label: 'Photo du magasin', type: 'vich_image', upload_dir: 'public/images/company/' }
         Publicity:
             class: App\Entity\Publicity
