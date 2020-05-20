@@ -17,14 +17,16 @@
                     <div class="col-lg-8">
                         <div class="box-head-content">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-lg-8">
                                     <div class="main-info">
                                         <h2>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h2>
                                         {% if profile.function %}
                                             <p><strong>{{ profile.function.name|capitalize}}</strong></p>
                                         {% endif %}
                                         <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|country_name  }}</p>
+                                        {% if profile.phoneNumber != '' %}
                                         <p><i class="fa fa-phone"></i>  {{ profile.phoneNumber ?: 'non saisi' }}</p>
+                                        {% endif %}
                                     </div>
                                     {#
                                     <ul class="info-list">
@@ -44,14 +46,14 @@
                                     </ul>
                                     #}
                                 </div>
-                                <div class="col-4 text-right">
+                                <div class="col-lg-4 text-right">
                                     {% if profile.user == app.user  %}
-                                        <p><a href="{{ path('profile_edit', {'id': profile.id}) }}" type="button" class="btn btn-md btn-2"><i class="fa fa-pencil"></i>  Modifier profil </a></p>
+                                        <p><a href="{{ path('profile_edit', {'id': profile.id}) }}" type="button" class="btn btn-design mvp-bg mt-3 mvp-btn"><i class="fa fa-pencil"></i>  Modifier profil </a></p>
                                     {% else %}
                                         <a id="result-user-item-{{ profile.user.id }}"
                                            href="#"
                                            type="button"
-                                           class="btn btn-design btn-1 profil-add-favoris add-favoris {{ isFavorit }}"
+                                           class="mvp-btn btn btn-design btn-1 profil-add-favoris add-favoris {{ isFavorit }}"
                                            data-user-id="{{ profile.user.id }}"
                                            data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
                                            data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
@@ -63,7 +65,7 @@
                                                 Ajouter aux favoris
                                             {% endif %}
                                         </a>
-                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" type="button" class="btn btn-design btn-2 mt-3">Chater avec {{ profile.firstname|capitalize }}</a>
+                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" type="button" class="btn btn-design mvp-bg mt-3 mvp-btn">Chater avec {{ profile.firstname|capitalize }}</a>
                                     {% endif %}
                                 </div>
                             </div>
