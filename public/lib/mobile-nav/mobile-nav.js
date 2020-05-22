@@ -3,6 +3,7 @@
 
   // Mobile Navigation
   if ($('.main-nav').length) {
+    $('.main-nav').addClass('mobile-nav-cls');
     var $mobile_nav = $('.main-nav').clone().prop({
       class: 'mobile-nav d-lg-none'
     });

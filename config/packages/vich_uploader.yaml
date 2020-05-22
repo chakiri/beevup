@@ -15,7 +15,7 @@ vich_uploader:
             upload_destination: '%kernel.project_dir%/public/images/company'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         store_image:
-            uri_prefix:         /images/store
+            uri_prefix:         /images/stores
             upload_destination: '%kernel.project_dir%/public/images/store'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         publicity_images:

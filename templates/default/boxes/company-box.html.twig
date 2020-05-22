@@ -11,9 +11,11 @@
         {% endif %}
         <p class="company-tel mt-2 ml-3 company-name">{{ app.user.company.name|capitalize }}</p>
         {% if app.user.company.isCompleted %}
+            {% if app.user.company.phone != '' %}
             <p class="company-tel">
                 <i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}
             </p>
+                {% endif %}
             <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
                 {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}
             </p>

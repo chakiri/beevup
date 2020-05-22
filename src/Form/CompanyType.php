@@ -57,6 +57,7 @@ class CompanyType extends AbstractType
                  ]
             ])
             ->add('phone', IntegerType::class, [
+                'required'=>false,
                 'attr'  => [
                     'placeholder' => 'Téléphone',
                     'class'       =>'form-control'
@@ -100,7 +101,9 @@ class CompanyType extends AbstractType
                 ]
         
             ])
-            ->add('video')
+            ->add('video', TextType::class, [
+                'required' => false
+            ])
             ->add('name', TextType::class, [
                 'attr'  => [
                     'placeholder' => 'Entreprise',
@@ -108,12 +111,14 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('description', TextType::class, [
+                'required' => false,
                 'attr'  => [
                     'placeholder' => 'Description',
                     'class'       =>'form-control'
                 ]
             ])
             ->add('website', TextType::class, [
+                'required' => false,
                 'attr'  => [
                     'placeholder' => 'Site web',
                     'class'       =>'form-control'

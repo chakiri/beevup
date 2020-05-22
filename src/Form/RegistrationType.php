@@ -58,7 +58,7 @@ class RegistrationType extends AbstractType
                ])
             ->add('acceptConditions', CheckboxType::class, [
                 'mapped'=>false,
-                'label'    => 'J\'accepte les Conditions Générales d\'Utilisation de la plateforme Beev\'Up et j\'accepte de recevoir des e-mails, SMS et notifications liées aux fonctions de la plateforme',
+                'label'    => 'J\'accepte les Conditions Générales',
                 'required' => false,
                 'attr'  => [
                    'class'       =>'accpet-condition'

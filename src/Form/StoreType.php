@@ -52,6 +52,7 @@ class StoreType extends AbstractType
                 ]
             ])
             ->add('phone', TextType::class, [
+                'required'=>false,
                 'label' => 'Téléphone',
                 'attr'  => [
                     'placeholder' => 'téléphone',
@@ -103,6 +104,7 @@ class StoreType extends AbstractType
                 ]
             ])
             ->add('introduction', TextareaType::class, [
+                'required'=>false,
                 'label' => 'Introduction',
                 'attr'  => [
                     'placeholder' => 'Introduction',
@@ -110,6 +112,7 @@ class StoreType extends AbstractType
                     ]
                 ])
             ->add('description', TextareaType::class, [
+                'required'=>false,
                 'label' => 'Description',
                 'attr'  => [
                     'placeholder' => 'Description',

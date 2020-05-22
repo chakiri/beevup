@@ -195,6 +195,7 @@ class ServiceController extends AbstractController
     public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository)
     {
         $company = null;
+        $companyId = null;
 
         if(!is_null($service->getUser()->getCompany())) {
             $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
