@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
-class Store
+class Store implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -79,13 +80,14 @@ class Store
     private $longitude;
 
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $filename;
-        
+
     /**
-     * @Vich\UploadableField(mapping="store_image", fileNameProperty="filename")
-     * @var File
+     * @var File|null
+     * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
      */
     private $imageFile;
 
@@ -287,31 +289,42 @@ class Store
         return $this;
     }
 
-    public function getFileName(): ?string
+    /**
+     * @return null|string
+     */
+    public function getFilename()
     {
         return $this->filename;
     }
 
-    public function setFilename(?string $filename): self
+    /**
+     * @param null|string $filename
+     */
+    public function setFilename($filename)
     {
         $this->filename = $filename;
-
-        return $this;
     }
 
-    public function getImageFile()
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(File $image = null)
+    /**
+     * @param null|File $imageFile
+     * @return $this
+     */
+    public function setImageFile(?File $imageFile)
     {
-        $this->imageFile = $image;
+        $this->imageFile = $imageFile;
 
-       if ($image) {
+        if ($this->imageFile instanceof UploadedFile) {
             $this->modifiedAt = new \DateTime('now');
         }
+
+        return $this;
     }
+
     public function setAddressStreet(string $addressStreet): self
     {
         $this->addressStreet = $addressStreet;
@@ -475,5 +488,16 @@ class Store
         }
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
     }
 }

@@ -58,8 +58,7 @@ class StoreController extends AbstractController
      */
     public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id)
     {
-       if($id == $this->getUser()->getStore()->getId() &&( $this->getUser()->getType()->getId() == 4 || $this->getUser()->getType()->getId() == 1)) {
-
+       if(in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) {
             if (!$store) {
                 $store = new Store();
                 $store->setReference('12323434');
@@ -70,21 +69,6 @@ class StoreController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $store->setModifiedAt(new \DateTime());
 
-                $file = $form['imageFile']->getData();
-                if ($file) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $originalFilename;
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-                    try {
-                        $file->move(
-                            $this->getParameter('stores_images'),
-                            $newFilename
-                        );
-
-                    } catch (FileException $e) {
-                    }
-                    $store->setFilename($newFilename);
-                }
                 $manager->persist($store);
                 $manager->flush();
 

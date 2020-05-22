@@ -6,7 +6,7 @@
 
     <div class="avatar">
         {% if adviser.profile.filename %}
-            <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile') }}" class="img-fluid" alt="">
+            <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
         {% else %}
             <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
         {% endif %}

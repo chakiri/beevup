@@ -142,8 +142,8 @@
             "ref": "1d42bc3f713130582e6e0c475c49bc327ab0a2a2"
         },
         "files": [
-            "./config/packages/liip_imagine.yaml",
-            "./config/routes/liip_imagine.yaml"
+            "config/packages/liip_imagine.yaml",
+            "config/routes/liip_imagine.yaml"
         ]
     },
     "nikic/php-parser": {
@@ -427,7 +427,7 @@
         ]
     },
     "symfony/templating": {
-        "version": "v5.0.7"
+        "version": "v5.0.8"
     },
     "symfony/translation": {
         "version": "3.3",

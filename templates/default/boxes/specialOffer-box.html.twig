@@ -5,7 +5,7 @@
 <div class="last-special-offer">
 
            {% if lastSpecialOffer.filename %}
-            <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile') }}" class="img-fluid" alt="">
+            <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="">
             {% else %}
                 <img src="/images/no-available-photo.png" class="img-fluid" alt="">
         {% endif %}

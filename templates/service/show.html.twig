@@ -10,7 +10,7 @@
                 <div class="col-lg-4">
                     <div class="box-image">
                         {% if service.filename %}
-                            <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('avatar') }}" class="img-fluid" alt="">
                         {% else %}
                             <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
                         {% endif %}
@@ -64,7 +64,7 @@
                                         <div class="similar-service">
                                             <div class="avatar">
                                                 {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                                 {% else %}
                                                     <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
                                                 {% endif %}

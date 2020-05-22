@@ -47,7 +47,7 @@
                                     <div class="avatar">
                                         {% if adviser.profile.filename %}
                                             <a class="user-link" href="{{ path('profile_show', {'id': adviser.id}) }}">
-                                                <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile') }}" class="img-fluid dashboard-profil-img" alt="">
+                                                <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid dashboard-profil-img" alt="">
                                             </a>
                                         {% else %}
                                             <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
@@ -106,7 +106,7 @@
                                                 {% endif %}
                                                 <div class="portfolio-wrap dashboard-service-image">
                                                     {% if service.filename %}
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="">
                                                     {% else %}
                                                         <img src="/images/default/unknown.png" class="img-fluid" alt="">
                                                     {% endif %}

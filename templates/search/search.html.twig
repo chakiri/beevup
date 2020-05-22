@@ -131,7 +131,7 @@
                                                 </a>
                                            {% else %}
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="">
                                                 </a>
                                            {% endif %}
                                        </div>

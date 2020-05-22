@@ -95,9 +95,8 @@ class StoreType extends AbstractType
                 ]
             ])
             ->add('imageFile', FileType::class, [
-                'mapped' => false,
                 'required' => false,
-                'label' => 'Photo',
+                'label' => 'Photo ',
                 'attr'  => [
                     'placeholder' => 'Photo',
                     'class'       =>'form-control'
@@ -121,7 +120,7 @@ class StoreType extends AbstractType
             ->add('defaultAdviser', EntityType::class, [
             'label' => 'conseiller',
             'multiple'=>false,
-            'required' => true,
+            'required' => false,
             'placeholder' => '-Séléctionner-',
             'class' => User::class,
             'choices' =>$users,

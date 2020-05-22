@@ -3,91 +3,79 @@ liip_imagine:
   # valid drivers options include "gd" or "gmagick" or "imagick"
   driver: "gd"
   resolvers:
-    default:
-      web_path: ~
+      default:
+          web_path: ~
 
   filter_sets:
-    cache: ~
+      cache: ~
 
-    # the name of the "filter set"
-    thumbnail:
+      thumbnail:
+          # adjust the image quality to 75%
+          quality: 75
+          # list of transformations to apply (the "filters")
+          filters:
+              # create a thumbnail: set size to 120x90 and use the "outbound" mode
+              # to crop the image when the size ratio of the input differs
+              thumbnail: { size: [32, 32], mode: outbound }
+              # create a 2px black border: center the thumbnail on a black background
+              # 4px larger to create a 2px border around the final image
+              background: {  position: center, color: '#000000' }
 
-      # adjust the image quality to 75%
-      quality: 75
+      medium:
+          # adjust the image quality to 75%
+          quality: 75
+          # list of transformations to apply (the "filters")
+          filters:
+              # create a thumbnail: set size to 120x90 and use the "outbound" mode
+              # to crop the image when the size ratio of the input differs
+              thumbnail: { size: [100, 100], mode: outbound }
+              # create a 2px black border: center the thumbnail on a black background
+              # 4px larger to create a 2px border around the final image
+              background: {  position: center, color: '#000000' }
 
-      # list of transformations to apply (the "filters")
-      filters:
+      thumbnail45:
+          # adjust the image quality to 75%
+          quality: 75
+          # list of transformations to apply (the "filters")
+          filters:
+              # create a thumbnail: set size to 120x90 and use the "outbound" mode
+              # to crop the image when the size ratio of the input differs
+              thumbnail: { size: [100, 100], mode: outbound }
 
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [32, 32], mode: outbound }
+      companyLogo:
+          # adjust the image quality to 75%
+          quality: 75
+          # list of transformations to apply (the "filters")
+          filters:
+              # create a thumbnail: set size to 120x90 and use the "outbound" mode
+              # to crop the image when the size ratio of the input differs
+              thumbnail: { size: [100, 100] }
 
-        # create a 2px black border: center the thumbnail on a black background
-        # 4px larger to create a 2px border around the final image
-        background: {  position: center, color: '#000000' }
+      contacts:
+          # adjust the image quality to 75%
+          quality: 75
+          # list of transformations to apply (the "filters")
+          filters:
+              # create a thumbnail: set size to 120x90 and use the "outbound" mode
+              # to crop the image when the size ratio of the input differs
+              thumbnail: { size: [173, 173] }
 
-    # the name of the "filter set"
-    medium:
-
-      # adjust the image quality to 75%
-      quality: 75
-
-      # list of transformations to apply (the "filters")
-      filters:
-
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [100, 100], mode: outbound }
-
-        # create a 2px black border: center the thumbnail on a black background
-        # 4px larger to create a 2px border around the final image
-        background: {  position: center, color: '#000000' }
-    # the name of the "filter set"
-    thumbnail45:
-
-      # adjust the image quality to 75%
-      quality: 75
-
-      # list of transformations to apply (the "filters")
-      filters:
-
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [100, 100], mode: outbound }
-    # the name of the "filter set"
-    companyLogo:
-
-      # adjust the image quality to 75%
-      quality: 75
-
-      # list of transformations to apply (the "filters")
-      filters:
-
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [100, 100] }
-    # the name of the "filter set"
-    contacts:
-
-      # adjust the image quality to 75%
-      quality: 75
-
-      # list of transformations to apply (the "filters")
-      filters:
-
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [173, 173] }
-    # the name of the "filter set"
-    companyService:
-
-      # adjust the image quality to 75%
-      quality: 75
-
-      # list of transformations to apply (the "filters")
-      filters:
-
-        # create a thumbnail: set size to 120x90 and use the "outbound" mode
-        # to crop the image when the size ratio of the input differs
-        thumbnail: { size: [173, 109] }
-
+      avatar:
+          filters:
+              thumbnail: { size: [386, 200] }
+      profileAvatar:
+          quality: 100
+          filters:
+              thumbnail: { size: [386, 350] }
+      card:
+          quality: 100
+          filters:
+              thumbnail: { size: [271, 220] }
+      miniature:
+          quality: 100
+          filters:
+              thumbnail: { size: [66, 66] }
+      bigMiniature:
+          quality: 100
+          filters:
+              thumbnail: { size: [96, 96] }

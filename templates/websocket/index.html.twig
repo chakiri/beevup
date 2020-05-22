@@ -51,7 +51,7 @@
                                             <div class="conversation">
                                                 <div class="conversation-avatar avatar">
                                                     {% if user.profile.filename %}
-                                                        <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                        <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                                     {% else %}
                                                         <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                                                     {% endif %}
@@ -79,7 +79,7 @@
                     <div class="inbox-avatar avatar">
                         {% if user is defined and user is not null %}
                             {% if user.profile.filename %}
-                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature')  }}" class="img-fluid" alt="">
                             {% else %}
                                 <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                             {% endif %}
@@ -119,7 +119,7 @@
                                 {% if user is defined and user is not null %}
                                     <div class="profile-avatar avatar">
                                         {% if user.profile.filename %}
-                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('bigMiniature')  }}" class="img-fluid" alt="">
                                         {% else %}
                                             <img src="/images/no-available-photo.png" class="img-fluid" alt="">
                                         {% endif %}
