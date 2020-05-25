@@ -60,13 +60,15 @@ liip_imagine:
               # to crop the image when the size ratio of the input differs
               thumbnail: { size: [173, 173] }
 
-      avatar:
+
+      square:
+          quality: 75
           filters:
-              thumbnail: { size: [386, 200] }
-      profileAvatar:
-          quality: 100
+              thumbnail: { size: [386, 350], mode: outbound }
+      rectangle:
+          quality: 75
           filters:
-              thumbnail: { size: [386, 350] }
+              thumbnail: { size: [386, 200], mode: outbound }
       card:
           quality: 100
           filters:

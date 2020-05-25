@@ -10,7 +10,7 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="box-image company-image">
                         {% if company.filename %}
-                            <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('avatar') }}" class="img-fluid" alt="">
+                            <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('rectangle') }}" class="img-fluid" alt="">
                         {% else %}
                             <img class="company-no-available-img" src="/images/no-available-company-photo.png" alt="">
                         {% endif %}
@@ -120,7 +120,7 @@
                                                        {% if user.profile.filename is empty %}
                                                            <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
                                                        {% else %}
-                                                           <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                           <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="">
                                                        {% endif %}
                                                    </a>
                                                </div>
