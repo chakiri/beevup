@@ -53,7 +53,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, $id)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
@@ -80,13 +80,15 @@ class CompanyController extends AbstractController
                    if($company->getIsCompleted() == false) {
                        $company->setIsCompleted(true);
                        // create a new welcome post
-                       $AdminPLatformeType = $userType->findOneBy(['id' =>5]);
+                       $AdminPLatformeType = $userTypeRepository->findOneBy(['id' =>5]);
                        $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
                        $post = new Post();
                        $post->setUser($user);
                        $post->setCategory('Derniers arrivés');
                        $post->setTitle('Bienvenu à l\'entreprise '.$company->getName());
-                       $post->setDescription($company->getDescription());
+                       if($company->getDescription() != '') {
+                           $post->setDescription($company->getDescription());
+                       }
                        $post->setToCompany($company);
                        $manager->persist($post);
                    }
