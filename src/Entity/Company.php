@@ -89,7 +89,7 @@ class Company implements \Serializable
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @ORM\Column(type="string", length=500)
      */
     private $description;
 
@@ -366,7 +366,7 @@ class Company implements \Serializable
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
