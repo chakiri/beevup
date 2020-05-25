@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\Post;
+use App\Entity\UserType;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -53,7 +54,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, $id)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, $id, UserRepository $userRepository, UserType $userType)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
@@ -61,22 +62,6 @@ class CompanyController extends AbstractController
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
 
-
-                    $file = $form['imageFile']->getData();
-                    if ($file) {
-                        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $originalFilename;
-                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-                        try {
-                            $file->move(
-                                $this->getParameter('entreprise_logos'),
-                                $newFilename
-                            );
-
-                        } catch (FileException $e) {
-                        }
-                        $company->setLogo($newFilename);
-                    }
                    if($company->getIsCompleted() == false) {
                        $company->setIsCompleted(true);
                        // create a new welcome post
