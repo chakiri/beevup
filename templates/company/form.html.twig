@@ -21,7 +21,7 @@
                             {{ form_start(EditCompanyForm) }}
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">N° SIRET</label>
                                             {{ form_errors(EditCompanyForm.siret) }}
                                             <div class="input-group">
@@ -33,8 +33,8 @@
                                                 {{ form_widget(EditCompanyForm.siret) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="">Nom de l'entreprsie</label>
+                                        <div class="form-group required">
+                                            <label for="">Nom de l'entreprise</label>
                                             {{ form_errors(EditCompanyForm.name) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -46,7 +46,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Introduction</label>
+                                            <label for="">Votre activité en une phrase</label>
                                             {{ form_errors(EditCompanyForm.introduction) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -57,7 +57,7 @@
                                             {{ form_widget(EditCompanyForm.introduction) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Description de l'entreprise</label>
                                             {{ form_errors(EditCompanyForm.description) }}
                                             <div class="input-group">
@@ -69,7 +69,7 @@
                                                  {{ form_widget(EditCompanyForm.description) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Votre magasin Bureau vallée de référence</label>
                                             {{ form_errors(EditCompanyForm.store) }}
                                             <div class="input-group">
@@ -81,7 +81,7 @@
                                                 {{ form_widget(EditCompanyForm.store) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Catégorie de l'entreprise</label>
                                             {{ form_errors(EditCompanyForm.category) }}
                                             <div class="input-group">
@@ -105,7 +105,7 @@
                                                 {{ form_widget(EditCompanyForm.otherCategory) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Email</label>
                                             {{ form_errors(EditCompanyForm.email) }}
                                             <div class="input-group">
@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Numéro de téléphone</label>
+                                            <label for="">Téléphone</label>
                                             {{ form_errors(EditCompanyForm.phone) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -131,7 +131,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Numéro de rue</label>
                                             {{ form_errors(EditCompanyForm.addressNumber) }}
                                             <div class="input-group">
@@ -143,7 +143,7 @@
                                             {{ form_widget(EditCompanyForm.addressNumber) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Rue</label>
                                             {{ form_errors(EditCompanyForm.addressStreet) }}
                                             <div class="input-group">
@@ -155,7 +155,7 @@
                                             {{ form_widget(EditCompanyForm.addressStreet) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Code postal</label>
                                             {{ form_errors(EditCompanyForm.addressPostCode) }}
                                             <div class="input-group">
@@ -168,7 +168,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Pays</label>
                                             {{ form_errors(EditCompanyForm.country) }}
                                             <div class="input-group">
@@ -180,7 +180,7 @@
                                             {{ form_widget(EditCompanyForm.country) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group required">
                                             <label for="">Ville</label>
                                             {{ form_errors(EditCompanyForm.city) }}
                                             <div class="input-group">
@@ -193,7 +193,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Image</label>
+                                            <label for="">Votre logo</label>
                                             {{ form_errors(EditCompanyForm.imageFile) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -205,7 +205,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Lien vidéo</label>
+                                            <label for="">Lien vidéo Youtube</label>
                                             {{ form_errors(EditCompanyForm.video) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -217,7 +217,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Site web de l'entreprise</label>
+                                            <label for="">Site web</label>
                                             {{ form_errors(EditCompanyForm.website) }}
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -232,7 +232,7 @@
                                 </div>
 
                             <div class="form-actions form-group text-center">
-                                    <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Editer</button>
+                                    <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Enregistrer</button>
                                 </div>
 
 

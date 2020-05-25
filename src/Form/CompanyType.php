@@ -77,7 +77,7 @@ class CompanyType extends AbstractType
             ])
             ->add('addressPostCode', TextType::class, [
                 'attr'  => [
-                    'placeholder' => 'Code Postale',
+                    'placeholder' => 'Code Postal',
                     'class'       =>'form-control'
                 ]
             ])
@@ -88,6 +88,7 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('country', CountryType::class, [
+                'preferred_choices' => ['FR'],
                 'placeholder' => 'Sélectionnez votre pays',
                 'attr'  => [
                     'class'       =>'form-control'
@@ -110,9 +111,8 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('description', TextType::class, [
-                'required' => false,
-                'attr'  => [
+            ->add('description', TextareaType::class, [
+               'attr'  => [
                     'placeholder' => 'Description',
                     'class'       =>'form-control'
                 ]
