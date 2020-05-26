@@ -42,7 +42,7 @@
                         <div class="dashboard-header-buttons">
 
                             {% if  app.user.profile.isCompleted == true %}
-                                <div class="add" style="float: right">
+                                <div class="add" style="float: right" data-intro="Publier un post" data-step="3">
                                     <button type="button"
                                             class="btn  btn-sm btn-radius add-post"
                                             data-toggle="modal-add-post"
@@ -160,7 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="box post-box">
+                    <div class="box post-box" data-intro="Votre fil d'actualité" data-step="4">
                         <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
                             <div class="col-4">
@@ -190,10 +190,12 @@
 
                 <div class="col-lg-3 col-md-12 order-sm-3">
                     {% if publicity is not null %}
-                      {% include 'default/boxes/advertising-box.html.twig' %}
+                        {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
                     {% if specialOfferNb > 0 %}
-                        {% include 'default/boxes/specialOffer-box.html.twig' %}
+                        <div class="special-offer" data-intro="Découvrez les offres spéciales de votre communauté" data-step="5" data-position="left">
+                            {% include 'default/boxes/specialOffer-box.html.twig' %}
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -213,4 +215,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        introJs("#dashboard").start();
+    </script>
 {% endblock %}

@@ -21,7 +21,7 @@
             </p>
         {% endif %}
         {% if app.user.company.barCode %}
-            <div class="box-barCode">
+            <div class="box-barCode" data-intro="Code bar de votre entreprise" data-step="1" data-position="right">
                 <p class="barCode-text">Vous pouvez utiliser ce code dans votre magasin de référence </p>
                 <img src="data:image/png;base64,{{ app.user.company.barCode }}" />
             </div>
