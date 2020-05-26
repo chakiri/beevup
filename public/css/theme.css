@@ -2555,6 +2555,9 @@ font-size: 10px;
   content:" *";
   color:red;
 }
+#company_description{
+  height: 120px;
+}
 
 /*.notification-box:before{
   bottom: 100%;

@@ -687,7 +687,7 @@ $('#display-opportunity-offer').click(function(){
             $('#inscription-btn').attr('disabled', true);
         }
     });
-$('.company-category').change(function(){
+/*$('.company-category').change(function(){
     var selectedItem = $('#company_category').val();
    if(selectedItem ==7)
    {
@@ -696,7 +696,7 @@ $('.company-category').change(function(){
        $('.other-category').addClass('none');
    }
 
-})
+})*/
 /*fix responsive issues*/
 
    $('#registration_company_siret').width($('#registration_name').width());
