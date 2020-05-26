@@ -89,7 +89,7 @@ class Company implements \Serializable
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
 
@@ -135,7 +135,7 @@ class Company implements \Serializable
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @ORM\Column(type="string", length=500)
      */
 
     private $introduction;
@@ -361,12 +361,12 @@ class Company implements \Serializable
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription():  ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -493,7 +493,7 @@ class Company implements \Serializable
         return $this->introduction;
     }
 
-    public function setIntroduction(?string $introduction): self
+    public function setIntroduction(string $introduction): self
     {
         $this->introduction = $introduction;
 
