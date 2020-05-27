@@ -87,6 +87,11 @@ class Profile implements \Serializable
      */
     private $isCompleted;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isOnboarding;
+
     public function __construct()
     {
         $this->isCompleted = false;
@@ -284,6 +289,18 @@ class Profile implements \Serializable
     {
         $this->id = unserialize($serialized);
 
+    }
+
+    public function getIsOnboarding(): ?bool
+    {
+        return $this->isOnboarding;
+    }
+
+    public function setIsOnboarding(?bool $isOnboarding): self
+    {
+        $this->isOnboarding = $isOnboarding;
+
+        return $this;
     }
 
 }

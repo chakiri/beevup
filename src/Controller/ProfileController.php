@@ -82,4 +82,17 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('page_not_found', []);
         }
     }
+
+    /**
+     * @Route("/onboarding", name="onboarding")
+     */
+    public function setOnBoarding(EntityManagerInterface $manager)
+    {
+        $profile = $this->getUser()->getProfile();
+        $profile->setIsOnboarding(true);
+
+        $manager->persist($profile);
+
+        $manager->flush();
+    }
 }

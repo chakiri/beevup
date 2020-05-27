@@ -5,6 +5,7 @@
 {% block body %}
 
     <section id="dashboard" class="mt-5">
+        <div id="onboarding" data-url="{{ path('onboarding') }}" data-onboarding="{{ app.user.profile.isOnboarding }}"></div>
         <div class="container-mvp">
 
             {# Notice warning#}
@@ -160,7 +161,7 @@
                         </div>
                     </div>
 
-                    <div class="box post-box" data-intro="Votre fil d'actualité" data-step="4">
+                    <div class="box post-box" data-hint="Get it, use it." data-intro="Votre fil d'actualité" data-step="4" data-scrollTo="tooltip">
                         <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
                             <div class="col-4">
@@ -219,6 +220,29 @@
 
 {% block javascripts %}
     <script>
-        introJs("#dashboard").start();
+        var isOnboarding = document.getElementById("onboarding").dataset.onboarding;
+
+        if (isOnboarding == false){
+            startIntro();
+        }
+
+        function startIntro(){
+            var intro = introJs();
+            intro.onbeforechange(function () {
+                //Get number before last step (4)
+                if (this._currentStep === 4) {
+                    setOnborading();
+                }
+            });
+            intro.setOptions({ 'skipLabel': 'Passer', 'doneLabel': 'Terminer', 'prevLabel': 'Précédent', 'nextLabel': 'Suivant' });
+            intro.start();
+        }
+
+        function setOnborading(){
+            var url = document.getElementById("onboarding").dataset.url;
+            $.ajax({
+               url: url
+            });
+        }
     </script>
 {% endblock %}
