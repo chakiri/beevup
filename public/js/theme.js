@@ -703,9 +703,11 @@ $('#display-opportunity-offer').click(function(){
     var footerHeight = $('.footer-copyright').height();
     var mt5Margin = 0;
     var headerHeight = $('#header').height();
-
-    $('.inbox-message').height($(document).height() - headerHeight - 120);
-   // $('.inbox-message').height(300);
+    var availableScreenHeight = screen.availHeight;
+    $('.inbox-message').height(availableScreenHeight - headerHeight - 181);
+    if($('#chatPlateform').length > 0){
+        $('#chatPlateform').parent('body').addClass('white-bg');
+    }
 
     if ((".mt-5").length > 0) {
         if($(".mt-5").css("marginTop")) {
