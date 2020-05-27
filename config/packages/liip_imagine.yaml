@@ -72,7 +72,11 @@ liip_imagine:
       card:
           quality: 100
           filters:
-              thumbnail: { size: [271, 220] }
+              thumbnail: { size: [271, 220]}
+      rectangleCard:
+          quality: 100
+          filters:
+              thumbnail: { size: [271, 140]}
       miniature:
           quality: 100
           filters:

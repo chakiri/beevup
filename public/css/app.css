@@ -19,6 +19,11 @@ section{
     background-color: #f9f9fc;
 }
 
+.last-special-offer img{
+    width: 271px;
+    height: 140px;
+}
+
 /*----Notif dahsbord----*/
 .notification .message{
     display: flex;
