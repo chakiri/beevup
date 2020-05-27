@@ -2,29 +2,33 @@
 <div class="box-title-container">
     <p class="box-title">Offres dédiées<br> à la communauté Beev'Up </p>
 </div>
-<div class="last-special-offer">
-
-           {% if lastSpecialOffer.filename %}
-            <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('rectangleCard') }}" class="img-fluid" alt="">
+    {% if specialOfferNb > 0 %}
+        <div class="last-special-offer">
+            {% if lastSpecialOffer.filename %}
+                <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('rectangleCard') }}" class="img-fluid" alt="">
             {% else %}
                 <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-        {% endif %}
+            {% endif %}
 
-   <a class="specialOfferLink" href="{{ path('service_show',{'id':lastSpecialOffer.id}) }}">
-      {{ lastSpecialOffer.title }}
-   </a>
-</div>
-<p class="company-tel mt-2 text-center">
-   <span class="user-action btn-radius">
+            <a class="specialOfferLink" href="{{ path('service_show',{'id':lastSpecialOffer.id}) }}">
+                {{ lastSpecialOffer.title }}
+            </a>
+        </div>
+        <p class="company-tel mt-2 text-center">
+        <span class="user-action btn-radius">
       <a class="user-link mvp-st-btn" href="{{ path('service_discovery') }}">Voir toutes les offres</a>
     </span>
-    {% if is_granted('ROLE_ADMIN') %}
-    <span class="user-action btn-radius ml-1">
-      <a class="user-link" href="{{ path('service_new', {'isOffer': true}) }}">Créer une offre </a>
-        <p class="box-description">Proposez une offre dédiée à la communauté locale pour faire connaitre vos services et participer
-        au développement de la communauté.  Gagnez 40 points BeeV'Up</p>
-    </span>
+        {% if is_granted('ROLE_ADMIN') %}
+            <span class="user-action btn-radius ml-1">
+        <a class="user-link" href="{{ path('service_new', {'isOffer': true}) }}">Créer une offre </a>
+            <p class="box-description">Proposez une offre dédiée à la communauté locale pour faire connaitre vos services et participer
+                au développement de la communauté.  Gagnez 40 points BeeV'Up</p>
+            </span>
+        {% endif %}
+        </p>
+    {% else %}
+        <p><small>Aucune offre créée pour l'instant !</small></p>
     {% endif %}
-</p>
+
 
 </div>

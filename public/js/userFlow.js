@@ -1,7 +1,7 @@
 //Intro Js
 var isOnboarding = document.getElementById("onboarding").dataset.onboarding;
 
-if (isOnboarding == false){
+if (isOnboarding != true){
     startIntro();
 }
 

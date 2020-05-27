@@ -41,9 +41,8 @@
                 <div class="col-lg-6 col-md-12 order-sm-2">
                     <div class="box dashboard-header">
                         <div class="dashboard-header-buttons">
-
-                            {% if  app.user.profile.isCompleted == true %}
-                                <div class="add" style="float: right" data-intro="Publier un post" data-step="3">
+                            <div class="add" style="float: right" data-intro="Publier un post" data-step="3">
+                                {% if app.user.profile.isCompleted == true %}
                                     <button type="button"
                                             class="btn  btn-sm btn-radius add-post"
                                             data-toggle="modal-add-post"
@@ -51,8 +50,15 @@
                                             data-whatever="create-post" >
                                         <i class="fa fa-pencil-square-o"></i> Publier un post
                                     </button>
-                                </div>
-                            {% endif %}
+                                {% else %}
+                                    <button type="button"
+                                            class="btn  btn-sm btn-radius"
+                                            data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile" >
+                                        <i class="fa fa-pencil-square-o"></i> Publier un post
+                                    </button>
+                                {% endif %}
+
+                            </div>
                             <div class="notifs">
                                 <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
                                     <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
@@ -193,11 +199,9 @@
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
-                    {% if specialOfferNb > 0 %}
-                        <div class="special-offer" data-intro="Découvrez les offres spéciales de votre communauté" data-step="5" data-position="left">
-                            {% include 'default/boxes/specialOffer-box.html.twig' %}
-                        </div>
-                    {% endif %}
+                    <div class="special-offer" data-intro="Découvrez les offres spéciales de votre communauté" data-step="5" data-position="left">
+                        {% include 'default/boxes/specialOffer-box.html.twig' %}
+                    </div>
                 </div>
             </div>
     </section>
