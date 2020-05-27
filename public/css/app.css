@@ -539,7 +539,6 @@ section{
 }
 
 .message-text{
-    background-color: #f7f7f7;
     padding: 0 20px;
     display: flex;
     align-items: center;
@@ -552,8 +551,11 @@ section{
     padding: 0;
     display: flex;
     flex-direction: column;
-	position:relative
-   /* height: 82vh;*/
+	position:relative;
+    height: 82vh;
+}
+.white-bg{
+    background-color:#fff !important ;
 }
 
 /* Responsive */
