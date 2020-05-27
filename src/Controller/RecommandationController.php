@@ -24,10 +24,9 @@ class RecommandationController extends AbstractController
     public function index(RecommandationRepository $repository)
     {
         $companyRecommandations = $repository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status'=>'Open'], []);
-        $serviceRecommandation = $repository->findByUserRecommandation($this->getUser(), 'Open');
         return $this->render('recommandation/index.html.twig', [
             'controller_name' => 'RecommandationController',
-            'recommandations' => array_merge($companyRecommandations,$serviceRecommandation)
+            'recommandations' => $companyRecommandations
         ]);
     }
     

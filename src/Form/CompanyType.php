@@ -24,10 +24,11 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('siret')
-            ->add('introduction', TextType::class, [
+            ->add('introduction', TextType::class)
+            ->add('description', TextareaType::class, [
                 'required' => false
+
             ])
-            ->add('description', TextareaType::class)
             ->add('store', EntityType::class, [
                 'multiple'=>false,
                 'class' => Store::class,
@@ -42,8 +43,7 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('otherCategory', TextType::class, [
-                'required'   => false,
-                'attr'  => [
+               'attr'  => [
                     'placeholder' => 'Autre',
                     'class'       =>'form-control',
 
@@ -112,6 +112,7 @@ class CompanyType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class, [
+                'required' => false,
                'attr'  => [
                     'placeholder' => 'Description',
                     'class'       =>'form-control'
