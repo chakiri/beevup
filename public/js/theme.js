@@ -700,7 +700,7 @@ $('#display-opportunity-offer').click(function(){
 /*fix responsive issues*/
 
    $('#registration_company_siret').width($('#registration_name').width());
-    var footerHeight = $('.footer-copyright').height();
+    /*var footerHeight = $('.footer-copyright').height();
     var mt5Margin = 0;
     var headerHeight = $('#header').height();
     var availableScreenHeight = screen.availHeight;
@@ -720,8 +720,8 @@ $('#display-opportunity-offer').click(function(){
     if ($(window).width() < 415)
     {
         $('.post-add-comment').removeClass('col-10').addClass('col-8');
-    }
-
+    }*/
+    $('#chatPlateform').parent('body').addClass('white-bg');
 
 
 /*fix responsive issues*/

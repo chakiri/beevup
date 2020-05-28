@@ -214,7 +214,7 @@ p.text-muted {
 --------------------------------------------------------------*/
 
 #header {
-  height: 85px;
+  height: 71px;
   padding: 15px 2em;
   transition: all 0.5s;
   z-index: 997;
@@ -248,7 +248,7 @@ p.text-muted {
   transition: all 0.5s;
   padding: 0;
   margin: -8px 0 0 10px;
-  max-height: 70px;
+  max-height: 63px;
 }
 
 .main-pages {
