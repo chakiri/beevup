@@ -20,12 +20,6 @@
                 {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}
             </p>
         {% endif %}
-        {% if app.user.company.barCode %}
-            <div class="box-barCode" data-intro="Code bar de votre entreprise" data-step="1" data-position="right">
-                <p class="barCode-text">Vous pouvez utiliser ce code dans votre magasin de référence </p>
-                <img src="data:image/png;base64,{{ app.user.company.barCode }}" />
-            </div>
-        {% endif %}
 
         <p class="mt-1"> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>
         {% if is_granted('ROLE_ADMIN_COMPANY') %}

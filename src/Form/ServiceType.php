@@ -33,20 +33,23 @@ class ServiceType extends AbstractType
                 'label'    => 'Titre',
                 'attr'  => [
                     'placeholder' => 'Titre',
-                    'class'       =>'form-control input-textarea'
+                    'class'       =>'form-control input-textarea',
+                     'maxlength' => 255
                 ]
 
             ])
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Description',
-                    'class'       =>'form-control input-textarea'
+                    'class'       =>'form-control input-textarea',
+                    'maxlength' => 1500
                 ],
             ])
             ->add('introduction', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Introduction',
-                    'class'       =>'form-control input-textarea'
+                    'class'       =>'form-control input-textarea',
+                    'maxlength' => 255
                 ],
             ])
             ->add('category', EntityType::class, [

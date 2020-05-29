@@ -67,7 +67,7 @@
                         {% endif %}
                     </div>
                 </div>
-                    <div class="box row col-12">
+                    <div class="box">
                         <div>
                             <h4>Les services proposés par votre magasin Bureau Vallée</h4>
                         </div>
@@ -143,7 +143,11 @@
                                                 {{ company.name }}
                                               </p>
                                             <p class="" style="text-align:center">
-                                                {{ company.category.name }}
+                                                {% if  company.category.name == 'Autre' %}
+                                                    {{ company.otherCategory|capitalize  }}
+                                                {% else %}
+                                                {{ company.category.name|capitalize }}
+                                                    {% endif %}
                                             </p>
                                             <p class="store-companies-introduction" >
 

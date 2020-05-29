@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
@@ -32,21 +33,25 @@ class Company implements \Serializable
     private $siret;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", nullable=true)
      */
     private $addressNumber;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", nullable=true)
      */
     private $addressStreet;

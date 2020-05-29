@@ -23,11 +23,14 @@ Header
                     <ul>
                         <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon compte</a></li>
                         {%  if app.user.company %}
-                        <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon entreprise</a></li>
+                        <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon Entreprise</a></li>
                         {% endif %}
                         {#{%  if app.user.type.id != 6 %}#}
-                          <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon magasin</a></li>
+                          <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
                         {#{% endif %}#}
+                        {% if app.user.company != null %}
+                          <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
+                        {% endif %}
                         {% if is_granted('ROLE_ADMIN_COMPANY') %} 
                          <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
                          {% elseif is_granted('ROLE_ADMIN_STORE')  %}
@@ -59,3 +62,33 @@ Header
     </nav><!-- .main-nav -->
 
 </header><!-- #header -->
+
+{% block modals %}
+   <div class="modal modal-get-bar-code fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ma carte pro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                     <div class="text-center">
+                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                             {% if app.user.company != null %}
+                                    {% if app.user.company.barCode %}
+                                        <div class="box-barCode" data-intro="Code bar de votre entreprise" data-step="1" data-position="right">
+                                            <p class="barCode-text">Vous pouvez utiliser ce code dans votre magasin de référence </p>
+                                            <img class="bar-code-img" src="data:image/png;base64,{{ app.user.company.barCode }}" />
+                                        </div>
+                                    {% endif %}
+                             {% endif %}
+                         {% endif %}
+                     </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

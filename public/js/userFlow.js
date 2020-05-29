@@ -1,7 +1,9 @@
 //Intro Js
 var isOnboarding = document.getElementById("onboarding").dataset.onboarding;
 
+
 if (isOnboarding != true){
+
     startIntro();
 }
 
@@ -9,7 +11,7 @@ function startIntro(){
     var intro = introJs();
     intro.onbeforechange(function () {
         //Get number before last step (4)
-        if (this._currentStep === 4) {
+       if (this._currentStep === 4) {
             setOnborading();
         }
     });
@@ -19,6 +21,7 @@ function startIntro(){
 
 function setOnborading(){
     var url = document.getElementById("onboarding").dataset.url;
+
     $.ajax({
         url: url
     });

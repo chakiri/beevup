@@ -55,6 +55,7 @@
   .administration-link a::after {
     display: none;
   }
+
 }
 
 
@@ -120,6 +121,9 @@
   }
   .add-recommandation-service{
     text-align: left !important;
+  }
+  .profil-actions{
+    margin-top: 15px;
   }
 }
 

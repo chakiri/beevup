@@ -46,7 +46,7 @@
                                     </ul>
                                     #}
                                 </div>
-                                <div class="col-lg-4 text-right">
+                                <div class="col-lg-4 text-right profil-actions">
                                     {% if profile.user == app.user  %}
                                         <p><a href="{{ path('profile_edit', {'id': profile.id}) }}" type="button" class="btn btn-design mvp-bg mt-3 mvp-btn"><i class="fa fa-pencil"></i>  Modifier profil </a></p>
                                     {% else %}

@@ -59,7 +59,7 @@ class StoreType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('addressNumber', IntegerType::class, [
+            ->add('addressNumber', TextType::class, [
                 'label' => 'Numéro de rue',
                 'attr'  => [
                     'placeholder' => 'Numéro de rue',
@@ -89,6 +89,7 @@ class StoreType extends AbstractType
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Pays',
+                'preferred_choices' => ['FR'],
                 'placeholder' => 'Sélectionnez votre pays',
                 'attr'  => [
                     'placeholder' => 'Pays',
@@ -108,7 +109,8 @@ class StoreType extends AbstractType
                 'label' => 'Introduction',
                 'attr'  => [
                     'placeholder' => 'Introduction',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+                    'maxlength' => 500
                     ]
                 ])
             ->add('description', TextareaType::class, [

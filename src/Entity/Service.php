@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
@@ -22,11 +23,13 @@ class Service implements \Serializable
     private $id;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\Length(max=1500)
      * @ORM\Column(type="string", length=1500)
      */
     private $description;

@@ -687,17 +687,34 @@ $('#display-opportunity-offer').click(function(){
             $('#inscription-btn').attr('disabled', true);
         }
     });
-/*$('.company-category').change(function(){
-    var selectedItem = $('#company_category').val();
-   if(selectedItem ==7)
+
+   if ( $('#company_introduction').length > 0 )
    {
-       $('.other-category').removeClass('none');
-   } else {
-       $('.other-category').addClass('none');
+       if($('#company_introduction').val() ==' '){
+           $( '#company_introduction').val(function( index, value ) {
+               return value.trim();
+           });
+       }
+
    }
 
-})*/
-/*fix responsive issues*/
+    if ($('#registration_acceptConditions').length > 0){
+        if($('#registration_acceptConditions').is(':checked')){
+            $('#inscription-btn').attr('disabled', false);
+        }
+
+        $('.form-check-label').append(' <a href=\'/pdf/CGU.pdf\'>les Conditions générales d\'utilisation</a>');
+    }
+    if($('#company_country').length  > 0) {
+
+        if($('#company_country').val() == '') {
+            $('#company_country').val("FR");
+        }
+    }
+    $('.code-bv-btn').click(function(){
+        $('.modal-get-bar-code').modal();
+    });
+    /*fix responsive issues*/
 
    $('#registration_company_siret').width($('#registration_name').width());
     /*var footerHeight = $('.footer-copyright').height();

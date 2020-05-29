@@ -30,7 +30,7 @@ class RegistrationType extends AbstractType
 
                 'mapped'=>false,
                    'attr'  => [
-                   'placeholder' => 'Raison sociale (Société)',
+                   'placeholder' => 'Raison sociale (Société) ou Prénom Nom (Indépendant)',
                    'class'       =>'form-control'
                 ]
             ])
@@ -58,7 +58,7 @@ class RegistrationType extends AbstractType
                ])
             ->add('acceptConditions', CheckboxType::class, [
                 'mapped'=>false,
-                'label'    => 'J\'accepte les Conditions Générales',
+                'label'    => 'J\'accepte',
                 'required' => false,
                 'attr'  => [
                    'class'       =>'accpet-condition'
