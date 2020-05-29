@@ -58,3 +58,8 @@ $('.add-recommandation').click(function () {
 
 //popover display in show service
 $("[data-toggle=popover]").popover();
+
+//toogle
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

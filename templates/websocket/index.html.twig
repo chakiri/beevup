@@ -69,7 +69,30 @@
                                 {% endif %}
                             {% endfor %}
                         {% else %}
-                            <li><p class="empty">Aucune nouvelle conversation</p></li>
+                            {% if user %}
+                                <li {% if user.id == subject %} class="active" {% endif %}>
+                                    <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
+                                        <div class="conversation">
+                                            <div class="conversation-avatar avatar">
+                                                {% if user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
+                                                {% else %}
+                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="conversation-content">
+                                                <strong>{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
+                                                <p><small>{{ user.store }}</small></p>
+                                            </div>
+                                            <div class="notifications">
+                                                <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li><p class="empty"><small>Aucune nouvelle conversation</small></p></li>
+                            {% endif %}
                         {% endif %}
                     </ul>
                 </div>
@@ -117,17 +140,24 @@
                         <div class="col-4 inbox-profile">
                             <div class="profile-header">
                                 {% if user is defined and user is not null %}
-                                    <div class="profile-avatar avatar">
-                                        {% if user.profile.filename %}
-                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('bigMiniature')  }}" class="img-fluid" alt="">
-                                        {% else %}
-                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                        {% endif %}
-                                    </div>
+                                    <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}">
+                                        <div class="profile-avatar avatar">
+                                            {% if user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('bigMiniature')  }}" class="img-fluid" alt="">
+                                            {% else %}
+                                                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                            {% endif %}
+                                        </div>
+                                    </a>
                                     <div class="profile-content">
-                                        <h4>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
-                                        <p class="text-muted">{{ user.store.name }}</p>
-                                        <strong>4 Services proposés</strong>
+                                        <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}">
+                                            <h4>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
+                                        </a>
+                                        {% if user.type and (user.type.id == 3 or user.type.id == 6) %}
+                                            <p class="text-muted">{{ user.company.name }}</p>
+                                        {% else %}
+                                            <p class="text-muted">{{ user.store.name }}</p>
+                                        {% endif %}
                                     </div>
                                 {% elseif topic is defined and topic is not null %}
                                     <div class="profile-avatar avatar">
@@ -135,14 +165,14 @@
                                     </div>
                                     <div class="profile-content">
                                         <h4>{{ topic.name|capitalize }}</h4>
-                                        <strong>18 participants</strong>
+                                        {#<strong>18 participants</strong>#}
                                     </div>
                                 {% endif %}
 
                             </div>
                             {% if user is defined and user is not null%}
                                 <div class="profile-footer">
-                                    <a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}" type="button" class="btn btn-design btn-1">Voir le profil</a>
+                                    {#<a target="_blank" href="{{ path('profile_show', {'id': user.profile.id}) }}" type="button" class="btn btn-design btn-1">Voir le profil</a>#}
                                 </div>
                             {% elseif topic is defined and topic is not null %}
                                 {#<div class="profile-footer">
