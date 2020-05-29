@@ -22,6 +22,7 @@ aside.main-sidebar {
     border-radius: 5px;
     padding-top: 10px;
 }
+
 @media (min-width: 768px) {
     .admin-menu-items{
         display:none !important
@@ -29,4 +30,8 @@ aside.main-sidebar {
     .administration-link a::after {
         display: none;
     }
+    #header{
+        z-index: 11111111;
+    }
 }
+

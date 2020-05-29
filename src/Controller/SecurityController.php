@@ -54,6 +54,7 @@ class SecurityController extends AbstractController
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
             $company->setStore($user->getStore());
+            $company->setIntroduction(' ');
 
             /* generate bar code*/
             $companyId =  $companyRepo->findOneBy([],['id' => 'desc'])->getId() + 1;

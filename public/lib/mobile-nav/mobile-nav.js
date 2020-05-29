@@ -1,6 +1,5 @@
 (function ($) {
   "use strict";
-
   // Mobile Navigation
   if ($('.main-nav').length) {
     $('.main-nav').addClass('mobile-nav-cls');

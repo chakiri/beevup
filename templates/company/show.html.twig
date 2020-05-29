@@ -153,15 +153,17 @@
                                 <h4>Recommandations</h4>
                             </div>
                             <div class="col-6 text-right">
-                                {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                    <a href="#" type="button"
-                                            class="add-recommandation btn btn-sm btn-2"
-                                            data-toggle="modal"
-                                            data-target="{{ path('recommandation') }}"
-                                            data-whatever="@getbootstrap"
-                                            data-company="{{company.id}}">
-                                        <i class="fa fa-thumbs-up"></i> Proposer une recommandation
-                                    </a>
+                                {% if company != null and app.user.company != null %}
+                                    {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                                        <a href="#" type="button"
+                                                class="add-recommandation btn btn-sm btn-2"
+                                                data-toggle="modal"
+                                                data-target="{{ path('recommandation') }}"
+                                                data-whatever="@getbootstrap"
+                                                data-company="{{company.id}}">
+                                            <i class="fa fa-thumbs-up"></i> Proposer une recommandation
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

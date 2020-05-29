@@ -44,7 +44,7 @@ class CompanyType extends AbstractType
             ])
             ->add('otherCategory', TextType::class, [
                'attr'  => [
-                    'placeholder' => 'Autre',
+                    'placeholder' => 'Fleuriste',
                     'class'       =>'form-control',
 
 
@@ -115,7 +115,8 @@ class CompanyType extends AbstractType
                 'required' => false,
                'attr'  => [
                     'placeholder' => 'Description',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+                    'maxlength'   => 250
                 ]
             ])
             ->add('website', TextType::class, [

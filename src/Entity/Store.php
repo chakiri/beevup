@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StoreRepository")
@@ -25,16 +26,19 @@ class Store implements \Serializable
     private $id;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $reference;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -45,7 +49,7 @@ class Store implements \Serializable
     private $phone;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $addressNumber;
 
@@ -107,7 +111,8 @@ class Store implements \Serializable
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @Assert\Length(max=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $introduction;
 
@@ -118,6 +123,7 @@ class Store implements \Serializable
     private $modifiedAt;
 
     /**
+     * @Assert\Length(max=255)
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
@@ -205,12 +211,12 @@ class Store implements \Serializable
         return $this;
     }
 
-    public function getAddressNumber(): ?int
+    public function getAddressNumber(): ?string
     {
         return $this->addressNumber;
     }
 
-    public function setAddressNumber(int $addressNumber): self
+    public function setAddressNumber(string $addressNumber): self
     {
         $this->addressNumber = $addressNumber;
 
