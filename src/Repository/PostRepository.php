@@ -75,5 +75,15 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+    public function findByIds($value1, $value2)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id between :val1 and :val2')
+            ->setParameter('val', $value1)
+            ->setParameters(array('val1' => $value1,'val2'=>$value2 ))
+            ->getQuery()
+            ->getResult();
+
+    }
 
 }

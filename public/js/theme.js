@@ -363,9 +363,7 @@ $('body').on('click', '.delete-comment-btn', function () {
 });
 });
 
-$('.btn-show-more').click(function(){
-   $('.post-hidden').removeClass('post-hidden');
-});
+
 $('.dashboard-notification').click(function(){
   var notificationNumber = $(this).attr('data-notif');
   if(notificationNumber > 0) {
@@ -717,14 +715,14 @@ $('#display-opportunity-offer').click(function(){
     /*fix responsive issues*/
 
    $('#registration_company_siret').width($('#registration_name').width());
-    /*var footerHeight = $('.footer-copyright').height();
+    var footerHeight = $('.footer-copyright').height();
     var mt5Margin = 0;
     var headerHeight = $('#header').height();
     var availableScreenHeight = screen.availHeight;
-    $('.inbox-message').height(availableScreenHeight - headerHeight - 181);
+    /*$('.inbox-message').height(availableScreenHeight - headerHeight - 181);
     if($('#chatPlateform').length > 0){
         $('#chatPlateform').parent('body').addClass('white-bg');
-    }
+    }*/
 
     if ((".mt-5").length > 0) {
         if($(".mt-5").css("marginTop")) {
@@ -737,11 +735,21 @@ $('#display-opportunity-offer').click(function(){
     if ($(window).width() < 415)
     {
         $('.post-add-comment').removeClass('col-10').addClass('col-8');
-    }*/
+    }
     $('#chatPlateform').parent('body').addClass('white-bg');
 
 
 /*fix responsive issues*/
+    /** load more posts*/
+$('.btn-show-more').click(function () {
+     $('.post-hidden:lt(10)').removeClass('post-hidden');
+     if ($('.post-hidden').length == 0)
+     {
+         $('.btn-show-more').hide();
+     }
 
+
+});
+    /***/
 })(jQuery);
 

@@ -1,10 +1,4 @@
 <div class="posts">
-  {% for message in app.flashes('create-post-success') %}
-  <div class="alert alert-success">
-    {{ message }}
-  </div>
-{% endfor %}
-
   {% for post in posts %}
       {% set difference = date(post.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
       {% set leftDays = difference.days %}
@@ -146,7 +140,7 @@
             {#postActionbtns#}
       {% endif %}
   {% endfor %}
-  {% if postNumber > 150 %}
+  {% if postNumber > 19 %}
       <div class="row">
           <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
               <span class="badge badge-dot badge-dot-lg badge-warning badge-pulse">Badge</span>

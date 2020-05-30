@@ -19,6 +19,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\PostRepository;
 use App\Repository\AbuseRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -203,6 +204,20 @@ class PostController extends AbstractController
         return $response;
         
     }
+
+    /**
+     * @Route("/posts/load-more-posts/{id}", name="load_more_posts")
+     */
+
+    public function loadMorePost(EntityManagerInterface $manager, Request $request, PostRepository $postReporsitory, $id){
+    $val2 = 1;
+    if($id >= 10) {
+        $val2 = $id - 10;
+    }
+     $posts =  $postReporsitory->findByIds($val2, $id);
+    dump($posts);
+    return new JsonResponse($posts);
+}
 
 
 
