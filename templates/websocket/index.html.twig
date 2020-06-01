@@ -43,9 +43,32 @@
                 <h4>Conversations directes</h4>
                 <div class="private">
                     <ul class="users">
+                        {% if user %}
+                            <li {% if user.id == subject %} class="active" {% endif %}>
+                                <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
+                                    <div class="conversation">
+                                        <div class="conversation-avatar avatar">
+                                            {% if user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
+                                            {% else %}
+                                                <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="conversation-content">
+                                            <strong>{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
+                                            <p><small>{{ user.store }}</small></p>
+                                        </div>
+                                        <div class="notifications">
+                                            <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% set currentUser = user %}
                         {% if users is not empty %}
                             {% for user in users %}
-                                {% if user != app.user %}
+                                {% if user != app.user and user != currentUser %}
                                     <li {% if user.id == subject %} class="active" {% endif %}>
                                         <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
                                             <div class="conversation">
@@ -68,31 +91,8 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-                        {% else %}
-                            {% if user %}
-                                <li {% if user.id == subject %} class="active" {% endif %}>
-                                    <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
-                                        <div class="conversation">
-                                            <div class="conversation-avatar avatar">
-                                                {% if user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
-                                                {% else %}
-                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                                {% endif %}
-                                            </div>
-                                            <div class="conversation-content">
-                                                <strong>{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
-                                                <p><small>{{ user.store }}</small></p>
-                                            </div>
-                                            <div class="notifications">
-                                                <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li><p class="empty"><small>Aucune nouvelle conversation</small></p></li>
-                            {% endif %}
+                        {% elseif users is empty and currentUser is null %}
+                            <li><p class="empty"><small>Aucune nouvelle conversation</small></p></li>
                         {% endif %}
                     </ul>
                 </div>
