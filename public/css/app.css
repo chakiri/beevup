@@ -561,6 +561,38 @@ section{
     background-color:#fff !important ;
 }
 
+/* Welcome Modals */
+#welcomeModals .modal-header{
+    background-color: #ffffff;
+    color: #4a4a4a;
+}
+#welcomeModals .modal-header img{
+    width: 120px;
+    height: 60px;
+}
+#welcomeModals .modal-body .logo{
+    width: 120px;
+    height: 60px;
+    margin-top: 20px;
+}
+#welcomeModals .modal-body .img{
+    width: 100%;
+    height: 180px;
+}
+#welcomeModals .modal-body p{
+    padding: 15px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+#welcomeModals .modal-footer {
+    -webkit-box-pack: inherit;
+    justify-content: inherit;
+}
+#welcomeModals .modal-footer .button{
+    margin-left: auto;
+    margin-right: 0;
+}
+
 /* Responsive */
 @media (max-width: 991px) {
     .position-sidebar{

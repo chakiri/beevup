@@ -204,11 +204,14 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 {% endblock %}
 
 
 {% block modals %}
+    {% include 'default/modals/welcome-modals.html.twig' %}
+
     <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-post-content">
@@ -224,4 +227,5 @@
 
 {% block javascripts %}
     <script src="/js/userFlow.js"></script>
+    <script src="/js/modals.js"></script>
 {% endblock %}
