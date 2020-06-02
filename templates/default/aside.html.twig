@@ -2,7 +2,9 @@
 
 {% if is_granted('ROLE_ADMIN_COMPANY') %} 
   <div class="box aside-box  d-none d-lg-block">
-
+      <div class="box-title-container">
+          <p class="box-title">Entreprise</p>
+      </div>
       <div class="row logo-company">
       {% if app.user.company.filename %}
           <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="">
@@ -21,6 +23,9 @@
                       <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}</p>
                   {% endif %}
                   <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}</p>
+                  <p class="company-tel"><i class="fa fa-flag margin-r-10" aria-hidden="true"></i>
+                      {{ app.user.company.city }}  {{ app.user.company.country|country_name }}
+                  </p>
               {% endif %}
           {% endif %}
           {% if app.user.company.website %}
