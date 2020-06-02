@@ -115,4 +115,13 @@ class UserStoreController extends EasyAdminController
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }
+    protected function removeEntity($entity)
+    {
+       if ($this->getUser()->getId() == $entity->getId()) {
+            $this->addFlash('error', 'You cannot delete admin users.');
+
+            return $this->redirectToRoute('easyadmin', ['action' => 'list', 'entity' => $this->entity['name']]);
+        }
+
+    }
 }

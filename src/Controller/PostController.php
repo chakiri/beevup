@@ -215,8 +215,8 @@ class PostController extends AbstractController
         $val2 = $id - 10;
     }
      $posts =  $postReporsitory->findByIds($val2, $id);
-    dump($posts);
-    return new JsonResponse($posts);
+     return new JsonResponse($posts);
+
 }
 
 

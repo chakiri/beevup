@@ -747,7 +747,9 @@ $('.btn-show-more').click(function () {
      {
          $('.btn-show-more').hide();
      }
+    /*******/
 
+    /*******/
 
 });
     /***/
