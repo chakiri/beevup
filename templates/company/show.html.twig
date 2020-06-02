@@ -17,12 +17,19 @@
                     </div>
 
                     <div class="box company-informations">
+                        <div class="box-title-container">
+                            <p class="box-title">Entreprise</p>
+                        </div>
                         {% if company.category %}
                           <p><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ company.category.name }}</p>
                         {% endif %}
                         <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ company.email }}</p>
                         {% if company.isCompleted %}
-                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ company.phone }}</p>
+                          {% if company.phone %}
+                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>
+                                {{ company.phone }}
+                            </p>
+                              {% endif %}
                             <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</p>
                         {% endif %}
                         {% if company.website %}
