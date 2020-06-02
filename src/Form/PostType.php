@@ -29,7 +29,7 @@ class PostType extends AbstractType
                 'choices'  => [
                     'Informations' => 'information',
                     'Opportunité commerciale' => 'Opportunities',
-                    'Offres d’emplois' => 'emploi',
+                    'Offres d’emplois' => 'Emploi',
                 ],
                 ])
                
