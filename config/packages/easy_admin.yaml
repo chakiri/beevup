@@ -3,7 +3,7 @@ easy_admin:
     design:
         menu:
           - { entity: 'UserEntreprise', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_COMPANY'}
-          - { entity: 'Store', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE','ROLE_ADMIN_PLATEFORM']}
+          - { entity: 'Store', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
           - { entity: 'User', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_PLATEFORM'}
           - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
           - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
