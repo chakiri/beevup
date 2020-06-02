@@ -28,17 +28,29 @@
                         <h6 class="mt-3"><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
                         <div class="mt-3">
                             {% if service.user != app.user %}
-                                <p class="mt-3">Prix :
-                                    {% if service.isQuote == 1 %}
-                                        <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}">Demander un devis</a>
-                                    {% else %}
-                                        {% if storeService and storeService.price %}
-                                            {{ storeService.price }} €
+
+                                        {% if service.isQuote == 1 %}
+                                            <p class="mt-3">Prix :
+                                               <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}">Demander un devis</a>
+                                            </p>
                                         {% else %}
-                                            {{ service.price }} €
+
+                                                {% if storeService %}
+                                                    {% if storeService.price != '' %}
+                                                        <p class="mt-3">Prix :
+                                                           {{ storeService.price }} €.H.T
+                                                        </p>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if service.price != '' %}
+                                                        <p class="mt-3">Prix :
+                                                        {{ service.price }} €.H.T
+                                                        </p>
+                                                    {% endif %}
+                                                {% endif %}
+
                                         {% endif %}
-                                    {% endif %}
-                                </p>
+
                                 <p class="mt-3">Offre spéciale Bureau Vallée :
                                     {% if service.isDiscovery == 1 %}
                                         <strong>
