@@ -22,7 +22,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr'  => [
-                    'placeholder' => '...',
+                    'placeholder' => 'Entrez vos mots clés',
                     'class'=>'btn-radius'
                 ]
             ])
@@ -39,8 +39,9 @@ class SearchType extends AbstractType
             ->add('category', EntityType::class, [
                 'label' => false,
                 'required' => false,
+                'placeholder' => 'Catégorie d\'entreprise',
                 'attr'  => [
-                    'placeholder' => 'Catégorie',
+                    'placeholder' => 'Catégories d\'entreprise',
                     'class'=>'btn-radius',
                     'disabled'=> true
                 ],

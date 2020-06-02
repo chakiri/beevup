@@ -623,6 +623,14 @@ if ($(window).width() < 1024)
         });
     });
 
+
+    if($('#search_type').length > 0)
+    {
+        if($('#search_type').val() =='company')
+        {
+            $('#search_category').attr("disabled", false);
+        }
+    }
 $('#search_type').change(function(){
     if($( this ).val() == 'company')
     {
