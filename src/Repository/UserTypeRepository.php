@@ -22,7 +22,7 @@ class UserTypeRepository extends ServiceEntityRepository
     public function findByType($currentUser)
     {
       $currentUserTpe = $currentUser->getType();
-      if($currentUserTpe->getId() == 4)
+      if($currentUserTpe->getId() == 4 || $currentUserTpe->getId() == 1)
       {
         $qb = $this->createQueryBuilder('u')
                    ->where("u.id in (1,2)")
