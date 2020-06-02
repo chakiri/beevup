@@ -82,7 +82,7 @@ class PostRepository extends ServiceEntityRepository
             ->setParameter('val', $value1)
             ->setParameters(array('val1' => $value1,'val2'=>$value2 ))
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
     }
 
