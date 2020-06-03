@@ -143,7 +143,15 @@
                                 <p class="text-muted">Aucun service pour l'instant</p>
                             {% endif %}
 
-                            <p><a href="{{ path('service_user', {'user': profile.user.id}) }}" type="button" class="btn btn-md btn-2 full-width">Voir tous les services de {{ profile.firstname|capitalize }} </a></p>
+
+                            <div class="row">
+                                <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
+
+                                    <a href="{{ path('service_user', {'user': profile.user.id}) }}" type="button" class="text-white">
+                                        Voir tous les services de {{ profile.firstname|capitalize }}
+                                    </a>
+                                </button>
+                            </div>
                         </div>
                     {% endif %}
 
