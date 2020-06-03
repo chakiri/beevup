@@ -1,10 +1,16 @@
 {% embed 'default/modals/base.html.twig' with {id: 6} %}
 
+
+    {% block header %}
+        <div class="modal-header">
+            <p>Vous êtes maintenant prêts à vous lancer dans l’expérience Beev’Up.</p>
+        </div>
+    {% endblock %}
+
     {% block body %}
-        <p>Vous êtes maintenant prêts à vous lancer dans l’expérience Beev’Up.</p>
         <p>A tout moment, vous pouvez accéder à l’aide « pas à pas » en cliquant sur le bouton Découvrir en haut de chaque écran.</p>
 
-        <div class="text-center">
+        <div class="text-center m-5">
             <button type="button" class="btn btn-success btn-lg" id="startIntro">Commencer</button>
         </div>
     {% endblock %}

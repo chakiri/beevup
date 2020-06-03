@@ -15,7 +15,7 @@
                 <img class="logo" src="/images/logo_bv_main.png" alt=""/>
             </div>
             <div class="col-9">
-                <p>Bienvenue sur la plateforme Beev’Up, le nouveau service proposé par #prénom nom du franchisé# et son équipe du magasin Bureau Vallée de #ville du magasin de rattachement</p>
+                <p>Bienvenue sur la plateforme Beev’Up, le nouveau service proposé par {{ adminStore.profile.firstname }} {{ adminStore.profile.lastname }} et son équipe du magasin Bureau Vallée de {{ app.user.store.city }}</p>
             </div>
         </div>
     {% endblock %}
