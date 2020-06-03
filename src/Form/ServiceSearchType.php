@@ -23,7 +23,7 @@ class ServiceSearchType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => ServiceCategory::class,
-                'placeholder' => 'Choisir categorie',
+                'placeholder' => 'Filtrer par catégorie',
                 'multiple' => false,
                 'required' => false
             ])
