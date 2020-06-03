@@ -26,6 +26,7 @@
                             <h4><small>Proposé par : </small>Bureau Vallée</h4>
                         {% endif %}
                         <h6 class="mt-3"><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
+
                         <div class="mt-3">
                             {% if service.user != app.user %}
 
@@ -35,6 +36,7 @@
                                             </p>
                                         {% else %}
 
+
                                                 {% if storeService %}
                                                     {% if storeService.price != '' %}
                                                         <p class="mt-3">Prix :
@@ -42,6 +44,7 @@
                                                         </p>
                                                     {% endif %}
                                                 {% else %}
+
                                                     {% if service.price != '' %}
                                                         <p class="mt-3">Prix :
                                                         {{ service.price }} €.H.T
@@ -102,9 +105,9 @@
                                 <h4>{{ service.title }}</h4>
                                 <p class="lead">{{ service.introduction|raw }}</p>
                                 {% if 'ROLE_ADMIN_STORE' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.store.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.store.country?? 'France' |capitalize}}</p>
+                                    <p><i class="fa fa-map-marker"></i> {{ service.user.store.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.store.country|country_name}}</p>
                                 {% elseif 'ROLE_ADMIN_COMPANY' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.company.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.company.country?? 'France' |capitalize}}</p>
+                                    <p><i class="fa fa-map-marker"></i> {{ service.user.company.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.company.country|country_name}}</p>
                                 {% endif %}
                             </div>
                             <div class="col-lg-4">

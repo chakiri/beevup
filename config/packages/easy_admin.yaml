@@ -38,7 +38,7 @@ easy_admin:
               - { name: 'edit', icon: 'pencil', permission: 'ROLE_ADMIN_COMPANY' }
               - { name: 'delete', icon: 'close' , permission: 'ROLE_ADMIN_COMPANY'}
               fields:  
-              - { property: 'reference', label: 'Reference' }
+              - { property: 'reference', label: 'Code BV' }
               - { property: 'name', label: 'Nom' }
               - { property: 'email', label: 'Email' }
               - { property: 'phone', label: 'Téléphone' }
