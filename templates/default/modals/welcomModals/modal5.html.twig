@@ -1,0 +1,22 @@
+{% embed 'default/modals/base.html.twig' with {id: 5, modalSize: 'modal-lg'} %}
+
+    {% block header %}
+        <div class="modal-header">
+            <p>Les bonnes actions sont toujours récompensées</p>
+        </div>
+    {% endblock %}
+
+    {% block body %}
+        <div class="row">
+            <div class="col-3">
+                <img class="img align-middle" src="/images/modals/slide5.png" alt=""/>
+            </div>
+            <div class="col-9">
+                <p>Plus vous participez au développement de la communauté et plus vous cumulez des points Beev’Up.</p>
+                <p>Plus vous disposez de points Beev’Up plus votre entreprise sera mise à l’honneur auprès de votre communauté locale.</p>
+            </div>
+        </div>
+    {% endblock %}
+
+
+{% endembed %}

@@ -89,10 +89,14 @@ class ProfileController extends AbstractController
     public function setOnBoarding(EntityManagerInterface $manager)
     {
         $profile = $this->getUser()->getProfile();
-        $profile->setIsOnboarding(true);
+
+        if ($_POST['value'] === "true")     $profile->setIsOnboarding(true);
+        else $profile->setIsOnboarding(false);
 
         $manager->persist($profile);
 
         $manager->flush();
+
+        return $this->json($profile);
     }
 }

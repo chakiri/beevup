@@ -50,6 +50,14 @@ class UserRepository extends ServiceEntityRepository
            ->setParameters(array('value' => $store));
         return $qb->getQuery()->getResult();
     }
+    public function findByAdminOfStore($store, $role)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.store = :value1')
+            ->andWhere('u.roles LIKE :value2')
+            ->setParameters(array('value1' => $store, 'value2' => '%"'.$role.'"%'));
+        return $qb->getQuery()->getResult();
+    }
     public function findAdvisersOfStore( $store , $type )
     {
 

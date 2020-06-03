@@ -1,0 +1,29 @@
+<!-- Modal -->
+<div id="welcomeModals" data-num="{{ id }}" >
+    <div class="modal fade" id="welcomeModal{{ id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog {{ modalSize??'' }}">
+            <div class="modal-content">
+                {% block header %}{% endblock %}
+
+                <div class="modal-body">
+                    {% block body %}{% endblock %}
+                </div>
+
+                <div class="modal-footer">
+                    <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck{{ id }}" name="onboarding" {% if app.user.profile.isOnboarding == true %}checked=""{% endif %}>
+                            <label class="custom-control-label" for="customCheck{{ id }}"><small>Ne plus afficher le message de bienvenue</small>​</label>
+                        </div>
+                    </div>
+                    {% block footer %}
+                        <div class="button">
+                            <button type="button" class="btn btn-default prev" data-dismiss="modal">Revenir</button>
+                            <button type="button" class="btn btn-primary next" id="signin">Continuer</button>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
