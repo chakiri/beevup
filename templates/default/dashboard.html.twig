@@ -41,7 +41,8 @@
                 <div class="col-lg-6 col-md-12 order-sm-2">
                     <div class="box dashboard-header">
                         <div class="dashboard-header-buttons">
-                            <div class="add" style="float: right" data-intro="Publier un post" data-step="3">
+                            <div class="add" style="float: right" data-intro="<small>Permet de publier un post dans le fil d’actualité.​<br>Vous détectez une opportunité commerciale qui peut intéresser un membre de la communauté, choisissez « Opportunité commerciale » et apportez une solution à votre client.​<br>Vous proposez une offre d’emploi ou vous cherchez un emploi pour une connaissance, choisissez « Emploi » pour bénéficier de toute la force de la communauté locale.​<br>Dans ces deux cas, vous gagnez des point Beev’Up</small>" data-step="7" data-position="top" data-scrollTo="tooltip">
+
                                 {% if app.user.profile.isCompleted == true %}
                                     <button type="button"
                                             class="btn  btn-sm btn-radius add-post"
@@ -60,12 +61,15 @@
 
                             </div>
                             <div class="notifs">
-                                <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
-                                    <span><i class="fa fa-bell notification-icon" aria-hidden="true"></i></span>
-                                    {% if notificationNumber > 0 %}
-                                        <span class="badge bell-badge">{{notificationNumber}}</span>
-                                    {% endif %}
-                                </a>
+                                    <a href="#" class="notification dashboard-notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-notif="{{notificationNumber}}">
+                                        <span data-intro="<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>" data-step="8" data-position="top">
+
+                                            <i class="fa fa-bell notification-icon" aria-hidden="true"></i>
+                                        </span>
+                                        {% if notificationNumber > 0 %}
+                                            <span class="badge bell-badge">{{notificationNumber}}</span>
+                                        {% endif %}
+                                    </a>
 
                                 <div class="dropdown-menu notification-dropdown notification-box">
                                     {% if notificationNumber > 0 %}
@@ -102,10 +106,12 @@
 
 
                                 <div class="nav-item dropdown notification messages-notifications">
-                                    <a href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                                        <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
-                                        <span class="badge">{% if notificationMessages|length != 0 %}{{ notificationMessages|length }}{% endif %}</span>
-                                    </a>
+                                    <div data-intro="<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>" data-step="9" data-position="top">
+                                        <a href="#" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
+                                            <span><i class="fa fa-envelope message-icon" aria-hidden="true"></i></span>
+                                            <span class="badge">{% if notificationMessages|length != 0 %}{{ notificationMessages|length }}{% endif %}</span>
+                                        </a>
+                                    </div>
                                     <div class="dropdown-menu dropdown-menu-right notification-box" style="">
                                         {% if notificationMessages %}
                                             {% for message in notificationMessages %}
@@ -141,16 +147,18 @@
                                     </div>
                                 </div>
                                 <div class="nav-item dropdown notification opportunity-notifications">
-                                    <a id ="{% if opportunityPostNb > 0   %}opportunity-notification{% else  %}no-opportunity-notification{% endif %}"
-                                       href="#"
-                                       data-toggle="dropdown"
-                                       data-target="{{ path('opportunityNotification_add') }}">
+                                    <div data-intro="<small>Vous êtes notifiés dès qu’une opportunité commerciale est postée. Soyez rapide comme l’éclair pour prendre contact avec le membre de la communauté locale et répondre à cette opportunité​</small>" data-step="10" data-position="top">
+                                        <a id ="{% if opportunityPostNb > 0   %}opportunity-notification{% else  %}no-opportunity-notification{% endif %}"
+                                               href="#"
+                                               data-toggle="dropdown"
+                                               data-target="{{ path('opportunityNotification_add') }}">
 
-                                        <i class="fa fa-eur recommandation-icon" aria-hidden="true"></i>
-                                        {% if opportunityPostNb > 0 %}
-                                            <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
-                                        {%  endif %}
-                                    </a>
+                                            <i class="fa fa-eur recommandation-icon" aria-hidden="true"></i>
+                                            {% if opportunityPostNb > 0 %}
+                                                <span class="badge opportunity-badge">{{ opportunityPostNb }}</span>
+                                            {%  endif %}
+                                        </a>
+                                    </div>
                                     <div class="dropdown-menu opportunity-notification notification-box"  aria-labelledby="opportunity-notification">
                                         {% if opportunityPostNb %}
 
@@ -167,7 +175,7 @@
                         </div>
                     </div>
 
-                    <div class="box post-box" data-hint="Get it, use it." data-intro="Votre fil d'actualité" data-step="4" data-scrollTo="tooltip">
+                    <div class="box post-box" data-intro="<small>Partage d’informations, échange d’opportunités commerciales, offres d’emploi, nouveaux arrivants, tout est fait pour être informé de la vie de la communauté locale.​<br>Proposez vos propres nouvelles et gagnez des points Beev’Up en proposant des opportunités commerciales et des offres d’emploi​</small>" data-step="6" data-position="top" data-scrollTo="tooltip">
                         <div class="row mb-3">
                             <h4 class="col-8">Fil d'actualité</h4>
                             <div class="col-4">
@@ -199,7 +207,7 @@
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
-                    <div class="special-offer" data-intro="Découvrez les offres spéciales de votre communauté" data-step="5" data-position="left">
+                    <div class="special-offer">
                         {% include 'default/boxes/specialOffer-box.html.twig' %}
                     </div>
                 </div>

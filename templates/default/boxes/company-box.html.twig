@@ -1,4 +1,4 @@
-<div class="box company-informations">
+<div class="box company-informations" data-intro="<small>Prenez le temps de remplir votre fiche entreprise pour permettre à la communauté locale de découvrir votre activité, vos valeurs. Choisissez votre photo avec soins. La fiche entreprise est la carte de visite de votre entreprise pour la communauté.</small>" data-step="2" data-position="right">
     <div class="box-title-container">
         <p class="box-title">Entreprise</p>
     </div>
@@ -21,7 +21,7 @@
             </p>
         {% endif %}
         {% if app.user.company.barCode %}
-            <div class="box-barCode" data-intro="Code bar de votre entreprise" data-step="1" data-position="right">
+            <div class="box-barCode">
                 <p class="barCode-text">Vous pouvez utiliser ce code dans votre magasin de référence </p>
                 <img src="data:image/png;base64,{{ app.user.company.barCode }}" />
             </div>

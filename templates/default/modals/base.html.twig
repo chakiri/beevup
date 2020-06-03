@@ -13,7 +13,7 @@
                     <div class="custom-control custom-checkbox">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck{{ id }}" name="onboarding" {% if app.user.profile.isOnboarding == true %}checked=""{% endif %}>
-                            <label class="custom-control-label" for="customCheck{{ id }}">Toujours afficher le message de bienvenue​</label>
+                            <label class="custom-control-label" for="customCheck{{ id }}"><small>Ne plus afficher le message de bienvenue</small>​</label>
                         </div>
                     </div>
                     {% block footer %}
