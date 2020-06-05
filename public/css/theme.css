@@ -561,7 +561,7 @@ p.text-muted {
   text-align: center;
   margin: auto;
   font-size: 15px;
-  padding-bottom: 60px;
+  /*padding-bottom: 60px;*/
   color: #556877;
   width: 60%;
 }

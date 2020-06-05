@@ -7,37 +7,39 @@
     <section id="services">
         <div class="wrapper">
             <div class="row">
-                <div class="col-lg-3 position-sidebar">
+                <div class="col-lg-3 position-sidebar pt-2">
                     <nav class="sidebar">
                         <div class="container-sidebar">
-                            <div class="filters mt-4">
-                                <h4>Recherche</h4>
-                                {{ form_start(searchForm) }}
-                                <div class="mt-3">
-                                    {{ form_widget(searchForm.query) }}
+                            <div id="servicessearchbox">
+                                <div class="filters p-2">
+                                    <h4>Recherche</h4>
+                                    {{ form_start(searchForm) }}
+                                    <div class="mt-3">
+                                        {{ form_widget(searchForm.query) }}
+                                    </div>
+                                    <div class="mt-3">
+                                        {{ form_widget(searchForm.category) }}
+                                    </div>
+                                    <div id="specialofferbox" class="form-group mt-2">
+                                        {{ form_row(searchForm.isDiscovery) }}
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="text-center"><button type="submit" class="btn-filter-search" title="Chercher">Chercher</button></div>
+                                    </div>
+                                    {{ form_end(searchForm) }}
                                 </div>
-                                <div class="mt-3">
-                                    {{ form_widget(searchForm.category) }}
-                                </div>
-                                <div class="form-group mt-2">
-                                    {{ form_row(searchForm.isDiscovery) }}
-                                </div>
-                                <div class="mt-3">
-                                    <div class="text-center"><button type="submit" class="btn-filter-search" title="Chercher">Chercher</button></div>
-                                </div>
-                                {{ form_end(searchForm) }}
                             </div>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <hr/>
                                 <div class="acces_service">
                                     {% if is_granted('ROLE_ADMIN_STORE') %}
-                                        <a href="{{ path('service_store', {'store': app.user.store.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                        <a id="myservicesbox" href="{{ path('service_store', {'store': app.user.store.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
                                     {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
-                                        <a href="{{ path('service_company', {'company': app.user.company.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
+                                        <a id="myservicesbox" href="{{ path('service_company', {'company': app.user.company.id}) }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Mes services</a>
                                     {% endif %}
-                                    <a href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
+                                    <a id="createservicebox" href="{{ path('service_new') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">Je crée mon service</a>
                                     {% if is_granted('ROLE_ADMIN_STORE') %}
-                                        <a href="{{ path('service_generic') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">J'ajoute un service BV</a>
+                                        <a id="assocaiteservicebox" href="{{ path('service_generic') }}" type="button" class="btn btn-design btn-2 mt-3" style="width: 100%">J'ajoute un service BV</a>
                                     {% endif %}
                                 </div>
                             {% endif %}
@@ -53,12 +55,14 @@
                                             <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
                                         {% endif %}
                                     </div>
-                                    <p><strong>Mon conseiller:</strong>
+                                    <p><small><strong>Mon conseiller:</strong></small>
                                         <a style="color:#000" href="{{ path('profile_show', {'id': adviser.id}) }}">
                                             {{ adviser.profile.firstname|capitalize }} {{ adviser.profile.lastname|capitalize }}
                                         </a>
                                     </p>
-                                    <p><strong>Magasin : </strong><a  style="color:#000" href="{{ path('store_show',{'slug':app.user.store.slug}) }}">{{ app.user.store.name }}</a></p>
+                                    <p><small><strong>Magasin : </strong></small>
+                                            <a  style="color:#000" href="{{ path('store_show',{'slug':app.user.store.slug}) }}">{{ app.user.store.name }}</a>
+                                    </p>
                                     <div class="mt-4">
                                         <p class="user-contact">
                                             <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter</a></span>
@@ -73,13 +77,13 @@
                 <div class="offset-lg-3 col-lg-9 position-content">
                     {% include 'partials/flashes.html.twig' %}
                     <div class="mt-5">
-                        <header class="section-header">
+                        <header class="box section-header">
                             {% if isPrivate == true %}
                                 <h3>Mes services</h3>
                                 <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
                             {% elseif isDiscovery == true %}
-                                <h3>Offres Beev'Up</h3>
-                                <p>Les offres spéciales accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
+                                <h3>Offres exclusives Beev'Up</h3>
+                                <p>Les offres exclusives Beev'Up accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
                             {% else %}
                                 <h3>Services</h3>
                                 <p>Les services créés par votre communauté pour vous !</p>
@@ -101,7 +105,7 @@
                                             <a href="{{ path('service_show', {'id': service.id}) }}">
                                                 {% if service.isDiscovery == true %}
                                                     <div class="badge-box">
-                                                        <span class="badge badge-pill special-offer-badge">Offre exclusive</span>
+                                                        <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
                                                     </div>
                                                 {% endif %}
                                                 <div class="portfolio-wrap dashboard-service-image">
@@ -131,6 +135,14 @@
             </div>
 
         </div>
+
+        <!-- Tutorial button -->
+        <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialServices()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
+
     </section>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/modals.js"></script>
 {% endblock %}

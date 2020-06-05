@@ -24,6 +24,18 @@ section{
 
 }
 
+.disabled a{
+    pointer-events: none;
+    cursor: default;
+    color: grey !important;
+}
+
+#tutorialButton {
+    position: fixed;
+    right: 20px;
+    top: 80px;
+}
+
 /*----Notif dahsbord----*/
 .notification .message{
     display: flex;
@@ -174,6 +186,7 @@ section{
 
 .avatar {
     text-align: center;
+    float: left;
 }
 
 .avatar img{
@@ -188,6 +201,7 @@ section{
 .position-sidebar{
     position: fixed;
     height: 100%;
+    z-index: 0;
 }
 
 .filter{

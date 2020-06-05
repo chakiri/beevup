@@ -1,6 +1,6 @@
 <div id="specialOfferbox" class="box special-offer">
 <div class="box-title-container">
-    <p class="box-title">Offres dédiées<br> à la communauté Beev'Up </p>
+    <p class="box-title">Offres exclusives dédiées à la communauté Beev'Up </p>
 </div>
     {% if specialOfferNb > 0 %}
         <div class="last-special-offer">
@@ -21,13 +21,13 @@
         {% if is_granted('ROLE_ADMIN') %}
             <span class="user-action btn-radius ml-1">
         <a class="user-link" href="{{ path('service_new', {'isOffer': true}) }}">Créer une offre </a>
-            <p class="box-description">Proposez une offre dédiée à la communauté locale pour faire connaitre vos services et participer
+            <p class="box-description">Proposez une offre exclusive dédiée à la communauté locale pour faire connaitre vos services et participer
                 au développement de la communauté.  Gagnez 40 points BeeV'Up</p>
             </span>
         {% endif %}
         </p>
     {% else %}
-        <p><small>Aucune offre créée pour l'instant !</small></p>
+        <p><small>Aucune offre exclusive créée pour l'instant !</small></p>
     {% endif %}
 
 

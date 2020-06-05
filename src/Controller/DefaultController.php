@@ -44,6 +44,8 @@ class DefaultController extends AbstractController
         $currentUserStore = $storeRepo->findOneBy(['id'=>$this->getUser()->getStore()]);
         $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
         $adminsStore = $userRepo->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
+
+
         $OpportunityPostsIds = [''];
         $publicity =  $publicityRepo->findOneBy([],['createdAt'=>'DESC']);
 
@@ -120,7 +122,7 @@ class DefaultController extends AbstractController
             'specialOfferNb'=>$specialOfferNb,
             'lastSpecialOffer'=>$lastSpecialOffer,
             'adviser'=> $adviser,
-            'adminStore'=> $adminsStore[0],
+            'adminStore'=> $adminsStore[0] ?? null,
             'reportedPosts'=>$reportedPosts,
             'reportedComments'=>$reportedComment,
             'publicity'=> $publicity
