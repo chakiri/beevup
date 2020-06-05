@@ -24,7 +24,7 @@ $('input[name=onboarding]').click(function () {
 
 $('#startIntro').click(function () {
     hideModal($(this));
-    startIntro();
+    tutorialDashboard();
 });
 
 function nextModal(e){
@@ -58,7 +58,7 @@ function setOnborading(value){
 }
 
 //Intro Js
-function startIntro(){
+function startIntro(steps){
     var intro = introJs();
     /*intro.onbeforechange(function () {
      //Get number before last step (4)
@@ -71,76 +71,145 @@ function startIntro(){
         'doneLabel': 'Terminer',
         'prevLabel': 'Précédent',
         'nextLabel': 'Suivant',
-        steps: [
-            {
-                element: "#avatarbox",
-                intro: "<small>Premièrement, optimisez votre fiche profil.​<br>Plus votre profil est pertinent, plus vous multipliez les chances d’être contacté par d’autres professionnels et d’élargir votre réseau.</small>",
-                position: 'right'
-            },
-            {
-                element: "#companybox",
-                intro: "<small>Prenez le temps de remplir votre fiche entreprise pour permettre à la communauté locale de découvrir votre activité, vos valeurs. Choisissez votre photo avec soins. La fiche entreprise est la carte de visite de votre entreprise pour la communauté.</small>",
-                position: 'right'
-            },
-            {
-                element: "#storebox",
-                intro: "<small>Un accès direct aux informations de votre magasin Bureau Vallée préféré.​</small>",
-                position: 'right'
-            },
-            {
-                element: "#advisorbox",
-                intro: "<small>Votre conseiller Bureau Vallée toujours à l’écoute pour vous accompagner dans le développement de votre business, trouver des solutions et vous aider à utiliser cette plateforme​</small>",
-                position: 'right'
-            },
-            {
-                element: "#specialOfferbox",
-                intro: "<small>En créant une offre dédiée à la communauté, vous mettez en avant vos services et faites découvrir votre activité aux autres membres. Certains proposent des remises, d’autres des essais, laissez libre cours à votre imagination.​<br>N’hésitez plus, profitez des offres dédiées d’autres entreprises ou créez votre propre offre.​<br>En proposant des offres dédiées vous cumulez des points Beev’Up et gagnez en visibilité.​</small>",
-                position: 'left'
-            },
-            {
-                element: "#postsbox",
-                intro: "<small>Partage d’informations, échange d’opportunités commerciales, offres d’emploi, nouveaux arrivants, tout est fait pour être informé de la vie de la communauté locale.​<br>Proposez vos propres nouvelles et gagnez des points Beev’Up en proposant des opportunités commerciales et des offres d’emploi​</small>",
-                position: 'top',
-                scrollTo: 'tooltip'
-            },
-            {
-                element: "#postpublish",
-                intro: "<small>Permet de publier un post dans le fil d’actualité.​<br>Vous détectez une opportunité commerciale qui peut intéresser un membre de la communauté, choisissez « Opportunité commerciale » et apportez une solution à votre client.​<br>Vous proposez une offre d’emploi ou vous cherchez un emploi pour une connaissance, choisissez « Emploi » pour bénéficier de toute la force de la communauté locale.​<br>Dans ces deux cas, vous gagnez des point Beev’Up</small>",
-                position: 'bottom',
-                scrollTo: 'tooltip'
-            },
-            {
-                element: "#notificon1",
-                intro: "<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>",
-                position: 'top',
-                scrollTo: 'tooltip'
-            },
-            {
-                element: "#notificon2",
-                intro: "<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>",
-                position: 'top',
-            },
-            {
-                element: "#notificon3",
-                intro: "<small>Vous êtes notifiés dès qu’une opportunité commerciale est postée. Soyez rapide comme l’éclair pour prendre contact avec le membre de la communauté locale et répondre à cette opportunité​</small>",
-                position: 'top',
-            },
-            {
-                element: "#communitybox",
-                intro: "<small>Retrouvez les membres de la communauté locale afin de prévoir un moment de convivialité, d’échange du business ou pour découvrir les entreprises locales</small>",
-                position: 'bottom'
-            },
-            {
-                element: "#servicesbox",
-                intro: "<small>Proposez vos services à la communauté ou trouvez une solution à vos besoins tout en privilégiant le savoir faire local</small>",
-                position: 'bottom'
-            },
-            {
-                element: "#chatbox",
-                intro: "<small>​Discutez en direct avec les autres membres de la communauté en utilisant le Chat</small>",
-                position: 'bottom'
-            },
-        ]
+        steps: steps
     });
     intro.start();
 }
+
+function tutorialDashboard(){
+    startIntro(stepsDashboard);
+}
+
+function tutorialServices(){
+    startIntro(stepsServices);
+}
+function tutorialNewService(){
+    startIntro(stepsNewService);
+}
+
+var stepsDashboard = [
+    {
+        element: "#avatarbox",
+        intro: "<small>Premièrement, optimisez votre fiche profil.​<br>Plus votre profil est pertinent, plus vous multipliez les chances d’être contacté par d’autres professionnels et d’élargir votre réseau.</small>",
+        position: 'right'
+    },
+    {
+        element: "#companybox",
+        intro: "<small>Prenez le temps de remplir votre fiche entreprise pour permettre à la communauté locale de découvrir votre activité, vos valeurs. Choisissez votre photo avec soins. La fiche entreprise est la carte de visite de votre entreprise pour la communauté.</small>",
+        position: 'right'
+    },
+    {
+        element: "#storebox",
+        intro: "<small>Un accès direct aux informations de votre magasin Bureau Vallée préféré.​</small>",
+        position: 'right'
+    },
+    {
+        element: "#advisorbox",
+        intro: "<small>Votre conseiller Bureau Vallée toujours à l’écoute pour vous accompagner dans le développement de votre business, trouver des solutions et vous aider à utiliser cette plateforme​</small>",
+        position: 'right'
+    },
+    {
+        element: "#specialOfferbox",
+        intro: "<small>En créant une offre exclusive dédiée à la communauté, vous mettez en avant vos services et faites découvrir votre activité aux autres membres. Certains proposent des remises, d’autres des essais, laissez libre cours à votre imagination.​<br>N’hésitez plus, profitez des offres exclusives d’autres entreprises ou créez votre propre offre.​<br>En proposant des offres dédiées vous cumulez des points Beev’Up et gagnez en visibilité.​</small>",
+        position: 'left'
+    },
+    {
+        element: "#postsbox",
+        intro: "<small>Partage d’informations, échange d’opportunités commerciales, offres d’emploi, nouveaux arrivants, tout est fait pour être informé de la vie de la communauté locale.​<br>Proposez vos propres nouvelles et gagnez des points Beev’Up en proposant des opportunités commerciales et des offres d’emploi​</small>",
+        position: 'top',
+        scrollTo: 'tooltip'
+    },
+    {
+        element: "#postpublish",
+        intro: "<small>Permet de publier un post dans le fil d’actualité.​<br>Vous détectez une opportunité commerciale qui peut intéresser un membre de la communauté, choisissez « Opportunité commerciale » et apportez une solution à votre client.​<br>Vous proposez une offre d’emploi ou vous cherchez un emploi pour une connaissance, choisissez « Emploi » pour bénéficier de toute la force de la communauté locale.​<br>Dans ces deux cas, vous gagnez des point Beev’Up</small>",
+        position: 'bottom',
+        scrollTo: 'tooltip'
+    },
+    {
+        element: "#notificon1",
+        intro: "<small>Vous êtes notifiés lorsque l’un de vos post est commenté ou apprécié par d’autres membres de la communauté</small>",
+        position: 'top',
+        scrollTo: 'tooltip'
+    },
+    {
+        element: "#notificon2",
+        intro: "<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>",
+        position: 'top',
+    },
+    {
+        element: "#notificon3",
+        intro: "<small>Vous êtes notifiés dès qu’une opportunité commerciale est postée. Soyez rapide comme l’éclair pour prendre contact avec le membre de la communauté locale et répondre à cette opportunité​</small>",
+        position: 'top',
+    },
+    {
+        element: "#communitybox",
+        intro: "<small>Retrouvez les membres de la communauté locale afin de prévoir un moment de convivialité, d’échange du business ou pour découvrir les entreprises locales</small>",
+        position: 'bottom'
+    },
+    {
+        element: "#servicesbox",
+        intro: "<small>Proposez vos services à la communauté ou trouvez une solution à vos besoins tout en privilégiant le savoir faire local</small>",
+        position: 'bottom'
+    },
+    {
+        element: "#chatbox",
+        intro: "<small>​Discutez en direct avec les autres membres de la communauté en utilisant le Chat</small>",
+        position: 'bottom'
+    },
+];
+
+var stepsServices = [
+    {
+        element: "#servicessearchbox",
+        intro: "<small>Le moteur de recherche est là pour vous aider à trouver le service qui correspond le mieux à votre besoin​</small>",
+        position: 'right',
+    },
+    {
+        element: "#specialofferbox",
+        intro: "<small>Choisissez « Offres Exclusives » pour voir toutes les offres exclusives proposées par la communauté locale​</small>",
+        position: 'right'
+    },
+    {
+        element: "#myservicesbox",
+        intro: "<small>Affichez la liste de vos services pour les modifier ou les supprimer​</small>",
+        position: 'right'
+    },
+    {
+        element: "#createservicebox",
+        intro: "<small>Créez vos propres services et proposez les à la communauté​</small>",
+        position: 'right'
+    },
+];
+
+var stepsNewService = [
+    {
+        element: "#service_title",
+        intro: "<small>Le titre du service doit être choisi avec attention. 5 à 6 mots maximum définissant le service.​ <br>Par exemple : « Consultation de Naturopathie »</small>",
+        position: 'right',
+    },
+    {
+        element: "#service_introduction",
+        intro: "<small>Certains appellent cela la Baseline ou le slogan de leur service, d’autres indiquent une description courte.​<br>Par exemple : « Maitriser son stress, Conseils alimentaires (Durée 1h30) »​</small>",
+        position: 'right',
+    },
+    {
+        element: "#service_description",
+        intro: "<small>Décrivez en détail le contenu de votre offre de service. Plus la description sera pertinent, plus votre service sera trouvé facilement par les membres de la communauté​</small>",
+        position: 'left',
+    },
+    {
+        element: "#images",
+        intro: "<small>Les photos présentent et mettent en valeur vos services. Un service sans photo est peu mis en valeur et peu regardé par les utilisateurs​</small>",
+        position: 'right',
+    },
+    {
+        element: "#isQuotebox",
+        intro: "<small>Si votre service dispose d’un prix forfaitaire, renseignez le prix en Hors Taxes sinon choisissez « Sur devis »​</small>",
+        position: 'right',
+    },
+    {
+        element: "#isDiscovery",
+        intro: "<small>Le meilleur moyen ….​</small>",
+        position: 'right',
+    },
+];

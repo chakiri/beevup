@@ -149,7 +149,8 @@ class ServiceController extends AbstractController
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();
-            $message = "Votre Service a bien été crée !";
+            $url = $this->generateUrl('service_new');
+            $message = "Votre Service a bien été crée ! <a href='$url'>Créer un nouveau service</a>";
             $service->setUser($this->getUser());
         }
         $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));

@@ -30,7 +30,7 @@ class ServiceSearchType extends AbstractType
             ->add('isDiscovery', CheckboxType::class, [
                 'label_attr' => ['class' => 'checkbox-custom'],
                 'required' => false,
-                'label'    => 'Offres spéciales',
+                'label'    => 'Offres exclusives',
                 'attr'     => [
                     'class' => 'custom-control custom-checkbox',
                 ],
