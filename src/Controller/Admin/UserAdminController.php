@@ -58,7 +58,7 @@ class UserAdminController extends EasyAdminController
         if(in_array('ROLE_ADMIN_COMPANY', $userRoles)){
             $type = $this->userTypeRepo->findOneBy(['id'=> 3]);
             $user->setType($type);
-
+            $user->setIsValid(true);
             /* add admin topics to user */
             $this->topicHandler->addAdminTopicsToUser($user);
             /* add company topic to user */

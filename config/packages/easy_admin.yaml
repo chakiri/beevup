@@ -150,6 +150,7 @@ easy_admin:
               - { property: 'profile', label: 'Prénom/Nom' }
               - { property: 'Email', label: 'Email' }
               - { property: 'type', label: 'Type' }
+              - { property: 'isValid', label: 'compte désactivé' }
 
            
             form:

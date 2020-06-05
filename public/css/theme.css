@@ -127,7 +127,7 @@ h6 {
   color:#000;
 }
 .btn-radius {
-  border-radius:15px !important;
+  border-radius:5px !important;
 }
 
 .back-to-top {
@@ -2465,7 +2465,6 @@ border: 1px solid var(--mvp-color);
   margin-left: 0;
 }
 .post-category{
-background-color: #DE3944;
 padding: 3px;
 border-radius: 3px;
 color: #fff;
@@ -2572,5 +2571,14 @@ textarea{
 #store_introduction, #store_description, #profile_introduction, #service_introduction, #service_description{
   min-height: 100px;
 }
-
+.adviser-img{
+  margin-top:20px !important;
+}
+.post-category-information{background-color: green;}
+.post-category-Derniers-arrivés{background-color: #DE3944;}
+.post-category-Opportunities{background-color: orange;}
+.post-category-Emploi{background-color: #5A96BB;}
+.news-bloc{font-size:21px;}
+.adviser-avatar{ width: 100%}
+#adviser-box{margin-top: 20px;}
 

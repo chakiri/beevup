@@ -27,9 +27,7 @@
                         <div class="col-lg-3">
                             {{ form_row(SearchForm.name) }}
                         </div>
-                        <div class="col-lg-4">
-                            {{ form_row(SearchForm.category) }}
-                        </div>
+
                         <div class="communaute-search-btn">
                             <button type="submit" class="btn mvp-btn search-btn btn-radius">
                                 Chercher
@@ -109,7 +107,7 @@
                     <div class="search-result col-12">
                         {% if usersCount is defined  %}
                             {% if usersCount > 0 %}
-                                {{ usersCount }} resultas
+                                {{ usersCount }} resultats
                             {% elseif usersCount == 0 %}
                                 <div class="no-result">
                                     Aucun résultat trouvé.
@@ -176,7 +174,7 @@
                         </div>
                 </div>
                     {% endif %}
-                    <div class="row col-12">
+                    <div class="search-result col-12">
                         {% if companiesCount is defined  %}
                             {% if companiesCount > 0 %}
                                 {{ companiesCount }} resultas

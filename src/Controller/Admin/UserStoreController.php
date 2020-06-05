@@ -58,6 +58,7 @@ class UserStoreController extends EasyAdminController
       
         $this->updatePassword($user);
         $user->setResetToken($this->token);
+        $user->setIsValid(true);
         parent::persistEntity($user);
 
         $profile = new Profile();
@@ -118,7 +119,7 @@ class UserStoreController extends EasyAdminController
     protected function removeEntity($entity)
     {
        if ($this->getUser()->getId() == $entity->getId()) {
-            $this->addFlash('error', 'You cannot delete admin users.');
+            $this->addFlash('error', 'vous ne pouvez pas supprimer votre account.');
 
             return $this->redirectToRoute('easyadmin', ['action' => 'list', 'entity' => $this->entity['name']]);
         }
