@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Repository\StoreRepository;
 use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
@@ -25,18 +26,20 @@ class UserAdminController extends EasyAdminController
     private $topicHandler;
     private $email;
     private $token;
+    private $storeRepo;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, TopicHandler $topicHandler, Email $email,TokenGeneratorInterface $tokenGenerator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, StoreRepository $storeRepo, TopicHandler $topicHandler, Email $email,TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
+        $this->storeRepo = $storeRepo;
         $this->topicHandler = $topicHandler;
         $this->email = $email;
         $this->token = $tokenGenerator->generateToken();
 
     }
-    
+
     public function persistUserEntity($user)
     {
 
@@ -47,6 +50,13 @@ class UserAdminController extends EasyAdminController
         {
             $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
+            $userStore = $this->storeRepo->findOneBy(['id'=>$user->getStore()->getId()]);
+            if( $userStore->getDefaultAdviser() == null)
+            {
+                $userStore->setDefaultAdviser( $user);
+            }
+
+
 
             /* add admin topics to user */
             $this->topicHandler->addAdminTopicsToUser($user);
@@ -95,14 +105,16 @@ class UserAdminController extends EasyAdminController
         $this->updateRoles($user);
         $user->setResetToken($this->token);
         parent::persistEntity($user);
+
         $profile = new Profile();
         $profile->setUser($user);
+
         parent::persistEntity($profile);
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->email->send($this->token, $url, $user,'createNewAccount.html.twig', 'Bienvenu à Beevup');
 
-   }
+    }
 
     public function updateUserEntity($user)
     {
@@ -113,34 +125,34 @@ class UserAdminController extends EasyAdminController
             $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
         }
-         if(in_array('ROLE_ADMIN_COMPANY', $userRoles)) {
+        if(in_array('ROLE_ADMIN_COMPANY', $userRoles)) {
             $type = $this->userTypeRepo->findOneBy(['id' => 3]);
             $user->setType($type);
-         }
+        }
 
-         if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
-                $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
-                $user->setType($type);
-         }
+        if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
+            $type = $this->userTypeRepo->findOneBy(['id'=> 5], []);
+            $user->setType($type);
+        }
 
 
         array_push($userRoles, 'ROLE_USER');
         $user->setRoles($userRoles);
         $this->updatePassword($user);
         parent::updateEntity($user);
-        
+
     }
 
     public function updatePassword(User $user)
-    {   
+    {
         if (!empty($user->getPassword()) && strlen($user->getPassword())< 50) {
-             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
         }
     }
     public function updateRoles(User $user)
-    {   
+    {
         if (!empty($user->getRoles())) {
-             $user->setRoles($user->getRoles());
+            $user->setRoles($user->getRoles());
         }
     }
 }
