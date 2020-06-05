@@ -36,7 +36,7 @@ class SearchType extends AbstractType
                     'Entreprise' => 'company'
                 ],
             ])
-            ->add('category', EntityType::class, [
+           /* ->add('category', EntityType::class, [
                 'label' => false,
                 'required' => false,
                 'placeholder' => 'Catégorie d\'entreprise',
@@ -51,7 +51,7 @@ class SearchType extends AbstractType
                 'class' => CompanyCategory::class,
                 'choice_label' =>'name'
 
-            ])
+            ])*/
         ;
     }
 

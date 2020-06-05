@@ -29,7 +29,8 @@
               {% endif %}
           {% endif %}
           {% if app.user.company.website %}
-              <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>{{ app.user.company.website }}</p>
+              <p class="company-tel"><i class="fa fa-globe margin-r-10" aria-hidden="true"></i>
+                  <a href="{{ app.user.company.website }}">{{ app.user.company.website }}</a></p>
           {% endif %}
 
       </div>
@@ -37,5 +38,5 @@
   </div>
 {% endif %}
 {% if is_granted('ROLE_ADMIN_STORE') %}
-    {% include 'default/boxes/store-box.html.twig' %}
+    {% include 'default/boxes/adviser-box.html.twig' %}
 {% endif %}

@@ -41,7 +41,9 @@ class StoreType extends AbstractType
                 'label' => 'Nom',
                 'attr'  => [
                     'placeholder' => 'Nom',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+                    'readonly'    => 'true'
+
                 ]
             ])
             ->add('email', EmailType::class, [

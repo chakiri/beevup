@@ -42,7 +42,7 @@ class DefaultController extends AbstractController
         $lastSpecialOffer = $repository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
         $posts = $postRepository->findByNotReportedPosts();
         $currentUserStore = $storeRepo->findOneBy(['id'=>$this->getUser()->getStore()]);
-        $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
+       // $adviser= $userRepo->findOneBy(['id'=>$currentUserStore->getDefaultAdviser()]);
         $adminsStore = $userRepo->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
         $OpportunityPostsIds = [''];
         $publicity =  $publicityRepo->findOneBy([],['createdAt'=>'DESC']);
@@ -119,7 +119,6 @@ class DefaultController extends AbstractController
             'opportunityPostNb'  => $opportunityPostNb,
             'specialOfferNb'=>$specialOfferNb,
             'lastSpecialOffer'=>$lastSpecialOffer,
-            'adviser'=> $adviser,
             'adminStore'=> $adminsStore[0],
             'reportedPosts'=>$reportedPosts,
             'reportedComments'=>$reportedComment,

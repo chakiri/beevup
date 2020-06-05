@@ -48,7 +48,7 @@ class UserEntrepriseController extends EasyAdminController
 
         $user->setRoles(['ROLE_USER']);
         $user->setType($type);
-
+        $user->setIsValid(true);
         $this->updatePassword($user);
         $user->setResetToken($this->token);
         parent::persistEntity($user);

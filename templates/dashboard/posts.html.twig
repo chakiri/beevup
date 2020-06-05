@@ -66,7 +66,7 @@
 
 
 
-              <div class="lead"> <span class="post-category">{{post.category|capitalize}}</span></div>
+              <div class="lead"> <span class="post-category post-category-{{post.category|replace({' ': '-'})}}">{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
                {% if post.toCompany != null %}
                    <div class="lead post-description">{{post.description|length > 200 ? post.description|slice(0, 200) ~ '...' : post.description}}
