@@ -31,13 +31,24 @@ class CompanyRepository extends ServiceEntityRepository
 
     public function findByValue($value)
     {
+
         $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
             ->where('p.email = :value')
             ->orWhere('p.siret LIKE :value')
             ->orWhere('p.phone LIKE :value')
             ->orWhere('p.city LIKE :value')
             ->orWhere('p.country LIKE :value')
             ->orWhere('p.name LIKE :value')
+            ->orWhere('p.introduction LIKE :value')
+            ->orWhere('p.description LIKE :value')
+            ->orWhere('p.video LIKE :value')
+            ->orWhere('p.addressPostCode LIKE :value')
+            ->orWhere('p.addressStreet LIKE :value')
+            ->orWhere('p.addressNumber LIKE :value')
+            ->orWhere('p.website LIKE :value')
+            ->orWhere('p.otherCategory LIKE :value')
+            ->orWhere('c.name LIKE :value')
             ->andWhere('p.isCompleted = true')
             ->setParameters(array('value' => '%'.$value.'%'));
 
