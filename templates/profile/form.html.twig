@@ -22,9 +22,9 @@
                     </div>
                     {{ form_start(EditProfileForm) }}
                     <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                            {{ form_label(EditProfileForm.lastname) }}
-                            {{ form_errors(EditProfileForm.lastname) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -35,9 +35,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.firstname) }}
-                            {{ form_errors(EditProfileForm.firstname) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -51,9 +51,9 @@
 
 
                     <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.gender) }}
-                            {{ form_errors(EditProfileForm.gender) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -63,9 +63,9 @@
                                 {{ form_widget(EditProfileForm.gender) }}
                              </div>
                         </div>
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.function) }}
-                            {{ form_errors(EditProfileForm.function) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -77,10 +77,10 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
 
                             {{ form_label(EditProfileForm.mobileNumber) }}
-                            {{ form_errors(EditProfileForm.mobileNumber) }}
+
 
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -91,9 +91,9 @@
                                 {{ form_widget(EditProfileForm.mobileNumber) }}
                             </div>
                         </div>
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group  col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.phoneNumber) }}
-                            {{ form_errors(EditProfileForm.phoneNumber) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -108,7 +108,7 @@
                     <div class="form-row">
                         <div class="form-group col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.imageFile) }}
-                            {{ form_errors(EditProfileForm.imageFile) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                             <span class="input-group-text">
@@ -120,7 +120,7 @@
                         </div>
                         <div class="form-group col-lg-6 col-md-12">
                             {{ form_label(EditProfileForm.introduction) }}
-                            {{ form_errors(EditProfileForm.introduction) }}
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">

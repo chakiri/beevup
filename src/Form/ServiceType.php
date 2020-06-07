@@ -30,9 +30,9 @@ class ServiceType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label'    => 'Titre',
+                'label'    => 'Nom du service',
                 'attr'  => [
-                    'placeholder' => 'Titre',
+                    'placeholder' => 'Nom du service',
                     'class'       =>'form-control input-textarea',
                      'maxlength' => 255
                 ]
@@ -46,14 +46,15 @@ class ServiceType extends AbstractType
                 ],
             ])
             ->add('introduction', TextareaType::class, [
+                'label'    => 'Votre service en une courte phrase',
                 'attr' => [
-                    'placeholder' => 'Introduction',
+                    'placeholder' => 'Votre service en une courte phrase',
                     'class'       =>'form-control input-textarea',
                     'maxlength' => 255
                 ],
             ])
             ->add('category', EntityType::class, [
-                'placeholder' => 'Choisir catégorie',
+                'placeholder' => 'Choisir la catégorie',
                 'label' => 'Catégorie de service',
                 'multiple'=>false,
                 'class' => ServiceCategory::class,
@@ -98,7 +99,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile1', FileType::class, [
                 'required' => false,
-                'label' => 'Photo secondaire 1',
+                'label' => 'Photo supplémentaire 1',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 1',
                     'class'       =>'form-control'
@@ -106,7 +107,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile2', FileType::class, [
                 'required' => false,
-                'label' => 'Photo secondaire 2',
+                'label' => 'Photo supplémentaire 2',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 2',
                     'class'       =>'form-control'
@@ -114,7 +115,7 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile3', FileType::class, [
                 'required' => false,
-                'label' => 'Photo secondaire 3',
+                'label' => 'Photo supplémentaire 3',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 3',
                     'class'       =>'form-control'

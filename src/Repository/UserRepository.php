@@ -24,10 +24,15 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.profile', 'p')
             ->leftJoin('u.company', 'c')
+            ->leftJoin('p.function', 'f')
             ->where('p.firstname LIKE :value')
             ->orWhere('p.lastname LIKE :value')
+            ->orWhere('p.introduction LIKE :value')
+            ->orWhere('p.mobileNumber LIKE :value')
+            ->orWhere('p.phoneNumber LIKE :value')
             ->orWhere('u.email LIKE :value')
             ->orWhere('c.name LIKE :value')
+            ->orWhere('f.name LIKE :value')
             ->andWhere('p.isCompleted = 1')
             ->setParameters(array('value' => '%'.$value.'%'));
 

@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Profile;
 use App\Entity\Company;
 use App\Entity\UserFunction;
+use App\Repository\TypeServiceRepository;
+use App\Repository\UserFunctionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,10 +16,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Security\Core\Security;
 
 
 class ProfileType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -68,6 +77,22 @@ class ProfileType extends AbstractType
                 'required' => true,
                 'placeholder' => 'Saisissez votre fonction',
                 'class' => UserFunction::class,
+                'query_builder' => function (UserFunctionRepository $er) {
+                    $user = $this->security->getUser();
+                if($user->getCompany() != null) {
+                    return $er->createQueryBuilder('t')
+                        ->where('t.relatedTo =  :val1')
+                        ->setParameter('val1', 'Company')
+                        ->orderBy('t.name', 'ASC');
+
+                }
+                else {
+                    return $er->createQueryBuilder('t')
+                        ->where('t.relatedTo  =  :val1')
+                        ->setParameter('val1', 'Store')
+                        ->orderBy('t.name', 'ASC');
+                }
+                },
                 'choice_label' =>'name'
             ])
             ->add('imageFile', FileType::class, [

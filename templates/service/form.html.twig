@@ -28,7 +28,7 @@
                 </div>
                 {{ form_start(ServiceForm) }}
                     <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                             {{ form_label(ServiceForm.title) }}
 
                             <div class="input-group">
@@ -40,7 +40,7 @@
                                   {{ form_widget(ServiceForm.title) }}
                              </div>
                         </div>
-                        <div class="form-group col-lg-6 col-md-12">
+                        <div class="form-group required col-lg-6 col-md-12">
                             {{ form_label(ServiceForm.category) }}
 
                             <div class="input-group">
@@ -55,7 +55,7 @@
                     </div>
 
                 <div class="form-row">
-                    <div class="form-group col-lg-6 col-md-12">
+                    <div class="form-group required col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.introduction) }}
 
                         <div class="input-group">
@@ -67,7 +67,7 @@
                             {{ form_widget(ServiceForm.introduction) }}
                         </div>
                     </div>
-                    <div class="form-group col-lg-6 col-md-12">
+                    <div class="form-group required col-lg-6 col-md-12">
                         {{ form_label(ServiceForm.description) }}
 
                         <div class="input-group">

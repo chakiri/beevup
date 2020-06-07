@@ -1,7 +1,7 @@
 {% include 'default/boxes/avatar-box.html.twig' %}
 
-{% if is_granted('ROLE_ADMIN_COMPANY') %} 
-  <div class="box aside-box  d-none d-lg-block">
+{% if is_granted('ROLE_ADMIN_COMPANY') %}
+   <div class="box aside-box  d-none d-lg-block">
       <div class="box-title-container">
           <p class="box-title">Entreprise</p>
       </div>
@@ -14,7 +14,12 @@
       </div>
       <div class="company-informations">
           {% if app.user.company.category %}
-              <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ app.user.company.category.name }}</p>
+              {% if app.user.company.category.name =='Autre' %}
+                  {% set categoryName = app.user.company.category.name %}
+              {% else  %}
+                  {% set categoryName = app.user.company.otherCategory %}
+              {% endif %}
+              <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ categoryName|capitalize }}</p>
           {% endif %}
           {% if app.user.company %}
               <p><i class="fa fa-envelope-o margin-r-10" aria-hidden="true"></i> {{ app.user.company.email }}</p>

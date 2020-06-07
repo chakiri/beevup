@@ -27,6 +27,11 @@ class UserFunction
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $relatedTo;
+
+    /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
@@ -52,6 +57,18 @@ class UserFunction
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getRelatedTo(): ?string
+    {
+        return $this->relatedTo;
+    }
+
+    public function setRelatedTo(string $relatedTo): self
+    {
+        $this->relatedTo = $relatedTo;
 
         return $this;
     }

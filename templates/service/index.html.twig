@@ -44,32 +44,36 @@
                                 </div>
                             {% endif %}
                             {% if adviser %}
-                                <div class="contact">
-                                    <hr/>
-                                    <div class="avatar">
-                                        {% if adviser.profile.filename %}
-                                            <a class="user-link" href="{{ path('profile_show', {'id': adviser.id}) }}">
-                                                <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid dashboard-profil-img" alt="">
+                                {% if adviser.profile != null %}
+                                    <div class="contact">
+                                        <hr/>
+                                        <div class="avatar">
+
+                                                {% if adviser.profile.filename %}
+                                                    <a class="user-link" href="{{ path('profile_show', {'id': adviser.id}) }}">
+                                                        <img src="{{ vich_uploader_asset(adviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid dashboard-profil-img" alt="">
+                                                    </a>
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
+                                                {% endif %}
+
+                                        </div>
+                                        <p><small><strong>Mon conseiller:</strong></small>
+                                            <a style="color:#000" href="{{ path('profile_show', {'id': adviser.id}) }}">
+                                                {{ adviser.profile.firstname|capitalize }} {{ adviser.profile.lastname|capitalize }}
                                             </a>
-                                        {% else %}
-                                            <img src="/images/default/user.png" class="img-fluid dashboard-profil-img" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <p><small><strong>Mon conseiller:</strong></small>
-                                        <a style="color:#000" href="{{ path('profile_show', {'id': adviser.id}) }}">
-                                            {{ adviser.profile.firstname|capitalize }} {{ adviser.profile.lastname|capitalize }}
-                                        </a>
-                                    </p>
-                                    <p><small><strong>Magasin : </strong></small>
-                                            <a  style="color:#000" href="{{ path('store_show',{'slug':app.user.store.slug}) }}">{{ app.user.store.name }}</a>
-                                    </p>
-                                    <div class="mt-4">
-                                        <p class="user-contact">
-                                            <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter</a></span>
-                                            <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': adviser.profile.id}) }}">Voir fiche </a></span>
                                         </p>
+                                        <p><small><strong>Magasin : </strong></small>
+                                                <a  style="color:#000" href="{{ path('store_show',{'slug':app.user.store.slug}) }}">{{ app.user.store.name }}</a>
+                                        </p>
+                                        <div class="mt-4">
+                                            <p class="user-contact">
+                                                <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': adviser.id}) }}">Contacter</a></span>
+                                                <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': adviser.profile.id}) }}">Voir fiche </a></span>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </nav>
