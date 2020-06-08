@@ -19,7 +19,7 @@ class Email
         $this->templating = $templating;
 
     }
-   public function send($token,$url, $user, $template, $subject='Mail de confirmation')
+   public function send($token,$url, $user,$storePatron, $template, $subject='Mail de confirmation')
     {
 
 
@@ -31,7 +31,8 @@ class Email
                 $this->templating->render(
                     'emails/'.$template,
                     [    'url' => $url,
-                        'user'=> $user
+                        'user'=> $user,
+                        'storePatron'=>$storePatron
                     ]
                 ),
 

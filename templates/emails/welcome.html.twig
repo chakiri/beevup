@@ -87,7 +87,7 @@
             display: none !important;
         }
 
-
+        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
         /* Create one of these media queries for each additional viewport size you'd like to fix */
 
         /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
@@ -126,7 +126,7 @@
             background: #fafafa;
         }
         .bg_black{
-            background: #253561;
+            background: #000000;
         }
         .bg_dark{
             background: rgba(0,0,0,.8);
@@ -177,7 +177,7 @@
 
         table{
         }
-
+        *FOOTER*/
 
         .footer{
             color: rgba(255,255,255,.5);
@@ -223,7 +223,7 @@
     <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
         &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
     </div>
-    <div style="max-width: 600px; margin: 0 auto;background-color: #f1f1f1; padding-top:20px; padding-bottom: 20px" class="email-container">
+    <div style="max-width: 600px; margin: 0 auto;padding-top:20px; padding-bottom: 20px" class="email-container">
         <!-- BEGIN BODY -->
         <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
             <tr style="border-bottom: 1px solid #eee;background-color:#FFFFFF">
@@ -234,7 +234,7 @@
                                 <img src="https://app.beevup.fr/images/logo_bv.png" style="max-height: 63px;"/>
                             </td>
                             <td width="60%" class="logo" style="text-align: right;background-color:#FFFFFF">
-                                <p style="color:#253561;font-size:12px;font-weight: bold">Beev'Up par Bureau Vallée | Confirmation de votre e-mail</p>
+                                <p style="color:#253561">Beev'Up par Bureau Vallée - Bienvenue</p>
                             </td>
                         </tr>
                     </table>
@@ -247,32 +247,31 @@
                         <tr>
                             <td>
                                 <div class="text" style="padding: 0 3em;background-color:#FFFFFF">
-                                    <p style="color:#000;font-size:12px">Bonjour, </p>
-                                    <p style="color:#000;font-size:12px">
-                                        Plus qu'une étape pour accéder à votre espace Beev'Up.
-                                        Cliquez sur le lien de confirmation ci dessous, et commencez l'expérience Beev'Up.
+                                    <p style="color:#000">Bonjour,</p>
+                                    <p style="color:#000">
+                                        Je suis ravi(e) de vous accueillir au sein de la communauté Beev'Up du magasin Bureau Vallée - {{user.store.name}}.
+                                    </p>
+                                    <p style="color:#000">
+                                        Beev'Up est la première plateforme locale dédiée aux professionnels, entrepreneurs et entreprises.
+                                    </p>
+                                    <p style="color:#000">
+                                        La période actuelle nous apprend que la solidarité et l'entraide entre les entreprises est un atout formidable de notre pays.
+                                    </p>
+                                    <p style="color:#000">
+                                        En devenant un membre actif de la communauté locale Beev'Up vous allez pouvoir échanger facilement avec toutes les entreprises locales, partager des opportunités commerciales, proposer vos services , accéder à des offres spéciales et apporter de l'aide et des conseils aux professionnels de votre entourage.
+                                    </p>
+                                    <p style="color:#000">
+                                        Nous avons construit ce service pour vous et souhaitons le faire évoluer avec vous. N'hésitez pas à nous remonter vos souhaits d'évolution et à venir échanger physiquement en magasin.
+
                                     </p>
 
-                                    <p style="color:#000;font-size:12px">
-                                        <a style="color:#000;font-size:12px;text-decoration: underline;" href="{{ url }}">{{ url }}</a>
-                                    </p>
-                                    <p style="color:#000;font-size:12px">
-                                        En cas de problème, n'hésitez pas à nous envoyer un mail à<a style="font-weight: bold" href="mailto:contact.beevup@bureau-vallee.com">
-                                            contact.beevup@bureau-vallee.com
-                                        </a>
-                                    </p>
-
-                                    <p style="color:#000;font-size:12px">
+                                    <p style="color:#253561;">
                                         A bientôt sur la plateforme Beev'Up
-                                        {%  if storePatron != null  %}
+                                    <p style="color:#253561;font-weight: bold;">
                                         {%  if storePatron.profile != null  %}
-                                    <p style="color:#253561;font-weight: bold;font-size:13px">
-
-                                        {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
-
+                                            {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                        {% endif %}
                                     </p>
-                                    {% endif %}
-                                    {% endif %}
                                     <p style="color:#253561;font-weight: bold;">
                                         Magasin Bureau Vallée - {{user.store.name}}
                                     </p>

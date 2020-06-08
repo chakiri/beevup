@@ -45,6 +45,8 @@ class UserEntrepriseController extends EasyAdminController
         {
             $user->setCompany($currentUser->getCompany());
         }
+        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
         $user->setRoles(['ROLE_USER']);
         $user->setType($type);
@@ -66,7 +68,7 @@ class UserEntrepriseController extends EasyAdminController
 
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,'createNewAccount.html.twig','Bienvenu à Beevup');
+        $this->email->send($this->token, $url, $user,$storePatron, 'createNewAccount.html.twig','Beev\'Up par Bureau Vallée | Confirmation de votre e-mail');
 
     }
 
