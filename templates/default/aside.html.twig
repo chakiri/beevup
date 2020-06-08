@@ -14,10 +14,13 @@
       </div>
       <div class="company-informations">
           {% if app.user.company.category %}
-              {% if app.user.company.category.name =='Autre' %}
-                  {% set categoryName = app.user.company.category.name %}
-              {% else  %}
+
+              {% if app.user.company.category.name =="Autre" %}
+
                   {% set categoryName = app.user.company.otherCategory %}
+              {% else  %}
+
+                  {% set categoryName = app.user.company.category.name  %}
               {% endif %}
               <p class="company-category"><i class="fa fa-tags margin-r-10" aria-hidden="true"></i> {{ categoryName|capitalize }}</p>
           {% endif %}

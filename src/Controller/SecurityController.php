@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo,   TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
     {
         $user = new User();
 
@@ -50,6 +50,11 @@ class SecurityController extends AbstractController
             /* insert company data*/
             $company = new Company();
             $userType = $userTypeRepository->findOneBy(['id'=> 3]);
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+            //dump($user->getStore());dump( $userTypePatron);
+            //dump($storePatron); die();
+
             $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
@@ -74,13 +79,13 @@ class SecurityController extends AbstractController
             $user->setResetToken($token);
             $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
             $message = (new \Swift_Message())
-                ->setSubject('Confirmation email')
+                ->setSubject('Beev\'Up par Bureau Vallée | Confirmation du compte')
                 ->setFrom($_ENV['DEFAULT_EMAIL'])
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView(
                         'emails/confirmEmail.html.twig',
-                        ['url' => $url,'user'=> $user]
+                        ['url' => $url,'user'=> $user, 'storePatron'=> $storePatron]
                     ),
                     'text/html'
                 )
@@ -141,7 +146,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgottenPassword", name="security_forgotten_password")
      */
-    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
+    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -149,6 +154,8 @@ class SecurityController extends AbstractController
         if($form->isSubmitted() ) {
             $email = $form->getData()->getEmail();
             $user = $userRepository->findOneBy(['email' => $email]);
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
             if (!$user){
                 $this->addFlash('danger', 'Email n\'existe pas');
@@ -163,13 +170,13 @@ class SecurityController extends AbstractController
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
             $message = (new \Swift_Message())
-                ->setSubject('Demande de réinitialisation de mot de passe')
+                ->setSubject('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe')
                 ->setFrom($_ENV['DEFAULT_EMAIL'])
                 ->setTo($email)
                 ->setBody(
                     $this->renderView(
                         'emails/forgotPassword.html.twig',
-                        ['url' => $url,'user'=> $user]
+                        ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron]
                     ),
                     'text/html'
                    )
@@ -262,8 +269,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer)
     {
+
 
        $user = $userRepository->findOneBy(['resetToken' => $token]);
 
@@ -271,6 +279,25 @@ class SecurityController extends AbstractController
                 $this->addFlash('danger', 'le lien de confirmation a expiré');
                 return $this->redirectToRoute('security_login');
             }
+
+            /****send welcome email *****/
+
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+            $message = (new \Swift_Message())
+                ->setSubject('Beev\'Up par Bureau Vallée | Bienvenu')
+                ->setFrom($_ENV['DEFAULT_EMAIL'])
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/welcome.html.twig',
+                        ['user'=> $user, 'storePatron'=> $storePatron]
+                    ),
+                    'text/html'
+                );
+
+             $result = $mailer->send($message);
+            /*****end ******/
 
             $user->setResetToken(null);
              $user->setIsValid(1);

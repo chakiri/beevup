@@ -23,14 +23,16 @@ class UserStoreController extends EasyAdminController
     private $topicHandler;
     private $email;
     private $token;
+    private $userTypeRepo;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo, TopicHandler $topicHandler, Email $email, TokenGeneratorInterface $tokenGenerator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo, UserTypeRepository $userTypeRepo,TopicHandler $topicHandler, Email $email, TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepo = $userRepo;
         $this->topicHandler = $topicHandler;
         $this->email = $email;
         $this->token = $tokenGenerator->generateToken();
+        $this->userTypeRepo = $userTypeRepo;
     }
     
     public function persistUserStoreEntity($user)
@@ -50,6 +52,8 @@ class UserStoreController extends EasyAdminController
         {
             $user->setRoles(['ROLE_USER']);
         }
+        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
         /* add admin topics to user */
         $this->topicHandler->addAdminTopicsToUser($user);
@@ -66,7 +70,7 @@ class UserStoreController extends EasyAdminController
         parent::persistEntity($profile);
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,'createNewAccount.html.twig','Bienvenu à Beevup');
+        $this->email->send($this->token, $url, $user,$storePatron,'createNewAccount.html.twig','Beev\'Up par Bureau Vallée | Confirmation de votre e-mail');
 
     }
 

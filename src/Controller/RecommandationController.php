@@ -8,6 +8,8 @@ use App\Form\RecommandationType;
 use App\Repository\CompanyRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\RecommandationRepository;
+use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +36,7 @@ class RecommandationController extends AbstractController
     /**
      * @Route("/recommandation", name="recommandation")
      */
-    public function create(Request $request, EntityManagerInterface $manager, CompanyRepository $companyRepository, ServiceRepository $serviceRepository)
+    public function create(Request $request, EntityManagerInterface $manager, CompanyRepository $companyRepository, ServiceRepository $serviceRepository,UserRepository $userRepository, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer)
     {
      
       $recommandation = new Recommandation();
@@ -60,6 +62,27 @@ class RecommandationController extends AbstractController
         $recommandation->setUser( $this->getUser());
          $manager->persist($recommandation);
          $manager->flush();
+
+         /**** send email ******/
+          $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+          $userTypeAdmin =  $userTypeRepository->findOneBy(['id'=> 3]);
+          $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $company->getStore()]);
+          $adminCompany = $userRepository->findOneBy(['type'=> $userTypeAdmin, 'company'=>$company]);
+
+          $message = (new \Swift_Message())
+              ->setSubject('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé')
+              ->setFrom($_ENV['DEFAULT_EMAIL'])
+              ->setTo($adminCompany->getEmail())
+              ->setBody(
+                  $this->renderView(
+                      'emails/recommandation.html.twig',
+                      ['user'=> $adminCompany, 'storePatron'=> $storePatron]
+                  ),
+                  'text/html'
+              )
+          ;
+          $result = $mailer->send($message);
+         /*****end *************/
 
          if ( $service != null && $company != null) {
              $this->addFlash('success', 'Merci pour votre proposition de recommandation, '.$service->getUser()->getProfile()->getFirstname().' '.$service->getUser()->getProfile()->getLastname().'  a été notifié et va pouvoir valider votre message');

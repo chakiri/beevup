@@ -9,6 +9,7 @@ use App\Repository\MessageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use App\Service\EmptyNotification;
 use App\Service\SaveNotification;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebsocketController extends AbstractController
 {
+    private $userTypeRepo;
+    private $userRepo;
+
+    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo)
+    {
+
+        $this->userTypeRepo = $userTypeRepo;
+        $this->userRepo = $userRepo;
+    }
     /**
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
@@ -166,18 +176,20 @@ class WebsocketController extends AbstractController
     }
 
     /**
-     * Send Email when first private message
-     * @param User $user
-     * @param \Swift_Mailer $mailer
-     */
+ * Send Email when first private message
+ * @param User $user
+ * @param \Swift_Mailer $mailer
+ */
     private function sendEmail(User $user, \Swift_Mailer $mailer): void
     {
+        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
         $message = (new \Swift_Message())
-            ->setSubject('Confirmation email')
+            ->setSubject('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté')
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($user->getEmail())
             ->setBody(
-                $this->renderView('emails/firstMessage.html.twig'),
+                $this->renderView('emails/firstMessage.html.twig',  ['user'=> $user,  'storePatron'=> $storePatron]),
                 'text/html'
             )
         ;
