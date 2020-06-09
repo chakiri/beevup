@@ -136,6 +136,7 @@
  /* end publish post */
 
   $('.like-button').click(function(){
+
       $('.like-button').attr("disabled", true);
     var postId = $(this).attr('data-post-id');
     var postLikesNumber = Number($('#post-likes-number-'+postId).text());
@@ -385,11 +386,12 @@ $('.dashboard-notification').click(function(){
 })
 $('body').on('click', '.post-likes', function () {
 
-  
+
   var url = $(this).attr('data-path');
   $.get(url, function (data) {
-   
+
     $('.modal-likes-list').html(data);
+
   });
 })
 
