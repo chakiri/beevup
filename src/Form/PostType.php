@@ -25,7 +25,7 @@ class PostType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => ['placeholder' => 'Description',
-                           'maxlength' => 512
+                           'maxlength' => 1300
 
                           ]
 

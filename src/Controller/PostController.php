@@ -34,9 +34,9 @@ class PostController extends AbstractController
       $post->setUser($this->getUser());
       $form = $this->createForm(PostType::class, $post);
       $form->handleRequest($request);
-      if ($form->isSubmitted() && $form->isValid()) {
 
-          $optionsRedirect = [];
+      if ($form->isSubmitted() && $form->isValid()) {
+         $optionsRedirect = [];
           if ($post->getCategory() == 'Opportunities'){
               $nbPoints = 30;
               $scoreHandler->add($this->getUser(), $nbPoints);
