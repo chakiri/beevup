@@ -18,6 +18,7 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'attr' => ['placeholder' => 'Titre',
                            'maxlength' => 255
+
                 ],
                 'label' =>'Titre'
 
@@ -25,7 +26,9 @@ class PostType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => ['placeholder' => 'Description',
                            'maxlength' => 512
-                          ],
+
+                          ]
+
             ])
             ->add('category', ChoiceType::class, [
                 'label'=>'Catégorie',
