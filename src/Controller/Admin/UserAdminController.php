@@ -112,7 +112,7 @@ class UserAdminController extends EasyAdminController
         parent::persistEntity($profile);
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,null,'createNewAccount.html.twig', 'Beev\'Up par Bureau Vallée - Confirmation de votre e-mail');
+        $this->email->send($this->token, $url, $user,null,'createNewAccount.html.twig', 'Beev\'Up par Bureau Vallée | Inscription');
 
     }
 

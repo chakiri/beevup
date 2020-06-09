@@ -248,7 +248,7 @@ class SecurityController extends AbstractController
 
             if ($request->get('_route')=='security_new_account') {
 
-                $this->addFlash('success', 'Bienvenu à Beeveup');
+                $this->addFlash('success', 'Bienvenue à Beeveup');
             } else {
                 $this->addFlash('success', 'Le mot de passe a été modifié');
             }
@@ -285,7 +285,7 @@ class SecurityController extends AbstractController
             $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
             $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
             $message = (new \Swift_Message())
-                ->setSubject('Beev\'Up par Bureau Vallée | Bienvenu')
+                ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
                 ->setFrom($_ENV['DEFAULT_EMAIL'])
                 ->setTo($user->getEmail())
                 ->setBody(

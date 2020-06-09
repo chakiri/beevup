@@ -231,7 +231,7 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="40%" class="logo" style="text-align: left;background-color:#FFFFFF">
-                                <img src="https://app.beevup.fr/images/logo_bv.png" style="max-height: 63px;"/>
+                                <img src="https://app.beevup.fr/images/logo_beevup_solo.png" style="max-height: 63px;"/>
                             </td>
                             <td width="60%" class="logo" style="text-align: right;background-color:#FFFFFF">
                                 <p style="color:#253561;font-size:12px;font-weight: bold">Beev'Up par Bureau Vallée - Un autre membre vous a contacté</p>
@@ -255,7 +255,11 @@
                                         {% endif %}
                                     {% endif %}
                                     <p style="color:#000;font-size:12px">
-                                        vous avez reçu un nouveau message de  {{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }} dans votre espace Beev'Up.
+                                        vous avez reçu un nouveau message de  {{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}
+                                       {% if app.user.company != null %}
+                                        , {{ app.user.company.name }}
+                                        {% endif %}
+                                        dans votre espace Beev'Up.
                                     </p>
 
                                     <p style="color:#000;font-size:12px">
