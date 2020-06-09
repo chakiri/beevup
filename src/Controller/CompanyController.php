@@ -70,7 +70,7 @@ class CompanyController extends AbstractController
                        $post = new Post();
                        $post->setUser($user);
                        $post->setCategory('Derniers arrivés');
-                       $post->setTitle('Bienvenu à l\'entreprise '.$company->getName());
+                       $post->setTitle('Bienvenue à l\'entreprise '.$company->getName());
                        $post->setDescription($company->getIntroduction());
 
                        $post->setToCompany($company);
