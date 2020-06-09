@@ -89,27 +89,7 @@
                           {{post.likesNumber}}</span>
                     </span>
                 {% endif %}
-                    <div class="modal fade LikesList" id="LikesList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content modal-likes-list">
-                                
-                                <div class="modal-body">
-                                    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                      </div>
-                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                      </div>
-                                      <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                      </div>
-                                </div>
-                                <div class="modal-footer">
-                                
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                   
                   <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">
                       {% if post.commentsNumber > 0 %}
