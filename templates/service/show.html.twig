@@ -115,7 +115,7 @@
                                     <a href="{{ path('service_edit', {'id': service.id}) }}" type="button" class="btn btn-design btn-1">Editer le service</a>
                                     <a href="#" type="button" class="btn btn-design btn-2 mt-3" data-toggle="modal" data-target="#confirmDelete">Supprimer le service</a>
                                 {% elseif service.type.name == 'plateform' %}
-                                    {% if is_granted('ROLE_ADMIN') and not is_granted('ROLE_ADMIN_PLATEFORM') %}
+                                    {% if is_granted('ROLE_ADMIN_STORE') %}
                                         {% if storeService %}
                                             <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="btn btn-design btn-1">Retirer ce service</a>
                                             <a href="#" type="button" class="btn btn-design btn-2 mt-3" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
