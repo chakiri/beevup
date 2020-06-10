@@ -127,7 +127,7 @@ class Service implements \Serializable
 
     public function setDescription(string $description): self
     {
-        $this->description = $description;
+        $this->description =str_replace("\r\n",'<br>', $description);
 
         return $this;
     }

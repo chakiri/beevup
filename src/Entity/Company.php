@@ -369,11 +369,13 @@ class Company implements \Serializable
     public function getDescription():  ?string
     {
         return $this->description;
+
     }
 
     public function setDescription(?string $description): self
     {
-        $this->description = $description;
+        $this->description =str_replace("\r\n",'<br>', $description);
+
 
         return $this;
     }

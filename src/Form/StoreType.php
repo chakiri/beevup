@@ -120,7 +120,7 @@ class StoreType extends AbstractType
                 'label' => 'Description',
                 'attr'  => [
                     'placeholder' => 'Description',
-                    'class'       =>'form-control'
+                     'class'       =>'form-control entity-description'
                 ]
             ])
 

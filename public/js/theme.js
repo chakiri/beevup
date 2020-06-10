@@ -678,9 +678,9 @@ $('#search_type').change(function(){
 });
 
 $('#display-opportunity-offer').click(function(){
-    $('#news-filter').val("Opportunities");
+    $('#news-filter').val("Opportunité commerciale");
     $('.post').each(function(){
-        if ($(this).attr('data-category') != 'Opportunities')
+        if ($(this).attr('data-category') != 'Opportunité commerciale')
         {
             $(this).addClass('hide-item');
         }
@@ -773,7 +773,13 @@ $('.btn-show-more').click(function () {
     /*******/
 
 });
-
+if($('.entity-description').length > 0 )
+{
+    if($('.entity-description').text() != '') {
+    var descriptionText = $('.entity-description').text().replace(/<br>/g, '\r\n');
+    $('.entity-description').val(descriptionText);
+    }
+}
 
     /***/
 })(jQuery);
