@@ -73,7 +73,7 @@
                        <a class="see-more" href="{{ path('company_show',{'slug':post.toCompany.slug}) }}">voir fiche entreprise </a>
                    </div>
                {% else %}
-                   <div class="lead post-description">{{post.description}}</div>
+                   <div class="lead post-description">{{post.description| raw}}</div>
               {% endif %}
               <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
                 {% if post.likesNumber > 0 %}

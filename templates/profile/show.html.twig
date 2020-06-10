@@ -79,7 +79,7 @@
                 <div class="col-lg-4">
                     <div class="box">
                         <h4 class="mb-3">{{ profile.firstname|capitalize }} en quelques mots</h4>
-                        <p class="lead">{{ profile.introduction ?: 'Pas d\'introduction' }}</p>
+                        <p class="lead">{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
                     </div>
                 </div>
                 <div class="col-lg-8">

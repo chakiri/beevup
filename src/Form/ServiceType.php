@@ -41,7 +41,7 @@ class ServiceType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Description',
-                    'class'       =>'form-control input-textarea',
+                    'class'       =>'form-control input-textarea entity-description',
                     'maxlength' => 1500
                 ],
             ])
@@ -91,6 +91,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'En quelques mots, décrivez votre offre exclusive du service',
                     'class'       =>'form-control'
+
                 ],
             ])
             ->add('imageFile', FileType::class, [

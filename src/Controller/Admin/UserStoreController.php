@@ -120,7 +120,7 @@ class UserStoreController extends EasyAdminController
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }
-    protected function removeEntity($entity)
+    /*protected function removeEntity($entity)
     {
        if ($this->getUser()->getId() == $entity->getId()) {
             $this->addFlash('error', 'vous ne pouvez pas supprimer votre account.');
@@ -128,5 +128,5 @@ class UserStoreController extends EasyAdminController
             return $this->redirectToRoute('easyadmin', ['action' => 'list', 'entity' => $this->entity['name']]);
         }
 
-    }
+    }*/
 }

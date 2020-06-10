@@ -28,10 +28,7 @@ class OpportunityNotificationController extends AbstractController
         foreach ($displayedOpportunityPosts as $post ) {
             array_push($OpportunityPostsIds , $post->getPost()->getId());
         }
-        $opportunityPosts = $postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds, $this->getUser());
-
-       // $opportunityPosts = $postRepository->findBy(['category'=>'Opportunities'],[]);
-
+        $opportunityPosts = $postRepository->findByNotSeenOpportunityPost("Opportunité commerciale", $OpportunityPostsIds, $this->getUser());
         foreach($opportunityPosts as $post)
         {
             $notification = new OpportunityNotification();
