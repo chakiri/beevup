@@ -1,0 +1,38 @@
+<div class="row d-block d-sm-none">
+    <div class="col-lg-6 col-md-12 ">
+         <div id="advisorbox" class="row box dashboard-box" style="padding:10px">
+
+                        {% if  app.user.store != null %}
+                            {% if  app.user.store.defaultAdviser != null %}
+                                {% if  app.user.store.defaultAdviser.profile != null %}
+                                    <div class="avatar adviser-avatar mobile-adviser-bloc">
+                                        {% if app.user.store.defaultAdviser.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" style="border-radius:0%">
+                                        {% else %}
+                                            <img src="/images/default/user.png" class="adviser-img img-fluid dashboard-profil-img" style="border-radius:0%">
+                                        {% endif %}
+                                        <p class="user-contact">
+                                            <a class="simple-link" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}">Votre Conseiller</a>
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% if specialOfferNb > 0 %}
+
+                        <div class="avatar adviser-avatar mobile-special-offer-bloc">
+
+                                {% if lastSpecialOffer.filename %}
+                                    <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('rectangleCard') }}" class="img-fluid" style="border-radius:0%">
+                                {% else %}
+                                    <img src="/images/no-available-photo.png" class="img-fluid" style="border-radius:0%">
+                                {% endif %}
+                                 <p class="user-contact">
+                                    <a class="simple-link" href="{{ path('service_discovery') }}">Offres exclusives</a>
+                                 </p>
+                        </div>
+                    {% endif %}
+         </div>
+    </div>
+</div>

@@ -2582,4 +2582,7 @@ textarea{
 .adviser-avatar{ width: 100%}
 #adviser-box{margin-top: 20px;}
 .adviser-title{text-align: center;}
+.simple-link{color:var(--mvp-color);font-weight: bold}
+.mobile-adviser-bloc{width: 50%;border-right: 1px solid #eee;}
+.mobile-special-offer-bloc{width: 50%;}
 
