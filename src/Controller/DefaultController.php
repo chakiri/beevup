@@ -23,7 +23,7 @@ use App\Repository\PostLikeRepository;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/aaaa", name="home")
      */
     public function index()
     {

@@ -36,6 +36,9 @@ class PostType extends AbstractType
                     'Informations' => 'information',
                     'Opportunité commerciale' => 'Opportunité commerciale',
                     'Emploi' => 'Emploi',
+                    'Événement' => 'Événement',
+                    'Question à la communauté' => 'Question à la communauté',
+                    'Autre' => 'Autre'
                 ],
                 ])
                

@@ -26,20 +26,37 @@
                     </div>
                     <div id="adviser-box" class="company-informations  d-none d-lg-block">
 
-                        <p class="company-tel"><i class="fa fa-university margin-r-10" aria-hidden="true"></i>{{ app.user.store.name|capitalize }}</p>
-                        <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
-                            {{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }} {{ app.user.store.addressPostCode }}
+                        <p class="company-tel">
+                            <i class="fa fa-university margin-r-10 box-icon" aria-hidden="true"></i>
+                            <span class="box-text-content">
+                              {{ app.user.store.name|capitalize }}
+                            </span>
                         </p>
-                        <p class="company-tel"><i class="fa fa-flag margin-r-10" aria-hidden="true"></i>
-                            {{ app.user.store.city }}  {{ app.user.store.country|country_name }}
+                        <p class="company-tel">
+                            <i class="fa fa-map-marker margin-r-10 box-icon" aria-hidden="true"></i>
+                            <span class="box-text-content">
+                              {{ app.user.store.addressNumber }} {{ app.user.store.addressStreet }} {{ app.user.store.addressPostCode }}
+                            </span>
+                        </p>
+                        <p class="company-tel">
+                            <i class="fa fa-flag margin-r-10 box-icon" aria-hidden="true"></i>
+                            <span class="box-text-content">
+                               {{ app.user.store.city }}  {{ app.user.store.country|country_name }}
+                            </span>
                         </p>
                         {% if app.user.store.phone  %}
-                            <p class="company-tel"><i class="fa fa-phone margin-r-10" aria-hidden="true"></i>
-                                {{ app.user.store.phone }}
+                            <p class="company-tel">
+                                <i class="fa fa-phone margin-r-10 box-icon" aria-hidden="true"></i>
+                                <span class="box-text-content">
+                                  {{ app.user.store.phone }}
+                                </span>
                             </p>
                         {% endif %}
-                        <p class="company-tel"><i class="fa fa-angle-double-right margin-r-10" aria-hidden="true"></i>
-                            <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a>
+                        <p class="company-tel">
+                            <i class="fa fa-angle-double-right margin-r-10 box-icon" aria-hidden="true"></i>
+                            <span class="box-text-content">
+                              <a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Voir la fiche magasin</a>
+                            </span>
                         </p>
                     </div>
                 </div>

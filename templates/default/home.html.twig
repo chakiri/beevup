@@ -1,30 +1,168 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
 
-{% block body %}
+  {% block body %}
+      <section id="registration-page" class="clearfix section-bg-light">
+          <div class="container">
+              <div class="row" style="margin-left:0;margin-right: 0 !IMPORTANT">
+                  <div class="col-sm-6 col-md-6 col-lg-7" style="text-align: center">
+                      <img src="images/homePage.png" style="margin-top:20px"/>
+                      <P class="wow bounceInUp" style="font-size:35px;color:#fff;margin-top:50px;animation-name: bounceInUp;" >Rejoignez Beev'Up,<br/> le mouvement dédié aux entreprises locales</P>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-5">
 
-    <section id="intro" class="clearfix section-bg-light">
-        <div class="container">
+                      <div class="bg-light py-3 px-3 mt-5 btn-radius">
+                          <h1 class="mvp-color security-title">Votre communauté vous attend</h1>
 
-            <div class="intro-img">
-                <img src="/images/intro-img.svg" alt="" class="img-fluid">
-            </div>
+                          {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
 
-            <div class="intro-info">
-                <h2> Proposez gratuitement vos services aux professionnels autour de vous </h2>
-                <div>
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        {% if  app.user.company %}
-                          <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
-                        {% endif %}
-                    {% else %}
-                        <a href="{{ path('security_login') }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
-                    {% endif %}
-                    <a href="{{ path('service') }}" class="btn-services scrollto">Nos services</a>
-                </div>
-            </div>
 
-        </div>
-    </section>
-{% endblock %}
+                          {{ form_errors(RegistrationForm.name) }}
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            </span>
+                              </div>
+                              {{ form_widget(RegistrationForm.name) }}
+                          </div>
+
+
+
+                          {{ form_errors(RegistrationForm.company) }}
+                          <div class="input-container">
+
+                              <i class="fa fa-sort-numeric-asc siret-icon" aria-hidden="true"></i>
+                              {{ form_widget(RegistrationForm.company) }}
+                          </div>
+
+
+
+
+                          {{ form_errors(RegistrationForm.store) }}
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+
+                                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                                </span>
+                              </div>
+                              {{ form_widget(RegistrationForm.store) }}
+                          </div>
+
+
+                          {{ form_errors(RegistrationForm.email) }}
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                 <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </span>
+                              </div>
+                              {{ form_widget(RegistrationForm.email) }}
+                          </div>
+
+
+                          {{ form_errors(RegistrationForm.password) }}
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                   <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                </span>
+                              </div>
+                              {{ form_widget(RegistrationForm.password) }}
+                          </div>
+                          <div class="input-group mb-3">
+                              {{ form_widget(RegistrationForm.acceptConditions) }}
+                          </div>
+                          <div class="form-actions form-group text-center">
+                              <button id ="inscription-btn" type="submit" class="btn  mvp-btn btn mvp-bg btn-radius" disabled>Inscription</button>
+                          </div>
+
+                          {{ form_end(RegistrationForm) }}
+
+                      </div>
+                      <div class="register-link text-center" style="background-color:#1742A4;margin-top:-20px;margin-bottom:20px">
+                          <p class="text-white mt-2">Vous avez déjà un compte ? <a class="text-white" href="{{ path('security_login') }}">Connectez-vous !</a></p>
+                      </div>
+
+
+                  </div>
+
+              </div>
+
+
+          </div>
+          <div class="row" style="background-color:#fff;padding:40px">
+              <div class="col-sm-7 col-md-7 col-lg-7 wow bounceInLeft" style="color:var(--mvp-color);padding-left: 90px">
+
+                  <h3 style="color:var(--mvp-color)">Rejoignez Beev’Up, dès maintenant ...</h3>
+                  <ul>
+                      <li>Échangez facilement avec toutes les entreprises locales</li>
+                      <li>Partagez des opportunités commerciales</li>
+                      <li>Proposez vos services</li>
+                      <li>Accédez à des offres spéciales dédiées à la communauté Beev’Up</li>
+                  </ul>
+                  <p>Et surtout,</p>
+                  <p>participez à la création d’une communauté locale d’entrepreneurs engagés,</p>
+
+              </div>
+              <div class="col-sm-5 col-md-5 col-lg-5 wow bounceInRight">
+                  <img src="images/homePage/img5.png" style="height:180px"/>
+              </div>
+          </div>
+          <div  class="row" style="background-color:#fff;">
+              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp" style="text-align:center;padding: 10px">
+                  <div class="bg-img">
+                      <img src="images/homePage/img1.png" style="min-height: 192px;"/>
+                  </div>
+                  <div class="bg-text">
+                      Dans le développement du tissu économique local
+                  </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                  <div class="bg-img">
+                      <img src="images/homePage/img2.png" style="min-height: 192px;width: 280px;"/>
+                  </div>
+                  <div class="bg-text">
+                      Dans le développement de leur activité en veillant à maintenir un impact positif sur la société
+
+
+                  </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                  <div class="bg-img">
+                      <img src="images/homePage/img3.png" style="min-height: 192px;"/>
+                  </div>
+                  <div class="bg-text">
+                      Dans la préservation de l’environnement
+
+                  </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                  <div class="bg-img">
+                      <img src="images/homePage/img4.png" style="min-height: 192px;"/>
+                  </div>
+                  <div class="bg-text">
+                      Pour leurs clients
+
+                  </div>
+
+              </div>
+          </div>
+          <div   style="background-color:#fff;">
+              {% include 'homePage/map.html.twig' %}
+          </div>
+          <div  style="background-color:#fff;">
+              {% include 'partials/footer.html.twig' %}
+          </div>
+
+
+
+
+
+
+
+      </section>
+
+  {% endblock %}
