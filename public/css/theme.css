@@ -2336,6 +2336,15 @@ margin-top: 10px;
   background-size: cover;
   padding: 0px 0 58px 0;
 }
+
+#registration-page{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: url(../images/bg-homePage.png) center bottom no-repeat;
+  background-size: cover;
+  padding: 0px 0 58px 0;
+}
 .forget-password-link{
   color:#000;
   font-size:12px;
@@ -2576,10 +2585,37 @@ textarea{
 }
 .post-category-information{background-color: green;}
 .post-category-Derniers-arrivés{background-color: #DE3944;}
-.post-category-Opportunities{background-color: orange;}
+.post-category-Opportunité-commerciale{background-color: orange;}
 .post-category-Emploi{background-color: #5A96BB;}
+.post-category-Événement{background-color: #e83e8c;}
+.post-category-Question-à-la-communauté{background-color: #2780E3;}
+.post-category-Autre{background-color: #9954BB;}
 .news-bloc{font-size:21px;}
 .adviser-avatar{ width: 100%}
 #adviser-box{margin-top: 20px;}
 .adviser-title{text-align: center;}
+.simple-link{color:var(--mvp-color);font-weight: bold}
+.mobile-adviser-bloc{width: 50%;border-right: 1px solid #eee;}
+.mobile-special-offer-bloc{width: 50%;}
+.bg-text{color:var(--mvp-color);font-weight: bold}
+.map-responsive {
+  overflow:hidden;
+  position:relative;
+  height:250px;
 
+}
+
+.map-responsive iframe {
+  left:0;
+  top:0;
+  height:100%;
+  width:100%;
+  position:absolute;
+}
+.box-icon{
+  float:left;
+  margin-top:4px;
+}
+.box-text-content{
+  display:flex;
+}

@@ -25,8 +25,8 @@ class PostType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => ['placeholder' => 'Description',
-                           'maxlength' => 1300
-
+                           'maxlength' => 1300,
+                            'class'    =>'entity-description',
                           ]
 
             ])
@@ -34,8 +34,11 @@ class PostType extends AbstractType
                 'label'=>'Catégorie',
                 'choices'  => [
                     'Informations' => 'information',
-                    'Opportunité commerciale' => 'Opportunities',
+                    'Opportunité commerciale' => 'Opportunité commerciale',
                     'Emploi' => 'Emploi',
+                    'Événement' => 'Événement',
+                    'Question à la communauté' => 'Question à la communauté',
+                    'Autre' => 'Autre'
                 ],
                 ])
                

@@ -23,7 +23,7 @@ use App\Repository\PostLikeRepository;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/aaaa", name="home")
      */
     public function index()
     {
@@ -54,7 +54,7 @@ class DefaultController extends AbstractController
             foreach ($displayedOpportunityPosts as $post ) {
               array_push($OpportunityPostsIds , $post->getPost()->getId());
            }
-         $opportunityPostNb = count($postRepository->findByNotSeenOpportunityPost("Opportunities", $OpportunityPostsIds, $this->getUser()));
+         $opportunityPostNb = count($postRepository->findByNotSeenOpportunityPost("Opportunité commerciale", $OpportunityPostsIds, $this->getUser()));
         $currentUser =$this->getUser();
         $likedPost = [];
         $reportedPosts = [];

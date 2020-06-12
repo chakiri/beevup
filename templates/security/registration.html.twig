@@ -3,13 +3,17 @@
 {% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-<section id="login-page" class="clearfix section-bg-light">
+<section id="registration-page" class="clearfix section-bg-light">
     <div class="container">
-        <div class="row">
+        <div class="row" style="margin-left:0;margin-right: 0 !IMPORTANT">
+            <div class="col-sm-6 col-md-6 col-lg-7" style="text-align: center">
+                <img src="images/homePage.png" style="margin-top:20px"/>
+                <P class="wow bounceInUp" style="font-size:35px;color:#fff;margin-top:50px;animation-name: bounceInUp;" >Rejoignez Beev'Up,<br/> le mouvement dédié aux entreprises locales</P>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-5">
 
-            <div class="col-sm-12 col-md-12 col-lg-5 mx-auto">
                 <div class="bg-light py-3 px-3 mt-5 btn-radius">
-                    <h1 class="mvp-color security-title">Inscrivez-vous et rejoignez votre réseau Beev’Up gratuitement </h1>
+                    <h1 class="mvp-color security-title">Votre communauté vous attend</h1>
 
                     {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
 
@@ -76,14 +80,86 @@
                     </div>
 
                     {{ form_end(RegistrationForm) }}
-                </div>
 
-                <div class="register-link text-center"">
+                </div>
+                <div class="register-link text-center" style="background-color:#1742A4;margin-top:-20px;margin-bottom:20px">
                     <p class="text-white mt-2">Vous avez déjà un compte ? <a class="text-white" href="{{ path('security_login') }}">Connectez-vous !</a></p>
                 </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+        <div class="row" style="background-color:#fff;padding:40px">
+            <div class="col-sm-7 col-md-7 col-lg-7 wow bounceInLeft" style="color:var(--mvp-color);padding-left: 90px">
+
+                    <h3 style="color:var(--mvp-color)">Rejoignez Beev’Up, dès maintenant ...</h3>
+                    <ul>
+                        <li>Échangez facilement avec toutes les entreprises locales</li>
+                        <li>Partagez des opportunités commerciales</li>
+                        <li>Proposez vos services</li>
+                        <li>Accédez à des offres spéciales dédiées à la communauté Beev’Up</li>
+                    </ul>
+                    <p>Et surtout,</p>
+                    <p>participez à la création d’une communauté locale d’entrepreneurs engagés,</p>
+
+             </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 wow bounceInRight">
+                <img src="images/homePage/img5.png" style="height:180px"/>
             </div>
         </div>
-    </div>
+
+        <div class="row" style="background-color:#fff;padding:40px">
+            <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp" style="text-align:center;padding: 10px">
+                <div class="bg-img">
+                    <img src="images/homePage/img1.png" style="min-height: 192px;"/>
+                </div>
+                <div class="bg-text">
+                    Dans le développement du tissu économique local
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                <div class="bg-img">
+                    <img src="images/homePage/img2.png" style="min-height: 192px;width: 280px;"/>
+                </div>
+                <div class="bg-text">
+                    Dans le développement de leur activité en veillant à maintenir un impact positif sur la société
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                <div class="bg-img">
+                    <img src="images/homePage/img3.png" style="min-height: 192px;"/>
+                </div>
+                <div class="bg-text">
+                    Dans la préservation de l’environnement
+
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp"  style="text-align:center;padding: 10px">
+                <div class="bg-img">
+                    <img src="images/homePage/img4.png" style="min-height: 192px;"/>
+                </div>
+                <div class="bg-text">
+                    Pour leurs clients
+
+                </div>
+            </div>
+            <footer class="footer-copyright text-center" style="background-color: #024890;color: #fff;margin-top: 20px;">
+                <span>Propriété exclusive de Bureau Vallée. Beev'up est une marque appartenant à Bureau Vallée</span>
+                <p><a href="/pdf/CGU.pdf">CGU</a></p>
+            </footer>
+        </div>
+
+
+
 </section>
-  {% endblock %}       
-  
+
+  {% endblock %}

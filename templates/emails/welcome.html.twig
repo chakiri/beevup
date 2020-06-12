@@ -268,8 +268,10 @@
                                     <p style="color:#253561;">
                                         A bientôt sur la plateforme Beev'Up
                                     <p style="color:#253561;font-weight: bold;">
-                                        {%  if storePatron.profile != null  %}
-                                            {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                        {%  if storePatron != null  %}
+                                             {%  if storePatron.profile != null  %}
+                                              {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                           {% endif %}
                                         {% endif %}
                                     </p>
                                     <p style="color:#253561;font-weight: bold;">
