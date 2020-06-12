@@ -71,7 +71,7 @@ class WebsocketController extends AbstractController
         //Get recent users in conversation
         $users = $this->getRecentUsersChat($messageRepository);
 
-        return $this->render('websocket/index.html.twig', [
+        return $this->render('websocket/index3.html.twig', [
             'topics' => $this->getUser()->getTopics(),
             'users' => $users,
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
