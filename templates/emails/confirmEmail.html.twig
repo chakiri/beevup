@@ -267,8 +267,13 @@
                                         {%  if storePatron != null  %}
                                         {%  if storePatron.profile != null  %}
                                     <p style="color:#253561;font-weight: bold;font-size:13px">
+                                           {%  if storePatron != null  %}
+                                             {%  if storePatron.profile != null  %}
+                                              {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                           {% endif %}
+                                        {% endif %}
 
-                                        {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                      
 
                                     </p>
                                     {% endif %}

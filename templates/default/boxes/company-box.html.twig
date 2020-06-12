@@ -13,12 +13,24 @@
         {% if app.user.company.isCompleted %}
             {% if app.user.company.phone != '' %}
             <p class="company-tel">
-                <i class="fa fa-phone margin-r-10" aria-hidden="true"></i>{{ app.user.company.phone }}
+                <i class="fa fa-phone margin-r-10 box-icon" aria-hidden="true"></i>
+                <span class="box-text-content">
+                  {{ app.user.company.phone }}
+                </span>
             </p>
                 {% endif %}
-            <p class="company-tel"><i class="fa fa-map-marker margin-r-10" aria-hidden="true"></i>
-                {{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}
+            <p class="company-tel">
+                <i class="fa fa-map-marker margin-r-10 box-icon" aria-hidden="true"></i>
+                <span class="box-text-content">{{ app.user.company.addressNumber }} {{ app.user.company.addressStreet }} {{ app.user.company.addressPostCode }}</span>
             </p>
+            {% if app.user.company.website %}
+                <p class="company-tel">
+                    <i class="fa fa-globe margin-r-10 box-icon" aria-hidden="true"></i>
+                    <span class="box-text-content">
+                      <a style="color:#253561" href="{{ app.user.company.website }}" target="_blank">{{ app.user.company.website }}</a>
+                    </span>
+                </p>
+            {% endif %}
         {% endif %}
 
         <p class="mt-1"> <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Voir la fiche entreprise</a></p>

@@ -1,11 +1,12 @@
 {% include 'default/boxes/avatar-box.html.twig' %}
 
-{% if app.user.company %}
-    {% include 'default/boxes/company-box.html.twig' %}
-{% endif %}
+
 
 
 
 {% include 'default/boxes/adviser-box.html.twig' %}
+{% if app.user.company %}
+    {% include 'default/boxes/company-box.html.twig' %}
+{% endif %}
 
 
