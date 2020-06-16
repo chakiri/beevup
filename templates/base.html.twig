@@ -27,7 +27,7 @@
 </head>
 
 {% set toast = app.request.get('toastScore') %}
-<body {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
+<body class="{{ app.request.get('_route') }}" {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
