@@ -150,3 +150,16 @@
     padding: 7px;
   }
 }
+@media (max-width: 1024px) {
+.home-page-section2{
+  padding-left:30px ;
+}
+  .home-page-section4 > div {
+    padding: 20px !important;
+  }
+}
+@media (mIN-width: 1025px) {
+  .home-page-section2{
+    padding-left:90px  ;
+  }
+}

@@ -2619,3 +2619,49 @@ textarea{
 .box-text-content{
   display:flex;
 }
+
+
+/*******Home page *********/
+.home-page-img{
+  text-align: center;
+}
+.home-page-img > img{
+  margin-top:20px;
+}
+.home-page-text{
+  font-size:35px;
+  color:#fff;
+  margin-top:50px;
+  animation-name: bounceInUp;
+}
+.register-link{
+  background-color:#1742A4;
+  margin-top:-20px;
+  margin-bottom:20px;
+}
+.home-page-section2{
+  color:var(--mvp-color);
+
+}
+. home-page-section-3 > img{
+  height: 180px;
+}
+.home-page-section4{
+  background-color:#fff;
+}
+.home-page-section4 > div{
+  text-align:center;
+  padding: 10px
+}
+.security_registration{
+  background-color: #fff !important;
+  overflow-x: hidden;
+}
+.home-page-second-section{
+  background-color:#fff;
+  padding:40px
+}
+.home-page-section-3{
+  text-align: center;
+}
+/*******end ***************/
