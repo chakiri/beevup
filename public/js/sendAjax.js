@@ -1,9 +1,11 @@
 function sender() {
     var from = document.getElementById("chatPlateform").dataset.from;
     var subject = document.getElementById("chatPlateform").dataset.subject;
-    var message = document.getElementById("message").value;
+    var message = document.getElementById("messageToSend").value;
     var isprivate = document.getElementById("chatPlateform").dataset.private;
-    var url = document.getElementById("message").dataset.url;
+    var url = document.getElementById("messageToSend").dataset.url;
+
+    console.log(message);
 
     if (message == "") {
         alert("Entrez un message valide");
@@ -24,7 +26,7 @@ function sender() {
         }
     });
 
-    document.getElementById("message").value = '';
+    document.getElementById("messageToSend").value = '';
 
     return false;
 }
