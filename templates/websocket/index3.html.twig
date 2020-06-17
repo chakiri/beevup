@@ -118,14 +118,15 @@
                     <ul id="chat">
                         {% for message in messages %}
                             <li class="{% if message.user == app.user %}replies{% else %}sent{% endif %}">
-                                {% if message.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />
-                                {% else %}
-                                    <img id="subjectAvatar" src="/images/no-available-photo.png" class="img-fluid" alt="">
-                                {% endif %}
+                                <div>
+                                    {% if message.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />
+                                    {% else %}
+                                        <img id="subjectAvatar" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                    {% endif %}
+                                    <p>{{ message.content }}</p>
+                                </div>
 
-
-                                <p>{{ message.content }}</p>
                                 <span><small>{{ message.createdAt|date('d/m H:m')|trans}}</small></span>
                             </li>
                         {% endfor %}

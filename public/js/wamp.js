@@ -73,10 +73,10 @@ function addMessageToCanvas(data){
     //Get message HTML
     if (currentUserFirstname === data.user){
          //messageHTML = "<div class='message'><div class='text-right'><p class='name-user'>Moi</p><span class='span-style-me'>" + data.message + "</span></div></div>";
-        messageHTML = "<li class='replies'><img src='" + currentAvatar + "' class=\"img-fluid\"><p>" + data.message + "</p><span><small>" + date + "</small></span></li>"
+        messageHTML = "<li class='replies'><div><img src='" + currentAvatar + "' class=\"img-fluid\"><p>" + data.message + "</p></div><span><small>" + date + "</small></span></li>"
     }else {
          //messageHTML = "<div class='message'><div><p class='name-user'>" + data.user + "</p><span class='span-style'>" + data.message + "</span></div></div>";
-        messageHTML = "<li class='sent'><img src='" + subjectAvatar + "' class='img-fluid'><p>" + data.message + "</p><span><small>" + date + "</small></span></li>"
+        messageHTML = "<li class='sent'><div><img src='" + subjectAvatar + "' class='img-fluid'><p>" + data.message + "</p></div><span><small>" + date + "</small></span></li>"
     }
     //insert messageHTML in the chat
     chatContent.innerHTML += messageHTML;
