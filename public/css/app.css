@@ -481,7 +481,7 @@ section{
 }
 .channels{
     max-height: 180px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
 }
 
 .channels li{

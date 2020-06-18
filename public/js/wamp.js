@@ -1,7 +1,7 @@
 var from = document.getElementById("chatPlateform").dataset.from;           //current User
 var subject = document.getElementById("chatPlateform").dataset.subject;     //Subject send to
 var isPrivate = document.getElementById("chatPlateform").dataset.private;   //If private chat
-var message = document.getElementById("message").value;
+var message = document.getElementById("messageToSend").value;
 var currentUserFirstname = document.getElementById("userStatus").dataset.userfirstname;
 var enterKeyCode = 13;
 
@@ -65,11 +65,18 @@ function handleTopicMessage(data){
 function addMessageToCanvas(data){
     const chatContent = document.getElementById("chat");
 
+    var currentAvatar = document.getElementById('currentAvatar').src;
+    var subjectAvatar = document.getElementById('subjectAvatar').src;
+
+    const date = new Date().getDate() + "/" + ((new Date().getMonth())+1) + " " + new Date().getHours() + ":" + new Date().getMinutes();
+
     //Get message HTML
     if (currentUserFirstname === data.user){
-         messageHTML = "<div class='message'><div class='text-right'><p class='name-user'>Moi</p><span class='span-style-me'>" + data.message + "</span></div></div>";
+         //messageHTML = "<div class='message'><div class='text-right'><p class='name-user'>Moi</p><span class='span-style-me'>" + data.message + "</span></div></div>";
+        messageHTML = "<li class='replies'><div><img src='" + currentAvatar + "' class=\"img-fluid\"><p>" + data.message + "</p></div><span><small>" + date + "</small></span></li>"
     }else {
-         messageHTML = "<div class='message'><div><p class='name-user'>" + data.user + "</p><span class='span-style'>" + data.message + "</span></div></div>";
+         //messageHTML = "<div class='message'><div><p class='name-user'>" + data.user + "</p><span class='span-style'>" + data.message + "</span></div></div>";
+        messageHTML = "<li class='sent'><div><img src='" + subjectAvatar + "' class='img-fluid'><p>" + data.message + "</p></div><span><small>" + date + "</small></span></li>"
     }
     //insert messageHTML in the chat
     chatContent.innerHTML += messageHTML;
@@ -93,7 +100,7 @@ function addNotification(from){
 }
 
 function updateScroll(){
-    var element = document.getElementById("chat");
+    var element = document.getElementById("wrapChat");
     element.scrollTop = element.scrollHeight;
 }
 

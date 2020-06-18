@@ -74,9 +74,11 @@
 <script src="/lib/lightbox/js/lightbox.min.js"></script>
 <script src="/lib/introjs/js/intro.min.js"></script>
 
-<!-- Start of zebulon Zendesk Widget script -->
-<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=163defed-53e1-47e6-8d8a-73c2a57f2e12"> </script>
-<!-- End of zebulon Zendesk Widget script -->
+{% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
+    <!-- Start of zebulon Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=163defed-53e1-47e6-8d8a-73c2a57f2e12"> </script>
+    <!-- End of zebulon Zendesk Widget script -->
+{% endif %}
 
 <!-- Template Main Javascript File -->
 <script src="/js/theme.js"></script>
