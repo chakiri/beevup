@@ -19,6 +19,7 @@ use App\Repository\RecommandationRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\BarCode;
+use App\Service\Map;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
@@ -79,6 +80,14 @@ class CompanyController extends AbstractController
 
                     /* generate bar code*/
                     $company->setBarCode($barCode->generate($company->getId()));
+                    $adresse = $company->getAddressNumber().' '.$company->getAddressStreet().' '.$company->getAddressPostCode().' '.$company->getCity().' '.$company->getCountry();
+                    $map = new Map();
+                    $coordonnees =  $map->geocode($adresse);
+
+                    if($coordonnees !=null) {
+                        $company->setLatitude($coordonnees[0]);
+                        $company->setLongitude($coordonnees[1]);
+                    }
                     /* end ******/
                     $manager->persist($company);
 

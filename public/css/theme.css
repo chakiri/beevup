@@ -2601,7 +2601,7 @@ textarea{
 .map-responsive {
   overflow:hidden;
   position:relative;
-  height:250px;
+  height:450px;
 
 }
 
@@ -2665,3 +2665,4 @@ textarea{
   text-align: center;
 }
 /*******end ***************/
+

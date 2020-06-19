@@ -780,25 +780,113 @@ if($('.entity-description').length > 0 )
     $('.entity-description').val(descriptionText);
     }
 }
-    /*if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-        }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
+
+
+
+
+    updateCoordinate(function (obj, AllStores) {
+
+        initMap(obj, AllStores);
+    });
+
+    function updateCoordinate(callback) {
+
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                var AllStores = '';
+                var returnValue = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }
+                $.ajax({
+                    url: '/map',
+                    type: 'POST',
+                    async: false,
+                   success: function(data){
+                       AllStores = JSON.parse( data );
+                    }
+                });
+                callback(returnValue, AllStores );
+            }
+        )}
+
+
+
+
+      function initMap(obj, obj2) {
+        var allStores = obj2;
+
+        var currentUserLongitude = obj.longitude;
+        var currentUserLatitude = obj.latitude;
+
+        var myMapCenter = {lat: currentUserLatitude, lng: currentUserLongitude};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myMapCenter,
+            zoom: 13
         });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }*/
-    /***/
 
 
-})(jQuery);
+
+
+
+        function markStore(storeInfo){
+
+            // Create a marker and set its position.
+            var marker = new google.maps.Marker({
+                map: map,
+                position: storeInfo.location,
+                title:storeInfo.name + '\nAdresse: ' + storeInfo.adresse
+
+            });
+
+            // show store info when marker is clicked
+            marker.addListener('click', function(event){
+
+                showStoreInfo(event, storeInfo);
+            });
+        }
+
+        // show store info in text box
+        function showStoreInfo(event, storeInfo){
+
+            var info_div = document.getElementById('info_div');
+            info_div.innerHTML = 'Store name: '
+                + storeInfo.name
+                + '<br>Hours: ' + storeInfo.hours;
+        }
+        function distance(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1/180
+            var radlat2 = Math.PI * lat2/180
+            var theta = lon1-lon2
+            var radtheta = Math.PI * theta/180
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist)
+            dist = dist * 180/Math.PI
+            dist = dist * 60 * 1.1515
+            if (unit=="K") { dist = dist * 1.609344 }
+            if (unit=="N") { dist = dist * 0.8684 }
+            return dist
+        }
+        function printMousePos(event) {
+            document.body.textContent =
+                "clientX: " + event.clientX +
+                " - clientY: " + event.clientY;
+        }
+
+
+          for(var  i= 0; i < allStores.stores.length ; i++)
+          {
+
+              if (distance(currentUserLatitude, currentUserLongitude, parseFloat(allStores.stores[i].lat), parseFloat(allStores.stores[i].lng), "K") <= 1000) {
+                  var storeInfo =  {name: allStores.stores[i].name,location: {lat:  parseFloat(allStores.stores[i].lat), lng: parseFloat(allStores.stores[i].lng)}, adresse:allStores.stores[i].adress };
+                  markStore(storeInfo);
+              }
+          }
+
+
+    }
+    })(jQuery);
 

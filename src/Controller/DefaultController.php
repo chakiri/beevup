@@ -6,6 +6,7 @@ use App\Entity\DashboardNotification;
 use App\Entity\PostLike;
 use App\Entity\User;
 use App\Repository\AbuseRepository;
+use App\Repository\CompanyRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\OpportunityNotificationRepository;
 use App\Repository\PublicityRepository;
@@ -19,6 +20,8 @@ use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 use App\Repository\DashboardNotificationRepository;
 use App\Repository\PostLikeRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController
 {
@@ -127,4 +130,53 @@ class DefaultController extends AbstractController
             'publicity'=> $publicity
         ]);
     }
+
+    /**
+     * @Route("/map", name="map")
+     */
+    public function getClients(StoreRepository $storeRepository, CompanyRepository $companyRepository)
+    {
+       $stores = $storeRepository->findAll();
+       $companies =$companyRepository->findAll();
+
+       $allStores = "";
+       $allCompanies="";
+       $all = "";
+
+       foreach ($stores as $store)
+       {
+          if($store->getLatitude() != null && $store->getLongitude() != null ) {
+              $adresse = $store->getAddressNumber().' '. $store->getAddressStreet(). ' '.$store->getAddressPostCode();
+              $allStores = $allStores . "{\"name\": \"" . $store->getName() . "\", \"lat\": \"" . $store->getLatitude() . "\",\"lng\": \"" . $store->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
+          }
+
+
+       }
+        foreach ($companies as $company)
+        {
+            if($company->getLatitude() != null && $company->getLongitude() != null ) {
+                $adresse = $company->getAddressNumber().' '. $company->getAddressStreet(). ' '.$company->getAddressPostCode();
+                $allCompanies = $allCompanies. "{\"name\": \"" . $company->getName() . "\", \"lat\": \"" . $company->getLatitude() . "\",\"lng\": \"" . $company->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
+            }
+
+
+        }
+        $all = $allStores. $allCompanies ;
+        $storesJson = rtrim($all, ",");
+        return  new Response(
+            '{
+                       "stores" : [
+                        '.$storesJson.'
+                      ]
+                    }',
+            Response::HTTP_OK,
+            ['content-type' => 'text/html']
+        );
+
+
+    }
+
+
+
+
 }
