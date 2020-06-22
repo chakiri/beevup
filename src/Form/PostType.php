@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,7 +29,21 @@ class PostType extends AbstractType
                            'maxlength' => 1300,
                             'class'    =>'entity-description',
                           ]
-
+            ])
+            ->add('urlYoutube', TextType::class, [
+                'required' => false,
+                'label' => "Vidéo",
+                'attr' => [
+                    'placeholder' => 'Votre url Youtube',
+                ]
+            ])
+            ->add('imageFile', FileType::class, [
+                'required' => false,
+                'label' => 'Image',
+                'attr'  => [
+                    'placeholder' => 'Choisir une image',
+                    'class'       =>'form-control'
+                ]
             ])
             ->add('category', ChoiceType::class, [
                 'label'=>'Catégorie',

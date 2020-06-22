@@ -5,11 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @Vich\Uploadable
  */
-class Post
+class Post implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -83,6 +87,23 @@ class Post
      * @ORM\OneToOne(targetEntity="App\Entity\Company", cascade={"persist", "remove"})
      */
     private $toCompany;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $urlYoutube;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $filename;
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
+     */
+    private $imageFile;
 
      public function __construct()
     {
@@ -286,5 +307,64 @@ class Post
         $this->toCompany = $toCompany;
 
         return $this;
+    }
+
+    public function getUrlYoutube(): ?string
+    {
+        return $this->urlYoutube;
+    }
+
+    public function setUrlYoutube(?string $urlYoutube): self
+    {
+        $this->urlYoutube = $urlYoutube;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param null|string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param null|File $imageFile
+     * @return $this
+     */
+    public function setImageFile(?File $imageFile)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->modifiedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize($this->id);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized);
+
     }
 }

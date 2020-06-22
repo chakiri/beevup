@@ -85,3 +85,7 @@ liip_imagine:
           quality: 100
           filters:
               thumbnail: { size: [96, 96] }
+      post:
+          quality: 100
+          filters:
+              thumbnail: { size: [600, 300]}
