@@ -1,33 +1,51 @@
-
-
 {% form_theme PostForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Publier</h5>
-      <button type="button" class="mvp-close close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="card-body card-block">
-  
-      <div class="card-body card-block">
-        {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_create')}} ) }}
-            <div class="form-group">
-              {{ form_row(PostForm.title) }}
-            </div>
-            <div class="form-group">
-              {{ form_row(PostForm.description) }}
-            </div>
-            <div class="form-group">
-              {{ form_row(PostForm.category) }}
-            </div>
-             
-            <div class="form-actions form-group">
-              <button type="submit" class="create-post btn mvp-btn mvp-bg btn-sm btn-radius float-right">Publier</button>
-            </div>
-             {{ form_end(PostForm) }}
-         </div>
+        <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Publier</h5>
+              <button type="button" class="mvp-close close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        <div class="card-body card-block">
+              <div class="card-body card-block">
+                    {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_create')}} ) }}
+                        <div class="form-group">
+                            {{ form_row(PostForm.title) }}
+                        </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="isMedia" >
+                            <label class="custom-control-label" for="isMedia">Je partage un média</label>
+                        </div>
+                  <div id="mediaBox">
+                      <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="isVideo">
+                          <label class="custom-control-label" for="isVideo">Je partage une vidéo</label>
+                      </div>
+                      <div id="urlYoutube" class="form-group">
+                          {{ form_row(PostForm.urlYoutube) }}
+                      </div>
+                      <div id="imageFile" class="form-group">
+                          {{ form_row(PostForm.imageFile) }}
+                      </div>
+                  </div>
 
-         </div>
-  {% endblock %} 
+                        <div class="form-group">
+                            {{ form_row(PostForm.description) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(PostForm.category) }}
+                        </div>
+
+                        <div class="form-actions form-group">
+                            <button type="submit" class="create-post btn mvp-btn mvp-bg btn-sm btn-radius float-right">Publier</button>
+                        </div>
+                    {{ form_end(PostForm) }}
+              </div>
+        </div>
+  {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/form.js"></script>
+    <script type="text/javascript" src="/js/file.js"></script>
+{% endblock %}

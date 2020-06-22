@@ -52,22 +52,27 @@
                       {% endif %}
                   </div>
               </div>
-                  <p class="post-user-company">
-                      {% if  post.user.company %}
-                          <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
-                              {{post.user.company.name|capitalize}}
+              <p class="post-user-company">
+                  {% if  post.user.company %}
+                      <a class="user-company-name" href="{{path('company_show', { 'slug': post.user.company.slug}) }}">
+                          {{post.user.company.name|capitalize}}
+                      </a>
+                      {% elseif  post.user.store %}
+                          <a class="user-company-name" href="{{path('store_show', { 'slug': post.user.store.slug}) }}">
+                              {{post.user.store.name|capitalize}}
                           </a>
-                          {% elseif  post.user.store %}
-                              <a class="user-company-name" href="{{path('store_show', { 'slug': post.user.store.slug}) }}">
-                                  {{post.user.store.name|capitalize}}
-                              </a>
-                      {% endif %}
-                  </p>
-
-
+                  {% endif %}
+              </p>
 
               <div class="lead"> <span class="post-category post-category-{{post.category|replace({' ': '-'})}}">{{post.category|capitalize}}</span></div>
               <div class="lead post-title"><b>{{post.title|capitalize}}</b></div>
+
+              {% if post.urlYoutube is not null %}
+                  <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              {% elseif post.filename %}
+                  <img width="70%" height="300" src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
+              {% endif %}
+
                {% if post.toCompany != null %}
                    <div class="lead post-description">{{post.description|length > 200 ? post.description|slice(0, 200) ~ '...' : post.description}}
                        <a class="see-more" href="{{ path('company_show',{'slug':post.toCompany.slug}) }}">voir fiche entreprise </a>
@@ -75,27 +80,27 @@
                {% else %}
                    <div class="lead post-description">{{post.description| raw}}</div>
               {% endif %}
-              <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
-                {% if post.likesNumber > 0 %}
-                    <span id="likes-list-{{post.id}}" 
-                            class="post-likes" 
-                            data-post="{{post.id}}" 
-                            data-toggle="modal" 
-                            data-target="#LikesList" 
-                            data-whatever="@mdo"
-                            data-path="{{path('post_likes', { 'id': post.id})}}">
-                        <i id ="post-likes-icon-{{post.id}}" class="fa fa-thumbs-up mvp-color" aria-hidden="true"></i>
-                        <span id ="post-likes-number-{{post.id}}" class="post-likes-number">
-                          {{post.likesNumber}}</span>
-                    </span>
-                {% endif %}
 
-                  
-                  <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">
+              <div id = "post-{{post.id}}-likes-number" class="like-number" data-path="{{path('post_likes', { 'id': post.id})}}">
+                    {% if post.likesNumber > 0 %}
+                        <span id="likes-list-{{post.id}}"
+                                class="post-likes"
+                                data-post="{{post.id}}"
+                                data-toggle="modal"
+                                data-target="#LikesList"
+                                data-whatever="@mdo"
+                                data-path="{{path('post_likes', { 'id': post.id})}}">
+                            <i id ="post-likes-icon-{{post.id}}" class="fa fa-thumbs-up mvp-color" aria-hidden="true"></i>
+                            <span id ="post-likes-number-{{post.id}}" class="post-likes-number">
+                              {{post.likesNumber}}</span>
+                        </span>
+                    {% endif %}
+
+                    <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">
                       {% if post.commentsNumber > 0 %}
                         <span id="post-{{post.id}}-comments-number">{{post.commentsNumber}} </span> commentaire
                       {% endif %}
-                  </a></span>
+                    </a></span>
               </div>
 
                   {% if  app.user.profile.isCompleted == true %}
@@ -117,9 +122,7 @@
               {% include 'dashboard/comments.html.twig' %}
          </div>
       </div>
-          <div class="load-more-post">
-              
-          </div>
+      <div class="load-more-post"></div>
             {#postActionbtns#}
       {% endif %}
   {% endfor %}
