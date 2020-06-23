@@ -785,16 +785,6 @@ if($('.entity-description').length > 0 )
     $('.entity-description').val(descriptionText);
     }
 }
-
-
-    if($('#map').length > 0){
-        updateCoordinate(function (obj, AllStores) {
-            initMap(obj, AllStores);
-        });
-    }
-
-
-
     function updateCoordinate(callback) {
 
         navigator.geolocation.getCurrentPosition(
@@ -808,13 +798,23 @@ if($('.entity-description').length > 0 )
                     url: '/map',
                     type: 'POST',
                     async: false,
-                   success: function(data){
-                       AllStores = JSON.parse( data );
+                    success: function(data){
+                        AllStores = JSON.parse( data );
                     }
                 });
                 callback(returnValue, AllStores );
             }
         )}
+
+    if($('#map').length > 0){
+        updateCoordinate(function (obj, AllStores) {
+            initMap(obj, AllStores);
+        });
+    }
+
+
+
+
 
 
 
