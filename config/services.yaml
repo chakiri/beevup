@@ -4,36 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-      entreprise_logos: '%kernel.project_dir%/public/images/logos'
-      profil_photo: '%kernel.project_dir%/public/images/profil/photo' 
-      service_photo: '%kernel.project_dir%/public/images/service/photo'
-      stores_images: '%kernel.project_dir%/public/images/stores'
-      publicity_images: '%kernel.project_dir%/public/images/publicity'
-      mappings:
-        entreprise_logos:
-            uri_prefix:         /images/logos
-            upload_destination: '%kernel.project_dir%/public/images/logos'
-            namer: vich_uploader.namer_uniqid
-        profil_photo:
-            uri_prefix:         /images/profil/photo
-            upload_destination: '%kernel.project_dir%/public/images/profil/photo'
-            namer: vich_uploader.namer_uniqid
-        service_photo:
-            uri_prefix:         /images/service/photo
-            upload_destination: '%kernel.project_dir%/public/images/service/photo'
-            namer: vich_uploader.namer_uniqid
-        stores_images:
-            uri_prefix:         /images/stores
-            upload_destination: '%kernel.project_dir%/public/images/stores'
-            namer: vich_uploader.namer_uniqid
-
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -49,10 +25,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-
-
-
-
-        
-

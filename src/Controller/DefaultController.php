@@ -2,9 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\DashboardNotification;
-use App\Entity\PostLike;
-use App\Entity\User;
 use App\Repository\AbuseRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\NotificationRepository;
@@ -13,6 +10,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\Session\WelcomePopup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
@@ -21,7 +19,6 @@ use App\Repository\CommentRepository;
 use App\Repository\DashboardNotificationRepository;
 use App\Repository\PostLikeRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController
 {
@@ -173,10 +170,17 @@ class DefaultController extends AbstractController
             ['content-type' => 'text/html']
         );
 
-
     }
 
+    /**
+     *  @Route("/welcomePopup", name="welcomepopup")
+     */
+    public function welcomePopup(WelcomePopup $welcomePopup)
+    {
+        $popup = $welcomePopup->add();
 
+        return $this->json($popup);
+    }
 
 
 }

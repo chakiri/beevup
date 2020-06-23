@@ -1,7 +1,10 @@
 $( window ).on( "load", function() {
     var isOnboarding = $('#onboarding').data('onboarding');
-    if (isOnboarding != true){
+    var sessionOnboarding = $('#onboarding').data('sessionOnboarding');
+    if (isOnboarding != true && sessionOnboarding != true){
         $('#welcomeModal1').modal('show');
+        //Put showed popup in session
+        setSessionPopup();
     }
 });
 
@@ -54,6 +57,15 @@ function setOnborading(value){
         data: {
             value: value
         }
+    });
+}
+
+function setSessionPopup(){
+    var url = $('#onboarding').data('sessionOnboardingUrl');
+    $.ajax({
+        type: 'post',
+        url: url
+
     });
 }
 

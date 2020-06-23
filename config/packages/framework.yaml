@@ -9,6 +9,9 @@ framework:
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
+#        handler_id: session.handler.native_file
+#        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+#        cookie_lifetime: 604800
 
     #esi: true
     #fragments: true
