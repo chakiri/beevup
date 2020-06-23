@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Intl\Intl;
+use App\Service\Map;
 
 
 class StoreController extends AbstractController
@@ -68,6 +69,14 @@ class StoreController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $store->setModifiedAt(new \DateTime());
+                $adresse = $store->getAddressNumber().' '.$store->getAddressStreet().' '.$store->getAddressPostCode().' '.$store->getCity().' '.$store->getCountry();
+                $map = new Map();
+                $coordonnees =  $map->geocode($adresse);
+
+                if($coordonnees !=null) {
+                    $store->setLatitude($coordonnees[0]);
+                    $store->setLongitude($coordonnees[1]);
+                }
 
                 $manager->persist($store);
                 $manager->flush();

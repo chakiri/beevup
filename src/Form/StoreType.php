@@ -35,7 +35,8 @@ class StoreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $users = $this->userRepository->findAdvisersOfStore($builder->getData(), $this->userTypeRepository->findBy(['id'=>2]));
+        $users = $this->userRepository->findAdvisersOfStore($builder->getData(), $this->userTypeRepository->findBy(['id'=>2]), $this->userTypeRepository->findBy(['id'=>1]), $this->userTypeRepository->findBy(['id'=>4]));
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
