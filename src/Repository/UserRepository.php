@@ -63,16 +63,16 @@ class UserRepository extends ServiceEntityRepository
             ->setParameters(array('value1' => $store, 'value2' => '%"'.$role.'"%'));
         return $qb->getQuery()->getResult();
     }
-    public function findAdvisersOfStore( $store , $type )
+    public function findAdvisersOfStore( $store , $type, $type2, $type3 )
     {
-
+        $result = array_merge($type, $type2, $type3 );
         $qb = $this->createQueryBuilder('u')
-                   ->leftJoin('u.profile', 'p')
-                   ->where('u.store = :value1')
-                   ->andWhere('u.type = :value2')
-                   ->andWhere('p.firstname IS NOT NULL')
-                   ->setParameters(array('value1' => $store, 'value2'=> $type));
-        return $qb->getQuery()->getResult();
+            ->leftJoin('u.profile', 'p')
+            ->where('u.store = :value1')
+            ->andWhere('u.type IN (:value2)')
+            ->andWhere('p.firstname IS NOT NULL')
+            ->setParameters(array('value1' => $store, 'value2'=> $result));
+       return $qb->getQuery()->getResult();
     }
     // /**
     //  * @return User[] Returns an array of User objects

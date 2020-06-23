@@ -46,7 +46,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/map, allow_if: "!is_authenticated()"}
+        - { path: ^/map, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
         - { path: ^/forgottenPassword, allow_if: "!is_authenticated()"}

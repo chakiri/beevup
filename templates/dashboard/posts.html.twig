@@ -98,7 +98,9 @@
 
                     <span><a id ="comments-button-{{post.id}}" class="comments-link" href="#" data-post-id = "{{post.id}}">
                       {% if post.commentsNumber > 0 %}
-                        <span id="post-{{post.id}}-comments-number">{{post.commentsNumber}} </span> commentaire
+                        <span id="post-{{post.id}}-comments-number">{{post.commentsNumber}} </span>
+                        <span id="post-{{post.id}}-comments-text">  {% if post.commentsNumber > 1 %} commentaires {% else  %} commentaire {% endif %} </span>
+
                       {% endif %}
                     </a></span>
               </div>
