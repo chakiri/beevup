@@ -162,6 +162,7 @@ class DefaultController extends AbstractController
 
         }
         $all = $allStores. $allCompanies ;
+
         $storesJson = rtrim($all, ",");
         return  new Response(
             '{
