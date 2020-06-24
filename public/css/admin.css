@@ -21,6 +21,7 @@ aside.main-sidebar {
     padding-left: 10px;
     border-radius: 5px;
     padding-top: 10px;
+    z-index: 967 !important;
 }
 
 @media (min-width: 768px) {
