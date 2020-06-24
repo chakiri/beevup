@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin\Store;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
-use App\service\Map ;
+use App\Service\Map ;
 
 
 class StoreController extends EasyAdminController
