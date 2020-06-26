@@ -173,7 +173,7 @@ class ServiceController extends AbstractController
                     $optionsRedirect = ['toastScore' => $nbPoints];
                 }
             }
-
+            $service->setPrice( $this->floatvalue($service->getPrice()));
             $manager->persist($service);
             $manager->flush();
 
@@ -259,4 +259,10 @@ class ServiceController extends AbstractController
             ]);
         }
     }
+    function floatvalue($val){
+        $val = str_replace(",",".",$val);
+        $val = preg_replace('/\.(?=.*\.)/', '', $val);
+        return floatval($val);
+    }
+
 }
