@@ -24,9 +24,13 @@
                                             <p><strong>{{ profile.function.name|capitalize}}</strong></p>
                                         {% endif %}
                                         {% if profile.user.company != null  %}
-                                          <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.company.city|capitalize }}, {{ profile.user.company|country_name  }}</p>
+                                            {% if profile.user.company.country != null  %}
+                                                 <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.company.city|capitalize }}, {{ profile.user.company.country|country_name  }}</p>
+                                            {% endif %}
                                         {% else  %}
-                                          <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|country_name  }}</p>
+                                           {% if profile.user.store.country != null  %}
+                                                 <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|country_name  }}</p>
+                                           {% endif %}
                                         {% endif %}
 
                                         {% if profile.phoneNumber != '' %}

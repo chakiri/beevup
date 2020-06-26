@@ -83,7 +83,7 @@ class CompanyController extends AbstractController
                     $adresse = $company->getAddressNumber().' '.$company->getAddressStreet().' '.$company->getAddressPostCode().' '.$company->getCity().' '.$company->getCountry();
                     $map = new Map();
                     $coordonnees =  $map->geocode($adresse);
-
+                    dd($coordonnees);
                     if($coordonnees !=null) {
                         $company->setLatitude($coordonnees[0]);
                         $company->setLongitude($coordonnees[1]);

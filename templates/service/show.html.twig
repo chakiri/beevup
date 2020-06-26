@@ -105,9 +105,11 @@
                                 <h4>{{ service.title }}</h4>
                                 <p class="lead">{{ service.introduction|raw }}</p>
                                 {% if 'ROLE_ADMIN_STORE' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.store.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.store.country|country_name}}</p>
+                                    <p><i class="fa fa-map-marker"></i> {{ service.user.store.city ?? 'Les clayes sous bois' |capitalize }}
+                                        {% if service.user.store.country != null %}, {{ service.user.store.country|country_name}} {% endif %}</p>
                                 {% elseif 'ROLE_ADMIN_COMPANY' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.company.city ?? 'Les clayes sous bois' |capitalize }}, {{ service.user.company.country|country_name}}</p>
+                                    <p><i class="fa fa-map-marker"></i> {{ service.user.company.city ?? 'Les clayes sous bois' |capitalize }}
+                                        {% if service.user.company.country != null  %}, {{ service.user.company.country|country_name}} {% endif %}</p>
                                 {% endif %}
                             </div>
                             <div class="col-lg-4">
@@ -157,7 +159,7 @@
                                 <h4>Recommandations</h4>
                             </div>
                             <div class="col-lg-6 text-right add-recommandation-service">
-                                {% if service.user.id != app.user.id  %}
+                                {% if service.user.id != app.user.id  and app.user.profile.isCompleted == true %}
                                     <p><a href="#" type="button" class="add-recommandation btn btn-sm btn-2"  data-whatever="@getbootstrap"  data-toggle="modal" data-target="{{ path('recommandation') }}" data-service="{{service.id}}" data-company="{{companyId}}"><i class="fa fa-thumbs-up"></i> Laisser une recommandation </a></p>
                                 {% endif %}
                             </div>
