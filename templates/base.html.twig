@@ -32,7 +32,9 @@
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
-{% if app.request.attributes.get('_route') != 'security_registration' %}
+{% if app.request.attributes.get('_route') != 'security_registration'
+and app.request.attributes.get('_route') != 'security_login'
+    and app.request.attributes.get('_route') != 'security_forgotten_password' %}
     {% include 'partials/header.html.twig' %}
 {% endif %}
 {#dispaly flash messages #}
@@ -55,7 +57,9 @@
 
 {% if app.request.attributes.get('_route') != 'chat_topic'
     and app.request.attributes.get('_route') != 'chat_private'
-    and app.request.attributes.get('_route') != 'security_registration' %}
+    and app.request.attributes.get('_route') != 'security_registration'
+
+%}
  {% include 'partials/footer.html.twig' %}
 {% endif %}
 

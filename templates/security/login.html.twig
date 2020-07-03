@@ -4,82 +4,116 @@
 
 {% block body %}
     <section id="login-page" class="clearfix section-bg-light">
-        <div class="container mt-6">
-            <div class="row">
-
-                <div class="col-sm-12 col-md-12 col-lg-5 mx-auto">
-                    <div class="bg-light py-3 px-3 mt-5 btn-radius">
-                        <form action="{{ path('security_login') }}" method="post">
-                            <fieldset>
-                                <h1 class="mvp-color security-title">Connexion</h1>
-                                {% include 'partials/flashes.html.twig' %}
-                                {% for message in app.flashes('create-service-success') %}
-                                    <div class="alert alert-success">
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-
-                                {% for message in app.flashes('update-service-success') %}
-                                    <div class="alert alert-success">
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-
-                                {% if hasError %}
-                                    {% if isActivated == false %}
-                                        <div class="alert alert-dismissible alert-danger">
-                                            Votre compte n'est pas encore activé
-                                        </div>
-                                    {% else  %}
-                                       <div class="alert alert-dismissible alert-danger">
-                                           L'adresse email et le mot de passe que vous avez saisis ne correspondent pas à ceux présents dans nos fichiers.
-                                           Veuillez vérifier et réessayer.
-                                       </div>
-                                    {% endif %}
-                                {% endif %}
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Adresse Email</label>
-                                    <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                   <i class="fa fa-envelope" aria-hidden="true"></i>
-                                                </span>
-                                                </div>
-                                                <input type="email" name="_username" value="{{ lastUsername }}" class="form-control" id="exampleInputEmail1"  placeholder="Entrez email" required>
-                                            </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                  <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                                                </span>
-                                        </div>
-                                        <input type="password" name="_password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Connexion</button>
-                                </div>
-
-                                <div class="login-checkbox text-center">
-                                    <label>
-                                        <a class="forget-password-link" href="{{ path('security_forgotten_password') }}">Mot de passe oublié ?</a>
-                                    </label>
-                                </div>
-
-                            </fieldset>
-                        </form>
-                    </div>
-
-                    <div class="register-link text-center">
-                        <p class="text-white mt-2">Pas encore inscrit ? <a  class="text-white" href="{{ path('security_registration') }}">Inscrivez-vous !</a></p>
-                    </div>
+        <div>
+            <div class="landing-page-first-bloc">
+                <div class="landign-page-bloc1">
+                    <header id="landing-page-header">
+                        <div class="row">
+                            <div class="col-lg-10 logo">
+                                <a href="{{ path('dashboard') }}">
+                                    <img class="landing-page-logo" src="/images/logo_bv_mode.png" alt="">
+                                </a>
+                            </div>
+                            <div class="col-lg-2 connexion-btn">
+                                <button type="submit" class="white-btn cnx-btn" method="post">
+                                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">
+                                        Inscription </a>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
                 </div>
             </div>
+           <div class="row sign-in-page">
+                <div class="signin-popup">
+                    <div class="signin-pop">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="cmp-info">
+                                    <div class="cm-logo">
+
+                                        <p>Rejoignez Beev'Up, le mouvement dédié aux entreprises locales</p>
+                                    </div><!--cm-logo end-->
+                                    <img src="images/homePage/login-page.png" alt="">
+                                </div><!--cmp-info end-->
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="login-sec">
+
+                                    <div class="sign_in_sec current" id="tab-1">
+                                        {% include 'partials/flashes.html.twig' %}
+                                        {% for message in app.flashes('create-service-success') %}
+                                            <div class="alert alert-success">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+
+                                        {% for message in app.flashes('update-service-success') %}
+                                            <div class="alert alert-success">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+
+                                        {% if hasError %}
+                                            {% if isActivated == false %}
+                                                <div class="alert alert-dismissible alert-danger">
+                                                    Votre compte n'est pas encore activé
+                                                </div>
+                                            {% else  %}
+                                                <div class="alert alert-dismissible alert-danger">
+                                                    L'adresse email et le mot de passe que vous avez saisis ne correspondent pas à ceux présents dans nos fichiers.
+                                                    Veuillez vérifier et réessayer.
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        <h3>Connexion</h3>
+                                        <form action="{{ path('security_login') }}" method="post">
+                                            <div class="row">
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="email" name="_username" value="{{ lastUsername }}"   placeholder="Email" required>
+                                                        <i class="la la-user"></i>
+
+                                                    </div><!--sn-field end-->
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="sn-field">
+                                                        <input type="password" name="_password" placeholder="Mot de passe" required>
+                                                        <i class="la la-lock"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 no-pdd">
+                                                    <div class="checky-sec">
+
+                                                        <a class="forget-password-link" href="{{ path('security_forgotten_password') }}">Mot de passe oublié ?</a>
+
+                                                    </div>
+                                                    <div class="checky-sec">
+
+
+                                                        <a  class="forget-password-link" href="{{ path('security_registration') }}">Pas encore inscrit ?  Inscrivez-vous !</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 form-actions form-group">
+                                                    <button  type="submit" class="orange-btn">Connexion</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div><!--sign_in_sec end-->
+
+                                </div><!--login-sec end-->
+                            </div>
+                        </div>
+
+                    </div><!--signin-pop end-->
+
+                </div><!--signin-popup end-->
+
+            </div><!--sign-in-page end-->
+
         </div>
-</section>
+
+    </section>
 {% endblock %}
