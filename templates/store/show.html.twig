@@ -31,37 +31,39 @@
                     <div class="row">
                         {% if users is defined %}
                             {%  for user in users %}
-                                {% if user.profile.isCompleted %}
-                                    <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
-                                        <div class="box item-box">
-                                            <div class="portfolio-wrap dashboard-service-image company-contact-img">
-                                                <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                    {% if user.profile.filename is empty %}
-                                                        <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
+                                {% if user.profile != null %}
+                                    {% if user.profile.isCompleted %}
+                                        <div class="col-lg-4 col-md-6 wow bounceInUp" data-wow-duration="1.4s">
+                                            <div class="box item-box">
+                                                <div class="portfolio-wrap dashboard-service-image company-contact-img">
+                                                    <a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                        {% if user.profile.filename is empty %}
+                                                            <img class ="img-fluid contact-no-available-img"src="/images/no-available-photo.png" class="img-fluid sm-profile-img" alt="">
 
-                                                    {% else %}
-                                                        <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                        {% else %}
+                                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="img-fluid" alt="">
 
-                                                    {% endif %}
+                                                        {% endif %}
 
-                                                </a>
-                                            </div>
-                                            <div class="user-information">
-                                                <p class="company-user">
-                                                    <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                        {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
                                                     </a>
-                                                </p>
-                                                {% if user.profile.function  %}
-                                                    <p class="company-user-job">{{ user.profile.function.name|capitalize }}</p>
-                                                {% endif %}
-                                                <p class="user-contact">
-                                                    <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
-                                                    <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
-                                                </p>
+                                                </div>
+                                                <div class="user-information">
+                                                    <p class="company-user">
+                                                        <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                            {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}
+                                                        </a>
+                                                    </p>
+                                                    {% if user.profile.function  %}
+                                                        <p class="company-user-job">{{ user.profile.function.name|capitalize }}</p>
+                                                    {% endif %}
+                                                    <p class="user-contact">
+                                                        <span class="user-action btn-radius"><a class="user-link" href="{{ path('chat_private', {'id': user.id}) }}">Contacter</a></span>
+                                                        <span class="user-action btn-radius"><a class="user-link" href="{{path('profile_show', { 'id': user.profile.id}) }}">Voir fiche</a></span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}

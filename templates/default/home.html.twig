@@ -1,168 +1,164 @@
 {% extends 'base.html.twig' %}
-
 {% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
-
-  {% block body %}
-      <section id="registration-page" class="clearfix section-bg-light">
-          <div class="container">
-              <div class="row" style="margin-left:0;margin-right: 0 !IMPORTANT">
-                  <div class="col-sm-6 col-md-6 col-lg-7 home-page-img">
-                      <img src="images/homePage.png"/>
-                      <P class="wow bounceInUp home-page-text">Rejoignez Beev'Up,<br/> le mouvement dédié aux entreprises locales</P>
-                  </div>
-                  <div class="col-sm-6 col-md-6 col-lg-5">
-
-                      <div class="bg-light py-3 px-3 mt-5 btn-radius">
-                          <h1 class="mvp-color security-title">Votre communauté vous attend</h1>
-
-                          {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
-
-
-                          {{ form_errors(RegistrationForm.name) }}
-                          <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                            <span class="input-group-text">
-                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                            </span>
+{% block body %}
+    <div id ="inscription" class="landing-page-container">
+        <div style="position:relative">
+           <div class="landing-page-first-bloc">
+               <div class="landign-page-bloc1">
+                    <header id="landing-page-header">
+                        <div class="row">
+                            <div class="col-lg-10 logo">
+                                <a href="{{ path('dashboard') }}">
+                                    <img class="landing-page-logo" src="/images/logo_bv_mode.png" alt="">
+                                </a>
+                            </div>
+                            <div class="col-lg-2 connexion-btn">
+                                <button type="submit" class="white-btn cnx-btn" method="post">
+                                    <a class="landing-page-connexin-link" href="{{ path('security_login') }}">
+                                    Se connecter</a>
+                                </button>
+                             </div>
+                        </div>
+                    </header>
+                    <section  class="landing-page-registration-bloc">
+                       <div class="row">
+                           <div class="col-lg-8">
+                               <h1 class="landign-page-slogan">
+                                   Un mouvement dédié <br/> aux entreprises locales
+                               </h1>
+                              <p class="landign-page-description">
+                                  Échangez facilement avec toutes les entreprises locales<br/> et partagez des opportunités commerciales.
+                              </p>
+                           </div>
+                           <div class="col-lg-4">
+                              <div class="landing-page-registration-form">
+                                  {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
+                                  {{ form_errors(RegistrationForm.name) }}
+                                  {{ form_widget(RegistrationForm.name) }}
+                                  {{ form_errors(RegistrationForm.company) }}
+                                  {{ form_widget(RegistrationForm.company) }}
+                                  {{ form_errors(RegistrationForm.store) }}
+                                  {{ form_widget(RegistrationForm.store) }}
+                                  {{ form_errors(RegistrationForm.email) }}
+                                  {{ form_widget(RegistrationForm.email) }}
+                                  {{ form_errors(RegistrationForm.password) }}
+                                  {{ form_widget(RegistrationForm.password) }}
+                                  {{ form_errors(RegistrationForm.acceptConditions) }}
+                                  {{ form_widget(RegistrationForm.acceptConditions) }}
+                                  <div class="form-actions form-group">
+                                      <button id ="inscription-btn" type="submit" class="col-12 orange-btn" disabled>Rejoindre</button>
+                                  </div>
+                                  {{ form_end(RegistrationForm) }}
                               </div>
-                              {{ form_widget(RegistrationForm.name) }}
-                          </div>
+                           </div>
+                       </div>
 
+                       <div class="landing-page-dashboard-img">
+                           <div class="landing-page-section2">
+                               <img class="landing-page-man" src="images/homePage/landingPage-man.png"/>
+                               <div class="landing-page-dashbord">
+                                   <img class="landing-page-dashboard-screenshot" src="images/homePage/landingPage-dashboard.png"/>
+                               </div>
+                           </div>
+                       </div>
+                    </section>
+               </div>
+           </div>
+           <svg version="1.0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1920.000000 110.000000"
+                preserveAspectRatio="xMidYMid meet">
+               <g transform="translate(0.000000,110.000000) scale(0.100000,-0.100000)"
+                   fill="#FFF"
+                   stroke="none">
+                    <path d="M0 548 l0 -548 9600 0 9600 0 0 408 0 409 -177 -29 c-692 -110 -1225
+                        -182 -1428 -193 -296 -16 -1327 -101 -2405 -200 -252 -23 -413 -35 -965 -70
+                        -132 -9 -316 -21 -410 -27 -165 -11 -1427 -5 -4815 22 l-1065 9 -430 35 c-236
+                        20 -486 41 -555 46 -69 6 -408 33 -755 60 -346 28 -826 66 -1065 85 -239 20
+                        -489 40 -555 45 -503 39 -764 60 -790 65 -16 3 -151 18 -300 35 -358 40 -492
+                        55 -790 90 -137 16 -554 64 -925 106 -642 72 -944 106 -1360 154 -102 12 -236
+                        27 -297 34 l-113 12 0 -548z"/>
+                </g>
+          </svg>
+        </div>
+        <div class="landing-page-second-bloc">
 
+            <div class="landing-page-map">
+                <h2 class="bloc-title">
+                    Un réseau de <span class="orange-txt"> 285 entreprises </span> proches de vous
+                </h2>
+                {% include 'homePage/map.html.twig' %}
+            </div>
 
-                          {{ form_errors(RegistrationForm.company) }}
-                          <div class="input-container">
+            <div class="row landing-page-section3">
+                <div class="col-lg-5">
+                    <img class="landing-page-section3-img" src="/images/homePage/bureau-vallee-img1.png" alt=""></a>
+                </div>
+                <div class="col-lg-7 landing-page-section3-description">
+                    <h2 class="bloc-title no-mobile">
+                        Rejoignez Beev’Up, dès <br/> maintenant ...
+                    </h2>
+                    <h2 class="bloc-title only-mobile">
+                        Rejoignez Beev’Up, dès maintenant ...
+                    </h2>
+                    <ul class="landing-page-list">
+                        <li> Échangez facilement avec toutes les entreprises locales  </li>
+                        <li> Partagez des opportunités commerciales </li>
+                        <li> Proposez vos services </li>
+                        <li> Accédez à des offres spéciales dédiées à la communauté <br/>Beev’Up </li>
+                    </ul>
+                </div>
+            </div>
 
-                              <i class="fa fa-sort-numeric-asc siret-icon" aria-hidden="true"></i>
-                              {{ form_widget(RegistrationForm.company) }}
-                          </div>
+            <div class="row landing-page-section4">
+                <h2 class="col-12 bloc-title no-mobile" style="width:100%">
+                    Participez à la création d’une communauté locale<br/> d’entrepreneurs engagés
+                </h2>
+                <h2 class="col-12 bloc-title only-mobile" style="width:100%">
+                    Participez à la création <br/> d’une communauté locale<br/> d’entrepreneurs engagés
+                </h2>
+                <div class="col-lg-3 col-md-6 col-sm-12 bloc landing-page-section4-first-bloc">
+                    <div class="landing-page-section4-bloc">
+                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img-man.png" alt="">
+                        <p class="list-item"> Dévelloppement du tissu économique local</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 bloc">
+                    <div class="landing-page-section4-bloc">
+                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img2.png" alt="">
+                        <p class="list-item"> Développement d’activité à impact positif sur la société</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 bloc">
+                    <div class="landing-page-section4-bloc">
+                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img4.png" alt="">
+                        <p class="list-item"> Dans la préservation de l’environnement</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 bloc landing-page-section4-last-bloc">
+                    <div class="landing-page-section4-bloc">
+                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img3.png" alt="">
+                        <p class="list-item"> Pour leurs clients </p>
+                    </div>
+                </div>
+             </div>
+        </div>
 
+        <div class="landing-page-join-beevup-bloc">
+            <h2 class="landing-page-join-beevup-title">
+                Rejoignez le mouvement
+            </h2>
+            <div>
+               <button id ="inscription-btn" type="submit" class="landing-page-join-beevup-btn sm-orange-btn" disabled>
+                   <a href="#inscription" class="rejoindre-link">Rejoindre</a>
+               </button>
+            </div>
+        </div>
 
-
-
-                          {{ form_errors(RegistrationForm.store) }}
-                          <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">
-
-                                    <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-                                </span>
-                              </div>
-                              {{ form_widget(RegistrationForm.store) }}
-                          </div>
-
-
-                          {{ form_errors(RegistrationForm.email) }}
-                          <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                 <i class="fa fa-envelope" aria-hidden="true"></i>
-                                </span>
-                              </div>
-                              {{ form_widget(RegistrationForm.email) }}
-                          </div>
-
-
-                          {{ form_errors(RegistrationForm.password) }}
-                          <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                   <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                                </span>
-                              </div>
-                              {{ form_widget(RegistrationForm.password) }}
-                          </div>
-                          <div class="input-group mb-3">
-                              {{ form_widget(RegistrationForm.acceptConditions) }}
-                          </div>
-                          <div class="form-actions form-group text-center">
-                              <button id ="inscription-btn" type="submit" class="btn  mvp-btn btn mvp-bg btn-radius" disabled>Inscription</button>
-                          </div>
-
-                          {{ form_end(RegistrationForm) }}
-
-                      </div>
-                      <div class="register-link text-center">
-                          <p class="text-white mt-2">Vous avez déjà un compte ? <a class="text-white" href="{{ path('security_login') }}">Connectez-vous !</a></p>
-                      </div>
-
-
-                  </div>
-
-              </div>
-
-
-          </div>
-          <div class="row home-page-second-section">
-              <div class="col-sm-7 col-md-7 col-lg-7 wow bounceInLeft home-page-section2">
-
-                  <h3 style="color:var(--mvp-color)">Rejoignez Beev’Up, dès maintenant ...</h3>
-                  <ul>
-                      <li>Échangez facilement avec toutes les entreprises locales</li>
-                      <li>Partagez des opportunités commerciales</li>
-                      <li>Proposez vos services</li>
-                      <li>Accédez à des offres spéciales dédiées à la communauté Beev’Up</li>
-                  </ul>
-                  <p>Et surtout,</p>
-                  <p>participez à la création d’une communauté locale d’entrepreneurs engagés,</p>
-
-              </div>
-              <div class="col-sm-5 col-md-5 col-lg-5 wow bounceInRight home-page-section-3">
-                  <img src="images/homePage/img5.png" style="height:180px"/>
-              </div>
-          </div>
-          <div  class="row home-page-section4">
-              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp">
-                  <div class="bg-img">
-                      <img src="images/homePage/img1.png"/>
-                  </div>
-                  <div class="bg-text">
-                      Dans le développement du tissu économique local
-                  </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp">
-                  <div class="bg-img">
-                      <img src="images/homePage/img2.png" style="min-height: 192px;width: 280px;"/>
-                  </div>
-                  <div class="bg-text">
-                      Dans le développement de leur activité en veillant à maintenir un impact positif sur la société
-
-
-                  </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp">
-                  <div class="bg-img">
-                      <img src="images/homePage/img3.png" style="min-height: 192px;"/>
-                  </div>
-                  <div class="bg-text">
-                      Dans la préservation de l’environnement
-
-                  </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 wow bounceInUp">
-                  <div class="bg-img">
-                      <img src="images/homePage/img4.png" style="min-height: 192px;"/>
-                  </div>
-                  <div class="bg-text">
-                      Pour leurs clients
-
-                  </div>
-
-              </div>
-          </div>
-          <div   style="background-color:#fff;">
-              {% include 'homePage/map.html.twig' %}
-          </div>
-          <div  style="background-color:#fff;">
-              {% include 'partials/footer.html.twig' %}
-          </div>
-
-
-
-
-
-
-
-      </section>
-
-  {% endblock %}
+        <div class="footer">
+               <p class="footer-text">Beevup est une marque de Bureau Vallée
+                  <span class="footer-text-link">CGU</span>
+               </p>
+        </div>
+    </div>
+{% endblock %}

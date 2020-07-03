@@ -727,7 +727,7 @@ $('#display-opportunity-offer').click(function(){
             $('#inscription-btn').attr('disabled', false);
         }
 
-        $('.form-check-label').append(' <a href=\'/pdf/CGU.pdf\'>les Conditions générales d\'utilisation</a>');
+        $('.form-check-label').append(' <a href=\'/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
     }
     if($('#company_country').length  > 0) {
 

@@ -92,7 +92,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   padding: 0;
 }
@@ -2297,7 +2297,7 @@ margin-top: 10px;
 .mvp-color{
   color:var(--mvp-color);
 }
-.form-group > label, #registration-form label{
+.form-group > label{
   color:var(--mvp-color);
   font-weight:bold;
   font-size:13px;
@@ -2598,20 +2598,7 @@ textarea{
 .mobile-adviser-bloc{width: 50%;border-right: 1px solid #eee;}
 .mobile-special-offer-bloc{width: 50%;}
 .bg-text{color:var(--mvp-color);font-weight: bold}
-.map-responsive {
-  overflow:hidden;
-  position:relative;
-  height:450px;
 
-}
-
-.map-responsive iframe {
-  left:0;
-  top:0;
-  height:100%;
-  width:100%;
-  position:absolute;
-}
 .box-icon{
   float:left;
   margin-top:4px;
