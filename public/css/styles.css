@@ -46,6 +46,7 @@ html {
     --scrollbarBG:#eee;
     --thumbBG: var(--bg-color);
 }
+
  h1,h2,h3,h4,h5,h6{
   font-family:Rubik-bold !important ;
 }
@@ -63,6 +64,9 @@ footer {
 input::placeholder, select  {
   color: var(--form-placeholder-color) !important;
   font-size: var(--form-placeholder-size) !important;
+}
+.page-content{
+    margin-top: 100px;
 }
 .white-btn{
   width: 144px;
@@ -1002,13 +1006,13 @@ svg{
 .filter-heading {
     float: left;
     width: 100%;
-    padding: 23px 20px;
+    padding: 9px 20px;
     border-bottom: 1px solid #e5e5e5;
     margin-bottom: 27px;
 }
 .filter-heading h3 {
     float: left;
-    color: #000000;
+    color: var(--text-color);
     font-size: 18px;
     font-weight: 600;
 }
@@ -1033,7 +1037,7 @@ svg{
 .filter-ttl h3 {
     float: left;
     font-size: 16px;
-    color: #000000;
+    color:var(--text-color);
     font-weight: 600;
 }
 .filter-ttl a {
@@ -1059,12 +1063,11 @@ svg{
     padding: 0 10px;
     color: #b2b2b2;
     font-size: 12px;
-    font-weight: 600;
     border: 0;
     border: 1px solid #e5e5e5;
 }
 .job-tp i {
-    color: #000000;
+    color: var(--gray-color);
     position: absolute;
     top: 7px;
     right: 15px;
@@ -1140,14 +1143,14 @@ svg{
     padding: 0 15px;
 }
 .page-title.sign_in_sec.current h3:before{
-    margin-left: 10px;
+   /* margin-left: 10px;*/
 }
 .page-title h3 {
-    color: #000000;
+    color: var(--text-color);
     /*font-size: 20px;*/
     /*font-weight: 600;*/
     background-color: #fff;
-    padding: 10px 15px;
+    padding: 10px 0;
     margin-bottom: 0;
 }
 
@@ -1161,16 +1164,15 @@ svg{
     width: 100%;
     background-color: #fff;
     text-align: center;
-    border-left: 1px solid #e4e4e4;
-    border-right: 1px solid #e4e4e4;
-    border-bottom: 1px solid #e4e4e4;
+    border: 1px solid var(--footer-bg-color);
+    border-radius: var(--radius);
     margin-bottom: 30px;
 }
 .company-up-info {
     float: left;
     width: 100%;
     padding: 30px 0;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--footer-bg-color);
 }
 .company-up-info img {
     float: none;
@@ -1181,15 +1183,18 @@ svg{
     -o-border-radius: 100px;
     border-radius: 100px;
     height: 90px;
+    width: 90px;
     object-fit: cover;
 }
 .company-up-info h3 {
+    font-family: 'Rubik-regular' !important;
     color: #000000;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 .company-up-info h4 {
+    font-family: 'Rubik-regular' !important;
     color: #686868;
     font-size: 14px;
     font-weight: 500;
@@ -1227,22 +1232,109 @@ svg{
 .company_profile_info > a {
     display: inline-block;
     color: #000000;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
     padding: 18px 0;
 }
-
-.job-tp  button {
-    color: #ffffff;
-    font-size: 16px;
-    background-color: #253561;
-    padding: 12px 27px;
-    border: 0;
-    font-weight: 500;
-    margin-top: 30px;
-    cursor: pointer;
-    border-radius: 5px;
+i.fa.fa-star.text-muted.add-favoris, i.fa.fa-star.text-muted.add-company-favoris{
+    color: #fff !important;
 }
+.no-result, .search-result{
+    color: var(--gray-color);
+}
+/* ============= Suggestions ============ */
+
+.sd-title {
+    float: left;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+}
+.sd-title h3 {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+    float: left;
+}
+.sd-title i {
+    float: right;
+    color: #b7b7b7;
+    font-size: 30px;
+    position: absolute;
+    right: 5px;
+    top: 15px;
+}
+.suggestions-list {
+    float: left;
+    width: 100%;
+    padding: 13px 0 30px 0;
+}
+.suggestion-usd {
+    float: left;
+    width: 100%;
+    padding: 5px 20px 5px 0;
+}
+.suggestion-usd img {
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+    border-radius: 100px;
+
+}
+.sgt-text {
+    float: left;
+    padding-left: 10px;
+}
+.sgt-text h4 {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.sgt-text span {
+    color: #686868;
+    font-size: 14px;
+}
+.suggestion-usd > span {
+    float: right;
+    margin-top: 4px;
+    position: relative;
+}
+.suggestion-usd > span i {
+    color: #b2b2b2;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.suggestion-usd > span i:hover {
+    background-color: #e44d3a;
+    color: #fff;
+}
+.view-more {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+}
+.view-more > a {
+    color: #e44d3a;
+    font-size: 14px;
+    font-weight: 700;
+}
+.view-more > a:hover {
+    color: #e44d3a
+}
+.company-link a{
+    color: var(--gray-color);
+    font-size: 11px;
+}
+
 
 
 /* =============== ANIMATION LOADER =============== */
