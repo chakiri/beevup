@@ -33,6 +33,14 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/dashboardv1", name="dashboardv1")
+     */
+    public function dashboardv1()
+    {
+        return $this->render('default/dashboardv1.html.twig');
+    }
+
+    /**
      * @Route("/dashboard", name="dashboard")
      */
     public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)

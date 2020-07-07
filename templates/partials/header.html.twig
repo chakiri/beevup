@@ -1,68 +1,91 @@
 <!--==========================
 Header
 ============================-->
-<header id="header" class="fixed-top">
+<header id="header" class="fixed-top d-flex justify-content-between">
 
     <div class="logo float-left">
         <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="{{ path('dashboard') }}"><img src="/images/logo_bv.png" alt=""></a>
+        <a href="{{ path('dashboard') }}"><img src="/images/default/logo_bv_mode.png" alt=""></a>
     </div>
 
-    <nav class="main-nav float-right d-none d-lg-block">
+    <nav class="main-nav  ">
         <ul>
-
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% set route =  app.request.get('_route') %}
                 <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>
                 <li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
                 <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general'}) }}" >Chat</a></li>
-                <li class="drop-down"><a >{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a>
-                    <ul>
-                        <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon compte</a></li>
-                        {%  if app.user.company %}
-                        <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon Entreprise</a></li>
-                        {% endif %}
-                        {#{%  if app.user.type.id != 6 %}#}
-                          <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
-                        {#{% endif %}#}
-                        {% if app.user.company != null %}
-                          <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
-                        {% endif %}
-                        {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                            {% if app.user.company.isCompleted == true %}
-                                 <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
-                            {% else %}
-                                <li class="disabled" class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
-                            {% endif %}
-                         {% elseif is_granted('ROLE_ADMIN_STORE')  %}
-                         <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>
-                             <ul class="admin-menu-items">
-                                 <li><a href='/admin/?entity=Store'>Magasin</a></li>
-                                 <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
 
-                             </ul>
-                         {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
-                         <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>
-                           <ul class="admin-menu-items">
-                               <li><a href='/admin/?entity=Store'>Magasin</a></li>
-                                <li><a href='/admin/?entity=User'>utilisateurs</a></li>
-                                <li><a href='/admin/?entity=Publicity'>Publicité</a></li>
-                            </ul>
-                         </li>
-                         {% endif %}
-                        <li><div class="dropdown-divider"></div></li>
-                        <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
-                    </ul>
-                </li>
             {% else %}
                 <li><a href="{{ path('security_registration') }}">Inscription</a></li>
                 <li><a href="{{ path('security_login') }}">Connexion</a></li>
             {% endif %}
-
         </ul>
     </nav><!-- .main-nav -->
 
+    <nav class="main-nav">
+        <div class="d-flex">
+            <ul class="notifications d-flex">
+                <li class="box-notification"><i class="fa fa-bell-o  p-2"></i></li>
+                <li class="box-notification"><i class="fa fa-envelope-o p-2"></i></li>
+                <li class="box-notification"><i class="fa fa-bolt  p-2"></i></li>
+            </ul>
+
+
+
+
+            <ul class="d-flex">
+                <li><a href="#">{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</a></li>
+                <li class="nav-item avatar dropdown">
+                    <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if app.user.profile.filename %}
+                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                        {% else %}
+                            <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                        {% endif %}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-lg-right dropdown-secondary">
+                        <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon compte</a></li>
+                        {%  if app.user.company %}
+                            <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon Entreprise</a></li>
+                        {% endif %}
+                        {#{%  if app.user.type.id != 6 %}#}
+                        <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
+                        {#{% endif %}#}
+                        {% if app.user.company != null %}
+                            <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                            {% if app.user.company.isCompleted == true %}
+                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
+                            {% else %}
+                                <li class="disabled" class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
+                            {% endif %}
+                        {% elseif is_granted('ROLE_ADMIN_STORE')  %}
+                            <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>
+                            <ul class="admin-menu-items">
+                                <li><a href='/admin/?entity=Store'>Magasin</a></li>
+                                <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
+
+                            </ul>
+                        {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
+                            <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>
+                                <ul class="admin-menu-items">
+                                    <li><a href='/admin/?entity=Store'>Magasin</a></li>
+                                    <li><a href='/admin/?entity=User'>utilisateurs</a></li>
+                                    <li><a href='/admin/?entity=Publicity'>Publicité</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li><div class="dropdown-divider"></div></li>
+                        <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </header><!-- #header -->
 
 {% block modals %}

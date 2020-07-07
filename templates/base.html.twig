@@ -6,7 +6,6 @@
     <title>Bureau Vallée - {% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="/images/default/favicon.ico" />
     <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/responsive.css">
 
     <!-- Google Fonts -->
@@ -80,6 +79,8 @@ and app.request.attributes.get('_route') != 'security_login'
 <script src="/lib/isotope/isotope.pkgd.min.js"></script>
 <script src="/lib/lightbox/js/lightbox.min.js"></script>
 <script src="/lib/introjs/js/intro.min.js"></script>
+
+<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
 
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
     <!-- Start of zebulon Zendesk Widget script -->

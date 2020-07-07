@@ -1,0 +1,233 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="container-bv">
+        <div class="row">
+            <div class="col-lg-3">
+                <div id="news-filter" class="box-navigation-items min-col">
+                    <ul>
+                        <li value="All"><i class="fa fa-clone"></i><a href="#">  Tout</a></li>
+                        <li value="information"><i class="fa fa-newspaper"></i><a href="#">  Informations</a></li>
+                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="#">  Derniers arrivés</a></li>
+                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="#">  Opportunité commerciale</a></li>
+                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="#">  Emploi</a></li>
+                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="#">  Evénement</a></li>
+                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="#">  Question à la communauté</a></li>
+                        <li value="Autre"><i class="fa fa-plus"></i><a href="#">  Autre</a></li>
+                    </ul>
+                </div>
+
+                <div id="advisorbox" class="box-advisor min-col">
+                    <small class="greyed">Votre conseiller</small>
+                    <div class="box">
+                        {% if  app.user.store != null %}
+                            {% if  app.user.store.defaultAdviser != null %}
+                                {% if  app.user.store.defaultAdviser.profile != null %}
+                                    <div class="d-flex">
+                                        <a href="#">
+                                            {% if app.user.store.defaultAdviser.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                            {% else %}
+                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                            {% endif %}
+                                        </a>
+                                        <div>
+                                            <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
+                                            <small>{{ app.user.store.defaultAdviser.store }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex pt-3">
+                                        <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
+                                        <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <p>Aucun conseiller défini</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if app.user.company  %}
+                <div class="box-company mt-3 min-col">
+                    <small class="greyed">Votre entreprise</small>
+                    <div class="box">
+                        <div class="d-flex">
+                            <a href="#">
+                                {% if app.user.company.filename %}
+                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/no-available-company-photo.png" class="img-fluid" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% endif %}
+                            </a>
+                            <div class="pb-3">
+                                <p>{{ app.user.company.name|capitalize }}</p>
+                                <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
+                            </div>
+                        </div>
+                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <div class="box-social-media min-col m-center">
+                    <div class="new-post">
+                        <div class="box">
+                            <div class="d-flex">
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
+                                <a href="#" class="mt-3 ml-3 add-post" data-target="{{ path('post_create') }}"><span>Que voulez-vous partager {{ app.user.profile.firstname }} ?</span></a>
+                            </div>
+                            <hr>
+                            <div class=" d-flex justify-content-between">
+                                <div class="d-flex">
+                                    <i class="fa fa-newspaper p-2 orange"></i>
+                                    <i class="fa fa-comment-alt p-2 orange"></i>
+                                    <i class="fa fa-chart-line p-2 orange"></i>
+                                    <i class="fa fa-user-friends p-2 orange"></i>
+                                    <i class="fa fa-calendar-alt p-2 orange"></i>
+                                    <i class="fa fa-question p-2 orange"></i>
+                                </div>
+                                <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="posts">
+                        <div class="box">
+                            <div class="mb-3">
+                                <div class=" d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
+                                        <div>
+                                            <p>Darrel Steward</p>
+                                            <small>Entreprise commune</small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="d-block al-r">Il y a 8min</small>
+                                        <span class="badge badge-yellow">
+                                            <i class="fa fa-chart-line"></i>
+                                            Oppurtunité commerciale
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p><strong>Bienvenue à l'entreprise Eat Salad Bordeaux Stalingrad</strong></p>
+                                <span>Eat salad votre salade sur mesure</span>
+                            </div>
+                            <div class="comments">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <i class="fa fa-thumbs-up p-1 orange"></i>
+                                        <small>Laurence et 18 autres personnes</small>
+                                    </div>
+                                    <div>
+                                        <small>3 Commentaires</small>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex">
+                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
+                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                                </div>
+                                <hr>
+                                <div>
+                                    <div class="d-flex mb-2">
+                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
+                                        <div class="comment-box">
+                                            <span>Comptez sur moi j'ai un nouveau projet ambitieux !</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-2">
+                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
+                                        <div class="comment-box">
+                                            <span>Super j'y serai</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="mb-3">
+                                <div class=" d-flex justify-content-between">
+                                    <div class="d-flex">
+                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
+                                        <div>
+                                            <p>Darrel Steward</p>
+                                            <small>Entreprise commune</small>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="d-block al-r">Il y a 8min</small>
+                                        <span class="badge badge-green">
+                                            <i class="fa fa-calendar-alt"></i>
+                                            Evénements
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p><strong>Afterwork RSE Lundi 16/07 Bordeaux</strong></p>
+                                <span>Rendez vous Lundi 15/06 au bar La Vie Moderne à 18h pour partager nos actions RSE</span>
+                            </div>
+                            <div class="comments">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <i class="fa fa-thumbs-up p-1 orange"></i>
+                                        <small>Laurence et 10 autres personnes</small>
+                                    </div>
+                                    <div>
+                                        <small>2 Commentaires</small>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex">
+                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
+                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="box-advertising min-col float-right">
+                    <small>Sponsorisé</small>
+                    <div class="box-image">
+                        <img src="https://i.pinimg.com/originals/72/4e/4c/724e4cae99d76a586ac3ca33a0f60018.jpg" class="square-image" alt="advertising">
+                    </div>
+                    <p>Découvrez la séléction de meubles de Bureau Vallée</p>
+                    <a href="#">Découvrir</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+    <!-- Post Modal -->
+    <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-post-content">
+                <!-- html injected by js -->
+                <div class="text-center">
+                    <div class="spinner-border text-warning" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/dashboard.js"></script>
+{% endblock %}

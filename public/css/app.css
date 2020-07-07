@@ -7,6 +7,11 @@ section{
     min-height: 100%;
 }
 
+/* Navbar */
+#avatarMenu{
+    padding: 0px 10px;
+}
+
 /* Dashboard */
 
 .dashboard-box{
@@ -190,12 +195,11 @@ section{
 }
 
 .avatar img{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 1px solid #d8d8d8;
-    padding: 1px;
-    margin: 6px;
+
+    width: 32px;
+    height: 32px;
+    left: 62px;
+    top: 0px;
 }
 
 .position-sidebar{
