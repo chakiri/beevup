@@ -137,14 +137,16 @@
                                         <ul>
                                             <li><a href="#" title="" class="follow">
                                                     <i  id="result-user-item-{{ user.id }}"
-                                                        class="fa fa-star {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
+                                                        class="fa fa-star-o {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
                                                         data-user-id ="{{ user.id }}"
                                                         data-target="{{path('favorit_add', {'userId':user.id})  }}"
                                                         data-delete="{{path('favorit_delete', {'userId': user.id})  }}"></i>
 
                                                     </i>
                                                 </a></li>
-                                            <li><a href="{{ path('chat_private', {'id': user.id}) }}" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+                                            <li><a href="{{ path('chat_private', {'id': user.id}) }}" title="" class="message-us">
+                                                    <i class="fa fa-comments search-contact"></i>
+                                                </a></li>
                                         </ul>
                                     </div>
                                     <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
