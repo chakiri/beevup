@@ -23,8 +23,14 @@ class ProfileController extends AbstractController
      */
     public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, FavoritRepository $favoritRepository, UserRepository $userRepo, ProfilRepository $profileRepo, $id)
     {
+        $collegues = null;
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
         $favoritUser= $userRepo->findBy(['id'=>$profile->getUser()]);
+        if($profile->getUser()->getCompany() != null) {
+            $collegues = $userRepo->findBy(['company' => $profile->getUser()->getCompany()],[], 5);
+
+        }
+
 
         $isFavorit = "";
        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'favoritUser'=>$favoritUser])) > 0)
@@ -45,7 +51,8 @@ class ProfileController extends AbstractController
             'services' => array_slice($services, 0, 3),
             'countServices' => count($services),
             'recommandations' => $allRecommandations,
-            'isFavorit' => $isFavorit
+            'isFavorit' => $isFavorit,
+            'collegues' =>$collegues
         ]);
     }
 
