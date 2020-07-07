@@ -84,6 +84,7 @@ class AppFixtures extends Fixture
         foreach ($functions as $function){
             $userFunction = new UserFunction();
             $userFunction->setName($function);
+            $userFunction->setRelatedTo('Store');
             $manager->persist($userFunction);
         }
 
