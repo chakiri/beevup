@@ -47,24 +47,90 @@ html {
     --thumbBG: var(--bg-color);
 }
 
- h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6{
   font-family:Rubik-bold !important ;
 }
- body{
-     padding-top: 0;
-     background-color: #FAFAFA !important;
- }
-body,p{
-    font-family:Rubik-regular !important ;
-}
-footer {
-    background: var(--footer-bg-color);
+
+body{
+    font-size: 11px;
+    font-weight: 500;
+    background: #FAFAFA !important;
+    font-family: 'Rubik-regular';
+    color: #132644;
+    padding: 3.5em 0 0 0;
 }
 
 input::placeholder, select  {
   color: var(--form-placeholder-color) !important;
   font-size: var(--form-placeholder-size) !important;
 }
+
+#header a{
+    color: #132644;
+}
+a.nav-link{
+    margin-top: -5px;
+    margin-left: -15px;
+}
+
+.container-bv{
+    margin: 30px 15px;
+}
+
+.box-navigation-items ul{
+    list-style-type:none;
+    padding-left: 0;
+}
+.box-navigation-items ul li{
+    padding: 8px 10px;
+}
+.box-navigation-items a{
+    color: #132644;
+    font-weight: 600;
+}
+
+.box{
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.min-col{
+    width: 85%;
+}
+
+.m-center{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.al-r{
+    text-align: right;
+}
+.al-l{
+    text-align: left;
+}
+
+a{
+    color: #FF7F50;
+}
+
+p{
+    font-weight: 500;
+    font-size: 13px;
+}
+
+small{
+    color: #B3B9C3;
+}
+
+hr{
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .page-content{
     margin-top: 100px;
 }
@@ -206,6 +272,7 @@ input:-webkit-autofill:active  {
   background-color: var(--bg-color);
 }
 .security_registration {
+    padding: 0;
   background-color: var(--white-color) !important;;
   overflow-x: hidden;
 
@@ -376,10 +443,7 @@ ul.landing-page-list {
     padding: 24px;
 }
 .footer{
-    background-color: #F6F7F8;
     padding: 16px;
-    font-family: Rubik-bold;
-    position: absolute;
     width: 100%;
 
 }
@@ -388,7 +452,6 @@ ul.landing-page-list {
     font-size: 8px;
     line-height: 9px;
     text-align: center;
-    color: var(--text-color);
 }
 .footer-text-link{
     font-weight: bold;
@@ -404,7 +467,7 @@ ul.landing-page-list {
 .landing-page-registration-form .form-actions.form-group {
     margin-bottom: 0;
 }
-svg{
+.security_registration svg{
     position: absolute;
     bottom:0;
 }
