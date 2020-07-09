@@ -78,14 +78,17 @@
                     <div class="new-post">
                         <div class="box">
                             <div class="d-flex">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% if app.user.profile.filename %}
+                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% endif %}
                                 <a href="#" class="mt-3 ml-3 add-post" data-target="{{ path('post_create') }}"><span>Que voulez-vous partager {{ app.user.profile.firstname }} ?</span></a>
                             </div>
                             <hr>
                             <div class=" d-flex justify-content-between">
                                 <div class="d-flex">
                                     <i class="fa fa-newspaper p-2 orange"></i>
-                                    <i class="fa fa-comment-alt p-2 orange"></i>
                                     <i class="fa fa-chart-line p-2 orange"></i>
                                     <i class="fa fa-user-friends p-2 orange"></i>
                                     <i class="fa fa-calendar-alt p-2 orange"></i>

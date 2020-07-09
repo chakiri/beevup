@@ -39,22 +39,33 @@ $('.add-post').click(function(){
  * Synchronise icons type with choice select
  */
 $('.icon-type-post').click(function(){
-    console.log($(this).attr('id'));
     $('#post_category').val($(this).attr('id'));
+
+    //Put active on click
+    $('.icon-type-post').each(function(){
+        $(this).find('a').removeClass('active');
+    });
+    $(this).find('a').addClass('active');
 });
 
 /**
  * Disable submit button while type empty
  */
-// $('#create-post-form :input[type="submit"]').prop('disabled', true);
-// $('#create-post-form :input[type="submit"]').css({'cursor': 'not-allowed'});
 
 $('.modal-add-post :submit').click(function(e){
-    console.log($('#post_category').val());
     if ($('#post_category').val() == ""){
         e.preventDefault();
         $('.type-post-error').css('display', 'block ');
     }
+});
+//Only video or image
+$('.image').click(function () {
+    console.log('imaedz');
+    $('#post_urlYoutube').val("");
+});
+$('.video').click(function () {
+    $('#post_imageFile').val('');
+    $(".custom-file-label").html("Une image vaut mille mots");
 });
 
 /* end publish post */

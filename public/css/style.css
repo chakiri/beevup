@@ -185,3 +185,30 @@
     color: #fff;
     padding: 2px;
 }
+
+.icon-type-post{
+    padding: 5px;
+    color: var(--orange-color);
+    background-color: var(--bg-color);
+    border-radius: 50px;
+}
+ul.types-posts{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+ul.types-posts li{
+    margin: 0 1px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#types-posts{
+    width: 50%;
+}
+
+li.icon-type-post a.active{
+    color: initial;
+}
