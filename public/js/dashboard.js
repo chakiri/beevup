@@ -39,7 +39,7 @@ $('.add-post').click(function(){
  * Synchronise icons type with choice select
  */
 $('.icon-type-post').click(function(){
-    $('#post_category').val($(this).attr('id'));
+    $('#post_category').val($(this).data('name'));
 
     //Put active on click
     $('.icon-type-post').each(function(){
@@ -60,7 +60,6 @@ $('.modal-add-post :submit').click(function(e){
 });
 //Only video or image
 $('.image').click(function () {
-    console.log('imaedz');
     $('#post_urlYoutube').val("");
 });
 $('.video').click(function () {

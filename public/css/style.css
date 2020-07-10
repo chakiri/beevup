@@ -12,7 +12,6 @@
 
 .btn{
     border-radius: 12px;
-    padding: 0;
     font-size: 12px;
 }
 
@@ -134,6 +133,9 @@
     height: 30px;
 }
 
+#post_title {
+    font-size: 15px !important;
+}
 
 .hr{
     border-top: 1px solid rgba(0, 0, 0, 0.04);
@@ -211,4 +213,30 @@ ul.types-posts li{
 
 li.icon-type-post a.active{
     color: initial;
+}
+
+.media-post img, iframe{
+    border-radius: 4px;
+}
+
+/* Hover popup info */
+.hover-info:hover > .popup-info{
+    display: block;
+    position: absolute;
+}
+
+.popup-info{
+    display: none;
+    margin-left: -20%;
+    margin-top: -18%;
+    transition: all 0.3s ease-in;
+    background-color:var(--white-color);
+    border: 1px solid var(--base-bg-color);
+    color: var(--text-color);
+    width: 250px;
+    height: 111px;
+}
+
+.popup-info > .content p{
+    color: #353535;
 }

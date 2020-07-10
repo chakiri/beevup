@@ -35,9 +35,13 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboardv1", name="dashboardv1")
      */
-    public function dashboardv1()
+    public function dashboardv1(PostRepository $postRepository)
     {
-        return $this->render('default/dashboardv1.html.twig');
+        $posts = $postRepository->findByNotReportedPosts();
+
+        return $this->render('default/dashboardv1.html.twig', [
+            'posts' => $posts
+        ]);
     }
 
     /**

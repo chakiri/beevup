@@ -49,15 +49,6 @@ class PostType extends AbstractType
             ->add('category', HiddenType::class, [
                 'label'=>'Catégorie',
                 'required' => true,
-                /*'choices'  => [
-                    'information' => 'information',
-                    'last_arrivals' => 'derniers arrivés',
-                    'commercial_opportunities' => 'Opportunité commerciale',
-                    'job' => 'Emploi',
-                    'event' => 'Événement',
-                    'question' => 'Question à la communauté',
-                    'other' => 'Autre'
-                ],*/
                 ])
                
         ;

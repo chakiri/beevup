@@ -13,6 +13,7 @@
 :root {
   /* ============== colors =========== */
    --bg-color: #FFF6F3;
+   --base-bg-color: #FAFAFA;
    --text-color: #132644;
    --border-color:#FFF6F3;
   --gray-color:#B3B9C3;
