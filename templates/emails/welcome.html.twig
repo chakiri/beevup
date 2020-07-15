@@ -234,7 +234,7 @@
                                 <img src="https://app.beevup.fr/images/logo_beevup_solo.png" style="max-height: 63px;"/>
                             </td>
                             <td width="60%" class="logo" style="text-align: right;background-color:#FFFFFF">
-                                <p style="color:#253561">Beev'Up par Bureau Vallée - Bienvenue</p>
+                                <p style="color:#132644">Beev'Up par Bureau Vallée - Bienvenue</p>
                             </td>
                         </tr>
                     </table>
@@ -265,16 +265,16 @@
 
                                     </p>
 
-                                    <p style="color:#253561;">
+                                    <p style="color:#132644;">
                                         A bientôt sur la plateforme Beev'Up
-                                    <p style="color:#253561;font-weight: bold;">
+                                    <p style="color:#132644;">
                                         {%  if storePatron != null  %}
-                                             {%  if storePatron.profile != null  %}
-                                              {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
-                                           {% endif %}
+                                            {%  if storePatron.profile != null  %}
+                                                {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
+                                            {% endif %}
                                         {% endif %}
                                     </p>
-                                    <p style="color:#253561;font-weight: bold;">
+                                    <p style="color:#132644">
                                         Magasin Bureau Vallée - {{user.store.name}}
                                     </p>
 
@@ -289,9 +289,9 @@
 
 
         </table>
-        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#253561">
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top:#FFF6F3;background-color:#fff">
 
-            <tr  class="bg_black footer email-section">
+            <tr  align="center" class="footer email-section" style="border-top:1px solid #ccc">
                 <td>
                     <img src="https://app.beevup.fr/images/logo_bv_main.png" style="max-height: 50px;margin: 10px;margin-left:40px"/>
                 </td>
@@ -299,7 +299,6 @@
 
             </tr>
         </table>
-
     </div>
 </center>
 </body>
