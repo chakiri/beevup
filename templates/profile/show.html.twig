@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %} {{ profile.firstname|capitalize }}{% endblock %}
 
 {% block body %}
     <main>
@@ -13,11 +13,13 @@
                                 <div class="user_profile">
                                     <div class="user-pro-img">
                                         {% if profile.filename %}
-                                            <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                            <img src="{{ vich_uploader_asset(profile, 'imageFile') }}"  alt="">
                                         {% else %}
                                             <img src="http://via.placeholder.com/170x170" alt="">
                                         {% endif %}
-                                        <a href="#" title=""><i class="fa fa-camera"></i></a>
+                                        {% if app.user.id == profile.user.id %}
+                                           <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
+                                        {% endif %}
                                     </div><!--user-pro-img end-->
                                     <div class="user_pro_status">
                                         <ul class="flw-hr">
@@ -33,9 +35,9 @@
 
                                     </div><!--user_pro_status end-->
                                     <ul class="social_links">
-                                        <li><i class="fas fa-map-marker-alt"></i> Les clayes sous bois</li>
-                                        <li><i class="fas fa-mobile-alt"></i>  0112345678</li>
-                                        <li><i class="fas fa-external-link-alt"></i> http://www.Test.com</li>
+
+                                      {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
+
 
                                     </ul>
                                 </div><!--user_profile end-->
@@ -89,8 +91,6 @@
 
                                         </span>
                                         {% endif %}
-
-
                                     </div><!--star-descp end-->
 
                                 </div><!--user-tab-sec end-->
@@ -98,15 +98,15 @@
                                 <div class="product-feed-tab current" id="info-dd">
                                     <div class="user-profile-ov page-title sign_in_sec current">
                                         <h3>
-                                            <a href="#" title="" class="overview-open">
-                                                {{ profile.firstname|capitalize }} en quelque mot</a>
+
+                                                {{ profile.firstname|capitalize }} en quelques mots
                                         </h3>
                                         <p>{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
                                     </div><!--user-profile-ov end-->
                                     {% if profile.user.company %}
                                         <div class="user-profile-ov st2 page-title sign_in_sec current">
-                                            <h3><a href="#" title="" class="exp-bx-open">
-                                                    {{ profile.firstname|capitalize }} travaille chez {{ profile.user.company.name }} </a>
+                                            <h3>
+                                                    {{ profile.firstname|capitalize }} travaille chez {{ profile.user.company.name }}
                                             </h3>
 
                                             <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
@@ -116,7 +116,13 @@
                                     {% if  countServices > 0 %}
                                     <div class="top-profiles">
                                         <div class="pf-hd page-title sign_in_sec current">
-                                            <h3>{{ countServices }} Services Bureau Vallée</h3>
+                                            <h3>
+                                                {% if countServices == 1 %}
+                                                  {{ countServices }} Service Bureau Vallée
+                                                {% else %}
+                                                  {{ countServices }} Services Bureau Vallée
+                                                {% endif %}
+                                            </h3>
                                             <i class="la la-ellipsis-v"></i>
                                         </div>
                                         <div class="profiles-slider">
@@ -129,7 +135,7 @@
                                                         <img src="http://via.placeholder.com/57x57" alt="">
                                                     {% endif %}
                                                     <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                    <a href="#" title="">Voir plus</a>
+                                                    <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
                                                 </div><!--user-profy end-->
                                             {% endfor %}
 
@@ -139,7 +145,7 @@
 
                                     <div class="user-profile-ov st2 page-title sign_in_sec current">
                                         <h3>
-                                            <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ profile.firstname|capitalize }} </a>
+                                            La communauté a recommandé les services de {{ profile.firstname|capitalize }}
                                         </h3>
                                         {% if recommandations %}
                                             {% for recommandation in recommandations %}
@@ -151,7 +157,7 @@
                                                     {% endif %}
 
                                                     <div class="sgt-text">
-                                                        <h4>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</h4>
+                                                        <h4>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</h4>
 
                                                     </div>
                                                     <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;">
@@ -178,9 +184,11 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="right-sidebar">
-                                <div class="message-btn">
-                                    <a href="{{ path('chat_private', {'id': profile.user.id}) }}" title=""><i class="fa fa-comments"></i> Contacter</a>
-                               </div>
+                                {% if app.user.id != profile.user.id %}
+                                    <div class="message-btn">
+                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" title=""><i class="fa fa-comments"></i> Contacter</a>
+                                   </div>
+                                {% endif %}
                                 <div class="widget widget-jobs">
                                     <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
                                         <h3>
@@ -189,7 +197,7 @@
                                         <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
                                             et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
                                         <div class="lt-sec">
-                                            <a href="{{ path('service_new') }}" title="">Je créer un service</a>
+                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
                                         </div>
                                     </div><!--user-profile-ov end-->
                                 </div><!--widget-jobs end-->

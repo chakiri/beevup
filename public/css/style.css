@@ -96,7 +96,7 @@
     margin: 0 3px;
 }
 
-.box-advisor a[type=button], .box-company a[type=button]{
+.box-advisor a[type=button], .box-company a[type=button], .aside-service  a[type=button]{
     padding: 5px;
 }
 

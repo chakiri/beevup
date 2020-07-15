@@ -18,7 +18,7 @@
                                 {{ form_end(SearchForm) }}
                                 <div class="filter-dd">
                                     <div class="col-12 form-actions form-group">
-                                        <button  type="submit" class="orange-btn">Chercher</button>
+                                        <button  type="submit" class="m-orange-btn">Chercher</button>
                                     </div>
                                 </div>
                             </div>
@@ -35,14 +35,20 @@
 
                                         <div class="suggestion-usd">
                                             <div class="" style="float:left">
-                                                {% if favorit.favoritUser.profile.filename is empty %}
-                                                  <img src="http://via.placeholder.com/35x35" alt="">
-                                                {% else  %}
-                                                    <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('card') }}" style="width: 35px;height:35px">
-                                                {% endif %}
+                                                <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                    {% if favorit.favoritUser.profile.filename is empty %}
+                                                      <img src="http://via.placeholder.com/35x35" alt="">
+                                                    {% else  %}
+                                                        <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('card') }}" style="width: 35px;height:35px">
+                                                    {% endif %}
+                                                </a>
                                             </div>
                                             <div class="sgt-text">
-                                                <h4>{{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}</h4>
+                                                <h4>
+                                                    <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                      {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
+                                                    </a>
+                                                </h4>
 
                                                 {% if favorit.favoritUser.company %}
                                                     <span class="company-link">
@@ -112,12 +118,16 @@
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="company_profile_info">
                                     <div class="company-up-info">
+                                        <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                         {% if user.profile.filename is empty %}
                                             <img src="http://via.placeholder.com/90x90" alt="">
                                         {% else  %}
+
                                             <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
+
                                         {% endif %}
-                                        <h3>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h3>
+                                        </a>
+                                        <h3>  <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
 
                                         {% if user.profile.function  %}
                                             {% if user.company %}
@@ -135,18 +145,19 @@
                                             {% endif %}
                                         {% endif %}
                                         <ul>
-                                            <li><a href="#" title="" class="follow">
-                                                    <i  id="result-user-item-{{ user.id }}"
-                                                        class="fa fa-star-o {% if user.id in favoritUserIds %}  text-warning {% else %} text-muted {% endif %}  add-favoris"
+                                            <li>
+                                                <i  id="result-user-item-{{ user.id }}"
+                                                        class="fa {% if user.id in favoritUserIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
                                                         data-user-id ="{{ user.id }}"
                                                         data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                                        data-delete="{{path('favorit_delete', {'userId': user.id})  }}"></i>
-
+                                                        data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
                                                     </i>
-                                                </a></li>
-                                            <li><a href="{{ path('chat_private', {'id': user.id}) }}" title="" class="message-us">
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('chat_private', {'id': user.id}) }}" title="" class="message-us">
                                                     <i class="fa fa-comments search-contact"></i>
-                                                </a></li>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
@@ -161,22 +172,26 @@
                                 <div class="col-lg-4 col-md-4 col-sm-6">
                                     <div class="company_profile_info">
                                         <div class="company-up-info">
-                                            {% if company.filename is empty %}
-                                                <img src="http://via.placeholder.com/90x90" alt="">
-                                            {% else  %}
-                                               <img src="{{ vich_uploader_asset(company, 'imageFile') }}" class="img-fluid search-company-photo" alt="">
-                                            {% endif %}
-                                            <h3>  {{company.name|capitalize }}</h3>
+                                            <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                {% if company.filename is empty %}
+                                                    <img src="http://via.placeholder.com/90x90" alt="">
+                                                {% else  %}
+
+                                                       <img src="{{ vich_uploader_asset(company, 'imageFile') }}" class="img-fluid search-company-photo" alt="">
+
+                                                {% endif %}
+                                            </a>
+                                            <h3> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h3>
                                             <ul>
-                                                <li><a href="#" title="" class="follow">
+                                                <li>
                                                         <i id="result-company-item-{{ company.id }}"
-                                                           class="fa fa-star {% if company.id in favoritsCompanyIds %}  text-warning {% else %} text-muted {% endif %}  add-company-favoris"
+                                                           class="fa  {% if company.id in favoritsCompanyIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
                                                            aria-hidden="true"
                                                            data-company-id ="{{ company.id }}"
                                                            data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
                                                            data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
                                                         ></i>
-                                                    </a></li>
+                                                </li>
 
                                             </ul>
                                         </div>

@@ -33,7 +33,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/dashboardv1", name="dashboardv1")
+     * @Route("/dashboard", name="dashboard")
      */
     public function dashboardv1()
     {
@@ -41,7 +41,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/dashboard", name="dashboard")
+     * @Route("/dashboardv1", name="dashboardv1")
      */
     public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, DashboardNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
     {
