@@ -3,74 +3,117 @@
 {% block title %}Abus{% endblock %}
 
 {% block body %}
-
-    <section id="dashboard" class="mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    {% include 'default/dashboard-aside.html.twig' %}
-                </div>
-                <div class="col-lg-9 col-md-6 abuse-section">
-                    <h4>Les abus</h4>
-                    {% if is_granted('ROLE_ADMIN') and abuses %}
-                        {% for abuse in abuses %}
-                            <div id ="abuse-{{abuse.id}}" class="box">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <div class="avatar">
-                                            {% if abuse.user.profile.filename is empty %}
-                                                <img src="/images/default_user.png" class="img-fluid" alt="">
-                                            {% else %}
-                                                <img src="/images/profiles/{{ abuse.user.profile.filename }}" class="img-fluid" alt="">
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <p><strong>{{abuse.user.profile.firstname|capitalize }} {{abuse.user.profile.lastname|capitalize }}</strong></p>
-                                        {% if abuse.post %}
-                                            <p class="text-muted"><strong>post signalé: </strong> {{abuse.post.title }}</p>
-                                            <p class="text-muted"> <strong>Description: </strong>{{abuse.post.description }}</p>
+<main>
+        <div class="main-section">
+            <div class="container">
+                <div class="main-section-data page-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="main-left-sidebar">
+                                <div class="user_profile">
+                                    <div class="user-pro-img">
+                                        {% if app.user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('card') }}"  alt="">
                                         {% else %}
-                                            <p class="text-muted"><strong>commentaire signalé: </strong> {{abuse.comment.description }}</p>
+                                            <img src="http://via.placeholder.com/170x170" alt="">
                                         {% endif %}
-                                        <p class="text-muted"><strong>Raison: </strong>{{abuse.description }}</p>
-                                        <p class="text-muted"><strong class="text-dark">Date de création:</strong> {{abuse.createdAt|date("d/m/Y") }}</p>
-                                        <div class="float-right">
-                                            <button type="submit"
-                                                    class="btn btn-success abuse-approve btn-radius"
-                                                    data-abuse-id="{{abuse.id}}">
-                                                    <span id = "spinner-approve-{{abuse.id}}"
-                                                          class="spinner-grow spinner-grow-sm spinner-hidden"
-                                                          role="status"
-                                                          aria-hidden="true">
-                                                    </span>
-                                                <span class="sr-only"></span>
-                                                Valider
-                                            </button>
-                                            <button type="submit"
-                                                    class="btn btn-danger abuse-reject btn-radius"
-                                                    data-abuse-id="{{abuse.id}}">
-                                                    <span id = "spinner-reject-{{abuse.id}}"
-                                                          class="spinner-grow spinner-grow-sm spinner-hidden"
-                                                          role="status"
-                                                          aria-hidden="true">
-                                                    </span>
-                                                <span class="sr-only"></span>
-                                                Rejeter
-                                            </button>
-                                        </div>
                                     </div>
+                                    <div class="user_pro_status">
+                                        <ul class="flw-hr">
+                                            <li>
+                                                <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" title="" class="flww">
+                                                    Modifier profil
+                                                </a>
+                                            </li>
+
+                                        </ul>
+
+                                    </div><!--user_pro_status end-->
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="box">
-                            <div class="row">
-                                <p>Il ya aucune abus à traiter</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="main-ws-sec">
+                                <h4>Les abus</h4>
+                                {% if is_granted('ROLE_ADMIN') and abuses %}
+                                    {% for abuse in abuses %}
+                                        <div id ="abuse-{{abuse.id}}" class="box">
+                                            <div class="row">
+                                                <div class="suggestion-usd abuse-suggestion-usd">
+                                                   {% if abuse.user.profile.filename is empty %}
+                                                       <img src="http://via.placeholder.com/35x35" alt="">
+                                                   {% else %}
+                                                       <img src="/images/profiles/{{ abuse.user.profile.filename }}" alt="">
+                                                   {% endif %}
+                                                    <p>
+                                                       <strong>
+                                                           {{abuse.user.profile.firstname|capitalize }} {{abuse.user.profile.lastname|capitalize }}
+                                                       </strong>
+                                                    </p>
+                                                    {% if abuse.post %}
+                                                        <p class="text-muted"><strong>post signalé: </strong> {{abuse.post.title }}</p>
+                                                        <p class="text-muted"> <strong>Description: </strong>{{abuse.post.description }}</p>
+                                                    {% else %}
+                                                        <p class="text-muted"><strong>commentaire signalé: </strong> {{abuse.comment.description }}</p>
+                                                    {% endif %}
+                                                    <p class="text-muted"><strong>Raison: </strong>{{abuse.description }}</p>
+                                                    <p class="text-muted"><strong class="text-dark">Date de création:</strong> {{abuse.createdAt|date("d/m/Y") }}</p>
+                                                    <div class="float-right">
+                                                        <button type="submit"
+                                                                class="btn abuse-approve btn-radius"
+                                                                data-abuse-id="{{abuse.id}}">
+                                                           <span id = "spinner-approve-{{abuse.id}}"
+                                                                 class="spinner-grow spinner-grow-sm spinner-hidden"
+                                                                 role="status"
+                                                                 aria-hidden="true">
+                                                            </span>
+                                                            <span class="sr-only"></span>
+                                                            Valider
+                                                        </button>
+                                                        <button type="submit"
+                                                                class="btn abuse-reject btn-radius"
+                                                                data-abuse-id="{{abuse.id}}">
+                                                            <span id = "spinner-reject-{{abuse.id}}"
+                                                                  class="spinner-grow spinner-grow-sm spinner-hidden"
+                                                                  role="status"
+                                                                  aria-hidden="true">
+                                                            </span>
+                                                            <span class="sr-only"></span>
+                                                            Rejeter
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                  <div class="row">
+                                      <p>Il ya aucune abus à traiter</p>
+                                  </div>
+
+                                {% endif %}
+
                             </div>
                         </div>
-                    {% endif %}
+                        <div class="col-lg-3">
+                            <div class="right-sidebar">
+                                <div class="widget widget-jobs">
+                                    <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
+                                        <h3>
+                                            participez à la vie de votre communauté !
+                                        </h3>
+                                        <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
+                                            et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
+                                        <div class="lt-sec">
+                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                                        </div>
+                                    </div><!--user-profile-ov end-->
+                                </div><!--widget-jobs end-->
+                            </div><!--right-sidebar end-->
+                        </div>
+                    </div>
                 </div>
             </div>
-    </section>
+        </div>
+    </main>
 {% endblock %}

@@ -76,11 +76,14 @@ class ProfileController extends AbstractController
                 /* Add topic function to user type 2 */
                 if ($profile->getUser()->getType()->getId() == 2)
                     $topicHandler->initFunctionStoreTopic($profile->getUser());
-
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
                 return $this->redirectToRoute('profile_show', [
                     'id' => $profile->getId()
                 ]);
+
+
             }
+
 
             return $this->render('profile/form.html.twig', [
                 'EditProfileForm' => $form->createView(),

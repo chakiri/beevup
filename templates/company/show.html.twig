@@ -183,9 +183,10 @@
 
                                 </div><!--sd-title end-->
                                 {% for user in users %}
+                                    {% if user.profile.isCompleted %}
                                     <div class="suggestion-usd">
 
-                                        {% if user.profile.filename is empty %}
+                                        {% if user.profile.filename %}
                                             <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}"  alt="">
                                         {% else %}
                                             <img src="http://via.placeholder.com/170x170" alt="">
@@ -197,6 +198,7 @@
                                             {% endif %}
                                         </div>
                                     </div>
+                                      {% endif %}
                                 {% endfor %}
                             {% endif %}
                         </div><!--suggestions-list end-->

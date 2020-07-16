@@ -58,11 +58,13 @@
                                                 {% endif %}
                                             </span>
                                         </li>
-
-
-                                                {% if service.isDiscovery == 1 %}
-                                                  <li><span><b> Offre exclusive Beev'Up</b></span>  </li>
-                                                {% endif %}
+                                        {% if service.isDiscovery == 1 %}
+                                            <li>
+                                                <span>
+                                                    <b> Offre exclusive Beev'Up</b>
+                                                </span>
+                                            </li>
+                                        {% endif %}
 
 
                                     </ul>
@@ -87,7 +89,7 @@
                                                 {% endif %}
                                            </div>
                                             <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">
-                                                <h4> <a href="{{ path('service_show', {'id': service.id}) }}" title="">{{ service.title }}</a></h4>
+                                                <h4> <a href="{{ path('service_show', {'id': service.id}) }}" title="">{{ service.title|slice(0, 50) ~ '...'  }}</a></h4>
 
                                             </div>
                                         </div>
@@ -223,8 +225,8 @@
                                         <p>Aucune recommandation pour l'instant</p>
                                     {% endif %}
                                 </div><!--user-profile-ov end-->
-
-                                <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                {% if service.user.company != null %}
+                                   <div class="user-profile-ov st2 page-title sign_in_sec current">
                                     <h3>
                                         <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">
                                             {{ service.user.company.name|capitalize }}
@@ -259,6 +261,7 @@
                                         <p>Aucune recommandation pour l'instant</p>
                                     {% endif %}
                                 </div><!--user-profile-ov end-->
+                                {% endif %}
 
                             </div>
                         </div>
@@ -276,7 +279,7 @@
                             </div>
                         </div>
                        <div class="widget widget-jobs">
-                           <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
+                           <div class="user-profile-ov page-title sign_in_sec current">
                                <h3>participez à la vie de votre communauté ! </h3>
                                <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
                                    et gagnez en visibilité ainsi que des points Bureau Vallée !
@@ -319,7 +322,7 @@
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('service_remove', {'id': service.id}) }}" type="button" class="">Supprimer</a>
+                    <a href="{{ path('service_remove', {'id': service.id}) }}" type="button" class="btn small-btn grey-bg p-5">Supprimer</a>
                 </div>
             </div>
         </div>

@@ -71,7 +71,7 @@
                                   {% else %}
                                       <h3>Services</h3>
                                       <p>Faites votre marché dans les services proposés par la communauté locale.</p>
-                                      <p>  Proposez vos services et développez votre activité.</p>
+                                      <p class="pb-1">  Proposez vos services et développez votre activité.</p>
 
                                   {% endif %}
                               </div>
@@ -89,7 +89,9 @@
                                                           </a>
                                                           <h3><a href="{{ path('service_show', {'id': service.id}) }}">
                                                                   {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
-                                                           <span>{{ service.introduction|slice(0, 80) ~ '...' }}</span>
+                                                          <div class="company-introduction-bloc">
+                                                             <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
+                                                          </div>
                                                            <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
 
 
