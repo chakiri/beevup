@@ -43,12 +43,13 @@
                                       et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
 
                                   <div class="d-flex pt-3 aside-service">
+                                      <a type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
                                       {% if is_granted('ROLE_ADMIN_STORE') %}
-                                          <a type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
+                                          <a type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
                                       {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
-                                           <a type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
+                                           <a type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn white-bg">Mes services</a>
                                       {% endif %}
-                                     <a type="button"  href="{{ path('service_new') }}" class="btn small-btn white-bg">Mes service</a>
+
                                    </div>
 
                                   {% if is_granted('ROLE_ADMIN_STORE') %}
