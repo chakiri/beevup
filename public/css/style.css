@@ -228,10 +228,10 @@ li.icon-type-post a.active{
 .popup-info{
     display: none;
     margin-left: -20%;
-    margin-top: -18%;
+    margin-top: -24%;
     transition: all 0.3s ease-in;
     background-color:var(--white-color);
-    border: 1px solid var(--base-bg-color);
+    border: 1px solid #f1f1f1;
     color: var(--text-color);
     width: 250px;
     height: 111px;

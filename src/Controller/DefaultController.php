@@ -34,10 +34,14 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/dashboardv1", name="dashboardv1")
+     * @Route("/dashboard/{category}", name="dashboard_category")
      */
-    public function dashboardv1(PostRepository $postRepository)
+    public function dashboardv1($category = null, PostRepository $postRepository)
     {
-        $posts = $postRepository->findByNotReportedPosts();
+        if ($category != null)
+            $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);
+        else
+            $posts = $postRepository->findByNotReportedPosts();
 
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts

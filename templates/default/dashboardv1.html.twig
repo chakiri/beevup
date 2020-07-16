@@ -8,20 +8,20 @@
             <div class="col-lg-3">
                 <div id="news-filter" class="box-navigation-items min-col">
                     <ul>
-                        <li value="All"><i class="fa fa-clone"></i><a href="#">  Tout</a></li>
-                        <li value="information"><i class="fa fa-newspaper"></i><a href="#">  Informations</a></li>
-                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="#">  Derniers arrivés</a></li>
-                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="#">  Opportunité commerciale</a></li>
-                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="#">  Emploi</a></li>
-                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="#">  Evénement</a></li>
-                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="#">  Question à la communauté</a></li>
-                        <li value="Autre"><i class="fa fa-plus"></i><a href="#">  Autre</a></li>
+                        <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboardv1') }}">  Tout</a></li>
+                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 'information'}) }}">  Informations</a></li>
+                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 'arrivees'}) }}">  Derniers arrivés</a></li>
+                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 'opportunite'}) }}">  Opportunité commerciale</a></li>
+                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 'emploi'}) }}">  Emploi</a></li>
+                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 'evenement'}) }}">  Evénement</a></li>
+                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 'question'}) }}">  Question à la communauté</a></li>
+                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 'autre'}) }}">  Autre</a></li>
                     </ul>
                 </div>
 
                 <div id="advisorbox" class="box-advisor min-col">
                     <small class="greyed">Votre conseiller</small>
-                    <div class="box">
+                    <div class="box mt-0">
                         {% if  app.user.store != null %}
                             {% if  app.user.store.defaultAdviser != null %}
                                 {% if  app.user.store.defaultAdviser.profile != null %}
@@ -53,7 +53,7 @@
                 {% if app.user.company  %}
                 <div class="box-company mt-3 min-col">
                     <small class="greyed">Votre entreprise</small>
-                    <div class="box">
+                    <div class="box mt-0">
                         <div class="d-flex">
                             <a href="#">
                                 {% if app.user.company.filename %}
@@ -101,81 +101,70 @@
                     </div>
 
                     <div class="posts">
-
-                        {% for post in posts %}
-                            <div class="box">
-                                <div class="mb-3">
-                                    <div class=" d-flex justify-content-between">
-                                        <div class="d-flex">
-                                            {% if post.user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% else %}
-                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% endif %}
-                                            <div class="hover-info">
-                                                <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
-                                                <small>{{ post.user.company|capitalize }}</small>
-                                                <div class="popup-info box">
-                                                    <div class="d-flex">
-                                                        <a href="#">
-                                                            {% if post.user.profile.filename %}
-                                                                <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                                            {% else %}
-                                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                                            {% endif %}
-                                                        </a>
-                                                        <div>
-                                                            <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
-                                                            <small>{{ post.user.company|capitalize }}</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex pt-3">
-                                                        <a type="button" href="{{ path('chat_private', {'id': post.user.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-                                                        <a type="button" href="{{ path('profile_show', {'id': post.user.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                                                    </div>
+                        {% if posts|length %}
+                            {% for post in posts %}
+                                <div class="box">
+                                    <div class="mb-3">
+                                        <div class=" d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                {% if post.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% endif %}
+                                                <div class="hover-info">
+                                                    <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
+                                                    <small>{{ post.user.company|capitalize }}</small>
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <small class="d-block al-r">Il y a 8min</small>
-                                            <span class="badge badge-green">
+                                            <div>
+                                                <small class="d-block al-r">Il y a 8min</small>
+                                                <span class="badge badge-green">
                                             <i class="fa fa-calendar-alt"></i>
-                                            {{ post.category|capitalize }}
+                                                    {{ post.category|capitalize }}
                                         </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <p><strong>{{ post.title }}</strong></p>
+                                        <span>{{ post.description ?? null }}</span>
+                                    </div>
+                                    <div class="media-post mb-2">
+                                        {% if post.urlYoutube is not null %}
+                                            <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        {% elseif post.filename %}
+                                            <img src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="comments">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <i class="fa fa-thumbs-up p-1 orange"></i>
+                                                <small>{{post.likesNumber ?? '0'}} j'aimes</small>
+                                            </div>
+                                            <div>
+                                                <small>{{post.commentsNumber ?? '0'}} Commentaires</small>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex">
+                                            <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
+                                            <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-2">
-                                    <p><strong>{{ post.title }}</strong></p>
-                                    <span>{{ post.description ?? null }}</span>
-                                </div>
-                                <div class="media-post mb-2">
-                                    {% if post.urlYoutube is not null %}
-                                        <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                    {% elseif post.filename %}
-                                        <img src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
-                                    {% endif %}
-                                </div>
-                                <div class="comments">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <i class="fa fa-thumbs-up p-1 orange"></i>
-                                            <small>Laurence et 10 autres personnes</small>
-                                        </div>
-                                        <div>
-                                            <small>2 Commentaires</small>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex">
-                                        <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
-                                        <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
-                                    </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="box">
+                                <div class="text-center">
+                                    <p><strong>Nous n'avons pas trouvé de post dans cette catégorie</strong></p>
                                 </div>
                             </div>
-                        {% endfor %}
+                        {% endif %}
 
-                        <div class="box">
+                        {#<div class="box">
                             <div class="mb-3">
                                 <div class=" d-flex justify-content-between">
                                     <div class="d-flex">
@@ -270,7 +259,7 @@
                                     <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
                                 </div>
                             </div>
-                        </div>
+                        </div>#}
                     </div>
                 </div>
             </div>
