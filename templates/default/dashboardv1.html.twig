@@ -46,6 +46,8 @@
                             {% else %}
                                 <p>Aucun conseiller défini</p>
                             {% endif %}
+                        {% else %}
+                            <p>Aucun conseiller défini</p>
                         {% endif %}
                     </div>
                 </div>
@@ -59,7 +61,7 @@
                                 {% if app.user.company.filename %}
                                     <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% else %}
-                                    <img src="/images/no-available-company-photo.png" class="img-fluid" class="rounded-circle medium-avatar" alt="avatar image">
+                                    <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% endif %}
                             </a>
                             <div class="pb-3">
@@ -142,16 +144,63 @@
                                         <div class="d-flex justify-content-between">
                                             <div>
                                                 <i class="fa fa-thumbs-up p-1 orange"></i>
-                                                <small>{{post.likesNumber ?? '0'}} j'aimes</small>
+                                                <small>
+                                                    <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
+                                                    {% if post.likes|length > 1 %}
+                                                        j'aimes
+                                                    {% else %}
+                                                        j'aime
+                                                    {% endif %}
+                                                </small>
                                             </div>
                                             <div>
-                                                <small>{{post.commentsNumber ?? '0'}} Commentaires</small>
+                                                <small>
+                                                    <span id="{{ 'nbcommentspost' ~ post.id }}">{{post.comments|length }}</span>
+                                                    {% if post.comments|length > 1 %}
+                                                        commentaires
+                                                    {% else %}
+                                                        commentaire
+                                                    {% endif %}
+                                                </small>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="d-flex">
-                                            <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
+                                            <button class="btn updateLike" data-id="{{ post.id }}" data-url="{{ path("post_like", {'id': post.id}) }}">
+                                                {% if post.isLikedByUser(app.user) %}
+                                                    <i class="fa fa-thumbs-up"></i>
+                                                {% else %}
+                                                    <i class="fa fa-thumbs-o-up"></i>
+                                                {% endif %}
+                                                J'aime
+                                            </button>
                                             <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <div class="box-comment-input d-flex mb-3">
+                                                {% if app.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
+                                                {% endif %}
+                                                <div class="text-comment-box">
+                                                    <textarea placeholder="Que voulez-vous dire {{ app.user.profile.firstname|capitalize }} ?"></textarea>
+                                                </div>
+                                                <button class="submit-comment-box btn" data-id="{{ post.id }}" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="fa fa-send-o"></i></button>
+                                            </div>
+                                            {% for comment in post.comments|reverse %}
+                                                <div class="box-comment d-flex mb-2" data-id="123">
+                                                    {% if post.user.profile.filename %}
+                                                        <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                    {% else %}
+                                                        <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
+                                                    {% endif %}
+                                                    <div class="comment-content">
+                                                        <span>{{ comment.description }}</span>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -163,103 +212,6 @@
                                 </div>
                             </div>
                         {% endif %}
-
-                        {#<div class="box">
-                            <div class="mb-3">
-                                <div class=" d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
-                                        <div>
-                                            <p>Darrel Steward</p>
-                                            <small>Entreprise commune</small>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <small class="d-block al-r">Il y a 8min</small>
-                                        <span class="badge badge-yellow">
-                                            <i class="fa fa-chart-line"></i>
-                                            Oppurtunité commerciale
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <p><strong>Bienvenue à l'entreprise Eat Salad Bordeaux Stalingrad</strong></p>
-                                <span>Eat salad votre salade sur mesure</span>
-                            </div>
-                            <div class="comments">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <i class="fa fa-thumbs-up p-1 orange"></i>
-                                        <small>Laurence et 18 autres personnes</small>
-                                    </div>
-                                    <div>
-                                        <small>3 Commentaires</small>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="d-flex">
-                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
-                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
-                                </div>
-                                <hr>
-                                <div>
-                                    <div class="d-flex mb-2">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
-                                        <div class="comment-box">
-                                            <span>Comptez sur moi j'ai un nouveau projet ambitieux !</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
-                                        <div class="comment-box">
-                                            <span>Super j'y serai</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="box">
-                            <div class="mb-3">
-                                <div class=" d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
-                                        <div>
-                                            <p>Darrel Steward</p>
-                                            <small>Entreprise commune</small>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <small class="d-block al-r">Il y a 8min</small>
-                                        <span class="badge badge-green">
-                                            <i class="fa fa-calendar-alt"></i>
-                                            Evénements
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <p><strong>Afterwork RSE Lundi 16/07 Bordeaux</strong></p>
-                                <span>Rendez vous Lundi 15/06 au bar La Vie Moderne à 18h pour partager nos actions RSE</span>
-                            </div>
-                            <div class="comments">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <i class="fa fa-thumbs-up p-1 orange"></i>
-                                        <small>Laurence et 10 autres personnes</small>
-                                    </div>
-                                    <div>
-                                        <small>2 Commentaires</small>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="d-flex">
-                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
-                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
-                                </div>
-                            </div>
-                        </div>#}
                     </div>
                 </div>
             </div>

@@ -66,5 +66,67 @@ $('.video').click(function () {
     $('#post_imageFile').val('');
     $(".custom-file-label").html("Une image vaut mille mots");
 });
-
 /* end publish post */
+
+
+/**
+ * Update likes post
+ */
+$('.updateLike').click(function(){
+    const url = $(this).data('url');
+    var idPost = $(this).data('id');
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (response) {
+            var nbLikes = response.likes;
+            $('#nblikespost' + idPost).html(nbLikes);
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+
+    var icon = $(this).find('i');
+    if (icon.hasClass('fa-thumbs-up')){
+        icon.removeClass('fa-thumbs-up');
+        icon.addClass('fa-thumbs-o-up');
+    }else if (icon.hasClass('fa-thumbs-o-up')){
+        icon.removeClass('fa-thumbs-o-up');
+        icon.addClass('fa-thumbs-up');
+    }
+});
+
+/**
+ * Comment post
+ */
+$('.submit-comment-box').click(function(){
+    //console.log($(this).next(".box-comment"));
+    const url = $(this).data('url');
+    const idPost = $(this).data('id');
+    var text = $(this).parent().find('textarea').val();
+    var srcImage = $(this).parent().find('img').attr('src');
+
+    var elementHTML = '<div class="box-comment d-flex mb-2"><img src="' + srcImage + '" class="rounded-circle small-avatar" alt="avatar image"> <div class="comment-content"> <span>' + text + '</span> </div> </div>';
+    if (text){
+        $.ajax({
+            context: this,
+            type: 'POST',
+            url: url,
+            data: {
+                'content': text
+            },
+            success: function(response){
+                var nbComments = response.comments;
+                $(this).parent().find('textarea').val('');
+                $(this).parents('.box-comment-input').after(elementHTML);
+                $('#nbcommentspost' + idPost).html(nbComments);
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+                alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+            }
+        });
+    }
+
+});

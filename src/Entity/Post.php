@@ -51,21 +51,11 @@ class Post implements \Serializable
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-    
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $likesNumber;
-    
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $commentsNumber;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post" , cascade={"persist", "remove"})
      */
-    private $comment;
+    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PostLike", mappedBy="post" , cascade={"persist", "remove"})
@@ -107,7 +97,7 @@ class Post implements \Serializable
      public function __construct()
     {
         $this->createdAt = new \Datetime();
-        $this->comment = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
       
     }
@@ -190,38 +180,18 @@ class Post implements \Serializable
         return $this;
     }
 
-    public function getLikesNumber(): ?int
-    {
-        return $this->likesNumber;
-    }
-
-    public function setLikesNumber(?int $likesNumber)
-    {
-        return $this->likesNumber = $likesNumber;
-    }
-
-    public function getCommentsNumber(): ?int
-    {
-        return $this->commentsNumber;
-    }
-
-    public function setCommentsNumber(?int $commentsNumber)
-    {
-        return $this->commentsNumber = $commentsNumber;
-    }
-
     /**
-     * @return Collection|Comment[]
+     * @return Collection|Comments[]
      */
-    public function getComment(): Collection
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comment->contains($comment)) {
-            $this->comment[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
             $comment->setPost($this);
         }
 
@@ -230,8 +200,8 @@ class Post implements \Serializable
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comment->contains($comment)) {
-            $this->comment->removeElement($comment);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getPost() === $this) {
                 $comment->setPost(null);
@@ -354,6 +324,18 @@ class Post implements \Serializable
         }
 
         return $this;
+    }
+
+    /**
+     * Check if post liked by useré
+     * @param User $user
+     * @return bool
+     */
+    public function isLikedByUser(User $user): bool{
+        foreach ($this->likes as $like){
+            if ($like->getUser() == $user) return true;
+        }
+        return false;
     }
 
     public function serialize()

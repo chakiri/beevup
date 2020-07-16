@@ -22,7 +22,7 @@ class Comment
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $post;
@@ -37,11 +37,6 @@ class Comment
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $parentId;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -105,17 +100,6 @@ class Comment
         return $this;
     }
 
-    public function getParentId(): ?int
-    {
-        return $this->parentId;
-    }
-
-    public function setParentId(?int $parentId): self
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
     public function __toString()
     {
        return strval( $this->getId() );
