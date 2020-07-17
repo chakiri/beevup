@@ -3,212 +3,299 @@
 {% block title %}Mon entreprise{% endblock %}
 
 {% block body %}
-
-    <section id="service" >
-        <div class="container-mvp mt-3">
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data page-content">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="box-image">
-                        {% if service.filename %}
-                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}" class="img-fluid" alt="">
-                        {% else %}
-                            <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
-                        {% endif %}
-                    </div>
-                    <div class="box">
-                        {% if service.type.name =='company' %}
-                            <h4><small>Proposé par : </small>{{ service.user.company.name|capitalize }}</h4>
-                            <p><a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">Voir les informations de {{ service.user.company.name }}</a></p>
-                        {% elseif service.type.name =='store' %}
-                            <h4><small>Proposé par : </small>{{ service.user.store.name|capitalize }}</h4>
-                            <p><a href="{{ path('store_show', {'slug': service.user.store.slug}) }}">Voir les informations de {{ service.user.store.name }}</a></p>
-                        {% else %}
-                            <h4><small>Proposé par : </small>Bureau Vallée</h4>
-                        {% endif %}
-                        <h6 class="mt-3"><small>Chargé du service : </small>{{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}</h6>
+                <div class="col-lg-3">
+                    <div class="main-left-sidebar">
+                        <div class="user_profile">
+                            <div class="user-pro-img">
+                                {% if service.filename %}
+                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                {% else %}
+                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                {% endif %}
+                                <div class="user_pro_status">
+                                    <ul class="flw-hr">
+                                        {% if service.user == app.user %}
+                                            <li>
+                                                <a href="{{ path('service_edit', {'id': service.id}) }}" class="flww">
+                                                    Modifier
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" type="button" class="flww" data-toggle="modal" data-target="#confirmDelete">
+                                                    Supprimer
+                                                </a>
+                                            </li>
 
-                        <div class="mt-3">
-                            {% if service.user != app.user %}
-
-                                        {% if service.isQuote == 1 %}
-                                            <p class="mt-3">Prix :
-                                               <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}">Demander un devis</a>
-                                            </p>
-                                        {% else %}
-
-
+                                        {% elseif service.type.name == 'plateform' %}
+                                            {% if is_granted('ROLE_ADMIN_STORE') %}
+                                                {% if storeService %}
+                                                    <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="flww">Retirer</a>
+                                                    <a href="#" type="button" class="flww" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
+                                                {% else %}
+                                                    <li>
+                                                      <a href="{{ path('service_associate', {'service': service.id}) }}" type="button" class="flww">Ajouter ce service</a>
+                                                    </li>
+                                                    <li>
+                                                        <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </ul>
+                                    <ul class="flw-status">
+                                        <li>
+                                            <span><b>Prix:</b>
                                                 {% if storeService %}
                                                     {% if storeService.price != '' %}
-                                                        <p class="mt-3">Prix :
-                                                           {{ storeService.price }} €.H.T
-                                                        </p>
+                                                         {{ storeService.price }} €.H.T  Pts
                                                     {% endif %}
                                                 {% else %}
-
-                                                    {% if service.price != '' %}
-                                                        <p class="mt-3">Prix :
-                                                        {{ service.price }} €.H.T
-                                                        </p>
-                                                    {% endif %}
+                                                   {{ service.price }} €.H.T
                                                 {% endif %}
-
+                                            </span>
+                                        </li>
+                                        {% if service.isDiscovery == 1 %}
+                                            <li>
+                                                <span>
+                                                    <b> Offre exclusive Beev'Up</b>
+                                                </span>
+                                            </li>
                                         {% endif %}
 
-                                <p class="mt-3">Offre exclusive Beev'Up :
-                                    {% if service.isDiscovery == 1 %}
-                                        <strong>
-                                            <span data-container="body" data-toggle="popover" data-placement="left" data-content="{{ service.discoveryContent }}" data-original-title="Desciption de l'offre exclusive" style="cursor: pointer;">Oui</span>
-                                        </strong>
-                                    {% else %}
-                                        <strong>Non</strong>
-                                    {% endif %}</p>
-                                <p class="mt-3"><a target="_blank" href="{{ path('profile_show', {'id': service.user.profile.id}) }}">Voir la fiche de {{ service.user.profile.firstname|capitalize }}</a></p>
-                                <p><a target="_blank" href="{{ path('chat_private', {'id': service.user.id}) }}">Discuter avec {{ service.user.profile.firstname|capitalize }}</a></p>
-                            {% else %}
-                                <p><a href="{{ path('profile_show', {'id': service.user.profile.id}) }}">Mes informations</a></p>
-                            {% endif %}
-                        </div>
-                     </div>
 
-                    <div class="box">
-                        <h4 class="mb-4">Services similaires</h4>
+                                    </ul>
+                                </div><!--user_pro_status end-->
+                            </div>
+                        </div>
                         {% if similarServices %}
-                            <div class="similars-services">
-                                {% for service in similarServices %}
-                                    <a href="{{ path('service_show', {'id': service.id}) }}">
-                                        <div class="similar-service">
-                                            <div class="avatar">
+                            <div class="suggestions full-width">
+                                <div class="sd-title page-title sign_in_sec current">
+                                    <h3>Services similaires</h3>
+
+                                </div><!--sd-title end-->
+
+                                <div class="suggestions-list">
+                                    {% for service in similarServices %}
+                                        <div class="suggestion-usd">
+                                           <div class="service-bloc-inf">
                                                 {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
                                                 {% else %}
-                                                    <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
+                                                    <img src="http://via.placeholder.com/170x170" alt="">
                                                 {% endif %}
-                                            </div>
-                                            <div class="content p-2">
-                                                <strong>{{ service.title }}</strong>
+                                           </div>
+                                            <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">
+                                                <h4> <a href="{{ path('service_show', {'id': service.id}) }}" title="">{{ service.title|slice(0, 50) ~ '...'  }}</a></h4>
+
                                             </div>
                                         </div>
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <p class="text-muted">Aucun service similaire pour l'instant</p>
+                                    {% endfor %}
 
+
+                                </div><!--suggestions-list end-->
+                            </div><!--suggestions end-->
                         {% endif %}
+
+
+
+
                     </div>
                 </div>
-
-                <div class="col-lg-8">
-                    <div class="box">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <h4>{{ service.title }}</h4>
-                                <p class="lead">{{ service.introduction|raw }}</p>
-                                {% if 'ROLE_ADMIN_STORE' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.store.city ?? 'Les clayes sous bois' |capitalize }}
-                                        {% if service.user.store.country != null %}, {{ service.user.store.country|country_name}} {% endif %}</p>
-                                {% elseif 'ROLE_ADMIN_COMPANY' in service.user.roles %}
-                                    <p><i class="fa fa-map-marker"></i> {{ service.user.company.city ?? 'Les clayes sous bois' |capitalize }}
-                                        {% if service.user.company.country != null  %}, {{ service.user.company.country|country_name}} {% endif %}</p>
+                <div class="col-lg-6">
+                    <div class="main-ws-sec">
+                        <div class="user-tab-sec">
+                            <h3>{{ service.title }}</h3>
+                            <div class="star-descp">
+                                {% if service.type.name =='company' %}
+                                    <p>
+                                        <span>
+                                         Proposé par :
+                                        <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">
+                                            {{ service.user.company.name|capitalize }}
+                                        </a>
+                                    </span>
+                                    </p>
+                                {% elseif service.type.name =='store' %}
+                                    <p><span> Proposé par: Bureau Vallée </span></p>
+                                    <p><span> Chargé du service:
+                                        <a href="{{ path('profile_show', {'id': service.user.profile.id}) }}">
+                                          {{ service.user.profile.firstname|capitalize }} {{ service.user.profile.lastname|capitalize }}
+                                        </a>
+                                    </span>
+                                    </p>
                                 {% endif %}
-                            </div>
-                            <div class="col-lg-4">
-                                {% if service.user == app.user %}
-                                    <a href="{{ path('service_edit', {'id': service.id}) }}" type="button" class="btn btn-design btn-1">Editer le service</a>
-                                    <a href="#" type="button" class="btn btn-design btn-2 mt-3" data-toggle="modal" data-target="#confirmDelete">Supprimer le service</a>
-                                {% elseif service.type.name == 'plateform' %}
-                                    {% if is_granted('ROLE_ADMIN_STORE') %}
-                                        {% if storeService %}
-                                            <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="btn btn-design btn-1">Retirer ce service</a>
-                                            <a href="#" type="button" class="btn btn-design btn-2 mt-3" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
-                                        {% else %}
-                                            <a href="{{ path('service_associate', {'service': service.id}) }}" type="button" class="btn btn-design btn-1">Ajouter ce service</a>
-                                        {% endif %}
+
+
+                            </div><!--star-descp end-->
+                            <div class="product-feed-tab current" id="info-dd">
+                                <div class="user-profile-ov page-title sign_in_sec current">
+                                    <h3> A propos du service</h3>
+                                     <p>{{ service.description|raw ?: 'Pas de description' }}</p>
+                                 </div>
+                                <div class="user-profile-ov page-title sign_in_sec current">
+                                    <h3> Photos</h3>
+                                    <div class="gallery_pf">
+                                        <div class="row">
+                                            {% if service.filename1 %}
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
+                                                        <a href="#" title=""><img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
+                                                        <a href="#" title=""><img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
+                                                        <a href="#" title="">  <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+
+                                            {% else %}
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+
+                                            {% endif %}
+
+
+
+
+                                        </div>
+                                    </div><!--gallery_pf end-->
+                                </div>
+
+
+
+
+
+
+
+
+                                <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                    <h3>
+                                        <a href="#" title="" class="exp-bx-open">La communauté a recommandé ce service </a>
+                                    </h3>
+                                    {% if recommandations %}
+                                        {% for recommandation in recommandations %}
+                                            <div class="suggestion-usd">
+                                                {% if recommandation.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
+                                                {% else %}
+                                                    <img src="http://via.placeholder.com/35x35" alt="">
+                                                {% endif %}
+
+                                                <div class="sgt-text">
+                                                    <h4>
+                                                        <a href="{{ path('profile_show', {'id': recommandation.user.profile.id}) }}">
+                                                        {{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</a></h4>
+
+                                                </div>
+                                                <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
+                                                    {{ recommandation.message  }}
+                                                </p>
+
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Aucune recommandation pour l'instant</p>
                                     {% endif %}
+                                </div><!--user-profile-ov end-->
+                                {% if service.user.company != null %}
+                                   <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                    <h3>
+                                        <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">
+                                            {{ service.user.company.name|capitalize }}
+                                           D'autres personnes ont recommandé {{ service.user.company|capitalize }}
+                                        </a>
+                                    </h3>
+                                    {% if recommandationsCompany %}
+                                        {% for recommandationCompany in recommandationsCompany %}
+                                            <div class="suggestion-usd">
+                                                {% if recommandationCompany.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" alt="">
+
+                                                {% else %}
+                                                    <img src="http://via.placeholder.com/35x35" alt="">
+                                                {% endif %}
+
+                                                <div class="sgt-text">
+                                                    <h4>
+                                                        <a href="{{ path('profile_show', {'id': recommandationCompany.user.profile.id}) }}">
+                                                          {{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}
+                                                        </a>
+                                                    </h4>
+
+                                                </div>
+                                                <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
+                                                        {{recommandationCompany.message }}
+                                                </p>
+
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Aucune recommandation pour l'instant</p>
+                                    {% endif %}
+                                </div><!--user-profile-ov end-->
                                 {% endif %}
+
                             </div>
                         </div>
                     </div>
-
-                    <div class="box">
-                        <h4 class="mb-3">Description</h4>
-                        <p class="text-secondary">{{ service.description|raw }}</p>
-                        {#<a href="#"><small>Voir plus ...<span class="."></span></small></a>#}
-                    </div>
-
-                    <div id="photos" class="box">
-                        <h4 class="mb-3">Photos</h4>
-                        {% if service.filename1 %}
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" class="img-fluid active" alt="">
-                            </div>
-                            <div class="col-lg-4">
-                                <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" class="img-fluid second" alt="">
-                                <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" class="img-fluid second mt-3" alt="">
-                            </div>
-                        </div>
-                        {% else %}
-                            <p class="text-muted">Aucune image pour ce service</p>
-                        {% endif %}
-                    </div>
-
-                    <div class="box">
-                        <div class="row">
-                            <div class="col-6">
-                                <h4>Recommandations</h4>
-                            </div>
-                            <div class="col-lg-6 text-right add-recommandation-service">
+                </div>
+                <div class="col-lg-3">
+                    <div class="right-sidebar">
+                        <div class="message-btn">
+                            <div class="message-btn">
                                 {% if service.user.id != app.user.id  and app.user.profile.isCompleted == true %}
-                                    <p><a href="#" type="button" class="add-recommandation btn btn-sm btn-2"  data-whatever="@getbootstrap"  data-toggle="modal" data-target="{{ path('recommandation') }}" data-service="{{service.id}}" data-company="{{companyId}}"><i class="fa fa-thumbs-up"></i> Laisser une recommandation </a></p>
+                                   <a href="#" type="button" class="add-recommandation btn btn-sm btn-2"  data-whatever="@getbootstrap"
+                                      data-toggle="modal" data-target="{{ path('recommandation') }}" data-service="{{service.id}}"
+                                      data-company="{{companyId}}"><i class="fa fa-thumbs-up"></i> Laisser une recommandation </a>
                                 {% endif %}
                             </div>
                         </div>
-                        {% if recommandations %}
-                            {% for recommandation in recommandations %}
-                                <div class="recommandation">
-                                    <div class="avatar">
-                                        {% if recommandation.user.profile.filename %}
-                                            <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-                                        {% else %}
-                                            <img src="/images/default/user.png" class="img-fluid" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <div class="content p-2">
-                                        <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
-                                        <p class="text-muted">{{recommandation.message }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <p class="text-muted">Aucune recommandation pour l'instant</p>
-                        {% endif %}
-                    </div>
+                       <div class="widget widget-jobs">
+                           <div class="user-profile-ov page-title sign_in_sec current">
+                               <h3>participez à la vie de votre communauté ! </h3>
+                               <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
+                                   et gagnez en visibilité ainsi que des points Bureau Vallée !
+                               </p>
+                               <div class="lt-sec">
+                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                                        </div>
+                                    </div><!--user-profile-ov end-->
+                                </div><!--widget-jobs end-->
 
-                    {% if recommandationsCompany %}
-                        <div class="box">
-                            <h5>D'autres personnes ont recommandé {{ service.user.company|capitalize }}</h5>
-                            {% for recommandationCompany in recommandationsCompany %}
-                                <div class="recommandation">
-                                    <div class="avatar">
-                                        {% if recommandationCompany.user.profile.filename %}
-                                            <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-                                        {% else %}
-                                            <img src="/images/default/user.png" class="img-fluid" alt="">
-                                        {% endif %}
-                                    </div>
-                                    <div class="content p-2">
-                                        <p><strong>{{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}</strong></p>
-                                        <p class="text-muted">{{recommandationCompany.message }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
-       </div>
-    </section>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -235,7 +322,7 @@
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('service_remove', {'id': service.id}) }}" type="button" class="btn btn-secondary">Supprimer</a>
+                    <a href="{{ path('service_remove', {'id': service.id}) }}" type="button" class="btn small-btn grey-bg p-5">Supprimer</a>
                 </div>
             </div>
         </div>

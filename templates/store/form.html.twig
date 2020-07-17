@@ -1,202 +1,161 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block title %}{{ store.name }}{% endblock %}
 
-  {% block body %}
-  <div id="editCompany" class="mt-5">
-    <div class="container-mvp">
-      <div class="row">
-          <div class="col-md-3">
-              {% include 'default/aside.html.twig' %}
-          </div>
-          <div class="bg-light col-md-9 mb-4">
+{% block body %}
+
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data page-content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="main-left-sidebar">
+                        <div class="user_profile">
+                           <div class="user-pro-img">
+                                {% if store.filename %}
+                                    <img src="{{ vich_uploader_asset(store, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                {% else %}
+                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                {% endif %}
+
+                            </div><!--user-pro-img end-->
+
+                            <div class="user_pro_status">
+                                <ul class="flw-hr">
+                                    {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
+                                        <li>
+                                            <a href="{{ path('store_show', {'slug': store.slug}) }}" title="" class="flww">
+                                               Voir fiche
+                                            </a>
+                                        </li>
+
+                                    {% endif %}
+
+                                </ul>
 
 
-                    <div class="card-body card-block">
-                        <div class="mvp-color">
-                            <h4><i class="fa fa-pencil" aria-hidden="true"></i>
-                                <span class="m-1">Editer mon magasin</span>
-                            </h4>
-                        </div>
-                        {{ form_start(form) }}
-                            <div class="row">
+                            </div><!--user_pro_status end-->
 
-                                    <div class="form-group required col-md-6">
-                                        {{ form_label(form.name) }}
+                            <ul class="social_links">
+                                    <li><i class="fas fa-map-marker-alt"></i><span class="social-links-span"> {{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
+                                    {% if store.phone %}<li><i class="fas fa-mobile-alt"></i><span class="social-links-span">   {{ store.phone }}</span></li> {% endif %}
+                            </ul>
 
-                                        <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                        {{ form_widget(form.name) }}
-                                    </div>
-                                    </div>
-                                   <div class="form-group required col-md-6">
-                                       {{ form_label(form.email) }}
-
-                                       <div class="input-group">
-                                           <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                               <i class="fa fa-envelope" aria-hidden="true"></i>
-                                            </span>
-                                           </div>
-                                       {{ form_widget(form.email) }}
-                                       </div>
-
-                                    </div>
-                            </div>
-                        <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        {{ form_label(form.introduction) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                               <i class="fa fa-book" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.introduction) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-
-                                        {{ form_label(form.description) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                               <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.description) }}
-                                        </div>
-
-                                    </div>
-                        </div>
-
-                        <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        {{ form_label(form.phone) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-phone" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.phone) }}
-                                        </div>
-                                    </div>
-                            <div class="form-group col-md-6">
-                                {{ form_label(form.defaultAdviser) }}
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </span>
-                                    </div>
-                                {{ form_widget(form.defaultAdviser) }}
-                                </div>
-
-                                    </div>
-                        </div>
-
-                        <div class="form-row">
-
-                                    <div class="form-group required col-md-6">
-                                        {{ form_label(form.addressNumber) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-list-ol" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.addressNumber) }}
-                                        </div>
-                                    </div>
-                            <div class="form-group required col-md-6">
-
-                                        {{ form_label(form.addressStreet) }}
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                            </span>
-                                    </div>
-                                        {{ form_widget(form.addressStreet) }}
-                                </div>
-                                    </div>
-                        </div>
-                        <div class="form-row">
-                                    <div class="form-group required col-md-6">
-                                        {{ form_label(form.addressPostCode) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-location-arrow" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.addressPostCode) }}
-                                        </div>
-                                    </div>
-                            <div class="form-group required col-md-6">
-
-                                        {{ form_label(form.city) }}
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-flag" aria-hidden="true"></i>
-                                            </span>
-                                    </div>
-                                        {{ form_widget(form.city) }}
-                                </div>
-                                    </div>
-                        </div>
-                        <div class="form-row">
-                                    <div class="form-group required col-md-6">
-                                        {{ form_label(form.country) }}
-
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-globe" aria-hidden="true"></i>
-                                            </span>
-                                            </div>
-                                        {{ form_widget(form.country) }}
-                                        </div>
-                                    </div>
-                            <div class="form-group col-md-6">
-                            {{ form_label(form.imageFile) }}
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                                            </span>
-                                    </div>
-                            {{ form_widget(form.imageFile) }}
-                                </div>
-                            </div>
-                            </div>
+                        </div><!--user_profile end-->
                     </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="product-feed-tab current" id="info-dd">
+                            <div class="user-profile-ov page-title sign_in_sec current">
+                                <h3>
+                                    Editer les informations
+                                </h3>
+                                {{ form_start(form) }}
+                                    <div class="row">
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.name) }}
+                                            <div class="input-group">
+                                               {{ form_widget(form.name) }}
+                                            </div>
+                                        </div>
 
-                            <div class="form-actions form-group text-center">
-                                <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Editer</button>
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.email) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.email) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.introduction) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.introduction) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.description) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.description) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.phone) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.phone) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.defaultAdviser) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.defaultAdviser) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.addressNumber) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.addressNumber) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.addressStreet) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.addressStreet) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.addressPostCode) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.addressPostCode) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.city) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.city) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.country) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.country) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required col-lg-6 col-md-12">
+                                            {{ form_label(form.imageFile) }}
+                                            <div class="input-group">
+                                                {{ form_widget(form.imageFile) }}
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                <div class="form-actions form-group text-center">
+                                    <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                </div>
+                                {{ form_end(form) }}
+
                             </div>
-
-                        {{ form_end(form) }}
+                        </div>
                     </div>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
   {% endblock %} 

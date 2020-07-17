@@ -3,204 +3,184 @@
 {% form_theme ServiceForm 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-<section class="mt-5">
-    <div class="container-mvp">
-       <div class="row">
-           <div class="col-lg-3 col-md-12">
-               {% include 'default/aside.html.twig' %}
-           </div>
-
-            <div class="col-lg-9 col-md-12">
-          <div class="bg-light">
-            <div class="card-body card-block">
-                <div class="mvp-color">
-                    {% if edit == true %}
-
-                        <h4><i class="fa fa-pencil" aria-hidden="true"></i>
-                            <span class="m-1">Modifier mon service</span>
-                        </h4>
-                    {% else %}
-
-                        <h4><i class="fa fa-pencil" aria-hidden="true"></i>
-                            <span class="m-1">Ajouter un service</span>
-                        </h4>
-                    {% endif %}
-                </div>
-                {{ form_start(ServiceForm) }}
-                    <div class="form-row">
-                        <div class="form-group required col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.title) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                     <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                                                </span>
-                                </div>
-                                  {{ form_widget(ServiceForm.title) }}
-                             </div>
-                        </div>
-                        <div class="form-group required col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.category) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                 <i class="fa fa-cogs" aria-hidden="true"></i>
-                                                            </span>
-                                </div>
-                                {{ form_widget(ServiceForm.category) }}
+<div class="main-section">
+    <div class="container">
+        <div class="main-section-data page-content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="main-left-sidebar">
+                        <div class="user_profile">
+                            <div class="user-pro-img">
+                                {% if app.user.profile.filename %}
+                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                {% else %}
+                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                {% endif %}
                             </div>
-                        </div>
-                    </div>
-
-                <div class="form-row">
-                    <div class="form-group required col-lg-6 col-md-12">
-                        {{ form_label(ServiceForm.introduction) }}
-
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                           <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i>
-                                        </span>
-                            </div>
-                            {{ form_widget(ServiceForm.introduction) }}
-                        </div>
-                    </div>
-                    <div class="form-group required col-lg-6 col-md-12">
-                        {{ form_label(ServiceForm.description) }}
-
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                         <i class="fa fa-book" aria-hidden="true"></i>
-                                                    </span>
-                            </div>
-                           {{ form_widget(ServiceForm.description) }}
-                        </div>
-                    </div>
-
-                </div>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <div class="form-group">
-                        {{ form_label(ServiceForm.type) }}
-                        {{ form_errors(ServiceForm.type) }}
-                        {{ form_widget(ServiceForm.type) }}
-                    </div>
-                {% endif %}
-
-                <div id="images">
-                    <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.imageFile) }}
-                            {{ form_errors(ServiceForm.imageFile) }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-camera" aria-hidden="true"></i>
-                                            </span>
-                                </div>
-                                {{ form_widget(ServiceForm.imageFile) }}
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.imageFile1) }}
-                            {{ form_errors(ServiceForm.imageFile1) }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                                            </span>
-                                </div>
-                                {{ form_widget(ServiceForm.imageFile1) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.imageFile2) }}
-                            {{ form_errors(ServiceForm.imageFile2) }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                              <i class="fa fa-file-image-o" aria-hidden="true"></i>
-                                            </span>
-                                </div>
-                                {{ form_widget(ServiceForm.imageFile2) }}
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(ServiceForm.imageFile3) }}
-                            {{ form_errors(ServiceForm.imageFile3) }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                            </span>
-                                </div>
-                                {{ form_widget(ServiceForm.imageFile3) }}
-                            </div>
+                            <div class="user_pro_status">
+                                <ul class="flw-hr">
+                                    <li>
+                                        <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" title="" class="flww">
+                                            Modifier mes informations
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!--user_pro_status end-->
+                            <ul class="social_links">
+                                {% if app.user.profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ app.user.profile.mobileNumber }} </li>{% endif %}
+                            </ul>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="product-feed-tab current" id="info-dd">
+                            <div class="user-profile-ov page-title sign_in_sec current">
+                                {% if edit == true %}
+                                    <h3>Modifier mon service </h3>
+                                {% else %}
+                                    <h3> Ajouter un service</h3>
+                                {% endif %}
+                                {{ form_start(ServiceForm) }}
+                                <div class="form-row">
 
-                <div class="form-row">
-                    <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
-                        {{ form_label(ServiceForm.isQuote) }}
-                        {{ form_errors(ServiceForm.isQuote) }}
-                        {{ form_widget(ServiceForm.isQuote) }}
-                    </div>
+                                    <div class="form-group required col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.title) }}
 
-                    <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
-                        {{ form_label(ServiceForm.isDiscovery) }}
-                        {{ form_errors(ServiceForm.isDiscovery) }}
-                        {{ form_widget(ServiceForm.isDiscovery) }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div id="price"  class="form-group col-lg-6 col-md-12" {% if service.isQuote == true %} style="display: none" {% endif %}>
-                        {{ form_label(ServiceForm.price) }}
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div>
+                                        <div class="input-group">
 
-                            {{ form_errors(ServiceForm.price) }}
-                            {{ form_widget(ServiceForm.price) }}
-                            <div class="input-group-append">
-                                <span class="input-group-text">.00</span>
+                                            {{ form_widget(ServiceForm.title) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group required col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.category) }}
+
+                                        <div class="input-group">
+
+                                            {{ form_widget(ServiceForm.category) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group required col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.introduction) }}
+
+                                        <div class="input-group">
+
+                                            {{ form_widget(ServiceForm.introduction) }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group required col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.description) }}
+
+                                        <div class="input-group">
+
+                                            {{ form_widget(ServiceForm.description) }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <div class="form-group">
+                                        {{ form_label(ServiceForm.type) }}
+                                        {{ form_errors(ServiceForm.type) }}
+                                        {{ form_widget(ServiceForm.type) }}
+                                    </div>
+                                {% endif %}
+
+                                <div id="images">
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            {{ form_label(ServiceForm.imageFile) }}
+                                            {{ form_errors(ServiceForm.imageFile) }}
+                                            <div class="input-group">
+
+                                                {{ form_widget(ServiceForm.imageFile) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            {{ form_label(ServiceForm.imageFile1) }}
+                                            {{ form_errors(ServiceForm.imageFile1) }}
+                                            <div class="input-group">
+
+                                                {{ form_widget(ServiceForm.imageFile1) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            {{ form_label(ServiceForm.imageFile2) }}
+                                            {{ form_errors(ServiceForm.imageFile2) }}
+                                            <div class="input-group">
+
+                                                {{ form_widget(ServiceForm.imageFile2) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            {{ form_label(ServiceForm.imageFile3) }}
+                                            {{ form_errors(ServiceForm.imageFile3) }}
+                                            <div class="input-group">
+
+                                                {{ form_widget(ServiceForm.imageFile3) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.isQuote) }}
+                                        {{ form_errors(ServiceForm.isQuote) }}
+                                        {{ form_widget(ServiceForm.isQuote) }}
+                                    </div>
+
+                                    <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
+                                        {{ form_label(ServiceForm.isDiscovery) }}
+                                        {{ form_errors(ServiceForm.isDiscovery) }}
+                                        {{ form_widget(ServiceForm.isDiscovery) }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div id="price"  class="form-group col-lg-6 col-md-12" {% if service.isQuote == true %} style="display: none" {% endif %}>
+                                        {{ form_label(ServiceForm.price) }}
+                                        <div class="input-group mb-3 service-price">
+
+
+                                            {{ form_errors(ServiceForm.price) }}
+                                            {{ form_widget(ServiceForm.price) }}
+                                            <div class="input-group-append price-jt-div">
+                                                <span class="input-group-text">.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-row">
+                                    <div id="discovery" class="form-group  col-md-12" >
+                                        {{ form_label(ServiceForm.discoveryContent) }}
+                                        {{ form_errors(ServiceForm.discoveryContent) }}
+                                        <div class="input-group">
+
+                                            {{ form_widget(ServiceForm.discoveryContent) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions form-group text-center">
+                                    <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                </div>
+                                {{ form_end(ServiceForm) }}
                             </div>
                         </div>
                     </div>
-                    <div id="discovery" class="form-group col-lg-6 col-md-12" >
-                        {{ form_label(ServiceForm.discoveryContent) }}
-                        {{ form_errors(ServiceForm.discoveryContent) }}
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                  <i class="fa fa-commenting" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                           {{ form_widget(ServiceForm.discoveryContent) }}
-                        </div>
-                    </div>
-
                 </div>
-                <div class="form-actions form-group text-center">
-                  <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Enregistrer</button>
-                </div>
-                {{ form_end(ServiceForm) }}
-            </div>
-
             </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <!-- Tutorial button -->
-    <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialNewService()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
-
-</section>
 {% endblock %}
 
 {% block javascripts %}

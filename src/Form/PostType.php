@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,13 +20,13 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'attr' => ['placeholder' => 'Titre',
                            'maxlength' => 255
-
                 ],
                 'label' =>'Titre'
 
             ])
             ->add('description', TextareaType::class, [
-                'attr' => ['placeholder' => 'Description',
+                'required' => false,
+                'attr' => ['placeholder' => 'Dites-nous en plus !',
                            'maxlength' => 1300,
                             'class'    =>'entity-description',
                           ]
@@ -34,27 +35,29 @@ class PostType extends AbstractType
                 'required' => false,
                 'label' => "Vidéo",
                 'attr' => [
-                    'placeholder' => 'Votre url Youtube',
+                    'placeholder' => 'Animez votre post avec une vidéo Youtube !',
                 ]
             ])
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'label' => 'Image',
                 'attr'  => [
-                    'placeholder' => 'Choisir une image',
+                    'placeholder' => 'Une image vaut mille mots',
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('category', ChoiceType::class, [
+            ->add('category', HiddenType::class, [
                 'label'=>'Catégorie',
-                'choices'  => [
-                    'Informations' => 'information',
-                    'Opportunité commerciale' => 'Opportunité commerciale',
-                    'Emploi' => 'Emploi',
-                    'Événement' => 'Événement',
-                    'Question à la communauté' => 'Question à la communauté',
-                    'Autre' => 'Autre'
-                ],
+                'required' => true,
+                /*'choices'  => [
+                    'information' => 'information',
+                    'last_arrivals' => 'derniers arrivés',
+                    'commercial_opportunities' => 'Opportunité commerciale',
+                    'job' => 'Emploi',
+                    'event' => 'Événement',
+                    'question' => 'Question à la communauté',
+                    'other' => 'Autre'
+                ],*/
                 ])
                
         ;

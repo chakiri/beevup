@@ -1,194 +1,212 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %} {{ profile.firstname|capitalize }}{% endblock %}
 
 {% block body %}
-    <section id="profile" class="mt-5">
-        <div class="container-mvp">
-            <div class="box-head">
-                <div class="row">
-                    <div class="col-lg-4">
-                        {% if profile.filename %}
-                            <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('square') }}" class="img-fluid" alt="">
-                        {% else %}
-                            <img src="/images/default/user.png" class="img-fluid" alt="">
-                        {% endif %}
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="box-head-content">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="main-info">
-                                        <h2>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h2>
-                                        {% if profile.function %}
-                                            <p><strong>{{ profile.function.name|capitalize}}</strong></p>
+    <main>
+        <div class="main-section">
+            <div class="container">
+                <div class="main-section-data page-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="main-left-sidebar">
+                                <div class="user_profile">
+                                    <div class="user-pro-img">
+                                        {% if profile.filename %}
+                                            <img src="{{ vich_uploader_asset(profile, 'imageFile') }}"  alt="">
+                                        {% else %}
+                                            <img src="http://via.placeholder.com/170x170" alt="">
                                         {% endif %}
-                                        {% if profile.user.company != null  %}
-                                            {% if profile.user.company.country != null  %}
-                                                 <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.company.city|capitalize }}, {{ profile.user.company.country|country_name  }}</p>
-                                            {% endif %}
-                                        {% else  %}
-                                           {% if profile.user.store.country != null  %}
-                                                 <p class="mt-3"><i class="fa fa-map-marker"></i>  {{ profile.user.store.city|capitalize }}, {{ profile.user.store.country|country_name  }}</p>
-                                           {% endif %}
+                                        {% if app.user.id == profile.user.id %}
+                                           <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
                                         {% endif %}
+                                    </div><!--user-pro-img end-->
+                                    <div class="user_pro_status">
+                                        <ul class="flw-hr">
+                                            {% if profile.user == app.user  %}
 
-                                        {% if profile.phoneNumber != '' %}
-                                        <p><i class="fa fa-phone"></i>  {{ profile.phoneNumber ?: 'non saisi' }}</p>
-                                        {% endif %}
-                                    </div>
-                                    {#
-                                    <ul class="info-list">
-                                        <li class="main">
-                                            <span class="info-title">Score BV</span>
-                                            <span><strong>
-                                                    {% if profile.user.score %}
-                                                        {{ profile.user.score.points }}
-                                                    {% else %} 0
-                                                    {% endif %}
-                                                </strong> Pts</span>
-                                        </li>
-                                        <li>
-                                            <span class="info-title">Services</span>
-                                            <span><strong>{{ countServices }}</strong> Services crées</span>
-                                        </li>
-                                    </ul>
-                                    #}
-                                </div>
-                                <div class="col-lg-4 text-right profil-actions">
-                                    {% if profile.user == app.user  %}
-                                        <p><a href="{{ path('profile_edit', {'id': profile.id}) }}" type="button" class="btn btn-design mvp-bg mt-3 mvp-btn"><i class="fa fa-pencil"></i>  Modifier profil </a></p>
-                                    {% else %}
-                                        <a id="result-user-item-{{ profile.user.id }}"
-                                           href="#"
-                                           type="button"
-                                           class="mvp-btn btn btn-design btn-1 profil-add-favoris add-favoris {{ isFavorit }}"
-                                           data-user-id="{{ profile.user.id }}"
-                                           data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
-                                           data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
-                                        >
-                                            <i class="fa fa-heart"></i>
-                                            {% if isFavorit !="" %}
-                                            Favoris
+                                                <li><a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="flww">
+                                                        Modifier profil</a></li>
                                             {% else %}
-                                                Ajouter aux favoris
+
+                                            <li><a href="#" title="" class="flww"> Ajouter au favoris</a></li>
                                             {% endif %}
-                                        </a>
-                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" type="button" class="btn btn-design mvp-bg mt-3 mvp-btn">Chater avec {{ profile.firstname|capitalize }}</a>
-                                    {% endif %}
-                                </div>
-                            </div>
+                                        </ul>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="box">
-                        <h4 class="mb-3">{{ profile.firstname|capitalize }} en quelques mots</h4>
-                        <p class="lead">{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-8">
+                                    </div><!--user_pro_status end-->
+                                    <ul class="social_links">
 
-                    {% if profile.user == app.user and is_granted('ROLE_ADMIN') %}
-                        <div class="box box-notification">
-                            <i class="fa fa-rocket"></i>
-                            <div>
-                                <h4>Bonjour {{ profile.firstname|capitalize }}, participez à la vie de votre communauté !</h4>
-                                <p class="lead">Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
-                                <a href="{{ path('service_new') }}" type="button" class="btn btn-notification mt-3">Je crée un service</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                     {% if profile.user.company %}
-                        <div class="box">
-                            <h4>
-                                {% if profile.user.company %}
-                                  {{ profile.firstname }} travaille chez
-                                {% endif %}
-                                {{ profile.user.company.name }}
-                            </h4>
-                            <p class="text-muted">{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }}</p>
-                            <div class="row">
-                                <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
-
-                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" type="button" class="text-white">
-                                        Voir l'entreprise {{ profile.user.company.name }}
-                                    </a>
-                                </button>
-                            </div>
-                        </div>
-                    {% endif %}
+                                      {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
 
 
-                    {% if 'ROLE_USER' not in profile.user.roles %}
-                        <div class="box">
-                            <h4 class="mb-4">{{ countServices }} Services Bureau Vallée</h4>
-                            {% if services %}
-                                <div class="row">
-                                    {% for service in services %}
-                                        <div class="col-lg-4 col-md-6">
-                                            <div class="box card">
-                                                <a href="{{ path('service_show', {'id': service.id}) }}">
-                                                    <div class="portfolio-wrap dashboard-service-image">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile') }}" class="img-fluid" alt="">
-                                                        {% else %}
-                                                            <img src="/images/default/unknown_bg.png" class="img-fluid" alt="">
+                                    </ul>
+                                </div><!--user_profile end-->
+
+                                {% if collegues != null %}
+                                    <div class="suggestions full-width">
+                                        <div class="sd-title page-title sign_in_sec current">
+                                            <h3>Ils travaillent dans la même entreprise</h3>
+
+                                        </div><!--sd-title end-->
+                                        <div class="suggestions-list">
+                                            {% for collegue in collegues %}
+                                                <div class="suggestion-usd">
+
+                                                    {% if collegue.profile.filename %}
+                                                        <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                                    {% else %}
+                                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                                    {% endif %}
+                                                    <div class="sgt-text">
+                                                        <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
+                                                        {% if collegue.profile.function != null %}
+                                                           <span>{{ collegue.profile.function.name|capitalize }}</span>
                                                         {% endif %}
                                                     </div>
-                                                    <div class="info">
-                                                        <h4 class="title preview">{{ service.title }}</h4>
-                                                    </div>
-                                                </a>
+                                                </div>
+                                            {% endfor %}
+
+                                            <div class="view-more">
+                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
                                             </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <p class="text-muted">Aucun service pour l'instant</p>
-                            {% endif %}
+                                        </div><!--suggestions-list end-->
+                                    </div><!--suggestions end-->
 
-
-                            <div class="row">
-                                <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-show-more">
-
-                                    <a href="{{ path('service_user', {'user': profile.user.id}) }}" type="button" class="text-white">
-                                        Voir tous les services de {{ profile.firstname|capitalize }}
-                                    </a>
-                                </button>
-                            </div>
+                                {% endif %}
+                            </div><!--main-left-sidebar end-->
                         </div>
-                    {% endif %}
+                        <div class="col-lg-6">
+                            <div class="main-ws-sec">
+                                <div class="user-tab-sec">
+                                    <h3>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h3>
+                                    <div class="star-descp">
+                                        {% if profile.function %}
+                                        <span>{{ profile.function.name|capitalize}}
+                                            chez
+                                                {% if profile.user.company != null %}
+                                                  {{ profile.user.company.name|capitalize}}
+                                                    {% else  %}
+                                                        {{ profile.user.store.name|capitalize}}
+                                                {% endif %}
 
-                    <div class="box">
-                        <h4>La communauté a recommandé les services de {{ profile.firstname|capitalize }}</h4>
-                        {% if recommandations %}
-                            {% for recommandation in recommandations %}
-                                <div class="recommandation">
-                                    <div class="avatar">
-                                        {% if profile.filename %}
-                                            <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" class="img-fluid" alt="">
-                                        {% else %}
-                                            <img src="/images/default/user.png" class="img-fluid" alt="">
+                                        </span>
                                         {% endif %}
-                                    </div>
-                                    <div class="content p-2">
-                                        <p><strong>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</strong></p>
-                                        <p class="text-muted">{{recommandation.message }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <p class="text-muted">Aucune recommandation pour l'instant</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+                                    </div><!--star-descp end-->
 
+                                </div><!--user-tab-sec end-->
+
+                                <div class="product-feed-tab current" id="info-dd">
+                                    <div class="user-profile-ov page-title sign_in_sec current">
+                                        <h3>
+
+                                                {{ profile.firstname|capitalize }} en quelques mots
+                                        </h3>
+                                        <p>{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
+                                    </div><!--user-profile-ov end-->
+                                    {% if profile.user.company %}
+                                        <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                            <h3>
+                                                    {{ profile.firstname|capitalize }} travaille chez {{ profile.user.company.name }}
+                                            </h3>
+
+                                            <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
+                                        </div><!--user-profile-ov end-->
+                                    {% endif %}
+
+                                    {% if  countServices > 0 %}
+                                    <div class="top-profiles">
+                                        <div class="pf-hd page-title sign_in_sec current">
+                                            <h3>
+                                                {% if countServices == 1 %}
+                                                  {{ countServices }} Service Bureau Vallée
+                                                {% else %}
+                                                  {{ countServices }} Services Bureau Vallée
+                                                {% endif %}
+                                            </h3>
+                                            <i class="la la-ellipsis-v"></i>
+                                        </div>
+                                        <div class="profiles-slider">
+                                            {% for service in services %}
+                                                <div class="user-profy">
+
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}"  alt="">
+                                                    {% else %}
+                                                        <img src="http://via.placeholder.com/57x57" alt="">
+                                                    {% endif %}
+                                                    <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
+                                                    <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
+                                                </div><!--user-profy end-->
+                                            {% endfor %}
+
+                                        </div><!--profiles-slider end-->
+                                    </div><!--top-profiles end-->
+                                    {% endif %}
+
+                                    <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                        <h3>
+                                            La communauté a recommandé les services de {{ profile.firstname|capitalize }}
+                                        </h3>
+                                        {% if recommandations %}
+                                            {% for recommandation in recommandations %}
+                                                <div class="suggestion-usd">
+                                                    {% if profile.filename %}
+                                                        <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
+                                                    {% else %}
+                                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                                    {% endif %}
+
+                                                    <div class="sgt-text">
+                                                        <h4>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</h4>
+
+                                                    </div>
+                                                    <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;">
+                                                       {{ recommandation.message  }}
+                                                    </p>
+
+                                                </div>
+                                            {% endfor %}
+                                            {% else %}
+                                                <p>Aucune recommandation pour l'instant</p>
+                                        {% endif %}
+
+
+
+
+                                    </div><!--user-profile-ov end-->
+
+
+
+
+                                </div>
+
+                            </div><!--main-ws-sec end-->
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="right-sidebar">
+                                {% if app.user.id != profile.user.id %}
+                                    <div class="message-btn">
+                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" title=""><i class="fa fa-comments"></i> Contacter</a>
+                                   </div>
+                                {% endif %}
+                                <div class="widget widget-jobs">
+                                    <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
+                                        <h3>
+                                            participez à la vie de votre communauté !
+                                        </h3>
+                                        <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
+                                            et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
+                                        <div class="lt-sec">
+                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                                        </div>
+                                    </div><!--user-profile-ov end-->
+                                </div><!--widget-jobs end-->
+                            </div><!--right-sidebar end-->
+                        </div>
+                    </div>
+                </div><!-- main-section-data end-->
+            </div>
         </div>
-    </section>
+    </main>
 {% endblock %}
 

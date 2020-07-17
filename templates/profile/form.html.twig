@@ -3,146 +3,186 @@
 {% form_theme EditProfileForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-<div class="mt-5">
-    <div class="container-mvp">
-      <div class="row">
-        <div class="col-lg-3 col-md-12">
-            {% include 'default/aside.html.twig' %}
-        </div>
-        <div class="col-lg-9 col-md-12">
-
-          <div class="bg-light btn-radius">
-
-
-                <div class="card-body card-block">
-                    <div class="mvp-color">
-                        <h4><i class="fa fa-pencil" aria-hidden="true"></i>
-                            <span class="m-1">Editer mes informations</span>
-                        </h4>
-                    </div>
-                    {{ form_start(EditProfileForm) }}
-                    <div class="form-row">
-                        <div class="form-group required col-lg-6 col-md-12">
-                           {{ form_label(EditProfileForm.lastname) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                             <i class="fa fa-id-badge" aria-hidden="true"></i>
-                                        </span>
+<main>
+    <div class="main-section">
+        <div class="container">
+            <div class="main-section-data page-content">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="main-left-sidebar">
+                            <div class="user_profile">
+                                <div class="user-pro-img">
+                                    {% if app.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                    {% else %}
+                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                    {% endif %}
                                 </div>
-                                {{ form_widget(EditProfileForm.lastname) }}
+                                <div class="user_pro_status">
+                                    <ul class="flw-hr">
+                                        <li>
+                                            <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}" title="" class="flww">
+                                                    Voir profil
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </div><!--user_pro_status end-->
+                                <ul class="social_links">
+                                    {% if app.user.profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ app.user.profile.mobileNumber }} </li>{% endif %}
+                                </ul>
                             </div>
-                        </div>
 
-                        <div class="form-group required col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.firstname) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                             <i class="fa fa-address-book-o" aria-hidden="true"></i>
-                                        </span>
+                            <div id="advisorbox" class="box-advisor min-col">
+                                <small class="greyed">Votre conseiller</small>
+                                <div class="box">
+                                    {% if  app.user.store != null %}
+                                        {% if  app.user.store.defaultAdviser != null %}
+                                            {% if  app.user.store.defaultAdviser.profile != null %}
+                                                <div class="d-flex">
+                                                    <a href="#">
+                                                        {% if app.user.store.defaultAdviser.profile.filename %}
+                                                            <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                        {% else %}
+                                                            <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                        {% endif %}
+                                                    </a>
+                                                    <div>
+                                                        <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
+                                                        <small>{{ app.user.store.defaultAdviser.store }}</small>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex pt-3">
+                                                    <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
+                                                    <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>Aucun conseiller défini</p>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
-                            {{ form_widget(EditProfileForm.firstname) }}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-row">
-                        <div class="form-group required col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.gender) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                             <i class="fa fa-venus-mars" aria-hidden="true"></i>
-                                        </span>
-                                </div>
-                                {{ form_widget(EditProfileForm.gender) }}
-                             </div>
-                        </div>
-                        <div class="form-group required col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.function) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                           <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                               {{ form_widget(EditProfileForm.function) }}
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group required col-lg-6 col-md-12">
+                    <div class="col-lg-6">
+                        <div class="main-ws-sec">
+                            <div class="product-feed-tab current" id="info-dd">
+                                <div class="user-profile-ov page-title sign_in_sec current">
+                                    <h3>
+                                        Modifier mes informations
+                                    </h3>
 
-                            {{ form_label(EditProfileForm.mobileNumber) }}
+                                    {{ form_start(EditProfileForm) }}
+                                            <div class="form-row">
+                                                <div class="form-group required col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.lastname) }}
+
+                                                    <div class="input-group">
+
+                                                        {{ form_widget(EditProfileForm.lastname) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group required col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.firstname) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.firstname) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-lg-12 col-md-12">
+                                                    {{ form_label(EditProfileForm.introduction) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.introduction) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group required col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.gender) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.gender) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group required col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.function) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.function) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group required col-lg-6 col-md-12">
+
+                                                    {{ form_label(EditProfileForm.mobileNumber) }}
 
 
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                {{ form_widget(EditProfileForm.mobileNumber) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.mobileNumber) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group  col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.phoneNumber) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.phoneNumber) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-lg-6 col-md-12">
+                                                    {{ form_label(EditProfileForm.imageFile) }}
+
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditProfileForm.imageFile) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <div class="form-actions form-group text-center">
+                                                <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                            </div>
+                                    {{ form_end(EditProfileForm) }}
+
+                                </div><!--user-profile-ov end-->
                             </div>
                         </div>
-                        <div class="form-group  col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.phoneNumber) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-mobile" aria-hidden="true"></i>
-                                        </span>
-                                </div>
-                                {{ form_widget(EditProfileForm.phoneNumber) }}
-                             </div>
-                        </div>
                     </div>
+                    <div class="col-lg-3">
+                        <div class="right-sidebar">
 
-                    <div class="form-row">
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.imageFile) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                                            </span>
-                                </div>
-                                {{ form_widget(EditProfileForm.imageFile) }}
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-12">
-                            {{ form_label(EditProfileForm.introduction) }}
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-id-badge" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                {{ form_widget(EditProfileForm.introduction) }}
-                            </div>
-                        </div>
+                            <div class="widget widget-jobs">
+                                <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
+                                    <h3>
+                                        participez à la vie de votre communauté !
+                                    </h3>
+                                    <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
+                                        et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
+                                    <div class="lt-sec">
+                                        <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                                    </div>
+                                </div><!--user-profile-ov end-->
+                            </div><!--widget-jobs end-->
+                        </div><!--right-sidebar end-->
                     </div>
 
 
-
-                    <div class="form-actions form-group text-center">
-                        <button type="submit" class="btn mvp-btn mvp-bg btn-radius">Enregistrer</button>
-                    </div>
-                    {{ form_end(EditProfileForm) }}
                 </div>
-
             </div>
         </div>
-      </div>
     </div>
-</div>
+</main>
+
   {% endblock %} 

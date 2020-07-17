@@ -3,68 +3,117 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
-
-    <section id="dashboard" class="mt-5">
+<main>
+    <div class="main-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                   {% include 'default/aside.html.twig' %}
-                </div>
-                <div class="col-lg-9 col-md-6 recommandation-section">
-                    <h4>Mes recommandations</h4>
-                    {% if is_granted('ROLE_ADMIN_COMPANY') and recommandations %} 
-                        {% for recommandation in recommandations %}
-                                <div id ="recommandation-{{recommandation.id}}" class="box">
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <div class="avatar">
-                                                {% if recommandation.user.profile.filename is empty %}
-                                                    <img src="/images/default_user.png" class="img-fluid" alt="">
+            <div class="main-section-data page-content">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="main-left-sidebar">
+                            <div class="user_profile">
+                                <div class="user-pro-img">
+                                    {% if app.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('card') }}"  alt="">
+                                    {% else %}
+                                        <img src="http://via.placeholder.com/170x170" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="user_pro_status">
+                                    <ul class="flw-hr">
+                                        <li>
+                                            <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" title="" class="flww">
+                                                    Modifier profil
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                </div><!--user_pro_status end-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="main-ws-sec">
+                            <h4>Mes recommandations</h4>
+                            {% if is_granted('ROLE_ADMIN_COMPANY') and recommandations %}
+                                {% for recommandation in recommandations %}
+                                    <div id ="recommandation-{{recommandation.id}}" class="box">
+                                        <div class="row">
+                                            <div class="suggestion-usd" style="float: left">
+                                                {% if recommandation.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
                                                 {% else %}
-                                                    <img src="/images/profil/photo/{{ recommandation.user.profile.filename }}" class="img-fluid" alt="">
+                                                    <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="col-9">
-                                            <p><strong>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</strong></p>
-                                            <p class="text-muted">{{recommandation.message }}</p>
-                                            <p class="text-muted"><strong class="text-dark">Date de création:</strong> {{recommandation.createAt|date("d/m/Y") }}</p>
-                                            <div class="float-right">
-                                                <button type="submit" 
-                                                        class="btn btn-success recommandation-approve" 
-                                                        data-recommandation-id="{{recommandation.id}}">
-                                                    <span id = "spinner-approve-{{recommandation.id}}" 
+                                                <div style="margin-left: 50px;">
+                                                    <p><strong>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</strong></p>
+                                                    <p class="text-muted">{{recommandation.message }}</p>
+                                                    <p class="text-muted"><strong class="text-dark">Date:</strong> {{recommandation.createAt|date("d/m/Y") }}</p>
+                                                </div>
+                                                <div class="float-right">
+
+                                                    <button type="submit"
+                                                            style="color:#3FB618"
+                                                            class="btn recommandation-approve"
+                                                            data-recommandation-id="{{recommandation.id}}">
+                                                    <span id = "spinner-approve-{{recommandation.id}}"
                                                           class="spinner-grow spinner-grow-sm spinner-hidden"
-                                                          role="status" 
+                                                          role="status"
                                                           aria-hidden="true">
                                                     </span>
-                                                    <span class="sr-only"></span>
-                                                    Valider
-                                                </button>
-                                                <button type="submit" 
-                                                        class="btn btn-danger recommandation-reject" 
-                                                        data-recommandation-id="{{recommandation.id}}">
-                                                    <span id = "spinner-reject-{{recommandation.id}}" 
-                                                          class="spinner-grow spinner-grow-sm spinner-hidden" 
-                                                          role="status" 
+                                                        <span  class="sr-only text-success"></span>
+                                                        Valider
+                                                    </button>
+                                                    <button type="submit"
+                                                            style="color:red"
+                                                            class="btn recommandation-reject"
+                                                            data-recommandation-id="{{recommandation.id}}">
+                                                    <span id = "spinner-reject-{{recommandation.id}}"
+                                                          class="spinner-grow spinner-grow-sm spinner-hidden"
+                                                          role="status"
                                                           aria-hidden="true">
                                                     </span>
-                                                    <span class="sr-only"></span>
-                                                    Rejeter
-                                               </button>
+                                                        <span  class="sr-only text-danger"></span>
+                                                        Rejeter
+                                                    </button>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="box">
+                                    <div class="row">
+                                        <p>Il n'y a pas de données</p>
+                                    </div>
                                 </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="box">
-                            <div class="row">
-                              <p>Il ya aucune recommandation à traiter</p>
-                            </div>
-                       </div>
-                    {% endif %}
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="right-sidebar">
+
+                            <div class="widget widget-jobs">
+                                <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
+                                    <h3>
+                                        participez à la vie de votre communauté !
+                                    </h3>
+                                    <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
+                                        et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
+                                    <div class="lt-sec">
+                                        <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                                    </div>
+                                </div><!--user-profile-ov end-->
+                            </div><!--widget-jobs end-->
+                        </div><!--right-sidebar end-->
+                    </div>
                 </div>
             </div>
-    </section>
+        </div>
+    </div>
+</main>
+
+
 {% endblock %}

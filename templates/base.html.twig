@@ -6,7 +6,6 @@
     <title>Bureau Vallée - {% block title %}{% endblock %}</title>
     <link rel="shortcut icon" href="/images/default/favicon.ico" />
     <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/responsive.css">
 
     <!-- Google Fonts -->
@@ -19,9 +18,12 @@
     <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="/lib/introjs/css/introjs.min.css" rel="stylesheet">
+    <link href="/lib/slick/slick.css" rel="stylesheet">
     {#<link href="/lib/introjs/css/introjs-rtl.min.css" rel="stylesheet">#}
 
     <link href="/css/theme.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
 
     {% block stylesheets %}{% endblock %}
 </head>
@@ -31,9 +33,11 @@
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
-
-{% include 'partials/header.html.twig' %}
-
+{% if app.request.attributes.get('_route') != 'security_registration'
+and app.request.attributes.get('_route') != 'security_login'
+    and app.request.attributes.get('_route') != 'security_forgotten_password' %}
+    {% include 'partials/header.html.twig' %}
+{% endif %}
 {#dispaly flash messages #}
 {% if app.request.attributes.get('_route') != 'service'
           and app.request.attributes.get('_route') != 'service_user'
@@ -52,7 +56,11 @@
 {% block modals %}{% endblock %}
 
 
-{% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
+{% if app.request.attributes.get('_route') != 'chat_topic'
+    and app.request.attributes.get('_route') != 'chat_private'
+    and app.request.attributes.get('_route') != 'security_registration'
+
+%}
  {% include 'partials/footer.html.twig' %}
 {% endif %}
 
@@ -73,6 +81,9 @@
 <script src="/lib/isotope/isotope.pkgd.min.js"></script>
 <script src="/lib/lightbox/js/lightbox.min.js"></script>
 <script src="/lib/introjs/js/intro.min.js"></script>
+<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
+
+<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
 
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
     <!-- Start of zebulon Zendesk Widget script -->
@@ -85,6 +96,14 @@
 <script src="/js/app.js"></script>
 <script src="/js/toast.js"></script>
 <script src="/js/file.js"></script>
+
+<script src="/js/jquery.mCustomScrollbar.js"></script>
+<script src="/lib/slick/slick.min.js"></script>
+<script src="/js/scrollbar.js"></script>
+<script src="/js/script.js"></script>
+
+
+
 
 {% block javascripts %}{% endblock %}
 

@@ -234,7 +234,7 @@
                                 <img src="https://app.beevup.fr/images/logo_beevup_solo.png" style="max-height: 63px;"/>
                             </td>
                             <td width="60%" class="logo" style="text-align: right;background-color:#FFFFFF">
-                                <p style="color:#253561;font-size:12px;font-weight: bold">Beev'Up par Bureau Vallée - Un autre membre vous a contacté</p>
+                                <p style="color:#132644;font-size:12px">Beev'Up par Bureau Vallée - Un autre membre vous a contacté</p>
                             </td>
                         </tr>
                     </table>
@@ -256,8 +256,8 @@
                                     {% endif %}
                                     <p style="color:#000;font-size:12px">
                                         vous avez reçu un nouveau message de  {{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}
-                                       {% if app.user.company != null %}
-                                        , {{ app.user.company.name }}
+                                        {% if app.user.company != null %}
+                                            , {{ app.user.company.name }}
                                         {% endif %}
                                         dans votre espace Beev'Up.
                                     </p>
@@ -266,7 +266,7 @@
                                         Rendez vous sur
                                         <a style="color:#000;font-size:12px;font-weight:bold" href="{{ url('chat_private', {'id': app.user.id}) }}">
                                             {{ url('chat_private', {'id': app.user.id}) }}
-                                         </a>
+                                        </a>
                                         pour accéder à vos messages.
                                     </p>
                                     <p style="color:#000;font-size:12px">
@@ -279,14 +279,14 @@
                                         A bientôt sur la plateforme Beev'Up
                                         {%  if storePatron != null  %}
                                         {%  if storePatron.profile != null  %}
-                                    <p style="color:#253561;font-weight: bold;font-size:13px">
+                                    <p style="color:#132644;font-size:13px">
 
                                         {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}
 
                                     </p>
                                     {% endif %}
                                     {% endif %}
-                                    <p style="color:#253561;font-weight: bold;">
+                                    <p style="color:#132644;">
                                         Magasin Bureau Vallée - {{user.store.name}}
                                     </p>
 
@@ -301,9 +301,9 @@
 
 
         </table>
-        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#253561">
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top:#FFF6F3;background-color:#fff">
 
-            <tr  align="center" class="bg_black footer email-section">
+            <tr  align="center" class="footer email-section" style="border-top:1px solid #ccc">
                 <td>
                     <img src="https://app.beevup.fr/images/logo_bv_main.png" style="max-height: 50px;margin: 10px;margin-left:40px"/>
                 </td>

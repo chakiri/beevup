@@ -23,8 +23,14 @@ class ProfileController extends AbstractController
      */
     public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, FavoritRepository $favoritRepository, UserRepository $userRepo, ProfilRepository $profileRepo, $id)
     {
+        $collegues = null;
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
         $favoritUser= $userRepo->findBy(['id'=>$profile->getUser()]);
+        if($profile->getUser()->getCompany() != null) {
+            $collegues = $userRepo->findBy(['company' => $profile->getUser()->getCompany()],[], 5);
+
+        }
+
 
         $isFavorit = "";
        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'favoritUser'=>$favoritUser])) > 0)
@@ -45,7 +51,8 @@ class ProfileController extends AbstractController
             'services' => array_slice($services, 0, 3),
             'countServices' => count($services),
             'recommandations' => $allRecommandations,
-            'isFavorit' => $isFavorit
+            'isFavorit' => $isFavorit,
+            'collegues' =>$collegues
         ]);
     }
 
@@ -69,11 +76,14 @@ class ProfileController extends AbstractController
                 /* Add topic function to user type 2 */
                 if ($profile->getUser()->getType()->getId() == 2)
                     $topicHandler->initFunctionStoreTopic($profile->getUser());
-
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
                 return $this->redirectToRoute('profile_show', [
                     'id' => $profile->getId()
                 ]);
+
+
             }
+
 
             return $this->render('profile/form.html.twig', [
                 'EditProfileForm' => $form->createView(),

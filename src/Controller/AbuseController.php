@@ -80,7 +80,6 @@ class AbuseController extends AbstractController
     public function index(AbuseRepository $repository)
     {
         $abuses = $repository->findBy(['status' => 0],  array('createdAt' => 'DESC'));
-        
         return $this->render('abuse/index.html.twig', [
             'abuses' => $abuses
         ]);
