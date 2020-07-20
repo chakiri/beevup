@@ -39,22 +39,122 @@ $('.add-post').click(function(){
  * Synchronise icons type with choice select
  */
 $('.icon-type-post').click(function(){
-    console.log($(this).attr('id'));
-    $('#post_category').val($(this).attr('id'));
+    $('#post_category').val($(this).data('id'));
+
+    //Put active on click
+    $('.icon-type-post').each(function(){
+        $(this).find('a').removeClass('active');
+    });
+    $(this).find('a').addClass('active');
 });
 
 /**
  * Disable submit button while type empty
  */
-// $('#create-post-form :input[type="submit"]').prop('disabled', true);
-// $('#create-post-form :input[type="submit"]').css({'cursor': 'not-allowed'});
 
 $('.modal-add-post :submit').click(function(e){
-    console.log($('#post_category').val());
     if ($('#post_category').val() == ""){
         e.preventDefault();
         $('.type-post-error').css('display', 'block ');
     }
 });
-
+//Only video or image
+$('.image').click(function () {
+    $('#post_urlYoutube').val("");
+});
+$('.video').click(function () {
+    $('#post_imageFile').val('');
+    $(".custom-file-label").html("Une image vaut mille mots");
+});
 /* end publish post */
+
+
+/**
+ * Update likes post
+ */
+$('.updateLike').click(function(){
+    const url = $(this).data('url');
+    var idPost = $(this).data('id');
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (response) {
+            var nbLikes = response.likes;
+            $('#nblikespost' + idPost).html(nbLikes);
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+
+    var icon = $(this).find('i');
+    if (icon.hasClass('fa-thumbs-up')){
+        icon.removeClass('fa-thumbs-up');
+        icon.addClass('fa-thumbs-o-up');
+    }else if (icon.hasClass('fa-thumbs-o-up')){
+        icon.removeClass('fa-thumbs-o-up');
+        icon.addClass('fa-thumbs-up');
+    }
+});
+
+/**
+ * Comment post
+ */
+$('.submit-comment-box').click(function(){
+    const url = $(this).data('url');
+    const idPost = $(this).parents('#post-interaction').data('id');
+    var text = $(this).parent().find('textarea').val();
+    var srcImage = $(this).parent().find('img').attr('src');
+
+    if (text){
+        $.ajax({
+            context: this,
+            type: 'POST',
+            url: url,
+            data: {
+                'content': text
+            },
+            success: function(response){
+                console.log('Comment added !');
+                var nbComments = response.comments;
+                var idComment = response.idComment;
+                var elementHTML = '<div class="box-comment d-flex"><div class="d-flex mb-2"><img src="' + srcImage + '" class="rounded-circle small-avatar" alt="avatar image"> <div class="comment-content"> <span>' + text + '</span></div></div> <div class="hover-btn"><button class="btn delete-comment" data-url="/comment/' + idComment + '/remove"><small>supprimer</small></button></div></div>';
+                $(this).parent().find('textarea').val('');
+                $(this).parents('.box-comment-input').after(elementHTML);
+                $('#nbcommentspost' + idPost).html(nbComments);
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+                alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+            }
+        });
+    }
+});
+
+/**
+ * Remove comment
+ */
+// on click on id is handling all clicked deleted btn on #post-interaction even if it's added after bounding by js
+$('#post-interaction').on('click', '.delete-comment', function() {
+    var comment = $(this).parents('.box-comment');
+    const url = $(this).data('url');
+    const idPost = $(this).parents('#post-interaction').data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(response){
+            var nbComments = response.comments;
+            console.log("comment removed !");
+            comment.remove();
+            $('#nbcommentspost' + idPost).html(nbComments);
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+});
+
+$('.comments .comment').click(function(){
+    $(this).parent().next().next().find('textarea').focus();
+});

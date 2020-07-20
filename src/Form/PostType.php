@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Post;
+use App\Entity\PostCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -26,10 +28,11 @@ class PostType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'Dites-nous en plus !',
-                           'maxlength' => 1300,
-                            'class'    =>'entity-description',
-                          ]
+                'attr' => [
+                    'placeholder' => 'Dites-nous en plus !',
+                    'maxlength' => 1300,
+                    'class'    =>'entity-description',
+                ]
             ])
             ->add('urlYoutube', TextType::class, [
                 'required' => false,
@@ -46,20 +49,12 @@ class PostType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('category', HiddenType::class, [
+            ->add('category', EntityType::class, [
                 'label'=>'Catégorie',
-                'required' => true,
-                /*'choices'  => [
-                    'information' => 'information',
-                    'last_arrivals' => 'derniers arrivés',
-                    'commercial_opportunities' => 'Opportunité commerciale',
-                    'job' => 'Emploi',
-                    'event' => 'Événement',
-                    'question' => 'Question à la communauté',
-                    'other' => 'Autre'
-                ],*/
-                ])
-               
+                'required' => false,
+                'class' => PostCategory::class,
+                ]
+            )
         ;
     }
 

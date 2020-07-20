@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\DashboardNotification;
+use App\Entity\PostsNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method DashboardNotification|null find($id, $lockMode = null, $lockVersion = null)
- * @method DashboardNotification|null findOneBy(array $criteria, array $orderBy = null)
- * @method DashboardNotification[]    findAll()
- * @method DashboardNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostsNotification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostsNotification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostsNotification[]    findAll()
+ * @method PostsNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DashboardNotificationRepository extends ServiceEntityRepository
+class PostsNotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, DashboardNotification::class);
+        parent::__construct($registry, PostsNotification::class);
     }
-    public function findOneByPostAndUser($value1,$value2,$value3): ?DashboardNotification
+    public function findOneByPostAndUser($value1,$value2,$value3): ?PostsNotification
     {
          return $this->createQueryBuilder('l')
             ->andWhere('l.user = :val1')
@@ -52,7 +52,7 @@ class DashboardNotificationRepository extends ServiceEntityRepository
         ;
     }
     // /**
-    //  * @return DashboardNotification[] Returns an array of DashboardNotification objects
+    //  * @return PostsNotification[] Returns an array of PostsNotification objects
     //  */
     /*
     public function findByExampleField($value)
@@ -69,7 +69,7 @@ class DashboardNotificationRepository extends ServiceEntityRepository
     */
 
     
-    public function findOneByComment($value): ?DashboardNotification
+    public function findOneByComment($value): ?PostsNotification
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.comment = :val')
