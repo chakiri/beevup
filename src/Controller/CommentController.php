@@ -8,8 +8,6 @@ use App\Entity\PostsNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 use App\Repository\PostsNotificationRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +50,7 @@ class CommentController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => 'Comment added',
+                'idComment' => $comment->getId(),
                 'comments' => $commentRepository->count(['post' => $post])
             ], 200);
         }
@@ -62,10 +61,39 @@ class CommentController extends AbstractController
         ], 404);
     }
 
-   /**
+    /**
+     * @Route("/comment/{id}/remove", name="remove_comment")
+     */
+    public function remove(Comment $comment, EntityManagerInterface $manager, PostsNotificationRepository $notificationRepository, CommentRepository $commentRepository): response
+    {
+        if ($comment->getUser() == $this->getUser()){
+            //Find notification
+            $notification = $notificationRepository->findOneBy(['user' => $this->getUser(), 'post' => $comment->getPost(), 'comment' => $comment, 'type' => 'comment']);
+
+            $manager->remove($notification);
+            $manager->remove($comment);
+
+            $manager->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Comment deleted',
+                'comments' => $commentRepository->count(['post' => $comment->getPost()])
+            ], 200
+            );
+        }
+
+        return $this->json([
+           'code' => 403,
+            'message' => 'Not authorized'
+            ], 403
+        );
+    }
+
+   /*{
      * @Route("/comment/add/{variable}",defaults={"variable" = 0}, name="comment_create")
      */
-   public function create(Request $request, EntityManagerInterface $manager, $variable, PostRepository $PostRepository, CommentRepository $commentRepository)
+   /*public function create(Request $request, EntityManagerInterface $manager, $variable, PostRepository $PostRepository, CommentRepository $commentRepository)
    {
       $comment = new Comment();
       $dashboardNotification =  new PostsNotification();
@@ -100,12 +128,12 @@ class CommentController extends AbstractController
               ['content-type' => 'text/html']
           );
           return $response;
-   }
+   }*/
 
-     /**
+     /*
      * @Route("/comment/{id}/delete", name="comment_delete")
      */
-    public function delete(EntityManagerInterface $manager, CommentRepository $commentRepository, PostRepository $postRepository, PostsNotificationRepository $dashboardNotificationRepo, $id)
+    /*public function delete(EntityManagerInterface $manager, CommentRepository $commentRepository, PostRepository $postRepository, PostsNotificationRepository $dashboardNotificationRepo, $id)
     {
      $comment = $commentRepository->findOneByID($id);
      $postId = $comment->getPost()->getId();
@@ -123,7 +151,7 @@ class CommentController extends AbstractController
     );
     return $response;
 
-    }
+    }*/
 
 //    /**
 //    * @Route("/comment/{id}/update-comment/{variable}", name="comment_update")

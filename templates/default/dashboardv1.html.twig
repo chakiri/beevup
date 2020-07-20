@@ -9,13 +9,13 @@
                 <div id="news-filter" class="box-navigation-items min-col">
                     <ul>
                         <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboardv1') }}">  Tout</a></li>
-                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 'information'}) }}">  Informations</a></li>
-                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 'arrivees'}) }}">  Derniers arrivés</a></li>
-                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 'opportunite'}) }}">  Opportunité commerciale</a></li>
-                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 'emploi'}) }}">  Emploi</a></li>
-                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 'evenement'}) }}">  Evénement</a></li>
-                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 'question'}) }}">  Question à la communauté</a></li>
-                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 'autre'}) }}">  Autre</a></li>
+                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
+                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
+                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a></li>
+                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
+                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
+                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
                     </ul>
                 </div>
 
@@ -105,7 +105,18 @@
                     <div class="posts">
                         {% if posts|length %}
                             {% for post in posts %}
-                                <div class="box">
+
+                                {% set difference = date(post.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+
+                                {% if difference.days == 0 %}
+                                    {% set time = post.createdAt|date("h:i") %}
+                                {% elseif difference.days == 1 %}
+                                    {% set time =  'Il y a 1 jour' %}
+                                {% else %}
+                                    {% set time =  'Il y a ' ~ difference.days ~ ' jours' %}
+                                {% endif %}
+
+                                <div class="box post">
                                     <div class="mb-3">
                                         <div class=" d-flex justify-content-between">
                                             <div class="d-flex">
@@ -121,11 +132,24 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <small class="d-block al-r">Il y a 8min</small>
-                                                <span class="badge badge-green">
-                                            <i class="fa fa-calendar-alt"></i>
-                                                    {{ post.category|capitalize }}
-                                        </span>
+                                                <div class="hover-btn-post text-right">
+                                                    {% if post.user == app.user %}
+                                                        <a type="button" class="btn post-delete p-0" href="{{ path('post_remove', {'id': post.id}) }}"><small>Supprimer</small></a>
+                                                    {% else %}
+                                                        <a type="button" class="btn post-delete p-0" href="#"><small>Signaler</small></a>
+                                                    {% endif %}
+                                                </div>
+                                                {% if     post.category.id == 1 %}{% set badge = 'badge-green' %}{% set fa = 'fa-newspaper' %}
+                                                {% elseif post.category.id == 2 %}{% set badge = 'badge-orange' %}{% set fa = 'fa-chart-line' %}
+                                                {% elseif post.category.id == 3 %}{% set badge = 'badge-yellow' %}{% set fa = 'fa-question' %}
+                                                {% elseif post.category.id == 4 %}{% set badge = 'badge-purple' %}{% set fa = 'fa-user-friends' %}
+                                                {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fa-calendar-alt' %}
+                                                {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fa-plus' %}
+                                                {% endif %}
+                                                <small class="d-block al-r">{{ time }}</small>
+                                                <span class="badge {{ badge }} float-right">
+                                                    <i class="fa {{ fa }}"></i> {{ post.category|capitalize }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -174,10 +198,10 @@
                                                 {% endif %}
                                                 J'aime
                                             </button>
-                                            <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                                            <button class="btn comment"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
                                         </div>
                                         <hr>
-                                        <div>
+                                        <div id="post-interaction" data-id="{{ post.id }}">
                                             <div class="box-comment-input d-flex mb-3">
                                                 {% if app.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
@@ -187,17 +211,26 @@
                                                 <div class="text-comment-box">
                                                     <textarea placeholder="Que voulez-vous dire {{ app.user.profile.firstname|capitalize }} ?"></textarea>
                                                 </div>
-                                                <button class="submit-comment-box btn" data-id="{{ post.id }}" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="fa fa-send-o"></i></button>
+                                                <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="fa fa-send-o"></i></button>
                                             </div>
                                             {% for comment in post.comments|reverse %}
-                                                <div class="box-comment d-flex mb-2" data-id="123">
-                                                    {% if post.user.profile.filename %}
-                                                        <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
-                                                    {% else %}
-                                                        <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
-                                                    {% endif %}
-                                                    <div class="comment-content">
-                                                        <span>{{ comment.description }}</span>
+                                                <div class="box-comment d-flex">
+                                                    <div class="d-flex mb-2">
+                                                        {% if post.user.profile.filename %}
+                                                            <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                        {% else %}
+                                                            <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
+                                                        {% endif %}
+                                                        <div class="comment-content">
+                                                            <span>{{ comment.description }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hover-btn">
+                                                        {% if comment.user == app.user %}
+                                                            <button class="btn delete-comment" data-url="{{ path('remove_comment', {'id': comment.id}) }}"><small>supprimer</small></button>
+                                                        {% else %}
+                                                            <button class="btn abuse-comment"><small>signaler</small></button>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             {% endfor %}

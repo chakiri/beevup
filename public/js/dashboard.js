@@ -39,7 +39,7 @@ $('.add-post').click(function(){
  * Synchronise icons type with choice select
  */
 $('.icon-type-post').click(function(){
-    $('#post_category').val($(this).data('name'));
+    $('#post_category').val($(this).data('id'));
 
     //Put active on click
     $('.icon-type-post').each(function(){
@@ -102,13 +102,11 @@ $('.updateLike').click(function(){
  * Comment post
  */
 $('.submit-comment-box').click(function(){
-    //console.log($(this).next(".box-comment"));
     const url = $(this).data('url');
-    const idPost = $(this).data('id');
+    const idPost = $(this).parents('#post-interaction').data('id');
     var text = $(this).parent().find('textarea').val();
     var srcImage = $(this).parent().find('img').attr('src');
 
-    var elementHTML = '<div class="box-comment d-flex mb-2"><img src="' + srcImage + '" class="rounded-circle small-avatar" alt="avatar image"> <div class="comment-content"> <span>' + text + '</span> </div> </div>';
     if (text){
         $.ajax({
             context: this,
@@ -118,7 +116,10 @@ $('.submit-comment-box').click(function(){
                 'content': text
             },
             success: function(response){
+                console.log('Comment added !');
                 var nbComments = response.comments;
+                var idComment = response.idComment;
+                var elementHTML = '<div class="box-comment d-flex"><div class="d-flex mb-2"><img src="' + srcImage + '" class="rounded-circle small-avatar" alt="avatar image"> <div class="comment-content"> <span>' + text + '</span></div></div> <div class="hover-btn"><button class="btn delete-comment" data-url="/comment/' + idComment + '/remove"><small>supprimer</small></button></div></div>';
                 $(this).parent().find('textarea').val('');
                 $(this).parents('.box-comment-input').after(elementHTML);
                 $('#nbcommentspost' + idPost).html(nbComments);
@@ -128,5 +129,32 @@ $('.submit-comment-box').click(function(){
             }
         });
     }
+});
 
+/**
+ * Remove comment
+ */
+// on click on id is handling all clicked deleted btn on #post-interaction even if it's added after bounding by js
+$('#post-interaction').on('click', '.delete-comment', function() {
+    var comment = $(this).parents('.box-comment');
+    const url = $(this).data('url');
+    const idPost = $(this).parents('#post-interaction').data('id');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(response){
+            var nbComments = response.comments;
+            console.log("comment removed !");
+            comment.remove();
+            $('#nbcommentspost' + idPost).html(nbComments);
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+});
+
+$('.comments .comment').click(function(){
+    $(this).parent().next().next().find('textarea').focus();
 });

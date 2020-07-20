@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\PostCategory;
 use App\Repository\AbuseRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\NotificationRepository;
@@ -12,6 +13,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Session\WelcomePopup;
+use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
@@ -23,15 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/aaaa", name="home")
-     */
-    public function index()
-    {
-        return $this->render('default/home.html.twig', [
-
-        ]);
-    }
 
     /**
      * @Route("/dashboard", name="dashboard")
@@ -133,7 +126,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboardv1", name="dashboardv1")
      * @Route("/dashboard/{category}", name="dashboard_category")
      */
-    public function dashboardv1($category = null, PostRepository $postRepository)
+    public function dashboardv1(PostCategory $category = null, PostRepository $postRepository)
     {
         if ($category != null)
             $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);

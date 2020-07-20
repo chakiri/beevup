@@ -32,11 +32,6 @@ class Post implements \Serializable
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -94,6 +89,11 @@ class Post implements \Serializable
      */
     private $imageFile;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PostCategory::class)
+     */
+    private $category;
+
      public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -128,18 +128,6 @@ class Post implements \Serializable
     {
 
         $this->description =str_replace("\r\n",'<br />', $description);
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
@@ -348,4 +336,17 @@ class Post implements \Serializable
         $this->id = unserialize($serialized);
 
     }
+
+    public function getCategory(): ?PostCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?PostCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
 }

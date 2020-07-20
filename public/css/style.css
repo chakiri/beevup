@@ -57,6 +57,8 @@
 .badge{
     text-transform: lowercase;
     color: #fff;
+    padding: 3px;
+    border-radius: 8px;
 }
 
 .badge-orange{
@@ -71,6 +73,29 @@
 .badge-green{
     background: #F6FEFC;
     color: #22D5A8;
+}
+
+.badge-blue{
+    background: #F7F9FF;
+    color: #275EFF;
+}
+
+.badge-grey{
+    background: #F6F7F8;
+    color: #B3B9C3;
+}
+
+.badge-purple{
+    background: #F6F7F8;
+    color: #4A2160;
+}
+
+.hover-btn-post{
+    display: none;
+}
+
+.post:hover .hover-btn-post{
+    display: block;
 }
 
 .comments .btn{
@@ -95,6 +120,14 @@
     width: 100%;
     height: 32px;
     font-size: 11px;
+}
+
+.hover-btn {
+    display: none;
+}
+
+.box-comment:hover .hover-btn {
+    display: block;
 }
 
 .notifications{
@@ -241,8 +274,8 @@ li.icon-type-post a.active{
 
 .popup-info{
     display: none;
-    margin-left: -20%;
-    margin-top: -24%;
+    margin-left: -70px;
+    margin-top: -150px;
     transition: all 0.3s ease-in;
     background-color:var(--white-color);
     border: 1px solid #f1f1f1;

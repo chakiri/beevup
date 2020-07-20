@@ -28,14 +28,14 @@
           <div id="types-posts" class="row">
               <ul class="types-posts d-flex">
                   <div class="col-lg-5 p-0">
-                      <li class="icon-type-post" id="information" data-name="informations"><a class="d-inline-block" href="#"><i class="fa fa-newspaper"></i> Informations</a></li>
-                      <li class="icon-type-post" id="job" data-name="emploi"><a class="d-inline-block" href="#"><i class="fa fa-user-friends"></i> Emploi</a></li>
-                      <li class="icon-type-post" id="other" data-name="autre"><a class="d-inline-block"  href="#"><i class="fa fa-plus"></i> Autre</a></li>
+                      <li class="icon-type-post" id="information" data-id="1"><a class="d-inline-block" href="#"><i class="fa fa-newspaper"></i> Informations</a></li>
+                      <li class="icon-type-post" id="job" data-id="4"><a class="d-inline-block" href="#"><i class="fa fa-user-friends"></i> Emploi</a></li>
+                      <li class="icon-type-post" id="other" data-id="6"><a class="d-inline-block"  href="#"><i class="fa fa-plus"></i> Autre</a></li>
                   </div>
                   <div class="col-lg-8 p-0">
-                      <li class="icon-type-post" id="commercial_opportunity" data-name="opportunite"><a class="d-inline-block"  href="#"><i class="fa fa-chart-line"></i> Opportunité commercile</a></li>
-                      <li class="icon-type-post" id="question"data-name="question"><a class="d-inline-block" href="#"><i class="fa fa-question"></i> Question à la communauté</a></li>
-                      <li class="icon-type-post" id="event" data-name="evenement"><a class="d-inline-block"  href="#"><i class="fa fa-calendar-alt"></i> Evénement</a></li>
+                      <li class="icon-type-post" id="commercial_opportunity" data-id="2"><a class="d-inline-block"  href="#"><i class="fa fa-chart-line"></i> Opportunité commercile</a></li>
+                      <li class="icon-type-post" id="question" data-id="3"><a class="d-inline-block" href="#"><i class="fa fa-question"></i> Question à la communauté</a></li>
+                      <li class="icon-type-post" id="event" data-id="5"><a class="d-inline-block"  href="#"><i class="fa fa-calendar-alt"></i> Evénement</a></li>
                   </div>
               </ul>
 
@@ -46,7 +46,7 @@
               <li class="nav-item box-notification"><a class="nav-link text active" data-toggle="tab" href="#text"><i class="fa fa-text-height p-2"></i></a></li>
               <li class="nav-item box-notification"><a class="nav-link image" data-toggle="tab" href="#image"><i class="fa fa-image p-2"></i></a></li>
               <li class="nav-item box-notification"><a class="nav-link video" data-toggle="tab" href="#video"><i class="fa fa-video-camera p-2"></i></a></li>
-              {{ form_widget(PostForm.category) }}
+              <div class="d-none">{{ form_widget(PostForm.category) }}</div>
           </ul>
 
           <button type="submit" class="btn small-btn grey-bg">Publier</button>
