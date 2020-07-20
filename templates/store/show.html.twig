@@ -59,7 +59,9 @@
                                                                 <img src="http://via.placeholder.com/170x170" alt="">
                                                             {% endif %}
                                                             <div class="sgt-text">
-                                                                <h4> {{ company.name|capitalize }} </h4>
+                                                                <h4>
+                                                                    <a href="{{ path('company_show', {'slug': company.slug}) }}">
+                                                                        {{ company.name|capitalize }}</a> </h4>
                                                                 {% if company.category != null %}
                                                                     <span>{{ company.category.name|capitalize }}</span>
                                                                 {% endif %}
@@ -149,11 +151,12 @@
                                             {% else %}
                                                 <img src="http://via.placeholder.com/170x170" alt="">
                                             {% endif %}
-                                            <div class="sgt-text">
+                                            <div class="sgt-text hover-info">
                                                 <h4>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
                                                 {% if user.profile.function != null %}
                                                     <span>{{ user.profile.function.name|capitalize }}</span>
                                                 {% endif %}
+                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
                                             </div>
                                         </div>
                                     {% endif %}

@@ -58,8 +58,9 @@
                                                     {% else %}
                                                         <img src="http://via.placeholder.com/170x170" alt="">
                                                     {% endif %}
-                                                    <div class="sgt-text">
+                                                    <div class="sgt-text hover-info">
                                                         <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
+                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
                                                         {% if collegue.profile.function != null %}
                                                            <span>{{ collegue.profile.function.name|capitalize }}</span>
                                                         {% endif %}
