@@ -1,0 +1,19 @@
+<div class="popup-info box">
+    <div class="d-flex">
+        <a href="#">
+            {% if user.profile.filename %}
+                <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+            {% else %}
+                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+            {% endif %}
+        </a>
+        <div>
+            <p>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</p>
+            <small>{{ user.company|capitalize }}</small>
+        </div>
+    </div>
+    <div class="d-flex pt-3">
+        <a type="button" href="{{ path('chat_private', {'id': user.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
+        <a type="button" href="{{ path('profile_show', {'id': user.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+    </div>
+</div>

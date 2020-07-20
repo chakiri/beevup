@@ -8,20 +8,20 @@
             <div class="col-lg-3">
                 <div id="news-filter" class="box-navigation-items min-col">
                     <ul>
-                        <li value="All"><i class="fa fa-clone"></i><a href="#">  Tout</a></li>
-                        <li value="information"><i class="fa fa-newspaper"></i><a href="#">  Informations</a></li>
-                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="#">  Derniers arrivés</a></li>
-                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="#">  Opportunité commerciale</a></li>
-                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="#">  Emploi</a></li>
-                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="#">  Evénement</a></li>
-                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="#">  Question à la communauté</a></li>
-                        <li value="Autre"><i class="fa fa-plus"></i><a href="#">  Autre</a></li>
+                        <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboardv1') }}">  Tout</a></li>
+                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
+                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
+                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a></li>
+                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
+                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
+                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
                     </ul>
                 </div>
 
                 <div id="advisorbox" class="box-advisor min-col">
                     <small class="greyed">Votre conseiller</small>
-                    <div class="box">
+                    <div class="box mt-0">
                         {% if  app.user.store != null %}
                             {% if  app.user.store.defaultAdviser != null %}
                                 {% if  app.user.store.defaultAdviser.profile != null %}
@@ -46,6 +46,8 @@
                             {% else %}
                                 <p>Aucun conseiller défini</p>
                             {% endif %}
+                        {% else %}
+                            <p>Aucun conseiller défini</p>
                         {% endif %}
                     </div>
                 </div>
@@ -53,13 +55,13 @@
                 {% if app.user.company  %}
                 <div class="box-company mt-3 min-col">
                     <small class="greyed">Votre entreprise</small>
-                    <div class="box">
+                    <div class="box mt-0">
                         <div class="d-flex">
                             <a href="#">
                                 {% if app.user.company.filename %}
                                     <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% else %}
-                                    <img src="/images/no-available-company-photo.png" class="img-fluid" class="rounded-circle medium-avatar" alt="avatar image">
+                                    <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% endif %}
                             </a>
                             <div class="pb-3">
@@ -78,18 +80,22 @@
                     <div class="new-post">
                         <div class="box">
                             <div class="d-flex">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% if app.user.profile.filename %}
+                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% endif %}
                                 <a href="#" class="mt-3 ml-3 add-post" data-target="{{ path('post_create') }}"><span>Que voulez-vous partager {{ app.user.profile.firstname }} ?</span></a>
                             </div>
                             <hr>
                             <div class=" d-flex justify-content-between">
                                 <div class="d-flex">
                                     <i class="fa fa-newspaper p-2 orange"></i>
-                                    <i class="fa fa-comment-alt p-2 orange"></i>
                                     <i class="fa fa-chart-line p-2 orange"></i>
                                     <i class="fa fa-user-friends p-2 orange"></i>
                                     <i class="fa fa-calendar-alt p-2 orange"></i>
                                     <i class="fa fa-question p-2 orange"></i>
+                                    <i class="fa fa-plus p-2 orange"></i>
                                 </div>
                                 <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
                             </div>
@@ -97,102 +103,148 @@
                     </div>
 
                     <div class="posts">
-                        <div class="box">
-                            <div class="mb-3">
-                                <div class=" d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
-                                        <div>
-                                            <p>Darrel Steward</p>
-                                            <small>Entreprise commune</small>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <small class="d-block al-r">Il y a 8min</small>
-                                        <span class="badge badge-yellow">
-                                            <i class="fa fa-chart-line"></i>
-                                            Oppurtunité commerciale
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <p><strong>Bienvenue à l'entreprise Eat Salad Bordeaux Stalingrad</strong></p>
-                                <span>Eat salad votre salade sur mesure</span>
-                            </div>
-                            <div class="comments">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <i class="fa fa-thumbs-up p-1 orange"></i>
-                                        <small>Laurence et 18 autres personnes</small>
-                                    </div>
-                                    <div>
-                                        <small>3 Commentaires</small>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="d-flex">
-                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
-                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
-                                </div>
-                                <hr>
-                                <div>
-                                    <div class="d-flex mb-2">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
-                                        <div class="comment-box">
-                                            <span>Comptez sur moi j'ai un nouveau projet ambitieux !</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex mb-2">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle small-avatar" alt="avatar image">
-                                        <div class="comment-box">
-                                            <span>Super j'y serai</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% if posts|length %}
+                            {% for post in posts %}
 
-                        <div class="box">
-                            <div class="mb-3">
-                                <div class=" d-flex justify-content-between">
-                                    <div class="d-flex">
-                                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle medium-avatar" alt="avatar image">
-                                        <div>
-                                            <p>Darrel Steward</p>
-                                            <small>Entreprise commune</small>
+                                {% set difference = date(post.createdAt|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+
+                                {% if difference.days == 0 %}
+                                    {% set time = post.createdAt|date("h:i") %}
+                                {% elseif difference.days == 1 %}
+                                    {% set time =  'Il y a 1 jour' %}
+                                {% else %}
+                                    {% set time =  'Il y a ' ~ difference.days ~ ' jours' %}
+                                {% endif %}
+
+                                <div class="box post">
+                                    <div class="mb-3">
+                                        <div class=" d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                {% if post.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% endif %}
+                                                <div class="hover-info">
+                                                    <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
+                                                    <small>{{ post.user.company|capitalize }}</small>
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="hover-btn-post text-right">
+                                                    {% if post.user == app.user %}
+                                                        <a type="button" class="btn post-delete p-0" href="{{ path('post_remove', {'id': post.id}) }}"><small>Supprimer</small></a>
+                                                    {% else %}
+                                                        <a type="button" class="btn post-delete p-0" href="#"><small>Signaler</small></a>
+                                                    {% endif %}
+                                                </div>
+                                                {% if     post.category.id == 1 %}{% set badge = 'badge-green' %}{% set fa = 'fa-newspaper' %}
+                                                {% elseif post.category.id == 2 %}{% set badge = 'badge-orange' %}{% set fa = 'fa-chart-line' %}
+                                                {% elseif post.category.id == 3 %}{% set badge = 'badge-yellow' %}{% set fa = 'fa-question' %}
+                                                {% elseif post.category.id == 4 %}{% set badge = 'badge-purple' %}{% set fa = 'fa-user-friends' %}
+                                                {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fa-calendar-alt' %}
+                                                {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fa-plus' %}
+                                                {% endif %}
+                                                <small class="d-block al-r">{{ time }}</small>
+                                                <span class="badge {{ badge }} float-right">
+                                                    <i class="fa {{ fa }}"></i> {{ post.category|capitalize }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <small class="d-block al-r">Il y a 8min</small>
-                                        <span class="badge badge-green">
-                                            <i class="fa fa-calendar-alt"></i>
-                                            Evénements
-                                        </span>
+                                    <div class="mb-2">
+                                        <p><strong>{{ post.title }}</strong></p>
+                                        <span>{{ post.description ?? null }}</span>
+                                    </div>
+                                    <div class="media-post mb-2">
+                                        {% if post.urlYoutube is not null %}
+                                            <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        {% elseif post.filename %}
+                                            <img src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="comments">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <i class="fa fa-thumbs-up p-1 orange"></i>
+                                                <small>
+                                                    <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
+                                                    {% if post.likes|length > 1 %}
+                                                        j'aimes
+                                                    {% else %}
+                                                        j'aime
+                                                    {% endif %}
+                                                </small>
+                                            </div>
+                                            <div>
+                                                <small>
+                                                    <span id="{{ 'nbcommentspost' ~ post.id }}">{{post.comments|length }}</span>
+                                                    {% if post.comments|length > 1 %}
+                                                        commentaires
+                                                    {% else %}
+                                                        commentaire
+                                                    {% endif %}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex">
+                                            <button class="btn updateLike" data-id="{{ post.id }}" data-url="{{ path("post_like", {'id': post.id}) }}">
+                                                {% if post.isLikedByUser(app.user) %}
+                                                    <i class="fa fa-thumbs-up"></i>
+                                                {% else %}
+                                                    <i class="fa fa-thumbs-o-up"></i>
+                                                {% endif %}
+                                                J'aime
+                                            </button>
+                                            <button class="btn comment"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                                        </div>
+                                        <hr>
+                                        <div id="post-interaction" data-id="{{ post.id }}">
+                                            <div class="box-comment-input d-flex mb-3">
+                                                {% if app.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
+                                                {% endif %}
+                                                <div class="text-comment-box">
+                                                    <textarea placeholder="Que voulez-vous dire {{ app.user.profile.firstname|capitalize }} ?"></textarea>
+                                                </div>
+                                                <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="fa fa-send-o"></i></button>
+                                            </div>
+                                            {% for comment in post.comments|reverse %}
+                                                <div class="box-comment d-flex">
+                                                    <div class="d-flex mb-2">
+                                                        {% if post.user.profile.filename %}
+                                                            <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                        {% else %}
+                                                            <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
+                                                        {% endif %}
+                                                        <div class="comment-content">
+                                                            <span>{{ comment.description }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hover-btn">
+                                                        {% if comment.user == app.user %}
+                                                            <button class="btn delete-comment" data-url="{{ path('remove_comment', {'id': comment.id}) }}"><small>supprimer</small></button>
+                                                        {% else %}
+                                                            <button class="btn abuse-comment"><small>signaler</small></button>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-2">
-                                <p><strong>Afterwork RSE Lundi 16/07 Bordeaux</strong></p>
-                                <span>Rendez vous Lundi 15/06 au bar La Vie Moderne à 18h pour partager nos actions RSE</span>
-                            </div>
-                            <div class="comments">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <i class="fa fa-thumbs-up p-1 orange"></i>
-                                        <small>Laurence et 10 autres personnes</small>
-                                    </div>
-                                    <div>
-                                        <small>2 Commentaires</small>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="d-flex">
-                                    <button class="btn"><i class="fa fa-thumbs-o-up  "></i> J'aime</button>
-                                    <button class="btn"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                            {% endfor %}
+                        {% else %}
+                            <div class="box">
+                                <div class="text-center">
+                                    <p><strong>Nous n'avons pas trouvé de post dans cette catégorie</strong></p>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@
 
 .btn{
     border-radius: 12px;
-    padding: 0;
     font-size: 12px;
 }
 
@@ -58,6 +57,8 @@
 .badge{
     text-transform: lowercase;
     color: #fff;
+    padding: 3px;
+    border-radius: 8px;
 }
 
 .badge-orange{
@@ -74,14 +75,59 @@
     color: #22D5A8;
 }
 
+.badge-blue{
+    background: #F7F9FF;
+    color: #275EFF;
+}
+
+.badge-grey{
+    background: #F6F7F8;
+    color: #B3B9C3;
+}
+
+.badge-purple{
+    background: #F6F7F8;
+    color: #4A2160;
+}
+
+.hover-btn-post{
+    display: none;
+}
+
+.post:hover .hover-btn-post{
+    display: block;
+}
+
 .comments .btn{
     color: #B3B9C3;
 }
 
-.comment-box{
+.comment-content{
     background: #F6F7F8;
     border-radius: 12px;
     padding: 8px 12px;
+}
+
+.text-comment-box{
+    width: 100%;
+}
+
+.text-comment-box textarea{
+    background: #F6F7F8;
+    border-radius: 12px;
+    padding: 8px 12px;
+    border: none;
+    width: 100%;
+    height: 32px;
+    font-size: 11px;
+}
+
+.hover-btn {
+    display: none;
+}
+
+.box-comment:hover .hover-btn {
+    display: block;
 }
 
 .notifications{
@@ -134,11 +180,14 @@
     height: 30px;
 }
 
+#post_title {
+    font-size: 15px !important;
+}
 
 .hr{
     border-top: 1px solid rgba(0, 0, 0, 0.04);
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .medias {
@@ -184,4 +233,57 @@
     border-radius: 50px;
     color: #fff;
     padding: 2px;
+}
+
+.icon-type-post{
+    padding: 5px;
+    color: var(--orange-color);
+    background-color: var(--bg-color);
+    border-radius: 50px;
+}
+ul.types-posts{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+ul.types-posts li{
+    margin: 0 1px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#types-posts{
+    width: 50%;
+}
+
+li.icon-type-post a.active{
+    color: initial;
+}
+
+.media-post img, iframe{
+    border-radius: 4px;
+}
+
+/* Hover popup info */
+.hover-info:hover > .popup-info{
+    display: block;
+    position: absolute;
+}
+
+.popup-info{
+    display: none;
+    margin-left: -70px;
+    margin-top: -150px;
+    transition: all 0.3s ease-in;
+    background-color:var(--white-color);
+    border: 1px solid #f1f1f1;
+    color: var(--text-color);
+    width: 250px;
+    height: 111px;
+}
+
+.popup-info > .content p{
+    color: #353535;
 }
