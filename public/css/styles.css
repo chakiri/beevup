@@ -2850,6 +2850,9 @@ a:hover {
 #toIndividuals label, #toProfessionals label {
     margin-top: 8px;
 }
+.d-flex div p {
+    margin-bottom: 0 !important;
+}
 /**********end************/
 
 

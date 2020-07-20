@@ -209,11 +209,11 @@
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
 
-                                                <div class="sgt-text">
+                                                <div class="sgt-text hover-info">
                                                     <h4>
                                                         <a href="{{ path('profile_show', {'id': recommandation.user.profile.id}) }}">
                                                         {{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</a></h4>
-
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
                                                 </div>
                                                 <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
                                                     {{ recommandation.message  }}
@@ -243,13 +243,13 @@
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
 
-                                                <div class="sgt-text">
+                                                <div class="sgt-text hover-info">
                                                     <h4>
                                                         <a href="{{ path('profile_show', {'id': recommandationCompany.user.profile.id}) }}">
                                                           {{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}
                                                         </a>
                                                     </h4>
-
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationCompany.user} %}
                                                 </div>
                                                 <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
                                                         {{recommandationCompany.message }}
