@@ -146,7 +146,6 @@
     padding: 5px;
 }
 
-
 /*-------- Modals --------- */
 #add-post-modal{
     top: 52px;
@@ -234,8 +233,6 @@
     color: #fff;
     padding: 2px;
 }
-#profile_addressPostCode{
-    height: 31px;
 
 .icon-type-post{
     padding: 5px;
@@ -288,5 +285,8 @@ li.icon-type-post a.active{
 
 .popup-info > .content p{
     color: #353535;
+}
 
+#profile_addressPostCode {
+    height: 31px;
 }
