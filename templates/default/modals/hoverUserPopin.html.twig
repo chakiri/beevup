@@ -14,6 +14,6 @@
     </div>
     <div class="d-flex pt-3">
         <a type="button" href="{{ path('chat_private', {'id': user.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-        <a type="button" href="{{ path('profile_show', {'id': user.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+        <a type="button" href="{{ path('profile_show', {'id': user.profile.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
     </div>
 </div>

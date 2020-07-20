@@ -142,7 +142,7 @@
     margin: 0 3px;
 }
 
-.box-advisor a[type=button], .box-company a[type=button], .aside-service  a[type=button]{
+.box-advisor a[type=button], .box-company a[type=button]{
     padding: 5px;
 }
 
@@ -234,8 +234,6 @@
     color: #fff;
     padding: 2px;
 }
-#profile_addressPostCode{
-    height: 31px;
 
 .icon-type-post{
     padding: 5px;
@@ -276,8 +274,8 @@ li.icon-type-post a.active{
 
 .popup-info{
     display: none;
-    margin-left: -70px;
-    margin-top: -150px;
+    margin-left: 0px;
+    margin-top: -143px;
     transition: all 0.3s ease-in;
     background-color:var(--white-color);
     border: 1px solid #f1f1f1;
@@ -288,5 +286,4 @@ li.icon-type-post a.active{
 
 .popup-info > .content p{
     color: #353535;
-
 }
