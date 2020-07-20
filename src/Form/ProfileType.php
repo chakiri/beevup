@@ -103,6 +103,14 @@ class ProfileType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
+            ->add('addressPostCode', TextType::class, [
+                'required' => true,
+                'label' => 'Code postal',
+                'attr'  => [
+                    'placeholder' => 'Code postal',
+                     'id'         => 'addressPostCode'
+                ]
+            ])
             
         ;
     }

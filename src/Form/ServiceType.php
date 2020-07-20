@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class ServiceType extends AbstractType
 {
@@ -125,6 +127,41 @@ class ServiceType extends AbstractType
                     'placeholder' => 'Photo secondaire 3',
                     'class'       =>'form-control'
                 ]
+            ])
+            ->add('toIndividuals', CheckboxType::class, [
+                'label'    => 'Pour les particuliers',
+                'required' => false
+
+
+
+
+            ])
+            ->add('toProfessionals', CheckboxType::class, [
+            'label'    => 'Pour les pros',
+            'required' => false
+
+        ])
+            ->add('vatRate', ChoiceType::class, [
+                'label'    => 'TVA',
+                'required' => false,
+                 'choices'  => [
+                    '2,1' => '2,1',
+                    '5,5' => '5,5',
+                    '10' => '10',
+                    '20' => '20',
+                ],
+
+            ])
+            ->add('unity', ChoiceType::class, [
+                'label'    => 'Unité',
+                'required' => false,
+                'choices'  => [
+                    'Heure' => 'Heure',
+                    'Jour' => 'Jour',
+                    'Semaine' => 'Semaine',
+                    'Prestation' => 'Prestation',
+                ],
+
             ])
         ;
 

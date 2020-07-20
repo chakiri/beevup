@@ -92,9 +92,15 @@ class Profile implements \Serializable
      */
     private $isOnboarding;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $addressPostCode;
+
     public function __construct()
     {
         $this->isCompleted = false;
+
     }
 
     public function getId(): ?int
@@ -299,6 +305,18 @@ class Profile implements \Serializable
     public function setIsOnboarding(?bool $isOnboarding): self
     {
         $this->isOnboarding = $isOnboarding;
+
+        return $this;
+    }
+
+    public function getAddressPostCode(): ?int
+    {
+        return $this->addressPostCode;
+    }
+
+    public function setAddressPostCode(int $addressPostCode): self
+    {
+        $this->addressPostCode = $addressPostCode;
 
         return $this;
     }
