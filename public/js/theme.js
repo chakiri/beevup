@@ -904,5 +904,6 @@ if($('.entity-description').length > 0 )
 
 
     }
+
     })(jQuery);
 

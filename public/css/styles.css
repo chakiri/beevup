@@ -937,9 +937,7 @@ ul.landing-page-list {
 .sign_in_sec form input {
     height: 40px;
 }
-#service_price{
-    height: 29px;
-}
+
 .sign_in_sec form input,
 .sign_in_sec form select {
     width: 100%;
@@ -1686,7 +1684,7 @@ ul.landing-page-list {
    margin-right: 5px;
     margin-right: 5px;
     float: left;
-    margin-top: 3px;
+    margin-top: 1px;
 
 }
 
@@ -2348,7 +2346,7 @@ a:hover {
 
 }
 .price-jt-div > span{
-
+    height: 40px;
     font-size: 11px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -2848,6 +2846,9 @@ a:hover {
 }
 .abuse-suggestion-usd p {
     margin-left: 50px;
+}
+#toIndividuals label, #toProfessionals label {
+    margin-top: 8px;
 }
 /**********end************/
 

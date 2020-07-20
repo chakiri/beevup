@@ -98,6 +98,26 @@ class Service implements \Serializable
      */
     private $discoveryContent;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $toIndividuals;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $toProfessionals;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vatRate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $unity;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -297,5 +317,53 @@ class Service implements \Serializable
     {
         $this->id = unserialize($serialized);
 
+    }
+
+    public function getToIndividuals(): ?bool
+    {
+        return $this->toIndividuals;
+    }
+
+    public function setToIndividuals(bool $toIndividuals): self
+    {
+        $this->toIndividuals = $toIndividuals;
+
+        return $this;
+    }
+
+    public function getToProfessionals(): ?bool
+    {
+        return $this->toProfessionals;
+    }
+
+    public function setToProfessionals(bool $toProfessionals): self
+    {
+        $this->toProfessionals = $toProfessionals;
+
+        return $this;
+    }
+
+    public function getVatRate(): ?int
+    {
+        return $this->vatRate;
+    }
+
+    public function setVatRate(?int $vatRate): self
+    {
+        $this->vatRate = $vatRate;
+
+        return $this;
+    }
+
+    public function getUnity(): ?string
+    {
+        return $this->unity;
+    }
+
+    public function setUnity(?string $unity): self
+    {
+        $this->unity = $unity;
+
+        return $this;
     }
 }

@@ -37,6 +37,7 @@
                                     <ul class="social_links">
 
                                       {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
+                                        {% if profile.addressPostCode != 0 %}  <li><i class="fa fa-map-marker"></i> Code postal:  {{ profile.addressPostCode }} </li>{% endif %}
 
 
                                     </ul>
