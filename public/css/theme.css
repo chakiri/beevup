@@ -2397,10 +2397,7 @@ footer {
   font-size:12px;
   font-weight:bold
 }
-.profil-add-favoris
-{
-  color:#fff !important;
-}
+
 .profil-add-favoris .text-warning{
   color:#fff !important;
 }
@@ -2520,11 +2517,7 @@ font-size: 10px;
 .item-box{
   border: 1px solid #eee;
 }
-.is-favorit-profile.text-warning, .is-favorit-profile.text-warning:hover{
-  background-color: #DE3944;
-  color:#fff !important
 
-}
 .form-group.required label:after {
   content:" *";
   color:red;

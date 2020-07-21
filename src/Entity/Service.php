@@ -109,7 +109,7 @@ class Service implements \Serializable
     private $toProfessionals;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $vatRate;
 
@@ -343,12 +343,12 @@ class Service implements \Serializable
         return $this;
     }
 
-    public function getVatRate(): ?int
+    public function getVatRate(): ?string
     {
         return $this->vatRate;
     }
 
-    public function setVatRate(?int $vatRate): self
+    public function setVatRate(?string $vatRate): self
     {
         $this->vatRate = $vatRate;
 

@@ -43,7 +43,7 @@
                                                     {% endif %}
                                                 </a>
                                             </div>
-                                            <div class="sgt-text">
+                                            <div class="sgt-text hover-info">
                                                 <h4>
                                                     <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
                                                       {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
@@ -63,7 +63,7 @@
                                                             <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> {{favorit.favoritUser.store.name|capitalize }}</a>
                                                          </span>
                                                 {% endif %}
-
+                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
                                             </div>
 
                                         </div>
@@ -127,7 +127,7 @@
 
                                         {% endif %}
                                         </a>
-                                        <h3>  <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
+                                           <h3>  <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
 
                                         {% if user.profile.function  %}
                                             {% if user.company %}

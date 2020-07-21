@@ -141,9 +141,12 @@
                                             {% endif %}
 
                                             <div class="sgt-text">
+                                               <div class="hover-info">
                                                 <h4>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</h4>
+                                                   {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
+                                               </div>
 
-                                            </div>
+                                             </div>
                                             <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
                                                 {{ recommandation.message  }}
                                             </p>
@@ -191,11 +194,12 @@
                                         {% else %}
                                             <img src="http://via.placeholder.com/170x170" alt="">
                                         {% endif %}
-                                        <div class="sgt-text">
+                                        <div class="sgt-text hover-info">
                                             <h4> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
                                             {% if user.profile.function != null %}
                                                 <span>{{ user.profile.function.name|capitalize }}</span>
                                             {% endif %}
+                                            {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
                                         </div>
                                     </div>
                                       {% endif %}
