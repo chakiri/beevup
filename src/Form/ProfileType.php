@@ -111,6 +111,14 @@ class ProfileType extends AbstractType
                      'id'         => 'addressPostCode'
                 ]
             ])
+            ->add('jobTitle', TextType::class, [
+                'required' => false,
+                'label' => 'Titre',
+                'attr'  => [
+                    'placeholder' => 'Titre',
+                    'id'         => 'Titre'
+                ]
+            ])
             
         ;
     }

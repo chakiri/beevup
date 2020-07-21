@@ -97,6 +97,11 @@ class Profile implements \Serializable
      */
     private $addressPostCode;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $jobTitle;
+
     public function __construct()
     {
         $this->isCompleted = false;
@@ -317,6 +322,18 @@ class Profile implements \Serializable
     public function setAddressPostCode(int $addressPostCode): self
     {
         $this->addressPostCode = $addressPostCode;
+
+        return $this;
+    }
+
+    public function getJobTitle(): ?string
+    {
+        return $this->jobTitle;
+    }
+
+    public function setJobTitle(?string $jobTitle): self
+    {
+        $this->jobTitle = $jobTitle;
 
         return $this;
     }
