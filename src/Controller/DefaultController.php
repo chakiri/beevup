@@ -133,6 +133,7 @@ class DefaultController extends AbstractController
         else
             $posts = $postRepository->findByNotReportedPosts();
 
+
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts
         ]);

@@ -82,6 +82,12 @@ $('.updateLike').click(function(){
         success: function (response) {
             var nbLikes = response.likes;
             $('#nblikespost' + idPost).html(nbLikes);
+            //If div infolike is hidden
+            if (nbLikes > 0){
+                $('#nblikespost' + idPost).parents('.likes-info').removeClass("d-none");
+            }else{
+                $('#nblikespost' + idPost).parents('.likes-info').addClass("d-none");
+            }
         },
         error: function (xhr, ajaxOptions, thrownError){
             alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
@@ -103,7 +109,7 @@ $('.updateLike').click(function(){
  */
 $('.submit-comment-box').click(function(){
     const url = $(this).data('url');
-    const idPost = $(this).parents('#post-interaction').data('id');
+    const idPost = $(this).parents('.post-interaction').data('id');
     var text = $(this).parent().find('textarea').val();
     var srcImage = $(this).parent().find('img').attr('src');
 
@@ -123,6 +129,10 @@ $('.submit-comment-box').click(function(){
                 $(this).parent().find('textarea').val('');
                 $(this).parents('.box-comment-input').after(elementHTML);
                 $('#nbcommentspost' + idPost).html(nbComments);
+                //If > 0 display div
+                if(nbComments > 0){
+                    $('#nbcommentspost' + idPost).parents('.comments-info').removeClass("d-none");
+                }
             },
             error: function (xhr, ajaxOptions, thrownError){
                 alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
@@ -135,10 +145,10 @@ $('.submit-comment-box').click(function(){
  * Remove comment
  */
 // on click on id is handling all clicked deleted btn on #post-interaction even if it's added after bounding by js
-$('#post-interaction').on('click', '.delete-comment', function() {
+$('.post-interaction').on('click', '.delete-comment', function() {
     var comment = $(this).parents('.box-comment');
     const url = $(this).data('url');
-    const idPost = $(this).parents('#post-interaction').data('id');
+    const idPost = $(this).parents('.post-interaction').data('id');
 
     $.ajax({
         type: 'GET',
@@ -148,6 +158,10 @@ $('#post-interaction').on('click', '.delete-comment', function() {
             console.log("comment removed !");
             comment.remove();
             $('#nbcommentspost' + idPost).html(nbComments);
+            //If 0 hide div
+            if(nbComments == 0){
+                $('#nbcommentspost' + idPost).parents('.comments-info').addClass("d-none");
+            }
         },
         error: function(xhr){
             alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
@@ -158,3 +172,4 @@ $('#post-interaction').on('click', '.delete-comment', function() {
 $('.comments .comment').click(function(){
     $(this).parent().next().next().find('textarea').focus();
 });
+

@@ -167,25 +167,29 @@
                                     <div class="comments">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <i class="fa fa-thumbs-up p-1 orange"></i>
-                                                <small>
-                                                    <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
-                                                    {% if post.likes|length > 1 %}
-                                                        j'aimes
-                                                    {% else %}
-                                                        j'aime
-                                                    {% endif %}
-                                                </small>
+                                                <div class="likes-info {% if post.likes|length == 0 %}d-none{% endif %}">
+                                                    <i class="fa fa-thumbs-up p-1 orange"></i>
+                                                    <small>
+                                                        <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
+                                                        {% if post.likes|length > 1 %}
+                                                            j'aimes
+                                                        {% else %}
+                                                            j'aime
+                                                        {% endif %}
+                                                    </small>
+                                                </div>
                                             </div>
                                             <div>
-                                                <small>
-                                                    <span id="{{ 'nbcommentspost' ~ post.id }}">{{post.comments|length }}</span>
-                                                    {% if post.comments|length > 1 %}
-                                                        commentaires
-                                                    {% else %}
-                                                        commentaire
-                                                    {% endif %}
-                                                </small>
+                                                <div class="comments-info {% if post.comments|length == 0 %}d-none{% endif %}">
+                                                    <small>
+                                                        <span id="{{ 'nbcommentspost' ~ post.id }}">{{post.comments|length }}</span>
+                                                        {% if post.comments|length > 1 %}
+                                                            commentaires
+                                                        {% else %}
+                                                            commentaire
+                                                        {% endif %}
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                         <hr>
@@ -201,7 +205,7 @@
                                             <button class="btn comment"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
                                         </div>
                                         <hr>
-                                        <div id="post-interaction" data-id="{{ post.id }}">
+                                        <div class="post-interaction" data-id="{{ post.id }}">
                                             <div class="box-comment-input d-flex mb-3">
                                                 {% if app.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
