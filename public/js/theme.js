@@ -613,8 +613,8 @@ if ($(window).width() < 1024)
             $('#result-user-item-' + userId).removeClass('fa-star').addClass('fa-star-o');
 
 
-            if( $('.profil-add-favoris').length ) {
-                $('.profil-add-favoris').text('').append("<i class='fa fa-heart'></i> Ajouter aux Favoris");
+            if( $('.profil-add-favoris').length) {
+                $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
             }
 
         } else {
@@ -624,7 +624,7 @@ if ($(window).width() < 1024)
 
 
             if( $('.profil-add-favoris').length ) {
-                $('.profil-add-favoris').text('').append("<i class='fa fa-heart'></i> Favoris");
+                $('.profil-add-favoris').text('').append("Favoris");
             }
 
         }

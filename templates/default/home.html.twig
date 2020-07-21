@@ -14,8 +14,13 @@
                             </div>
                             <div class="col-lg-2 connexion-btn">
                                 <button type="submit" class="white-btn cnx-btn" method="post">
+                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                        <a class="landing-page-connexin-link" href="{{ path('dashboard') }}">
+                                            Accueil</a>
+                                    {% else %}
                                     <a class="landing-page-connexin-link" href="{{ path('security_login') }}">
                                     Se connecter</a>
+                                    {% endif %}
                                 </button>
                              </div>
                         </div>
@@ -31,7 +36,9 @@
                               </p>
                            </div>
                            <div class="col-lg-4">
-
+                               {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                   <div class="home-page-authentificated-user"></div>
+                               {% else %}
                                   <div class="landing-page-registration-form">
                                       {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
                                       {{ form_errors(RegistrationForm.name) }}
@@ -51,6 +58,7 @@
                                       </div>
                                       {{ form_end(RegistrationForm) }}
                                   </div>
+                               {% endif %}
 
                            </div>
                        </div>

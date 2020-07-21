@@ -368,6 +368,7 @@ textarea.form-control{
 }
 .form-check-label{
   margin-left: 5px;
+  margin-top: 8px;
   font-weight: bold;
   font-size: 8px;
   line-height: 9px;
@@ -572,9 +573,9 @@ ul.landing-page-list {
     .landign-page-description{
         margin-bottom: 32px;
     }
-    .landing-page-dashboard-img{
+    /*.landing-page-dashboard-img{
         margin-top:230px
-    }
+    }*/
     .landing-page-man{
         display: none;
     }
@@ -2852,6 +2853,12 @@ a:hover {
 }
 .d-flex div p {
     margin-bottom: 0 !important;
+}
+.home-page-authentificated-user{
+    min-height: 362px;
+}
+.service_edit .user-profile-ov.page-title.sign_in_sec.current , .service_new .user-profile-ov.page-title.sign_in_sec.current{
+    margin-top: 10px;
 }
 /**********end************/
 
