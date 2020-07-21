@@ -29,7 +29,13 @@
                                                         Modifier profil</a></li>
                                             {% else %}
 
-                                            <li><a href="#" title="" class="flww"> Ajouter au favoris</a></li>
+                                            <li><a href="#" title=""
+                                                   class="flww add-favoris profil-add-favoris {{ isFavorit }}"
+                                                   data-user-id="{{  profile.user.id }}"
+                                                   data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
+                                                   data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
+                                                >
+                                                {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}</a></li>
                                             {% endif %}
                                         </ul>
 

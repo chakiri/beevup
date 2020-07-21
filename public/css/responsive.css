@@ -271,6 +271,9 @@
 	.mf-field input {width: 100%;margin-bottom: 20px;}
 	.mf-field button {margin-left: 0;margin-bottom: 10px;}
 	.message-inner-dt > img {margin-bottom: 10px;}
+	.home-page-authentificated-user{display: none;min-height: 0px !important;}
+
+
 }
 
 
