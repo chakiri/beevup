@@ -255,12 +255,9 @@
 
             <div class="col-lg-3">
                 <div class="box-advertising min-col float-right">
-                    <small>Sponsorisé</small>
-                    <div class="box-image">
-                        <img src="https://i.pinimg.com/originals/72/4e/4c/724e4cae99d76a586ac3ca33a0f60018.jpg" class="square-image" alt="advertising">
-                    </div>
-                    <p>Découvrez la séléction de meubles de Bureau Vallée</p>
-                    <a href="#">Découvrir</a>
+                    {% if publicity is not null %}
+                        {% include 'default/boxes/advertising-box.html.twig' %}
+                    {% endif %}
                 </div>
 
             </div>

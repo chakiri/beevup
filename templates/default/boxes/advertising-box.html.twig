@@ -1,13 +1,14 @@
-<div class="box" style="padding:0 !important;border-radius:5px">
-    <div class="portfolio-wrap dashboard-service-image">
-      {% if publicity.filename %}
+<small>Sponsorisé</small>
+<div class="box-image">
+    {% if publicity.filename %}
         {% if publicity.link %}
-              <a  href="{{publicity.link}}" target="_blank" >
+            <a  href="{{publicity.link}}" target="_blank" >
                 <img src="{{ vich_uploader_asset(publicity, 'imageFile') }}" class="img-fluid" alt="" style="border-radius:5px">
-              </a>
+            </a>
         {% else %}
-             <img src="{{ vich_uploader_asset(publicity, 'imageFile') }}" class="img-fluid" alt="" style="border-radius:5px">
+            <img src="{{ vich_uploader_asset(publicity, 'imageFile') }}" class="img-fluid" alt="" style="border-radius:5px">
         {% endif %}
-      {% endif %}
-    </div>
+    {% endif %}
 </div>
+<p>{{ publicity.description ?? 'Découvrez notre séléction de la semaine' }}</p>
+<a href="{{publicity.link}}" target="_blank">Découvrir</a>

@@ -46,6 +46,11 @@ class Publicity
      */
     private $link;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -114,6 +119,18 @@ class Publicity
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
