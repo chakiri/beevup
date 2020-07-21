@@ -61,7 +61,8 @@
 
                   </div>
                   <div class="row col-lg-9">
-                     <div class="page-title  current">
+                     <div class="page-title  current service-title-page">
+                         <div class="page-description">
                                   {% if isPrivate == true %}
                                     <h3>Mes services</h3>
                                     <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
@@ -74,17 +75,18 @@
                                       <p class="pb-1">  Proposez vos services et développez votre activité.</p>
 
                                   {% endif %}
+                         </div>
                               </div>
                       {% if services is not empty %}
                                           {% for service in services %}
-                                              <div class="col-lg-4 col-md-4 col-sm-6">
+                                              <div class="col-lg-3 col-md-3 col-sm-6">
                                                   <div class="company_profile_info">
                                                       <div class="company-up-info">
                                                           <a href="{{ path('service_show', {'id': service.id}) }}">
                                                               {% if service.filename %}
                                                                   <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
                                                               {% else  %}
-                                                                  <img src="http://via.placeholder.com/57x57" alt="">
+                                                                <img src="/images/noImage.jpg" alt="">
                                                                {% endif %}
                                                           </a>
                                                           <h3><a href="{{ path('service_show', {'id': service.id}) }}">

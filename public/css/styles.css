@@ -304,7 +304,7 @@ input{
     line-height: 38px;
 }
 .main-left-sidebar{
-    margin-top: 50px;
+    margin-top: 40px;
  }
 textarea.form-control{
     border-radius: var(--radius);
@@ -1186,7 +1186,6 @@ ul.landing-page-list {
 .filter-dd {
     float: left;
     width: 100%;
-    margin-bottom: 27px;
 }
 .filter-dd form {
     float: left;
@@ -1338,7 +1337,7 @@ ul.landing-page-list {
 .company-up-info h4 {
     font-family: 'Rubik-regular' !important;
     color: var(--gray-color);
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 500;
     margin-bottom: 21px;
 }
@@ -1366,6 +1365,7 @@ ul.landing-page-list {
 }
 .company-introduction-bloc{
     min-height: 50px;
+    margin:10px;
 }
 .message-us i{
     color:var(--orange-color);
@@ -1387,6 +1387,7 @@ ul.landing-page-list {
 
 .no-result, .search-result{
     color: var(--gray-color);
+    margin-top: 10px;
 }
 /* ============= Suggestions ============ */
 
@@ -2863,6 +2864,19 @@ a:hover {
 .service .custom-control-label::before {
     margin-top: -4px;
 }
+#search_type, #search_name,#service_search_query, #service_search_category {
+    height: 39px;
+    font-size: 12px;
+}#search_type::placeholder, #search_name::placeholder, #service_search_query::placeholder,#service_search_category::placeholder {
+     font-size: 12px !important;
+}
+
+.page-description{
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 12px;
+}
+
 /**********end************/
 
 
