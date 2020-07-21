@@ -85,12 +85,14 @@
 
                     <div class="row col-lg-9">
 
-                        <div class="page-title sign_in_sec current">
-                            <h3>Communauté locale</h3>
-                            <P style="background-color:#fff;padding:10px">
-                                Recherchez des membres ou des entreprises de la communauté locale pour entrer en contact et développer votre business
-                                ou agrandir votre carnet d'adresse. Utilisez les filtres pour affiner votre recherche
-                            </p>
+                        <div class="page-title sign_in_sec current search-page-title">
+                            <div class="page-description">
+                                <h3>Communauté locale</h3>
+                                <P style="background-color:#fff;padding:10px">
+                                    Recherchez des membres ou des entreprises de la communauté locale pour entrer en contact et développer votre business
+                                    ou agrandir votre carnet d'adresse. Utilisez les filtres pour affiner votre recherche
+                                </p>
+                            </div>
                             <div class="search-result col-12">
                                 {% if usersCount is defined  %}
                                     {% if usersCount > 0 %}
@@ -115,7 +117,7 @@
 
                         {% if users %}
                             {% for user in users %}
-                            <div class="col-lg-4 col-md-4 col-sm-6">
+                            <div class="col-lg-3 col-md-3 col-sm-6">
                                 <div class="company_profile_info">
                                     <div class="company-up-info">
                                         <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
@@ -169,7 +171,7 @@
 
                         {% if companies %}
                             {% for company in companies %}
-                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="company_profile_info">
                                         <div class="company-up-info">
                                             <a href="{{path('company_show', { 'slug': company.slug}) }}">

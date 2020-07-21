@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="main-section">
-    <div class="container">
+    <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
                 <div class="col-lg-3">
@@ -42,7 +42,7 @@
                                 <ul class="flw-status">
                                     <li>
                                         <span>Score</span>
-                                        <b> {{ score ?? 0 }}</strong> Pts</b>
+                                        <b> {{ score ?? 0 }}Pts</b>
                                     </li>
                                     <li>
                                         <span> Services </span>
@@ -114,7 +114,7 @@
                                                      <div class="lt-sec">
                                                          <i style="font-size: 57px" class="fas fa-folder-plus"></i>
 
-                                                        <p style="min-height: 72px;text-align: center"><a href="">Voir tous les services de {{ company.name }}</a></p>
+                                                        <p style="min-height: 72px;text-align: center"><a href="{{ path('service_company', {'company': company.id}) }}">Voir tous les services de {{ company.name }}</a></p>
                                                     </div>
 
                                                 </div><!--user-profy end-->
