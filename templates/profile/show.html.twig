@@ -99,7 +99,14 @@
 
                                         </span>
                                         {% endif %}
+
+                                       {% if profile.jobTitle != '' %}
+                                            <p style="clear: both;color:#686868;">
+                                                ( {{ profile.jobTitle }} )
+                                            </p>
+                                       {% endif %}
                                     </div><!--star-descp end-->
+
 
                                 </div><!--user-tab-sec end-->
 
