@@ -27,7 +27,7 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/dashboard/old", name="dashboard")
+     * @Route("/dashboard/old", name="dashboard_old")
      */
     public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, PostsNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
     {
