@@ -6,7 +6,7 @@ use App\Entity\Post;
 use App\Entity\PostCategory;
 use App\Repository\AbuseRepository;
 use App\Repository\CompanyRepository;
-use App\Repository\NotificationRepository;
+use App\Repository\MessageNotificationRepository;
 use App\Repository\OpportunityNotificationRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
-use App\Repository\PostsNotificationRepository;
+use App\Repository\PostNotificationRepository;
 use App\Repository\PostLikeRepository;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +29,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard/old", name="dashboard")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, PostsNotificationRepository $dashboardNotificationRepository, NotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
+    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, PostNotificationRepository $dashboardNotificationRepository, MessageNotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));

@@ -6,7 +6,7 @@ use App\Entity\Message;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Repository\MessageRepository;
-use App\Repository\NotificationRepository;
+use App\Repository\MessageNotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -32,7 +32,7 @@ class WebsocketController extends AbstractController
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, NotificationRepository $notificationRepository, UserRepository $userRepository, EmptyNotification $emptyNotification)
+    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, UserRepository $userRepository, EmptyNotification $emptyNotification)
     {
         //Verification passing bad subject to url
         if (!$topic && !$user) return $this->redirectToRoute('page_not_found');
@@ -88,7 +88,7 @@ class WebsocketController extends AbstractController
      *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, NotificationRepository $notificationRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer)
+    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageNotificationRepository $notificationRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer)
     {
 
         $subject = $_POST['subject'];

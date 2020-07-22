@@ -29,21 +29,22 @@
 </head>
 
 {% set toast = app.request.get('toastScore') %}
+
 <body class="{{ app.request.get('_route') }}" {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
+
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
-{% if app.request.attributes.get('_route') != 'security_registration'
-and app.request.attributes.get('_route') != 'security_login'
-    and app.request.attributes.get('_route') != 'security_forgotten_password' %}
+
+{% if app.request.attributes.get('_route') != 'security_registration' and
+      app.request.attributes.get('_route') != 'security_login' and
+      app.request.attributes.get('_route') != 'security_forgotten_password'
+%}
     {% include 'partials/header.html.twig' %}
 {% endif %}
+
 {#dispaly flash messages #}
 {% if app.request.attributes.get('_route') != 'service'
-          and app.request.attributes.get('_route') != 'service_user'
-          and app.request.attributes.get('_route') != 'service_company'
-          and app.request.attributes.get('_route') != 'service_store'
-          and app.request.attributes.get('_route') != 'service_store'
           and app.request.attributes.get('_route') != 'security_forgotten_password'
           and app.request.attributes.get('_route') != 'security_reset_password'
           and app.request.attributes.get('_route') != 'security_login'
@@ -56,12 +57,12 @@ and app.request.attributes.get('_route') != 'security_login'
 {% block modals %}{% endblock %}
 
 
-{% if app.request.attributes.get('_route') != 'chat_topic'
-    and app.request.attributes.get('_route') != 'chat_private'
-    and app.request.attributes.get('_route') != 'security_registration'
-
+{% if app.request.attributes.get('_route') != 'chat_topic' and
+      app.request.attributes.get('_route') != 'chat_private'
 %}
- {% include 'partials/footer.html.twig' %}
+    {#app.request.attributes.get('_route') != 'security_registration'#}
+
+    {% include 'partials/footer.html.twig' %}
 {% endif %}
 
 <script src="/lib/jquery/jquery.min.js"></script>
@@ -81,8 +82,6 @@ and app.request.attributes.get('_route') != 'security_login'
 <script src="/lib/isotope/isotope.pkgd.min.js"></script>
 <script src="/lib/lightbox/js/lightbox.min.js"></script>
 <script src="/lib/introjs/js/intro.min.js"></script>
-<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
-
 <script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
 
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}

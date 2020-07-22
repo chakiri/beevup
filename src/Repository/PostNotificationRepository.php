@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\PostsNotification;
+use App\Entity\PostNotification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PostsNotification|null find($id, $lockMode = null, $lockVersion = null)
- * @method PostsNotification|null findOneBy(array $criteria, array $orderBy = null)
- * @method PostsNotification[]    findAll()
- * @method PostsNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostNotification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostNotification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostNotification[]    findAll()
+ * @method PostNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PostsNotificationRepository extends ServiceEntityRepository
+class PostNotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PostsNotification::class);
+        parent::__construct($registry, PostNotification::class);
     }
-    public function findOneByPostAndUser($value1,$value2,$value3): ?PostsNotification
+    public function findOneByPostAndUser($value1,$value2,$value3): ?PostNotification
     {
          return $this->createQueryBuilder('l')
             ->andWhere('l.user = :val1')
@@ -52,7 +52,7 @@ class PostsNotificationRepository extends ServiceEntityRepository
         ;
     }
     // /**
-    //  * @return PostsNotification[] Returns an array of PostsNotification objects
+    //  * @return PostNotification[] Returns an array of PostNotification objects
     //  */
     /*
     public function findByExampleField($value)
@@ -69,7 +69,7 @@ class PostsNotificationRepository extends ServiceEntityRepository
     */
 
     
-    public function findOneByComment($value): ?PostsNotification
+    public function findOneByComment($value): ?PostNotification
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.comment = :val')

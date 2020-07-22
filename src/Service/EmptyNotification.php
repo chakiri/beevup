@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Entity\Topic;
 use App\Entity\User;
-use App\Repository\NotificationRepository;
+use App\Repository\MessageNotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EmptyNotification
@@ -15,7 +15,7 @@ class EmptyNotification
 
     private $notificationRepository;
 
-    public function __construct(EntityManagerInterface $manager, NotificationRepository $notificationRepository)
+    public function __construct(EntityManagerInterface $manager, MessageNotificationRepository $notificationRepository)
     {
         $this->manager = $manager;
         $this->notificationRepository= $notificationRepository;

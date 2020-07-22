@@ -27,12 +27,72 @@ Header
     <nav class="main-nav">
         <div class="d-flex">
             <ul class="notifications d-flex">
-                <li class="box-notification"><i class="fa fa-bell-o  p-2"></i></li>
-                <li class="box-notification"><i class="fa fa-envelope-o p-2"></i></li>
-                <li class="box-notification"><i class="fa fa-bolt  p-2"></i></li>
+                <li class="box-notification nav-item dropdown">
+                    <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell-o p-2"></i>
+                        {% if postsNotifications|length > 0 %}
+                            <span class="badge bell-badge">{{ postsNotifications|length }}</span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu">
+                        {% for notification in postsNotifications %}
+                            <a class="dropdown-item d-flex" href="#">
+                                {% if notification.user.profile.filename %}
+                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% endif %}
+                                <small class="pt-2">
+                                {% if notification.type == 'like' %}
+                                    {{ notification.user.profile.firstname|capitalize }} a liké votre post
+                                {% elseif notification.type == 'comment' %}
+                                    {{ notification.user.profile.firstname|capitalize }} a commenté votre post
+                                {% endif %}
+                                </small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </li>
+                <li class="box-notification nav-item dropdown">
+                    <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-envelope-o p-2"></i>
+                        {% if messagesNotifications|length > 0 %}
+                            <span class="badge bell-badge">{{ messagesNotifications|length }}</span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu">
+                        {% for notification in messagesNotifications %}
+                            <a class="dropdown-item d-flex" href="#">
+                                {% if notification.user.profile.filename %}
+                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                {% endif %}
+                                <small class="pt-2">
+                                    {{ notification.user.profile.firstname|capitalize }} vous a envoyé un message
+                                </small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </li>
+                <li class="box-notification nav-item dropdown">
+                    <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bolt p-2"></i>
+                        {% if opportunities|length > 0 %}
+                            <span class="badge bell-badge">{{ opportunities|length }}</span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">
+                            {% if opportunities|length > 0 %}
+                                <small>{{ opportunities|length }} nouvelles opportunités commerciales</small>
+                            {% else %}
+                                <small>Aucune nouvelle opportunité commerciale</small>
+                            {% endif %}
+                        </a>
+                    </div>
+                </li>
             </ul>
-
-
 
 
             <ul class="d-flex">

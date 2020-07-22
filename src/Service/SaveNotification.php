@@ -3,8 +3,8 @@
 namespace App\Service;
 
 
-use App\Entity\Notification;
-use App\Repository\NotificationRepository;
+use App\Entity\MessageNotification;
+use App\Repository\MessageNotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +20,7 @@ class SaveNotification
     private $topicRepository;
 
 
-    public function __construct(EntityManagerInterface $manager, NotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
+    public function __construct(EntityManagerInterface $manager, MessageNotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
     {
         $this->manager= $manager;
         $this->notificationRepository = $notificationRepository;
@@ -45,7 +45,7 @@ class SaveNotification
         }
 
         if (!$notification){
-            $notification = new Notification();
+            $notification = new MessageNotification();
 
             $notification
                 ->setUser($user)

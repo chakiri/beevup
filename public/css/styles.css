@@ -78,6 +78,19 @@ a.nav-link{
     margin-left: -15px;
 }
 
+.dropdown-menu{
+    border-radius: 7px;
+}
+
+.main-nav a {
+    display: block;
+    position: relative;
+    padding: 10px 15px;
+    transition: 0.3s;
+    font-size: 13px;
+    font-weight: 600;
+}
+
 .container-bv{
     margin: 30px 15px;
 }
