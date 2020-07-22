@@ -7,6 +7,7 @@
   #testimonials .testimonial-item p {
     width: 80%;
   }
+
 }
 
 @media (max-width: 991px) {
@@ -55,6 +56,9 @@
   .administration-link a::after {
     display: none;
   }
+	.search .page-title .sign_in_sec h3 .search .page-title .sign_in_sec p, .search .page-title.search-page-title, .service-title-page{
+		background-color: transparent !important;
+	}
 
 }
 

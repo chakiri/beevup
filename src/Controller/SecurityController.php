@@ -39,83 +39,85 @@ class SecurityController extends AbstractController
      */
     public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
     {
+        if ($this->isGranted('ROLE_USER') == false) {
+            $user = new User();
 
-        $user = new User();
+            $form = $this->createForm(RegistrationType::class, $user);
 
-        $form = $this->createForm(RegistrationType::class, $user);
+            $form->handleRequest($request);
 
-        $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
+                /* insert company data*/
+                $company = new Company();
+                $userType = $userTypeRepository->findOneBy(['id' => 3]);
+                $userTypePatron = $userTypeRepository->findOneBy(['id' => 4]);
+                $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore()]);
+                //dump($user->getStore());dump( $userTypePatron);
+                //dump($storePatron); die();
 
-            /* insert company data*/
-            $company = new Company();
-            $userType = $userTypeRepository->findOneBy(['id'=> 3]);
-            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
-            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
-            //dump($user->getStore());dump( $userTypePatron);
-            //dump($storePatron); die();
+                $company->setSiret($form->get('company')->getData()->getSiret());
+                $company->setName($form->get('name')->getData());
+                $company->setEmail($user->getEmail());
+                $company->setStore($user->getStore());
+                $company->setIntroduction(' ');
 
-            $company->setSiret($form->get('company')->getData()->getSiret());
-            $company->setName($form->get('name')->getData());
-            $company->setEmail($user->getEmail());
-            $company->setStore($user->getStore());
-            $company->setIntroduction(' ');
+                /* generate bar code*/
+                $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
+                $company->setBarCode($barCode->generate($companyId));
+                /* end ******/
 
-            /* generate bar code*/
-            $companyId =  $companyRepo->findOneBy([],['id' => 'desc'])->getId() + 1;
-            $company->setBarCode($barCode->generate( $companyId));
-            /* end ******/
+                $manager->persist($company);
 
-            $manager->persist($company);
+                /* insert user data*/
+                $user->setStore($user->getStore());
+                $user->setCompany($company);
+                $user->setType($userType);
+                $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
 
-            /* insert user data*/
-            $user->setStore($user->getStore());
-            $user->setCompany($company);
-            $user->setType($userType);
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+                $token = $tokenGenerator->generateToken();
+                $user->setResetToken($token);
+                $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+                $message = (new \Swift_Message())
+                    ->setSubject('Beev\'Up par Bureau Vallée | Confirmation du compte')
+                    ->setFrom($_ENV['DEFAULT_EMAIL'])
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            'emails/confirmEmail.html.twig',
+                            ['url' => $url, 'user' => $user, 'storePatron' => $storePatron]
+                        ),
+                        'text/html'
+                    );
 
-            $token = $tokenGenerator->generateToken();
-            $user->setResetToken($token);
-            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $message = (new \Swift_Message())
-                ->setSubject('Beev\'Up par Bureau Vallée | Confirmation du compte')
-                ->setFrom($_ENV['DEFAULT_EMAIL'])
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/confirmEmail.html.twig',
-                        ['url' => $url,'user'=> $user, 'storePatron'=> $storePatron]
-                    ),
-                    'text/html'
-                )
-            ;
-            
-            /* add admin topics to user */
-            $topicHandler->addAdminTopicsToUser($user);
+                /* add admin topics to user */
+                $topicHandler->addAdminTopicsToUser($user);
 
-            $manager->persist($user);
+                $manager->persist($user);
 
-            /* add company topic to user */
-            $topicHandler->initCompanyTopic($company, $user);
+                /* add company topic to user */
+                $topicHandler->initCompanyTopic($company, $user);
 
-            // new profile
-            $profile = new Profile();
-            $profile->setUser($user);
+                // new profile
+                $profile = new Profile();
+                $profile->setUser($user);
 
-            $manager->persist($profile);
+                $manager->persist($profile);
 
-            $manager->flush();
-            $result = $mailer->send($message);
-            $this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
+                $manager->flush();
+                $result = $mailer->send($message);
+                $this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
 
-            return $this->redirectToRoute('security_login');
+                return $this->redirectToRoute('security_login');
+            }
+
+            return $this->render('default/home.html.twig', [
+                'RegistrationForm' => $form->createView(),
+            ]);
+        }else{
+            return $this->redirectToRoute('dashboard', []);
         }
-
-        return $this->render('default/home.html.twig', [
-            'RegistrationForm' => $form->createView(),
-        ]);
 
     }
 

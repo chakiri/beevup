@@ -14,7 +14,7 @@
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
                                 {% else %}
-                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                    <img src="/images/noImage.jpg" alt="">
                                 {% endif %}
                                 <div class="user_pro_status">
                                     <ul class="flw-hr">
@@ -51,10 +51,10 @@
                                             <span><b>Prix:</b>
                                                 {% if storeService %}
                                                     {% if storeService.price != '' %}
-                                                         {{ storeService.price }} €.H.T
+                                                         {{ storeService.price }} €.H.T {% if storeService.unity != null  %} /  {{ storeService.unity }} {% endif %}
                                                     {% endif %}
                                                 {% else %}
-                                                   {{ service.price }} €.H.T
+                                                   {{ service.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }} {% endif %}
                                                 {% endif %}
                                             </span>
                                         </li>
@@ -86,6 +86,7 @@
                                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/170x170" alt="">
+
                                                 {% endif %}
                                            </div>
                                             <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">
@@ -163,20 +164,21 @@
                                             {% else %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                        <img src="/images/noImage.jpg" alt="">
+
+
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                        <img src="/images/noImage.jpg" alt="">
+
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                        <a href="#" title=""><img src="http://via.placeholder.com/170x170" alt=""></a>
+                                                        <img src="/images/noImage.jpg" alt="">
+
                                                     </div><!--gallery_pt end-->
                                                 </div>
 
