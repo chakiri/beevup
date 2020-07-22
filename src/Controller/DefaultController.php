@@ -12,6 +12,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\WelcomePopup;
 use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard/old", name="dashboard_old")
      */
-    public function dashboard(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, PostNotificationRepository $dashboardNotificationRepository, MessageNotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
+    public function dashboardOld(ServiceRepository $repository, RecommandationRepository $recommandationRepository, PostRepository $postRepository, CommentRepository $CommentRepository, PostLikeRepository $postLikeRepository, PostNotificationRepository $dashboardNotificationRepository, MessageNotificationRepository $notificationRepository, OpportunityNotificationRepository $opportunityNotificationRepo, StoreRepository $storeRepo, UserRepository $userRepo, AbuseRepository $abuseRepository, PublicityRepository $publicityRepo)
     {
         $services = $repository->findBy(['user' => $this->getUser()->getId()], [], 3);
         $specialOfferNb = count($repository->findBy(['isDiscovery' => 1]));
@@ -125,12 +126,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      * @Route("/dashboard/{category}", name="dashboard_category")
+     * @Route("/dashboard/{post}/post", name="dashboard_post")
      */
-    public function dashboardv1(PostCategory $category = null, PostRepository $postRepository, PublicityRepository $publicityRepository)
+    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen)
     {
         if ($category != null)
             $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);
-        else
+        elseif ($post != null) {
+            $posts[] = $post;
+            $postNotificationSeen->set($post);
+        }else
             $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mohamedchakiri
- * Date: 22/07/2020
- * Time: 16:39
- */
 
 namespace App\EventListener;
 

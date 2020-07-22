@@ -35,22 +35,26 @@ Header
                         {% endif %}
                     </a>
                     <div class="dropdown-menu">
-                        {% for notification in postsNotifications %}
-                            <a class="dropdown-item d-flex" href="#">
-                                {% if notification.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                {% endif %}
-                                <small class="pt-2">
-                                {% if notification.type == 'like' %}
-                                    {{ notification.user.profile.firstname|capitalize }} a liké votre post
-                                {% elseif notification.type == 'comment' %}
-                                    {{ notification.user.profile.firstname|capitalize }} a commenté votre post
-                                {% endif %}
-                                </small>
-                            </a>
-                        {% endfor %}
+                        {% if postsNotifications|length > 0 %}
+                            {% for notification in postsNotifications %}
+                                <a class="dropdown-item d-flex" href="{{ path('dashboard_post', {'post': notification.post.id}) }}">
+                                    {% if notification.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                    {% else %}
+                                        <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                    {% endif %}
+                                    <small class="pt-2">
+                                        {% if notification.type == 'like' %}
+                                            {{ notification.user.profile.firstname|capitalize }} a liké votre post
+                                        {% elseif notification.type == 'comment' %}
+                                            {{ notification.user.profile.firstname|capitalize }} a commenté votre post
+                                        {% endif %}
+                                    </small>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <a class="dropdown-item" href="#"><small>Aucune nouvelle notification</small></a>
+                        {% endif %}
                     </div>
                 </li>
                 <li class="box-notification nav-item dropdown">
@@ -61,18 +65,22 @@ Header
                         {% endif %}
                     </a>
                     <div class="dropdown-menu">
-                        {% for notification in messagesNotifications %}
-                            <a class="dropdown-item d-flex" href="#">
-                                {% if notification.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                {% endif %}
-                                <small class="pt-2">
-                                    {{ notification.user.profile.firstname|capitalize }} vous a envoyé un message
-                                </small>
-                            </a>
-                        {% endfor %}
+                        {% if messagesNotifications|length > 0 %}
+                            {% for notification in messagesNotifications %}
+                                <a class="dropdown-item d-flex" {% if notification.receiver %}href="{{ path('chat_private', {'id': notification.user.id}) }}"{% else %}href="{{ path('chat_topic', {'name': notification.topic.name}) }}"{% endif %}>
+                                    {% if notification.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                    {% else %}
+                                        <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                    {% endif %}
+                                    <small class="pt-2">
+                                        {{ notification.user.profile.firstname|capitalize }} vous a envoyé un message
+                                    </small>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <a class="dropdown-item" href="#"><small>Aucune nouveau message</small></a>
+                        {% endif %}
                     </div>
                 </li>
                 <li class="box-notification nav-item dropdown">
@@ -83,13 +91,13 @@ Header
                         {% endif %}
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">
-                            {% if opportunities|length > 0 %}
+                        {% if opportunities|length > 0 %}
+                            <a class="dropdown-item" href="{{ path('dashboard_category', {'category': 2}) }}">
                                 <small>{{ opportunities|length }} nouvelles opportunités commerciales</small>
-                            {% else %}
-                                <small>Aucune nouvelle opportunité commerciale</small>
-                            {% endif %}
-                        </a>
+                            </a>
+                        {% else %}
+                            <a class="dropdown-item" href="#"><small>Aucune nouvelle opportunité commerciale</small></a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>

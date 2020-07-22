@@ -44,7 +44,7 @@ class ControllerListener {
             $postsNotifications = [];
             //Get notification for each post
             foreach ($posts as $post){
-                $postNotifications = $this->postNotificationRepository->findBy(['post' => $post, 'seen' => false]);
+                $postNotifications = $this->postNotificationRepository->findByOtherUser($post, $user);
                 $postsNotifications = array_merge($postsNotifications, $postNotifications);
             }
 

@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Post;
 use App\Entity\PostNotification;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -30,14 +32,30 @@ class PostNotificationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByDistinctPostAndType($value1)
+    public function findByOtherUser(Post $post, User $user): array
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->where('n.post = :post')
+            ->andWhere('n.user != :user')
+            ->andWhere('n.seen = :seen')
+            ->setParameter('post', $post)
+            ->setParameter('user', $user)
+            ->setParameter('seen', false)
+            ;
+
+        return $qb->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByDistinctPostAndType($user)
     {
         return $this->createQueryBuilder('u')
-            ->Where('u.owner = :val1')
-            ->andWhere('u.seen = :val2')
-            ->andWhere('u.user != :val1')
+            ->Where('u.owner = :user')
+            ->andWhere('u.seen = :seen')
+            ->andWhere('u.user != :user')
             ->groupBy('u.id, u.post, u.type')
-            ->setParameters(array('val1' => $value1,'val2' => 0))
+            ->setParameters(array('user' => $user,'seen' => false))
             ->getQuery()
             ->getResult()
         ;
