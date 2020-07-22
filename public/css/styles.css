@@ -2864,9 +2864,9 @@ a:hover {
 }
 #search_type, #search_name,#service_search_query, #service_search_category {
     height: 39px;
-    font-size: 12px;
+    font-size: 11px;
 }#search_type::placeholder, #search_name::placeholder, #service_search_query::placeholder,#service_search_category::placeholder {
-     font-size: 12px !important;
+     font-size: 11px !important;
 }
 
 .page-description{
