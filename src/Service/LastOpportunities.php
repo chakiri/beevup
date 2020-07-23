@@ -9,6 +9,7 @@
 namespace App\Service;
 
 
+use App\Repository\OpportunityNotificationRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserHistoricRepository;
 use Symfony\Component\Security\Core\Security;
@@ -21,17 +22,27 @@ class LastOpportunities
 
     private $userHistoricRepository;
 
-    public function __construct(Security $security, PostRepository $postRepository, UserHistoricRepository $userHistoricRepository)
+    private $opportunityNotificationRepository;
+
+    public function __construct(Security $security, PostRepository $postRepository, UserHistoricRepository $userHistoricRepository, OpportunityNotificationRepository $opportunityNotificationRepository)
     {
         $this->security = $security;
         $this->postRepository = $postRepository;
         $this->userHistoricRepository = $userHistoricRepository;
+        $this->opportunityNotificationRepository = $opportunityNotificationRepository;
     }
 
     public function get()
     {
         $historic = $this->userHistoricRepository->findOneBy(['user' => $this->security->getUser()]);
-        $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $historic->getLastLogout());
+
+        //Check if opportunities notifications is seen
+        $opportunityNotification = $this->opportunityNotificationRepository->findOneBy(['user' => $this->security->getUser()]);
+
+        if ($opportunityNotification  && $opportunityNotification->getSeen() == true)
+            $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $opportunityNotification->getLastSeen());
+        else
+            $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $historic->getLastLogout());
 
         return $opportunities;
     }

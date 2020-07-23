@@ -173,3 +173,21 @@ $('.comments .comment').click(function(){
     $(this).parent().next().next().find('textarea').focus();
 });
 
+/**
+ * Set seen opportunities notification
+ */
+function setSeenOpportunityNotification(e){
+
+    const url = $(e).data('url');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (response){
+            console.log('opportunity notification seen');
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+}

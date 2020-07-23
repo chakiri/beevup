@@ -92,7 +92,7 @@ Header
                     </a>
                     <div class="dropdown-menu">
                         {% if opportunities|length > 0 %}
-                            <a class="dropdown-item" href="{{ path('dashboard_category', {'category': 2}) }}">
+                            <a class="dropdown-item" href="{{ path('dashboard_category', {'category': 2}) }}" onclick="setSeenOpportunityNotification(this)" data-url="{{ path('opportunity_notification_set') }}">
                                 <small>{{ opportunities|length }} nouvelles opportunités commerciales</small>
                             </a>
                         {% else %}
