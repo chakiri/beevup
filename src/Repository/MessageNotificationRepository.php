@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\MessageNotification;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,7 +20,7 @@ class MessageNotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, MessageNotification::class);
     }
 
-    public function findMessageNotifs($user)
+    public function findMessageNotifs(User $user)
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.user = :user')

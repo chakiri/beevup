@@ -8,26 +8,26 @@ use App\Entity\User;
 use App\Repository\MessageNotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class EmptyNotification
+class EmptyMessageNotification
 {
 
     private $manager;
 
-    private $notificationRepository;
+    private $messageNotificationRepository;
 
-    public function __construct(EntityManagerInterface $manager, MessageNotificationRepository $notificationRepository)
+    public function __construct(EntityManagerInterface $manager, MessageNotificationRepository $messageNotificationRepository)
     {
         $this->manager = $manager;
-        $this->notificationRepository= $notificationRepository;
+        $this->messageNotificationRepository= $messageNotificationRepository;
     }
 
     public function empty($user, $subject)
     {
         if ($subject instanceof Topic){
-            $notification = $this->notificationRepository->findOneBy(['user' => $user, 'topic' => $subject]);
+            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'topic' => $subject]);
 
         }elseif ($subject instanceof User){
-            $notification = $this->notificationRepository->findOneBy(['user' => $user, 'receiver' => $subject]);
+            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'receiver' => $subject]);
         }
 
         if ($notification){

@@ -67,14 +67,14 @@ Header
                     <div class="dropdown-menu">
                         {% if messagesNotifications|length > 0 %}
                             {% for notification in messagesNotifications %}
-                                <a class="dropdown-item d-flex" {% if notification.receiver %}href="{{ path('chat_private', {'id': notification.user.id}) }}"{% else %}href="{{ path('chat_topic', {'name': notification.topic.name}) }}"{% endif %}>
-                                    {% if notification.user.profile.filename %}
-                                        <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                <a class="dropdown-item d-flex" {% if notification.receiver %}href="{{ path('chat_private', {'id': notification.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': notification.topic.name}) }}"{% endif %}>
+                                    {% if notification.receiver.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(notification.receiver.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                     {% else %}
                                         <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                     {% endif %}
                                     <small class="pt-2">
-                                        {{ notification.user.profile.firstname|capitalize }} vous a envoyé un message
+                                        {{ notification.receiver.profile.firstname|capitalize }} vous a envoyé un message
                                     </small>
                                 </a>
                             {% endfor %}

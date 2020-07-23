@@ -303,3 +303,35 @@ li.icon-type-post a.active{
 #profile_addressPostCode {
     height: 31px;
 }
+
+#cookies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #2a2a2a;
+    z-index: 9999;
+    width: 100%;
+    padding: 7px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Websocket */
+#chatPlateform{
+    background-color: #fff;
+    display: initial;
+}
+
+/* Toast */
+.toast {
+    position: absolute;
+    background-color: #222222;
+    color: white;
+    top: 5.2em;
+    right: 1em;
+    z-index: 1;
+    border-radius: 6px;
+}.toast .toast-header{
+     background-color: #222222;
+     color: white;
+ }

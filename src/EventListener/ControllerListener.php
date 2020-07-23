@@ -49,7 +49,7 @@ class ControllerListener {
             }
 
             //Get messages notification
-            $messagesNotification = $this->messageNotificationRepository->findBy(['receiver' => $user]);
+            $messagesNotification = $this->messageNotificationRepository->findMessageNotifs($user);
 
             //Get last opportunities
             $opportunities = $this->lastOpportunities->get();

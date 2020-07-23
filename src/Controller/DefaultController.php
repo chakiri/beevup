@@ -13,6 +13,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Notification\PostNotificationSeen;
+use App\Service\Session\CookieAccepted;
 use App\Service\Session\WelcomePopup;
 use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -199,6 +200,16 @@ class DefaultController extends AbstractController
         $popup = $welcomePopup->add();
 
         return $this->json($popup);
+    }
+
+    /**
+     *  @Route("/cookie/accept", name="cookie_accept")
+     */
+    public function cookieAccept(CookieAccepted $cookieAccepted)
+    {
+        $cookie = $cookieAccepted->add();
+
+        return $this->json($cookie);
     }
 
 

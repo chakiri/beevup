@@ -44,6 +44,7 @@
 }
 /* ============== DEFAULT component =========== */
 html {
+    height: 100%;
     --scrollbarBG:#eee;
     --thumbBG: var(--bg-color);
 }
@@ -53,6 +54,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 body{
+    height: 100%;
     font-size: 11px;
     font-weight: 500;
     background: #FAFAFA !important;
