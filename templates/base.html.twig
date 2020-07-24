@@ -97,10 +97,12 @@ and app.request.attributes.get('_route') != 'security_login'
 <script src="/js/toast.js"></script>
 <script src="/js/file.js"></script>
 
+{% if app.request.attributes.get('_route') == 'service_show' or app.request.attributes.get('_route') == 'company_show'  %}
 <script src="/js/jquery.mCustomScrollbar.js"></script>
 <script src="/lib/slick/slick.min.js"></script>
 <script src="/js/scrollbar.js"></script>
 <script src="/js/script.js"></script>
+{% endif %}
 
 
 

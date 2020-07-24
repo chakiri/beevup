@@ -2469,7 +2469,7 @@ font-size: 10px;
   font-weight: bold;
   color:#0b6bd3;
 }
-.report-abuse-btn:before, .delete-post:before {
+/*.report-abuse-btn:before, .delete-post:before {
   bottom: 100%;
   left: 75%;
   border-right: 6px solid transparent;
@@ -2480,7 +2480,7 @@ font-size: 10px;
   width: 0;
   position: absolute;
   pointer-events: none;
-}
+}*/
 .specialOfferLink{
   float: left;
   width: 100%;

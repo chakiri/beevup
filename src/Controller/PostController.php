@@ -186,14 +186,16 @@ class PostController extends AbstractController
             $manager->persist($post);
             $manager->flush();
 
-           return $this->redirectToRoute('post_show', [
+           return $this->redirectToRoute('dashboard', [
                
            ]);
 
         }
-        return $this->render('post/form.html.twig', [
+        return $this->render('post/create.html.twig', [
             'company' => $post,
-            'EditPostorm' => $form->createView(),
+            'PostForm' => $form->createView(),
+            'post' => $post
+
         ]);
     }
 

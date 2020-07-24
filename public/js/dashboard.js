@@ -122,7 +122,6 @@ $('.submit-comment-box').click(function(){
                 'content': text
             },
             success: function(response){
-                console.log('Comment added !');
                 var nbComments = response.comments;
                 var idComment = response.idComment;
                 var elementHTML = '<div class="box-comment d-flex"><div class="d-flex mb-2"><img src="' + srcImage + '" class="rounded-circle small-avatar" alt="avatar image"> <div class="comment-content"> <span>' + text + '</span></div></div> <div class="hover-btn"><button class="btn delete-comment" data-url="/comment/' + idComment + '/remove"><small>supprimer</small></button></div></div>';
@@ -173,3 +172,80 @@ $('.comments .comment').click(function(){
     $(this).parent().next().next().find('textarea').focus();
 });
 
+/**
+ * new abus (open modal )
+ */
+$('.report-abuse-btn').click(function(e){
+
+    var postId = $(this).attr('data-post');
+    var url = $(this).attr('data-url') ;
+    $.get(url, function (data) {
+        $('.modal-content-report-abus').html(data);
+        $('.modal-content-report-abus').attr( 'data-post-id', postId );
+    });
+})
+/**
+ * submit abus
+ */
+$('body').on('click', '.report-abuse-submit-btn', function (e) {
+
+    e.preventDefault();
+
+    var postId = $('.modal-content').attr('data-post-id');
+    var url = $(this).attr('data-target');
+    var description ='';
+    if(postId > 0) {
+       // description = $('.abuse-description-cls').val();
+        description = $(this).parents('.card-body').find('textarea').val();
+    }
+    else {
+        description = $('.abuse-description-cls').val();
+    }
+    var data = {description : description};
+
+    if(description != '') {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function (data, dataType) {
+                $('.message').addClass('success-message ').append('Notre équipe traitera votre réclamation au plus vite.\n' +
+                    'Merci pour votre aide et bonne journée');
+                if (postId != 0) {
+
+                    setTimeout(function () {
+                        $('.modal-report-post ').modal('hide');
+                        $('.message').removeClass('success-message').empty();
+                        $('#abuse_description').val('');
+                       // $('#abuse-post-btn-'+ postId).hide();
+
+                    }, 2000);
+                    //
+                } else {
+
+                    setTimeout(function () {
+                        $('#modal-report-abuse-comment-' + commentId).modal('hide');
+                        $('.message').removeClass('success-message').empty();
+                        $('.abuse-description-' + commentId).val('');
+                        $('#report-comment-abuse-btn-' + commentId).hide();
+
+
+                    }, 2000);
+                }
+
+            }
+        });
+    }
+})
+
+/**
+ * update poste
+ */
+
+$('.update-post-btn').click(function(e){
+    var postId = $(this).attr('data-post');
+    var url = $(this).attr('data-url') ;
+    $.get(url, function (data) {
+        $('.modal-content-update-post').html(data);
+    });
+})
