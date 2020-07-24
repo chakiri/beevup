@@ -405,11 +405,11 @@
         background: #e74c3c !important;
     }
 }
-#frame #sidepanel #contacts ul li.contact .wrap span {
+#frame #sidepanel #contacts ul li.contact .wrap span, #frame #sidepanel #channels ul li.contact .wrap span {
     position: absolute;
     right: 0;
     margin-top: 10px;
-    background: #aa96d4;
+    background: #FF7F50;
 }
 #frame #sidepanel #contacts ul li.contact .wrap span.online {
     background: #2ecc71;
