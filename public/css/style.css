@@ -136,11 +136,24 @@
 }
 
 .box-notification{
+    position: relative;
     background: #F6F7F8;
     border-radius: 30px;
     height: 27px;
     width: 26px;
     margin: 0 3px;
+}
+
+.box-notification .badge{
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    padding: 5px 5px;
+    border-radius: 8.35rem;
+    background-color: #e74a3b;
+    color: white;
+    transform: scale(.8);
+    transform-origin: top right;
 }
 
 .box-advisor a[type=button], .box-company a[type=button]{
@@ -274,8 +287,7 @@ li.icon-type-post a.active{
 
 .popup-info{
     display: none;
-    margin-left: 0px;
-    margin-top: -143px;
+    transform: translate3d(-66px, -154px, 0px);
     transition: all 0.3s ease-in;
     background-color:var(--white-color);
     border: 1px solid #f1f1f1;
@@ -291,3 +303,35 @@ li.icon-type-post a.active{
 #profile_addressPostCode {
     height: 31px;
 }
+
+#cookies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #2a2a2a;
+    z-index: 9999;
+    width: 100%;
+    padding: 7px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Websocket */
+#chatPlateform{
+    background-color: #fff;
+    display: initial;
+}
+
+/* Toast */
+.toast {
+    position: absolute;
+    background-color: #222222;
+    color: white;
+    top: 5.2em;
+    right: 1em;
+    z-index: 1;
+    border-radius: 6px;
+}.toast .toast-header{
+     background-color: #222222;
+     color: white;
+ }

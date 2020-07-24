@@ -6,11 +6,7 @@ use App\Entity\OpportunityNotification;
 use App\Repository\OpportunityNotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\PostRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-
 
 
 
@@ -19,8 +15,7 @@ class OpportunityNotificationController extends AbstractController
     /**
      * @Route("/opportunityNotification/add", name="opportunityNotification_add")
      */
-
-    public function add(EntityManagerInterface $manager, PostRepository $postRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
+    /*public function add(EntityManagerInterface $manager, PostRepository $postRepository, OpportunityNotificationRepository $opportunityNotificationRepo)
     {
         $OpportunityPostsIds = [''];
         $displayedOpportunityPosts =$opportunityNotificationRepo->findByLastMonthNotification($this->getUser());
@@ -44,5 +39,32 @@ class OpportunityNotificationController extends AbstractController
             ['content-type' => 'text/html']
         );
         return $response;
+    }*/
+
+    /**
+     * @Route("/opportunity/notification/set", name="opportunity_notification_set")
+     */
+    public function set(EntityManagerInterface $manager, OpportunityNotificationRepository $opportunityNotificationRepository)
+    {
+        $opportunityNotification = $opportunityNotificationRepository->findOneBy(['user' => $this->getUser()]);
+
+        if (!$opportunityNotification){
+            $opportunityNotification = new OpportunityNotification();
+
+            $opportunityNotification->setUser($this->getUser());
+        }
+
+        $opportunityNotification->setSeen(true);
+
+        $opportunityNotification->setLastSeen(new \Datetime());
+
+        $manager->persist($opportunityNotification);
+
+        $manager->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Notification opportunities set to true'
+        ], 200);
     }
 }

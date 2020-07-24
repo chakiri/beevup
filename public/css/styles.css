@@ -44,6 +44,7 @@
 }
 /* ============== DEFAULT component =========== */
 html {
+    height: 100%;
     --scrollbarBG:#eee;
     --thumbBG: var(--bg-color);
 }
@@ -53,6 +54,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 body{
+    height: 100%;
     font-size: 11px;
     font-weight: 500;
     background: #FAFAFA !important;
@@ -76,6 +78,19 @@ input, textarea {
 a.nav-link{
     margin-top: -5px;
     margin-left: -15px;
+}
+
+.dropdown-menu{
+    border-radius: 7px;
+}
+
+.main-nav a {
+    display: block;
+    position: relative;
+    padding: 10px 15px;
+    transition: 0.3s;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .container-bv{

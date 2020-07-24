@@ -249,3 +249,42 @@ $('.update-post-btn').click(function(e){
         $('.modal-content-update-post').html(data);
     });
 })
+
+/**
+ * Set seen opportunities notification
+ */
+function setSeenOpportunityNotification(e){
+
+    const url = $(e).data('url');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (response){
+            console.log('opportunity notification seen');
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+}
+
+/**
+ *Set Session cookie
+ */
+$('#cookies a').click(function(){
+    const url = $(this).data('url');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (){
+            console.log('Set cookie session');
+            $('#cookies').hide();
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+});
+

@@ -19,23 +19,6 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
     
     public function findOneById($value): ?Post
     {
@@ -45,6 +28,21 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findOpportunitiesByDate($user, $date){
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.category = :category')
+            ->andWhere('p.user != :user')
+            ->andWhere('p.createdAt >= :date')
+            ->setParameter('category', 2)
+            ->setParameter('user', $user)
+            ->setParameter('date', $date)
+            ;
+
+        return $qb->getQuery()
+            ->getResult()
+            ;
     }
 
     public function findByNotSeenOpportunityPost($value, $value2, $value3)

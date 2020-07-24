@@ -24,7 +24,6 @@ security:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
 
-
             form_login:
                 login_path: security_login
                 check_path: security_login
@@ -33,6 +32,7 @@ security:
             logout:
                 path: security_logout
                 target: security_login
+                handlers: [App\EventListener\LogoutListener]
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\PostsNotification;
+use App\Entity\PostNotification;
 use App\Entity\Post;
 use App\Entity\PostLike;
 use App\Repository\OpportunityNotificationRepository;
@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PostType;
 use App\Repository\CommentRepository;
-use App\Repository\PostsNotificationRepository;
+use App\Repository\PostNotificationRepository;
 use App\Repository\PostLikeRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\PostRepository;
@@ -73,7 +73,7 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}/remove", name="post_remove")
      */
-    public function remove(Post $post, EntityManagerInterface $manager, PostLikeRepository $postLikeRepository, CommentRepository $commentRepository, PostsNotificationRepository $postsNotificationRepository, AbuseRepository $abuseRepository)
+    public function remove(Post $post, EntityManagerInterface $manager, PostLikeRepository $postLikeRepository, CommentRepository $commentRepository, PostNotificationRepository $postsNotificationRepository, AbuseRepository $abuseRepository)
     {
         $postLikes = $postLikeRepository->findBy(['post' => $post]);
         $comments = $commentRepository->findBy(['post' => $post]);
@@ -111,17 +111,17 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}/likes", name="post_like")
      */
-    public function updateLikesNumber(Post $post, EntityManagerInterface $manager, PostLikeRepository $postLikeRepository, PostsNotificationRepository $postsNotificationRepository): Response
+    public function updateLikesNumber(Post $post, EntityManagerInterface $manager, PostLikeRepository $postLikeRepository, PostNotificationRepository $postNotificationRepository): Response
     {
         $user = $this->getUser();
 
         if ($post->isLikedByUser($user)){
             $like = $postLikeRepository->findOneBy(['user' => $user, 'post' => $post]);
 
-            $notification = $postsNotificationRepository->findOneBy(['user' => $user, 'post' => $post, 'type' => 'like']);
+            $notification = $postNotificationRepository->findOneBy(['user' => $user, 'post' => $post, 'type' => 'like']);
 
-            $manager->remove($notification);
-            $manager->remove($like);
+            if ($notification) $manager->remove($notification);
+            if ($like) $manager->remove($like);
 
             $manager->flush();
 
@@ -139,7 +139,7 @@ class PostController extends AbstractController
 
             $manager->persist($like);
 
-            $notification = new PostsNotification();
+            $notification = new PostNotification();
 
             $notification->setPost($post)
                 ->setUser($user)
@@ -202,7 +202,7 @@ class PostController extends AbstractController
     /*
      * @Route("/post/{id}/delete", name="post_delete")
      */
-    /*public function delete(EntityManagerInterface $manager, PostRepository $postRepository, PostLikeRepository $postLikeRepository, CommentRepository $commentRepository, PostsNotificationRepository $dashboardNotificationRepo, AbuseRepository $abuseRepo, OpportunityNotificationRepository $opportunityNotificationRepo, $id)
+    /*public function delete(EntityManagerInterface $manager, PostRepository $postRepository, PostLikeRepository $postLikeRepository, CommentRepository $commentRepository, PostNotificationRepository $dashboardNotificationRepo, AbuseRepository $abuseRepo, OpportunityNotificationRepository $opportunityNotificationRepo, $id)
     {
      $post = $postRepository->findOneByID($id);
 

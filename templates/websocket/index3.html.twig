@@ -41,7 +41,16 @@
                     <ul>
                         {% for topic in topics %}
                             <li class="channels{% if topic.name == subject %} active {% endif %}">
-                                <a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'><strong><div class="meta"><span>#</span> {{ topic.name|capitalize }}</div><span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span></strong></a>
+                                <a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'>
+                                    <strong>
+                                        <div class="meta">
+                                            <span>#</span> {{ topic.name|capitalize }}
+                                        </div>
+                                        <div class="wrap notifications">
+                                            <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span>
+                                        </div>
+                                    </strong>
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -127,7 +136,7 @@
                                     <p>{{ message.content }}</p>
                                 </div>
 
-                                <span><small>{{ message.createdAt|date('d/m H:m')|trans}}</small></span>
+                                <span><small>{{ message.createdAt|date('d/m H:i')}}</small></span>
                             </li>
                         {% endfor %}
                     </ul>

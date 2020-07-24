@@ -29,26 +29,35 @@
 </head>
 
 {% set toast = app.request.get('toastScore') %}
+
 <body class="{{ app.request.get('_route') }}" {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
+
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
-{% if app.request.attributes.get('_route') != 'security_registration'
-and app.request.attributes.get('_route') != 'security_login'
-    and app.request.attributes.get('_route') != 'security_forgotten_password' %}
+
+{% if app.request.attributes.get('_route') != 'security_registration' and
+      app.request.attributes.get('_route') != 'security_login' and
+      app.request.attributes.get('_route') != 'security_forgotten_password'
+%}
     {% include 'partials/header.html.twig' %}
 {% endif %}
+
 {#dispaly flash messages #}
 {% if app.request.attributes.get('_route') != 'service'
-          and app.request.attributes.get('_route') != 'service_user'
-          and app.request.attributes.get('_route') != 'service_company'
-          and app.request.attributes.get('_route') != 'service_store'
-          and app.request.attributes.get('_route') != 'service_store'
           and app.request.attributes.get('_route') != 'security_forgotten_password'
           and app.request.attributes.get('_route') != 'security_reset_password'
           and app.request.attributes.get('_route') != 'security_login'
 %}
     {% include 'partials/flashes.html.twig' %}
+
+    {% if not app.session.get('cookie') or (app.session.get('cookie') and app.session.get('cookie') == false) %}
+        <div id="cookies">
+            <span>Les cookies nous permettent d’améliorer la navigation. En continuant d’utiliser notre site, vous acceptez l’utilisation des cookies comme prévu dans nos <a href="#">CGU</a>.
+                <a type="button" href="#" class="btn small-btn orange-bg ml-2" data-url="{{ path('cookie_accept') }}">OK, allons-y</a>
+            </span>
+        </div>
+    {% endif %}
 {% endif %}
 
 {% block body %}{% endblock %}
@@ -58,10 +67,8 @@ and app.request.attributes.get('_route') != 'security_login'
 
 {% if app.request.attributes.get('_route') != 'chat_topic'
     and app.request.attributes.get('_route') != 'chat_private'
-    and app.request.attributes.get('_route') != 'security_registration'
-
 %}
- {% include 'partials/footer.html.twig' %}
+    {% include 'partials/footer.html.twig' %}
 {% endif %}
 
 <script src="/lib/jquery/jquery.min.js"></script>
@@ -81,8 +88,6 @@ and app.request.attributes.get('_route') != 'security_login'
 <script src="/lib/isotope/isotope.pkgd.min.js"></script>
 <script src="/lib/lightbox/js/lightbox.min.js"></script>
 <script src="/lib/introjs/js/intro.min.js"></script>
-<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
-
 <script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
 
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}

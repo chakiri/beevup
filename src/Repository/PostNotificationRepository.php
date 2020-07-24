@@ -2,23 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PostsNotification;
+use App\Entity\Post;
+use App\Entity\PostNotification;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PostsNotification|null find($id, $lockMode = null, $lockVersion = null)
- * @method PostsNotification|null findOneBy(array $criteria, array $orderBy = null)
- * @method PostsNotification[]    findAll()
- * @method PostsNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PostNotification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PostNotification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PostNotification[]    findAll()
+ * @method PostNotification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PostsNotificationRepository extends ServiceEntityRepository
+class PostNotificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PostsNotification::class);
+        parent::__construct($registry, PostNotification::class);
     }
-    public function findOneByPostAndUser($value1,$value2,$value3): ?PostsNotification
+    public function findOneByPostAndUser($value1,$value2,$value3): ?PostNotification
     {
          return $this->createQueryBuilder('l')
             ->andWhere('l.user = :val1')
@@ -30,14 +32,30 @@ class PostsNotificationRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByDistinctPostAndType($value1)
+    public function findByOtherUser(Post $post, User $user): array
+    {
+        $qb = $this->createQueryBuilder('n')
+            ->where('n.post = :post')
+            ->andWhere('n.user != :user')
+            ->andWhere('n.seen = :seen')
+            ->setParameter('post', $post)
+            ->setParameter('user', $user)
+            ->setParameter('seen', false)
+            ;
+
+        return $qb->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByDistinctPostAndType($user)
     {
         return $this->createQueryBuilder('u')
-            ->Where('u.owner = :val1')
-            ->andWhere('u.seen = :val2')
-            ->andWhere('u.user != :val1')
+            ->Where('u.owner = :user')
+            ->andWhere('u.seen = :seen')
+            ->andWhere('u.user != :user')
             ->groupBy('u.id, u.post, u.type')
-            ->setParameters(array('val1' => $value1,'val2' => 0))
+            ->setParameters(array('user' => $user,'seen' => false))
             ->getQuery()
             ->getResult()
         ;
@@ -52,7 +70,7 @@ class PostsNotificationRepository extends ServiceEntityRepository
         ;
     }
     // /**
-    //  * @return PostsNotification[] Returns an array of PostsNotification objects
+    //  * @return PostNotification[] Returns an array of PostNotification objects
     //  */
     /*
     public function findByExampleField($value)
@@ -69,7 +87,7 @@ class PostsNotificationRepository extends ServiceEntityRepository
     */
 
     
-    public function findOneByComment($value): ?PostsNotification
+    public function findOneByComment($value): ?PostNotification
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.comment = :val')

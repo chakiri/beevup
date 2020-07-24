@@ -351,14 +351,14 @@ p.text-muted {
   float: left;
 }
 
-.main-nav a {
+/*.main-nav a {
   display: block;
   position: relative;
   padding: 10px 15px;
   transition: 0.3s;
   font-size: 13px;
   font-weight: 600;
-}
+}*/
 
 .main-nav a:hover,
 .main-nav .active > a,
