@@ -237,7 +237,7 @@ class Post implements \Serializable
     }
 
     /**
-     * @return Collection|abuses[]
+     * @return Collection
      */
     public function getAbuses(): Collection
     {
