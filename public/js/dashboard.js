@@ -272,22 +272,3 @@ function setSeenOpportunityNotification(e){
     });
 }
 
-/**
- *Set Session cookie
- */
-$('#cookies a').click(function(){
-    const url = $(this).data('url');
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (){
-            console.log('Set cookie session');
-            $('#cookies').hide();
-        },
-        error: function(xhr){
-            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
-        }
-    });
-});
-
