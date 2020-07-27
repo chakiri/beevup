@@ -15,7 +15,6 @@ use App\Repository\UserRepository;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\CookieAccepted;
 use App\Service\Session\WelcomePopup;
-use Faker\Provider\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;

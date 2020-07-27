@@ -29,13 +29,9 @@
 </head>
 
 {% set toast = app.request.get('toastScore') %}
-
 <body class="{{ app.request.get('_route') }}" {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 
-{% if toast is defined and toast is not empty %}
-    {% include 'partials/toast.html.twig' %}
-{% endif %}
-
+{# Display header #}
 {% if app.request.attributes.get('_route') != 'security_registration' and
       app.request.attributes.get('_route') != 'security_login' and
       app.request.attributes.get('_route') != 'security_forgotten_password'
@@ -43,41 +39,41 @@
     {% include 'partials/header.html.twig' %}
 {% endif %}
 
-{#dispaly flash messages #}
-{% if app.request.attributes.get('_route') != 'service'
-          and app.request.attributes.get('_route') != 'security_forgotten_password'
-          and app.request.attributes.get('_route') != 'security_reset_password'
-          and app.request.attributes.get('_route') != 'security_login'
-%}
-    {% include 'partials/flashes.html.twig' %}
-
-    {% if not app.session.get('cookie') or (app.session.get('cookie') and app.session.get('cookie') == false) %}
-        <div id="cookies">
-            <span>Les cookies nous permettent d’améliorer la navigation. En continuant d’utiliser notre site, vous acceptez l’utilisation des cookies comme prévu dans nos <a href="#">CGU</a>.
-                <a type="button" href="#" class="btn small-btn orange-bg ml-2" data-url="{{ path('cookie_accept') }}">OK, allons-y</a>
-            </span>
-        </div>
-    {% endif %}
-{% endif %}
-
 {% block body %}{% endblock %}
 
 {% block modals %}{% endblock %}
 
-
+{#dispaly footer #}
 {% if app.request.attributes.get('_route') != 'chat_topic'
     and app.request.attributes.get('_route') != 'chat_private'
 %}
     {% include 'partials/footer.html.twig' %}
 {% endif %}
 
-<script src="/lib/jquery/jquery.min.js"></script>
+{#dispaly flash messages #}
+{% if app.request.attributes.get('_route') != 'service'
+    and app.request.attributes.get('_route') != 'security_forgotten_password'
+    and app.request.attributes.get('_route') != 'security_reset_password'
+    and app.request.attributes.get('_route') != 'security_login'
+%}
+    {% include 'partials/flashes.html.twig' %}
+{% endif %}
 
+{# Display Toast info#}
+{% if toast is defined and toast is not empty %}
+    {% include 'partials/toast.html.twig' %}
+{% endif %}
+
+{#dispaly cookies message #}
+{% if is_granted('ROLE_USER') %}
+    {% include 'partials/cookies.html.twig' %}
+{% endif %}
+
+<script src="/lib/jquery/jquery.min.js"></script>
 <script src="/js/vendor/popper.min.js"></script>
 <script src="/js/vendor/bootstrap.min.js"></script>
 
 <!-- JavaScript Theme Libraries -->
-
 <script src="/lib/jquery/jquery-migrate.min.js"></script>
 <script src="/lib/easing/easing.min.js"></script>
 <script src="/lib/mobile-nav/mobile-nav.js"></script>
@@ -90,6 +86,7 @@
 <script src="/lib/introjs/js/intro.min.js"></script>
 <script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
 
+{# Zendesk widget#}
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
     <!-- Start of zebulon Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=163defed-53e1-47e6-8d8a-73c2a57f2e12"> </script>
@@ -106,9 +103,6 @@
 <script src="/lib/slick/slick.min.js"></script>
 <script src="/js/scrollbar.js"></script>
 <script src="/js/script.js"></script>
-
-
-
 
 {% block javascripts %}{% endblock %}
 

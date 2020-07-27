@@ -829,6 +829,7 @@ ul.landing-page-list {
 
 /* =============== login-sec ============= */
 .security_login{
+    padding: 0;
     background-color: var(--bg-color) !important;
 }
 .login-sec {

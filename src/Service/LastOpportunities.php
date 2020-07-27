@@ -41,8 +41,12 @@ class LastOpportunities
 
         if ($opportunityNotification  && $opportunityNotification->getSeen() == true)
             $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $opportunityNotification->getLastSeen());
-        else
-            $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $historic->getLastLogout());
+        else{
+            if ($historic)
+                $opportunities = $this->postRepository->findOpportunitiesByDate($this->security->getUser(), $historic->getLastLogout());
+            else
+                $opportunities = $this->postRepository->findAll();
+        }
 
         return $opportunities;
     }

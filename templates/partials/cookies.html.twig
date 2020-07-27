@@ -1,0 +1,7 @@
+{% if not app.session.get('cookie') or (app.session.get('cookie') and app.session.get('cookie') == false) %}
+    <div id="cookies">
+        <span>Les cookies nous permettent d’améliorer la navigation. En continuant d’utiliser notre site, vous acceptez l’utilisation des cookies comme prévu dans nos <a href="#">CGU</a>.
+            <a type="button" href="#" class="btn small-btn orange-bg ml-2" data-url="{{ path('cookie_accept') }}">OK, allons-y</a>
+        </span>
+    </div>
+{% endif %}
