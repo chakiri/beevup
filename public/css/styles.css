@@ -424,7 +424,6 @@ textarea.form-control{
 .map-responsive {
     overflow:hidden;
     position:relative;
-    height:256px;
     border-radius: 12px;
 
 }
