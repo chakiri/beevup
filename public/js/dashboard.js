@@ -254,6 +254,23 @@ $('.update-post-btn').click(function(e){
 })
 
 /**
+ * GET POST LIKES
+ */
+
+
+$('body').on('click', '.likes-info', function () {
+
+
+    var url = $(this).attr('data-path');
+    $.get(url, function (data) {
+
+        $('.modal-likes-list').html(data);
+
+    });
+})
+
+
+/**
  * Set seen opportunities notification
  */
 function setSeenOpportunityNotification(e){
