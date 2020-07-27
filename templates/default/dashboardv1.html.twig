@@ -148,14 +148,16 @@
                                                             <small>Supprimer</small></a>
 
                                                     {% else %}
-                                                        <a type="button"
-                                                           data-post = "{{ post.id }}"
-                                                           class="btn post-delete report-abuse-btn p-0"
-                                                           data-toggle="modal"
-                                                           data-url="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}"
-                                                           data-target="#add-abus-modal"> <small>Signaler</small>
+                                                        {% if post.isreportedByUser(app.user) == false %}
+                                                                <a type="button"
+                                                                   data-post = "{{ post.id }}"
+                                                                   class="btn post-delete report-abuse-btn p-0"
+                                                                   data-toggle="modal"
+                                                                   data-url="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}"
+                                                                   data-target="#add-abus-modal"> <small>Signaler</small>
 
-                                                        </a>
+                                                                </a>
+                                                            {% endif %}
                                                     {% endif %}
                                                 </div>
                                                 {% if     post.category.id == 1 %}{% set badge = 'badge-green' %}{% set fa = 'fa-newspaper' %}
@@ -252,13 +254,14 @@
                                                         {% if comment.user == app.user %}
                                                             <button class="btn delete-comment" data-url="{{ path('remove_comment', {'id': comment.id}) }}"><small>supprimer</small></button>
                                                         {% else %}
-
-                                                            <a class="btn abuse-comment report-abuse-btn"
-                                                                    data-comment = "{{ comment.id }}"
-                                                                    data-toggle="modal"
-                                                                    data-url="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}"
-                                                                    data-target="#add-abus-modal"
-                                                            ><small>signaler</small></a>
+                                                            {% if comment.isreportedByUser(app.user) == false %}
+                                                                <a class="btn abuse-comment report-abuse-btn"
+                                                                        data-comment = "{{ comment.id }}"
+                                                                        data-toggle="modal"
+                                                                        data-url="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}"
+                                                                        data-target="#add-abus-modal"
+                                                                ><small>signaler</small></a>
+                                                            {% endif %}
                                                         {% endif %}
                                                     </div>
                                                 </div>
