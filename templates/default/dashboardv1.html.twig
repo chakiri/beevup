@@ -188,7 +188,11 @@
                                     <div class="comments">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <div class="likes-info {% if post.likes|length == 0 %}d-none{% endif %}">
+                                                <div class="likes-info {% if post.likes|length == 0 %}d-none{% endif %}"
+                                                     data-post="{{post.id}}"
+                                                     data-toggle="modal"
+                                                     data-target="#LikesList"
+                                                     data-path="{{path('post_likes', { 'id': post.id})}}">
                                                     <i class="fa fa-thumbs-up p-1 orange"></i>
                                                     <small>
                                                         <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
@@ -338,6 +342,24 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal to get the likes list  -->
+
+    <div class="modal fade LikesList" id="LikesList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-likes-list">
+
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="spinner-border text-warning" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
