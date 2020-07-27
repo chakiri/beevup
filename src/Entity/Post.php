@@ -58,6 +58,11 @@ class Post implements \Serializable
     private $likes;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Abuse", mappedBy="post" , cascade={"persist", "remove"})
+     */
+    private $abuses;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $distinctUserCommentNumber;
@@ -99,7 +104,8 @@ class Post implements \Serializable
         $this->createdAt = new \Datetime();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
-      
+        $this->abuses = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -230,6 +236,14 @@ class Post implements \Serializable
         return $this;
     }
 
+    /**
+     * @return Collection|abuses[]
+     */
+    public function getAbuses(): Collection
+    {
+        return $this->abuses;
+    }
+
     public function getDistinctUserCommentNumber(): ?int
     {
         return $this->distinctUserCommentNumber;
@@ -315,13 +329,25 @@ class Post implements \Serializable
     }
 
     /**
-     * Check if post liked by useré
-     * @param User $user
-     * @return bool
-     */
+ * Check if post liked by useré
+ * @param User $user
+ * @return bool
+ */
     public function isLikedByUser(User $user): bool{
         foreach ($this->likes as $like){
             if ($like->getUser() == $user) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if post is reported by current user
+     * @param User $user
+     * @return bool
+     */
+    public function isReportedByUser(User $user): bool{
+        foreach ($this->abuses as $abus){
+            if ($abus->getUser() == $user) return true;
         }
         return false;
     }

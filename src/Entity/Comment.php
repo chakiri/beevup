@@ -43,9 +43,15 @@ class Comment
      */
     private $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Abuse", mappedBy="comment" , cascade={"persist", "remove"})
+     */
+    private $abuses;
+
     public function __construct()
     {
        $this->createdAt = new \Datetime();
+        $this->abuses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,4 +123,27 @@ class Comment
 
         return $this;
     }
+
+    /**
+     * @return Collection|abuses[]
+     */
+    public function getAbuses(): Collection
+    {
+        return $this->abuses;
+    }
+
+    /**
+     * Check if comment is reported by current user
+     * @param User $user
+     * @return bool
+     */
+    public function isReportedByUser(User $user): bool{
+        foreach ($this->abuses as $abus){
+            if ($abus->getUser() == $user ) return true;
+        }
+        return false;
+    }
+
+
+
 }
