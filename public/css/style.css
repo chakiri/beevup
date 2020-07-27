@@ -161,17 +161,17 @@
 }
 
 /*-------- Modals --------- */
-#add-post-modal{
+#add-post-modal, #update-post-modal{
     top: 52px;
 }
 
-#add-post-modal .modal-content{
+#add-post-modal .modal-content,#update-post-modal .modal-content {
     border-radius: 8px;
     border: none;
     padding: 10px;
 }
 
-#add-post-modal .modal-header{
+#add-post-modal .modal-header, #update-post-modal .modal-header{
     background-color: #ffffff;
     color: inherit;
     border-bottom: none;
@@ -181,7 +181,7 @@
     max-width: 518px;
 }
 
-#add-post-modal input, #add-post-modal textarea {
+#add-post-modal input, #add-post-modal textarea, #update-post-modal input, #update-post-modal textarea {
     width: 100%;
     border: none;
     font-size: 11px;
@@ -189,7 +189,7 @@
 #myTabContent input:not(#post_title){
     --form-placeholder-size: 11px;
 }
-#add-post-modal textarea{
+#add-post-modal textarea, #update-post-modal textarea{
     height: 30px;
 }
 

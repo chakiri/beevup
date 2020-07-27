@@ -1,7 +1,11 @@
 {% form_theme PostForm 'bootstrap_4_layout.html.twig' %}
 
   {% block body %}
-      {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_create')}} ) }}
+      {% if post is defined %}
+       {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_edit',{'id':post.id})}} ) }}
+      {% else %}
+       {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_create')}} ) }}
+      {% endif %}
       <div class="d-flex">
           {% if app.user.profile.filename %}
               <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
@@ -49,7 +53,9 @@
               <div class="d-none">{{ form_widget(PostForm.category) }}</div>
           </ul>
 
-          <button type="submit" class="btn small-btn grey-bg">Publier</button>
+          <button type="submit" class="btn small-btn grey-bg">
+              {% if post is defined  %}Modifier{% else %} Publier{% endif %}
+          </button>
       </div>
 
       {{ form_end(PostForm) }}
