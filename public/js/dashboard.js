@@ -178,10 +178,12 @@ $('.comments .comment').click(function(){
 $('.report-abuse-btn').click(function(e){
 
     var postId = $(this).attr('data-post');
+    var commentId = $(this).attr('data-comment');
     var url = $(this).attr('data-url') ;
     $.get(url, function (data) {
         $('.modal-content-report-abus').html(data);
         $('.modal-content-report-abus').attr( 'data-post-id', postId );
+        $('.modal-content-report-abus').attr( 'data-comment-id', commentId );
     });
 })
 /**
@@ -192,6 +194,7 @@ $('body').on('click', '.report-abuse-submit-btn', function (e) {
     e.preventDefault();
 
     var postId = $('.modal-content').attr('data-post-id');
+    var commentId =$('.modal-content').attr('data-comment-id');
     var url = $(this).attr('data-target');
     var description ='';
     if(postId > 0) {

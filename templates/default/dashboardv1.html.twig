@@ -252,7 +252,13 @@
                                                         {% if comment.user == app.user %}
                                                             <button class="btn delete-comment" data-url="{{ path('remove_comment', {'id': comment.id}) }}"><small>supprimer</small></button>
                                                         {% else %}
-                                                            <button class="btn abuse-comment"><small>signaler</small></button>
+
+                                                            <a class="btn abuse-comment report-abuse-btn"
+                                                                    data-comment = "{{ comment.id }}"
+                                                                    data-toggle="modal"
+                                                                    data-url="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}"
+                                                                    data-target="#add-abus-modal"
+                                                            ><small>signaler</small></a>
                                                         {% endif %}
                                                     </div>
                                                 </div>
