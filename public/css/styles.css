@@ -421,6 +421,7 @@ textarea.form-control{
    border-radius: var(--radius);
     padding: 96px 0;
 }
+
 .map-responsive {
     overflow:hidden;
     position:relative;
