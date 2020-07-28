@@ -531,6 +531,7 @@ ul.landing-page-list {
     padding: 16px;
     width: 100%;
 
+
 }
 .footer-text{
     font-weight: bold;
@@ -1524,6 +1525,10 @@ ul.landing-page-list {
     float: left;
     width: 100%;
     margin-bottom: 30px;
+}
+.star-descp > p {
+    clear: both;
+    color: #686868;
 }
 .star-descp > a {
     float: left;
@@ -2758,7 +2763,6 @@ a:hover {
     bottom: 14px;
     HEIGHT: auto;
     background-color: #000;
-    border: 1px solid #eee;
     border-radius: 12px;
     left: 20px;
     color: #FFF;
