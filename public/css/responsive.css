@@ -64,6 +64,18 @@
 
 
 @media (max-width: 767px) {
+	.min-col{
+		width: 100%;
+	}
+
+	#types-posts {
+		width: 0;
+	}
+
+	#types-posts ul li span{
+		display: none;
+	}
+
   .back-to-top {
     bottom: 15px;
   }

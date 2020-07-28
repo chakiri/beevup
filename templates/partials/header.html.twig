@@ -5,11 +5,11 @@
     <a href="{{ path('dashboard') }}"><img src="/images/default/logo_bv_mode.png" alt=""></a>
 </div>
 
-<nav class="main-nav d-none d-lg-block" style="width: 63%;">
-    <ul class="d-lg-flex justify-content-between">
+<nav class="main-nav d-none d-lg-block">
+    <ul class="d-lg-flex">
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-            <div class="d-lg-flex">
+            <div class="d-lg-flex" style="padding-right: 30%;">
                 {% set route =  app.request.get('_route') %}
                 <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>
@@ -79,7 +79,7 @@
                                         </a>
                                     {% endfor %}
                                 {% else %}
-                                    <a class="dropdown-item" href="#"><small>Aucune nouveau message</small></a>
+                                    <a class="dropdown-item" href="#"><small>Aucun nouveau message</small></a>
                                 {% endif %}
                             </div>
                         </li>
