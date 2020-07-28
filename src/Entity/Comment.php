@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -126,7 +127,7 @@ class Comment
     }
 
     /**
-     * @return Collection|abuses[]
+     * @return Collection
      */
     public function getAbuses(): Collection
     {

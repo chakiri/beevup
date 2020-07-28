@@ -5,77 +5,7 @@
 {% block body %}
     <div class="container-bv">
         <div class="row">
-            <div class="col-lg-3">
-                <div id="news-filter" class="box-navigation-items min-col">
-                    <ul>
-                        <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
-                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
-                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
-                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a></li>
-                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
-                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
-                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
-                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
-                    </ul>
-                </div>
-
-                <div id="advisorbox" class="box-advisor min-col">
-                    <small class="greyed">Votre conseiller</small>
-                    <div class="box mt-0">
-                        {% if  app.user.store != null %}
-                            {% if  app.user.store.defaultAdviser != null %}
-                                {% if  app.user.store.defaultAdviser.profile != null %}
-                                    <div class="d-flex">
-                                        <a href="#">
-                                            {% if app.user.store.defaultAdviser.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% else %}
-                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% endif %}
-                                        </a>
-                                        <div>
-                                            <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
-                                            <small>{{ app.user.store.defaultAdviser.store }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex pt-3">
-                                        <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-                                        <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <p>Aucun conseiller défini</p>
-                            {% endif %}
-                        {% else %}
-                            <p>Aucun conseiller défini</p>
-                        {% endif %}
-                    </div>
-                </div>
-
-                {% if app.user.company  %}
-                <div class="box-company mt-3 min-col">
-                    <small class="greyed">Votre entreprise</small>
-                    <div class="box mt-0">
-                        <div class="d-flex">
-                            <a href="#">
-                                {% if app.user.company.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                {% endif %}
-                            </a>
-                            <div class="pb-3">
-                                <p>{{ app.user.company.name|capitalize }}</p>
-                                <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
-                            </div>
-                        </div>
-                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-12 order-sm-2">
                 <div class="box-social-media min-col m-center">
                     <div class="new-post">
                         <div class="box">
@@ -144,20 +74,20 @@
                                                             <small>Modifier |</small></a>
                                                         <a type="button" class="btn post-delete p-0"
                                                            href="{{ path('post_remove', {'id': post.id}) }}"
-                                                           >
+                                                        >
                                                             <small>Supprimer</small></a>
 
                                                     {% else %}
                                                         {% if post.isreportedByUser(app.user) == false %}
-                                                                <a type="button"
-                                                                   data-post = "{{ post.id }}"
-                                                                   class="btn post-delete report-abuse-btn p-0"
-                                                                   data-toggle="modal"
-                                                                   data-url="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}"
-                                                                   data-target="#add-abus-modal"> <small>Signaler</small>
+                                                            <a type="button"
+                                                               data-post = "{{ post.id }}"
+                                                               class="btn post-delete report-abuse-btn p-0"
+                                                               data-toggle="modal"
+                                                               data-url="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}"
+                                                               data-target="#add-abus-modal"> <small>Signaler</small>
 
-                                                                </a>
-                                                            {% endif %}
+                                                            </a>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </div>
                                                 {% if     post.category.id == 1 %}{% set badge = 'badge-green' %}{% set fa = 'fa-newspaper' %}
@@ -260,10 +190,10 @@
                                                         {% else %}
                                                             {% if comment.isreportedByUser(app.user) == false %}
                                                                 <a class="btn abuse-comment report-abuse-btn"
-                                                                        data-comment = "{{ comment.id }}"
-                                                                        data-toggle="modal"
-                                                                        data-url="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}"
-                                                                        data-target="#add-abus-modal"
+                                                                   data-comment = "{{ comment.id }}"
+                                                                   data-toggle="modal"
+                                                                   data-url="{{ path('abuse_add',{'postId':0, 'commentId':comment.id}) }}"
+                                                                   data-target="#add-abus-modal"
                                                                 ><small>signaler</small></a>
                                                             {% endif %}
                                                         {% endif %}
@@ -285,7 +215,77 @@
                 </div>
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-md-12 order-sm-1">
+                <div id="news-filter" class="box-navigation-items min-col">
+                    <ul>
+                        <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
+                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
+                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
+                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a></li>
+                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
+                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
+                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
+                    </ul>
+                </div>
+
+                <div id="advisorbox" class="box-advisor min-col">
+                    <small class="greyed">Votre conseiller</small>
+                    <div class="box mt-0">
+                        {% if  app.user.store != null %}
+                            {% if  app.user.store.defaultAdviser != null %}
+                                {% if  app.user.store.defaultAdviser.profile != null %}
+                                    <div class="d-flex">
+                                        <a href="#">
+                                            {% if app.user.store.defaultAdviser.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                            {% else %}
+                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                            {% endif %}
+                                        </a>
+                                        <div>
+                                            <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
+                                            <small>{{ app.user.store.defaultAdviser.store }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex pt-3">
+                                        <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
+                                        <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <p>Aucun conseiller défini</p>
+                            {% endif %}
+                        {% else %}
+                            <p>Aucun conseiller défini</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if app.user.company  %}
+                <div class="box-company mt-3 min-col">
+                    <small class="greyed">Votre entreprise</small>
+                    <div class="box mt-0">
+                        <div class="d-flex">
+                            <a href="#">
+                                {% if app.user.company.filename %}
+                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                {% endif %}
+                            </a>
+                            <div class="pb-3">
+                                <p>{{ app.user.company.name|capitalize }}</p>
+                                <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
+                            </div>
+                        </div>
+                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-3 col-md-12 order-sm-3">
                 <div class="box-advertising min-col float-right">
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
@@ -298,7 +298,6 @@
 {% endblock %}
 
 {% block modals %}
-
 
     <!-- Post Modal -->
     <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -316,8 +315,6 @@
 
     <!-- Modal to update post  -->
 
-
-    <!-- Modal -->
     <div class="modal modal-update-post fade" id="update-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-update-post">
@@ -332,8 +329,6 @@
 
     <!-- Modal to report abuse  -->
 
-
-    <!-- Modal -->
     <div class="modal modal-report-post fade" id="add-abus-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-report-abus">
@@ -364,11 +359,6 @@
         </div>
     </div>
 
-
-
-
-
-    <!-- Modal -->
 {% endblock %}
 
 {% block javascripts %}

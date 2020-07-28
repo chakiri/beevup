@@ -123,7 +123,7 @@ h6 {
   color:#000;
 }
 .btn-radius {
-  border-radius:5px !important;
+  border-radius:7px !important;
 }
 
 .back-to-top {
@@ -404,11 +404,6 @@ p.text-muted {
   color: #007bff;
 }
 
-.main-nav .drop-down > a:after {
-  content: "\f107";
-  font-family: FontAwesome;
-  padding-left: 10px;
-}
 
 .main-nav .drop-down .drop-down ul {
   top: 0;
@@ -458,6 +453,10 @@ p.text-muted {
   color: #fff;
   padding: 10px 20px;
   font-weight: 500;
+}
+
+.mobile-nav a i{
+  color: #132644;
 }
 
 .mobile-nav a:hover,
