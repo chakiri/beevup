@@ -1,0 +1,6 @@
+{% if app.user.profile.isCompleted != true %}
+    <div class="warning p-3">
+        <h5 class="alert-heading"><i class="fa fa-eye"></i> Votre profil n’est pas encore visible</h5>
+        <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profil</a>.</p>
+    </div>
+{% endif %}

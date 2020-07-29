@@ -128,7 +128,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
      */
-    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen)
+    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, ServiceRepository $serviceRepository)
     {
         if ($category != null)
             $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);
@@ -139,10 +139,12 @@ class DefaultController extends AbstractController
             $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
+        $lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
 
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts,
-            'publicity' => $publicity
+            'publicity' => $publicity,
+            'lastSpecialOffer' => $lastSpecialOffer,
         ]);
     }
 

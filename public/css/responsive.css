@@ -68,12 +68,27 @@
 		width: 100%;
 	}
 
-	#types-posts {
+	/*#types-posts {
 		width: 0;
+	}*/
+
+	#news-filter{
+		display: none;
 	}
 
-	#types-posts ul li span{
+	#types-posts ul li i{
 		display: none;
+	}
+	.box-notification {
+		margin: 0;
+	}
+
+	.warnings {
+		display: none;
+	}
+
+	.icon-post{
+		display: none !important;
 	}
 
   .back-to-top {

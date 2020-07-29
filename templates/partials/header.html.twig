@@ -6,10 +6,11 @@
 </div>
 
 <nav class="main-nav d-none d-lg-block">
-    <ul class="d-lg-flex">
+    <ul class="d-lg-flex justify-content-between">
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div></div>
 
-            <div class="d-lg-flex" style="padding-right: 30%;">
+            <div class="d-lg-flex">
                 {% set route =  app.request.get('_route') %}
                 <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>

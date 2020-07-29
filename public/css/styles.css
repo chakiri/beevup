@@ -80,6 +80,10 @@ a.nav-link{
     margin-left: -15px;
 }
 
+.main-nav{
+    width: 100%;
+}
+
 .dropdown-menu{
     border-radius: 7px;
 }
@@ -2753,7 +2757,7 @@ a:hover {
 }
 
 /* =================Alerts ============================*/
-.alert.alert-dismissible.alert-success.mb-0{
+.warning, .alert.alert-dismissible.alert-success.mb-0{
     position: fixed;
     bottom: 14px;
     HEIGHT: auto;
