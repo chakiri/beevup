@@ -356,11 +356,14 @@ textarea.form-control{
 .landing-page-registration-bloc{
   background-color: var(--bg-color);
 }
-.security_registration {
+.security_registration, .security_new_account, .security_forgotten_password, .security_reset_password {
     padding: 0;
   background-color: var(--white-color) !important;;
   overflow-x: hidden;
 
+}
+#reset_password_password{
+    margin-bottom: 10px;
 }
 
 .landign-page-slogan{
