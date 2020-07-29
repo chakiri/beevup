@@ -34,7 +34,9 @@
 {# Display header #}
 {% if app.request.attributes.get('_route') != 'security_registration' and
       app.request.attributes.get('_route') != 'security_login' and
-      app.request.attributes.get('_route') != 'security_forgotten_password'
+      app.request.attributes.get('_route') != 'security_forgotten_password' and
+      app.request.attributes.get('_route') != 'security_new_account' and
+      app.request.attributes.get('_route') != 'security_reset_password'
 %}
     {% include 'partials/header.html.twig' %}
 {% endif %}
