@@ -12,7 +12,7 @@
 
             <div class="d-lg-flex">
                 {% set route =  app.request.get('_route') %}
-                <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
+                <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueill</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>
                 <li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
                 <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general'}) }}" >Chat</a></li>
