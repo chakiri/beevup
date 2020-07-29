@@ -677,7 +677,7 @@ $('#display-opportunity-offer').click(function(){
 
    }
 
-    if ($('#registration_acceptConditions').length > 0){
+    if ($('#registration_acceptConditions').length > 0 || $('#reset_password_acceptConditions').length > 0 ){
         if($('#registration_acceptConditions').is(':checked')){
             $('#inscription-btn').attr('disabled', false);
         }

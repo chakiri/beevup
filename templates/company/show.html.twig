@@ -75,7 +75,10 @@
                                     {% else  %}
                                         <span>{{ company.otherCategory }}</span>
                                     {% endif %}
+
+                                    <p>{{ company.introduction|raw }}</p>
                                 </div><!--star-descp end-->
+
                             {% endif %}
 
                             <div class="product-feed-tab current" id="info-dd">
@@ -83,6 +86,7 @@
                                     <h3>
                                         {{ company.name }} en quelques mots
                                     </h3>
+
                                     <p>{{ company.description|raw ?: 'Pas de description' }}</p>
 
                                 </div><!--company description end-->
@@ -179,8 +183,9 @@
                                 </div>
                           {% endif %}
                         {% endif %}
+                        {% if users %}
                         <div class="suggestions-list">
-                            {% if users %}
+
                                 <div class="sd-title page-title sign_in_sec current">
                                     <h3>Contacts</h3>
 
@@ -204,8 +209,9 @@
                                     </div>
                                       {% endif %}
                                 {% endfor %}
-                            {% endif %}
                         </div><!--suggestions-list end-->
+                            {% endif %}
+
                     </div><!--suggestions end-->
                 </div>
             </div>

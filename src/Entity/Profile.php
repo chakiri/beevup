@@ -93,7 +93,7 @@ class Profile implements \Serializable
     private $isOnboarding;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $addressPostCode;
 
@@ -319,7 +319,7 @@ class Profile implements \Serializable
         return $this->addressPostCode;
     }
 
-    public function setAddressPostCode(int $addressPostCode): self
+    public function setAddressPostCode(?int $addressPostCode): self
     {
         $this->addressPostCode = $addressPostCode;
 

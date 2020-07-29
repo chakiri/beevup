@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ResetPasswordType extends AbstractType
 {
@@ -17,8 +18,19 @@ class ResetPasswordType extends AbstractType
         $builder
 
             ->add('password', PasswordType::class, [
-                'label'=>'Mot de passe',
-             ]);
+                'attr'  => [
+                    'placeholder' => 'Mot de passe'
+                ]
+             ])
+            ->add('acceptConditions', CheckboxType::class, [
+                'mapped'=>false,
+                'label'    => 'J\'accepte',
+                'required' => false,
+                'attr'  => [
+                    'class'       =>'accpet-condition'
+                ]
+            ]);
+        ;
 
     }
 
