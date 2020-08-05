@@ -139,6 +139,11 @@ class Store implements \Serializable
      */
     private $services;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $externalCompanies = [];
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -505,5 +510,17 @@ class Store implements \Serializable
     {
         $this->id = unserialize($serialized);
 
+    }
+
+    public function getExternalCompanies(): ?array
+    {
+        return $this->externalCompanies;
+    }
+
+    public function setExternalCompanies(?array $externalCompanies): self
+    {
+        $this->externalCompanies = $externalCompanies;
+
+        return $this;
     }
 }

@@ -80,7 +80,52 @@ class CompanyRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    
+    //local companies
+
+    public function findByStore($currentStore)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.store = :val')
+            ->setParameter('val', $currentStore)
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // get premuim companies
+    public function findByPremuimCompanies($offerType)
+    {
+        $currentDate = date("m.d.y");
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.subscription', 's')
+            ->andWhere('s.type = :val')
+            ->andWhere('s.endDare =< :val2')
+            ->setParameters(array('val' => $offerType, 'val2' => $currentDate))
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+    // get companies full premuim
+    public function findByFullPremuimCompanies()
+    {
+        $currentDate = date("m.d.y");
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.subscription', 's')
+            ->andWhere('s.type = :val')
+            ->andWhere('s.endDare =< :val2')
+            ->setParameters(array('val' => 'Full Premuim', 'val2' => $currentDate))
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
     // /**
     //  * @return Company[] Returns an array of Company objects
     //  */

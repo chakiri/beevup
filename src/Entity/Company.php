@@ -170,6 +170,11 @@ class Company implements \Serializable
      */
     private $otherCategory;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="company")
+     */
+    private $subscriptions;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -177,6 +182,7 @@ class Company implements \Serializable
         $this->isCompleted = false;
         $this->updatedAt = new \Datetime();
         $this->services = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     /**
@@ -594,6 +600,37 @@ class Company implements \Serializable
     {
         $this->id = unserialize($serialized);
 
+    }
+
+    /**
+     * @return Collection|Subscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->subscriptions->contains($subscription)) {
+            $this->subscriptions->removeElement($subscription);
+            // set the owning side to null (unless already changed)
+            if ($subscription->getCompany() === $this) {
+                $subscription->setCompany(null);
+            }
+        }
+
+        return $this;
     }
     
 }
