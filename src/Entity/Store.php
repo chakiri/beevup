@@ -523,4 +523,33 @@ class Store implements \Serializable
 
         return $this;
     }
+
+    public function addExternalCompany(int $idExternalCompany): self
+    {
+        if (!in_array($idExternalCompany, $this->externalCompanies)){
+            array_push($this->externalCompanies, $idExternalCompany);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalCompany(int $idExternalCompany): self
+    {
+        if (in_array($idExternalCompany, $this->externalCompanies)){
+            //Get the key of id
+            $key = array_search($idExternalCompany, $this->externalCompanies);
+            //Delete the key from the array
+            unset($this->externalCompanies[$key]);
+        }
+
+        return $this;
+    }
+
+    public function haveExternalCompany(int $idExternalCompany): bool
+    {
+        if (in_array($idExternalCompany, $this->externalCompanies)){
+            return true;
+        }
+        return false;
+    }
 }

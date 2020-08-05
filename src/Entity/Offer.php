@@ -30,7 +30,18 @@ class Offer
     /**
      * @ORM\Column(type="integer")
      */
-    private $servicesNumber;
+    private $nbServices;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbUsers;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbMonths;
+
 
     public function getId(): ?int
     {
@@ -61,14 +72,38 @@ class Offer
         return $this;
     }
 
-    public function getServicesNumber(): ?int
+    public function getNbServices(): ?int
     {
-        return $this->servicesNumber;
+        return $this->nbServices;
     }
 
-    public function setServicesNumber(int $servicesNumber): self
+    public function setNbServices(int $nbServices): self
     {
-        $this->servicesNumber = $servicesNumber;
+        $this->nbServices = $nbServices;
+
+        return $this;
+    }
+
+    public function getNbUsers(): ?int
+    {
+        return $this->nbUsers;
+    }
+
+    public function setNbUsers(int $nbUsers): self
+    {
+        $this->nbUsers = $nbUsers;
+
+        return $this;
+    }
+
+    public function getNbMonths(): ?int
+    {
+        return $this->nbMonths;
+    }
+
+    public function setNbMonths(?int $nbMonths): self
+    {
+        $this->nbMonths = $nbMonths;
 
         return $this;
     }

@@ -23,6 +23,11 @@ class Subscription
      */
     private $company;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Offer::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $offer;
 
     /**
      * @ORM\Column(type="date")
@@ -35,10 +40,14 @@ class Subscription
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Offer::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private $type;
+    private $isExpired;
+
+    public function __construct()
+    {
+        $this->isExpired = false;
+    }
 
     public function getId(): ?int
     {
@@ -83,14 +92,26 @@ class Subscription
         return $this;
     }
 
-    public function getType(): ?Offer
+    public function getOffer(): ?Offer
     {
-        return $this->type;
+        return $this->offer;
     }
 
-    public function setType(?Offer $type): self
+    public function setOffer(?Offer $offer): self
     {
-        $this->type = $type;
+        $this->offer = $offer;
+
+        return $this;
+    }
+
+    public function getIsExpired(): ?bool
+    {
+        return $this->isExpired;
+    }
+
+    public function setIsExpired(bool $isExpired): self
+    {
+        $this->isExpired = $isExpired;
 
         return $this;
     }

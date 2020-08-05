@@ -18,6 +18,14 @@ class Communities
 
     }
 
+    public function getStoresAround(int $km){
+
+        $stores = [];
+
+        return $stores;
+
+    }
+
     public function getAllCompanies(Company $store)
     {
         $companies =[];
