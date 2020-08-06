@@ -26,15 +26,6 @@ class Communities
 
     }
 
-    public function getAllCompanies(Company $store)
-    {
-        $companies =[];
-        $localCompanies = $this->storeRepository ->findOneBy(['id' => $store->getId()])->getCompanies();
-        $externalCompanies = $this->storeRepository ->findOneBy(['id' => $store->getId()])->getExternalCompanies();
-        array_push($companies, $localCompanies, $externalCompanies);
-        return $companies;
-    }
-
     public function calculateDistanceBetweenCompanies($currentCompany, $company)
     {
         // we can use open street map to calculate the distance

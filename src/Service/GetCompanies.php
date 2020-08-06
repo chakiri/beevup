@@ -34,4 +34,13 @@ class GetCompanies
 
         return $companies;
     }
+
+    public function getAllCompanies(Company $company)
+    {
+        $localCompanies = $this->getLocalCompanies($company);
+        $externalCompanies = $this->getExternalCompanies($company);
+
+        $companies = array_merge($localCompanies, $externalCompanies);
+        return $companies;
+    }
 }

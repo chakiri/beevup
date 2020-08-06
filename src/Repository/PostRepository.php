@@ -63,16 +63,34 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findByNotReportedPosts()
+    public function findByStore($store)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.status = 0')
-            ->orWhere('p.status IS NULL')
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->addSelect('u')
+            ->andWhere('u.store = :store')
+            ->setParameter('store', $store)
+        ;
 
+        return $qb;
     }
+
+    public function findByNotReportedPosts($store)
+    {
+        //Get local content
+        $qb = $this->findByStore($store);
+
+        $qb
+            ->andWhere('p.status IS NULL')
+            ->orderBy('p.createdAt', 'DESC')
+            ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findByIds($value1, $value2)
     {
         return $this->createQueryBuilder('p')
