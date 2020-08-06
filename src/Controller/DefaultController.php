@@ -132,12 +132,15 @@ class DefaultController extends AbstractController
     {
         $store = $this->getUser()->getStore();
         if ($category != null)
-            $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);
+            $posts = $postRepository->findByCategory($category);
         elseif ($post != null) {
-            $posts[] = $post;
+            $posts = [];
+            if ($post->getUser()->getStore() == $store) {
+                $posts[] = $post;
+            }
             $postNotificationSeen->set($post);
         }else
-            $posts = $postRepository->findByNotReportedPosts($store);
+            $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
         $lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected $store;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Post::class);
+        $this->store = $security->getUser()->getStore();
     }
 
     
@@ -63,27 +67,45 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findByStore($store)
+    public function findByStore()
     {
         $qb = $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
             ->addSelect('u')
             ->andWhere('u.store = :store')
-            ->setParameter('store', $store)
+            ->setParameter('store', $this->store)
         ;
 
         return $qb;
     }
 
-    public function findByNotReportedPosts($store)
+    public function findByNotReportedPosts()
     {
         //Get local content
-        $qb = $this->findByStore($store);
+        $qb = $this->findByStore();
 
         $qb
             ->andWhere('p.status IS NULL')
             ->orderBy('p.createdAt', 'DESC')
             ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByCategory($category)
+    {
+        //Get local content
+        $qb = $this->findByStore();
+
+        $qb
+            ->andWhere('p.status IS NULL')
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('p.createdAt', 'DESC')
+        ;
 
         return $qb
             ->getQuery()
