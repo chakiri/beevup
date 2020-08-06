@@ -3,6 +3,8 @@
 namespace App\Service;
 use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
+use App\Entity\Store;
+use App\Entity\Company;
 
 
 
@@ -18,23 +20,32 @@ class Communities
 
     }
 
-    public function getStoresAround(int $km){
+    public function getStoresAround($currentCompany,int $km){
 
         $stores = [];
+        $allStores = $this->storeRepository->findAll();
+        foreach ($allStores as $store)
+        {
+            if(calculateDistanceBetweenCompanyAndStore($currentCompany, $store, 'K') <= $km)
+            {
+                array_push($stores, $store);
+            }
+        }
+
 
         return $stores;
 
     }
 
-    public function calculateDistanceBetweenCompanies($currentCompany, $company)
+
+    public function calculateDistanceBetweenCompanyAndStores($currentCompany, $store, $unit)
     {
-        // we can use open street map to calculate the distance
-    }
+        $lat1 = $currentCompany->getLatitude();
+        $lon1 = $currentCompany->getLongitude();
 
+        $lat2 = $store->getLatitude();
+        $lon2 = $store->getLongitude();
 
-    // this the function to calculate distance between two longitude and latitude
-    // we need only to replace $lat1, $lon1 by $currentCompany->getLatitude() and $currentCompany->getLongitude(), the same for $company
-    function distance($lat1, $lon1, $lat2, $lon2, $unit) {
         if (($lat1 == $lat2) && ($lon1 == $lon2)) {
             return 0;
         }
@@ -55,6 +66,8 @@ class Communities
             }
         }
     }
+
+
 
 
 }
