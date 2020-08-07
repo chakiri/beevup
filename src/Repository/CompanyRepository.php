@@ -29,7 +29,7 @@ class CompanyRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByValue($value)
+    public function findByValue($value, $allCompanies, $store)
     {
 
         $qb = $this->createQueryBuilder('p')
@@ -49,8 +49,9 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.website LIKE :value')
             ->orWhere('p.otherCategory LIKE :value')
             ->orWhere('c.name LIKE :value')
+            ->andWhere('p.id in (:value2)')
             ->andWhere('p.isCompleted = true')
-            ->setParameters(array('value' => '%'.$value.'%'));
+            ->setParameters(array('value' => '%'.$value.'%', 'value2'=>$allCompanies));
 
         return $qb->getQuery()->getResult();
     }
@@ -65,7 +66,7 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.country = :value')
             ->andWhere('p.isCompleted = true')
             ->andWhere('c.name LIKE  :value2')
-            ->andWhere('c.id in  :value3')
+            ->andWhere('c.id in  (:value3)')
 
             ->setParameters(array('value' => $value, 'value2'=>$value2, 'value3'=>$value3));
 
@@ -83,11 +84,15 @@ class CompanyRepository extends ServiceEntityRepository
 
     //local companies
 
-    public function findByStore($currentStore)
+
+
+    public function findByCompaniesInCommunity($currentStore, $allCompanies)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.store = :val')
-            ->setParameter('val', $currentStore)
+            ->where('c.id in  :value2')
+            ->orWhere('c.store =  :val')
+            ->andWhere('c.isCompleted = true')
+            ->setParameters(array('val' => $currentStore, 'value2'=>$allCompanies))
             ->orderBy('c.name', 'ASC')
             ->getQuery()
             ->getResult()

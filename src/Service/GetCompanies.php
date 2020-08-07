@@ -17,8 +17,16 @@ class GetCompanies
 
     public function getLocalCompanies(Store $store): array
     {
-        $companies = $store->getCompanies()->toArray();
-        return $companies;
+        $companiesIds =[];
+        $companies = $store->getCompanies();
+        foreach ($companies as $company)
+        {
+
+            array_push($companiesIds, $company->getId());
+        }
+
+        return $companiesIds;
+
     }
 
     public function getExternalCompanies(Store $store): array
@@ -28,8 +36,8 @@ class GetCompanies
         $companies = [];
         if($companiesIds) {
             foreach ($companiesIds as $id) {
-                $company = $this->companyRepository->findOneById($id);
-                array_push($companies, $company);
+               // $company = $this->companyRepository->findOneById($id);
+                array_push($companies, $id);
             }
         }
 
