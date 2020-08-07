@@ -45,7 +45,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
                     ->leftJoin('u.profile', 'p')
                     ->where('p.isCompleted = true')
-                    ->andWhere('u.id in (:companiesIds)')
+                    ->andWhere('u.company in (:companiesIds)')
                     ->setParameters(array('companiesIds'=>$companiesIds ));
 
 
