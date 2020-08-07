@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\GetCompanies;
 
 
 class SearchController extends AbstractController
@@ -23,7 +24,7 @@ class SearchController extends AbstractController
      */
 
 
- public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo)
+ public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo, GetCompanies $getCompanies)
  {
      $search = new Search();
      $form = $this->createForm(SearchType::class, $search);
@@ -35,6 +36,7 @@ class SearchController extends AbstractController
      $favoritUserIds = [];
      $favoritsCompanyIds = [];
      $favoritsNb = count($favorits);
+     $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
      foreach ($favorits as $favorit)
      {
          array_push( $favoritUserIds, $favorit->getFavoritUser()->getId());
@@ -66,7 +68,7 @@ class SearchController extends AbstractController
 
                  }
                  else {
-                     $companies = $companyRepo->findByValueAndCategory($name, $category);
+                     $companies = $companyRepo->findByValueAndCategory($name, $category, $allCompanies);
 
                  }
                  $companiesCount = count( $companies);
