@@ -54,7 +54,7 @@ class CompanyRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    public function findByValueAndCategory($value, $value2)
+    public function findByValueAndCategory($value, $value2, $value3)
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.category', 'c')
@@ -65,8 +65,9 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.country = :value')
             ->andWhere('p.isCompleted = true')
             ->andWhere('c.name LIKE  :value2')
+            ->andWhere('c.id in  :value3')
 
-            ->setParameters(array('value' => $value, 'value2'=>$value2));
+            ->setParameters(array('value' => $value, 'value2'=>$value2, 'value3'=>$value3));
 
 
         return $qb->getQuery()->getResult();

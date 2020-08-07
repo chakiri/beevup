@@ -20,7 +20,9 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Post::class);
-        $this->store = $security->getUser()->getStore();
+        if( $security->getUser()) {
+            $this->store = $security->getUser()->getStore();
+        }
     }
 
     
