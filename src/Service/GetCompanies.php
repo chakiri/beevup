@@ -3,7 +3,7 @@
 namespace App\Service;
 
 
-use App\Entity\Company;
+use App\Entity\Store;
 use App\Repository\CompanyRepository;
 
 class GetCompanies
@@ -15,30 +15,31 @@ class GetCompanies
         $this->companyRepository = $companyRepository;
     }
 
-    public function getLocalCompanies(Company $company): array
+    public function getLocalCompanies(Store $store): array
     {
-        $companies = $company->getStore()->getCompanies();
-
+        $companies = $store->getCompanies()->toArray();
         return $companies;
     }
 
-    public function getExternalCompanies(Company $company): array
+    public function getExternalCompanies(Store $store): array
     {
-        $companiesIds = $company->getStore()->getExternalCompanies();
+        $companiesIds = $store->getExternalCompanies();
 
         $companies = [];
-        foreach ($companiesIds as $id){
-            $company = $this->companyRepository->findOneById($id);
-            array_push($companies, $company);
+        if($companiesIds) {
+            foreach ($companiesIds as $id) {
+                $company = $this->companyRepository->findOneById($id);
+                array_push($companies, $company);
+            }
         }
 
         return $companies;
     }
 
-    public function getAllCompanies(Company $company)
+    public function getAllCompanies(Store $store)
     {
-        $localCompanies = $this->getLocalCompanies($company);
-        $externalCompanies = $this->getExternalCompanies($company);
+        $localCompanies = $this->getLocalCompanies($store);
+        $externalCompanies = $this->getExternalCompanies($store);
 
         $companies = array_merge($localCompanies, $externalCompanies);
         return $companies;
