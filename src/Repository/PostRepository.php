@@ -15,12 +15,12 @@ use Symfony\Component\Security\Core\Security;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    protected $store;
+    protected $security;
 
     public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Post::class);
-        $this->store = $security->getUser()->getStore();
+        $this->security = $security;
     }
 
     
@@ -73,7 +73,7 @@ class PostRepository extends ServiceEntityRepository
             ->innerJoin('p.user', 'u')
             ->addSelect('u')
             ->andWhere('u.store = :store')
-            ->setParameter('store', $this->store)
+            ->setParameter('store', $this->security->getUser()->getStore())
         ;
 
         return $qb;

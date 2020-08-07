@@ -37,11 +37,6 @@ class Offer
      */
     private $nbUsers;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nbMonths;
-
 
     public function getId(): ?int
     {
@@ -92,18 +87,6 @@ class Offer
     public function setNbUsers(int $nbUsers): self
     {
         $this->nbUsers = $nbUsers;
-
-        return $this;
-    }
-
-    public function getNbMonths(): ?int
-    {
-        return $this->nbMonths;
-    }
-
-    public function setNbMonths(?int $nbMonths): self
-    {
-        $this->nbMonths = $nbMonths;
 
         return $this;
     }

@@ -9,11 +9,11 @@ use App\Entity\Subscription;
 class SubscriptionFactory
 {
 
-    public static function create(Company $company, Offer $offer): Subscription
+    public static function create(Company $company, Offer $offer, int $nbMonths): Subscription
     {
         $currentDate = new \Datetime();
         //Interval one month from now
-        $interval = new \DateInterval('P' . $offer->getNbMonths() . 'M');
+        $interval = new \DateInterval('P' . $nbMonths . 'M');
 
         $subscription = new Subscription();
         $subscription
@@ -22,21 +22,23 @@ class SubscriptionFactory
             ->setStartDate($currentDate)
             ->setEndDate($currentDate->add($interval))
             ->setIsExpired(false)
+            ->setNbMonths($nbMonths)
             ;
 
         return $subscription;
     }
 
-    public static function update(Subscription $subscription): Subscription
+    public static function update(Subscription $subscription, int $nbMonths): Subscription
     {
         $currentDate = new \Datetime();
         //Interval one month from now
-        $interval = new \DateInterval('P' . $subscription->getOffer()->getNbMonths() . 'M');
+        $interval = new \DateInterval('P' . $nbMonths . 'M');
 
         $subscription
             ->setStartDate($currentDate)
             ->setEndDate($currentDate->add($interval))
             ->setIsExpired(false)
+            ->setNbMonths($nbMonths)
         ;
 
         return $subscription;

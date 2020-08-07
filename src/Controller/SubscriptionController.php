@@ -27,19 +27,22 @@ class SubscriptionController extends AbstractController
     {
         $company = $this->getUser()->getCompany();
 
+        //Tomporary//
+        $nbMonths = 3;
+
         $subscription = $subscriptionRepository->findOneBy(['company' => $company, 'offer' => $offer]);
         if (!$subscription){
             //New subscription
-            $subscription = SubscriptionFactory::create($company, $offer);
+            $subscription = SubscriptionFactory::create($company, $offer, $nbMonths);
         }else{
             //Update subscription
-            $subscription = SubscriptionFactory::update($subscription);
+            $subscription = SubscriptionFactory::update($subscription, $nbMonths);
         }
 
         $manager->persist($subscription);
 
         //Get eligibles Stores
-        $stores = $communities->getStoresAround($offer->getKm());
+        $stores = $communities->getStoresAround($company, $offer->getKm());
 
         //Put in each Store, current Company in ExternalCompanies attribute
         foreach ($stores as $store){

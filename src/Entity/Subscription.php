@@ -44,6 +44,11 @@ class Subscription
      */
     private $isExpired;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbMonths;
+
     public function __construct()
     {
         $this->isExpired = false;
@@ -114,5 +119,21 @@ class Subscription
         $this->isExpired = $isExpired;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNbMonths()
+    {
+        return $this->nbMonths;
+    }
+
+    /**
+     * @param mixed $nbMonths
+     */
+    public function setNbMonths($nbMonths)
+    {
+        $this->nbMonths = $nbMonths;
     }
 }

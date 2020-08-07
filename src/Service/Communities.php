@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Service;
-use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
-use App\Entity\Store;
-use App\Entity\Company;
-
 
 
 class Communities
@@ -14,27 +10,22 @@ class Communities
 
     public function __construct(StoreRepository $storeRepository)
     {
-
         $this->storeRepository  = $storeRepository;
-
-
     }
 
-    public function getStoresAround($currentCompany,int $km){
-
+    public function getStoresAround($currentCompany,int $km)
+    {
         $stores = [];
         $allStores = $this->storeRepository->findAll();
         foreach ($allStores as $store)
         {
-            if(calculateDistanceBetweenCompanyAndStore($currentCompany, $store, 'K') <= $km)
+            if($this->calculateDistanceBetweenCompanyAndStores($currentCompany, $store, 'K') <= $km)
             {
                 array_push($stores, $store);
             }
         }
 
-
         return $stores;
-
     }
 
 
@@ -66,8 +57,6 @@ class Communities
             }
         }
     }
-
-
 
 
 }

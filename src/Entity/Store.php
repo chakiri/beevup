@@ -142,12 +142,13 @@ class Store implements \Serializable
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $externalCompanies = [];
+    private $externalCompanies;
 
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->externalCompanies = [];
     }
 
     /**
