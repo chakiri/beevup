@@ -64,30 +64,35 @@ class SearchController extends AbstractController
              {
                  if($name =='')
                  {
-                      $companies = $companyRepo->findBy(['category' => $category , 'isCompleted'=>true], []);
+                     // $companies = $companyRepo->findBy(['category' => $category , 'isCompleted'=>true], []);
+                      $companies = $companyRepo->findByCompaniesInCommunity(  $this->getUser()->getStore(), $allCompanies);
+
 
                  }
                  else {
                      $companies = $companyRepo->findByValueAndCategory($name, $category, $allCompanies);
 
+
                  }
                  $companiesCount = count( $companies);
              } else {
+
                  $users = null;
-                 $companies = $companyRepo->findByValue($name);
+                 $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
                  $companiesCount = count( $companies);
              }
          }
          else if($type =='users')
          {
-             
-             $users =  $userRepo->findByValue($name);
+
+             $users =  $userRepo->findByValue($name,  $allCompanies,  $this->getUser()->getStore());
              $usersCount = count($users);
 
          }
          else {
-             $companies = $companyRepo->findByValue($name);
-             $users =  $userRepo->findByValue($name);
+
+             $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
+             $users =  $userRepo->findByValue($name, $this->getUser()->getStore());
          }
 
          return $this->render('search/search.html.twig', [
