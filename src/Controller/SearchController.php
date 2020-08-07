@@ -27,8 +27,9 @@ class SearchController extends AbstractController
  public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo, GetCompanies $getCompanies)
  {
      $search = new Search();
+     $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
      $form = $this->createForm(SearchType::class, $search);
-     $users = $useRepo->findByIsCompletedProfile();
+     $users = $useRepo->findByIsCompletedProfile($allCompanies);
      $companies = null;
      $usersCount = '-1';
      $companiesCount = '-1';
@@ -36,7 +37,7 @@ class SearchController extends AbstractController
      $favoritUserIds = [];
      $favoritsCompanyIds = [];
      $favoritsNb = count($favorits);
-     $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+
      foreach ($favorits as $favorit)
      {
          array_push( $favoritUserIds, $favorit->getFavoritUser()->getId());
