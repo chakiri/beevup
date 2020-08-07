@@ -40,11 +40,15 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    public function findByIsCompletedProfile()
+    public function findByIsCompletedProfile($companiesIds)
     {
         $qb = $this->createQueryBuilder('u')
                     ->leftJoin('u.profile', 'p')
-                    ->where('p.isCompleted = true');
+                    ->where('p.isCompleted = true')
+                    ->andWhere('u.id in (:companiesIds)')
+                    ->setParameters(array('companiesIds'=>$companiesIds ));
+
+
 
         return $qb->getQuery()->getResult();
     }
