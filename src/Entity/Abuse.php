@@ -22,7 +22,7 @@ class Abuse
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="abuses")
      */
     private $post;
 
