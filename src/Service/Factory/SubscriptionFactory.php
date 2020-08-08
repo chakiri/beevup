@@ -19,7 +19,7 @@ class SubscriptionFactory
         $subscription
             ->setCompany($company)
             ->setOffer($offer)
-            ->setStartDate($currentDate)
+            ->setStartDate(new \Datetime())
             ->setEndDate($currentDate->add($interval))
             ->setIsExpired(false)
             ->setNbMonths($nbMonths)
@@ -28,14 +28,15 @@ class SubscriptionFactory
         return $subscription;
     }
 
-    public static function update(Subscription $subscription, int $nbMonths): Subscription
+    public static function update(Subscription $subscription, Offer $offer, int $nbMonths): Subscription
     {
         $currentDate = new \Datetime();
         //Interval one month from now
         $interval = new \DateInterval('P' . $nbMonths . 'M');
 
         $subscription
-            ->setStartDate($currentDate)
+            ->setOffer($offer)
+            ->setStartDate(new \Datetime())
             ->setEndDate($currentDate->add($interval))
             ->setIsExpired(false)
             ->setNbMonths($nbMonths)

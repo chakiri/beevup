@@ -28,15 +28,15 @@ class SubscriptionController extends AbstractController
         $company = $this->getUser()->getCompany();
 
         //Tomporary//
-        $nbMonths = 3;
+        $nbMonths = 1;
 
-        $subscription = $subscriptionRepository->findOneBy(['company' => $company, 'offer' => $offer]);
+        $subscription = $subscriptionRepository->findOneBy(['company' => $company]);
         if (!$subscription){
             //New subscription
             $subscription = SubscriptionFactory::create($company, $offer, $nbMonths);
         }else{
             //Update subscription
-            $subscription = SubscriptionFactory::update($subscription, $nbMonths);
+            $subscription = SubscriptionFactory::update($subscription, $offer, $nbMonths);
         }
 
         $manager->persist($subscription);
@@ -52,6 +52,8 @@ class SubscriptionController extends AbstractController
 
         $manager->flush();
 
-        return $this->render('subscription/index.html.twig');
+        $this->addFlash('success', 'Votre abonnement a bien été pris en compte !');
+
+        return $this->redirectToRoute('dashboard');
     }
 }

@@ -18,16 +18,16 @@ class Subscription
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="subscriptions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $company;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Offer::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $offer;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Company::class, inversedBy="subscription", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $company;
 
     /**
      * @ORM\Column(type="date")
@@ -58,20 +58,6 @@ class Subscription
     {
         return $this->id;
     }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): self
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
-
 
     public function getStartDate(): ?\DateTimeInterface
     {
@@ -135,5 +121,17 @@ class Subscription
     public function setNbMonths($nbMonths)
     {
         $this->nbMonths = $nbMonths;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }

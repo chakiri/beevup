@@ -171,9 +171,9 @@ class Company implements \Serializable
     private $otherCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="company")
+     * @ORM\OneToOne(targetEntity=Subscription::class, mappedBy="company", cascade={"persist", "remove"})
      */
-    private $subscriptions;
+    private $subscription;
 
     public function __construct()
     {
@@ -182,7 +182,6 @@ class Company implements \Serializable
         $this->isCompleted = false;
         $this->updatedAt = new \Datetime();
         $this->services = new ArrayCollection();
-        $this->subscriptions = new ArrayCollection();
     }
 
     /**
@@ -602,32 +601,18 @@ class Company implements \Serializable
 
     }
 
-    /**
-     * @return Collection|Subscription[]
-     */
-    public function getSubscriptions(): Collection
+    public function getSubscription(): ?Subscription
     {
-        return $this->subscriptions;
+        return $this->subscription;
     }
 
-    public function addSubscription(Subscription $subscription): self
+    public function setSubscription(Subscription $subscription): self
     {
-        if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions[] = $subscription;
+        $this->subscription = $subscription;
+
+        // set the owning side of the relation if necessary
+        if ($subscription->getCompany() !== $this) {
             $subscription->setCompany($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubscription(Subscription $subscription): self
-    {
-        if ($this->subscriptions->contains($subscription)) {
-            $this->subscriptions->removeElement($subscription);
-            // set the owning side to null (unless already changed)
-            if ($subscription->getCompany() === $this) {
-                $subscription->setCompany(null);
-            }
         }
 
         return $this;

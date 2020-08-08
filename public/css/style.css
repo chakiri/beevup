@@ -40,6 +40,13 @@
     height: 30px;
 }
 
+.big-btn{
+    width: 70%px;
+    height: 40px;
+    border-radius: 27px;
+    font-size: 17px;
+}
+
 .square-image{
     height: 192px;
     width: 100%;
@@ -347,3 +354,15 @@ li.icon-type-post a.active{
      background-color: #222222;
      color: white;
  }
+
+/* Subscription */
+.subscription{
+    background: #ff7e50a6 !important;
+    font-size: 15px;
+}
+.subscription .container-bv{
+    margin: 50px 100px;
+}
+.subscription ul{
+    list-style-type: none;
+}
