@@ -71,7 +71,7 @@ class ServiceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
             ->leftJoin('u.company', 'c')
-            ->andWhere('c.id in (:companies)')
+            ->Where('c.id IN  (:companies)')
             ->orderBy('s.createdAt', 'DESC')
             ->addOrderBy('s.isDiscovery', 'DESC')
             ->setParameters(array('companies'=>$allCompanies))
