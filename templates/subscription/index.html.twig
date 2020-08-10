@@ -51,7 +51,7 @@
                     </ul>
                 </div>
                 <div class="mt-3 mb-3 text-center">
-                    {% if app.user.company.subscription.offer.id == 1 or app.user.company.subscription.offer.id == 2 %}
+                    {% if app.user.company.subscription and (app.user.company.subscription.offer.id == 1 or app.user.company.subscription.offer.id == 2) %}
                         <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Commencer</button>
                     {% else %}
                         <a type="button" href="{{ path('subscription_premium', {'id': 1}) }}" class="btn big-btn orange-bg" data-url="/cookie/accept">Commencer</a>
@@ -77,7 +77,7 @@
                     </ul>
                 </div>
                 <div class="mt-3 mb-3 text-center">
-                    {% if app.user.company.subscription.offer.id == 2 %}
+                    {% if app.user.company.subscription and app.user.company.subscription.offer.id == 2 %}
                         <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Commencer</button>
                     {% else %}
                         <a type="button" href="{{ path('subscription_premium', {'id': 2}) }}" class="btn big-btn orange-bg" data-url="/cookie/accept">Commencer</a>
