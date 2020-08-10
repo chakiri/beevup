@@ -14,6 +14,7 @@ use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
+use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,21 +34,30 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, SessionInterface $session )
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, SessionInterface $session, GetCompanies $getCompanies )
     {
-        $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+      //  $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
+        $services = $serviceRepository->findByLocalServices( $allCompanies);
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
 
         if ($request->get('_route') == 'service_discovery') {
-            $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
+          //  $services = $serviceRepository->findBy(['isDiscovery' => 1], ['createdAt' => 'DESC']);
+           $services = $serviceRepository->findByIsDiscovery( $allCompanies);
         }
         if ($request->get('_route') == 'service_generic') {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
-            $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+           // $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+            $services = $serviceRepository->findByType($typeService, $allCompanies);
         }
         if ($company){
             $company = $companyRepository->findOneBy(['id' => $company]);
-            $services = $company->getServices();
+            if (in_array($company->getId(), $allCompanies)) {
+                $services = $company->getServices();
+            }
+            else{
+                $services =[];
+            }
         }
         if ($store){
             $store = $storeRepository->findOneBy(['id' => $store]);
@@ -71,9 +81,7 @@ class ServiceController extends AbstractController
             $query = $searchForm->get('query')->getData();
             $category = $searchForm->get('category')->getData();
             $isDiscovery = $searchForm->get('isDiscovery')->getData();
-
-            $services = $serviceRepository->findSearch($query, $category, $isDiscovery);
-
+            $services = $serviceRepository->findSearch($query, $category, $isDiscovery, $allCompanies);
             $user = null;
         }
 
