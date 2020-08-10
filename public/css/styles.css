@@ -329,6 +329,9 @@ textarea.form-control{
     border-radius: var(--radius);
 
 }
+.service label.checkbox-custom.custom-control-label::before {
+    top: -1px;
+}
 /* ==============modals ========================*/
 .modal-content{
     border-radius:12px
