@@ -39,6 +39,7 @@ class ServiceController extends AbstractController
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
       //  $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
         $services = $serviceRepository->findByLocalServices( $allCompanies);
+
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
 
         if ($request->get('_route') == 'service_discovery') {
