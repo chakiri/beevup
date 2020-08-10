@@ -203,10 +203,11 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service/{id}", name="service_show")
     */
-    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository)
+    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository, GetCompanies $getCompanies, $id )
     {
         $company = null;
         $companyId = null;
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
         if(!is_null($service->getUser()->getCompany())) {
             $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
@@ -215,7 +216,8 @@ class ServiceController extends AbstractController
 
         $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
 
-        $similarServices = $serviceRepository->findBy(['category' => $service->getCategory()], [], 3);
+       // $similarServices = $serviceRepository->findBy(['category' => $service->getCategory()], [], 3);
+        $similarServices = $serviceRepository->findByCategory($service->getCategory(), $allCompanies, $id);
 
         $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
 

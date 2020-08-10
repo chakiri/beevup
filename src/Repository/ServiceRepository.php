@@ -106,6 +106,22 @@ class ServiceRepository extends ServiceEntityRepository
                 ->getResult() ;
 
         }
+
+    public function findByCategory($category, $allCompanies, $serviceID){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->Where('s.category = :category')
+            ->andWhere('c.id in (:companies)')
+            ->andWhere('s.id != (:serviceID)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('category'=> $category, 'companies'=>$allCompanies, 'serviceID'=>$serviceID))
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult() ;
+
+    }
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */
