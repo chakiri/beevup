@@ -9,6 +9,7 @@ easy_admin:
           - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
           - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
           - { entity: 'Offer', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+          - { entity: 'Subscription', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
         templates:
           layout: 'admin/layout.html.twig' # templates/layout.html.twig
          
@@ -110,6 +111,20 @@ easy_admin:
               - { property: 'nbServices', label: 'nombre de services' }
               - { property: 'nbUsers', label: 'nombre des utilisateurs' }
               - { property: 'nbUsers', label: 'nombre des utilisateurs' }
+        Subscription:
+          class: App\Entity\Subscription
+          label: 'Les inscriptions'
+          list:
+            actions:
+              - { name: 'new', label: false, icon: 'plus' }
+              - { name: 'edit', icon: 'pencil', label: false }
+              - { name: 'delete', icon: 'pencil', label: false }
+            fields:
+              - { property: 'offer', label: 'offer'}
+              - { property: 'company', label: 'company' }
+              - { property: 'startDate', label: 'Date de début' }
+              - { property: 'nbMonths', label: 'nombre des mois' }
+              - { property: 'isExpired', label: 'status' }
         User:
             class: App\Entity\User
             controller: App\Controller\Admin\UserAdminController
