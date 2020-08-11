@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Service;
+use App\Entity\Company;
+use App\Entity\Store;
 use App\Repository\StoreRepository;
 
 
@@ -13,7 +15,7 @@ class Communities
         $this->storeRepository  = $storeRepository;
     }
 
-    public function getStoresAround($currentCompany,int $km)
+    public function getStoresAround(Company $currentCompany,int $km): array
     {
         $stores = [];
         $allStores = $this->storeRepository->findAll();
@@ -29,7 +31,7 @@ class Communities
     }
 
 
-    public function calculateDistanceBetweenCompanyAndStores($currentCompany, $store, $unit)
+    public function calculateDistanceBetweenCompanyAndStores(Company $currentCompany, Store $store, $unit)
     {
         $lat1 = $currentCompany->getLatitude();
         $lon1 = $currentCompany->getLongitude();
