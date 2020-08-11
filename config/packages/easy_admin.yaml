@@ -8,6 +8,7 @@ easy_admin:
           - { entity: 'User', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_PLATEFORM'}
           - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
           - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+          - { entity: 'Offer', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
         templates:
           layout: 'admin/layout.html.twig' # templates/layout.html.twig
          
@@ -84,6 +85,31 @@ easy_admin:
                fields:
                  - { property: 'link', label: 'URl' }
                  - { property: 'imageFile', label: 'Image', type: 'vich_image', upload_dir: 'public/images/publicity/' }
+        Offer:
+          class: App\Entity\Offer
+          label: 'Les offres'
+          new:
+            title:  'Ajouter un offre'
+          edit:
+            title:  'Modifier un offre'
+          list:
+            actions:
+              - { name: 'new', label: 'Ajouter', icon: 'plus' }
+              - { name: 'edit', icon: 'pencil', permission: 'ROLE_ADMIN_PLATEFORM' }
+              - { name: 'delete', icon: 'close' , permission: 'ROLE_ADMIN_PLATEFORM'}
+            fields:
+              - { property: 'name', label: 'nom'}
+              - { property: 'km', label: 'km' }
+              - { property: 'nbServices', label: 'Nombre de services' }
+              - { property: 'nbUsers', label: 'Nombre des utilisateurs' }
+              - { property: 'nbUsers', label: 'Nombre des utilisateurs' }
+          form:
+            fields:
+              - { property: 'name', label: 'nom'}
+              - { property: 'km', label: 'km' }
+              - { property: 'nbServices', label: 'nombre de services' }
+              - { property: 'nbUsers', label: 'nombre des utilisateurs' }
+              - { property: 'nbUsers', label: 'nombre des utilisateurs' }
         User:
             class: App\Entity\User
             controller: App\Controller\Admin\UserAdminController
