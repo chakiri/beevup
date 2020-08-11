@@ -68,10 +68,10 @@ class CompanyController extends AbstractController
                        $company->setIsCompleted(true);
                        // create a new welcome post
                        $AdminPLatformeType = $userTypeRepository->findOneBy(['id' =>5]);
-                       $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                       //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
                        $category = $postCategoryRepository->findOneBy(['id' => 7]);
                        $post = new Post();
-                       $post->setUser($user);
+                       $post->setUser($this->getUser());
                        $post->setCategory($category);
                        $post->setTitle('Bienvenue à l\'entreprise '.$company->getName());
                        $post->setDescription($company->getIntroduction());
