@@ -12,7 +12,7 @@
                         {% include 'default/boxes/only-mobile/adviser-and-special-offer.html.twig' %}
                     </div>
 
-                    <div class="new-post">
+                    <div id="postpublish" class="new-post">
                         <div class="box">
                             <div class="d-flex">
                                 {% if app.user.profile.filename %}
@@ -36,7 +36,13 @@
                                         </a>
                                     </div>
                                 </div>
-                                <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
+                                {% if app.user.profile.isCompleted == true %}
+                                    <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
+                                {% else %}
+                                    <button type="button" class="btn small-btn grey-bg"
+                                            data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile"
+                                    >Publier</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -55,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="posts">
+                    <div id="postsbox" class="posts">
                         {% if posts|length %}
                             {% for post in posts %}
 
@@ -259,7 +265,7 @@
                     </ul>
                 </div>
 
-                <div id="advisorbox" class="box-advisor min-col">
+                <div id="advisorebox" class="box-advisor min-col">
                     <small class="greyed">Votre conseiller</small>
                     <div class="box mt-0">
                         {% if  app.user.store != null %}
@@ -293,7 +299,7 @@
                 </div>
 
                 {% if app.user.company  %}
-                <div class="box-company mt-3 min-col">
+                <div id="companybox" class="box-company mt-3 min-col">
                     <small class="greyed">Votre entreprise</small>
                     <div class="box mt-0">
                         <div class="d-flex">
@@ -397,8 +403,12 @@
         </div>
     </div>
 
+    <!-- Tutorial button -->
+    <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialDashboard()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
+
 {% endblock %}
 
 {% block javascripts %}
     <script src="/js/dashboard.js"></script>
+    <script src="/js/modals.js"></script>
 {% endblock %}

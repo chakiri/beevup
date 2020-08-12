@@ -366,3 +366,13 @@ li.icon-type-post a.active{
 .subscription ul{
     list-style-type: none;
 }
+
+/* Tutorial button */
+#tutorialButton {
+    position: fixed;
+    right: 30px;
+    top: 66px;
+    background: #000;
+    border-radius: 7px;
+    font-size: 13px;
+}

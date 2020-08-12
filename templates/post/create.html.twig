@@ -50,9 +50,17 @@
               <div class="d-none">{{ form_widget(PostForm.category) }}</div>
           </ul>
 
-          <button type="submit" class="btn small-btn grey-bg">
-              {% if post is defined  %}Modifier{% else %} Publier{% endif %}
-          </button>
+          {% if app.user.profile.isCompleted == true %}
+              <button type="submit" class="btn small-btn grey-bg">
+                  {% if post is defined  %}Modifier{% else %} Publier{% endif %}
+              </button>
+          {% else %}
+              <button type="button" class="btn small-btn grey-bg"
+                      data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile"
+              >Publier</button>
+          {% endif %}
+
+
       </div>
 
       {{ form_end(PostForm) }}
