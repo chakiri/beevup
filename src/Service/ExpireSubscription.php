@@ -20,15 +20,21 @@ class ExpireSubscription
         $this->communities = $communities;
     }
 
-    public function check(Subscription $subscription): void
+    public function expired(Subscription $subscription): bool
     {
         $now = new \Datetime();
         if ($now > $subscription->getEndDate()){
-            $subscription->setIsExpired(true);
-
-            //Unset company from all stores offer
-            $this->unsetCompanyFromAllStores($subscription->getCompany());
+            return true;
         }
+        return false;
+    }
+
+    public function set(Subscription $subscription): void
+    {
+        $subscription->setIsExpired(true);
+
+        //Unset company from all stores offer
+        $this->unsetCompanyFromAllStores($subscription->getCompany());
 
         $this->manager->persist($subscription);
 

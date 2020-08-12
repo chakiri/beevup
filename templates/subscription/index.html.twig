@@ -21,70 +21,53 @@
                 <div>
                     <ul>
                         <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
+                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Réseau social local</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Visibilité</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Création de services</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Création d'utilisateur</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Chat local</li>
                     </ul>
                 </div>
                 <div class="mt-3 mb-3 text-center">
-                    <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Commencer</button>
+                    <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Gratuit</button>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="box">
-                <div class="text-center">
-                    <span><small>Premium One</small></span>
-                    <div class="d-flex justify-content-center"><h1>10 €</h1><small class="pt-4">/ mois</small></div>
-                </div>
-                <hr>
-                <div>
-                    <ul>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
-                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Local communauté</li>
-                    </ul>
-                </div>
-                <div class="mt-3 mb-3 text-center">
-                    {% if app.user.company.subscription and app.user.company.subscription.isExpired == false and (app.user.company.subscription.offer.id == 1 or app.user.company.subscription.offer.id == 2) %}
-                        <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Commencer</button>
-                    {% else %}
-                        <a type="button" href="{{ path('subscription_premium', {'id': 1}) }}" class="btn big-btn orange-bg" data-url="/cookie/accept">Commencer</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="box">
-                <div class="text-center">
-                    <span><small>Premium One Plus</small></span>
-                    <div class="d-flex justify-content-center"><h1>30 €</h1><small class="pt-4">/ mois</small></div>
-                </div>
-                <hr>
-                <div>
-                    <ul>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
-                    </ul>
-                </div>
-                <div class="mt-3 mb-3 text-center">
-                    {% if app.user.company.subscription and app.user.company.subscription.isExpired == false and app.user.company.subscription.offer.id == 2 %}
-                        <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Commencer</button>
-                    {% else %}
-                        <a type="button" href="{{ path('subscription_premium', {'id': 2}) }}" class="btn big-btn orange-bg" data-url="/cookie/accept">Commencer</a>
-                    {% endif %}
+
+        {% for offer in offers %}
+            <div class="col-lg-4">
+                <div class="box">
+                    <div class="text-center">
+                        <span><small>{{ offer.name }}</small></span>
+                        <div class="d-flex justify-content-center"><h1>{{ offer.price }} €</h1><small class="pt-4">/ mois</small></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Communauté local</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Réseau social local</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Visibilité à {{ offer.km }}km</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Création de {{ offer.nbServices }} services</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Création de {{ offer.nbUsers }} utilisateurs</li>
+                            {% if offer.id == 1 %}
+                                <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Chat local</li>
+                            {% else %}
+                                <li class="pt-3"><i class="fas fa-check mr-2"></i>Chat local</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="mt-3 mb-3 text-center">
+                        {% if app.user.company.subscription and app.user.company.subscription.isExpired == false and (app.user.company.subscription.offer.id == offer.id or app.user.company.subscription.offer.id > offer.id) %}
+                            <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Abonné</button>
+                        {% else %}
+                            <a type="button" href="{{ path('subscription_premium', {'id': offer.id}) }}" class="btn big-btn orange-bg">Commencer</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
+
+
     </div>
 </div>
 {% endblock %}

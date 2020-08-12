@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Repository\OfferRepository;
 use App\Repository\SubscriptionRepository;
 use App\Service\Communities;
 use App\Service\Factory\SubscriptionFactory;
@@ -15,9 +16,12 @@ class SubscriptionController extends AbstractController
     /**
      * @Route("/subscription", name="subscription")
      */
-    public function index()
+    public function index(OfferRepository $offerRepository)
     {
-        return $this->render('subscription/index.html.twig');
+        $offers = $offerRepository->findAll();
+        return $this->render('subscription/index.html.twig', [
+            'offers' => $offers
+        ]);
     }
 
     /**
@@ -52,7 +56,7 @@ class SubscriptionController extends AbstractController
 
         $manager->flush();
 
-        $this->addFlash('success', 'Votre abonnement a bien été pris en compte !');
+        $this->addFlash('success', 'Vous venez de souscrire à l\'abonnement '. $offer->getName() . ' et nous vous remercions pour votre confiance !');
 
         return $this->redirectToRoute('dashboard');
     }

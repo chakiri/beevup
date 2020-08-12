@@ -1,6 +1,16 @@
+{% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription.isExpired == true %}
+    <div class="alert warning p-3">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h5 class="alert-heading"><i class="fa fa-eye"></i> Votre abonnement Premium est arrivé à échéance</h5>
+        <p class="mb-0"><a href="{{ path('subscription') }}" class="alert-link">Cliquez ici</a> pour le renouveler.</p>
+    </div>
+{% endif %}
+
 {% if app.user.profile.isCompleted != true %}
     <div class="warning p-3">
         <h5 class="alert-heading"><i class="fa fa-eye"></i> Votre profil n’est pas encore visible</h5>
         <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté. <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Mon profil</a>.</p>
     </div>
 {% endif %}
+
+

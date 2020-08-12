@@ -31,6 +31,8 @@ class LoginListener
 
         $historic = $this->userHistoricRepository->findOneBy(['user' => $user]);
 
+        $subscription = $user->getCompany()->getSubscription();
+
         if (!$historic){
             //New user historic
             $historic = new UserHistoric();
@@ -42,8 +44,9 @@ class LoginListener
         }
 
         //Check expired subscription
-        if ($user->getCompany() && $user->getCompany()->getSubscription())
-            $this->expireSubscription->check($user->getCompany()->getSubscription());
+        if ($user->getCompany() && $subscription && $this->expireSubscription->expired($subscription) == true) {
+            $this->expireSubscription->set($subscription);
+        }
 
         $this->manager->persist($historic);
 

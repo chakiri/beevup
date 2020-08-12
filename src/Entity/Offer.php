@@ -37,6 +37,11 @@ class Offer
      */
     private $nbUsers;
 
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $price;
+
 
     public function getId(): ?int
     {
@@ -87,6 +92,18 @@ class Offer
     public function setNbUsers(int $nbUsers): self
     {
         $this->nbUsers = $nbUsers;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
