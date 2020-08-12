@@ -42,7 +42,7 @@ class LoginListener
         }
 
         //Check expired subscription
-        if ($user->getCompany()->getSubscription())
+        if ($user->getCompany() && $user->getCompany()->getSubscription())
             $this->expireSubscription->check($user->getCompany()->getSubscription());
 
         $this->manager->persist($historic);

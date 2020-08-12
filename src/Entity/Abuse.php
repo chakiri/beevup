@@ -27,7 +27,7 @@ class Abuse
     private $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comment", inversedBy="abuses")
      */
     private $comment;
 
