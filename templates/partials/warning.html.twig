@@ -1,4 +1,4 @@
-{% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription.isExpired == true %}
+{% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription and app.user.company.subscription.isExpired == true %}
     <div class="alert warning p-3">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <h5 class="alert-heading"><i class="fa fa-eye"></i> Votre abonnement Premium est arrivé à échéance</h5>
