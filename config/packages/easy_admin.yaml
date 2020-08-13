@@ -114,11 +114,11 @@ easy_admin:
         Subscription:
           class: App\Entity\Subscription
           label: 'Les inscriptions'
+          disabled_actions: ['new','edit','delete']
           list:
             actions:
               - { name: 'new', label: false, icon: 'plus' }
-              - { name: 'edit', icon: 'pencil', label: false }
-              - { name: 'delete', icon: 'pencil', label: false }
+
             fields:
               - { property: 'offer', label: 'offer'}
               - { property: 'company', label: 'company' }

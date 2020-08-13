@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Intl\Intl;
 use App\Service\Map;
+use App\Service\GetCompanies;
 
 
 class StoreController extends AbstractController
@@ -34,23 +35,29 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/{slug}", name="store_show")
      */
-    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository)
+    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository, GetCompanies $getCompanies)
     {
-        $users =  $userRepository->findByStore($store);
-        $companies = $companyRepository->findBy(['store'=> $store, 'isCompleted'=>true],['id'=>'DESC'],3);
-        $usersType = $userTypeRepository->findBy(['id'=>array(1,2,4)]);
-        $storeUsers =$userRepository->findBy(['store'=> $store, 'type'=> $usersType]);
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+        $localStores = $getCompanies->getLocalStores($store , $allCompanies);
+        if ($getCompanies->isStoreInLocalStores($store, $localStores) == true ) {
+            $users = $userRepository->findByStore($store);
+            $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
+            $usersType = $userTypeRepository->findBy(['id' => array(1, 2, 4)]);
+            $storeUsers = $userRepository->findBy(['store' => $store, 'type' => $usersType]);
 
-        $services = $serviceRepository->findBy(['user'=>$storeUsers]);
+            $services = $serviceRepository->findBy(['user' => $storeUsers]);
 
 
-        return $this->render('store/show.html.twig', [
-            'store' => $store,
-            'users' => $users,
-            'companies' =>$companies,
-            'services' =>$services,
+            return $this->render('store/show.html.twig', [
+                'store' => $store,
+                'users' => $users,
+                'companies' => $companies,
+                'services' => $services,
 
-        ]);
+            ]);
+        }else{
+            return $this->redirectToRoute('page_not_found', []);
+        }
     }
 
     /**
