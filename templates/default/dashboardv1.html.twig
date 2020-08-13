@@ -12,7 +12,7 @@
                         {% include 'default/boxes/only-mobile/adviser-and-special-offer.html.twig' %}
                     </div>
 
-                    <div class="new-post">
+                    <div id="postpublish" class="new-post">
                         <div class="box">
                             <div class="d-flex">
                                 {% if app.user.profile.filename %}
@@ -36,7 +36,13 @@
                                         </a>
                                     </div>
                                 </div>
-                                <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
+                                {% if app.user.profile.isCompleted == true %}
+                                    <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
+                                {% else %}
+                                    <button type="button" class="btn small-btn grey-bg"
+                                            data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile"
+                                    >Publier</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -55,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="posts">
+                    <div id="postsbox" class="posts">
                         {% if posts|length %}
                             {% for post in posts %}
 
@@ -73,42 +79,48 @@
                                     <div class="mb-3">
                                         <div class=" d-flex justify-content-between">
                                             <div class="d-flex">
-                                                {% if post.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% if post.category.id == 7 %}
+                                                    <img src="/images/logo_beevup_solo.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                    <div>
+                                                        <p>Administrateur Beevup</p>
+                                                        <small>Beevup</small>
+                                                    </div>
                                                 {% else %}
-                                                    <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                    {% if post.user.profile.filename %}
+                                                        <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                    {% else %}
+                                                        <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                    {% endif %}
+                                                    <div class="hover-info">
+                                                        <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
+                                                        <small>{{ post.user.company|capitalize }}</small>
+                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
+                                                    </div>
                                                 {% endif %}
-                                                <div class="hover-info">
-                                                    <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
-                                                    <small>{{ post.user.company|capitalize }}</small>
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
-                                                </div>
                                             </div>
                                             <div>
                                                 <div class="hover-btn-post text-right">
-                                                    {% if post.user == app.user %}
+                                                    {% if post.user == app.user and post.category.id != 7%}
                                                         <a type="button"
                                                            class="btn post-delete p-0 update-post-btn"
                                                            data-post = "{{ post.id }}"
                                                            data-toggle="modal"
                                                            data-url="{{ path('post_edit',{'id':post.id}) }}"
-                                                           data-target="#update-post-modal"
-                                                        >
-                                                            <small>Modifier |</small></a>
+                                                           data-target="#update-post-modal">
+                                                            <small>Modifier |</small>
+                                                        </a>
                                                         <a type="button" class="btn post-delete p-0"
-                                                           href="{{ path('post_remove', {'id': post.id}) }}"
-                                                        >
-                                                            <small>Supprimer</small></a>
-
+                                                           href="{{ path('post_remove', {'id': post.id}) }}">
+                                                            <small>Supprimer</small>
+                                                        </a>
                                                     {% else %}
-                                                        {% if post.isreportedByUser(app.user) == false %}
+                                                        {% if post.isreportedByUser(app.user) == false and post.category.id != 7%}
                                                             <a type="button"
                                                                data-post = "{{ post.id }}"
                                                                class="btn post-delete report-abuse-btn p-0"
                                                                data-toggle="modal"
                                                                data-url="{{ path('abuse_add',{'postId':post.id, 'commentId':0}) }}"
                                                                data-target="#add-abus-modal"> <small>Signaler</small>
-
                                                             </a>
                                                         {% endif %}
                                                     {% endif %}
@@ -119,6 +131,7 @@
                                                 {% elseif post.category.id == 4 %}{% set badge = 'badge-purple' %}{% set fa = 'fa-user-friends' %}
                                                 {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fa-calendar-alt' %}
                                                 {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fa-plus' %}
+                                                {% elseif post.category.id == 7 %}{% set badge = 'badge-grey' %}{% set fa = 'fa-plus' %}
                                                 {% endif %}
                                                 <small class="d-block al-r">{{ time }}</small>
                                                 <span class="badge {{ badge }} float-right">
@@ -252,7 +265,7 @@
                     </ul>
                 </div>
 
-                <div id="advisorbox" class="box-advisor min-col">
+                <div id="advisorebox" class="box-advisor min-col">
                     <small class="greyed">Votre conseiller</small>
                     <div class="box mt-0">
                         {% if  app.user.store != null %}
@@ -286,7 +299,7 @@
                 </div>
 
                 {% if app.user.company  %}
-                <div class="box-company mt-3 min-col">
+                <div id="companybox" class="box-company mt-3 min-col">
                     <small class="greyed">Votre entreprise</small>
                     <div class="box mt-0">
                         <div class="d-flex">
@@ -325,6 +338,9 @@
         <div class="warnings">
             {% include 'partials/warning.html.twig' %}
         </div>
+
+        <!-- Tutorial button -->
+        <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialDashboard()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
     </div>
 {% endblock %}
 
@@ -394,4 +410,5 @@
 
 {% block javascripts %}
     <script src="/js/dashboard.js"></script>
+    <script src="/js/modals.js"></script>
 {% endblock %}

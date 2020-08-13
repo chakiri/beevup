@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Abonnement{% endblock %}
+
+{% block body %}
+
+<div class="container-bv">
+    <div class="text-center">
+        <h1>Nos abonnements Premium</h1>
+        <h4>Suscrivez à un compte premium et bénéficiez d'un réseau plus large</h4>
+        <h7>N'attendez pas pour proposer vos services à d'autres communautés !</h7>
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-4">
+            <div class="box">
+                <div class="text-center">
+                    <span><small>Gratuit</small></span>
+                    <div class="d-flex justify-content-center"><h1>0 €</h1><small class="pt-4">/ mois</small></div>
+                </div>
+                <hr>
+                <div>
+                    <ul>
+                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Local communauté</li>
+                        <li class="pt-3"><i class="fas fa-check mr-2"></i>Réseau social local</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Visibilité</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Création de services</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Création d'utilisateur</li>
+                        <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Chat local</li>
+                    </ul>
+                </div>
+                <div class="mt-3 mb-3 text-center">
+                    <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Gratuit</button>
+                </div>
+            </div>
+        </div>
+
+        {% for offer in offers %}
+            <div class="col-lg-4">
+                <div class="box">
+                    <div class="text-center">
+                        <span><small>{{ offer.name }}</small></span>
+                        <div class="d-flex justify-content-center"><h1>{{ offer.price }} €</h1><small class="pt-4">/ mois</small></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <ul>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Communauté local</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Réseau social local</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Visibilité à {{ offer.km }}km</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Création de {{ offer.nbServices }} services</li>
+                            <li class="pt-3"><i class="fas fa-check mr-2"></i>Création de {{ offer.nbUsers }} utilisateurs</li>
+                            {% if offer.id == 1 %}
+                                <li class="pt-3 text-muted"><i class="fas fa-times mr-2"></i> Chat local</li>
+                            {% else %}
+                                <li class="pt-3"><i class="fas fa-check mr-2"></i>Chat local</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="mt-3 mb-3 text-center">
+                        {% if app.user.company.subscription and app.user.company.subscription.isExpired == false and (app.user.company.subscription.offer.id == offer.id or app.user.company.subscription.offer.id > offer.id) %}
+                            <button class="btn big-btn orange-bg" data-url="/cookie/accept" disabled>Abonné</button>
+                        {% else %}
+                            <a type="button" href="{{ path('subscription_premium', {'id': offer.id}) }}" class="btn big-btn orange-bg">Commencer</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+</div>
+{% endblock %}

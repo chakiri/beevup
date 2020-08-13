@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, Post::class);
+        $this->security = $security;
     }
 
     
@@ -63,16 +67,52 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
+    public function findByStore()
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->addSelect('u')
+            ->andWhere('u.store = :store')
+            ->setParameter('store', $this->security->getUser()->getStore())
+        ;
+
+        return $qb;
+    }
+
     public function findByNotReportedPosts()
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.status = 0')
-            ->orWhere('p.status IS NULL')
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+        //Get local content
+        $qb = $this->findByStore();
 
+        $qb
+            ->andWhere('p.status IS NULL')
+            ->orderBy('p.createdAt', 'DESC')
+            ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
     }
+
+    public function findByCategory($category)
+    {
+        //Get local content
+        $qb = $this->findByStore();
+
+        $qb
+            ->andWhere('p.status IS NULL')
+            ->andWhere('p.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('p.createdAt', 'DESC')
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findByIds($value1, $value2)
     {
         return $this->createQueryBuilder('p')

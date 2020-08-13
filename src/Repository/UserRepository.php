@@ -19,8 +19,9 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findByValue($value)
+    public function findByValue($value, $allCompanies, $store)
     {
+
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.profile', 'p')
             ->leftJoin('u.company', 'c')
@@ -33,16 +34,21 @@ class UserRepository extends ServiceEntityRepository
             ->orWhere('u.email LIKE :value')
             ->orWhere('c.name LIKE :value')
             ->orWhere('f.name LIKE :value')
+            ->andWhere('u.company in (:value2)')
             ->andWhere('p.isCompleted = 1')
-            ->setParameters(array('value' => '%'.$value.'%'));
+            ->setParameters(array('value' => '%'.$value.'%', 'value2'=>$allCompanies ));
 
         return $qb->getQuery()->getResult();
     }
-    public function findByIsCompletedProfile()
+    public function findByIsCompletedProfile($companiesIds)
     {
         $qb = $this->createQueryBuilder('u')
                     ->leftJoin('u.profile', 'p')
-                    ->where('p.isCompleted = true');
+                    ->where('p.isCompleted = true')
+                    ->andWhere('u.company in (:companiesIds)')
+                    ->setParameters(array('companiesIds'=>$companiesIds ));
+
+
 
         return $qb->getQuery()->getResult();
     }

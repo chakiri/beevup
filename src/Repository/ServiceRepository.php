@@ -29,8 +29,10 @@ class ServiceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSearch($query, $category, $isDiscovery){
-        $q = $this->createQueryBuilder('s');
+    public function findSearch($query, $category, $isDiscovery, $allCompanies){
+        $q = $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c');
 
         if ($query){
             $q
@@ -53,7 +55,8 @@ class ServiceRepository extends ServiceEntityRepository
                 ->setParameter('isDiscovery', $isDiscovery)
         ;
 
-
+        $q->andWhere('c.id in (:companies)')
+          ->setParameter('companies', $allCompanies);
         $q->orderBy('s.createdAt', 'DESC');
 
         return $q
@@ -62,6 +65,77 @@ class ServiceRepository extends ServiceEntityRepository
             ;
     }
 
+
+    public function findByLocalServices($allCompanies){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->Where('c.id IN  (:companies)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->addOrderBy('s.isDiscovery', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies))
+            ->getQuery()
+            ->getResult() ;
+
+    }
+    public function findByIsDiscovery( $allCompanies){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('s.isDiscovery = 1')
+            ->andWhere('c.id in (:companies)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies))
+            ->getQuery()
+            ->getResult() ;
+
+    }
+
+    public function findOneByIsDiscovery( $allCompanies){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('s.isDiscovery = 1')
+            ->andWhere('c.id in (:companies)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findByType($type, $allCompanies){
+
+        return $this->createQueryBuilder('s')
+                ->leftJoin('s.user', 'u')
+                ->leftJoin('u.company', 'c')
+                ->andWhere('s.type = :type')
+                ->andWhere('c.id in (:companies)')
+                 ->orderBy('s.createdAt', 'DESC')
+                ->setParameters(array('type'=> $type, 'companies'=>$allCompanies))
+                ->getQuery()
+                ->getResult() ;
+
+        }
+
+    public function findByCategory($category, $allCompanies, $serviceID){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->Where('s.category = :category')
+            ->andWhere('c.id in (:companies)')
+            ->andWhere('s.id != (:serviceID)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('category'=> $category, 'companies'=>$allCompanies, 'serviceID'=>$serviceID))
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult() ;
+
+    }
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */

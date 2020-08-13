@@ -9,7 +9,7 @@
               <div class="row">
                   <div class="col-lg-3">
 
-                          <div class="user-profile-ov page-title sign_in_sec current">
+                          <div id="servicessearchbox" class="user-profile-ov page-title sign_in_sec current">
                               <div class="page-title sign_in_sec current">
                                   <h3>Filtres</h3>
                                   <p>Utilisez les filtres pour affiner votre recherche
@@ -22,7 +22,7 @@
                                       <div class="form-group">
                                         {{ form_widget(searchForm.category) }}
                                       </div>
-                                      <div class="form-group">
+                                      <div id="specialofferbox" class="form-group">
                                          {{ form_row(searchForm.isDiscovery) }}
                                       </div>
 
@@ -43,11 +43,11 @@
                                       et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
 
                                   <div class="d-flex pt-3 aside-service">
-                                      <a type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
+                                      <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
                                       {% if is_granted('ROLE_ADMIN_STORE') %}
-                                          <a type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
+                                          <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
                                       {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
-                                           <a type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn white-bg">Mes services</a>
+                                           <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn white-bg">Mes services</a>
                                       {% endif %}
 
                                    </div>
@@ -57,59 +57,66 @@
                                   {% endif %}
                               </div><!--user-profile-ov end-->
                           </div><!--widget-jobs end-->
-
-
                   </div>
-                  <div class="row col-lg-9">
+                  <div class="col-lg-9">
                      <div class="page-title  current service-title-page">
                          <div class="page-description">
-                                  {% if isPrivate == true %}
-                                    <h3>Mes services</h3>
-                                    <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
-                                  {% elseif isDiscovery == true %}
-                                      <h3>Offres exclusives Beev'Up</h3>
-                                      <p>Les offres exclusives Beev'Up accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
-                                  {% else %}
-                                      <h3>Services</h3>
-                                      <p>Faites votre marché dans les services proposés par la communauté locale.</p>
-                                      <p class="pb-1">  Proposez vos services et développez votre activité.</p>
+                              {% if isPrivate == true %}
+                                <h3>Mes services</h3>
+                                <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
+                              {% elseif isDiscovery == true %}
+                                  <h3>Offres exclusives Beev'Up</h3>
+                                  <p>Les offres exclusives Beev'Up accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
+                              {% else %}
+                                  <h3>Services</h3>
+                                  <p>Faites votre marché dans les services proposés par la communauté locale.</p>
+                                  <p class="pb-1">  Proposez vos services et développez votre activité.</p>
 
-                                  {% endif %}
+                              {% endif %}
                          </div>
-                              </div>
-                      {% if services is not empty %}
-                                          {% for service in services %}
-                                              <div class="col-lg-3 col-md-3 col-sm-6">
-                                                  <div class="company_profile_info">
-                                                      <div class="company-up-info">
-                                                          <a href="{{ path('service_show', {'id': service.id}) }}">
-                                                              {% if service.filename %}
-                                                                  <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
-                                                              {% else  %}
-                                                                <img src="/images/noImage.jpg" alt="">
-                                                               {% endif %}
-                                                          </a>
-                                                          <h3><a href="{{ path('service_show', {'id': service.id}) }}">
-                                                                  {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
-                                                          <div class="company-introduction-bloc">
-                                                             <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
-                                                          </div>
-                                                           <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
-
-
-
-                                                      </div>
-                                                      <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
-                                                  </div><!--company_profile_info end-->
+                      </div>
+                      <div class="row">
+                          {% if services is not empty %}
+                              {% for service in services %}
+                                  <div class="col-lg-3 col-md-3 col-sm-6">
+                                      <div class="company_profile_info">
+                                          <div class="company-up-info">
+                                              <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                  {% if service.filename %}
+                                                      <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                  {% else  %}
+                                                      <img src="/images/noImage.jpg" alt="">
+                                                  {% endif %}
+                                              </a>
+                                              <h3><a href="{{ path('service_show', {'id': service.id}) }}">
+                                                      {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
+                                              <div class="company-introduction-bloc">
+                                                  <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
                                               </div>
-                                          {% endfor %}
-                                      {% endif %}
+                                              <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
+                                          </div>
+                                          <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
+                                      </div>
+                                      <!--company_profile_info end-->
+                                  </div>
+                              {% endfor %}
+                          {% else %}
+                              <div class="box full-width">
+                                  <div class="text-center">
+                                      <p><strong>Aucun service crée pour l'instant ! <a href="{{ path('service_new') }}">Je crée un service</a></strong></p>
+                                  </div>
+                              </div>
+                          {% endif %}
+                      </div>
                   </div>
 
               </div>
           </div>
       </div>
   </main>
+
+    <!-- Tutorial button -->
+    <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialServices()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
 
 {% endblock %}
 

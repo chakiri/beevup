@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Entity\Post;
 use App\Entity\UserType;
+use App\Repository\PostCategoryRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -55,7 +56,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
@@ -67,10 +68,11 @@ class CompanyController extends AbstractController
                        $company->setIsCompleted(true);
                        // create a new welcome post
                        $AdminPLatformeType = $userTypeRepository->findOneBy(['id' =>5]);
-                       $user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                       //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                       $category = $postCategoryRepository->findOneBy(['id' => 7]);
                        $post = new Post();
-                       $post->setUser($user);
-                       $post->setCategory('Derniers arrivés');
+                       $post->setUser($this->getUser());
+                       $post->setCategory($category);
                        $post->setTitle('Bienvenue à l\'entreprise '.$company->getName());
                        $post->setDescription($company->getIntroduction());
 

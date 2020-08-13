@@ -22,12 +22,12 @@ class Abuse
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="abuses")
      */
     private $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comment", inversedBy="abuses")
      */
     private $comment;
 

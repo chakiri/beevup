@@ -329,6 +329,9 @@ textarea.form-control{
     border-radius: var(--radius);
 
 }
+.service label.checkbox-custom.custom-control-label::before {
+    top: -1px;
+}
 /* ==============modals ========================*/
 .modal-content{
     border-radius:12px
@@ -1296,7 +1299,6 @@ ul.landing-page-list {
     padding: 60px 0;
 }
 .page-title {
-    float: left;
     width: 100%;
     margin-bottom: 20px;
     padding: 0 15px;

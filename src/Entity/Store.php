@@ -139,10 +139,16 @@ class Store implements \Serializable
      */
     private $services;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $externalCompanies;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->externalCompanies = [];
     }
 
     /**
@@ -505,5 +511,46 @@ class Store implements \Serializable
     {
         $this->id = unserialize($serialized);
 
+    }
+
+    public function getExternalCompanies(): ?array
+    {
+        return $this->externalCompanies;
+    }
+
+    public function setExternalCompanies(?array $externalCompanies): self
+    {
+        $this->externalCompanies = $externalCompanies;
+
+        return $this;
+    }
+
+    public function addExternalCompany(int $idExternalCompany): self
+    {
+        if (!in_array($idExternalCompany, $this->externalCompanies)){
+            array_push($this->externalCompanies, $idExternalCompany);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalCompany(int $idExternalCompany): self
+    {
+        if (in_array($idExternalCompany, $this->externalCompanies)){
+            //Get the key of id
+            $key = array_search($idExternalCompany, $this->externalCompanies);
+            //Delete the key from the array
+            unset($this->externalCompanies[$key]);
+        }
+
+        return $this;
+    }
+
+    public function haveExternalCompany(int $idExternalCompany): bool
+    {
+        if (in_array($idExternalCompany, $this->externalCompanies)){
+            return true;
+        }
+        return false;
     }
 }

@@ -44,6 +44,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/subscription, roles: ROLE_ADMIN_COMPANY }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/map, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}

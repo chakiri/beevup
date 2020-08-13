@@ -12,6 +12,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\GetCompanies;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\CookieAccepted;
 use App\Service\Session\WelcomePopup;
@@ -72,7 +73,7 @@ class DefaultController extends AbstractController
             } else {
                 array_push($reportedPosts, 0);
             }
-            
+
         }
         if($this->getUser()->getCompany() != null) {
             $companyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany()->getId(), 'status' => 'Validated'], []);
@@ -102,7 +103,7 @@ class DefaultController extends AbstractController
         //Get notification chat
         $notificationMessages = $notificationRepository->findMessageNotifs($this->getUser());
 
-        return $this->render('default/dashboard.html.twig', [
+        return $this->render('default/dashboard-old.html.twig', [
             'services' => $services,
             'posts'   => $posts,
             'recommandations' => array_merge($companyRecommandations, $serviceRecommandationToBeTraited),
@@ -128,18 +129,25 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
      */
-    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, ServiceRepository $serviceRepository)
+    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository)
     {
+        $store = $this->getUser()->getStore();
         if ($category != null)
-            $posts = $postRepository->findBy(['status' => null, 'category' => $category], ['createdAt' => 'DESC']);
+            $posts = $postRepository->findByCategory($category);
         elseif ($post != null) {
-            $posts[] = $post;
+            $posts = [];
+            if ($post->getUser()->getStore() == $store) {
+                $posts[] = $post;
+            }
             $postNotificationSeen->set($post);
         }else
             $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
-        $lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
+        //$lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
+
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+        $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies);
 
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts,

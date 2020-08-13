@@ -289,3 +289,9 @@ function setSeenOpportunityNotification(e){
     });
 }
 
+/**
+ * Display data toggle
+ */
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
