@@ -54,4 +54,29 @@ class GetCompanies
         $companies = array_merge($localCompanies, $externalCompanies);
         return $companies;
     }
+
+    public function getLocalStores($store, $allCompanies)
+    {
+        $Localstores = [];
+
+        foreach($allCompanies as $companyId)
+        {
+         $LocalStore = $this->companyRepository->findOneBy(['id'=>$companyId])->getStore();
+         if($LocalStore == $store)
+         {
+             array_push($Localstores, $LocalStore );
+         }
+
+        }
+        return array_unique($Localstores);
+
+    }
+
+    public function isStoreInLocalStores($store, $LocalStores)
+    {
+        if (in_array($store, $LocalStores)) {
+         return true;
+        }
+        else false ;
+    }
 }
