@@ -1,3 +1,7 @@
+.full-width{
+    width: 100% !important;
+}
+
 .small-avatar{
     width: 32px;
     height: 32px;
@@ -375,4 +379,9 @@ li.icon-type-post a.active{
     background: #000;
     border-radius: 7px;
     font-size: 13px;
+}
+
+/* Warning */
+.warnings a:hover, .alert a:hover{
+    color: #ffffff;
 }

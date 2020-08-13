@@ -93,6 +93,20 @@ class ServiceRepository extends ServiceEntityRepository
 
     }
 
+    public function findOneByIsDiscovery( $allCompanies){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('s.isDiscovery = 1')
+            ->andWhere('c.id in (:companies)')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies))
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findByType($type, $allCompanies){
 
         return $this->createQueryBuilder('s')

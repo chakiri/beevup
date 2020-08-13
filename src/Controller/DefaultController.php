@@ -12,6 +12,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\GetCompanies;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\CookieAccepted;
 use App\Service\Session\WelcomePopup;
@@ -128,7 +129,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
      */
-    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, ServiceRepository $serviceRepository)
+    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository)
     {
         $store = $this->getUser()->getStore();
         if ($category != null)
@@ -143,7 +144,10 @@ class DefaultController extends AbstractController
             $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
-        $lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
+        //$lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
+
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+        $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies);
 
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts,

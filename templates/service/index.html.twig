@@ -57,51 +57,57 @@
                                   {% endif %}
                               </div><!--user-profile-ov end-->
                           </div><!--widget-jobs end-->
-
-
                   </div>
-                  <div class="row col-lg-9">
+                  <div class="col-lg-9">
                      <div class="page-title  current service-title-page">
                          <div class="page-description">
-                                  {% if isPrivate == true %}
-                                    <h3>Mes services</h3>
-                                    <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
-                                  {% elseif isDiscovery == true %}
-                                      <h3>Offres exclusives Beev'Up</h3>
-                                      <p>Les offres exclusives Beev'Up accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
-                                  {% else %}
-                                      <h3>Services</h3>
-                                      <p>Faites votre marché dans les services proposés par la communauté locale.</p>
-                                      <p class="pb-1">  Proposez vos services et développez votre activité.</p>
+                              {% if isPrivate == true %}
+                                <h3>Mes services</h3>
+                                <p>Contribuez à la vie de votre communauté en proposant vos services !</p>
+                              {% elseif isDiscovery == true %}
+                                  <h3>Offres exclusives Beev'Up</h3>
+                                  <p>Les offres exclusives Beev'Up accroissent votre visibilité au sein de la communauté tout en vous attribuant des points BV !</p>
+                              {% else %}
+                                  <h3>Services</h3>
+                                  <p>Faites votre marché dans les services proposés par la communauté locale.</p>
+                                  <p class="pb-1">  Proposez vos services et développez votre activité.</p>
 
-                                  {% endif %}
+                              {% endif %}
                          </div>
                       </div>
-                    {% if services is not empty %}
-                      {% for service in services %}
-                          <div class="col-lg-3 col-md-3 col-sm-6">
-                              <div class="company_profile_info">
-                                  <div class="company-up-info">
-                                      <a href="{{ path('service_show', {'id': service.id}) }}">
-                                          {% if service.filename %}
-                                              <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
-                                          {% else  %}
-                                            <img src="/images/noImage.jpg" alt="">
-                                           {% endif %}
-                                      </a>
-                                      <h3><a href="{{ path('service_show', {'id': service.id}) }}">
-                                              {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
-                                      <div class="company-introduction-bloc">
-                                         <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
+                      <div class="row">
+                          {% if services is not empty %}
+                              {% for service in services %}
+                                  <div class="col-lg-3 col-md-3 col-sm-6">
+                                      <div class="company_profile_info">
+                                          <div class="company-up-info">
+                                              <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                  {% if service.filename %}
+                                                      <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                  {% else  %}
+                                                      <img src="/images/noImage.jpg" alt="">
+                                                  {% endif %}
+                                              </a>
+                                              <h3><a href="{{ path('service_show', {'id': service.id}) }}">
+                                                      {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
+                                              <div class="company-introduction-bloc">
+                                                  <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
+                                              </div>
+                                              <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
+                                          </div>
+                                          <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
                                       </div>
-                                       <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
+                                      <!--company_profile_info end-->
                                   </div>
-                                  <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
+                              {% endfor %}
+                          {% else %}
+                              <div class="box full-width">
+                                  <div class="text-center">
+                                      <p><strong>Aucun service crée pour l'instant ! <a href="{{ path('service_new') }}">Je crée un service</a></strong></p>
+                                  </div>
                               </div>
-                              <!--company_profile_info end-->
-                          </div>
-                      {% endfor %}
-                    {% endif %}
+                          {% endif %}
+                      </div>
                   </div>
 
               </div>
