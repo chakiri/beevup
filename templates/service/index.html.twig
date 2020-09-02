@@ -37,13 +37,13 @@
                           <div class="widget widget-jobs">
                               <div class="user-profile-ov page-title sign_in_sec current">
                                   <h3>
-                                      participez à la vie de votre communauté !
+                                      Participez à la vie de votre communauté !
                                   </h3>
                                   <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
                                       et gagnez en visibilité ainsi que des points Bureau Vallée !</p>
 
                                   <div class="d-flex pt-3 aside-service">
-                                      <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Crée un service</a>
+                                      <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Créer</a>
                                       {% if is_granted('ROLE_ADMIN_STORE') %}
                                           <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
                                       {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
@@ -80,12 +80,17 @@
                               {% for service in services %}
                                   <div class="col-lg-3 col-md-3 col-sm-6">
                                       <div class="company_profile_info">
+                                          {% if service.isDiscovery %}
+                                              <div class="badge-box">
+                                                  <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
+                                              </div>
+                                          {% endif %}
                                           <div class="company-up-info">
                                               <a href="{{ path('service_show', {'id': service.id}) }}">
                                                   {% if service.filename %}
                                                       <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
                                                   {% else  %}
-                                                      <img src="/images/noImage.jpg" alt="">
+                                                      <img src="http://via.placeholder.com/170x170" alt="">
                                                   {% endif %}
                                               </a>
                                               <h3><a href="{{ path('service_show', {'id': service.id}) }}">

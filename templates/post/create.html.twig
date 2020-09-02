@@ -8,13 +8,13 @@
       {% endif %}
       <div class="d-flex">
           {% if app.user.profile.filename %}
-              <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
+              <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="m-2 rounded-circle z-depth-0 medium-avatar" alt="avatar image">
           {% else %}
               <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
           {% endif %}
 
           <div id="myTabContent" class="tab-content">
-              {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1','placeholder': 'Quel sujet voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
+              {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1 mb-3','placeholder': 'Quel sujet voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
 
               {{ form_widget(PostForm.description ) }}
               <div class="tab-pane fade mt-3" id="image">

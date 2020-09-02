@@ -30,7 +30,7 @@ class RegistrationType extends AbstractType
 
                 'mapped'=>false,
                    'attr'  => [
-                   'placeholder' => 'Raison sociale (Société) ou Prénom Nom (Indépendant)',
+                   'placeholder' => 'Raison sociale ou Nom',
                    'class'       =>'form-control'
                 ]
             ])

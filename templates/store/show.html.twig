@@ -61,7 +61,7 @@
                                                             <div class="sgt-text">
                                                                 <h4>
                                                                     <a href="{{ path('company_show', {'slug': company.slug}) }}">
-                                                                        {{ company.name|capitalize }}</a> </h4>
+                                                                        {{ company.name }}</a> </h4>
                                                                 {% if company.category != null %}
                                                                     <span>{{ company.category.name|capitalize }}</span>
                                                                 {% endif %}
@@ -69,7 +69,6 @@
                                                         </div>
                                                     {% endfor %}
                                                 {% endif %}
-
 
                                             </div><!--suggestions-list end-->
 
@@ -83,7 +82,7 @@
                 <div class="col-lg-6">
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
-                            <h3>{{ store.name|capitalize }}</h3>
+                            <h3>{{ store.name }}</h3>
                             <div class="star-descp">
                                 <span>  {{ app.user.store.city }}  {{ app.user.store.country|country_name }}</span>
                                 <p>{{  store.introduction }} </p>
@@ -94,7 +93,7 @@
                             <div class="user-profile-ov page-title sign_in_sec current">
                                 <h3>
                                     <a href="#" title="" class="overview-open">
-                                        {{ store.name|capitalize }} en quelques mots</a>
+                                        {{ store.name }} en quelques mots</a>
                                 </h3>
 
                                 <p>{{ store.description|raw ?: 'Pas de description' }}</p>

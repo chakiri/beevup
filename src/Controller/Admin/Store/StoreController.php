@@ -18,10 +18,12 @@ class StoreController extends EasyAdminController
         $adresse = $store->getAddressNumber().' '.$store->getAddressStreet().' '.$store->getAddressPostCode().' '.$store->getCity().' '.$store->getCountry();
         $coordonnees =  $this->map->geocode($adresse);
 
-        $store->setLatitude($coordonnees[0]);
-        $store->setLongitude($coordonnees[1]);
-        parent::persistEntity($store);
-   }
+        if ($coordonnees){
+            $store->setLatitude($coordonnees[0]);
+            $store->setLongitude($coordonnees[1]);
+            parent::persistEntity($store);
+        }
+    }
 
     public function updateStoreEntity($store)
     {

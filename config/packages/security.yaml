@@ -47,6 +47,7 @@ security:
         - { path: ^/subscription, roles: ROLE_ADMIN_COMPANY }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/map, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/waitingValidation, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login, allow_if: "!is_authenticated()"}
         - { path: ^/inscription, allow_if: "!is_authenticated()"}
         - { path: ^/forgottenPassword, allow_if: "!is_authenticated()"}

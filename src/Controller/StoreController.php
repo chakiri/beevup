@@ -39,7 +39,7 @@ class StoreController extends AbstractController
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $localStores = $getCompanies->getLocalStores($store , $allCompanies);
-        if ($getCompanies->isStoreInLocalStores($store, $localStores) == true ) {
+        if ($getCompanies->isStoreInLocalStores($store, $localStores) == true || $this->getUser()->getStore() == $store ) {
             $users = $userRepository->findByStore($store);
             $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
             $usersType = $userTypeRepository->findBy(['id' => array(1, 2, 4)]);

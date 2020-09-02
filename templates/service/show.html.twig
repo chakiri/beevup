@@ -14,11 +14,11 @@
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
                                 {% else %}
-                                    <img src="/images/noImage.jpg" alt="">
+                                    <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}
-                                <div class="user_pro_status">
-                                    <ul class="flw-hr">
-                                        {% if service.user == app.user %}
+                                <div class="">
+                                    {% if service.user == app.user %}
+                                        <ul class="flw-hr">
                                             <li>
                                                 <a href="{{ path('service_edit', {'id': service.id}) }}" class="flww">
                                                     Modifier
@@ -29,44 +29,56 @@
                                                     Supprimer
                                                 </a>
                                             </li>
-
-                                        {% elseif service.type.name == 'plateform' %}
-                                            {% if is_granted('ROLE_ADMIN_STORE') %}
-                                                {% if storeService %}
-                                                    <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="flww">Retirer</a>
-                                                    <a href="#" type="button" class="flww" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
-                                                {% else %}
-                                                    <li>
-                                                      <a href="{{ path('service_associate', {'service': service.id}) }}" type="button" class="flww">Ajouter ce service</a>
-                                                    </li>
-                                                    <li>
-                                                        <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
-                                                    </li>
-                                                {% endif %}
+                                        </ul>
+                                    {% elseif service.type.name == 'plateform' %}
+                                        <ul>
+                                        {% if is_granted('ROLE_ADMIN_STORE') %}
+                                            {% if storeService %}
+                                                <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="flww">Retirer</a>
+                                                <a href="#" type="button" class="flww" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
+                                            {% else %}
+                                                <li>
+                                                  <a href="{{ path('service_associate', {'service': service.id}) }}" type="button" class="flww">Ajouter ce service</a>
+                                                </li>
+                                                <li>
+                                                    <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
+                                                </li>
                                             {% endif %}
                                         {% endif %}
-                                    </ul>
-                                    <ul class="flw-status">
+                                        </ul>
+                                    {% endif %}
+                                    <ul class="ul-none">
                                         <li>
-                                            <span><b>Prix:</b>
-                                                {% if storeService %}
-                                                    {% if storeService.price != '' %}
-                                                         {{ storeService.price }} €.H.T {% if storeService.unity != null  %} /  {{ storeService.unity }} {% endif %}
-                                                    {% endif %}
-                                                {% else %}
-                                                   {{ service.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }} {% endif %}
+                                            {% if service.isQuote %}
+                                                <span><b>Prix :</b> Sur devis</span>
+                                                {% if app.user != service.user %}
+                                                    <div class="lt-sec">
+                                                        <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Demander un devis</a>
+                                                    </div>
                                                 {% endif %}
-                                            </span>
+                                            {% else %}
+                                                <span>
+                                                    <b>Prix : </b>
+                                                    {% if storeService %}
+                                                        {% if storeService.price != '' %}
+                                                            {{ storeService.price }} €.H.T {% if storeService.unity != null  %} /  {{ storeService.unity }} {% endif %}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {{ service.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }} {% endif %}
+                                                    {% endif %}
+                                                </span>
+                                            {% endif %}
                                         </li>
                                         {% if service.isDiscovery == 1 %}
                                             <li>
-                                                <span>
-                                                    <b> Offre exclusive Beev'Up</b>
-                                                </span>
+                                                <span><b>Offre exclusive Beev'Up</b></span>
                                             </li>
                                         {% endif %}
-
-
+                                        {% if app.user != service.user %}
+                                            <div class="btn white-bg">
+                                                <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
+                                            </div>
+                                        {% endif %}
                                     </ul>
                                 </div><!--user_pro_status end-->
                             </div>
@@ -75,9 +87,7 @@
                             <div class="suggestions full-width">
                                 <div class="sd-title page-title sign_in_sec current">
                                     <h3>Services similaires</h3>
-
                                 </div><!--sd-title end-->
-
                                 <div class="suggestions-list">
                                     {% for service in similarServices %}
                                         <div class="suggestion-usd">
@@ -95,15 +105,9 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-
-
                                 </div><!--suggestions-list end-->
                             </div><!--suggestions end-->
                         {% endif %}
-
-
-
-
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -112,14 +116,12 @@
                             <h3>{{ service.title }}</h3>
                             <div class="star-descp">
                                 {% if service.type.name =='company' %}
-                                    <p>
-                                        <span>
+                                    <p><span>
                                          Proposé par :
                                         <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">
                                             {{ service.user.company.name|capitalize }}
                                         </a>
-                                    </span>
-                                    </p>
+                                    </span></p>
                                 {% elseif service.type.name =='store' %}
                                     <p><span> Proposé par: Bureau Vallée </span></p>
                                     <p><span> Chargé du service:
@@ -129,14 +131,18 @@
                                     </span>
                                     </p>
                                 {% endif %}
-
-
                             </div><!--star-descp end-->
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current">
                                     <h3> A propos du service</h3>
                                      <p>{{ service.description|raw ?: 'Pas de description' }}</p>
                                  </div>
+                                {% if service.isDiscovery %}
+                                    <div class="user-profile-ov page-title sign_in_sec current">
+                                        <h3> A propos de l'offre exclusive</h3>
+                                        <p>{{ service.discoveryContent|raw ?: 'Pas de description' }}</p>
+                                    </div>
+                                {% endif %}
                                 <div class="user-profile-ov page-title sign_in_sec current">
                                     <h3> Photos</h3>
                                     <div class="gallery_pf">
@@ -145,58 +151,26 @@
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
                                                         <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
-                                                        <a href="#" title=""><img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt=""></a>
                                                     </div><!--gallery_pt end-->
                                                 </div>
+                                            {% endif %}
+                                            {% if service.filename2 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
                                                         <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
-                                                        <a href="#" title=""><img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt=""></a>
                                                     </div><!--gallery_pt end-->
                                                 </div>
+                                            {% endif %}
+                                            {% if service.filename3 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
                                                         <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
-                                                        <a href="#" title="">  <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt=""></a>
                                                     </div><!--gallery_pt end-->
                                                 </div>
-
-                                            {% else %}
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="/images/noImage.jpg" alt="">
-
-
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="/images/noImage.jpg" alt="">
-
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                                                    <div class="gallery_pt">
-                                                        <img src="/images/noImage.jpg" alt="">
-
-                                                    </div><!--gallery_pt end-->
-                                                </div>
-
                                             {% endif %}
-
-
-
-
                                         </div>
                                     </div><!--gallery_pf end-->
                                 </div>
-
-
-
-
-
-
-
 
                                 <div class="user-profile-ov st2 page-title sign_in_sec current">
                                     <h3>
@@ -210,7 +184,6 @@
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
-
                                                 <div class="sgt-text hover-info">
                                                     <h4>
                                                         <a href="{{ path('profile_show', {'id': recommandation.user.profile.id}) }}">
@@ -230,21 +203,16 @@
                                 {% if service.user.company != null %}
                                    <div class="user-profile-ov st2 page-title sign_in_sec current">
                                     <h3>
-                                        <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">
-                                            {{ service.user.company.name|capitalize }}
-                                           D'autres personnes ont recommandé {{ service.user.company|capitalize }}
-                                        </a>
+                                        <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">D'autres personnes ont recommandé {{ service.user.company|capitalize }}</a>
                                     </h3>
                                     {% if recommandationsCompany %}
                                         {% for recommandationCompany in recommandationsCompany %}
                                             <div class="suggestion-usd">
                                                 {% if recommandationCompany.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" alt="">
-
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
-
                                                 <div class="sgt-text hover-info">
                                                     <h4>
                                                         <a href="{{ path('profile_show', {'id': recommandationCompany.user.profile.id}) }}">
@@ -282,16 +250,15 @@
                         </div>
                        <div class="widget widget-jobs">
                            <div class="user-profile-ov page-title sign_in_sec current">
-                               <h3>participez à la vie de votre communauté ! </h3>
+                               <h3>Participez à la vie de votre communauté ! </h3>
                                <p>Soyez parmi ceux qui pensent à la communauté en proposant des offres exclusives Beev'Up à vos services
                                    et gagnez en visibilité ainsi que des points Bureau Vallée !
                                </p>
                                <div class="lt-sec">
-                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
-                                        </div>
-                                    </div><!--user-profile-ov end-->
-                                </div><!--widget-jobs end-->
-
+                                    <a href="{{ path('service_new') }}" title="">Créer un service</a>
+                               </div>
+                           </div><!--user-profile-ov end-->
+                       </div><!--widget-jobs end-->
                     </div>
                 </div>
             </div>

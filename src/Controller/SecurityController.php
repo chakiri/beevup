@@ -107,9 +107,10 @@ class SecurityController extends AbstractController
 
                 $manager->flush();
                 $result = $mailer->send($message);
-                $this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
+                //$this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
+                //return $this->redirectToRoute('security_login');
 
-                return $this->redirectToRoute('security_login');
+                return $this->redirectToRoute('waiting_validation');
             }
 
             return $this->render('default/home.html.twig', [
@@ -118,6 +119,14 @@ class SecurityController extends AbstractController
         }else{
             return $this->redirectToRoute('dashboard', []);
         }
+
+    }
+
+    /**
+     * @Route("/waitingValidation", name="waiting_validation")
+     */
+    public function test(){
+        return $this->render('security/waitingValidation.html.twig');
 
     }
 

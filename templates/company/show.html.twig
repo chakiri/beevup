@@ -53,9 +53,9 @@
                             </div><!--user_pro_status end-->
                             {% if company.isCompleted %}
                                 <ul class="social_links">
-                                    <li><i class="fas fa-map-marker-alt"></i><span class="social-links-span"> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
-                                    {% if company.phone %}<li><i class="fas fa-mobile-alt"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
-                                    {% if company.website %}<li><i class="fas fa-external-link-alt"></i><a href="{{ company.website }}"><span class="social-links-span">Accéder au site web</span> </a></li>{% endif %}
+                                    <li><i class="fas fa-map-marker-alt p-1"></i><span class="social-links-span"> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
+                                    {% if company.phone %}<li><i class="fas fa-mobile-alt p-1"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
+                                    {% if company.website %}<li><i class="fas fa-external-link-alt p-1"></i><a target="_blank" href="{{ company.website }}"><span class="social-links-span">Accéder au site web</span> </a></li>{% endif %}
 
                                 </ul>
                             {% endif %}

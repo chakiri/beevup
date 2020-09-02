@@ -57,6 +57,11 @@
     border-radius: 6px;
 }
 
+.ul-none{
+    list-style-type: none;
+    padding: 0;
+}
+
 .new-post input{
     border: none;
     width: 100%;
@@ -206,7 +211,7 @@
     --form-placeholder-size: 11px;
 }
 #add-post-modal textarea, #update-post-modal textarea{
-    height: 30px;
+    height: 70px;
 }
 
 #post_title {
@@ -384,4 +389,26 @@ li.icon-type-post a.active{
 /* Warning */
 .warnings a:hover, .alert a:hover{
     color: #ffffff;
+}
+
+/*Waiting validation page */
+.waiting_validation{
+    padding:0;
+}
+
+/* Special Offer dashboard */
+.badge-box {
+    position: absolute;
+    font-size: 90%;
+    margin: 5px;
+}
+
+.badge-box .badge {
+    border-radius: 0;
+    text-transform: none;
+}
+
+.special-offer-badge {
+    background-color: #DE3944;
+    color: #fff;
 }

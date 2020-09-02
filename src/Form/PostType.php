@@ -29,7 +29,7 @@ class PostType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Dites-nous en plus !',
+                    'placeholder' => 'Saisissez le texte de votre publication, choisissez une catégorie de post ci dessous et cliquez sur Publier !',
                     'maxlength' => 1300,
                     'class'    =>'entity-description',
                 ]
@@ -38,7 +38,7 @@ class PostType extends AbstractType
                 'required' => false,
                 'label' => "Vidéo",
                 'attr' => [
-                    'placeholder' => 'Animez votre post avec une vidéo Youtube !',
+                    'placeholder' => 'Collez le lien Youtube de votre vidéo !',
                 ]
             ])
             ->add('imageFile', FileType::class, [

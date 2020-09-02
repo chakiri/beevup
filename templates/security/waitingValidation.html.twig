@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attente de validation{% endblock %}
+
+{% block body %}
+    <section id="login-page" class="clearfix section-bg-light">
+        <div>
+            <div class="landing-page-first-bloc">
+                <div class="landign-page-bloc1">
+                    <header id="landing-page-header">
+                        <div class="row">
+                            <div class="col-lg-10 logo">
+                                <a href="{{ path('dashboard') }}">
+                                    <img class="landing-page-logo" src="/images/logo_bv_mode.png" alt="">
+                                </a>
+                            </div>
+                            <div class="col-lg-2 connexion-btn">
+                                <button type="submit" class="white-btn cnx-btn" method="post">
+                                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">
+                                        Inscription </a>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div class="row sign-in-page">
+                <div class="signin-popup">
+                    <div class="signin-pop">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="cmp-info">
+                                    <img src="images/homePage/login-page.png" alt="">
+                                </div><!--cmp-info end-->
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="cmp-info">
+                                    <h4>Nous vous remercions pour votre inscription.</h4><br>
+                                    <p>Par mesure de sécurité nous devons vérifier votre adresse e-mail.</p>
+                                    <p>Vous venez de recevoir un e-mail de confirmation de création de compte, merci de cliquer sur le lien présent dans le texte pour confirmer votre inscription.</p>
+                                    <p>A tout de suite !</p><br>
+                                    <strong>L'équipe Beev'Up</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!--signin-pop end-->
+
+                </div><!--signin-popup end-->
+
+            </div><!--sign-in-page end-->
+
+        </div>
+
+    </section>
+{% endblock %}

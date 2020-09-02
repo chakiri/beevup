@@ -55,7 +55,7 @@ h1,h2,h3,h4,h5,h6{
 
 body{
     height: 100%;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     background: #FAFAFA !important;
     font-family: 'Rubik-regular';
@@ -121,7 +121,7 @@ a.nav-link{
 }
 
 .min-col{
-    width: 85%;
+    width: 90%;
 }
 
 .m-center{
@@ -152,6 +152,7 @@ input{
 
 small{
     color: #B3B9C3;
+    font-size: 85%;
 }
 
 hr{
@@ -204,6 +205,9 @@ input#service_title::placeholder
   line-height: 21px;
   text-align: center;
   border: 0;
+}
+.orange-btn-greyed{
+    background: #ff7f507a !important;
 }
 .m-orange-btn{
     padding: 8px 32px;
@@ -2767,7 +2771,24 @@ a:hover {
 }
 
 /* =================Alerts ============================*/
-.warning, .alert.alert-dismissible.alert-success.mb-0{
+.warnings{
+    width: 100%;
+}
+.warning{
+    background-color: #000;
+    border-radius: 12px;
+    color: #FFF;
+    line-height: 24px;
+    margin: 0 1em 2em;
+}
+
+
+.alert-dismissible .close {
+    COLOR: #fff !important;
+    top: -3px;
+}
+
+.alert{
     position: fixed;
     bottom: 14px;
     HEIGHT: auto;
@@ -2778,12 +2799,6 @@ a:hover {
     z-index: 1111111111;
     width: 328px;
     line-height: 24px;
-}
-
-
-.alert-dismissible .close {
-    COLOR: #fff !important;
-    top: -3px;
 }
 
 

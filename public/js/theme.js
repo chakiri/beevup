@@ -637,6 +637,10 @@ $('#search_type').change(function(){
     });
 });
 
+if(!$('.accpet-condition').is(':checked')){
+    $('#inscription-btn').addClass('orange-btn-greyed');
+}
+
 $('#display-opportunity-offer').click(function(){
     $('#news-filter').val("Opportunité commerciale");
     $('.post').each(function(){
@@ -659,11 +663,11 @@ $('#display-opportunity-offer').click(function(){
     $('.accpet-condition').click(function () {
 
         if ($(this).is(':checked')) {
-
             $('#inscription-btn').removeAttr('disabled');
-
+            $('#inscription-btn').removeClass('orange-btn-greyed');
         } else {
             $('#inscription-btn').attr('disabled', true);
+            $('#inscription-btn').addClass('orange-btn-greyed');
         }
     });
 
@@ -682,7 +686,7 @@ $('#display-opportunity-offer').click(function(){
             $('#inscription-btn').attr('disabled', false);
         }
 
-        $('.form-check-label').append(' <a href=\'/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
+        $('.form-check-label').append(' <a target=\'_blank\' href=\'https://app.beevup.fr/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
     }
     if($('#company_country').length  > 0) {
 

@@ -45,7 +45,7 @@ class ProfileType extends AbstractType
                  ]
             ])
             ->add('gender', ChoiceType::class, [
-                'label' => 'Genre',
+                'label' => 'Civilité',
                 'choices' => [
                     'Femme' => 0,
                     'Homme' => 1,
@@ -55,7 +55,8 @@ class ProfileType extends AbstractType
                 'label' => 'Introduction',
                 'required' => false,
                 'attr'  => [
-                    'placeholder' => 'Intro ...'
+                    'placeholder' => 'Intro ...',
+                    'maxlength' => 255
                  ]
             ])
             ->add('mobileNumber', TextType::class, [

@@ -2,7 +2,7 @@
 
 <div class="logo float-left">
     <!-- Uncomment below if you prefer to use an image logo -->
-    <a href="{{ path('dashboard') }}"><img src="/images/default/logo_bv_mode.png" alt=""></a>
+    <a href="{{ path('dashboard') }}"><img src="/images/default/logo-beevup-mode.png" alt=""></a>
 </div>
 
 <nav class="main-nav d-none d-lg-block">
@@ -94,7 +94,10 @@
                             <div class="dropdown-menu">
                                 {% if opportunities|length > 0 %}
                                     <a class="dropdown-item" href="{{ path('dashboard_category', {'category': 2}) }}" onclick="setSeenOpportunityNotification(this)" data-url="{{ path('opportunity_notification_set') }}">
-                                        <small>{{ opportunities|length }} nouvelles opportunités commerciales</small>
+                                        <p>{{ opportunities|length }}
+                                        {% if opportunities|length == 1 %} nouvelle opportunité commerciale
+                                        {% else %} nouvelles opportunités commerciales
+                                        {% endif %}</p>
                                     </a>
                                 {% else %}
                                     <a class="dropdown-item" href="#"><small>Aucune nouvelle opportunité commerciale</small></a>

@@ -37,7 +37,7 @@ class ServiceController extends AbstractController
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, SessionInterface $session, GetCompanies $getCompanies )
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
-      //  $services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
+        //$services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
         $services = $serviceRepository->findByLocalServices( $allCompanies);
 
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);

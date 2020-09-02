@@ -28,6 +28,7 @@ class Company implements \Serializable
     private $id;
 
     /**
+     * @Assert\Regex(pattern="/^[0-9]{14}+$/", message="Siret invalide")
      * @ORM\Column(type="string", length=191, unique=true)
      */
     private $siret;

@@ -243,7 +243,7 @@ p.text-muted {
 #header .logo img {
   transition: all 0.5s;
   padding: 0;
-  margin: -8px 0 0 10px;
+  margin: -5px 0 0 25px;
   max-height: 50px;
 }
 
@@ -2522,7 +2522,7 @@ font-size: 10px;
   color:red;
 }
 #company_description{
-  height: 120px;
+  height: 130px;
 }
 
 .alert.alert-dismissible.alert-warning.mb-0 {

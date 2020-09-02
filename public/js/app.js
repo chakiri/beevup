@@ -65,25 +65,6 @@ $(function () {
 });
 
 /**
- *Set Session cookie
- */
-$('#cookies a').click(function(){
-    const url = $(this).data('url');
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (){
-            console.log('Set cookie session');
-            $('#cookies').hide();
-        },
-        error: function(xhr){
-            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
-        }
-    });
-});
-
-/**
  *Set Name to all upload file
  */
 $('.custom-file-input').on('change', function(event) {
