@@ -29,62 +29,55 @@
                         <div class="page-title sign_in_sec current">
                             <h3>Favoris</h3>
                             <div class="suggestions full-width">
-
                                 <div class="suggestions-list">
-                            {% for favorit in favorits %}
-
-                                        <div class="suggestion-usd">
-                                            <div class="" style="float:left">
-                                                <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                    {% if favorit.favoritUser.profile.filename is empty %}
-                                                      <img src="http://via.placeholder.com/35x35" alt="">
-                                                    {% else  %}
-                                                        <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('card') }}" style="width: 35px;height:35px">
-                                                    {% endif %}
-                                                </a>
-                                            </div>
-                                            <div class="sgt-text hover-info">
-                                                <h4>
+                                    {% if favorits %}
+                                        {% for favorit in favorits %}
+                                            <div class="suggestion-usd">
+                                                <div class="" style="float:left">
                                                     <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                      {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
+                                                        {% if favorit.favoritUser.profile.filename is empty %}
+                                                          <img src="http://via.placeholder.com/35x35" alt="">
+                                                        {% else  %}
+                                                            <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('miniature')}}" style="width: 35px;height:35px">
+                                                        {% endif %}
                                                     </a>
-                                                </h4>
+                                                </div>
+                                                <div class="sgt-text hover-info">
+                                                    <h4>
+                                                        <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                                          {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
+                                                        </a>
+                                                    </h4>
 
-                                                {% if favorit.favoritUser.company %}
-                                                    <span class="company-link">
+                                                    {% if favorit.favoritUser.company %}
+                                                        <span class="company-link">
 
-                                                        <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">   {{favorit.favoritUser.company.name|capitalize }}  </a>
+                                                            <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">   {{favorit.favoritUser.company.name|capitalize }}  </a>
 
-                                                    </span>
+                                                        </span>
 
 
-                                                {% else %}
-                                                    <span class="company-link">
-                                                            <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> {{favorit.favoritUser.store.name|capitalize }}</a>
-                                                         </span>
-                                                {% endif %}
-                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
+                                                    {% else %}
+                                                        <span class="company-link">
+                                                                <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> {{favorit.favoritUser.store.name|capitalize }}</a>
+                                                             </span>
+                                                    {% endif %}
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
+                                                </div>
                                             </div>
-
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="p-3">
+                                            <p>Aucun favori</p>
                                         </div>
-
-
-
-
-                            {% endfor %}
+                                    {% endif %}
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->
-                            <!-- <div class="view-more">
-                                <a href="#" title="">Voir plus</a>
-                            </div>-->
-                        </div>
+                            </div>
                         {% endif %}
-
-
                     </div>
 
                     <div class="row col-lg-9">
-
                         <div class="page-title sign_in_sec current search-page-title">
                             <div class="page-description">
                                 <h3>Communauté locale</h3>
@@ -179,7 +172,7 @@
                                                     <img src="http://via.placeholder.com/90x90" alt="">
                                                 {% else  %}
 
-                                                       <img src="{{ vich_uploader_asset(company, 'imageFile') }}" class="img-fluid search-company-photo" alt="">
+                                                       <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid search-company-photo" alt="">
 
                                                 {% endif %}
                                             </a>

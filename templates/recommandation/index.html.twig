@@ -41,7 +41,7 @@
                                         <div class="row">
                                             <div class="suggestion-usd" style="float: left">
                                                 {% if recommandation.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
+                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}

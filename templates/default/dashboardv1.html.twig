@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-bv">
-
+        <div id="onboarding" data-url="{{ path('onboarding') }}" data-onboarding="{{ app.user.profile.isOnboarding }}" data-session-onboarding="{{ app.session.get('popup')['isShowed'] ?? null }}" data-session-onboarding-url="{{ path('welcomepopup') }}"></div>
         <div class="row">
             <div class="warnings">
                 {% include 'partials/warning.html.twig' %}
@@ -23,7 +23,7 @@
                         <div class="box">
                             <div class="d-flex">
                                 {% if app.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
+                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
                                 {% else %}
                                     <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                 {% endif %}
@@ -94,7 +94,7 @@
                                                     </div>
                                                 {% else %}
                                                     {% if post.user.profile.filename %}
-                                                        <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                        <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
                                                     {% else %}
                                                         <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
                                                     {% endif %}
@@ -155,7 +155,7 @@
                                         {% if post.urlYoutube is not null %}
                                             <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                         {% elseif post.filename %}
-                                            <img src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
+                                            <img src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                         {% endif %}
                                     </div>
                                     <div class="comments">
@@ -206,7 +206,7 @@
                                         <div class="post-interaction" data-id="{{ post.id }}">
                                             <div class="box-comment-input d-flex mb-3">
                                                 {% if app.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle small-avatar" alt="avatar image">
                                                 {% else %}
                                                     <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
                                                 {% endif %}
@@ -219,7 +219,7 @@
                                                 <div class="box-comment d-flex">
                                                     <div class="d-flex mb-2">
                                                         {% if post.user.profile.filename %}
-                                                            <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile') }}" class="rounded-circle small-avatar" alt="avatar image">
+                                                            <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle small-avatar" alt="avatar image">
                                                         {% else %}
                                                             <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
                                                         {% endif %}
@@ -312,7 +312,7 @@
                         <div class="d-flex">
                             <a href="#">
                                 {% if app.user.company.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('card') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% else %}
                                     <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% endif %}
@@ -413,6 +413,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Welcome modals  -->
+
+    {% include 'default/modals/call-modals.html.twig' %}
 
 {% endblock %}
 

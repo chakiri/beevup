@@ -21,4 +21,16 @@
     </div>
 {% endif %}
 
+{% if is_granted('ROLE_ADMIN_COMPANY') and untreatedCompanyRecommandations %}
+    <div class="warning p-3">
+        <h5 class="alert-heading"><i class="fa fa-eye"></i> {{ untreatedCompanyRecommandations|length }}
+            {% if untreatedCompanyRecommandations|length > 1 %}
+                nouvelles recommandations
+            {% elseif untreatedCompanyRecommandations|length == 1 %}
+                nouvelle recommandation
+            {% endif %}
+            </h5>
+        <p class="mb-0">Vous avez des recommandations à gérer <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a>.</p>
+    </div>
+{% endif %}
 

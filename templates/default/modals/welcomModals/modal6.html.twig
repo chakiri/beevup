@@ -1,24 +1,22 @@
-{% embed 'default/modals/base.html.twig' with {id: 6} %}
-
-
-    {% block header %}
-        <div class="modal-header">
-            <p>Vous êtes maintenant prêts à vous lancer dans l’expérience Beev’Up.</p>
-        </div>
-    {% endblock %}
+{% embed 'default/modals/base.html.twig' with {id: 4, modalSize: 'modal-lg'} %}
 
     {% block body %}
-        <p>A tout moment, vous pouvez accéder à l’aide « pas à pas » en cliquant sur le bouton Découvrir en haut de chaque écran.</p>
-
-        <div class="text-center m-5">
-            <button type="button" class="btn btn-success btn-lg" id="startIntro">Commencer</button>
+        <div class="row">
+            <div class="col-lg-8">
+                <p>En rejoignant Beev’Up, vous allez pouvoir :</p>
+                <ul>
+                    <li>Échanger facilement avec toutes les entreprises locales</li>
+                    <li>Partager des opportunités commerciales</li>
+                    <li>Proposer vos services à tous les membres de ​la communauté</li>
+                    <li>Accéder à des offres exclusives dédiées à la communauté ​Beev’Up</li>
+                </ul>
+                <p>Et surtout, participer à la création d’une communauté locale d’entrepreneurs engagés.</p>
+            </div>
+            <div class="col-lg-4">
+                <img class="img align-middle" src="/images/modals/slide4.png" alt=""/>
+            </div>
         </div>
     {% endblock %}
 
-    {% block footer %}
-        <div class="button">
-            <button type="button" class="btn btn-default prev">Revenir</button>
-        </div>
-    {% endblock %}
 
 {% endembed %}

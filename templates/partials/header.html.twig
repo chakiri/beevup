@@ -33,7 +33,7 @@
                                     {% for notification in postsNotifications %}
                                         <a class="dropdown-item d-flex" href="{{ path('dashboard_post', {'post': notification.post.id}) }}">
                                             {% if notification.user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                             {% else %}
                                                 <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                             {% endif %}
@@ -64,7 +64,7 @@
                                         <a class="dropdown-item d-flex" {% if notification.receiver %}href="{{ path('chat_private', {'id': notification.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': notification.topic.name}) }}"{% endif %}>
                                             {% if notification.receiver %}
                                                 {% if notification.receiver.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(notification.receiver.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                    <img src="{{ vich_uploader_asset(notification.receiver.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 {% else %}
                                                     <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 {% endif %}
@@ -111,7 +111,7 @@
                     <a class="pt-1">
                         <span class="pr-1">{{ app.user.profile.firstname|capitalize ?:  app.user.email }}</span>
                         {% if app.user.profile.filename %}
-                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                         {% else %}
                             <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                         {% endif %}

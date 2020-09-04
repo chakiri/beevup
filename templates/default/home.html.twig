@@ -28,7 +28,7 @@
                              </div>
                         </div>
                     </header>
-                    <section  class="landing-page-registration-bloc">
+                    <section  class="m-5">
                        <div class="row">
                            <div class="col-lg-8">
                                <h1 class="landign-page-slogan">
@@ -69,8 +69,8 @@
                        <div class="landing-page-dashboard-img">
                            <div class="landing-page-section2">
                                <img class="landing-page-man" src="images/homePage/landingPage-man.png"/>
-                               <div class="landing-page-dashbord">
-                                   <img class="landing-page-dashboard-screenshot" src="images/homePage/landingPage-dashboard.png"/>
+                               <div class="landing-page-dashbord d-none d-lg-block">
+                                   <img class="landing-page-dashboard-screenshot" src="images/homePage/landingPage-dashboard-new.png"/>
                                </div>
                            </div>
                        </div>
@@ -97,13 +97,13 @@
         <div class="landing-page-second-bloc">
 
             <div class="landing-page-map">
-                <h2 class="bloc-title">
+                <h2 class="bloc-title mb-3">
                     Un réseau de <span class="orange-txt"> 285 entreprises </span> proches de vous
                 </h2>
                 {% include 'homePage/map.html.twig' %}
             </div>
 
-            <div class="row landing-page-section3">
+            <div class="row landing-page-section3 mt-3">
                 <div class="col-lg-5">
                     <img class="landing-page-section3-img" src="/images/homePage/bureau-vallee-img1.png" alt=""></a>
                 </div>
@@ -132,25 +132,33 @@
                 </h2>
                 <div class="col-lg-3 col-md-6 col-sm-12 bloc landing-page-section4-first-bloc">
                     <div class="landing-page-section4-bloc">
-                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img-man.png" alt="">
-                        <p class="list-item"> Dévelloppement du tissu économique local</p>
+                        <div class="landing-page-section4-bloc-image">
+                            <img class="landing-page-section4-img" src="/images/homePage/beevup-img-man.png" alt="">
+                        </div>
+                        <p class="list-item"> Développement du tissu économique local</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 bloc">
                     <div class="landing-page-section4-bloc">
-                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img2.png" alt="">
+                        <div class="landing-page-section4-bloc-image">
+                            <img class="landing-page-section4-img" src="/images/homePage/beevup-img2.png" alt="">
+                        </div>
                         <p class="list-item"> Développement d’activité à impact positif sur la société</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 bloc">
                     <div class="landing-page-section4-bloc">
-                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img4.png" alt="">
+                        <div class="landing-page-section4-bloc-image">
+                            <img class="landing-page-section4-img" src="/images/homePage/beevup-img4.png" alt="">
+                        </div>
                         <p class="list-item"> Dans la préservation de l’environnement</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 bloc landing-page-section4-last-bloc">
                     <div class="landing-page-section4-bloc">
-                        <img class="landing-page-section4-img" src="/images/homePage/beevup-img3.png" alt="">
+                        <div class="landing-page-section4-bloc-image">
+                            <img class="landing-page-section4-img" src="/images/homePage/beevup-img3.png" alt="">
+                        </div>
                         <p class="list-item"> Pour leurs clients </p>
                     </div>
                 </div>
@@ -162,7 +170,7 @@
                 Rejoignez le mouvement
             </h2>
             <div>
-               <button id ="inscription-btn" type="submit" class="landing-page-join-beevup-btn sm-orange-btn" disabled>
+               <button id ="inscription-btn" type="submit" class="landing-page-join-beevup-btn sm-orange-btn mt-3" disabled>
                    <a href="#inscription" class="rejoindre-link">Rejoindre</a>
                </button>
             </div>

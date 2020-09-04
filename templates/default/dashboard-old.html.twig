@@ -74,7 +74,7 @@
                                         {% for notification in dashboardNotifications %}
                                             <div class="row notification-item clearfix">
                                                 <div class="user-photo col-2">
-                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                                 </div>
                                                 <div class="notification-text col-10">
                                                     <a href="{{path('profile_show', { 'id': notification.user.profile.id}) }}">
@@ -116,7 +116,7 @@
                                                         <div class="avatar message-avatar">
                                                             {% if message.receiver %}
                                                                 {% if message.receiver.profile.filename %}
-                                                                    <img src="{{ vich_uploader_asset(message.receiver.profile, 'imageFile') }}" class="img-fluid" alt="">
+                                                                    <img src="{{ vich_uploader_asset(message.receiver.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                                                 {% else %}
                                                                     <img src="/images/default/user.png" class="img-fluid" alt="">
                                                                 {% endif %}

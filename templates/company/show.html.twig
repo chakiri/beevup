@@ -15,7 +15,7 @@
 
                             <div class="user-pro-img">
                                 {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}"  alt="">
                                 {% else %}
                                     <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}
@@ -100,9 +100,8 @@
                                         <div class="profiles-slider">
                                             {% for service in services %}
                                                 <div class="user-profy">
-
                                                     {% if service.filename %}
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile') }}"  alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                     {% else %}
                                                         <img src="http://via.placeholder.com/57x57" alt="">
                                                     {% endif %}
@@ -112,21 +111,15 @@
                                             {% endfor %}
                                             {% if  countServices > 3 %}
                                                 <div class="user-profy">
-
-
-
                                                      <div class="lt-sec">
                                                          <i style="font-size: 57px" class="fas fa-folder-plus"></i>
 
                                                         <p style="min-height: 72px;text-align: center"><a href="{{ path('service_company', {'company': company.id}) }}">Voir tous les services de {{ company.name }}</a></p>
                                                     </div>
-
                                                 </div><!--user-profy end-->
                                             {% endif %}
-
                                         </div><!--profiles-slider end-->
                                     </div><!--top-profiles end-->
-
                                 {% endif %}
 
                             </div>
@@ -139,19 +132,18 @@
                                     {% for recommandation in recommandations %}
                                         <div class="suggestion-usd">
                                             {% if recommandation.user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
+                                                <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                             {% else %}
                                                 <img src="http://via.placeholder.com/35x35" alt="">
                                             {% endif %}
 
                                             <div class="sgt-text">
                                                <div class="hover-info">
-                                                <h4>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</h4>
+                                                <small>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</small>
                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
                                                </div>
-
                                              </div>
-                                            <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
+                                            <p style="float: left;width:85%" class="recommandation-message">
                                                 {{ recommandation.message  }}
                                             </p>
 
@@ -160,10 +152,6 @@
                                 {% else %}
                                     <p>Aucune recommandation pour l'instant</p>
                                 {% endif %}
-
-
-
-
                             </div><!--user-profile-ov end-->
                         </div>
                     </div>
@@ -171,9 +159,9 @@
                 <div class="col-lg-3">
                     <div class="right-sidebar">
                         {% if company != null and app.user.company != null %}
-                          {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                            {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
                                 <div class="message-btn">
-                                    <a class="add-recommandation" title=""
+                                    <a href="#" class="add-recommandation" title=""
                                        data-toggle="modal"
                                        data-target="{{ path('recommandation') }}"
                                        data-whatever="@getbootstrap"
@@ -181,21 +169,18 @@
                                        <i class="fas fa-thumbs-up"></i> Proposer une recommandation
                                     </a>
                                 </div>
-                          {% endif %}
+                            {% endif %}
                         {% endif %}
                         {% if users %}
-                        <div class="suggestions-list">
-
+                            <div class="suggestions-list">
                                 <div class="sd-title page-title sign_in_sec current">
                                     <h3>Contacts</h3>
-
                                 </div><!--sd-title end-->
                                 {% for user in users %}
                                     {% if user.profile.isCompleted %}
                                     <div class="suggestion-usd">
-
                                         {% if user.profile.filename %}
-                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile') }}"  alt="">
+                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                         {% else %}
                                             <img src="http://via.placeholder.com/170x170" alt="">
                                         {% endif %}
@@ -209,9 +194,8 @@
                                     </div>
                                       {% endif %}
                                 {% endfor %}
-                        </div><!--suggestions-list end-->
-                            {% endif %}
-
+                            </div><!--suggestions-list end-->
+                        {% endif %}
                     </div><!--suggestions end-->
                 </div>
             </div>

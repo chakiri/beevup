@@ -72,7 +72,7 @@ liip_imagine:
       card:
           quality: 100
           filters:
-              thumbnail: { size: [271, 220]}
+              thumbnail: { size: [1271, 1220]}
       rectangleCard:
           quality: 100
           filters:
@@ -84,7 +84,7 @@ liip_imagine:
       bigMiniature:
           quality: 100
           filters:
-              thumbnail: { size: [96, 96] }
+              thumbnail: { size: [1096, 1096] }
       post:
           quality: 100
           filters:

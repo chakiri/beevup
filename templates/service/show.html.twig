@@ -12,7 +12,7 @@
                         <div class="user_profile">
                             <div class="user-pro-img">
                                 {% if service.filename %}
-                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                 {% else %}
                                     <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}
@@ -93,7 +93,7 @@
                                         <div class="suggestion-usd">
                                            <div class="service-bloc-inf">
                                                 {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/170x170" alt="">
 
@@ -150,21 +150,21 @@
                                             {% if service.filename1 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile1')|imagine_filter('card') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}
                                             {% if service.filename2 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile2')|imagine_filter('card') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}
                                             {% if service.filename3 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile3')|imagine_filter('card') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}
@@ -180,7 +180,7 @@
                                         {% for recommandation in recommandations %}
                                             <div class="suggestion-usd">
                                                 {% if recommandation.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile') }}" alt="">
+                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}
@@ -209,7 +209,7 @@
                                         {% for recommandationCompany in recommandationsCompany %}
                                             <div class="suggestion-usd">
                                                 {% if recommandationCompany.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile') }}" alt="">
+                                                    <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
                                                     <img src="http://via.placeholder.com/35x35" alt="">
                                                 {% endif %}

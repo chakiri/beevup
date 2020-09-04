@@ -70,7 +70,7 @@
               {% if post.urlYoutube is not null %}
                   <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{ post.urlYoutube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               {% elseif post.filename %}
-                  <img width="70%" height="300" src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('post') }}" class="img-fluid" alt="">
+                  <img width="70%" height="300" src="{{ vich_uploader_asset(post, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
               {% endif %}
 
                {% if post.toCompany != null %}

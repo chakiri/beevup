@@ -286,6 +286,7 @@ ul.types-posts li{
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 #types-posts{
@@ -411,4 +412,47 @@ li.icon-type-post a.active{
 .special-offer-badge {
     background-color: #DE3944;
     color: #fff;
+}
+
+/* Welcome Modals */
+#welcomeModals .modal-header{
+    background-color: #ffffff;
+    color: #4a4a4a;
+    border-radius: 12px 12px 0 0;
+}
+#welcomeModals .modal-header img{
+    width: 113px;
+    height: 50px;
+}
+#welcomeModals .modal-body .logo{
+    width: 120px;
+    height: 60px;
+    margin-top: 20px;
+}
+#welcomeModals .modal-body .img{
+    width: 100%;
+    height: 180px;
+}
+#welcomeModals .modal-body p{
+    padding: 15px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+#welcomeModals .modal-footer {
+    -webkit-box-pack: inherit;
+    justify-content: inherit;
+}
+#welcomeModals .modal-footer .button{
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
+    max-width: 600px;
+}
+
+.vertical-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

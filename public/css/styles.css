@@ -406,9 +406,9 @@ textarea.form-control{
   font-weight: bold;
 }
 .landing-page-man{
-    width:285px;
-    height: 232px;
-    margin-top: -204px;
+    width: 273px;
+    height: 208px;
+    margin-top: -179px;
     z-index: 1;
     position: absolute;
     margin-left:45px
@@ -428,12 +428,11 @@ textarea.form-control{
 
 }
 .landing-page-second-bloc{
-    padding: 0 90px  !important;
+    padding: 0 12em  !important;
     background-color: var(--white-color);
 }
 .landing-page-map{
    border-radius: var(--radius);
-    padding: 96px 0;
 }
 
 .map-responsive {
@@ -450,7 +449,7 @@ textarea.form-control{
     position:absolute;
 }
 .landing-page-section3{
-    padding:  0 0 96px;
+    padding:  100px 0 96px;
 }
 ul.landing-page-list {
     padding-left: 0;
@@ -458,14 +457,13 @@ ul.landing-page-list {
     position: relative;
 }
 .landing-page-list li{
-    font-size: 18px;
-    line-height: 136%;
+    font-size: 15px;
+    line-height: 126%;
     color:var(--text-color);
-    padding-left: 0;
 }
 .list-item{
     font-weight: bold;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 21px;
     text-align: center;
     margin: 24px;
@@ -476,8 +474,14 @@ ul.landing-page-list {
 .landing-page-section4-bloc{
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-
-
+    text-align: center;
+    height: 368px;
+}
+.landing-page-section4-bloc-image{
+    height: 255px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .landing-page-join-beevup-bloc{
     background-image: url(../images/homePage/Beevup_Brush_Background.png);
@@ -485,16 +489,16 @@ ul.landing-page-list {
     background-position-x: center;
     min-height: 400px;
     text-align: center;
-    padding-top:150px;
+    padding-top:100px;
 }
 
 
 .landing-page-section3-img{
-    width: 100%;
+    width: 85%;
 
 }
 .landing-page-section3-description{
-    top:120px;
+    top:60px;
     left:70px
 }
 .shape {
@@ -538,8 +542,7 @@ ul.landing-page-list {
     margin-top: 16px;
 }
 .landing-page-section4-img{
-    width: 100%;
-    padding: 24px;
+    width: 75%;
 }
 .footer{
     padding: 16px;
@@ -581,6 +584,9 @@ ul.landing-page-list {
     display: block;
 }
 @media (max-width: 769px) {
+    .subscription .container-bv {
+        margin: 20px 10px !important;
+    }
     .only-mobile{
         display: block;
     }
@@ -590,9 +596,10 @@ ul.landing-page-list {
     .bloc-title{
         font-size: 24px;
         line-height: 28px;
+        margin-bottom: 30px;
     }
     .landing-page-first-bloc{
-        padding: 24px 30px 0 !important;
+        padding: 0 !important;
     }
     .landign-page-slogan{
         font-size: 36px;
@@ -1422,11 +1429,10 @@ ul.landing-page-list {
 .sd-title {
     float: left;
     width: 100%;
-    padding: 20px;
+    background-color: #fff;
+    padding: 10px 20px;
+    margin-bottom: 20px;
     border-bottom: 1px solid #e5e5e5;
-    position: relative;
-    background-color: var(--white-color);
-    margin-bottom: 0;
 }
 .sd-title h3 {
      font-size: 13px;
@@ -1444,13 +1450,12 @@ ul.landing-page-list {
 .suggestions-list {
     float: left;
     width: 100%;
-    padding: 13px 0 30px 13px;
     background-color: var(--white-color);
 }
 .suggestion-usd {
     float: left;
     width: 100%;
-    padding: 15px 20px 5px 0;
+    padding: 15px;
 }
 .suggestion-usd img {
     -webkit-border-radius: 100px;
@@ -1625,6 +1630,7 @@ ul.landing-page-list {
     font-size: 13px;
     background-color: var(--orange-color);
     padding: 12px;
+    margin: 0;
     border-radius: var(--radius);
 }
 .message-btn a:hover {
@@ -1903,7 +1909,7 @@ ul.landing-page-list {
     line-height: 24px;
 }
 .user-profile-ov.st2 p {
-    margin-bottom: 23px;
+    /*margin-bottom: 23px;*/
 }
 .no-margin {
     margin: 0 !important;

@@ -12,7 +12,7 @@
                         <div class="user_profile">
                             <div class="user-pro-img">
                                 {% if app.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                 {% else %}
                                     <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}

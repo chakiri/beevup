@@ -166,14 +166,15 @@ class SecurityController extends AbstractController
         if($form->isSubmitted() ) {
             $email = $form->getData()->getEmail();
             $user = $userRepository->findOneBy(['email' => $email]);
-            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
-            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
             if (!$user){
-                $this->addFlash('danger', 'Email n\'existe pas');
+                $this->addFlash('danger', 'Cet email n\'existe pas');
 
                 return $this->redirectToRoute('security_forgotten_password');
             }
+
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
             $token = $tokenGenerator->generateToken();
             $user->setResetToken($token);
@@ -220,7 +221,13 @@ class SecurityController extends AbstractController
        $isNewAccount =  $request->get('_route') == 'security_new_account' ? true :false ;
        $action =  $request->get('_route') == 'security_new_account' ? $this->generateUrl('security_new_account', ['token' => $token]) : $this->generateUrl('security_reset_password', ['token' => $token]);
 
+        $user = $userRepository->findOneBy(['resetToken' => $token]);
 
+        if (!$user){
+            $this->addFlash('danger', 'le lien de confirmation a expiré');
+
+            return $this->redirectToRoute('security_login');
+        }
 
         $form = $this->createForm(ResetPasswordType::class,null, [
             'action' => $action,
@@ -231,16 +238,16 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted()) {
 
-            $user = $userRepository->findOneBy(['resetToken' => $token]);
+            //$user = $userRepository->findOneBy(['resetToken' => $token]);
 
-            if (!$user){
+            /*if (!$user){
                 $this->addFlash('danger', 'le lien de confirmation a expiré');
 
                 return $this->redirectToRoute('security_login');
-            }
+            }*/
 
             $user->setResetToken(null);
-            $user->setPassword($encoder->encodePassword($user,   $email = $form->getData()->getPassword()));
+            $user->setPassword($encoder->encodePassword($user, $form->getData()->getPassword()));
             if($isNewAccount) {
                 $user->setIsValid(1) ;
             }
@@ -266,9 +273,6 @@ class SecurityController extends AbstractController
             }
 
             return $this->redirectToRoute('dashboard');
-
-
-
 
         }
         return $this->render('security/resetPassword.html.twig', [

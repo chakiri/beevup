@@ -129,7 +129,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
      */
-    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository)
+    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository)
     {
         $store = $this->getUser()->getStore();
         if ($category != null)
@@ -149,10 +149,21 @@ class DefaultController extends AbstractController
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies);
 
+        //Recommandations
+        if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles())){
+            $untreatedCompanyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany(), 'status'=>'Open']);
+        }
+
+        //Admin Store
+        $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
+        $adminStore = $userRepository->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
+
         return $this->render('default/dashboardv1.html.twig', [
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,
+            'untreatedCompanyRecommandations' => $untreatedCompanyRecommandations ?? null,
+            'adminStore'=> $adminStore[0] ?? null,
         ]);
     }
 
