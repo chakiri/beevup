@@ -118,11 +118,11 @@
                         <strong>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
                     {% elseif topic is defined and topic is not null %}
                         <strong>{{ topic.name|capitalize }}</strong>
-                        {% if topic.type.id == 1 %}
+                        {% if topic.type.name == 'admin' %}
                             <small> (Discutez ici avec l’ensemble des membres de votre communauté locale)</small>
-                        {% elseif topic.type.id == 4 %}
+                        {% elseif topic.type.name == 'categoryCompany' %}
                             <small> (Discutez ici avec l’ensemble des entreprises de votre catégorie)</small>
-                        {% elseif topic.type.id == 5 %}
+                        {% elseif topic.type.name == 'company' %}
                             <small> (Discutez ici avec l'ensemble des collaborateurs entreprise)</small>
                         {% endif %}
                     {% endif %}
