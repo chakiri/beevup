@@ -101,7 +101,7 @@ class Store implements \Serializable
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="store")
+     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="store", cascade={"remove"})
      */
     private $companies;
 

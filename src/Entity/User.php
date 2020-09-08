@@ -81,7 +81,7 @@ class User implements UserInterface
     private $company;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="users", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $store;

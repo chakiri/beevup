@@ -227,14 +227,14 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('security_login');
         }
 
-        $form = $this->createForm(ResetPasswordType::class,null, [
+        $form = $this->createForm(ResetPasswordType::class,$user, [
             'action' => $action,
             'method' => 'post',
         ]);
         $form->handleRequest($request);
 
 
-        if($form->isSubmitted()) {
+        if($form->isSubmitted() && $form->isValid()) {
 
             //$user = $userRepository->findOneBy(['resetToken' => $token]);
 

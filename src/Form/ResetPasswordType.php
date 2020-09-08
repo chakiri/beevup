@@ -42,6 +42,7 @@ class ResetPasswordType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'isNewAccount' => User::class,
+            'csrf_protection' => false,
         ]);
     }
 }

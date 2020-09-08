@@ -132,7 +132,7 @@
                                 <li><a href='{{ path('subscription') }}'>Abonnements</a></li>
                                 <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
                             {% else %}
-                                <li class="disabled" class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
+                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
                             {% endif %}
                         {% elseif is_granted('ROLE_ADMIN_STORE')  %}
                             <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>

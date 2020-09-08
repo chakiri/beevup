@@ -125,7 +125,7 @@ class Company implements \Serializable
     private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="companies")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="companies", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $store;

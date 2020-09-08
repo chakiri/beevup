@@ -141,7 +141,7 @@
                                         {% endif %}
                                         <ul>
                                             <li>
-                                                <i  id="result-user-item-{{ user.id }}"
+                                                <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
                                                         class="fa {% if user.id in favoritUserIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
                                                         data-user-id ="{{ user.id }}"
                                                         data-target="{{path('favorit_add', {'userId':user.id})  }}"
@@ -149,8 +149,8 @@
                                                     </i>
                                             </li>
                                             <li>
-                                                <a href="{{ path('chat_private', {'id': user.id}) }}" title="" class="message-us">
-                                                    <i class="fa fa-comments search-contact"></i>
+                                                <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
+                                                    <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
                                                 </a>
                                             </li>
                                         </ul>
