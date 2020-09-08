@@ -344,11 +344,6 @@
 
         <!-- Tutorial button -->
         <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialDashboard()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
-
-        {#dispaly cookies message #}
-        {% if is_granted('ROLE_USER') %}
-            {% include 'partials/cookies.html.twig' %}
-        {% endif %}
     </div>
 {% endblock %}
 

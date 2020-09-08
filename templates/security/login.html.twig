@@ -11,7 +11,7 @@
                         <div class="row">
                             <div class="col-lg-10 logo">
                                 <a href="{{ path('dashboard') }}">
-                                    <img class="landing-page-logo" src="/images/logo_bv_mode.png" alt="">
+                                    <img class="landing-page-logo" src="/images/default/logo-beevup-mode.png" alt="">
                                 </a>
                             </div>
                             <div class="col-lg-2 connexion-btn">
@@ -114,6 +114,9 @@
             </div><!--sign-in-page end-->
 
         </div>
+
+        {#dispaly cookies message #}
+        {% include 'partials/cookies.html.twig' %}
 
     </section>
 {% endblock %}

@@ -2,6 +2,9 @@
 
 namespace App\Service\Session;
 
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CookieAccepted
@@ -13,10 +16,9 @@ class CookieAccepted
         $this->session = $session;
     }
 
-    public function add()
+    public function addSession()
     {
         //Set accepted cookie in session
-        $this->session->get('cookie');
         if (!$this->session->get('cookie')){
 
             $this->session->set('cookie', ['isAccepted' => true]);
@@ -24,5 +26,17 @@ class CookieAccepted
         }
 
         return $this->session->get('cookie');
+    }
+
+    public function addCookie($request): void
+    {
+        //Set accepted cookie in Cookie
+        if(!$request->cookies->has('cguAccepted')){
+            $cookie = new Cookie('cguAccepted', true, time() + (24 * 60 * 60) ); //Expire 24h
+
+            $response = new Response();
+            $response->headers->setCookie($cookie);
+            $response->send();
+        }
     }
 }

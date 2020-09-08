@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Security\LoginFormAuthenticator;
+use App\Service\Session\CookieAccepted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
-use App\Form\ServiceType;
 use App\Repository\CompanyRepository;
-use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\TopicHandler;
@@ -25,7 +24,6 @@ use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\BarCode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
@@ -333,4 +331,14 @@ class SecurityController extends AbstractController
 
     }
 
+    /**
+     *@Route("/cgu/accept", name="cgu_accept")
+     */
+    public function cguAccept(Request $request, CookieAccepted $cookieAccepted)
+    {
+        //$cookie = $cookieAccepted->addSession();
+        $cookieAccepted->addCookie($request);
+
+        return $this->json(true);
+    }
 }

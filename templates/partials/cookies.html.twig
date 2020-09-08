@@ -1,7 +1,8 @@
-{% if not app.session.get('cookie') or (app.session.get('cookie') and app.session.get('cookie') == false) %}
+{#{% if not app.session.get('cookie') or (app.session.get('cookie') and app.session.get('cookie') == false) %}#}
+{% if not app.request.cookies.get('cguAccepted') %}
     <div id="cookies">
         <span>Les cookies nous permettent d’améliorer la navigation. En continuant d’utiliser notre site, vous acceptez l’utilisation des cookies comme prévu dans nos <a target="_blank" href="https://app.beevup.fr/pdf/CGU.pdf">CGU</a>.
-            <a type="button" href="#" class="btn small-btn orange-bg ml-2" data-url="{{ path('cookie_accept') }}">OK, allons-y</a>
+            <a type="button" href="#" class="btn small-btn orange-bg ml-2" data-url="{{ path('cgu_accept') }}">OK, allons-y</a>
         </span>
     </div>
 {% endif %}
