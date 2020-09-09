@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Company;
 use App\Entity\CompanyCategory;
+use App\Entity\Offer;
+use App\Entity\PostCategory;
 use App\Entity\Profile;
 use App\Entity\ServiceCategory;
 use App\Entity\Store;
@@ -48,7 +50,7 @@ class AppFixtures extends Fixture
         $faker = Faker\Factory::create('fr-FR');
 
         //company category
-        $categories = ['distribution', 'vente'];
+        $categories = ['Commerçant', 'Artisan', 'Freelance', 'Profession Libérale', 'Administration', 'TPE', 'Autre'];
         foreach ($categories as $category){
             $companyCategory = new CompanyCategory();
             $companyCategory->setName($category);
@@ -56,7 +58,7 @@ class AppFixtures extends Fixture
         }
 
         //service category
-        $categories = ['fourniture', 'papeterie'];
+        $categories = ['Aide à la personne', 'Animation', 'Assistance', 'Audit', 'Certification', 'Coaching', 'Commerce de proximité', 'Comptabilité', 'Conseil', 'Construction', 'Consultation', 'Cours', 'Dépannage', 'Edition', 'Entretien', 'Fabrication', 'Immobilier', 'Livraison', 'Maintenance', 'Prestation', 'Réparation', 'Restauration', 'Serrurerie', 'Services aux entreprises', 'Soin', 'Transport de personnes', 'Travaux Gros Oeuvre', 'Travaux Moyen', 'Impression'];
         foreach ($categories as $category){
             $serviceCategory = new ServiceCategory();
             $serviceCategory->setName($category);
@@ -80,13 +82,68 @@ class AppFixtures extends Fixture
         }
 
         //functions user
-        $functions = ['chef de projet', 'responsable digital', 'responsable marketing', 'developpeur', 'gerant'];
+        $functions = ['Gérant', 'Directeur de Magasin', 'Responsable de Magasin', 'Conseiller Services', 'Conseiller Papeterie', 'Conseiller Bureautique/Informatique', 'Conseiller Services généraux', 'Conseiller Mobilier', 'Conseiller tous domaines'];
         foreach ($functions as $function){
             $userFunction = new UserFunction();
             $userFunction->setName($function);
             $userFunction->setRelatedTo('Store');
             $manager->persist($userFunction);
         }
+        $functions = ['Direction d’entreprise', 'Accueil', 'Achats', 'Administratif', 'Autre', 'Clients', 'Finance', 'Informatique', 'Innovation', 'Juridique', 'Logistique', 'Maîtrise d\'œuvre', 'Maitrise d’Ouvrage', 'Marketing', 'Production', 'R&D', 'Secrétariat', 'Support', 'Technique'];
+        foreach ($functions as $function){
+            $userFunction = new UserFunction();
+            $userFunction->setName($function);
+            $userFunction->setRelatedTo('Company');
+            $manager->persist($userFunction);
+        }
+
+        //Topic Type
+        $types = ['admin', 'company', 'categoryCompany', 'function', 'admin_store'];
+        foreach ($types as $type){
+            $topicType = new TopicType();
+            $topicType->setName($type);
+
+            $manager->persist($topicType);
+        }
+        $manager->flush();
+
+
+        //Topic admin
+        $topic = new Topic();
+        $topic->setName('general')
+            ->setType($this->topicTypeRepository->findOneBy(['name' => 'admin']))
+        ;
+        $manager->persist($topic);
+        $manager->flush();
+
+        //PostCategory
+        $categories = ['Informations', 'Opportunité commerciale', 'Question à la communauté', 'Emploi', 'Evénement', 'Autre', 'Derniers arrivés'];
+        foreach ($categories as $category){
+            $postCategory = new PostCategory();
+            $postCategory->setName($category);
+            $manager->persist($postCategory);
+        }
+
+        //Offer
+        $offer1 = new Offer();
+        $offer1->setName('premium one')
+            ->setKm(200)
+            ->setNbServices(3)
+            ->setNbUsers(3)
+            ->setPrice(10.00)
+        ;
+
+        $manager->persist($offer1);
+
+        $offer2 = new Offer();
+        $offer2->setName('premium one plus')
+            ->setKm(500)
+            ->setNbServices(5)
+            ->setNbUsers(5)
+            ->setPrice(30.00)
+        ;
+
+        $manager->persist($offer2);
 
         //store
         $store = new Store();
@@ -99,7 +156,7 @@ class AppFixtures extends Fixture
             ->setAddressPostCode('78340')
             ->setCity('Les Clayes sous Bois')
             ->setCountry('France')
-            ;
+        ;
         $manager->persist($store);
 
         $manager->flush();
@@ -108,7 +165,7 @@ class AppFixtures extends Fixture
         $company = new Company();
         $company->setStore($store)
             ->setName('entreprise des clayes')
-            ->setSiret('123456789BVNS')
+            ->setSiret('12312312312312')
             ->setCategory($this->companyCategoryRepository->findOneBy(['name' => 'distribution']))
             ->setEmail('bvlesclayes@beevup.com')
             ->setPhone('0112345678')
@@ -123,32 +180,13 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
-        //Topic Type
-        $topicType = new TopicType();
-        $topicType->setName('admin');
-
-        $manager->persist($topicType);
-
-        $manager->flush();
-
-
-        //Topic admin
-        $topic = new Topic();
-        $topic->setName('general')
-            ->setType($this->topicTypeRepository->findOneBy(['name' => 'admin']))
-        ;
-
-        $manager->persist($topic);
-
-        $manager->flush();
-
         //user
         $user = new User();
         $user->setCompany($company)
             ->setStore($store)
             ->setType($this->userTypeRepository->findOneBy(['name' => 'admin plateform']))
-            ->setEmail('admin.plateforme@beevup.com');
-        $password = $this->passwordEncoder->encodePassword($user, 'password');
+            ->setEmail('admin.bv@bureau-vallee.com');
+        $password = $this->passwordEncoder->encodePassword($user, 'p62MQk@;');
         $user->setPassword($password)
             ->setRoles(array('ROLE_ADMIN_PLATEFORM'))
             ->setIsValid(true)
@@ -162,8 +200,8 @@ class AppFixtures extends Fixture
         $profile = new Profile();
         $profile->setUser($user);
         $profile->setGender(1);
-        $profile->setFirstname('nicolas');
-        $profile->setLastName('strugarek');
+        $profile->setFirstname('super');
+        $profile->setLastName('admin');
         $profile->setMobileNumber('0112345678');
         $profile->setPhoneNumber('0112345678');
             ;
