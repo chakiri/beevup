@@ -295,3 +295,13 @@ function setSeenOpportunityNotification(e){
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
+
+/**
+ *Set Name to all upload file
+ */
+$('.custom-file-input').on('change', function(event) {
+    var inputFile = event.currentTarget;
+    $(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name);
+});
