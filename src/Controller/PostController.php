@@ -51,8 +51,9 @@ class PostController extends AbstractController
             if ($post->getUrlYoutube() != null){
                 //Get id video
                 $query = parse_url($post->getUrlYoutube(), PHP_URL_QUERY);
-                $idUrl = str_replace('v=', '', $query);
-                $post->setUrlYoutube($idUrl);
+                $parameters = str_replace('v=', '', $query);
+                $idUrl = explode("&", $parameters, 2);
+                $post->setUrlYoutube($idUrl[0]);
             }
 
             $manager->persist($post);
