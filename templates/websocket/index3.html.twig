@@ -89,7 +89,8 @@
                                                 {% endif %}
                                                 <div class="meta">
                                                     <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
-                                                    <p class="preview"><small>{{ user.store }}</small></p>
+                                                    {#<p class="preview"><small>{{ user.store }}</small></p>#}
+                                                    <p class="preview"><small>{{ user.company }}</small></p>
                                                 </div>
 
                                             </div>

@@ -456,3 +456,12 @@ li.icon-type-post a.active{
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 769px) {
+    #types-posts {
+        width: 100%;
+    }
+    .medias {
+        justify-content: center;
+    }
+}

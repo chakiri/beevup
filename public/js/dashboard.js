@@ -305,3 +305,27 @@ $('.custom-file-input').on('change', function(event) {
         .find('.custom-file-label')
         .html(inputFile.files[0].name);
 });
+
+/**
+ *Get Json data from API
+ */
+$('#post_urlLink').on('change', function () {
+    var url = $('#post_urlLink').val();
+    var urlApi = 'https://app-1969cdc6-f757-4c93-b03f-00ff5d016840.cleverapps.io/zebulon/testscrap2.php?url=' + url;
+    $.ajax({
+        type: 'GET',
+        url: urlApi,
+        dataType: 'json',
+        success: function (result) {
+            $('#post_title').val(result.data.title);
+            $('#post_description').val(result.data.description);
+            console.log(result.data.image);
+            if (result.data.image){
+                $('.image-file').addClass('d-none');
+                $('.image-link').removeClass('d-none');
+                $('.image-link').addClass('d-block');
+                $('#post_imageLink').val(result.data.image);
+            }
+        }
+    });
+});

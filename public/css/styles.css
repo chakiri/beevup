@@ -428,10 +428,10 @@ textarea.form-control{
 
 }
 .landing-page-second-bloc{
-    padding: 0 12em  !important;
+    padding: 0 7em  !important;
     background-color: var(--white-color);
 }
-.landing-page-map{
+.landing-page-map img{
    border-radius: var(--radius);
 }
 
@@ -542,7 +542,7 @@ ul.landing-page-list {
     margin-top: 16px;
 }
 .landing-page-section4-img{
-    width: 75%;
+    width: 170px;
 }
 .footer{
     padding: 16px;
@@ -645,6 +645,10 @@ ul.landing-page-list {
         padding-right: 15px;
     }
 
+    #landing-page-header .logo img {
+        padding-top: 10px;
+        width: 121px;
+    }
 
 }
 

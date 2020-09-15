@@ -326,9 +326,13 @@
         height: calc(100% - 149px);
         overflow-y: scroll;
         overflow-x: hidden;
+        text-align: center;
     }
     #frame #sidepanel #contacts::-webkit-scrollbar {
         display: none;
+    }
+    #frame .content .contact-profile{
+        line-height: normal !important;
     }
 }
 #frame #sidepanel #contacts.expanded {
@@ -460,6 +464,12 @@
     }
     #frame #sidepanel #channels ul li.channels .meta span{
         display: none;
+    }
+    #frame #sidepanel #channels ul li.channels .meta{
+        display: block;
+    }
+    #frame #sidepanel #channels ul li.channels .meta::first-letter{
+        text-transform: uppercase;
     }
     #frame #sidepanel #channels h4{
         display: none;

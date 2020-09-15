@@ -103,14 +103,14 @@ easy_admin:
               - { property: 'km', label: 'km' }
               - { property: 'nbServices', label: 'Nombre de services' }
               - { property: 'nbUsers', label: 'Nombre des utilisateurs' }
-              - { property: 'nbUsers', label: 'Nombre des utilisateurs' }
+              - { property: 'price', label: 'Prix' }
           form:
             fields:
               - { property: 'name', label: 'nom'}
               - { property: 'km', label: 'km' }
               - { property: 'nbServices', label: 'nombre de services' }
               - { property: 'nbUsers', label: 'nombre des utilisateurs' }
-              - { property: 'nbUsers', label: 'nombre des utilisateurs' }
+              - { property: 'price', label: 'Prix' }
         Subscription:
           class: App\Entity\Subscription
           label: 'Les inscriptions'

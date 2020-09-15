@@ -18,15 +18,19 @@
 
               {{ form_widget(PostForm.description ) }}
               <div class="tab-pane fade mt-3" id="image">
-                  {{ form_widget(PostForm.imageFile) }}
+                  <div class="image-file">{{ form_widget(PostForm.imageFile) }}</div>
+                  <div class="image-link d-none">{{ form_widget(PostForm.imageLink) }}</div>
               </div>
               <div class="tab-pane fade mt-3" id="video">
                   {{ form_widget(PostForm.urlYoutube) }}
               </div>
+              <div class="tab-pane fade mt-3" id="urlLink">
+                  {{ form_widget(PostForm.urlLink) }}
+              </div>
           </div>
       </div>
       <div class="hr"></div>
-      <div class=" d-flex justify-content-between">
+      <div class="d-lg-flex justify-content-between">
           <div id="types-posts" class="row">
               <ul class="types-posts d-flex">
                   <div class="col-lg-5 p-0">
@@ -45,10 +49,13 @@
           </div>
 
           <ul class="medias d-flex nav nav-tabs">
+              <li class="nav-item box-notification" data-toggle="tooltip" data-placement="top" title="Post enrichi"><a class="nav-link url-link" data-toggle="tab" href="#urlLink"><i class="fa fa-link p-2"></i></a></li>
               <li class="nav-item box-notification"><a class="nav-link image" data-toggle="tab" href="#image"><i class="fa fa-image p-2"></i></a></li>
               <li class="nav-item box-notification"><a class="nav-link video" data-toggle="tab" href="#video"><i class="fa fa-video-camera p-2"></i></a></li>
               <div class="d-none">{{ form_widget(PostForm.category) }}</div>
           </ul>
+
+          <hr class="d-lg-none">
 
           {% if app.user.profile.isCompleted == true %}
               <button type="submit" class="btn small-btn grey-bg">
@@ -69,6 +76,5 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/form.js"></script>
-    <script type="text/javascript" src="/js/file.js"></script>
     <script type="text/javascript" src="/js/dashboard.js"></script>
 {% endblock %}

@@ -99,6 +99,16 @@ class Post implements \Serializable
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $urlLink;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $imageLink;
+
      public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -374,5 +384,38 @@ class Post implements \Serializable
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlLink()
+    {
+        return $this->urlLink;
+    }
+
+    /**
+     * @param mixed $urlLink
+     */
+    public function setUrlLink($urlLink)
+    {
+        $this->urlLink = $urlLink;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageLink()
+    {
+        return $this->imageLink;
+    }
+
+    /**
+     * @param mixed $imageLink
+     */
+    public function setImageLink($imageLink)
+    {
+        $this->imageLink = $imageLink;
+    }
+
 
 }

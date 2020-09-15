@@ -2,7 +2,7 @@
 
 <div class="logo float-left">
     <!-- Uncomment below if you prefer to use an image logo -->
-    <a href="{{ path('dashboard') }}"><img src="/images/default/logo-beevup-mode.png" alt=""></a>
+    <a href="{{ path('dashboard') }}"><img src="/images/default/logo-beevup&bv.png" alt=""></a>
 </div>
 
 <nav class="main-nav d-none d-lg-block">
@@ -129,7 +129,7 @@
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN_COMPANY') %}
                             {% if app.user.company.isCompleted == true %}
-                                <li><a href='{{ path('subscription') }}'>Abonnements</a></li>
+                                {#<li><a href='{{ path('subscription') }}'>Abonnements</a></li>#}
                                 <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
                             {% else %}
                                 <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>

@@ -55,6 +55,20 @@ class PostType extends AbstractType
                 'class' => PostCategory::class,
                 ]
             )
+            ->add('urlLink', TextType::class, [
+                'required' => false,
+                'label' => "Url web",
+                'attr' => [
+                    'placeholder' => 'Saisissez l\'url de votre article, en s\'occupe du reste',
+                ]
+            ])
+            ->add('imageLink', TextType::class, [
+                'required' => false,
+                'label' => "Image de l'article",
+                'attr' => [
+                    'placeholder' => 'Cet url récupére automatiquement votre article',
+                ]
+            ])
         ;
     }
 
