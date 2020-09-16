@@ -31,7 +31,9 @@ class LoginListener
 
         $historic = $this->userHistoricRepository->findOneBy(['user' => $user]);
 
-        $subscription = $user->getCompany()->getSubscription();
+        if ($user->getCompany()){
+            $subscription = $user->getCompany()->getSubscription();
+        }
 
         if (!$historic){
             //New user historic
