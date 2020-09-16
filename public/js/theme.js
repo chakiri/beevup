@@ -744,7 +744,7 @@ if($('.entity-description').length > 0 )
     $('.entity-description').val(descriptionText);
     }
 }
-    function updateCoordinate(callback) {
+    /*function updateCoordinate(callback) {
 
         navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -852,7 +852,7 @@ if($('.entity-description').length > 0 )
           }
 
 
-    }
+    }*/
 
     })(jQuery);
 
