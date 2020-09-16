@@ -991,6 +991,10 @@ ul.landing-page-list {
     height: 40px;
 }
 
+.reset form input{
+    width: 0 !important;
+}
+
 .checky-sec {
     float: left;
     width: 100%;

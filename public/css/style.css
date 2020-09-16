@@ -457,6 +457,14 @@ li.icon-type-post a.active{
     justify-content: center;
 }
 
+.logo_footer {
+    text-align: center;
+}
+.logo_footer img{
+    width: 100px;
+    height: 40px;
+}
+
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;
