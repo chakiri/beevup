@@ -13,7 +13,7 @@
                 <h2>Rejoignez Beev’Up, le mouvement dédié aux entreprises locales
                 </h2>
                 <div>
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.company %}
                         <a href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn-get-started scrollto">Ma fiche entreprise</a>
                     {% else %}
                         <a href="{{ path('security_login') }}" class="btn-get-started scrollto">Ma fiche entreprise</a>

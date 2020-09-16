@@ -13,7 +13,7 @@
             {% if app.user.profile.isCompleted != true %}
                 <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profile</a>.
             {% endif %}
-            {% if app.user.company.isCompleted != true %}
+            {% if app.user.company and app.user.company.isCompleted != true %}
                 <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Je complète mon entreprise</a>.
             {% endif %}
 
