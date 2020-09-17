@@ -651,7 +651,7 @@ ul.landing-page-list {
     }
 
     .alert {
-        width: 80%;
+        width: 87% !important;
     }
 
 }
