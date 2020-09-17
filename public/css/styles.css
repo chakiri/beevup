@@ -650,6 +650,10 @@ ul.landing-page-list {
         width: 121px;
     }
 
+    .alert {
+        width: 80%;
+    }
+
 }
 
 /* ========== Landing page ========== */

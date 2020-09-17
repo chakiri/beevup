@@ -461,8 +461,7 @@ li.icon-type-post a.active{
     text-align: center;
 }
 .logo_footer img{
-    width: 100px;
-    height: 40px;
+    width: 10%;
 }
 
 @media (max-width: 769px) {
