@@ -20,25 +20,25 @@
                                     {% if service.user == app.user %}
                                         <ul class="flw-hr">
                                             <li>
-                                                <a href="{{ path('service_edit', {'id': service.id}) }}" class="flww">
+                                                <a href="{{ path('service_edit', {'id': service.id}) }}">
                                                     Modifier
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" type="button" class="flww" data-toggle="modal" data-target="#confirmDelete">
+                                                <a href="#" type="button" data-toggle="modal" data-target="#confirmDelete">
                                                     Supprimer
                                                 </a>
                                             </li>
                                         </ul>
                                     {% elseif service.type.name == 'plateform' %}
-                                        <ul>
+                                        <ul class="flw-hr">
                                         {% if is_granted('ROLE_ADMIN_STORE') %}
                                             {% if storeService %}
-                                                <a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button" class="flww">Retirer</a>
-                                                <a href="#" type="button" class="flww" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
+                                                <li><a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button">Retirer</a></li>
+                                                <li><a href="#" type="button" data-toggle="modal" data-target="#editPrice">Editer le prix</a></li>
                                             {% else %}
                                                 <li>
-                                                  <a href="{{ path('service_associate', {'service': service.id}) }}" type="button" class="flww">Ajouter ce service</a>
+                                                  <a href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a>
                                                 </li>
                                                 <li>
                                                     <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
@@ -61,7 +61,7 @@
                                                     <b>Prix : </b>
                                                     {% if storeService %}
                                                         {% if storeService.price != '' %}
-                                                            {{ storeService.price }} €.H.T {% if storeService.unity != null  %} /  {{ storeService.unity }} {% endif %}
+                                                            {{ storeService.price }} €.H.T
                                                         {% endif %}
                                                     {% else %}
                                                         {{ service.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }} {% endif %}

@@ -107,15 +107,14 @@ class ServiceRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findByType($type, $allCompanies){
+    public function findByType($type){
 
         return $this->createQueryBuilder('s')
                 ->leftJoin('s.user', 'u')
                 ->leftJoin('u.company', 'c')
                 ->andWhere('s.type = :type')
-                ->andWhere('c.id in (:companies)')
-                 ->orderBy('s.createdAt', 'DESC')
-                ->setParameters(array('type'=> $type, 'companies'=>$allCompanies))
+                ->orderBy('s.createdAt', 'DESC')
+                ->setParameters(array('type'=> $type))
                 ->getQuery()
                 ->getResult() ;
 

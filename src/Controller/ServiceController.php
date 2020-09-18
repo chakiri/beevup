@@ -49,7 +49,8 @@ class ServiceController extends AbstractController
         if ($request->get('_route') == 'service_generic') {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
            // $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
-            $services = $serviceRepository->findByType($typeService, $allCompanies);
+            $services = $serviceRepository->findByType($typeService);
+
         }
         if ($company){
             $company = $companyRepository->findOneBy(['id' => $company]);
