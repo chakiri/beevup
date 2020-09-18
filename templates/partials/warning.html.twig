@@ -6,19 +6,32 @@
     </div>
 {% endif %}
 
-{% if app.user.profile.isCompleted != true or app.user.company.isCompleted != true%}
-    <div class="warning p-3">
-        <h5 class="alert-heading"><i class="fa fa-eye"></i> Vous n’êtes pas encore visible!</h5>
-        <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté.
-            {% if app.user.profile.isCompleted != true %}
-                <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profil</a>.
-            {% endif %}
-            {% if app.user.company and app.user.company.isCompleted != true %}
-                <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Je complète mon entreprise</a>.
-            {% endif %}
+{% if app.user.company %}
+    {% if app.user.profile.isCompleted != true or app.user.company.isCompleted != true%}
+        <div class="warning p-3">
+            <h5 class="alert-heading"><i class="fa fa-eye"></i> Vous n’êtes pas encore visible!</h5>
+            <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté.
+                {% if app.user.profile.isCompleted != true %}
+                    <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profil</a>.
+                {% endif %}
+                {% if app.user.company and app.user.company.isCompleted != true %}
+                    <a href="{{ path('company_edit', {'id': app.user.company.id}) }}" class="alert-link">Je complète mon entreprise</a>.
+                {% endif %}
 
-        </p>
-    </div>
+            </p>
+        </div>
+    {% endif %}
+{% else %}
+    {% if app.user.profile.isCompleted != true%}
+        <div class="warning p-3">
+            <h5 class="alert-heading"><i class="fa fa-eye"></i> Vous n’êtes pas encore visible!</h5>
+            <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté.
+                {% if app.user.profile.isCompleted != true %}
+                    <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profil</a>.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
 {% endif %}
 
 {% if is_granted('ROLE_ADMIN_COMPANY') and untreatedCompanyRecommandations %}
