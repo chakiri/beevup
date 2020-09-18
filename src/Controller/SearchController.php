@@ -59,7 +59,6 @@ class SearchController extends AbstractController
 
          if($type == 'company')
          {
-
              if($category != null && $category !='')
              {
                  if($name =='')
@@ -76,30 +75,40 @@ class SearchController extends AbstractController
                  $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
                  $companiesCount = count( $companies);
              }
+
+             //Get nb recommandations of each company
+             $nbRecommandations = [];
+             foreach ($companies as $company){
+                 $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
+                 $nbRecommandations[$company->getId()] = $nbRecommandation;
+             }
+
+             //Get nb Km between current user company and company service
+             $distances = [];
+             foreach ($companies as $company){
+                 $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
+                 $distances[$company->getId()] = $distance;
+             }
          }
          else if($type =='users')
          {
              $users =  $userRepo->findByValue($name,  $allCompanies,  $this->getUser()->getStore());
              $usersCount = count($users);
 
-         }
-         else {
-             $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
-             $users =  $userRepo->findByValue($name, $this->getUser()->getStore());
-         }
+             //Get nb recommandations of each company
+             $nbRecommandations = [];
+             foreach ($users as $user){
+                 $nbRecommandation = count($recommandationRepository->findBy(['company' => $user->getCompany()]));
+                 $nbRecommandations[$user->getCompany()->getId()] = $nbRecommandation;
+             }
 
-         //Get nb recommandations of each company
-         $nbRecommandations = [];
-         foreach ($companies as $company){
-             $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
-             $nbRecommandations[$company->getId()] = $nbRecommandation;
-         }
+             //Get nb Km between current user company and company service
+             $distances = [];
+             foreach ($users as $user){
+                 $distance = $communities->calculateDistanceBetween($user->getCompany(), $this->getUser()->getCompany(), 'K');
+                 $distances[$user->getCompany()->getId()] = $distance;
+             }
 
-         //Get nb Km between current user company and company service
-         $distances = [];
-         foreach ($companies as $company){
-             $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
-             $distances[$company->getId()] = $distance;
          }
 
          return $this->render('search/search.html.twig', [
@@ -115,7 +124,20 @@ class SearchController extends AbstractController
              'nbRecommandations' => $nbRecommandations,
              'distances' => $distances
          ]);
+     }
 
+     //Get nb recommandations of each company
+     $nbRecommandations = [];
+     foreach ($users as $user){
+         $nbRecommandation = count($recommandationRepository->findBy(['company' => $user->getCompany()]));
+         $nbRecommandations[$user->getCompany()->getId()] = $nbRecommandation;
+     }
+
+     //Get nb Km between current user company and company service
+     $distances = [];
+     foreach ($users as $user){
+         $distance = $communities->calculateDistanceBetween($user->getCompany(), $this->getUser()->getCompany(), 'K');
+         $distances[$user->getCompany()->getId()] = $distance;
      }
 
      return $this->render('search/search.html.twig', [
@@ -124,7 +146,9 @@ class SearchController extends AbstractController
          'companies'=> null,
          'favorits' =>  $favorits,
          'favoritUserIds' => $favoritUserIds,
-         'favoritsNb' => $favoritsNb
+         'favoritsNb' => $favoritsNb,
+         'nbRecommandations' => $nbRecommandations,
+         'distances' => $distances
      ]);
  }
 }

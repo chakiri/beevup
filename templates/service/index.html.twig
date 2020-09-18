@@ -97,7 +97,7 @@
                                                   <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
                                               </div>
                                               <div class="company-infos-bloc">
-                                                  {% if distances and distances[service.id] %}
+                                                  {% if distances and distances[service.id] and distances[service.id] < 1000 %}
                                                       <small>à {{ distances[service.id]|round }}Km</small>
                                                   {% endif %}
                                                   {% if nbRecommandations and nbRecommandations[service.user.company.id] > 0 %}

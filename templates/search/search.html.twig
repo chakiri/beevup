@@ -154,6 +154,14 @@
                                                 </a>
                                             </li>
                                         </ul>
+                                        <div class="company-infos-bloc">
+                                            {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 %}
+                                                <small>à {{ distances[user.company.id]|round }}Km</small>
+                                            {% endif %}
+                                            {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
+                                                <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
                                 </div><!--company_profile_info end-->
@@ -188,6 +196,9 @@
                                                 </li>
                                             </ul>
                                             <div class="company-infos-bloc">
+                                                {% if distances and distances[company.id] and distances[company.id] < 1000 %}
+                                                    <small>à {{ distances[company.id]|round }}Km</small>
+                                                {% endif %}
                                                 {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
                                                     <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
                                                 {% endif %}
