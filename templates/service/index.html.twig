@@ -92,12 +92,18 @@
                                                       <img src="http://via.placeholder.com/170x170" alt="">
                                                   {% endif %}
                                               </a>
-                                              <h3><a href="{{ path('service_show', {'id': service.id}) }}">
-                                                      {{ service.title|slice(0, 50) ~ '...' }} </a>  </h3>
+                                              <h3><a href="{{ path('service_show', {'id': service.id}) }}">{{ service.title|slice(0, 50) ~ '...' }} </a></h3>
                                               <div class="company-introduction-bloc">
                                                   <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
                                               </div>
-                                              <a href="{{ path('service_show', {'id': service.id}) }}" title=""></a>
+                                              <div class="company-infos-bloc">
+                                                  {% if distances and distances[service.id] %}
+                                                      <small>à {{ distances[service.id]|round }}Km</small>
+                                                  {% endif %}
+                                                  {% if nbRecommandations and nbRecommandations[service.user.company.id] > 0 %}
+                                                      <small>{{ nbRecommandations[service.user.company.id] }}{% if nbRecommandations[service.user.company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
+                                                  {% endif %}
+                                              </div>
                                           </div>
                                           <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
                                       </div>

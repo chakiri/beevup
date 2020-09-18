@@ -171,14 +171,13 @@
                                                 {% if company.filename is empty %}
                                                     <img src="http://via.placeholder.com/90x90" alt="">
                                                 {% else  %}
-
-                                                       <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid search-company-photo" alt="">
+                                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}" >
 
                                                 {% endif %}
                                             </a>
                                             <h3> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h3>
                                             <ul>
-                                                <li>
+                                                <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
                                                         <i id="result-company-item-{{ company.id }}"
                                                            class="fa  {% if company.id in favoritsCompanyIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
                                                            aria-hidden="true"
@@ -187,8 +186,12 @@
                                                            data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
                                                         ></i>
                                                 </li>
-
                                             </ul>
+                                            <div class="company-infos-bloc">
+                                                {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
+                                                    <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                         <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
                                     </div><!--company_profile_info end-->

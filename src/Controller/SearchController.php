@@ -7,8 +7,10 @@ use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\FavoritRepository;
+use App\Repository\RecommandationRepository;
 use App\Repository\UserRepository;
 use App\Repository\ProfilRepository;
+use App\Service\Communities;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +24,7 @@ class SearchController extends AbstractController
      /**
      * @Route("/search", name="search")
      */
-
-
- public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo, GetCompanies $getCompanies)
+ public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities)
  {
      $search = new Search();
      $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
@@ -51,7 +51,6 @@ class SearchController extends AbstractController
      $form->handleRequest($request);
      if($form->isSubmitted() && $form->isValid())
      {
-
          $data = $form->getData();
          $type = $data->getType();
          $category= $data->getCategory();
@@ -67,17 +66,12 @@ class SearchController extends AbstractController
                  {
                      // $companies = $companyRepo->findBy(['category' => $category , 'isCompleted'=>true], []);
                       $companies = $companyRepo->findByCompaniesInCommunity(  $this->getUser()->getStore(), $allCompanies);
-
-
                  }
                  else {
                      $companies = $companyRepo->findByValueAndCategory($name, $category, $allCompanies);
-
-
                  }
                  $companiesCount = count( $companies);
              } else {
-
                  $users = null;
                  $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
                  $companiesCount = count( $companies);
@@ -85,15 +79,27 @@ class SearchController extends AbstractController
          }
          else if($type =='users')
          {
-
              $users =  $userRepo->findByValue($name,  $allCompanies,  $this->getUser()->getStore());
              $usersCount = count($users);
 
          }
          else {
-
              $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
              $users =  $userRepo->findByValue($name, $this->getUser()->getStore());
+         }
+
+         //Get nb recommandations of each company
+         $nbRecommandations = [];
+         foreach ($companies as $company){
+             $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
+             $nbRecommandations[$company->getId()] = $nbRecommandation;
+         }
+
+         //Get nb Km between current user company and company service
+         $distances = [];
+         foreach ($companies as $company){
+             $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
+             $distances[$company->getId()] = $distance;
          }
 
          return $this->render('search/search.html.twig', [
@@ -105,11 +111,13 @@ class SearchController extends AbstractController
              'favorits' =>  $favorits,
              'favoritUserIds' => $favoritUserIds,
              'favoritsNb' => $favoritsNb,
-             'favoritsCompanyIds' => $favoritsCompanyIds
-
+             'favoritsCompanyIds' => $favoritsCompanyIds,
+             'nbRecommandations' => $nbRecommandations,
+             'distances' => $distances
          ]);
 
      }
+
      return $this->render('search/search.html.twig', [
          'SearchForm' => $form->createView(),
          'users'=>$users,
@@ -117,8 +125,6 @@ class SearchController extends AbstractController
          'favorits' =>  $favorits,
          'favoritUserIds' => $favoritUserIds,
          'favoritsNb' => $favoritsNb
-
-
      ]);
  }
 }

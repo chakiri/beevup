@@ -12,6 +12,7 @@ use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
+use App\Service\Communities;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
@@ -34,7 +35,7 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, SessionInterface $session, GetCompanies $getCompanies )
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities)
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         //$services = $serviceRepository->findBy([], ['createdAt' => 'DESC', 'isDiscovery' => 'DESC']);
@@ -74,6 +75,20 @@ class ServiceController extends AbstractController
             $services = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
         }
 
+        //Get nb recommandations of each company
+        $nbRecommandations = [];
+        foreach ($services as $service){
+            $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany()]));
+            $nbRecommandations[$company->getId()] = $nbRecommandation;
+        }
+
+        //Get nb Km between current user company and company service
+        $distances = [];
+        foreach ($services as $service){
+            $distance = $communities->calculateDistanceBetween($service->getUser()->getCompany(), $this->getUser()->getCompany(), 'K');
+            $distances[$service->getId()] = $distance;
+        }
+
         $searchForm = $this->createForm(ServiceSearchType::class);
 
         $searchForm->handleRequest($request);
@@ -88,6 +103,8 @@ class ServiceController extends AbstractController
 
         return $this->render('service/index.html.twig', [
             'services' => $services,
+            'distances' => $distances,
+            'nbRecommandations' => $nbRecommandations,
             'isPrivate' => isset($user),
             'isDiscovery' => $request->get('_route') == 'service_discovery',
             'adviser'=> $adviser,

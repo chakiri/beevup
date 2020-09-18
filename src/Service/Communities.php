@@ -21,7 +21,7 @@ class Communities
         $allStores = $this->storeRepository->findAll();
         foreach ($allStores as $store)
         {
-            if($this->calculateDistanceBetweenCompanyAndStores($currentCompany, $store, 'K') <= $km)
+            if($this->calculateDistanceBetween($currentCompany, $store, 'K') <= $km)
             {
                 array_push($stores, $store);
             }
@@ -31,31 +31,33 @@ class Communities
     }
 
 
-    public function calculateDistanceBetweenCompanyAndStores(Company $currentCompany, Store $store, $unit)
+    public function calculateDistanceBetween(Company $currentCompany, $element, $unit)
     {
-        $lat1 = $currentCompany->getLatitude();
-        $lon1 = $currentCompany->getLongitude();
+        if ($element instanceof Store || $element instanceof Company){
+            $lat1 = $currentCompany->getLatitude();
+            $lon1 = $currentCompany->getLongitude();
 
-        $lat2 = $store->getLatitude();
-        $lon2 = $store->getLongitude();
+            $lat2 = $element->getLatitude();
+            $lon2 = $element->getLongitude();
 
-        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
-            return 0;
-        }
-        else {
-            $theta = $lon1 - $lon2;
-            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $unit = strtoupper($unit);
+            if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+                return 0;
+            }
+            else {
+                $theta = $lon1 - $lon2;
+                $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = $dist * 60 * 1.1515;
+                $unit = strtoupper($unit);
 
-            if ($unit == "K") {
-                return ($miles * 1.609344);
-            } else if ($unit == "N") {
-                return ($miles * 0.8684);
-            } else {
-                return $miles;
+                if ($unit == "K") {
+                    return ($miles * 1.609344);
+                } else if ($unit == "N") {
+                    return ($miles * 0.8684);
+                } else {
+                    return $miles;
+                }
             }
         }
     }

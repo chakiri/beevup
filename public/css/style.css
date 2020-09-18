@@ -181,6 +181,13 @@
     height: 176px;
 }
 
+.company-infos-bloc {
+    display: grid;
+}
+.company-infos-bloc small{
+    color: var(--text-color);
+}
+
 /*-------- Modals --------- */
 #add-post-modal, #update-post-modal{
     top: 52px;

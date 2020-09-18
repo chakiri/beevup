@@ -15,7 +15,7 @@
 
                             <div class="user-pro-img">
                                 {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
                                 {% else %}
                                     <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}
