@@ -71,11 +71,12 @@ class UserAdminController extends EasyAdminController
             $user->setIsValid(true);
             /* add admin topics to user */
             $this->topicHandler->addAdminTopicsToUser($user);
-            /* add company topic to user */
-            $this->topicHandler->initCompanyTopic($user->getCompany(), $user);
-            /* add category company topic to user */
-            $this->topicHandler->initCategoryCompanyTopic($user->getCompany()->getCategory(), $user);
-
+            if ($user->getCompany()){
+                /* add company topic to user */
+                $this->topicHandler->initCompanyTopic($user->getCompany(), $user);
+                /* add category company topic to user */
+                $this->topicHandler->initCategoryCompanyTopic($user->getCompany()->getCategory(), $user);
+            }
         }
         if(in_array('ROLE_ADMIN_PLATEFORM', $userRoles)){
             $type = $this->userTypeRepo->findOneBy(['id'=> 5]);
