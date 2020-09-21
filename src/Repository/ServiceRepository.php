@@ -77,8 +77,8 @@ class ServiceRepository extends ServiceEntityRepository
             ->setParameters(array('companies'=>$allCompanies))
             ->getQuery()
             ->getResult() ;
-
     }
+
     public function findByIsDiscovery( $allCompanies){
 
         return $this->createQueryBuilder('s')
@@ -90,7 +90,6 @@ class ServiceRepository extends ServiceEntityRepository
             ->setParameters(array('companies'=>$allCompanies))
             ->getQuery()
             ->getResult() ;
-
     }
 
     public function findOneByIsDiscovery( $allCompanies){
@@ -107,15 +106,14 @@ class ServiceRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findByType($type, $allCompanies){
+    public function findByType($type){
 
         return $this->createQueryBuilder('s')
                 ->leftJoin('s.user', 'u')
                 ->leftJoin('u.company', 'c')
                 ->andWhere('s.type = :type')
-                ->andWhere('c.id in (:companies)')
-                 ->orderBy('s.createdAt', 'DESC')
-                ->setParameters(array('type'=> $type, 'companies'=>$allCompanies))
+                ->orderBy('s.createdAt', 'DESC')
+                ->setParameters(array('type'=> $type))
                 ->getQuery()
                 ->getResult() ;
 
