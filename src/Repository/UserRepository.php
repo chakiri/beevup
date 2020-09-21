@@ -58,6 +58,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
            ->where('u.company is NULL')
            ->andWhere('u.store = :value')
+           ->andWhere('u.isValid = 1')
            ->setParameters(array('value' => $store));
         return $qb->getQuery()->getResult();
     }
