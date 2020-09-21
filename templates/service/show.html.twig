@@ -12,7 +12,7 @@
                         <div class="user_profile">
                             <div class="user-pro-img">
                                 {% if service.filename %}
-                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}"  alt="">
                                 {% else %}
                                     <img src="http://via.placeholder.com/170x170" alt="">
                                 {% endif %}
@@ -61,7 +61,7 @@
                                                     <b>Prix : </b>
                                                     {% if storeService %}
                                                         {% if storeService.price != '' %}
-                                                            {{ storeService.price }} €.H.T
+                                                            {{ storeService.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }}{% endif %}
                                                         {% endif %}
                                                     {% else %}
                                                         {{ service.price }} €.H.T {% if service.unity != null  %} /  {{ service.unity }} {% endif %}
@@ -74,10 +74,16 @@
                                                 <span><b>Offre exclusive Beev'Up</b></span>
                                             </li>
                                         {% endif %}
-                                        {% if app.user != service.user %}
-                                            <div class="btn white-bg">
-                                                <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
-                                            </div>
+                                        {% if app.user != service.user  %}
+                                            {% if storeService %}
+                                                <div class="btn white-bg">
+                                                    <a href="{{ path('chat_private', {'id': adminStoreService.id}) }}" title="">Contacter {{ adminStoreService.profile.lastname }}</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="btn white-bg">
+                                                    <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
+                                                </div>
+                                            {% endif %}
                                         {% endif %}
                                     </ul>
                                 </div><!--user_pro_status end-->

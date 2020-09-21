@@ -17,13 +17,11 @@ class GetCompanies
 
     public function getLocalCompanies(Store $store): array
     {
-
         $companiesIds =[];
         $companies = $store->getCompanies();
 
         foreach ($companies as $company)
         {
-
             array_push($companiesIds, $company->getId());
         }
 

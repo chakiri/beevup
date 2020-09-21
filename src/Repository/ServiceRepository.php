@@ -77,8 +77,8 @@ class ServiceRepository extends ServiceEntityRepository
             ->setParameters(array('companies'=>$allCompanies))
             ->getQuery()
             ->getResult() ;
-
     }
+
     public function findByIsDiscovery( $allCompanies){
 
         return $this->createQueryBuilder('s')
@@ -90,7 +90,6 @@ class ServiceRepository extends ServiceEntityRepository
             ->setParameters(array('companies'=>$allCompanies))
             ->getQuery()
             ->getResult() ;
-
     }
 
     public function findOneByIsDiscovery( $allCompanies){
