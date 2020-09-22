@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\File;
+
 
 
 class ServiceType extends AbstractType
@@ -102,6 +104,15 @@ class ServiceType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Photo principale',
                     'class'       =>'form-control'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                        ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
                 ]
             ])
             ->add('imageFile1', FileType::class, [
@@ -110,6 +121,15 @@ class ServiceType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 1',
                     'class'       =>'form-control'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                        ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
                 ]
             ])
             ->add('imageFile2', FileType::class, [
@@ -118,6 +138,15 @@ class ServiceType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 2',
                     'class'       =>'form-control'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                        ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
                 ]
             ])
             ->add('imageFile3', FileType::class, [
@@ -126,6 +155,15 @@ class ServiceType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 3',
                     'class'       =>'form-control'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                        ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
                 ]
             ])
             ->add('toIndividuals', CheckboxType::class, [

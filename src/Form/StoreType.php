@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class StoreType extends AbstractType
 {
@@ -104,7 +105,16 @@ class StoreType extends AbstractType
                 'label' => 'Photo ',
                 'attr'  => [
                     'placeholder' => 'Photo',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control '
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                        ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
                 ]
             ])
             ->add('introduction', TextareaType::class, [
