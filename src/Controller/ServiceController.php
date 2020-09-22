@@ -79,20 +79,6 @@ class ServiceController extends AbstractController
             $services = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
         }
 
-        //Get nb recommandations of each company
-        $nbRecommandations = [];
-        foreach ($services as $service){
-            $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany()]));
-            $nbRecommandations[$company->getId()] = $nbRecommandation;
-        }
-
-        //Get nb Km between current user company and company service
-        $distances = [];
-        foreach ($services as $service){
-            $distance = $communities->calculateDistanceBetween($service->getUser()->getCompany(), $this->getUser()->getCompany(), 'K');
-            $distances[$service->getId()] = $distance;
-        }
-
         $searchForm = $this->createForm(ServiceSearchType::class);
 
         $searchForm->handleRequest($request);
@@ -115,6 +101,20 @@ class ServiceController extends AbstractController
 
         //Get advisor of store
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
+
+        //Get informations from companies
+        $nbRecommandations = [];
+        $distances = [];
+        foreach ($services as $service){
+            if ($service->getUser()->getCompany()) {
+                //Get nb recommandations of each company
+                $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany()]));
+                $nbRecommandations[$company->getId()] = $nbRecommandation;
+                //Get nb Km between current user company and company service
+                $distance = $communities->calculateDistanceBetween($service->getUser()->getCompany(), $this->getUser()->getCompany(), 'K');
+                $distances[$service->getId()] = $distance;
+            }
+        }
 
         return $this->render('service/index.html.twig', [
             'services' => $services,

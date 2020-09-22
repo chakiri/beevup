@@ -19,9 +19,8 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findByValue($value, $allCompanies, $store)
+    public function findByValue($value, $allCompanies)
     {
-
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.profile', 'p')
             ->leftJoin('u.company', 'c')

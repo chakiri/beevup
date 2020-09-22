@@ -2,153 +2,81 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\Search;
+use App\Entity\User;
 use App\Form\SearchType;
-use App\Repository\CategoryRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\UserRepository;
-use App\Repository\ProfilRepository;
 use App\Service\Communities;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\Service\GetCompanies;
 
 
 class SearchController extends AbstractController
 {
-
-     /**
+    /**
      * @Route("/search", name="search")
      */
- public function index(Request $request, CompanyRepository $companyRepo, UserRepository $userRepo, UserRepository $useRepo, FavoritRepository $favoritRepo, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities)
- {
-     $search = new Search();
-     $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
-     $form = $this->createForm(SearchType::class, $search);
-     $users = $useRepo->findByIsCompletedProfile($allCompanies);
-     $companies = null;
-     $usersCount = '-1';
-     $companiesCount = '-1';
-     $favorits = $favoritRepo->findBy(['user'=> $this->getUser()]);
-     $favoritUserIds = [];
-     $favoritsCompanyIds = [];
-     $favoritsNb = count($favorits);
+    public function index(Request $request, GetCompanies $getCompanies, UserRepository $userRepository, FavoritRepository $favoritRepository, CompanyRepository $companyRepository, RecommandationRepository $recommandationRepository, Communities $communities)
+    {
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
-     foreach ($favorits as $favorit)
-     {
-         array_push( $favoritUserIds, $favorit->getFavoritUser()->getId());
-     }
-     foreach ($favorits as $favorit)
-     {
-         if($favorit->getCompany()!= null) {
-             array_push($favoritsCompanyIds, $favorit->getCompany()->getId());
-         }
-     }
-     $form->handleRequest($request);
-     if($form->isSubmitted() && $form->isValid())
-     {
-         $data = $form->getData();
-         $type = $data->getType();
-         $category= $data->getCategory();
-         $name = $data->getName();
+        $search = new Search();
+        $form = $this->createForm(SearchType::class, $search);
+
+        $items = $userRepository->findByIsCompletedProfile($allCompanies);
+
+        $favoris = $favoritRepository->findBy(['user'=> $this->getUser()]);
+        $favorisUsersIds = [];
+        $favorisCompaniesIds = [];
+        foreach ($favoris as $favorit)
+        {
+            array_push($favorisUsersIds, $favorit->getFavoritUser()->getId());
+            if($favorit->getCompany()!= null) {
+                array_push($favorisCompaniesIds, $favorit->getCompany()->getId());
+            }
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($search->getType() == 'company'){
+                $items = $companyRepository->findBySearch($search->getName(), $allCompanies);
+            }elseif ($search->getType() == 'users'){
+                $items = $userRepository->findByValue($search->getName(), $allCompanies);
+            }
+        }
+
+        //Get infos from each item
+        $nbRecommandations = [];
+        $distances = [];
+        foreach ($items as $item){
+            if ($item instanceof User) $company = $item->getCompany();
+            elseif ($item instanceof Company) $company = $item;
+            //Get nb recommandations of each company item
+            $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
+            $nbRecommandations[$company->getId()] = $nbRecommandation;
+            //Get nb Km between current user company and company item
+            $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
+            $distances[$company->getId()] = $distance;
+        }
 
 
-         if($type == 'company')
-         {
-             if($category != null && $category !='')
-             {
-                 if($name =='')
-                 {
-                     // $companies = $companyRepo->findBy(['category' => $category , 'isCompleted'=>true], []);
-                      $companies = $companyRepo->findByCompaniesInCommunity(  $this->getUser()->getStore(), $allCompanies);
-                 }
-                 else {
-                     $companies = $companyRepo->findByValueAndCategory($name, $category, $allCompanies);
-                 }
-                 $companiesCount = count( $companies);
-             } else {
-                 $users = null;
-                 $companies = $companyRepo->findByValue($name, $allCompanies, $this->getUser()->getStore() );
-                 $companiesCount = count( $companies);
-             }
+        return $this->render('search/search.html.twig', [
+            'SearchForm' => $form->createView(),
+            'items' => $items,
+            'favoris' => $favoris,
+            'favorisUsersIds' => $favorisUsersIds,
+            'favorisCompaniesIds' => $favorisCompaniesIds,
+            'nbRecommandations' => $nbRecommandations,
+            'distances' => $distances,
+            'isUser' => $items ? $items[0] instanceof User : false,
+        ]);
 
-             //Get nb recommandations of each company
-             $nbRecommandations = [];
-             foreach ($companies as $company){
-                 $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
-                 $nbRecommandations[$company->getId()] = $nbRecommandation;
-             }
-
-             //Get nb Km between current user company and company service
-             $distances = [];
-             foreach ($companies as $company){
-                 $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
-                 $distances[$company->getId()] = $distance;
-             }
-         }
-         else if($type =='users')
-         {
-             $users =  $userRepo->findByValue($name,  $allCompanies,  $this->getUser()->getStore());
-             $usersCount = count($users);
-
-             //Get nb recommandations of each company
-             $nbRecommandations = [];
-             foreach ($users as $user){
-                 $nbRecommandation = count($recommandationRepository->findBy(['company' => $user->getCompany()]));
-                 $nbRecommandations[$user->getCompany()->getId()] = $nbRecommandation;
-             }
-
-             //Get nb Km between current user company and company service
-             $distances = [];
-             foreach ($users as $user){
-                 $distance = $communities->calculateDistanceBetween($user->getCompany(), $this->getUser()->getCompany(), 'K');
-                 $distances[$user->getCompany()->getId()] = $distance;
-             }
-
-         }
-
-         return $this->render('search/search.html.twig', [
-             'SearchForm' => $form->createView(),
-             'users'=> $users ? $users : null,
-             'companies'=> $companies ? $companies : null,
-             'usersCount' =>   $usersCount,
-             'companiesCount' => $companiesCount,
-             'favorits' =>  $favorits,
-             'favoritUserIds' => $favoritUserIds,
-             'favoritsNb' => $favoritsNb,
-             'favoritsCompanyIds' => $favoritsCompanyIds,
-             'nbRecommandations' => $nbRecommandations,
-             'distances' => $distances
-         ]);
-     }
-
-     //Get nb recommandations of each company
-     $nbRecommandations = [];
-     foreach ($users as $user){
-         $nbRecommandation = count($recommandationRepository->findBy(['company' => $user->getCompany()]));
-         $nbRecommandations[$user->getCompany()->getId()] = $nbRecommandation;
-     }
-
-     //Get nb Km between current user company and company service
-     $distances = [];
-     foreach ($users as $user){
-         $distance = $communities->calculateDistanceBetween($user->getCompany(), $this->getUser()->getCompany(), 'K');
-         $distances[$user->getCompany()->getId()] = $distance;
-     }
-
-     return $this->render('search/search.html.twig', [
-         'SearchForm' => $form->createView(),
-         'users'=>$users,
-         'companies'=> null,
-         'favorits' =>  $favorits,
-         'favoritUserIds' => $favoritUserIds,
-         'favoritsNb' => $favoritsNb,
-         'nbRecommandations' => $nbRecommandations,
-         'distances' => $distances
-     ]);
- }
+    }
 }

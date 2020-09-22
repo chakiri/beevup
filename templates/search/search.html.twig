@@ -11,27 +11,30 @@
                         <div class="filter-secs">
                             <div class="page-title sign_in_sec current">
                                 <h3>Filtres</h3>
-                            </div><!--filter-heading end-->
+                            </div>
                             {{ form_start(SearchForm) }}
                             <div class="paddy">
-
-                                {{ form_end(SearchForm) }}
                                 <div class="filter-dd">
-                                    <div class="col-12 form-actions form-group">
+                                    <div class="form-actions form-group">
+                                        {{ form_widget(SearchForm.name) }}
+                                    </div>
+                                    <div class="form-actions form-group">
+                                        {{ form_widget(SearchForm.type) }}
+                                    </div>
+                                    <div class="form-actions form-group">
                                         <button  type="submit" class="m-orange-btn">Chercher</button>
                                     </div>
                                 </div>
                             </div>
+                            {{ form_end(SearchForm) }}
+                        </div>
 
-                        </div><!--filter-secs end-->
-
-                        {%  if favorits is defined %}
                         <div class="page-title sign_in_sec current">
                             <h3>Favoris</h3>
                             <div class="suggestions full-width">
                                 <div class="suggestions-list">
-                                    {% if favorits %}
-                                        {% for favorit in favorits %}
+                                    {%  if favoris  %}
+                                        {% for favorit in favoris %}
                                             <div class="suggestion-usd">
                                                 <div class="" style="float:left">
                                                     <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
@@ -48,19 +51,14 @@
                                                           {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
                                                         </a>
                                                     </h4>
-
                                                     {% if favorit.favoritUser.company %}
                                                         <span class="company-link">
-
                                                             <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}">   {{favorit.favoritUser.company.name|capitalize }}  </a>
-
                                                         </span>
-
-
                                                     {% else %}
                                                         <span class="company-link">
-                                                                <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> {{favorit.favoritUser.store.name|capitalize }}</a>
-                                                             </span>
+                                                            <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> {{favorit.favoritUser.store.name|capitalize }}</a>
+                                                         </span>
                                                     {% endif %}
                                                     {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
                                                 </div>
@@ -71,10 +69,9 @@
                                             <p>Aucun favori</p>
                                         </div>
                                     {% endif %}
-                                    </div><!--suggestions-list end-->
-                                </div><!--suggestions end-->
+                                </div>
                             </div>
-                        {% endif %}
+                        </div>
                     </div>
 
                     <div class="row col-lg-9">
@@ -86,133 +83,114 @@
                                     ou agrandir votre carnet d'adresse. Utilisez les filtres pour affiner votre recherche
                                 </p>
                             </div>
-                            <div class="search-result col-12">
-                                {% if usersCount is defined  %}
-                                    {% if usersCount > 0 %}
-                                        {{ usersCount }} resultat(s)
-                                    {% elseif usersCount == 0 %}
-                                        <div class="no-result">
-                                            Aucun résultat trouvé.
-                                        </div>
-                                    {%  endif %}
-                                {%  endif %}
-                                {% if companiesCount is defined  %}
-                                    {% if companiesCount > 0 %}
-                                        {{ companiesCount }} resultat(s)
-                                    {% elseif companiesCount == 0 %}
-                                        <div class="no-result">
-                                            Aucun résultat trouvé.
-                                        </div>
-                                    {%  endif %}
-                                {%  endif %}
-                            </div>
                         </div>
 
-                        {% if users %}
-                            {% for user in users %}
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="company_profile_info">
-                                    <div class="company-up-info">
-                                        <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                        {% if user.profile.filename is empty %}
-                                            <img src="http://via.placeholder.com/90x90" alt="">
-                                        {% else  %}
-
-                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
-
-                                        {% endif %}
-                                        </a>
-                                           <h3>  <a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
-
-                                        {% if user.profile.function  %}
-                                            {% if user.company %}
-                                                <h4>{{ user.profile.function.name|capitalize }} chez
-                                                    <a  href="{{path('company_show', { 'slug': user.company.slug}) }}">
-                                                        {{user.company.name|capitalize }}
-                                                    </a>
-                                                </h4>
-                                            {% else %}
-                                                <h4>{{ user.profile.function.name|capitalize }} chez
-                                                    <a href="{{path('store_show', { 'slug': user.store.slug}) }}">
-                                                        {{user.store.name|capitalize }}
-                                                    </a>
-                                                </h4>
-                                            {% endif %}
-                                        {% endif %}
-                                        <ul>
-                                            <li>
-                                                <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                        class="fa {% if user.id in favoritUserIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
-                                                        data-user-id ="{{ user.id }}"
-                                                        data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                                        data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
-                                                    </i>
-                                            </li>
-                                            <li>
-                                                <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
-                                                    <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div class="company-infos-bloc">
-                                            {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 %}
-                                                <small>à {{ distances[user.company.id]|round }}Km</small>
-                                            {% endif %}
-                                            {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
-                                                <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
-                                </div><!--company_profile_info end-->
-                            </div>
-                        {% endfor %}
-                        {% endif %}
-
-
-                        {% if companies %}
-                            {% for company in companies %}
+                        {% if items %}
+                            {% if isUser %}
+                                {% set users = items %}
+                                {% for user in users %}
                                 <div class="col-lg-3 col-md-3 col-sm-6">
                                     <div class="company_profile_info">
                                         <div class="company-up-info">
-                                            <a href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                {% if company.filename is empty %}
-                                                    <img src="http://via.placeholder.com/90x90" alt="">
-                                                {% else  %}
-                                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}" >
-
-                                                {% endif %}
+                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                            {% if user.profile.filename is empty %}
+                                                <img src="http://via.placeholder.com/90x90" alt="">
+                                            {% else  %}
+                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
+                                            {% endif %}
                                             </a>
-                                            <h3> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h3>
+                                           <h3><a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
+                                            {% if user.profile.function  %}
+                                                {% if user.company %}
+                                                    <h4>{{ user.profile.function.name|capitalize }} chez
+                                                        <a  href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                                            {{user.company.name|capitalize }}
+                                                        </a>
+                                                    </h4>
+                                                {% else %}
+                                                    <h4>{{ user.profile.function.name|capitalize }} chez
+                                                        <a href="{{path('store_show', { 'slug': user.store.slug}) }}">
+                                                            {{user.store.name|capitalize }}
+                                                        </a>
+                                                    </h4>
+                                                {% endif %}
+                                            {% endif %}
                                             <ul>
-                                                <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
+                                                <li>
+                                                    <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
+                                                            class="fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
+                                                            data-user-id ="{{ user.id }}"
+                                                            data-target="{{path('favorit_add', {'userId':user.id})  }}"
+                                                            data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
+                                                        </i>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
+                                                        <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="company-infos-bloc">
+                                                {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 %}
+                                                    <small>à {{ distances[user.company.id]|round }}Km</small>
+                                                {% endif %}
+                                                {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
+                                                    <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                    </div><!--company_profile_info end-->
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            {% set companies = items %}
+                                {% for company in companies %}
+                                    <div class="col-lg-3 col-md-3 col-sm-6">
+                                        <div class="company_profile_info">
+                                            <div class="company-up-info">
+                                                <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                    {% if company.filename is empty %}
+                                                        <img src="http://via.placeholder.com/90x90" alt="">
+                                                    {% else  %}
+                                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}" >
+
+                                                    {% endif %}
+                                                </a>
+                                                <h3> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h3>
+                                                <ul>
+                                                    <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
                                                         <i id="result-company-item-{{ company.id }}"
-                                                           class="fa  {% if company.id in favoritsCompanyIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
+                                                           class="fa  {% if company.id in favorisCompaniesIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
                                                            aria-hidden="true"
                                                            data-company-id ="{{ company.id }}"
                                                            data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
                                                            data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
                                                         ></i>
-                                                </li>
-                                            </ul>
-                                            <div class="company-infos-bloc">
-                                                {% if distances and distances[company.id] and distances[company.id] < 1000 %}
-                                                    <small>à {{ distances[company.id]|round }}Km</small>
-                                                {% endif %}
-                                                {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
-                                                    <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
-                                                {% endif %}
+                                                    </li>
+                                                </ul>
+                                                <div class="company-infos-bloc">
+                                                    {% if distances and distances[company.id] and distances[company.id] < 1000 %}
+                                                        <small>à {{ distances[company.id]|round }}Km</small>
+                                                    {% endif %}
+                                                    {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
+                                                        <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommndation{% else %} Recommandations{% endif %}</small>
+                                                    {% endif %}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
-                                    </div><!--company_profile_info end-->
+                                            <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                        </div><!--company_profile_info end-->
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% else %}
+                            <div class="page-title sign_in_sec current search-page-title">
+                                <div class="page-description">
+                                    <P style="background-color:#fff;padding:10px">
+                                        Aucun résulat</p>
                                 </div>
-                            {% endfor %}
+                            </div>
                         {% endif %}
-
-
-
-
                     </div>
                 </div>
             </div>

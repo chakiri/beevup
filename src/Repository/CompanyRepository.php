@@ -55,6 +55,7 @@ class CompanyRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
     public function findByValueAndCategory($value, $value2, $value3)
     {
         $qb = $this->createQueryBuilder('p')
@@ -70,9 +71,9 @@ class CompanyRepository extends ServiceEntityRepository
 
             ->setParameters(array('value' => $value, 'value2'=>$value2, 'value3'=>$value3));
 
-
         return $qb->getQuery()->getResult();
     }
+
     public function findByCategory($value)
     {
         $qb = $this->createQueryBuilder('p')
@@ -81,9 +82,6 @@ class CompanyRepository extends ServiceEntityRepository
             ->setParameters(array('value' => $value));
         return $qb->getQuery()->getResult();
     }
-
-    //local companies
-
 
 
     public function findByCompaniesInCommunity($currentStore, $allCompanies)
@@ -98,6 +96,29 @@ class CompanyRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    //Get companies from search
+    public function findBySearch($name, $allCompanies)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.id in (:allCompanies)')
+            ->setParameter('allCompanies', $allCompanies)
+            ;
+        if ($name != ''){
+            $qb->andWhere('c.name LIKE :namelike')
+                ->orWhere('c.email = :name')
+                ->orWhere('c.siret = :name')
+                ->orWhere('c.phone = :name')
+                ->orWhere('c.city = :name')
+                ->orWhere('c.country = :name')
+                ->setParameter('namelike', '%' . $name . '%')
+                ->setParameter('name', $name)
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 
     // get premuim companies
     public function findByPremuimCompanies($offerType)
