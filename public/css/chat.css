@@ -455,22 +455,19 @@
         border: none;
         margin: 6px;
     }
-    #frame #sidepanel #channels ul li.channels .meta{
-        width: 26px;
-        white-space: nowrap;
-        overflow: hidden;
-        font-size: 135%;
-        margin: -7px;
-    }
-    #frame #sidepanel #channels ul li.channels .meta span{
-        display: none;
-    }
-    #frame #sidepanel #channels ul li.channels .meta{
+    #frame #sidepanel #channels ul li.channels .meta p{
         display: block;
+        margin-top: -13px;
+        margin-left: -4px;
+        visibility: hidden;
     }
-    #frame #sidepanel #channels ul li.channels .meta::first-letter{
+    #frame #sidepanel #channels ul li.channels .meta p::first-letter{
         text-transform: uppercase;
+        font-weight: bold;
+        font-size: 200%;
+        visibility:visible;
     }
+
     #frame #sidepanel #channels h4{
         display: none;
     }
@@ -561,7 +558,7 @@
 @media screen and (max-width: 735px) {
     #frame .content {
         width: calc(100% - 58px);
-        min-width: 300px !important;
+        min-width: 260px !important;
     }
 }
 @media screen and (min-width: 900px) {

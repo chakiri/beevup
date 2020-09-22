@@ -45,7 +45,8 @@
                                 <a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'>
                                     <strong>
                                         <div class="meta">
-                                            <span>#</span> {{ topic.name|capitalize }}
+                                            {#<span>#</span> #}
+                                            <p>{{ topic.name|capitalize }}</p>
                                         </div>
                                         <div class="wrap notifications">
                                             <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span>

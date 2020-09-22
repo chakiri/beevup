@@ -2935,7 +2935,10 @@ a:hover {
     background-color: #fff;
     border-radius: 12px;
 }
-
+.store-file label::after {
+    content: "Charger" !important;
+    color: #495057 !important;
+}
 /**********end************/
 
 
