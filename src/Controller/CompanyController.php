@@ -33,7 +33,7 @@ class CompanyController extends AbstractController
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, ServiceRepository $servicesRepo)
     {
         $recommandations = $recommandationRepository->findBy(['company' => $company, 'status'=>'Validated']);
-        $users = $userRepo->findBy(['company' => $company]);
+        $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
         $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
         $score = 0;
         foreach ($users as $user){
