@@ -142,7 +142,7 @@
                                                 {% endif %}
                                                 <small class="d-block al-r">{{ time }}</small>
                                                 <span class="badge {{ badge }} float-right">
-                                                    <i class="fa {{ fa }}"></i> {{ post.category|capitalize }}
+                                                    <a href="{{ path('dashboard_category', {'category': post.category.id}) }}"><i class="fa {{ fa }}"></i> {{ post.category|capitalize }}</a>
                                                 </span>
                                             </div>
                                         </div>

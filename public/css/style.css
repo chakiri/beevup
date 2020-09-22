@@ -27,7 +27,7 @@
 .white-bg{
     background: #FFFFFF;
     color: #FF7F50;
-    border: 1px solid #FFF6F3;
+    border: 1px solid #ff622d;
     box-sizing: border-box;
 }
 
@@ -75,6 +75,10 @@
     color: #fff;
     padding: 3px;
     border-radius: 8px;
+}
+
+.badge a{
+    color: inherit;
 }
 
 .badge-orange{

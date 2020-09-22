@@ -260,7 +260,7 @@ input:-webkit-autofill:active  {
 
 }
 .form-group > label{
-    color: var(--gray-color);
+    color: var(--text-color);
 }
 textarea::placeholder{
     color: var(--gray-color) !important;
@@ -331,6 +331,7 @@ input{
  }
 textarea.form-control{
     border-radius: var(--radius);
+    border: 1px solid var(--text-color);
 
 }
 .service label.checkbox-custom.custom-control-label::before {
@@ -988,7 +989,7 @@ ul.landing-page-list {
     width: 100%;
     padding: 12px;
     font-size: 14px;
-    border:1px solid #e5e5e5;
+    border:1px solid var(--text-color);
 }
 .sign_in_sec form select {
     line-height: 40px;
@@ -1323,7 +1324,6 @@ ul.landing-page-list {
 }
 .page-title {
     width: 100%;
-    margin-bottom: 20px;
     padding: 0 15px;
     background-color: var(--white-color);
 }
@@ -1386,6 +1386,7 @@ ul.landing-page-list {
     font-size: 10px;
     font-weight: 500;
     margin-bottom: 21px;
+    height: 24px;
 }
 .company-up-info ul {
     width: 100%;
@@ -1407,6 +1408,9 @@ ul.landing-page-list {
     font-size: 22px;
     position: relative;
     color: var(--orange-color) !important;
+}
+.company-infos-distance, .company-infos-reco{
+    height: 18px;
 }
 .company-introduction-bloc{
     min-height: 50px;
@@ -1441,7 +1445,6 @@ ul.landing-page-list {
     width: 100%;
     background-color: #fff;
     padding: 10px 20px;
-    margin-bottom: 20px;
     border-bottom: 1px solid #e5e5e5;
 }
 .sd-title h3 {
@@ -1631,7 +1634,6 @@ ul.landing-page-list {
 
 .message-btn {
     float: right;
-    margin-top: 20px;
     margin-bottom: 10px;
 }
 .message-btn a {
@@ -2934,6 +2936,7 @@ a:hover {
     padding: 10px;
     background-color: #fff;
     border-radius: 12px;
+    margin-bottom: 20px;
 }
 .store-file label::after {
     content: "Charger" !important;

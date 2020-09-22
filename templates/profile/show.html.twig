@@ -47,38 +47,6 @@
                                     </ul>
                                 </div><!--user_profile end-->
 
-                                {% if collegues != null %}
-                                    <div class="suggestions full-width">
-                                        <div class="sd-title page-title sign_in_sec current">
-                                            <h3>Ils travaillent dans la même entreprise</h3>
-
-                                        </div><!--sd-title end-->
-                                        <div class="suggestions-list">
-                                            {% for collegue in collegues %}
-                                                <div class="suggestion-usd">
-
-                                                    {% if collegue.profile.filename %}
-                                                        <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                    {% else %}
-                                                        <img src="http://via.placeholder.com/170x170" alt="">
-                                                    {% endif %}
-                                                    <div class="sgt-text hover-info">
-                                                        <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
-                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
-                                                        {% if collegue.profile.function != null %}
-                                                           <span>{{ collegue.profile.function.name|capitalize }}</span>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-
-                                            <div class="view-more">
-                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
-                                            </div>
-                                        </div><!--suggestions-list end-->
-                                    </div><!--suggestions end-->
-
-                                {% endif %}
                             </div><!--main-left-sidebar end-->
                         </div>
                         <div class="col-lg-6">
@@ -182,38 +150,42 @@
                                             {% else %}
                                                 <p>Soyez le premier à proposer une recommandation</p>
                                         {% endif %}
-
-
-
-
                                     </div><!--user-profile-ov end-->
-
-
-
-
                                 </div>
-
                             </div><!--main-ws-sec end-->
                         </div>
+
                         <div class="col-lg-3">
-                            <div class="right-sidebar">
-                                {% if app.user.id != profile.user.id %}
-                                    <div class="message-btn">
-                                        <a href="{{ path('chat_private', {'id': profile.user.id}) }}" title=""><i class="fa fa-comments"></i> Contacter</a>
-                                   </div>
-                                {% endif %}
-                                <div class="widget widget-jobs">
-                                    <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
-                                        <h3>
-                                            Participez à la vie de votre communauté !
-                                        </h3>
-                                        <p>Gagnez en visibilité et cumulez des points Bureau Vallée en ajoutant, sur vos services, une offre dédiée à la communauté</p>
-                                        <div class="lt-sec">
-                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
+                            {% if collegues != null %}
+                                <div class="suggestions full-width">
+                                    <div class="sd-title page-title sign_in_sec current">
+                                        <h3>Ils travaillent dans la même entreprise</h3>
+
+                                    </div><!--sd-title end-->
+                                    <div class="suggestions-list">
+                                        {% for collegue in collegues %}
+                                            <div class="suggestion-usd">
+
+                                                {% if collegue.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                {% else %}
+                                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                                {% endif %}
+                                                <div class="sgt-text hover-info">
+                                                    <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+                                                    {% if collegue.profile.function != null %}
+                                                        <span>{{ collegue.profile.function.name|capitalize }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="view-more p-3">
+                                            <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
                                         </div>
-                                    </div><!--user-profile-ov end-->
-                                </div><!--widget-jobs end-->
-                            </div><!--right-sidebar end-->
+                                    </div><!--suggestions-list end-->
+                                </div><!--suggestions end-->
+                            {% endif %}
                         </div>
                     </div>
                 </div><!-- main-section-data end-->

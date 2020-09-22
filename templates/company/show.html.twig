@@ -124,6 +124,22 @@
 
                             </div>
 
+                            <div class="right">
+                                {% if company != null and app.user.company != null %}
+                                    {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                                        <div class="message-btn">
+                                            <a href="#" class="add-recommandation" title=""
+                                               data-toggle="modal"
+                                               data-target="{{ path('recommandation') }}"
+                                               data-whatever="@getbootstrap"
+                                               data-company="{{company.id}}">
+                                                <i class="fas fa-thumbs-up"></i> Proposer une recommandation
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+
                             <div class="user-profile-ov st2 page-title sign_in_sec current">
                                 <h3>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ company.name|capitalize }} </a>
@@ -158,19 +174,6 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="right-sidebar">
-                        {% if company != null and app.user.company != null %}
-                            {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                <div class="message-btn">
-                                    <a href="#" class="add-recommandation" title=""
-                                       data-toggle="modal"
-                                       data-target="{{ path('recommandation') }}"
-                                       data-whatever="@getbootstrap"
-                                       data-company="{{company.id}}">
-                                       <i class="fas fa-thumbs-up"></i> Proposer une recommandation
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endif %}
                         {% if users %}
                             <div class="suggestions-list">
                                 <div class="sd-title page-title sign_in_sec current">
