@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\File;
 
 
 class ProfileType extends AbstractType
@@ -47,8 +48,8 @@ class ProfileType extends AbstractType
             ->add('gender', ChoiceType::class, [
                 'label' => 'Civilité',
                 'choices' => [
-                    'Femme' => 0,
-                    'Homme' => 1,
+                    'Madame' => 0,
+                    'Monsieur' => 1,
                 ],
             ])
             ->add('introduction', TextareaType::class, [
@@ -102,7 +103,17 @@ class ProfileType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Photo',
                     'class'       =>'form-control'
-                ]
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*'
+                         ],
+                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
+                    ])
+    ]
+
             ])
             ->add('addressPostCode', TextType::class, [
                 'required' => true,
