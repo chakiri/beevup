@@ -144,6 +144,11 @@ class Store implements \Serializable
      */
     private $externalCompanies;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAdmin;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -552,5 +557,17 @@ class Store implements \Serializable
             return true;
         }
         return false;
+    }
+
+    public function getIsAdmin(): ?bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(?bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
+
+        return $this;
     }
 }

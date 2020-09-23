@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Company;
 use App\Entity\CompanyCategory;
 use App\Entity\Store;
+use App\Repository\StoreRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +31,10 @@ class CompanyType extends AbstractType
             ->add('store', EntityType::class, [
                 'multiple'=>false,
                 'class' => Store::class,
-                'choice_label' =>'name'
+                'choice_label' =>'name',
+                'query_builder' => function (StoreRepository $storeRepository){
+                    return $storeRepository->getAllStoresQueryBuilder();
+                }
             ])
             ->add('category', EntityType::class, [
                 'multiple'=>false,

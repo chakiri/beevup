@@ -47,4 +47,20 @@ class StoreRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getAllStores()
+    {
+        $qb = $this->getAllStoresQueryBuilder();
+        $qb->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllStoresQueryBuilder()
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.isAdmin is null')
+            ->orWhere('s.isAdmin = false')
+            ;
+    }
 }

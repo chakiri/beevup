@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Store;
+use App\Repository\StoreRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,12 +36,13 @@ class RegistrationType extends AbstractType
                 ]
             ])
              ->add('store', EntityType::class, [
-
                  'multiple'=>false,
                  'placeholder' => 'Votre magasin Bureau Vallée le plus proche',
                  'class' => Store::class,
-                'choice_label' =>'name'
-
+                 'choice_label' =>'name',
+                 'query_builder' => function (StoreRepository $storeRepository){
+                    return $storeRepository->getAllStoresQueryBuilder();
+                 }
             ])
             ->add('email', EmailType::class, [
 
