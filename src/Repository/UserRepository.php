@@ -25,7 +25,7 @@ class UserRepository extends ServiceEntityRepository
             ->leftJoin('u.profile', 'p')
             ->leftJoin('u.company', 'c')
             ->leftJoin('p.function', 'f')
-            ->where('p.firstname LIKE :value')
+            ->andWhere('p.firstname LIKE :value')
             ->orWhere('p.lastname LIKE :value')
             ->orWhere('p.introduction LIKE :value')
             ->orWhere('p.mobileNumber LIKE :value')
@@ -35,6 +35,7 @@ class UserRepository extends ServiceEntityRepository
             ->orWhere('f.name LIKE :value')
             ->andWhere('u.company in (:value2)')
             ->andWhere('p.isCompleted = 1')
+            ->andWhere('u.isValid = 1')
             ->setParameters(array('value' => '%'.$value.'%', 'value2'=>$allCompanies ));
 
         return $qb->getQuery()->getResult();

@@ -102,6 +102,8 @@ class CompanyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->andWhere('c.id in (:allCompanies)')
+            ->andWhere('c.isCompleted = true')
+            //->andWhere('c.isValid = true')
             ->setParameter('allCompanies', $allCompanies)
             ;
         if ($name != ''){

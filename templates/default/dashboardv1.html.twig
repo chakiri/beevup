@@ -148,8 +148,9 @@
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <p><strong>{{ post.title }}</strong></p>
+                                        <p class="post-title">{% if post.urlLink %}<a href="{{ post.urlLink }}" target="_blank">{% endif %}<strong>{{ post.title }}</strong>{% if post.urlLink %}</a>{% endif %}</p>
                                         <span>{{ post.description|raw }}</span>
+                                        {% if post.urlLink %}<p><a href="{{ post.urlLink }}" target="_blank">Voir le lien complet</a></p>{% endif %}
                                     </div>
                                     <div class="media-post mb-2">
                                         {% if post.urlYoutube is not null %}

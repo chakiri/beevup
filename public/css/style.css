@@ -312,6 +312,10 @@ li.icon-type-post a.active{
     border-radius: 4px;
 }
 
+.post .post-title a{
+    color: inherit !important;
+}
+
 /* Hover popup info */
 .hover-info:hover > .popup-info{
     display: block;
