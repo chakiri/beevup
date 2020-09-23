@@ -18,24 +18,23 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Security\Core\Security;
 
 
 class CompanyType extends AbstractType
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('siret')
             ->add('introduction', TextType::class)
-
-            ->add('store', EntityType::class, [
-                'multiple'=>false,
-                'class' => Store::class,
-                'choice_label' =>'name',
-                'query_builder' => function (StoreRepository $storeRepository){
-                    return $storeRepository->getAllStoresQueryBuilder();
-                }
-            ])
             ->add('category', EntityType::class, [
                 'multiple'=>false,
                 'class' => CompanyCategory::class,
@@ -138,6 +137,23 @@ class CompanyType extends AbstractType
                 ]
             ])
         ;
+
+        if ($this->security->isGranted('ROLE_SUPER_ADMIN')){
+            $builder->add('store', EntityType::class, [
+                'multiple'=>false,
+                'class' => Store::class,
+                'choice_label' =>'name',
+            ]);
+        }else{
+            $builder->add('store', EntityType::class, [
+                'multiple'=>false,
+                'class' => Store::class,
+                'choice_label' =>'name',
+                'query_builder' => function (StoreRepository $storeRepository){
+                    return $storeRepository->getAllStoresQueryBuilder();
+                }
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
