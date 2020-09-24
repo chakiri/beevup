@@ -84,7 +84,7 @@ class FavoritController extends AbstractController
 
              public function deleteFavoritCompany(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $companyId)
              {
-               dump($companyId);
+
               $favorit =  $favoritRepo->findOneBy(['user' => $this->getUser(), 'company' => $companyId]);
               $manager->remove($favorit);
               $manager->flush();
