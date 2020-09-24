@@ -33,9 +33,13 @@
                                             </a>
                                         </li>
                                     {% else %}
-                                        <li>
-                                            <a href="#" title="" class="flww"> Ajouter au favoris</a>
-                                        </li>
+                                         <li><a href="#" title=""
+                                               class="flww add-favoris add-company-favoris {{ isFavorit }}"
+                                               data-company-id="{{  company.id }}"
+                                               data-target="{{path('favorit_company_add', {'companyId':company.id})}}"
+                                               data-delete="{{path('favorit_company_delete', {'companyId': company.id})}}"
+                                            >
+                                                {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}</a></li>
                                     {% endif %}
 
                                 </ul>

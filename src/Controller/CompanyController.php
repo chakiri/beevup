@@ -6,6 +6,7 @@ use App\Entity\Company;
 use App\Entity\Post;
 use App\Entity\UserType;
 use App\Repository\PostCategoryRepository;
+use App\Repository\FavoritRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -30,7 +31,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{slug}", name="company_show")
      */
-    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, ServiceRepository $servicesRepo)
+    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository,  ServiceRepository $servicesRepo)
     {
         $recommandations = $recommandationRepository->findBy(['company' => $company, 'status'=>'Validated']);
         $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
@@ -41,6 +42,11 @@ class CompanyController extends AbstractController
         }
 
         $services = $company->getServices()->toArray();
+        $isFavorit = "";
+        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'company'=>$company])) > 0)
+        {
+            $isFavorit = "is-favorit-profile text-warning";
+        }
 
         return $this->render('company/show.html.twig', [
             'company' => $company,
@@ -49,6 +55,7 @@ class CompanyController extends AbstractController
             'countServices' => count($services),
             'services' => array_slice($services, 0, 3),
             'score' => $score,
+            'isFavorit' => $isFavorit,
             'adviser'=>$adviser
         ]);
     }
