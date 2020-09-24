@@ -130,6 +130,13 @@
                                     <h3> Photos</h3>
                                     <div class="gallery_pf">
                                         <div class="row">
+                                            {% if service.filename %}
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                                    <div class="gallery_pt">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                    </div><!--gallery_pt end-->
+                                                </div>
+                                            {% endif %}
                                             {% if service.filename1 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
