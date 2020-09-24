@@ -256,7 +256,7 @@ class Profile implements \Serializable
 
     public function setIntroduction(?string $introduction): self
     {
-        $this->introduction = $introduction;
+        $this->introduction =str_replace("\r\n",'<br>', $introduction);
 
         return $this;
     }
