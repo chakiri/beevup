@@ -35,7 +35,7 @@
                                 <div class="suggestions-list">
                                     {%  if favoris  %}
                                         {% for favorit in favoris %}
-                                            <div class="suggestion-usd">
+                                            <div class="suggestion-usd favorit-user-{{ favorit.favoritUser.profile.id }}">
                                                 <div class="" style="float:left">
                                                     <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
                                                         {% if favorit.favoritUser.profile.filename is empty %}
@@ -90,20 +90,20 @@
                                 {% set users = items %}
                                 {% for user in users %}
                                 <div class="col-lg-3 col-md-3 col-sm-6">
-                                    <div class="company_profile_info">
+                                    <div class="company_profile_info  user-profile-{{user.profile.id  }}">
                                         <div class="company-up-info">
                                             <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                             {% if user.profile.filename is empty %}
-                                                <img src="http://via.placeholder.com/90x90" alt="">
+                                                <img class = "company-user-profile-img-{{ user.profile.id }}" src="http://via.placeholder.com/90x90" alt="">
                                             {% else  %}
-                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
+                                                <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
                                             {% endif %}
                                             </a>
-                                           <h3><a class="company-user" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
+                                           <h3><a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a></h3>
                                             {% if user.profile.function  %}
                                                 {% if user.company %}
                                                     <h4>{{ user.profile.function.name|capitalize }} chez
-                                                        <a  href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                                        <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug}) }}">
                                                             {{user.company.name|capitalize }}
                                                         </a>
                                                     </h4>
@@ -120,6 +120,7 @@
                                                     <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
                                                             class="fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
                                                             data-user-id ="{{ user.id }}"
+                                                            data-profile-id ="{{ user.profile.id }}"
                                                             data-target="{{path('favorit_add', {'userId':user.id})  }}"
                                                             data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
                                                         </i>
@@ -152,7 +153,7 @@
                                 {% for company in companies %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="company_profile_info">
-                                            <div class="company-up-info">
+                                            <div class="company-up-info ">
                                                 <a href="{{path('company_show', { 'slug': company.slug}) }}">
                                                     {% if company.filename is empty %}
                                                         <img src="http://via.placeholder.com/90x90" alt="">
@@ -168,8 +169,13 @@
                                                            class="fa  {% if company.id in favorisCompaniesIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
                                                            aria-hidden="true"
                                                            data-company-id ="{{ company.id }}"
+                                                           data-company-name="{{ company.name }}"
                                                            data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
                                                            data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
+                                                           data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
+                                                           data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
+                                                           data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
+                                                           data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile')}}{% endif %}"
                                                         ></i>
                                                     </li>
                                                 </ul>

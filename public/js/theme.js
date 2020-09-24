@@ -514,87 +514,9 @@ $('.abuse-reject').click(function () {
 })
 
 
-/** end report abuse */
-/**
-$( window ).resize(function() {
-  if ($(window).width() < 1024)
-  {
-    $('.post').children('.user-profil-photo').removeClass('col-1').addClass('col-2');
-    $('.post').children('.col-10').removeClass('col-10').addClass('col-9');
-
-    $('.page').children('.col-lg-3').removeClass('col-lg-3').removeClass('col-md-6').addClass('col-12 asid-section');
-    $('.page').children('.col-lg-9').removeClass('col-lg-9').removeClass('col-md-6').addClass('col-12 content-section');
-  
-    $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
-    $('.user-comment').children('.comment').removeClass('col-9').addClass('col-7');
-  }
-  else {
-    $('.post').children('.col-2').removeClass('col-2').addClass('col-1');
-    $('.post').children('.col-8').removeClass('col-8').addClass('col-9');
-
-    $('.page').children('.asid-section').removeClass('col-12').addClass('col-lg-3').addClass('col-md-6');
-    $('.page').children('.content-section').removeClass('col-12').addClass('col-md-9').addClass('col-md-6');
-  }
-});
-if ($(window).width() < 1024)
-{
-  $('.post').children('.user-profil-photo').removeClass('col-1').addClass('col-2');
-  $('.post').children('.col-10').removeClass('col-10').addClass('col-9');
-
-  $('.page').children('.col-lg-3').removeClass('col-lg-3').removeClass('col-md-6').addClass('col-12');
-  $('.page').children('.col-lg-9').removeClass('col-lg-9').removeClass('col-md-6').addClass('col-12');
-
-  $('.user-comment').children('.user-image').removeClass('col-1').addClass('col-2');
-  $('.user-comment').children('.comment').removeClass('col-9').addClass('col-8');
-}*/
-
-    $('.add-favoris').click(function() {
-        var url = '';
-        var userId = $(this).attr('data-user-id');
-
-        if ($(this).hasClass("text-warning")) {
-            url = $(this).attr('data-delete');
-            $('#result-user-item-' + userId).removeClass('text-warning').addClass('text-muted');
-            $('#result-user-item-' + userId).removeClass('fa-star').addClass('fa-star-o');
 
 
-            if( $('.profil-add-favoris').length) {
-                $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
-            }
 
-        } else {
-            url = $(this).attr('data-target');
-            $('#result-user-item-' + userId).removeClass('text-muted').addClass('text-warning');
-            $('#result-user-item-' + userId).removeClass('fa-star-o').addClass('fa-star');
-
-
-            if( $('.profil-add-favoris').length ) {
-                $('.profil-add-favoris').text('').append("Favoris");
-            }
-
-        }
-       $.get(url, function (data) {
-        });
-    });
-    $('.add-company-favoris').click(function() {
-        var url = '';
-        var companyId = $(this).attr('data-company-id');
-        if ($(this).hasClass("text-warning")) {
-            url = $(this).attr('data-delete');
-            $('#result-company-item-' + companyId).removeClass('text-warning').addClass('text-muted');
-            $('#result-company-item-' + companyId).removeClass('fa-star').addClass('fa-star-o');
-
-
-        } else {
-            url = $(this).attr('data-target');
-            $('#result-company-item-' + companyId).removeClass('text-muted').addClass('text-warning');
-            $('#result-company-item-' + companyId).removeClass('fa-star-o').addClass('fa-star');
-
-
-        }
-        $.get(url, function (data) {
-        });
-    });
 
 
     if($('#search_type').length > 0)
