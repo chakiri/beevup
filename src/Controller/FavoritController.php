@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Favorit;
 use App\Repository\UserRepository;
+use App\Repository\UserTypeRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,15 +58,16 @@ class FavoritController extends AbstractController
           * @Route("/favoritCompany/add/{companyId}", name="favorit_company_add")
           */
 
-          public function addFavoritCompany(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo,  $companyId)
+          public function addFavoritCompany(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo, UserTypeRepository $userTypeRepo,  $companyId)
           {
              $company =  $companyRepo->findOneBy(['id' => $companyId]);
-             $administratorEmail = $company->getEmail();
-             $user = $userRepo->findOneBy(['email' => $administratorEmail]);
+             $companyAdministratorType = $userTypeRepo->findOneBy(['id' => 3]);
+             $user = $userRepo->findOneBy(['company' =>  $company , 'type' => $companyAdministratorType]);
              $favorit =  new Favorit();
              $favorit->setUser($this->getUser())
                      ->setFavoritUser($user)
                      ->setCompany($company);
+
              $manager->persist($favorit);
              $manager->flush();
              $response = new Response(

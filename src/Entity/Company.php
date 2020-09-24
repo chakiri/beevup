@@ -618,5 +618,15 @@ class Company implements \Serializable
 
         return $this;
     }
+
+    /**
+     * get company administrator
+     */
+    public function getCompanyAdministrator() {
+        foreach ($this->users as $user){
+           if ( $user->getType()->getId() == 3) return $user;
+        }
+
+    }
     
 }
