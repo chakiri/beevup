@@ -99,7 +99,7 @@ class ServiceType extends AbstractType
                 ],
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false,
+                'required' => true,
                 'label' => 'Photo principale',
                 'attr'  => [
                     'placeholder' => 'Photo principale',
