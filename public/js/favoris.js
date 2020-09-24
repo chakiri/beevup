@@ -103,12 +103,21 @@ $('.add-company-favoris').click(function() {
         $('#result-company-item-' + companyId).removeClass('text-warning').addClass('text-muted');
         $('#result-company-item-' + companyId).removeClass('fa-star').addClass('fa-star-o');
         $('.favorit-user-'+selectedProfileId).remove();
+        if( $('.add-company-favoris').length) {
+            $('.add-company-favoris').removeClass('text-warning').addClass('text-muted');
+           $('.add-company-favoris').text('').append("Favoris");
+
+        }
 
 
     } else {
         url = $(this).attr('data-target');
         $('#result-company-item-' + companyId).removeClass('text-muted').addClass('text-warning');
         $('#result-company-item-' + companyId).removeClass('fa-star-o').addClass('fa-star');
+        if( $('.add-company-favoris').length) {
+            $('.add-company-favoris').removeClass('text-muted').addClass('text-warning');
+            $('.add-company-favoris').text('').append("Ajouter aux Favoris");
+        }
         if ($('.favorit-user-'+selectedProfileId).length == 0) {
             var addSelectUserToFavorisList = `
              <div class='suggestion-usd favorit-user-`+selectedProfileId+`'>
