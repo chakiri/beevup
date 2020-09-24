@@ -660,12 +660,22 @@ $('.btn-show-more').click(function () {
 
 });
 if($('.entity-description').length > 0 )
-{
-    if($('.entity-description').text() != '') {
-    var descriptionText = $('.entity-description').text().replace(/<br>/g, '\r\n');
-    $('.entity-description').val(descriptionText);
+    {
+        if($('.entity-description').text() != '') {
+            var descriptionText = $('.entity-description').text().replace(/<br>/g, '\r\n');
+            $('.entity-description').val(descriptionText);
+        }
     }
-}
+
+    if($('#profile_introduction').length > 0 )
+    {
+        if($('#profile_introduction').text() != '') {
+            var descriptionText = $('#profile_introduction').text().replace(/<br>/g, '\r\n');
+            $('#profile_introduction').val(descriptionText);
+        }
+    }
+
+
     /*function updateCoordinate(callback) {
 
         navigator.geolocation.getCurrentPosition(
