@@ -150,24 +150,26 @@
                                 </h3>
                                 {% if recommandations %}
                                     {% for recommandation in recommandations %}
-                                        <div class="suggestion-usd">
-                                            {% if recommandation.user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
-                                            {% else %}
-                                                <img src="http://via.placeholder.com/35x35" alt="">
-                                            {% endif %}
+                                        {% if recommandation.user.isValid == 1 %}
+                                            <div class="suggestion-usd">
+                                                {% if recommandation.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                                {% else %}
+                                                    <img src="http://via.placeholder.com/35x35" alt="">
+                                                {% endif %}
 
-                                            <div class="sgt-text">
-                                               <div class="hover-info">
-                                                <small>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</small>
-                                                   {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
-                                               </div>
-                                             </div>
-                                            <p style="float: left;width:85%" class="recommandation-message">
-                                                {{ recommandation.message  }}
-                                            </p>
+                                                <div class="sgt-text">
+                                                   <div class="hover-info">
+                                                    <small>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</small>
+                                                       {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
+                                                   </div>
+                                                 </div>
+                                                <p style="float: left;width:85%" class="recommandation-message">
+                                                    {{ recommandation.message  }}
+                                                </p>
 
-                                        </div>
+                                            </div>
+                                        {% endif %}
                                     {% endfor %}
                                 {% else %}
                                     <p>Soyez le premier à proposer une recommandation</p>
