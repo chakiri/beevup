@@ -21,6 +21,9 @@ $('.add-favoris').click(function() {
             $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
         }
         $('.favorit-user-'+selectedProfileId).remove();
+        if($('.suggestion-usd').length ==0){
+            $('.suggestions-list').append(` <div class="p-3"><p>Aucun favori</p></div>`);
+        }
 
     } else {
         /***** add to favoris  *****/
@@ -77,6 +80,9 @@ $('.add-favoris').click(function() {
                 </div>
                   </div>
              </div>`;
+            if($('.suggestion-usd').length ==0){
+                $('.p-3').remove();
+            }
             $('.suggestions-list').append(addSelectUserToFavorisList);
         }
 
@@ -103,7 +109,7 @@ $('.add-company-favoris').click(function() {
         $('#result-company-item-' + companyId).removeClass('text-warning').addClass('text-muted');
         $('#result-company-item-' + companyId).removeClass('fa-star').addClass('fa-star-o');
         $('.favorit-user-'+selectedProfileId).remove();
-        if( $('.add-company-favoris').length) {
+        if( $('#result-company-item-' + companyId).length ==0) {
             $('.add-company-favoris').removeClass('text-warning').addClass('text-muted');
            $('.add-company-favoris').text('').append("Favoris");
 
@@ -114,7 +120,7 @@ $('.add-company-favoris').click(function() {
         url = $(this).attr('data-target');
         $('#result-company-item-' + companyId).removeClass('text-muted').addClass('text-warning');
         $('#result-company-item-' + companyId).removeClass('fa-star-o').addClass('fa-star');
-        if( $('.add-company-favoris').length) {
+        if( $('#result-company-item-' + companyId).length ==0) {
             $('.add-company-favoris').removeClass('text-muted').addClass('text-warning');
             $('.add-company-favoris').text('').append("Ajouter aux Favoris");
         }
@@ -154,6 +160,9 @@ $('.add-company-favoris').click(function() {
                 </div>
                   </div>
              </div>`;
+            if($('.suggestion-usd').length ==0){
+                $('.p-3').remove();
+            }
             $('.suggestions-list').append(addSelectUserToFavorisList);
         }
 
