@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Store;
 use App\Form\StoreType;
 use App\Repository\CompanyRepository;
+use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\StoreRepository;
+use App\Repository\StoreServicesRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,24 +37,31 @@ class StoreController extends AbstractController
     /**
      * @Route("/store/{slug}", name="store_show")
      */
-    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository, GetCompanies $getCompanies)
+    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, RecommandationRepository $recommandationRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository, StoreServicesRepository $storeServicesRepository, GetCompanies $getCompanies)
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $localStores = $getCompanies->getLocalStores($store , $allCompanies);
         if ($getCompanies->isStoreInLocalStores($store, $localStores) == true || $this->getUser()->getStore() == $store ) {
             $users = $userRepository->findByStore($store);
             $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
-            $usersType = $userTypeRepository->findBy(['id' => array(1, 2, 4)]);
-            $storeUsers = $userRepository->findBy(['store' => $store, 'type' => $usersType]);
-            $services = $serviceRepository->findBy(['user' => $storeUsers]);
+            //$usersType = $userTypeRepository->findBy(['id' => array(1, 2, 4)]);
+            //$storeUsers = $userRepository->findBy(['store' => $store, 'type' => $usersType]);
+            //$services = $serviceRepository->findBy(['user' => $storeUsers]);
+            $services = [];
+            foreach ($store->getServices() as $service){
+                array_push($services, $service->getService());
+            }
 
+            $recommandationsServices = $recommandationRepository->findByStoreServices($store, 'Validated');
+            $recommandationsStore = $recommandationRepository->findByStoreWithoutServices($store, 'Validated');
 
             return $this->render('store/show.html.twig', [
                 'store' => $store,
                 'users' => $users,
                 'companies' => $companies,
                 'services' => $services,
-
+                'recommandationsServices' => $recommandationsServices,
+                'recommandationsStore' => $recommandationsStore
             ]);
         }else{
             return $this->redirectToRoute('page_not_found', []);

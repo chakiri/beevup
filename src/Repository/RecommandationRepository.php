@@ -49,7 +49,53 @@ class RecommandationRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    
+    public function findByStoreServices($store, $status)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.status = :status')
+            ->andWhere('r.store = :store')
+            ->andWhere('r.service is not null')
+            ->setParameters(array('status' => $status,'store' => $store))
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByStoreWithoutServices($store, $status)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.status = :status')
+            ->andWhere('r.store = :store')
+            ->andWhere('r.service is null')
+            ->setParameters(array('status' => $status,'store' => $store))
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByCompanyServices($company, $status)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.status = :status')
+            ->andWhere('r.company = :company')
+            ->andWhere('r.service is not null')
+            ->setParameters(array('status' => $status,'company' => $company))
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByCompanyWithoutServices($company, $status)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.status = :status')
+            ->andWhere('r.company = :company')
+            ->andWhere('r.service is null')
+            ->setParameters(array('status' => $status,'company' => $company))
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 
 
     // /**

@@ -47,6 +47,11 @@ class Recommandation
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Store::class)
+     */
+    private $store;
+
     public function __construct()
     {
         $this->createAt = new \Datetime();
@@ -129,4 +134,17 @@ class Recommandation
 
         return $this;
     }
+
+    public function getStore(): ?Store
+    {
+        return $this->store;
+    }
+
+    public function setStore(?Store $store): self
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
 }
