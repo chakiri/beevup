@@ -35,7 +35,7 @@
                     <div class="col-lg-6">
                         <div class="main-ws-sec">
                             <h4>Mes recommandations</h4>
-                            {% if is_granted('ROLE_ADMIN_COMPANY') and recommandations %}
+                            {% if recommandations %}
                                 {% for recommandation in recommandations %}
                                     <div id ="recommandation-{{recommandation.id}}" class="box">
                                         <div class="row">

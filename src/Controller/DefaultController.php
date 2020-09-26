@@ -149,8 +149,10 @@ class DefaultController extends AbstractController
         $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies);
 
         //Recommandations
-        if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles())){
-            $untreatedCompanyRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany(), 'status'=>'Open']);
+        if (in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())){
+            $untreatedRecommandations = $recommandationRepository->findBy(['store' => $this->getUser()->getStore(), 'status'=>'Open']);
+        }elseif (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles())){
+            $untreatedRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany(), 'status'=>'Open']);
         }
 
         //Admin Store
@@ -161,7 +163,7 @@ class DefaultController extends AbstractController
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,
-            'untreatedCompanyRecommandations' => $untreatedCompanyRecommandations ?? null,
+            'untreatedRecommandations' => $untreatedRecommandations ?? null,
             'adminStore'=> $adminStore[0] ?? null,
         ]);
     }

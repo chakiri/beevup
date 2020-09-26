@@ -19,19 +19,26 @@ class RecommandationType extends AbstractType
                'placeholder' => 'Message',
                'class'       =>'form-control form-message textArea-min-height'
                ]
-           ])
-           ->add('companyId', HiddenType::class, [
+            ])
+            ->add('service', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+                    'class'       =>'form-service'
+                ]
+            ])
+            ->add('company', HiddenType::class, [
             'mapped' => false,
             'attr'  => [
                 'class'       =>'form-company'
                 ]
-        ])
-            ->add('serviceId', HiddenType::class, [
+            ])
+            ->add('store', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
-                    'class'       =>'form-service'
-                    ]
-            ]);
+                    'class'       =>'form-store'
+                ]
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

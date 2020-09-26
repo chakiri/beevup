@@ -155,38 +155,48 @@
                             </div><!--main-ws-sec end-->
                         </div>
 
-                        <div class="col-lg-3">
-                            {% if collegues != null %}
+                        {% if profile.user.type.name != 'admin magasin' or profile.user.type.name != 'admin plateform' %}
+                            <div class="col-lg-3">
                                 <div class="suggestions full-width">
                                     <div class="sd-title page-title sign_in_sec current">
                                         <h3>Ils travaillent dans la même entreprise</h3>
-
                                     </div><!--sd-title end-->
                                     <div class="suggestions-list">
-                                        {% for collegue in collegues %}
-                                            <div class="suggestion-usd">
-
-                                                {% if collegue.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                {% else %}
-                                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                        {% if collegues %}
+                                            {% for collegue in collegues %}
+                                                {% if collegue != app.user %}
+                                                    <div class="suggestion-usd">
+                                                        {% if collegue.profile.filename %}
+                                                            <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                        {% else %}
+                                                            <img src="http://via.placeholder.com/170x170" alt="">
+                                                        {% endif %}
+                                                        <div class="sgt-text hover-info">
+                                                            <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
+                                                            {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+                                                            {% if collegue.profile.function != null %}
+                                                                <span>{{ collegue.profile.function.name|capitalize }}</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% elseif collegues|length == 1 and collegues[0] == app.user %}
+                                                    <div class="suggestion-usd">
+                                                        <p>Personne pour le moment</p>
+                                                    </div>
                                                 {% endif %}
-                                                <div class="sgt-text hover-info">
-                                                    <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
-                                                    {% if collegue.profile.function != null %}
-                                                        <span>{{ collegue.profile.function.name|capitalize }}</span>
-                                                    {% endif %}
-                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="suggestion-usd">
+                                                <p>Personne pour le moment</p>
                                             </div>
-                                        {% endfor %}
+                                        {% endif %}
                                         <div class="view-more p-3">
                                             <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
                                         </div>
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div><!-- main-section-data end-->
             </div>

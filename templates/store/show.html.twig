@@ -107,30 +107,106 @@
                                         <i class="la la-ellipsis-v"></i>
                                     </div>
                                     <div class="profiles-slider">
-                                        {% for service in services %}
-                                            <div class="user-profy">
+                                        <div class="row">
 
-                                                {% if service.filename %}
-                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                {% else %}
-                                                    <img src="http://via.placeholder.com/57x57" alt="">
-                                                {% endif %}
-                                                <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                <a href="#" title="">Voir plus</a>
-                                            </div><!--user-profy end-->
-                                        {% endfor %}
-
-                                    </div><!--profiles-slider end-->
-                                </div><!--top-profiles end-->
+                                            {% for service in services %}
+                                                <div class="col-4">
+                                                    <div class="user-profy">
+                                                        {% if service.filename %}
+                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                        {% else %}
+                                                            <img src="http://via.placeholder.com/57x57" alt="">
+                                                        {% endif %}
+                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
+                                                        <a href="#" title="">Voir plus</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
                             {% endif %}
 
+                            {% if store.isAdmin != true %}
+                                <div class="right">
+                                    {% if app.user.store != null %}
+                                        {% if app.user.profile.isCompleted == true  %}
+                                            {% if app.user.store == store and app.user.type.name != 'admin magasin' %}
+                                                <div class="message-btn">
+                                                    <a href="#" class="add-recommandation" title=""
+                                                       data-toggle="modal"
+                                                       data-target="{{ path('recommandation') }}"
+                                                       data-whatever="@getbootstrap"
+                                                       data-store="{{store.id}}">
+                                                        <i class="fas fa-thumbs-up"></i> Proposer une recommandation
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
 
+                            <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                <h3>
+                                    <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ store.name|capitalize }} </a>
+                                </h3>
+                                {% if recommandationsServices %}
+                                    {% for recommandationsService in recommandationsServices %}
+                                        <div class="suggestion-usd">
+                                            {% if recommandationsService.user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(recommandationsService.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                            {% else %}
+                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                            {% endif %}
 
+                                            <div class="sgt-text">
+                                                <div class="hover-info">
+                                                    <small>{{recommandationsService.user.profile.lastname|capitalize }} {{recommandationsService.user.profile.firstname|capitalize }}</small>
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
+                                                </div>
+                                            </div>
+                                            <p style="float: left;width:85%" class="recommandation-message">
+                                                {{ recommandationsService.message  }}
+                                            </p>
 
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Soyez le premier à proposer une recommandation</p>
+                                {% endif %}
+                            </div>
 
+                            <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                <h3>
+                                    <a href="#" title="" class="exp-bx-open">La communauté a recommandé {{ store.name|capitalize }} </a>
+                                </h3>
+                                {% if recommandationsStore %}
+                                    {% for recommandationStore in recommandationsStore %}
+                                        <div class="suggestion-usd">
+                                            {% if recommandationStore.user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(recommandationStore.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                            {% else %}
+                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                            {% endif %}
 
+                                            <div class="sgt-text">
+                                                <div class="hover-info">
+                                                    <small>{{recommandationStore.user.profile.lastname|capitalize }} {{recommandationStore.user.profile.firstname|capitalize }}</small>
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationStore.user} %}
+                                                </div>
+                                            </div>
+                                            <p style="float: left;width:85%" class="recommandation-message">
+                                                {{ recommandationStore.message  }}
+                                            </p>
+
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Soyez le premier à proposer une recommandation</p>
+                                {% endif %}
+                            </div>
                         </div>
-
                     </div><!--main-ws-sec end-->
                 </div>
 
@@ -138,9 +214,7 @@
                     <div class="right-sidebar">
                         <div class="sd-title page-title sign_in_sec current">
                             <h3>Notre équipe pour vous servir</h3>
-
                         </div><!--sd-title end-->
-
                         <div class="suggestions-list">
                             {%  for user in users %}
                                 {% if user.profile != null %}
@@ -164,14 +238,21 @@
                                 {% endif %}
                             {% endfor %}
                         </div><!--suggestions-list end-->
-
                     </div><!--suggestions end-->
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
-
-
+{% block modals %}
+    <div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {% include 'default/spinner.html.twig' %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

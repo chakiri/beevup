@@ -37,23 +37,27 @@ $('.recommandation-reject').click(function () {
 /* end Recommandation Approve and reject buttons*/
 
 /*Add new recommandation message */
-$('.add-recommandation').click(function () {
+$('.add-recommandation').click(function ()
+{
+    //Get data
+    var url = $(this).attr('data-target');
+    var serviceId = $(this).attr('data-service');
+    var companyId = $(this).attr('data-company');
+    var storeId = $(this).attr('data-store');
 
-    var companyId = 0 ;
-    var serviceId = 0;
-    var company = "" ;
+    //Open modal
     $('#recommandation').modal();
-    url = $(this).attr('data-target');
-    companyId = $(this).attr('data-company');
-    serviceId = $(this).attr('data-service');
-    company = $(this).attr('data-company');
+
     $.get(url, function (data) {
+        //Put the formulaire in modal content
         $('#recommandation .modal-content').html(data);
-        $('#recommandation .form-company').val(companyId);
+
+        //Insert data into hidden form
         $('#recommandation .form-service').val(serviceId);
-        $('#modal1').modal('open');
+        $('#recommandation .form-company').val(companyId);
+        $('#recommandation .form-store').val(storeId);
     });
-})
+});
 /*end new recommandation message */
 
 //popover display in show service
