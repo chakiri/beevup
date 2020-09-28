@@ -104,7 +104,7 @@
                                                       {% endif %}
                                                   </div>
                                                   <div class="">
-                                                      {% if nbRecommandations and service.user.company and nbRecommandations[service.id] > 0 %}
+                                                      {% if nbRecommandations and service.user.company and service.id in nbRecommandations|keys and nbRecommandations[service.id] > 0 %}
                                                           <i class="fa fa-star"></i> <small>{{ nbRecommandations[service.id] }}{% if nbRecommandations[service.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                       {% endif %}
                                                   </div>

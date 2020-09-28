@@ -111,21 +111,27 @@ class ServiceController extends AbstractController
                 $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service]));
                 $nbRecommandations[$service->getId()] = $nbRecommandation;
                 //Get nb Km between current user company and company service
-                $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $company, 'K');
-                $distances[$service->getId()] = $distance;
+                if ($this->getUser()->getCompany()){
+                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $company, 'K');
+                    $distances[$service->getId()] = $distance;
+                }
             }elseif ($service->getType()->getName() == 'store'){
                 $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service]));
                 $nbRecommandations[$service->getId()] = $nbRecommandation;
-                $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
-                $distances[$service->getId()] = $distance;
+                if ($this->getUser()->getCompany()) {
+                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
+                    $distances[$service->getId()] = $distance;
+                }
             }elseif ($service->getType()->getName() == 'plateform'){
                 //Get assocaition if exist
                 $storeService = $storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->getUser()->getStore()]);
                 if ($storeService){
                     $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $storeService->getStore(), 'service' => $service]));
                     $nbRecommandations[$service->getId()] = $nbRecommandation;
-                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
-                    $distances[$service->getId()] = $distance;
+                    if ($this->getUser()->getCompany()){
+                        $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
+                        $distances[$service->getId()] = $distance;
+                    }
                 }
             }
         }
