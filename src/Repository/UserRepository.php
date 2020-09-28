@@ -45,6 +45,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
                     ->leftJoin('u.profile', 'p')
                     ->where('p.isCompleted = true')
+                    ->andwhere('u.isValid = 1')
                     ->andWhere('u.company in (:companiesIds)')
                     ->setParameters(array('companiesIds'=>$companiesIds ));
 
@@ -67,6 +68,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
             ->where('u.store = :value1')
             ->andWhere('u.roles LIKE :value2')
+            ->andwhere('u.isValid = 1')
             ->setParameters(array('value1' => $store, 'value2' => '%"'.$role.'"%'));
         return $qb->getQuery()->getResult();
     }
@@ -76,6 +78,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.profile', 'p')
             ->where('u.store = :value1')
+            ->andwhere('u.isValid = 1')
             ->andWhere('u.type IN (:value2)')
             ->andWhere('p.firstname IS NOT NULL')
             ->setParameters(array('value1' => $store, 'value2'=> $result));
