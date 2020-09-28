@@ -150,6 +150,7 @@
                                 <h3>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ company.name|capitalize }} </a>
                                 </h3>
+
                                 {% if recommandationsServices %}
                                     {% for recommandationsService in recommandationsServices %}
                                         <div class="suggestion-usd">
@@ -196,6 +197,7 @@
                                                 {{ recommandationCompany.message  }}
                                             </p>
                                         </div>
+
                                     {% endfor %}
                                 {% else %}
                                     <p>Soyez le premier à proposer une recommandation</p>
