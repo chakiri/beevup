@@ -133,12 +133,12 @@
                                             <div class="company-infos-bloc">
                                                 <div class="company-infos-distance">
                                                     {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 %}
-                                                        <small>à {{ distances[user.company.id]|round }}Km</small>
+                                                        <i class="fa fa-road"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
                                                     {% endif %}
                                                 </div>
                                                 <div class="company-infos-reco">
                                                     {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
-                                                        <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                        <i class="fa fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                     {% endif %}
                                                 </div>
                                             </div>
