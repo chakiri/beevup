@@ -36,7 +36,7 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities)
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities, StoreServicesRepository $storeServicesRepository)
     {
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
         $services = $serviceRepository->findByLocalServices($allCompanies);
@@ -102,17 +102,31 @@ class ServiceController extends AbstractController
         //Get advisor of store
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
 
-        //Get informations from companies
+        //Get informations of services
         $nbRecommandations = [];
         $distances = [];
         foreach ($services as $service){
-            if ($service->getUser()->getCompany()) {
+            if ($service->getType()->getName() == 'company') {
                 //Get nb recommandations of each company
-                $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany()]));
-                $nbRecommandations[$company->getId()] = $nbRecommandation;
+                $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service]));
+                $nbRecommandations[$service->getId()] = $nbRecommandation;
                 //Get nb Km between current user company and company service
-                $distance = $communities->calculateDistanceBetween($service->getUser()->getCompany(), $this->getUser()->getCompany(), 'K');
+                $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $company, 'K');
                 $distances[$service->getId()] = $distance;
+            }elseif ($service->getType()->getName() == 'store'){
+                $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service]));
+                $nbRecommandations[$service->getId()] = $nbRecommandation;
+                $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
+                $distances[$service->getId()] = $distance;
+            }elseif ($service->getType()->getName() == 'plateform'){
+                //Get assocaition if exist
+                $storeService = $storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->getUser()->getStore()]);
+                if ($storeService){
+                    $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $storeService->getStore(), 'service' => $service]));
+                    $nbRecommandations[$service->getId()] = $nbRecommandation;
+                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
+                    $distances[$service->getId()] = $distance;
+                }
             }
         }
 
