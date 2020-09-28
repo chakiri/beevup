@@ -294,7 +294,7 @@ class SecurityController extends AbstractController
             }
 
             /****send welcome email *****/
-            $company = $companyRepository->findOneBy(['id'=>$user->getCompany()]);
+
             $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
             $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
             $message = (new \Swift_Message())
@@ -316,9 +316,12 @@ class SecurityController extends AbstractController
             $user->setIsValid(1);
 
             $manager->persist($user);
-            if($company != null) {
-                $company->setIsValid(true);
-                $manager->persist($company);
+            if($user->getCompany() != null) {
+                $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
+                if ($company != null) {
+                    $company->setIsValid(true);
+                    $manager->persist($company);
+                }
             }
             $manager->flush();
 
