@@ -128,53 +128,81 @@
 
                             </div>
 
-                            <div class="right">
-                                {% if company != null and app.user.company != null %}
-                                    {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                        <div class="message-btn">
-                                            <a href="#" class="add-recommandation" title=""
-                                               data-toggle="modal"
-                                               data-target="{{ path('recommandation') }}"
-                                               data-whatever="@getbootstrap"
-                                               data-company="{{company.id}}">
-                                                <i class="fas fa-thumbs-up"></i> Proposer une recommandation
-                                            </a>
-                                        </div>
+                            {% if company.store.isAdmin != true %}
+                                <div class="right">
+                                    {% if company != null and app.user.company != null %}
+                                        {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                                            <div class="message-btn">
+                                                <a href="#" class="add-recommandation" title=""
+                                                   data-toggle="modal"
+                                                   data-target="{{ path('recommandation') }}"
+                                                   data-whatever="@getbootstrap"
+                                                   data-company="{{company.id}}">
+                                                    <i class="fas fa-thumbs-up"></i> Proposer une recommandation
+                                                </a>
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            </div>
+                                </div>
+                            {% endif %}
 
                             <div class="user-profile-ov st2 page-title sign_in_sec current">
                                 <h3>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ company.name|capitalize }} </a>
                                 </h3>
-                                {% if recommandations %}
-                                    {% for recommandation in recommandations %}
-                                        {% if recommandation.user.isValid == 1 %}
-                                            <div class="suggestion-usd">
-                                                {% if recommandation.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
-                                                {% else %}
-                                                    <img src="http://via.placeholder.com/35x35" alt="">
-                                                {% endif %}
 
-                                                <div class="sgt-text">
-                                                   <div class="hover-info">
-                                                    <small>{{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</small>
-                                                       {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
-                                                   </div>
-                                                 </div>
-                                                <p style="float: left;width:85%" class="recommandation-message">
-                                                    {{ recommandation.message  }}
-                                                </p>
-
-                                            </div>
-                                        {% endif %}
+                                {% if recommandationsServices %}
+                                    {% for recommandationsService in recommandationsServices %}
+                                        <div class="suggestion-usd">
+                                            {% if recommandationsService.user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(recommandationsService.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                            {% else %}
+                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                            {% endif %}
+                                            <div class="sgt-text">
+                                               <div class="hover-info">
+                                                <small>{{recommandationsService.user.profile.lastname|capitalize }} {{recommandationsService.user.profile.firstname|capitalize }}</small>
+                                                   {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
+                                               </div>
+                                             </div>
+                                            <p style="float: left;width:85%" class="recommandation-message">
+                                                {{ recommandationsService.message  }}
+                                            </p>
+                                        </div>
                                     {% endfor %}
                                 {% else %}
                                     <p>Soyez le premier à proposer une recommandation</p>
                                 {% endif %}
-                            </div><!--user-profile-ov end-->
+                            </div>
+
+                            <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                <h3>
+                                    <a href="#" title="" class="exp-bx-open">La communauté a recommandé {{  company.name|capitalize }} </a>
+                                </h3>
+                                {% if recommandationsCompany %}
+                                    {% for recommandationCompany in recommandationsCompany %}
+                                        <div class="suggestion-usd">
+                                            {% if recommandationCompany.user.profile.filename %}
+                                                <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+                                            {% else %}
+                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                            {% endif %}
+                                            <div class="sgt-text">
+                                               <div class="hover-info">
+                                                <small>{{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}</small>
+                                                   {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationCompany.user} %}
+                                               </div>
+                                             </div>
+                                            <p style="float: left;width:85%" class="recommandation-message">
+                                                {{ recommandationCompany.message  }}
+                                            </p>
+                                        </div>
+
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Soyez le premier à proposer une recommandation</p>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,8 +241,8 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
+
 {% block modals %}
     <div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

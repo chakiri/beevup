@@ -241,10 +241,6 @@ class ServiceController extends AbstractController
         $companyId = null;
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
 
-        if(!is_null($service->getUser()->getCompany())) {
-            $company = $companyRepository->findOneById($service->getUser()->getCompany()->getId());
-            $companyId = $company->getId();
-        }
 
         //Get store Service if it's an association
         $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
@@ -264,7 +260,6 @@ class ServiceController extends AbstractController
             'service' => $service,
             'storeService' => $storeService,
             'adminStoreService' => $adminStoreService ?? null,
-            'companyId'  => $companyId,
             'similarServices' => $similarServices,
             'recommandations'=> $recommandations,
             'recommandationsCompany'=> $recommandationsCompany,
