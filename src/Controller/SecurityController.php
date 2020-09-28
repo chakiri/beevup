@@ -51,8 +51,7 @@ class SecurityController extends AbstractController
                 $userType = $userTypeRepository->findOneBy(['id' => 3]);
                 $userTypePatron = $userTypeRepository->findOneBy(['id' => 4]);
                 $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore()]);
-                //dump($user->getStore());dump( $userTypePatron);
-                //dump($storePatron); die();
+
 
                 $company->setSiret($form->get('company')->getData()->getSiret());
                 $company->setName($form->get('name')->getData());
@@ -283,7 +282,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer)
     {
 
 
@@ -295,7 +294,7 @@ class SecurityController extends AbstractController
             }
 
             /****send welcome email *****/
-
+            $company = $companyRepository->findOneBy(['id'=>$user->getCompany()]);
             $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
             $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
             $message = (new \Swift_Message())
@@ -314,8 +313,13 @@ class SecurityController extends AbstractController
             /*****end ******/
 
             $user->setResetToken(null);
-             $user->setIsValid(1);
+            $user->setIsValid(1);
+
             $manager->persist($user);
+            if($company != null) {
+                $company->setIsValid(true);
+                $manager->persist($company);
+            }
             $manager->flush();
 
 

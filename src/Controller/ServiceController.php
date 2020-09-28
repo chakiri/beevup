@@ -38,9 +38,9 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities)
     {
+
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
         $services = $serviceRepository->findByLocalServices($allCompanies);
-
         //Add related generic services of store
         $storeServices = $this->getUser()->getStore()->getServices();
         foreach ($storeServices as $storeService){
@@ -50,6 +50,8 @@ class ServiceController extends AbstractController
         if ($request->get('_route') == 'service_generic'|| $this->isGranted('ROLE_ADMIN_PLATEFORM')) {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
             $services = $serviceRepository->findByType($typeService);
+
+
         }
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findByIsDiscovery($allCompanies);
@@ -57,21 +59,28 @@ class ServiceController extends AbstractController
             foreach ($storeServices as $storeService){
                 if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());
             }
+
+
         }
         if ($company){
+
             $company = $companyRepository->findOneBy(['id' => $company]);
             $services =[];
             if (in_array($company->getId(), $allCompanies)) {
                 $services = $company->getServices();
+
             }
+
         }
         if ($store){
+
             $store = $storeRepository->findOneBy(['id' => $store]);
             $services = [];
             $storeServices = $store->getServices();
             foreach ($storeServices as $service){
                 array_push($services, $service->getService());
             }
+
         }
 
         if ($user) {
@@ -97,6 +106,7 @@ class ServiceController extends AbstractController
                 }
             }
             $user = null;
+
         }
 
         //Get advisor of store

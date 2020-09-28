@@ -86,6 +86,7 @@ class PostRepository extends ServiceEntityRepository
 
         $qb
             ->andWhere('p.status IS NULL')
+            ->orWhere('p.status = 1')
             ->orderBy('p.createdAt', 'DESC')
             ;
 

@@ -56,6 +56,7 @@ class ServiceRepository extends ServiceEntityRepository
         ;
 
         $q->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
           ->setParameter('companies', $allCompanies);
         $q->orderBy('s.createdAt', 'DESC');
 
@@ -72,6 +73,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('s.user', 'u')
             ->leftJoin('u.company', 'c')
             ->Where('c.id IN  (:companies)')
+            ->andWhere('c.isValid = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->addOrderBy('s.isDiscovery', 'DESC')
             ->setParameters(array('companies'=>$allCompanies))
@@ -86,6 +88,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('u.company', 'c')
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('companies'=>$allCompanies))
             ->getQuery()
@@ -99,6 +102,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('u.company', 'c')
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('companies'=>$allCompanies))
             ->setMaxResults(1)
@@ -112,6 +116,7 @@ class ServiceRepository extends ServiceEntityRepository
                 ->leftJoin('s.user', 'u')
                 ->leftJoin('u.company', 'c')
                 ->andWhere('s.type = :type')
+                ->andWhere('c.isValid = 1')
                 ->orderBy('s.createdAt', 'DESC')
                 ->setParameters(array('type'=> $type))
                 ->getQuery()
@@ -126,6 +131,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('u.company', 'c')
             ->Where('s.category = :category')
             ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
             ->andWhere('s.id != (:serviceID)')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('category'=> $category, 'companies'=>$allCompanies, 'serviceID'=>$serviceID))
