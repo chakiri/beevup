@@ -5,6 +5,7 @@ easy_admin:
         menu:
           - { entity: 'UserEntreprise', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_COMPANY'}
           - { entity: 'Store', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+          - { entity: 'Company', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
           - { entity: 'User', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_PLATEFORM'}
           - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
           - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
@@ -26,6 +27,23 @@ easy_admin:
 
     entities:
         # List the entity class name you want to manage
+        Company:
+            class: App\Entity\Company
+            controller: App\Controller\Admin\Company\CompanyController
+            disabled_actions: ['new','delete','edit']
+            label: 'Entreprises'
+            max_results: 20
+            list:
+              actions:
+                - { name: 'changeStatus', label: 'Activer/Désactiver', icon: 'pencil' }
+
+              fields:
+                  - { property: 'name', label: 'Nom' }
+                  - { property: 'siret', label: 'Siret' }
+                  - { property: 'email', label: 'Email' }
+                  - { property: 'phone', label: 'Phone' }
+                  - { property: 'city', label: 'City' }
+                  - { property: 'isValid', label: 'Active' }
         Store:
             class: App\Entity\Store
             controller: App\Controller\Admin\Store\StoreController
