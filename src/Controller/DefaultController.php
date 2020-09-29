@@ -131,9 +131,9 @@ class DefaultController extends AbstractController
      * @Route("/dashboard", name="dashboard")
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
-     * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
      * @Route("/dashboard/{category}/load_more/{minId}", name="dashboard_category_load_more")
      * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
+     * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
     */
     public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0)
     {
@@ -141,6 +141,7 @@ class DefaultController extends AbstractController
         $store = $this->getUser()->getStore();
         if ($category != null)
             $posts = $postRepository->findByCategory($category, $minId);
+
 
         elseif ($post != null) {
             $posts = [];

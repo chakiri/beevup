@@ -162,7 +162,7 @@ class PostController extends AbstractController
 
     }
 
- 
+
 
     /**
     * @Route("/post/{id}/edit", name="post_edit")
