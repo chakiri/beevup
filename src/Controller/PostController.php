@@ -162,17 +162,7 @@ class PostController extends AbstractController
 
     }
 
-    /**
-     * @Route("/posts/posts/{id}", name="load_more_posts")
-     */
-    public function loadMorePost(PostRepository $postReporsitory, $id){
-        $val2 = 1;
-        if($id >= 10) {
-            $val2 = $id - 10;
-        }
-        $posts =  $postReporsitory->findByIds($val2, $id);
-        return new JsonResponse($posts);
-    }
+ 
 
     /**
     * @Route("/post/{id}/edit", name="post_edit")
