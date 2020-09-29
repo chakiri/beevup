@@ -163,7 +163,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/posts/load-more-posts/{id}", name="load_more_posts")
+     * @Route("/posts/posts/{id}", name="load_more_posts")
      */
     public function loadMorePost(PostRepository $postReporsitory, $id){
         $val2 = 1;

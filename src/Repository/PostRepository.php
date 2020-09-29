@@ -79,16 +79,23 @@ class PostRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findByNotReportedPosts()
+    public function findByNotReportedPosts($minId)
     {
+
         //Get local content
         $qb = $this->findByStore();
 
+        if($minId !=0)
+            $qb->andWhere('p.id < :minId')
+                ->setParameter('minId', $minId);
+
         $qb
-            ->andWhere('p.status IS NULL')
-            ->orWhere('p.status = 1')
+            ->andWhere('p.status IS NULL or p.status = 1')
             ->orderBy('p.createdAt', 'DESC')
-            ;
+            ->setMaxResults(100)
+        ;
+
+
 
         return $qb
             ->getQuery()
@@ -96,16 +103,21 @@ class PostRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findByCategory($category)
+    public function findByCategory($category, $minId)
     {
         //Get local content
         $qb = $this->findByStore();
+
+        if($minId !=0)
+            $qb->andWhere('p.id < :minId')
+                ->setParameter('minId', $minId);
 
         $qb
             ->andWhere('p.status IS NULL')
             ->andWhere('p.category = :category')
             ->setParameter('category', $category)
             ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(100)
         ;
 
         return $qb

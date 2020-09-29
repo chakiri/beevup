@@ -16,6 +16,7 @@ use App\Service\GetCompanies;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\WelcomePopup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
@@ -23,6 +24,7 @@ use App\Repository\CommentRepository;
 use App\Repository\PostNotificationRepository;
 use App\Repository\PostLikeRepository;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class DefaultController extends AbstractController
 {
@@ -123,16 +125,23 @@ class DefaultController extends AbstractController
         ]);
     }
 
+
+
     /**
      * @Route("/dashboard", name="dashboard")
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
-     */
-    public function dashboard(PostCategory $category = null, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository)
+     * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
+     * @Route("/dashboard/{category}/load_more/{minId}", name="dashboard_category_load_more")
+     * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
+    */
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0)
     {
+
         $store = $this->getUser()->getStore();
         if ($category != null)
-            $posts = $postRepository->findByCategory($category);
+            $posts = $postRepository->findByCategory($category, $minId);
+
         elseif ($post != null) {
             $posts = [];
             if ($post->getUser()->getStore() == $store) {
@@ -140,7 +149,7 @@ class DefaultController extends AbstractController
             }
             $postNotificationSeen->set($post);
         }else
-            $posts = $postRepository->findByNotReportedPosts();
+            $posts = $postRepository->findByNotReportedPosts($minId);
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
         //$lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
@@ -159,13 +168,33 @@ class DefaultController extends AbstractController
         $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
         $adminStore = $userRepository->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
 
-        return $this->render('default/dashboardv1.html.twig', [
-            'posts' => $posts,
-            'publicity' => $publicity,
-            'lastSpecialOffer' => $lastSpecialOffer,
-            'untreatedRecommandations' => $untreatedRecommandations ?? null,
-            'adminStore'=> $adminStore[0] ?? null,
-        ]);
+        $firstPost =  end($posts);
+        /*if ($firstPost == false )
+            $minPostId = 'undefined';
+                else
+                    $minPostId =$firstPost->getId();*/
+        $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();
+        if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
+
+            return $this->render('default/posts/posts.html.twig', [
+                'posts' => $posts,
+                'publicity' => $publicity,
+                'lastSpecialOffer' => $lastSpecialOffer,
+                'untreatedRecommandations' => $untreatedRecommandations ?? null,
+                'adminStore'=> $adminStore[0] ?? null,
+                'minPostId' => $minPostId
+            ]);
+        }
+        else {
+            return $this->render('default/dashboardv1.html.twig', [
+                'posts' => $posts,
+                'publicity' => $publicity,
+                'lastSpecialOffer' => $lastSpecialOffer,
+                'untreatedRecommandations' => $untreatedRecommandations ?? null,
+                'adminStore' => $adminStore[0] ?? null,
+                'minPostId' => $minPostId
+            ]);
+        }
     }
 
     /**
@@ -222,6 +251,8 @@ class DefaultController extends AbstractController
 
         return $this->json($popup);
     }
+
+
 
 
 }

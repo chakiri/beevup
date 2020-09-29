@@ -37,6 +37,8 @@ easy_admin:
               actions:
                 - { name: 'changeStatus', label: 'Activer/Désactiver', icon: 'pencil' }
 
+
+
               fields:
                   - { property: 'name', label: 'Nom' }
                   - { property: 'siret', label: 'Siret' }
