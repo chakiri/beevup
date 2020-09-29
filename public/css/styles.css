@@ -2944,6 +2944,11 @@ a:hover {
 }
 .add-company-favoris.is-favorit-profile.text-muted{color:#cb5200 !important}
 .custom-control-label {color: #000;}
+.load-more-posts-section{
+    text-align: center;
+    color: #ccc;
+}
+
 /**********end************/
 
 

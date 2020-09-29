@@ -786,5 +786,28 @@ if($('.entity-description').length > 0 )
 
     }*/
 
+
+
+    /***********load more posts************/
+
+
+
+
+    $('body').on('click', '.load-more-posts-section', function () {
+        var minPostId = $(this).attr('data-first-post');
+        var pathNameUrl  = window.location.pathname;
+        url = pathNameUrl+'/load_more/'+minPostId;
+
+
+        $('.load-more-posts-section').remove();
+        if(minPostId != 'undefined') {
+            $.get(url, function (data) {
+                $('#postsbox').append(data);
+
+            });
+        }
+
+    })
+
     })(jQuery);
 
