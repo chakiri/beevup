@@ -169,10 +169,6 @@ class DefaultController extends AbstractController
         $adminStore = $userRepository->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
 
         $firstPost =  end($posts);
-        /*if ($firstPost == false )
-            $minPostId = 'undefined';
-                else
-                    $minPostId =$firstPost->getId();*/
         $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();
         if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
 
