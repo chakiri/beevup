@@ -643,7 +643,7 @@ $('#display-opportunity-offer').click(function(){
     {
         $('.post-add-comment').removeClass('col-10').addClass('col-8');
     }
-    $('#chatPlateform').parent('body').addClass('white-bg');
+    //$('#chatPlateform').parent('body').addClass('white-bg');
 
 
 /*fix responsive issues*/

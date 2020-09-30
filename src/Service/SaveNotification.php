@@ -63,9 +63,9 @@ class SaveNotification
             $nbMessages++;
 
             $notification->setNbMessages($nbMessages);
-        }
 
-        $this->manager->persist($notification);
+            $this->manager->persist($notification);
+        }
 
         $this->manager->flush();
     }

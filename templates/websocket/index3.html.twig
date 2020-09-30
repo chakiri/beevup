@@ -44,12 +44,14 @@
                             <li class="channels{% if topic.name == subject %} active {% endif %}">
                                 <a data-channel={{ topic.name }} href='{{ path('chat_topic', {'name': topic.name}) }}'>
                                     <strong>
-                                        <div class="meta">
-                                            {#<span>#</span> #}
-                                            <p>{{ topic.name|capitalize }}</p>
-                                        </div>
-                                        <div class="wrap notifications">
-                                            <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span>
+                                        <div class="wrap">
+                                            <div class="notifications">
+                                                <span class="badge badge-primary badge-pill">{% if notificationsTopics[topic.name] is defined and notificationsTopics[topic.name] != 0 %}{{ notificationsTopics[topic.name] }}{% endif %}</span>
+                                            </div>
+                                            <div class="meta">
+                                                {#<span>#</span> #}
+                                                <p>{{ topic.name|capitalize }}</p>
+                                            </div>
                                         </div>
                                     </strong>
                                 </a>
@@ -72,10 +74,31 @@
                     <h4>Contacts</h4>
                     <small class="ml-2">Ajouter un contact depuis la page <a href="{{ path('search') }}">Communauté</a></small>
                     <ul class="users">
+                        {% if user %}
+                            <li class="contact{% if user.id == subject %} active {% endif %}">
+                                <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
+                                    <div class="wrap">
+                                        <div class="notifications">
+                                            <span class="badge badge-primary badge-pill">{% if notificationsUsers[user.id] is defined and notificationsUsers[user.id] != 0 %}{{ notificationsUsers[user.id] }}{% endif %}</span>
+                                        </div>
+                                        {% if user.profile.filename %}
+                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
+                                        {% else %}
+                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                        {% endif %}
+                                        <div class="meta">
+                                            <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
+                                            <p class="preview"><small>{{ user.company }}</small></p>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
                         {% set currentUser = user %}
                         {% if users is not empty %}
                             {% for user in users %}
-                                {% if user != app.user  %}
+                                {% if user != app.user and user != currentUser %}
                                     <li class="contact{% if user.id == subject %} active {% endif %}">
                                         <a href="{{ path('chat_private', {'id': user.id}) }}" data-channel={{ user.id }}>
                                             <div class="wrap">

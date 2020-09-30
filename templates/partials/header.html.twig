@@ -69,7 +69,7 @@
                                                     <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 {% endif %}
                                                 <small class="pt-2">
-                                                    {{ notification.receiver.profile.firstname|capitalize }} vous a envoyé un message
+                                                    {{ notification.receiver.profile.firstname|capitalize }} vous a envoyé {{ notification.nbMessages }} messages
                                                 </small>
                                             {% else %}
                                                 <img src="/images/default/channel.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
