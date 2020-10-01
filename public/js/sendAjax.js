@@ -32,9 +32,10 @@ function sender() {
 }
 
 //Function ajax to send data to php for saving not seeied messages
-function saveNotification(subject){
+function saveNotification(subject) {
     var user = document.getElementById("chatPlateform").dataset.from;
     var url = document.getElementById("chatPlateform").dataset.url;
+
     $.ajax({
         type: 'post',
         url: url,
@@ -42,9 +43,14 @@ function saveNotification(subject){
             user: user,
             subject: subject
         },
-        success: function (response) {
+        success: function () {
             console.log('notify ajax success');
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+            console.log(xhr.status);
+            console.log(thrownError);
         }
     });
 
+    return false;
 }

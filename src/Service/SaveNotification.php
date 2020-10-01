@@ -28,7 +28,7 @@ class SaveNotification
         $this->topicRepository = $topicRepository;
     }
 
-    public function save($userid, $subject, $nbNotifications = null)
+    public function save($userid, $subject, $nbNotifications)
     {
         $user = $this->userRepository->find($userid);
 
@@ -57,12 +57,10 @@ class SaveNotification
             $this->manager->persist($notification);
         }else{
             //Problem nbNotif not update
-            if (isset($nbNotifications)) $nbMessages = $nbNotifications;
-            else $nbMessages = $notification->getNbMessages();
+            /*if ($nbNotifications != null) $nbMessages = $nbNotifications;
+            else $nbMessages = $notification->getNbMessages();*/
 
-            $nbMessages++;
-
-            $notification->setNbMessages($nbMessages);
+            $notification->setNbMessages($nbNotifications + 1);
 
             $this->manager->persist($notification);
         }

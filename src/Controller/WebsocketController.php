@@ -15,6 +15,7 @@ use App\Service\SaveNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WebsocketController extends AbstractController
@@ -164,15 +165,29 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(SaveNotification $saveNotification)
+    public function saveNotification(SaveNotification $saveNotification, UserRepository $userRepository, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository)
     {
-        $user = $_POST['user'];
+
+        $userid = $_POST['user'];
         $subject = $_POST['subject'];
 
-        //Add notification to user
-        $saveNotification->save($user, $subject);
+        $user = $userRepository->find($userid);
 
-        return $this->json('save notification');
+        //If subject is user
+        if (ctype_digit($subject) == true)   {
+            $receiver = $userRepository->findOneBy(['id' => $subject]);
+            $notification = $messageNotificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
+        }else{
+            $topic = $topicRepository->findOneBy(['name' => $subject]);
+            $notification = $messageNotificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        }
+
+        //Add notification to user
+        $saveNotification->save($user, $subject, $notification ? $notification->getNbMessages() : null);
+
+        $response = new Response(json_encode($notification));
+
+        return $response;
     }
 
     /**
