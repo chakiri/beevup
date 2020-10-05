@@ -2948,7 +2948,9 @@ a:hover {
     text-align: center;
     color: #ccc;
 }
-
+#map{
+    height:300px;
+}
 /**********end************/
 
 
