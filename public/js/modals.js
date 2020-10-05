@@ -229,7 +229,7 @@ var stepsNewService = [
     },
     {
         element: "#isDiscovery",
-        intro: "<small>Le meilleur moyen ….​</small>",
+        intro: "<small>Mettez en avant vos services et votre entreprise en proposant une offre dédiée à la communauté (promotion, essai, devis gratuit, ...)</small>",
         position: 'right',
     },
 ];
