@@ -77,7 +77,7 @@
                                                 {% if storeService %}
                                                     {% if not is_granted('ROLE_ADMIN_STORE') %}
                                                         <div class="btn white-bg">
-                                                            <a href="{{ path('chat_private', {'id': adminStoreService.id}) }}" title="">Contacter {{ adminStoreService.profile.lastname }}</a>
+                                                            <a href="{{ path('chat_private', {'id': adminStoreService.id}) }}" title="">Contacter {{ adminStoreService.profile.firstname }} {{ adminStoreService.profile.lastname }}</a>
                                                         </div>
                                                     {% endif %}
                                                 {% else %}

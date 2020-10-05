@@ -127,7 +127,7 @@
                         {% if app.user.company != null %}
                             <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                         {% if is_granted('ROLE_ADMIN_COMPANY') %}
                             {% if app.user.company.isCompleted == true %}
                                 {#<li><a href='{{ path('subscription') }}'>Abonnements</a></li>#}
                                 <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserEntreprise'>Administration</a></li>
