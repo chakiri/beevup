@@ -99,32 +99,12 @@ class WebsocketController extends AbstractController
         //Get current user
         $user = $this->getUser();
 
-
-        /* !!! Send notifs from here because after in the websocket data is not updated */
-        $entryNotifs = [];
-        //Get notifs receiver for private message
-        if (ctype_digit($subject)){
-            $notifications = $notificationRepository->findOneBy(['user' => $subject, 'receiver' => $from]);
-            $nbMessages = $notifications ? $notifications->getNbMessages() : null;
-        }else{
-            //Get nb messages of all users notifications of topic
-            $topic = $topicRepository->findOneBy(['name' => $subject]);
-            $notifsAllUsersOfTopic = $notificationRepository->findBy(['topic' => $topic]);
-            foreach ($notifsAllUsersOfTopic as $notifsUser){
-                $entryNotifs[$notifsUser->getUser()->getId()] = $notifsUser->getNbMessages();
-            }
-        }
-        /* !!! End fix problème */
-
-
         $entryData = [
             'user' => $user->getProfile()->getFirstname(),
             'from' => $from,
             'subject' => $subject,
             'message' => $content,
             'isprivate' => $isPrivate,
-            'nbNotifications' => $nbMessages ?? null,
-            'entryNotifs' => $entryNotifs
         ];
 
         //Send data by ZMQ transporter to the Wamp server
@@ -148,14 +128,10 @@ class WebsocketController extends AbstractController
 
         $user = $userRepository->find($userid);
 
-        $notification = $saveNotification->getNotification($user, $subject);
-
         //Add notification to user
-        $saveNotification->save($user, $subject, $notification ? $notification->getNbMessages() : null);
+        $saveNotification->save($user, $subject);
 
-        $response = new Response(json_encode($notification));
-
-        return $response;
+        return $this->json($userid);
     }
 
     /**

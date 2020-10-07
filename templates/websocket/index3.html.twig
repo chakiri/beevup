@@ -28,13 +28,25 @@
                 </div>#}
 
                 {# Get nb of notifications by topic#}
-                {% set notificationsTopics = {} %}
+                {#{% set notificationsTopics = {} %}
                 {% for topic in topics %}
                     {% for notification in notifications %}
                         {% if notification.topic != null and notification.topic.name == topic.name %}
                             {% set notificationsTopics = notificationsTopics|merge({ (topic.name) : notification.nbMessages }) %}
                         {% endif %}
                     {% endfor %}
+                {% endfor %}#}
+
+                {# Get nb of notifications by user#}
+                {% set notificationsTopics = {} %}
+                {% for topic in topics %}
+                    {% set nbNotificationsTopic = 0 %}
+                    {% for notification in notifications %}
+                        {% if notification.topic != null and notification.topic.name == topic.name %}
+                            {% set nbNotificationsTopic = nbNotificationsTopic + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set notificationsTopics = notificationsTopics + {(topic.name): nbNotificationsTopic} %}
                 {% endfor %}
 
                 <div id="channels">
@@ -61,13 +73,25 @@
                 </div>
 
                 {# Get nb of notifications by user#}
-                {% set notificationsUsers = {} %}
+                {#{% set notificationsUsers = {} %}
                 {% for user in users %}
                     {% for notification in notifications %}
                         {% if notification.receiver != null and notification.receiver.id == user.id %}
                             {% set notificationsUsers = notificationsUsers + {(user.id): notification.nbMessages} %}
                         {% endif %}
                     {% endfor %}
+                {% endfor %}#}
+
+                {# Get nb of notifications by user#}
+                {% set notificationsUsers = {} %}
+                {% for user in users %}
+                    {% set nbNotificationsUser = 0 %}
+                    {% for notification in notifications %}
+                        {% if notification.receiver != null and notification.receiver.id == user.id %}
+                            {% set nbNotificationsUser = nbNotificationsUser + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set notificationsUsers = notificationsUsers + {(user.id): nbNotificationsUser} %}
                 {% endfor %}
 
                 <div id="contacts">

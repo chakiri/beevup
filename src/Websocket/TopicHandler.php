@@ -59,22 +59,18 @@ class TopicHandler implements WampServerInterface
     public function onMessage($entry) {
         $entryData = json_decode($entry, true);
 
-        //Remove last element which is the list of nbMessages of notifications of all users
-        $data = $entryData;
-        unset($data['entryNotifs']);
-
         //If it's private chat
         if ($entryData['isprivate'] == true){
             foreach ($this->subscribed as $key => $user) {
                 //If reciever is connected
                 //Send it also to proper user
                 if ($key == $entryData['subject'] || $key == $entryData['from']){
-                    $user->broadcast($data);
+                    $user->broadcast($entryData);
                 }
             }
             //Save notif if user not connected
             if (!array_key_exists($entryData['subject'], $this->subscribed)){
-                $this->saveNotification->save($entryData['subject'], $entryData['from'], $entryData['nbNotifications']);
+                $this->saveNotification->save($entryData['subject'], $entryData['from']);
             }
         }else{
             // If the lookup topic object isn't set there is no one to publish to
@@ -89,7 +85,7 @@ class TopicHandler implements WampServerInterface
             foreach ($this->subscribed as $key => $user){
                 //Send only to user not topics
                 if (/*$key != $entryData['subject'] && */is_int($key) == true){
-                    $user->broadcast($data);
+                    $user->broadcast($entryData);
                 }
             }
 
@@ -98,9 +94,7 @@ class TopicHandler implements WampServerInterface
             //If user not connected to channel send notification
             foreach ($users as $user){
                 if (!array_key_exists($user->getId(), $this->subscribed)){
-                    //Get nbMessages of users topic sent from controller because here, get data is not updated
-                    $nbMessages = $entryData['entryNotifs'][$user->getId()];
-                    $this->saveNotification->save($user->getId(), $entryData['subject'], $nbMessages);
+                    $this->saveNotification->save($user->getId(), $entryData['subject']);
                 }
             }
         }

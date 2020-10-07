@@ -60,21 +60,25 @@
                             </a>
                             <div class="dropdown-menu">
                                 {% if messagesNotifications|length > 0 %}
-                                    {% for notification in messagesNotifications %}
-                                        <a class="dropdown-item d-flex" {% if notification.receiver %}href="{{ path('chat_private', {'id': notification.receiver.id}) }}"{% else %}href="{{ path('chat_topic', {'name': notification.topic.name}) }}"{% endif %}>
-                                            {% if notification.receiver %}
-                                                {% if notification.receiver.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(notification.receiver.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                                {% else %}
-                                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                                {% endif %}
-                                                <small class="pt-2">
-                                                    {{ notification.receiver.profile.firstname|capitalize }} vous a envoyé {{ notification.nbMessages }} messages
-                                                </small>
+                                    {% for key,notification in messagesNotifications %}
+                                        <a class="dropdown-item d-flex" {% if key matches '/^\\d+$/' %}href="{{ path('chat_private', {'id': key}) }}"{% else %}href="{{ path('chat_topic', {'name': key}) }}"{% endif %}>
+                                            {% if key matches '/^\\d+$/' %}
+                                                {% for user in users %}
+                                                    {% if key == user.id %}
+                                                        {% if user.profile.filename %}
+                                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                        {% else %}
+                                                            <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                        {% endif %}
+                                                        <small class="pt-2">
+                                                            {{ user.profile.firstname|capitalize }} vous a envoyé {{ notification }} messages
+                                                        </small>
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% else %}
                                                 <img src="/images/default/channel.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 <small class="pt-2">
-                                                    Vous avez {{ notification.nbMessages }} messages dans {{ notification.topic.name|capitalize }}
+                                                    Vous avez {{ notification }} messages dans {{ key|capitalize }}
                                                 </small>
                                             {% endif %}
                                         </a>

@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EmptyMessageNotification
 {
-
     private $manager;
 
     private $messageNotificationRepository;
@@ -24,16 +23,16 @@ class EmptyMessageNotification
     public function empty($user, $subject)
     {
         if ($subject instanceof Topic){
-            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'topic' => $subject]);
+            $notifications = $this->messageNotificationRepository->findBy(['user' => $user, 'topic' => $subject]);
 
         }elseif ($subject instanceof User){
-            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'receiver' => $subject]);
+            $notifications = $this->messageNotificationRepository->findBy(['user' => $user, 'receiver' => $subject]);
         }
 
-        if ($notification){
-            $notification->zeroNbMessages();
-
-            $this->manager->persist($notification);
+        if ($notifications){
+            foreach ($notifications as $notification){
+                $this->manager->remove($notification);
+            }
             $this->manager->flush();
         }
 

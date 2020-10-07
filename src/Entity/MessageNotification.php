@@ -23,11 +23,6 @@ class MessageNotification
     private $user;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nbMessages;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -57,18 +52,6 @@ class MessageNotification
         return $this;
     }
 
-    public function getNbMessages()
-    {
-        return $this->nbMessages;
-    }
-
-    public function setNbMessages($nbMessages): self
-    {
-        $this->nbMessages = $nbMessages;
-
-        return $this;
-    }
-
     public function getReceiver(): ?User
     {
         return $this->receiver;
@@ -91,20 +74,6 @@ class MessageNotification
         $this->topic = $topic;
 
         return $this;
-    }
-
-    public function incrementNbMessages()
-    {
-        $this->nbMessages = ++$this->nbMessages;
-
-        return $this->nbMessages;
-    }
-
-    public function zeroNbMessages()
-    {
-        $this->nbMessages = 0;
-
-        return $this->nbMessages;
     }
 
 
