@@ -10,6 +10,7 @@ use App\Entity\TopicType;
 use App\Entity\User;
 use App\Repository\TopicRepository;
 use App\Repository\TopicTypeRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -23,12 +24,15 @@ class TopicHandler
 
     private $topicTypeRepository;
 
-    public function __construct(Security $security, TopicRepository $topicRepository, TopicTypeRepository $topicTypeRepository, EntityManagerInterface $manager)
+    private $userRepository;
+
+    public function __construct(Security $security, TopicRepository $topicRepository, TopicTypeRepository $topicTypeRepository, UserRepository $userRepository, EntityManagerInterface $manager)
     {
         $this->user = $security->getUser();
         $this->manager = $manager;
         $this->topicRepository = $topicRepository;
         $this->topicTypeRepository = $topicTypeRepository;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -108,5 +112,10 @@ class TopicHandler
         $this->manager->persist($user);
 
         $this->manager->flush();
+    }
+
+    public function getUsersByTopic($topicName)
+    {
+        return $this->userRepository->findByTopic($topicName);
     }
 }

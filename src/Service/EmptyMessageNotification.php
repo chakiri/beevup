@@ -31,7 +31,7 @@ class EmptyMessageNotification
         }
 
         if ($notification){
-            $notification->setNbMessages(0);
+            $notification->zeroNbMessages();
 
             $this->manager->persist($notification);
             $this->manager->flush();

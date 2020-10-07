@@ -93,5 +93,19 @@ class MessageNotification
         return $this;
     }
 
+    public function incrementNbMessages()
+    {
+        $this->nbMessages = ++$this->nbMessages;
+
+        return $this->nbMessages;
+    }
+
+    public function zeroNbMessages()
+    {
+        $this->nbMessages = 0;
+
+        return $this->nbMessages;
+    }
+
 
 }

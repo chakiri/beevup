@@ -265,7 +265,7 @@ class SecurityController extends AbstractController
 
             if ($request->get('_route')=='security_new_account') {
 
-                $this->addFlash('success', 'Bienvenue à Beeveup');
+                $this->addFlash('success', 'Bienvenue à Beevup');
             } else {
                 $this->addFlash('success', 'Le mot de passe a été modifié');
             }

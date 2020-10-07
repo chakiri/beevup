@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Entity\MessageNotification;
+use App\Entity\User;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
@@ -13,36 +14,47 @@ class SaveNotification
 {
     private $manager;
 
-    private $notificationRepository;
-
     private $userRepository;
 
     private $topicRepository;
 
+    private $messageNotificationRepository;
 
-    public function __construct(EntityManagerInterface $manager, MessageNotificationRepository $notificationRepository, UserRepository $userRepository, TopicRepository $topicRepository)
+
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository)
     {
         $this->manager= $manager;
-        $this->notificationRepository = $notificationRepository;
         $this->userRepository = $userRepository;
         $this->topicRepository = $topicRepository;
+        $this->messageNotificationRepository = $messageNotificationRepository;
+    }
+
+    public function getNotification($user, $subject)
+    {
+        if (!$user instanceof User){
+            $user = $this->userRepository->findOneBy(['id' => $user]);
+        }
+        //If subject is user
+        if (ctype_digit($subject) == true)   {
+            $receiver = $this->userRepository->findOneBy(['id' => $subject]);
+            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
+        }else{
+            $topic = $this->topicRepository->findOneBy(['name' => $subject]);
+            $notification = $this->messageNotificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
+        }
+
+        return $notification;
     }
 
     public function save($userid, $subject, $nbNotifications)
     {
         $user = $this->userRepository->find($userid);
 
+        $notification = $this->getNotification($user, $subject);
+
         //If subject is user
-        if (ctype_digit($subject) == true)   {
-            $receiver = $this->userRepository->findOneBy(['id' => $subject]);
-            $notification = $this->notificationRepository->findOneBy(['user' => $user, 'receiver' => $receiver]);
-            $topic = null;
-        }else{
-            //Find subject
-            $topic = $this->topicRepository->findOneBy(['name' => $subject]);
-            $notification = $this->notificationRepository->findOneBy(['user' => $user, 'topic' => $topic]);
-            $receiver = null;
-        }
+        if (ctype_digit($subject) == true) $topic = null;
+        else $receiver = null;
 
         if (!$notification){
             $notification = new MessageNotification();
@@ -56,10 +68,6 @@ class SaveNotification
 
             $this->manager->persist($notification);
         }else{
-            //Problem nbNotif not update
-            /*if ($nbNotifications != null) $nbMessages = $nbNotifications;
-            else $nbMessages = $notification->getNbMessages();*/
-
             $notification->setNbMessages($nbNotifications + 1);
 
             $this->manager->persist($notification);
