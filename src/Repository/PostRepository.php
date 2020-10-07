@@ -137,4 +137,13 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
+
+    public function findPostRelatedToService($Service){
+        return $this->createQueryBuilder('p')
+            ->where("p.relatedTo = :serviceId and p.relatedToType = 'Service'")
+            ->setParameter('serviceId', $Service->getId())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }
