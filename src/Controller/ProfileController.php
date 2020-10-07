@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Repository\PostCategoryRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
+use App\Service\AutmaticPost;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +61,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost)
     {
 
         if($profile->getUser() == $this->getUser()) {
@@ -67,7 +69,15 @@ class ProfileController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $isCompleted = $profile->getIsCompleted();
 
+                if(!$isCompleted){
+
+                    /*******Add automatic post***/
+                     $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                     $autmaticPost->Add("Bienvenue au ".$profile->getFirstname()." ".$profile->getLastname(), $profile->getIntroduction(), $category, $profile->getId(), 'User');
+
+                }
                 $profile->setIsCompleted(true);
 
                 $manager->persist($profile);

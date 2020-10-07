@@ -109,6 +109,16 @@ class Post implements \Serializable
      */
     private $imageLink;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $relatedTo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $relatedToType;
+
      public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -415,6 +425,30 @@ class Post implements \Serializable
     public function setImageLink($imageLink)
     {
         $this->imageLink = $imageLink;
+    }
+
+    public function getRelatedTo(): ?int
+    {
+        return $this->relatedTo;
+    }
+
+    public function setRelatedTo(?int $relatedTo): self
+    {
+        $this->relatedTo = $relatedTo;
+
+        return $this;
+    }
+
+    public function getRelatedToType(): ?string
+    {
+        return $this->relatedToType;
+    }
+
+    public function setRelatedToType(?string $relatedToType): self
+    {
+        $this->relatedToType = $relatedToType;
+
+        return $this;
     }
 
 

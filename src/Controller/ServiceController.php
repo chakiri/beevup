@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Entity\Service;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
+use App\Repository\PostCategoryRepository;
+use App\Repository\PostRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
@@ -17,6 +20,7 @@ use App\Repository\UserTypeRepository;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
+use App\Service\AutmaticPost;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -210,7 +214,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository)
     {
         if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
@@ -224,6 +228,9 @@ class ServiceController extends AbstractController
             $url = $this->generateUrl('service_new');
             $message = "Votre Service a bien été crée ! <a href='$url'>Créer un nouveau service</a>";
             $service->setUser($this->getUser());
+
+
+
         }
         $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));
         $form->handleRequest($request);
@@ -246,7 +253,22 @@ class ServiceController extends AbstractController
             }
             $service->setPrice( $this->floatvalue($service->getPrice()));
             $manager->persist($service);
+
+            /***** change post********/
+            $relatedPost = $postRepository->findPostRelatedToService($service);
+            if ($relatedPost != null){
+                $relatedPost->setTitle($service->getTitle());
+                $relatedPost->setDescription($service->getDescription());
+                $manager->persist($relatedPost);
+            }
+
+            /************************/
             $manager->flush();
+            /*******Add automatic post***/
+            if ($request->get('_route') == 'service_new') {
+                $category = $postCategoryRepository->findOneBy(['id' => 6]);
+                $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
+            }
 
             //Merge score option to options array
             $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);

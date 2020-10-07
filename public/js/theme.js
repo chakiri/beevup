@@ -828,67 +828,55 @@ if($('.entity-description').length > 0 )
         if (unit=="N") { dist = dist * 0.8684 }
         return dist
     }
-    var allStores = '';
-
-    $.ajax({
-        url: '/map',
-        type: 'POST',
-        async: false,
-        success: function(data){
-            allStores = JSON.parse( data );
-        }
-    });
-
-    var currentUserLongitude ="";
-    var currentUserLatitude = "";
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-    mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
-        .on('locationfound', function(e){
-            var greenIcon = new L.Icon({
-                iconUrl: 'css/leaflet/images/marker-icon-2x-red.png',
-                shadowUrl: 'css/leaflet/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-            var marker = L.marker([e.latitude, e.longitude], {icon: greenIcon}).addTo(mymap).bindPopup("<b>Je suis là</b>").openPopup();
-            currentUserLongitude = e.longitude;
-            currentUserLatitude =e.latitude;
-
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1
-            }).addTo(mymap);
-
-           for(var  i= 0; i < allStores.stores.length ; i++)
-            {
-                if (distance(currentUserLatitude, currentUserLongitude,allStores.stores[i].lat, parseFloat(allStores.stores[i].lng), "K") <= 1000) {
-
-                    var marker = L.marker([allStores.stores[i].lat, parseFloat(allStores.stores[i].lng)]).addTo(mymap).bindPopup("<b>"+allStores.stores[i].name+"</b><br/><span style='color:#FF7F50'>"+allStores.stores[i].adress+"</span>");
-
-
-                }
+    if($('#mapid').length > 0) {
+        var allStores = '';
+        $.ajax({
+            url: '/map',
+            type: 'POST',
+            async: false,
+            success: function (data) {
+                allStores = JSON.parse(data);
             }
-
-
-
         });
 
+        var currentUserLongitude = "";
+        var currentUserLatitude = "";
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
+            .on('locationfound', function (e) {
+                var greenIcon = new L.Icon({
+                    iconUrl: 'css/leaflet/images/marker-icon-2x-red.png',
+                    shadowUrl: 'css/leaflet/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+                var marker = L.marker([e.latitude, e.longitude], {icon: greenIcon}).addTo(mymap).bindPopup("<b>Je suis là</b>").openPopup();
+                currentUserLongitude = e.longitude;
+                currentUserLatitude = e.latitude;
+
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1
+                }).addTo(mymap);
+
+                for (var i = 0; i < allStores.stores.length; i++) {
+                    if (distance(currentUserLatitude, currentUserLongitude, allStores.stores[i].lat, parseFloat(allStores.stores[i].lng), "K") <= 1000) {
+
+                        var marker = L.marker([allStores.stores[i].lat, parseFloat(allStores.stores[i].lng)]).addTo(mymap).bindPopup("<b>" + allStores.stores[i].name + "</b><br/><span style='color:#FF7F50'>" + allStores.stores[i].adress + "</span>");
 
 
-    var popup = L.popup();
+                    }
+                }
 
-  /*  function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("\n" + "Vous avez cliqué sur la carte à" + e.latlng.toString())
-            .openOn(mymap);
+
+            });
+   var popup = L.popup();
     }
 
-    mymap.on('click', onMapClick);*/
 
     })(jQuery);
 

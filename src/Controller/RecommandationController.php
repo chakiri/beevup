@@ -6,11 +6,13 @@ use App\Entity\Company;
 use App\Entity\Recommandation;
 use App\Form\RecommandationType;
 use App\Repository\CompanyRepository;
+use App\Repository\PostCategoryRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\AutmaticPost;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -118,99 +120,23 @@ class RecommandationController extends AbstractController
             'RecommandationForm' => $form->createView(),
         ]);
     }
-    
-    
-    /**
-     * @Route("/recommandation1", name="recommandation1")
-     */
-    public function create1(Request $request, EntityManagerInterface $manager, CompanyRepository $companyRepository, ServiceRepository $serviceRepository,UserRepository $userRepository, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer, StoreRepository $storeRepository)
-    {
-      $recommandation = new Recommandation();
-     
-      $form = $this->createForm(RecommandationType::class, $recommandation);
-      $form->handleRequest($request);
-     
-      if ($form->isSubmitted() && $form->isValid()) {
-        $companyId = $form->get('companyId')->getData();
-        $serviceId = $form->get('serviceId')->getData();
-        $isAssociated = $form->get('isAssociated')->getData();
-        $associatedStoreId = $form->get('associatedStore')->getData();
-
-        $company = $companyRepository->findOneById($companyId);
-        $service = $serviceRepository->findOneById($serviceId);
-
-        if($company != null && $isAssociated == 0) {
-          $recommandation->setCompany($company);
-          $this->addFlash('success', 'Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message');
-
-         }
-        if ($service != null)
-        {
-          $recommandation->setService($service);
-        }
-         $recommandation->setUser( $this->getUser());
-         $manager->persist($recommandation);
-         $manager->flush();
-
-         /**** send email ******/
-          $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
-          $userTypeAdmin =  $userTypeRepository->findOneBy(['id'=> 3]);
-          $userTypeAdminStore =  $userTypeRepository->findOneBy(['id'=> 1]);
-          $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $company->getStore()]);
-          $adminCompany = $userRepository->findOneBy(['type'=> $userTypeAdmin, 'company'=>$company]);
-
-          //If not company get admin store unstead
-          $associatedStore = $storeRepository->findOneBy(['id' => $associatedStoreId]);
-          if ($adminCompany == null){
-              $adminCompany = $userRepository->findOneBy(['type'=> $userTypeAdminStore, 'store'=> $associatedStore]);
-          }
-
-          $message = (new \Swift_Message())
-              ->setSubject('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé')
-              ->setFrom($_ENV['DEFAULT_EMAIL'])
-              ->setTo($adminCompany->getEmail())
-              ->setBody(
-                  $this->renderView(
-                      'emails/recommandation.html.twig',
-                      ['user'=> $adminCompany, 'storePatron'=> $storePatron]
-                  ),
-                  'text/html'
-              )
-          ;
-          $result = $mailer->send($message);
-         /*****end *************/
-
-         if ( $service != null && $company != null) {
-             $this->addFlash('success', 'Merci pour votre proposition de recommandation, '.$service->getUser()->getProfile()->getFirstname().' '.$service->getUser()->getProfile()->getLastname().'  a été notifié et va pouvoir valider votre message');
-
-             return $this->redirectToRoute('service_show', [
-                'id' => $service->getId()
-            ]);
-         }
-
-          if($company != null) {
-              $this->addFlash('success', 'Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message');
-
-              return $this->redirectToRoute('company_show', [
-                  'slug' => $company->getSlug()
-              ]);
-          }
-      }
-      return $this->render('recommandation/form.html.twig', [
-          'RecommandationForm' => $form->createView(),
-      ]);
-    }
-
-     /**
+  /**
      * @Route("/edit/recommandation/{variable}/{variable2}", defaults={"variable" = 0, "variable2" = 0}, name="recommandation_edit")
      */
-    public function edit(Request $request, EntityManagerInterface $manager, RecommandationRepository $repository, $variable, $variable2)
+    public function edit(Request $request, EntityManagerInterface $manager, RecommandationRepository $repository,PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost,  $variable, $variable2)
     {
         
         
         $recommandation = $repository->findOneById($variable2);
         $status = (1 == $variable) ? 'Validated' : 'Rejected';
         $recommandation->setStatus($status);
+        /********  Add automatic post ****/
+        /*if($variable == 1){
+
+            $category = $postCategoryRepository->findOneBy(['id' => 7]);
+            $autmaticPost->Add($recommandation->getMessage(), "", $category, $recommandation->getId(), 'Recommandation');
+
+        }*/
         $manager->persist($recommandation);
         $manager->flush();
         $response = new Response(

@@ -264,7 +264,7 @@ class SecurityController extends AbstractController
 
             if ($request->get('_route')=='security_new_account') {
 
-                $this->addFlash('success', 'Bienvenue à Beeveup');
+                $this->addFlash('success', 'Bienvenue à Beev\'Up ');
             } else {
                 $this->addFlash('success', 'Le mot de passe a été modifié');
             }
@@ -309,6 +309,7 @@ class SecurityController extends AbstractController
                     'text/html'
                 );
 
+
              $result = $mailer->send($message);
             /*****end ******/
 
@@ -316,6 +317,7 @@ class SecurityController extends AbstractController
             $user->setIsValid(1);
 
             $manager->persist($user);
+
             if($user->getCompany() != null) {
                 $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
                 if ($company != null) {
