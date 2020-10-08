@@ -226,9 +226,10 @@ class WebsocketController extends AbstractController
     }
 
     /**
-     * Send Email when first private message
+     * Send daily email
      * @param User $user
      * @param \Swift_Mailer $mailer
+     * @param notificationNumber $notificationNumber
      */
     public function sendDaillyEmail(User $user, \Swift_Mailer $mailer, $notificationNumber): void
     {
