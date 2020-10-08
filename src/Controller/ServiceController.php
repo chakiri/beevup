@@ -58,7 +58,7 @@ class ServiceController extends AbstractController
 
         }
         if ($request->get('_route') == 'service_discovery') {
-            $services = $serviceRepository->findByIsDiscovery($allCompanies);
+            $services = $serviceRepository->findByIsDiscovery($allCompanies, $this->getUser()->getStore());
             //Add services of store
             foreach ($storeServices as $storeService){
                 if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());

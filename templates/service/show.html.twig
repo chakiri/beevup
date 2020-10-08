@@ -81,9 +81,11 @@
                                                         </div>
                                                     {% endif %}
                                                 {% else %}
-                                                    <div class="btn white-bg">
-                                                        <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
-                                                    </div>
+                                                    {% if service.user.company != null %}
+                                                            <div class="btn white-bg">
+                                                                <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
+                                                            </div>
+                                                    {% endif %}
                                                 {% endif %}
                                             </div>
                                         {% endif %}

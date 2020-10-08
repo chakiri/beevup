@@ -156,7 +156,7 @@ class DefaultController extends AbstractController
         //$lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
 
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
-        $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies);
+        $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies, $this->getUser()->getStore());
 
         //Recommandations
         if (in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())){

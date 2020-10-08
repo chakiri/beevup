@@ -81,7 +81,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult() ;
     }
 
-    public function findByIsDiscovery( $allCompanies){
+    public function findByIsDiscovery( $allCompanies, $store){
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
@@ -89,13 +89,14 @@ class ServiceRepository extends ServiceEntityRepository
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
+            ->orWhere('u.company is NULL AND u.store = :store')
             ->orderBy('s.createdAt', 'DESC')
-            ->setParameters(array('companies'=>$allCompanies))
+            ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
             ->getQuery()
             ->getResult() ;
     }
 
-    public function findOneByIsDiscovery( $allCompanies){
+    public function findOneByIsDiscovery( $allCompanies, $store){
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
@@ -103,8 +104,9 @@ class ServiceRepository extends ServiceEntityRepository
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
+            ->orWhere('u.company is NULL AND u.store = :store')
             ->orderBy('s.createdAt', 'DESC')
-            ->setParameters(array('companies'=>$allCompanies))
+            ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

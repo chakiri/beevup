@@ -39,6 +39,8 @@
                             <ul class="social_links">
                                 <li><i class="fas fa-map-marker-alt"></i> <span class="social-links-span">{{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
                                 <li><i class="fas fa-mobile-alt"></i> <span class="social-links-span">  {{ store.phone }} <span class="social-links-span"></li>
+                                {% if store.city or store.country %}<li><i class="fas fa-flag p-1"></i>  {% if store.city %} <span>   {{ store.city }}</span> {% endif %}{% if store.country %}<span> {{ store.country }}</span> {% endif %}</li> {% endif %}
+
                             </ul>
                         </div><!--user_profile end-->
                         {% if users is defined %}

@@ -877,6 +877,10 @@ if($('.entity-description').length > 0 )
    var popup = L.popup();
     }
 
+    $('.close-subscription-notification').click(function(){
+       $('.warning-subscription').remove();
+    })
+
 
     })(jQuery);
 
