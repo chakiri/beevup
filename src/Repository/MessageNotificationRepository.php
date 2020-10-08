@@ -32,6 +32,25 @@ class MessageNotificationRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findNotifications()
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.nbMessages != 0')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByUser(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return MessageNotification[] Returns an array of MessageNotification objects
     //  */
