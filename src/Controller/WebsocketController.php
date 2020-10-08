@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class WebsocketController extends AbstractController
 {
@@ -223,4 +224,29 @@ class WebsocketController extends AbstractController
 
         return $users;
     }
+
+    /**
+     * Send Email when first private message
+     * @param User $user
+     * @param \Swift_Mailer $mailer
+     */
+    public function sendDaillyEmail(User $user, \Swift_Mailer $mailer, $notificationNumber): void
+    {
+        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+        $url = $this->generateUrl('chat_topic', ['name' => 'general'], UrlGeneratorInterface::ABSOLUTE_URL);
+        $subject = ($notificationNumber != 1) ? 'nouveaux messages non lus sur Beev\'Up par Bureau Vallée' : 'nouveau message non lu sur Beev\'Up par Bureau Vallée';
+       $message = (new \Swift_Message())
+            ->setSubject($notificationNumber ." ".$subject)
+            ->setFrom($_ENV['DEFAULT_EMAIL'])
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('emails/dailyEmail.html.twig',  ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url  ]),
+                'text/html'
+            )
+        ;
+
+        $mailer->send($message);
+    }
+
 }
