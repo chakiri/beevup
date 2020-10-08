@@ -190,9 +190,11 @@
                                                 <p>Personne pour le moment</p>
                                             </div>
                                         {% endif %}
-                                        <div class="view-more p-3">
-                                            <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
-                                        </div>
+                                        {% if profile.user.company != null %}
+                                            <div class="view-more p-3">
+                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
+                                            </div>
+                                        {% endif %}
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->
                             </div>

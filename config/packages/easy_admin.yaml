@@ -148,6 +148,7 @@ easy_admin:
         User:
             class: App\Entity\User
             controller: App\Controller\Admin\UserAdminController
+            disabled_actions: ['delete']
             label: 'Utilisateurs'
             new:
                 title:  'Ajouter un nouveau compte'
@@ -180,6 +181,7 @@ easy_admin:
             class: App\Entity\User
             controller: App\Controller\Admin\UserEntrepriseController
             label: "Utilisateurs"
+            disabled_actions: ['delete']
             new:
                 title:  'Ajouter un nouveau compte'
             list:
@@ -201,6 +203,7 @@ easy_admin:
             class: App\Entity\User
             controller: App\Controller\Admin\UserStoreController
             label: "Utilisateurs"
+            disabled_actions: ['delete']
             new:
                 title:  'Ajouter un nouveau compte'
             list:
