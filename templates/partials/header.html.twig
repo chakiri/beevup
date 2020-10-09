@@ -15,7 +15,7 @@
                 <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>
                 <li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
-                <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general'}) }}" >Chat</a></li>
+                <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general-'~ app.user.store.slug}) }}" >Chat</a></li>
             </div>
 
             <div class="d-lg-flex">
@@ -78,7 +78,12 @@
                                             {% else %}
                                                 <img src="/images/default/channel.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 <small class="pt-2">
-                                                    Vous avez {{ notification }} messages dans {{ key|capitalize }}
+                                                    Vous avez {{ notification }} messages dans
+                                                    {% if key starts with 'general' %}
+                                                        General
+                                                    {% else %}
+                                                        {{ key|capitalize }}
+                                                    {% endif %}
                                                 </small>
                                             {% endif %}
                                         </a>

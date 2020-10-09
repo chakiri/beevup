@@ -81,16 +81,20 @@ class TopicHandler implements WampServerInterface
             // re-send the data to all the clients subscribed to that topic
             //$topic->broadcast($entryData);
 
-            //Send notification to all connected user
+            // !! Send only to users who have this topic !! //
+            $users = $this->topicHandler->getUsersByTopic($entryData['subject']);
+
+            //Send notification to all connected user who have topic
             foreach ($this->subscribed as $key => $user){
                 //Send only to user not topics
                 if (/*$key != $entryData['subject'] && */is_int($key) == true){
-                    $user->broadcast($entryData);
+                    foreach ($users as $userHasTopic){
+                        if ($key == $userHasTopic->getId())
+                            $user->broadcast($entryData);
+                    }
                 }
             }
 
-            // !! Send only to users who have this topic !! //
-            $users = $this->topicHandler->getUsersByTopic($entryData['subject']);
             //If user not connected to channel send notification
             foreach ($users as $user){
                 if (!array_key_exists($user->getId(), $this->subscribed)){
@@ -110,7 +114,7 @@ class TopicHandler implements WampServerInterface
         //Unset connexion user from list
         foreach ($this->connections as $key => $connection){
             if ($connection == $conn->resourceId){
-                if (ctype_digit($key)){
+                if (is_int($key)){
                     unset($this->subscribed[$key]);
                     unset($this->connections[$key]);
                     echo "Closed : " . $key . "\n";

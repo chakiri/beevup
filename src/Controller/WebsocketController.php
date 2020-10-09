@@ -2,39 +2,43 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
-use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\EmptyMessageNotification;
 use App\Service\SaveNotification;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WebsocketController extends AbstractController
 {
     private $userTypeRepo;
     private $userRepo;
+    private $mailer;
 
-    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo)
+    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, \Swift_Mailer $mailer)
     {
-
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
+        $this->mailer = $mailer;
     }
+
     /**
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification)
+    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification, \Swift_Mailer $mailer)
     {
+        $user = $this->userRepo->findOneBy(['id' => 60]);
+        $receiver = $this->userRepo->findOneBy(['id' => 69]);
+        dump($user);
+        dump($receiver);
+        $this->sendEmail($user, $receiver, $mailer);die;
+
         //Verification passing bad subject to url
         if (!$topic && !$user) return $this->redirectToRoute('page_not_found');
 
@@ -72,8 +76,12 @@ class WebsocketController extends AbstractController
         //Get recent users in conversation
         $users = $this->getRecentUsersChat($messageRepository);
 
+        //Get general topic in the first
+        $topicsList = $this->getUser()->getTopics();
+        $topics = $this->handleTopicsList($topicsList);
+
         return $this->render('websocket/index3.html.twig', [
-            'topics' => $this->getUser()->getTopics(),
+            'topics' => $topics,
             'users' => $users,
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
             'subject' => $subject,
@@ -84,12 +92,27 @@ class WebsocketController extends AbstractController
         ]);
     }
 
+    public function handleTopicsList($topics)
+    {
+        $newTopics = [];
+        foreach ($topics as $topic){
+            if(substr($topic->getName(), 0, 8) === "general-"){
+                $generalTopic = $topic;
+            }else{
+                array_push($newTopics, $topic);
+            }
+        }
+        if (isset($generalTopic)) array_unshift($newTopics, $generalTopic);
+
+        return $newTopics;
+    }
+
     /**
      * Send data to WAMP Server with ZMQ
      *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageNotificationRepository $notificationRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer)
+    public function sender()
     {
         $subject = $_POST['subject'];
         $from = $_POST['from'];
@@ -120,9 +143,8 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(SaveNotification $saveNotification, UserRepository $userRepository, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository)
+    public function saveNotification(SaveNotification $saveNotification, UserRepository $userRepository)
     {
-
         $userid = $_POST['user'];
         $subject = $_POST['subject'];
 
@@ -136,24 +158,28 @@ class WebsocketController extends AbstractController
 
     /**
      * Send Email when first private message
-     * @param User $user
-     * @param \Swift_Mailer $mailer
+     * @Route("/send_email", name="send_email")
      */
-    public function sendEmail(User $user, \Swift_Mailer $mailer): void
+    public function sendEmail(User $currentUser, User $user, \Swift_Mailer $mailer)
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+
         $message = (new \Swift_Message())
             ->setSubject('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté')
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($user->getEmail())
             ->setBody(
-                $this->renderView('emails/firstMessage.html.twig',  ['user'=> $user,  'storePatron'=> $storePatron]),
+                $this->renderView('emails/firstMessage.html.twig',  ['currentUser' => $currentUser, 'user'=> $user,  'storePatron'=> $storePatron]),
                 'text/html'
             )
         ;
 
         $mailer->send($message);
+
+        dump('sendEmail');
+
+        return $this->json($message);
     }
 
 

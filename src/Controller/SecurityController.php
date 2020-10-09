@@ -90,7 +90,8 @@ class SecurityController extends AbstractController
                     );
 
                 /* add admin topics to user */
-                $topicHandler->addAdminTopicsToUser($user);
+                //$topicHandler->addAdminTopicsToUser($user);
+                $topicHandler->initGeneralStoreTopic($user);
 
                 $manager->persist($user);
 

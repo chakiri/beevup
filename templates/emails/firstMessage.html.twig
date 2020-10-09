@@ -255,17 +255,17 @@
                                         {% endif %}
                                     {% endif %}
                                     <p style="color:#000;font-size:12px">
-                                        vous avez reçu un nouveau message de  {{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}
-                                        {% if app.user.company != null %}
-                                            , {{ app.user.company.name }}
+                                        vous avez reçu un nouveau message de  {{ currentUser.profile.firstname|capitalize }} {{ currentUser.profile.lastname|capitalize }}
+                                        {% if currentUser.company != null %}
+                                            , {{ currentUser.company.name }}
                                         {% endif %}
                                         dans votre espace Beev'Up.
                                     </p>
 
                                     <p style="color:#000;font-size:12px">
                                         Rendez vous sur
-                                        <a style="color:#000;font-size:12px;font-weight:bold" href="{{ url('chat_private', {'id': app.user.id}) }}">
-                                            {{ url('chat_private', {'id': app.user.id}) }}
+                                        <a style="color:#000;font-size:12px;font-weight:bold" href="{{ url('chat_private', {'id': currentUser.id}) }}">
+                                            {{ url('chat_private', {'id': currentUser.id}) }}
                                         </a>
                                         pour accéder à vos messages.
                                     </p>
@@ -278,7 +278,7 @@
                                     <p style="color:#000;font-size:12px">
                                         A bientôt sur la plateforme Beev'Up
                                         {%  if storePatron != null  %}
-                                        {%  if storePatron.profile != null  %}
+                                        {%  if storePatron.profile  %}
                                     <p style="color:#132644;font-size:13px">
 
                                         {{storePatron.profile.firstname|capitalize}}  {{ storePatron.profile.lastname|capitalize}}

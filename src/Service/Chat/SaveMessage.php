@@ -11,23 +11,22 @@ use App\Repository\ProfilRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class SaveMessage
 {
     protected $topicRepository;
     protected $userRepository;
     protected $messageRepository;
-    protected $mailer;
     protected $manager;
     protected $websocketController;
     protected $profilRepository;
 
-    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer, WebsocketController $websocketController, ProfilRepository $profilRepository)
+    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository)
     {
         $this->topicRepository = $topicRepository;
         $this->userRepository = $userRepository;
         $this->messageRepository = $messageRepository;
-        $this->mailer = $mailer;
         $this->manager = $manager;
         $this->websocketController = $websocketController;
         $this->profilRepository = $profilRepository;
@@ -65,7 +64,7 @@ class SaveMessage
             $messages = $this->messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
             if (empty($messages)){
                 //If no previous messages
-                $this->websocketController->sendEmail($receiver, $this->mailer);
+                $this->websocketController->sendEmail($user, $receiver);
                 var_dump('sent mail');
             }
 

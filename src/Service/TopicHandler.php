@@ -35,7 +35,6 @@ class TopicHandler
         $this->userRepository = $userRepository;
     }
 
-
     public function addAdminTopicsToUser(User $user): void
     {
         $type = $this->topicTypeRepository->findOneBy(['name' => 'admin']);
@@ -46,6 +45,11 @@ class TopicHandler
         foreach ($topics as $topic){
             $user->addTopic($topic);
         }
+    }
+
+    public function initGeneralStoreTopic(User $user)
+    {
+        $this->init('myCommunity', 'general-' . $user->getStore()->getSlug(), $user);
     }
 
     public function initCategoryCompanyTopic(CompanyCategory $companyCategory, ?User $user = null): void
