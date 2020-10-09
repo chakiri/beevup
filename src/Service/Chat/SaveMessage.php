@@ -21,8 +21,9 @@ class SaveMessage
     protected $manager;
     protected $websocketController;
     protected $profilRepository;
+    protected $mailer;
 
-    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository)
+    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository, \Swift_Mailer $mailer)
     {
         $this->topicRepository = $topicRepository;
         $this->userRepository = $userRepository;
@@ -30,6 +31,7 @@ class SaveMessage
         $this->manager = $manager;
         $this->websocketController = $websocketController;
         $this->profilRepository = $profilRepository;
+        $this->mailer = $mailer;
     }
 
     public function save($name, $content, $isPrivate, $subject)
@@ -60,14 +62,6 @@ class SaveMessage
             //Get receiver object
             $receiver = $this->userRepository->findOneBy(['id' => $subject]);
 
-            //Get all messages between user and subject
-            $messages = $this->messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
-            if (empty($messages)){
-                //If no previous messages
-                $this->websocketController->sendEmail($user, $receiver);
-                var_dump('sent mail');
-            }
-
             $message
                 ->setReceiver($receiver)
                 ->setIsPrivate($isPrivate)
@@ -77,4 +71,5 @@ class SaveMessage
         $this->manager->persist($message);
         $this->manager->flush();
     }
+
 }

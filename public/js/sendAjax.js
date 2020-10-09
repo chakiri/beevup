@@ -54,3 +54,19 @@ function saveNotification(subject) {
 
     return false;
 }
+
+//Function ajax check if fisrt message and send mail
+function checkFirstMessage(userid, receiverid){
+    var url = document.getElementById("chatPlateform").dataset.urlfirstmail;
+
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {
+            userid: userid,
+            receiverid: receiverid
+        }
+    });
+
+    return false;
+}

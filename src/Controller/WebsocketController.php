@@ -31,14 +31,8 @@ class WebsocketController extends AbstractController
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification, \Swift_Mailer $mailer)
+    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification)
     {
-        $user = $this->userRepo->findOneBy(['id' => 60]);
-        $receiver = $this->userRepo->findOneBy(['id' => 69]);
-        dump($user);
-        dump($receiver);
-        $this->sendEmail($user, $receiver, $mailer);die;
-
         //Verification passing bad subject to url
         if (!$topic && !$user) return $this->redirectToRoute('page_not_found');
 
@@ -157,10 +151,27 @@ class WebsocketController extends AbstractController
     }
 
     /**
-     * Send Email when first private message
-     * @Route("/send_email", name="send_email")
+     * @Route("/check_first_message", name="check_first_message")
      */
-    public function sendEmail(User $currentUser, User $user, \Swift_Mailer $mailer)
+    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository)
+    {
+        $userId = $_POST['userid'];
+        $receiverid = $_POST['receiverid'];
+
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        $receiver = $userRepository->findOneBy(['id' => $receiverid]);
+
+        //Get all messages between user and subject
+        $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
+
+        if (count($messages) == 1){
+            $this->sendEmail($user, $receiver);
+        }
+
+        return $this->json($messages);
+    }
+
+    public function sendEmail(User $currentUser,User $user)
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
@@ -175,11 +186,7 @@ class WebsocketController extends AbstractController
             )
         ;
 
-        $mailer->send($message);
-
-        dump('sendEmail');
-
-        return $this->json($message);
+        return $this->mailer->send($message);
     }
 
 
