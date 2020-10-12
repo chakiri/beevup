@@ -56,7 +56,9 @@ class UserStoreController extends EasyAdminController
         $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
 
         /* add admin topics to user */
-        $this->topicHandler->addAdminTopicsToUser($user);
+        //$this->topicHandler->addAdminTopicsToUser($user);
+        /* add general community to user */
+        $this->topicHandler->initGeneralStoreTopic($user);
         /* add store topic to user */
         $this->topicHandler->initStoreTopic($user->getStore(), $user);
       

@@ -2,17 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
-use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\EmptyMessageNotification;
 use App\Service\SaveNotification;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,13 +19,15 @@ class WebsocketController extends AbstractController
 {
     private $userTypeRepo;
     private $userRepo;
+    private $mailer;
 
-    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo)
+    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, \Swift_Mailer $mailer)
     {
-
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
+        $this->mailer = $mailer;
     }
+
     /**
      * @Route("/chat/private/{id}", name="chat_private")
      * @Route("/chat/{name}", name="chat_topic")
@@ -48,12 +47,12 @@ class WebsocketController extends AbstractController
         }
 
         if ($request->get('_route') == 'chat_private'){
-            //Empty notification for user
-            $emptyMessageNotification->empty($this->getUser(), $user);
             //Assign user to the subject
             $subject = $user->getId();
             //Get all messages from receiver with limit
             $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
+            //Empty notification for user
+            $emptyMessageNotification->empty($this->getUser(), $user);
 
         }elseif($request->get('_route') == 'chat_topic'){
             //if user not having this topic
@@ -61,19 +60,23 @@ class WebsocketController extends AbstractController
                 return $this->redirectToRoute('page_not_found');
             }
 
-            //Empty notification for topic
-            $emptyMessageNotification->empty($this->getUser(), $topic);
             //Assign topic to the subject
             $subject = $topic->getName();
             //Get all messages from topics with limit
             $messages = $messageRepository->findBy(['topic' => $topic], ['createdAt' => 'ASC']);
+            //Empty notification for topic
+            $emptyMessageNotification->empty($this->getUser(), $topic);
         }
 
         //Get recent users in conversation
         $users = $this->getRecentUsersChat($messageRepository);
 
+        //Get general topic in the first
+        $topicsList = $this->getUser()->getTopics();
+        $topics = $this->handleTopicsList($topicsList);
+
         return $this->render('websocket/index3.html.twig', [
-            'topics' => $this->getUser()->getTopics(),
+            'topics' => $topics,
             'users' => $users,
             'notifications' => $notificationRepository->findBy(['user' => $this->getUser()]),
             'subject' => $subject,
@@ -84,14 +87,28 @@ class WebsocketController extends AbstractController
         ]);
     }
 
+    public function handleTopicsList($topics)
+    {
+        $newTopics = [];
+        foreach ($topics as $topic){
+            if(substr($topic->getName(), 0, 8) === "general-"){
+                $generalTopic = $topic;
+            }else{
+                array_push($newTopics, $topic);
+            }
+        }
+        if (isset($generalTopic)) array_unshift($newTopics, $generalTopic);
+
+        return $newTopics;
+    }
+
     /**
      * Send data to WAMP Server with ZMQ
      *
      * @Route("/sender", name="sender")
      */
-    public function sender(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageNotificationRepository $notificationRepository, MessageRepository $messageRepository, \Swift_Mailer $mailer)
+    public function sender()
     {
-
         $subject = $_POST['subject'];
         $from = $_POST['from'];
         $content = $_POST['message'];
@@ -100,17 +117,12 @@ class WebsocketController extends AbstractController
         //Get current user
         $user = $this->getUser();
 
-        //Get notifs receiver
-        $notifications = $notificationRepository->findOneBy(['user' => $subject, 'receiver' => $from]);
-        if ($notifications) $nbNotifications = $notifications->getNbMessages();
-
         $entryData = [
             'user' => $user->getProfile()->getFirstname(),
             'from' => $from,
             'subject' => $subject,
             'message' => $content,
             'isprivate' => $isPrivate,
-            'nbNotifications' => $nbNotifications ?? null
         ];
 
         //Send data by ZMQ transporter to the Wamp server
@@ -120,82 +132,62 @@ class WebsocketController extends AbstractController
 
         $socket->send(json_encode($entryData));
 
-        //Save data in DB
-        $message = new Message();
-
-        $message
-            ->setUser($user)
-            ->setContent($content)
-            ->setCreatedAt(new \DateTime())
-        ;
-
-        if ($isPrivate == false){
-            //Get topic object
-            $topic = $topicRepository->findOneBy(['name' => $subject]);
-
-            $message
-                ->setTopic($topic)
-                ->setIsPrivate($isPrivate)
-            ;
-
-        }else {
-            //Get receiver object
-            $receiver = $userRepository->findOneBy(['id' => $subject]);
-
-            //Get all messages between user and subject
-            $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
-            if (empty($messages)){
-                //If no previous messages
-                $this->sendEmail($receiver, $mailer);
-                var_dump('sent mail');
-            }
-
-            $message
-                ->setReceiver($receiver)
-                ->setIsPrivate($isPrivate)
-            ;
-        }
-
-        $manager->persist($message);
-        $manager->flush();
-
         return $this->json($entryData);
     }
 
     /**
      * @Route("/save_notification", name="save_notification")
      */
-    public function saveNotification(SaveNotification $saveNotification)
+    public function saveNotification(SaveNotification $saveNotification, UserRepository $userRepository)
     {
-        $user = $_POST['user'];
+        $userid = $_POST['user'];
         $subject = $_POST['subject'];
+
+        $user = $userRepository->find($userid);
 
         //Add notification to user
         $saveNotification->save($user, $subject);
 
-        return $this->json('save notification');
+        return $this->json($userid);
     }
 
     /**
- * Send Email when first private message
- * @param User $user
- * @param \Swift_Mailer $mailer
- */
-    private function sendEmail(User $user, \Swift_Mailer $mailer): void
+     * @Route("/check_first_message", name="check_first_message")
+     */
+    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository)
+    {
+        $userId = $_POST['userid'];
+        $receiverid = $_POST['receiverid'];
+
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        $receiver = $userRepository->findOneBy(['id' => $receiverid]);
+
+        //Get all messages between user and subject
+        $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
+
+        if (count($messages) == 1){
+            $this->sendEmail($user, $receiver);
+        }
+
+        return $this->json($messages);
+    }
+
+    public function sendEmail(User $currentUser,User $user)
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+
         $message = (new \Swift_Message())
             ->setSubject('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté')
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($user->getEmail())
             ->setBody(
-                $this->renderView('emails/firstMessage.html.twig',  ['user'=> $user,  'storePatron'=> $storePatron]),
+                $this->renderView('emails/firstMessage.html.twig',  ['currentUser' => $currentUser, 'user'=> $user,  'storePatron'=> $storePatron]),
                 'text/html'
             )
         ;
 
-        $mailer->send($message);
+        return $this->mailer->send($message);
     }
 
 

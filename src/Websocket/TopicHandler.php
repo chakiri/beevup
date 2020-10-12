@@ -3,6 +3,9 @@
 
 namespace App\Websocket;
 
+use App\Repository\MessageNotificationRepository;
+use App\Repository\TopicRepository;
+use App\Service\Chat\SaveMessage;
 use App\Service\SaveNotification;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
@@ -18,12 +21,29 @@ class TopicHandler implements WampServerInterface
 
     protected $saveNotification;
 
-    public function __construct(SaveNotification $saveNotification)
+    protected $topicHandler;
+
+    protected $topicRepository;
+
+    protected $messageNotificationRepository;
+
+    protected $saveMessage;
+
+    public function __construct(SaveNotification $saveNotification, \App\Service\TopicHandler $topicHandler, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository, SaveMessage $saveMessage)
     {
         $this->clients = new \SplObjectStorage;
         $this->saveNotification = $saveNotification;
+        $this->topicHandler = $topicHandler;
+        $this->topicRepository = $topicRepository;
+        $this->messageNotificationRepository = $messageNotificationRepository;
+        $this->saveMessage = $saveMessage;
     }
 
+    public function onOpen(ConnectionInterface $conn)
+    {
+        $this->clients->attach($conn);
+        echo "New connection! ({$conn->resourceId})\n";
+    }
 
     public function onSubscribe(ConnectionInterface $conn, $subject)
     {
@@ -50,7 +70,7 @@ class TopicHandler implements WampServerInterface
             }
             //Save notif if user not connected
             if (!array_key_exists($entryData['subject'], $this->subscribed)){
-                $this->saveNotification->save($entryData['subject'], $entryData['from'], $entryData['nbNotifications']);
+                $this->saveNotification->save($entryData['subject'], $entryData['from']);
             }
         }else{
             // If the lookup topic object isn't set there is no one to publish to
@@ -61,23 +81,31 @@ class TopicHandler implements WampServerInterface
             // re-send the data to all the clients subscribed to that topic
             //$topic->broadcast($entryData);
 
-            //Send notification to all connected user
+            // !! Send only to users who have this topic !! //
+            $users = $this->topicHandler->getUsersByTopic($entryData['subject']);
+
+            //Send notification to all connected user who have topic
             foreach ($this->subscribed as $key => $user){
                 //Send only to user not topics
                 if (/*$key != $entryData['subject'] && */is_int($key) == true){
-                    $user->broadcast($entryData);
+                    foreach ($users as $userHasTopic){
+                        if ($key == $userHasTopic->getId())
+                            $user->broadcast($entryData);
+                    }
                 }
             }
 
-            // !! Send only to users who have this topic !! //
+            //If user not connected to channel send notification
+            foreach ($users as $user){
+                if (!array_key_exists($user->getId(), $this->subscribed)){
+                    $this->saveNotification->save($user->getId(), $entryData['subject']);
+                }
+            }
         }
 
-    }
+        //Save message in Database
+        $this->saveMessage->save($entryData['user'], $entryData['message'], $entryData['isprivate'], $entryData['subject']);
 
-    public function onOpen(ConnectionInterface $conn)
-    {
-        $this->clients->attach($conn);
-        echo "New connection! ({$conn->resourceId})\n";
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -86,10 +114,13 @@ class TopicHandler implements WampServerInterface
         //Unset connexion user from list
         foreach ($this->connections as $key => $connection){
             if ($connection == $conn->resourceId){
-                unset($this->subscribed[$key]);
+                if (is_int($key)){
+                    unset($this->subscribed[$key]);
+                    unset($this->connections[$key]);
+                    echo "Closed : " . $key . "\n";
+                }
             }
         }
-        echo "Closed\n";
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)

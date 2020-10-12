@@ -21,13 +21,15 @@
                                            <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
                                         {% endif %}
                                     </div><!--user-pro-img end-->
-                                    <div class="user_pro_status">
-                                        <ul class="flw-hr">
+                                    <div class="user_pro_status pl-2 pr-2">
+                                        <ul class="flw-hr d-flex justify-content-center">
                                             {% if profile.user == app.user  %}
 
                                                 <li><a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="flww">
                                                         Modifier profil</a></li>
                                             {% else %}
+                                                <li><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="flww">
+                                                        Contacter {{ profile.firstname }}</a></li>
 
                                             <li><a href="#" title=""
                                                    class="flww add-favoris profil-add-favoris {{ isFavorit }}"
@@ -155,39 +157,44 @@
                             </div><!--main-ws-sec end-->
                         </div>
 
-                        {% if profile.user.type.name != 'admin magasin' or profile.user.type.name != 'admin plateform' %}
-                            <div class="col-lg-3">
-                                <div class="suggestions full-width">
-                                    <div class="sd-title page-title sign_in_sec current">
-                                        <h3>Ils travaillent dans la même entreprise</h3>
-                                    </div><!--sd-title end-->
-                                    <div class="suggestions-list">
-                                        {% if collegues %}
-                                            {% for collegue in collegues %}
-                                                {% if collegue != app.user %}
-                                                    <div class="suggestion-usd">
-                                                        {% if collegue.profile.filename %}
-                                                            <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="http://via.placeholder.com/170x170" alt="">
-                                                        {% endif %}
-                                                        <div class="sgt-text hover-info">
-                                                            <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
-                                                            {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
-                                                            {% if collegue.profile.function != null %}
-                                                                <span>{{ collegue.profile.function.name|capitalize }}</span>
+                        {% if profile.user.company != null %}
+                            {% if profile.user.type.name != 'admin magasin' or profile.user.type.name != 'admin plateform' %}
+                                <div class="col-lg-3">
+                                    <div class="suggestions full-width">
+                                        <div class="sd-title page-title sign_in_sec current">
+                                            <h3>Ils travaillent dans la même entreprise</h3>
+                                        </div><!--sd-title end-->
+                                        <div class="suggestions-list">
+                                            {% if collegues %}
+                                                {% for collegue in collegues %}
+                                                    {% if collegue != app.user %}
+                                                        <div class="suggestion-usd">
+                                                            {% if collegue.profile.filename %}
+                                                                <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                            {% else %}
+                                                                <img src="http://via.placeholder.com/170x170" alt="">
                                                             {% endif %}
+                                                            <div class="sgt-text hover-info">
+                                                                <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
+                                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+                                                                {% if collegue.profile.function != null %}
+                                                                    <span>{{ collegue.profile.function.name|capitalize }}</span>
+                                                                {% endif %}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                {% elseif collegues|length == 1 and collegues[0] == app.user %}
-                                                    <div class="suggestion-usd">
-                                                        <p>Personne pour le moment</p>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% else %}
-                                            <div class="suggestion-usd">
-                                                <p>Personne pour le moment</p>
+                                                    {% elseif collegues|length == 1 and collegues[0] == app.user %}
+                                                        <div class="suggestion-usd">
+                                                            <p>Personne pour le moment</p>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="suggestion-usd">
+                                                    <p>Personne pour le moment</p>
+                                                </div>
+                                            {% endif %}
+                                            <div class="view-more p-3">
+                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
                                             </div>
                                         {% endif %}
                                         {% if profile.user.company != null %}
@@ -199,6 +206,7 @@
                                 </div><!--suggestions end-->
                             </div>
                         {% endif %}
+
                     </div>
                 </div><!-- main-section-data end-->
             </div>

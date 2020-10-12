@@ -84,6 +84,17 @@ class UserRepository extends ServiceEntityRepository
             ->setParameters(array('value1' => $store, 'value2'=> $result));
        return $qb->getQuery()->getResult();
     }
+
+    public function findByTopic($topicName)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.topics', 't')
+            ->where('t.name = :name')
+            ->setParameter('name', $topicName)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

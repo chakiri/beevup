@@ -22,8 +22,6 @@ class Email
    public function send($token,$url, $user,$storePatron, $template, $subject='Mail de confirmation')
     {
 
-
-
         $message = (new \Swift_Message($subject))
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($user->getEmail())

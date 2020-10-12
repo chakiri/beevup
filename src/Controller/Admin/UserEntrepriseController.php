@@ -62,7 +62,9 @@ class UserEntrepriseController extends EasyAdminController
         parent::persistEntity($profile);
 
         /* add admin topics to user */
-        $this->topicHandler->addAdminTopicsToUser($user);
+        //$this->topicHandler->addAdminTopicsToUser($user);
+        /* add general community to user */
+        $this->topicHandler->initGeneralStoreTopic($user);
         /* add company topic to user */
         $this->topicHandler->initCompanyTopic($currentUser->getCompany(), $user);
         /* add category company topic to user */

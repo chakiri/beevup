@@ -46,6 +46,9 @@ class UserAdminController extends EasyAdminController
         $this->updatePassword($user);
         $userRoles = $user->getRoles();
 
+        $profile = new Profile();
+        $profile->setUser($user);
+
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
             $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
@@ -59,7 +62,9 @@ class UserAdminController extends EasyAdminController
 
 
             /* add admin topics to user */
-            $this->topicHandler->addAdminTopicsToUser($user);
+            //$this->topicHandler->addAdminTopicsToUser($user);
+            /* add general community to user */
+            $this->topicHandler->initGeneralStoreTopic($user);
             /* add store topic to user */
             $this->topicHandler->initStoreTopic($user->getStore(), $user);
             /* add admin store topic to user */
@@ -70,7 +75,9 @@ class UserAdminController extends EasyAdminController
             $user->setType($type);
             $user->setIsValid(true);
             /* add admin topics to user */
-            $this->topicHandler->addAdminTopicsToUser($user);
+            //$this->topicHandler->addAdminTopicsToUser($user);
+            /* add general community to user */
+            $this->topicHandler->initGeneralStoreTopic($user);
             if ($user->getCompany()){
                 /* add company topic to user */
                 $this->topicHandler->initCompanyTopic($user->getCompany(), $user);
@@ -106,11 +113,8 @@ class UserAdminController extends EasyAdminController
         $this->updateRoles($user);
         $user->setResetToken($this->token);
         parent::persistEntity($user);
-
-        $profile = new Profile();
-        $profile->setUser($user);
-
         parent::persistEntity($profile);
+
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
         $this->email->send($this->token, $url, $user,null,'createNewAccount.html.twig', 'Beev\'Up par Bureau Vallée | Inscription');
