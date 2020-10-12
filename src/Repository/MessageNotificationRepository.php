@@ -35,7 +35,6 @@ class MessageNotificationRepository extends ServiceEntityRepository
     public function findNotifications()
     {
         return $this->createQueryBuilder('n')
-            ->where('n.nbMessages != 0')
             ->getQuery()
             ->getResult()
             ;

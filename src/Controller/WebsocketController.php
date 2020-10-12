@@ -228,7 +228,7 @@ class WebsocketController extends AbstractController
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
         $url = $this->generateUrl('chat_topic', ['name' => 'general'], UrlGeneratorInterface::ABSOLUTE_URL);
-        $subject = ($notificationNumber != 1) ? 'nouveaux messages non lus sur Beev\'Up par Bureau Vallée' : 'nouveau message non lu sur Beev\'Up par Bureau Vallée';
+        $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
        $message = (new \Swift_Message())
             ->setSubject($notificationNumber ." ".$subject)
             ->setFrom($_ENV['DEFAULT_EMAIL'])
