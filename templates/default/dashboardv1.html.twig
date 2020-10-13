@@ -20,36 +20,26 @@
                     </div>
 
                     <div id="postpublish" class="new-post">
-                        <div class="box">
-                            <div class="d-flex">
-                                {% if app.user.profile.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 medium-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                {% endif %}
-                                <a href="#" class="m-3 add-post" data-target="{{ path('post_create') }}"><span>Commencez un nouveau post</span></a>
-                            </div>
-                            <hr>
-                            <div class=" d-flex justify-content-between">
+                        <div class="box shadow">
+                            <div class="d-flex justify-content-between">
                                 <div class="d-flex">
-                                    <div class="icon-post">
-                                        <a href="#" class="add-post" data-target="{{ path('post_create') }}">
-                                            <i class="fa fa-newspaper p-2 orange"></i>
-                                            <i class="fa fa-chart-line p-2 orange"></i>
-                                            <i class="fa fa-user-friends p-2 orange"></i>
-                                            <i class="fa fa-calendar-alt p-2 orange"></i>
-                                            <i class="fa fa-question p-2 orange"></i>
-                                            <i class="fa fa-plus p-2 orange"></i>
-                                        </a>
+                                    {% if app.user.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                    {% else %}
+                                        <img src="/images/default/user.png" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                    {% endif %}
+                                    <div class="meta">
+                                        <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
+                                        <small>{{ app.user.company.name|capitalize }}</small>
                                     </div>
                                 </div>
-                                {% if app.user.profile.isCompleted == true %}
-                                    <button class="btn small-btn grey-bg  add-post" data-target="{{ path('post_create') }}">Publier</button>
-                                {% else %}
-                                    <button type="button" class="btn small-btn grey-bg"
-                                            data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile"
-                                    >Publier</button>
-                                {% endif %}
+                                <div class="top-3">
+                                    {% if app.user.profile.isCompleted == true %}
+                                        <button class="btn big-btn orange-bg  add-post" data-target="{{ path('post_create') }}">Publier un post</button>
+                                    {% else %}
+                                        <button type="button" class="btn big-btn orange-bg" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile">Publier un post</button>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,20 +63,25 @@
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-1">
-                <div id="news-filter" class="box-navigation-items min-col">
+                <small class="greyed">Filtrez votre actualité</small>
+                <div id="news-filter" class="box-navigation-items">
                     <ul>
-                        <li value="All"><i class="fa fa-clone"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
-                        <li value="informations"><i class="fa fa-newspaper"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
-                        <li value="Derniers arrivés"><i class="fa fa-comment-alt"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
-                        <li value="Opportunité commerciale"><i class="fa fa-chart-line"></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a></li>
-                        <li value="Emploi"><i class="fa fa-user-friends"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
-                        <li value="Événement"><i class="fa fa-calendar-alt"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
-                        <li value="Question à la communauté"><i class="fa fa-question"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
-                        <li value="Autre"><i class="fa fa-plus"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
+                        <li class="{% if category is null %}active{% endif %}"value="All"><i class="fa fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
+                        <li class="{% if category == 1 %}active{% endif %}" value="informations"><i class="far fa-newspaper mr-2"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
+                        <li class="{% if category == 7 %}active{% endif %}" value="Derniers arrivés"><i class="fas fa-users mr-2"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
+                        <li class="{% if category == 2 %}active{% endif %}" value="Opportunité commerciale"><i class="far fa-handshake mr-2"></i></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a>
+                            {% if opportunities|length > 0 %}
+                                <span class="badge bell-badge">{{ opportunities|length }}</span>
+                            {% endif %}
+                        </li>
+                        <li class="{% if category == 4 %}active{% endif %}" value="Emploi"><i class="fas fa-business-time mr-2"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
+                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fa fa-calendar-alt mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li class="{% if category == 3 %}active{% endif %}" value="Question à la communauté"><i class="fa fa-question mr-2"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
+                        <li class="{% if category == 6 %}active{% endif %}" value="Autre"><i class="fa fa-plus mr-2"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
                     </ul>
                 </div>
 
-                <div id="advisorebox" class="box-advisor min-col">
+                <div id="advisorebox" class="box-advisor">
                     <small class="greyed">Votre conseiller</small>
                     <div class="box mt-0">
                         {% if  app.user.store != null %}
@@ -120,7 +115,7 @@
                 </div>
 
                 {% if app.user.company  %}
-                <div id="companybox" class="box-company mt-3 min-col">
+                <div id="companybox" class="box-company mt-3">
                     <small class="greyed">Votre entreprise</small>
                     <div class="box mt-0">
                         <div class="d-flex">
@@ -140,10 +135,18 @@
                     </div>
                 </div>
                 {% endif %}
+
+                <!-- Tutorial button -->
+                <div id="tutorial">
+                    <small class="greyed">Besoin d'aide ?</small>
+                    <div>
+                        <button class="btn grey-bg-white full-width" onclick="tutorialDashboard()"><i class="fas fa-question mr-2"></i>Tutoriel</button>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-3">
-                <div class="box-advertising min-col float-right">
+                <div class="box-advertising float-right">
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
@@ -154,10 +157,8 @@
                 </div>
 
             </div>
-        </div>
 
-        <!-- Tutorial button -->
-        <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialDashboard()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
+        </div>
     </div>
 {% endblock %}
 
@@ -166,11 +167,16 @@
     <!-- Post Modal -->
     <div class="modal modal-add-post fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content modal-post-content">
-                <!-- html injected by js -->
-                <div class="text-center">
-                    <div class="spinner-border text-warning" role="status">
-                        <span class="sr-only">Loading...</span>
+            <div class="modal-content">
+                <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-post-content">
+                    <!-- html injected by js -->
+                    <div class="text-center">
+                        <div class="spinner-border text-warning" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>

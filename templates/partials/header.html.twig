@@ -21,7 +21,8 @@
             <div class="d-lg-flex">
                 <li>
                     <ul class="notifications d-flex">
-                        <li id="postsNotifications" class="box-notification nav-item dropdown">
+                        <li id="postsNotifications" class="box-notification nav-item dropdown"
+                            data-toggle="tooltip" data-placement="left" title="Vos notifications de posts">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell-o p-2"></i>
                                 {% if postsNotifications|length > 0 %}
@@ -51,7 +52,8 @@
                                 {% endif %}
                             </div>
                         </li>
-                        <li id="messagesNotifications" class="box-notification nav-item dropdown">
+                        <li id="messagesNotifications" class="box-notification nav-item dropdown"
+                            data-toggle="tooltip" data-placement="right" title="Vos notifications de messages">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-envelope-o p-2"></i>
                                 {% if messagesNotifications|length > 0 %}
@@ -93,7 +95,7 @@
                                 {% endif %}
                             </div>
                         </li>
-                        <li id="opportunities" class="box-notification nav-item dropdown">
+                        {#<li id="opportunities" class="box-notification nav-item dropdown">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bolt p-2"></i>
                                 {% if opportunities|length > 0 %}
@@ -112,7 +114,7 @@
                                     <a class="dropdown-item" href="#"><small>Aucune nouvelle opportunité commerciale</small></a>
                                 {% endif %}
                             </div>
-                        </li>
+                        </li>#}
                     </ul>
                 </li>
 

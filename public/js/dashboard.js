@@ -20,7 +20,6 @@ $('#news-filter li').click(function() {
     }
 
     $('.btn-show-more').hide();
-
 });
 
 /**

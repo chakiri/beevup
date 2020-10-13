@@ -6,69 +6,64 @@
       {% else %}
        {{ form_start(PostForm,{'attr': {'id': 'create-post-form','action': path('post_create')}} ) }}
       {% endif %}
-      <div class="d-flex">
-          {% if app.user.profile.filename %}
-              <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="m-2 rounded-circle z-depth-0 medium-avatar" alt="avatar image">
-          {% else %}
-              <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-          {% endif %}
 
-          <div id="myTabContent" class="tab-content">
-              {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1 mb-3','placeholder': 'Quel sujet voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
+      <div class="new-post">
+          <div class="box">
+              <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                      {% if app.user.profile.filename %}
+                          <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                      {% else %}
+                          <img src="/images/default/user.png" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                      {% endif %}
+                      <div class="meta">
+                          <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
+                          <small>{{ app.user.company.name|capitalize }}</small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-              {{ form_widget(PostForm.description ) }}
-              <div class="tab-pane fade mt-3" id="image">
-                  <div class="image-file">{{ form_widget(PostForm.imageFile) }}</div>
-                  <div class="image-link d-none">{{ form_widget(PostForm.imageLink) }}</div>
-              </div>
-              <div class="tab-pane fade mt-3" id="video">
-                  {{ form_widget(PostForm.urlYoutube) }}
-              </div>
-              <div class="tab-pane fade mt-3 d-flex" id="urlLink">
+      <div id="myTabContent" class="tab-content">
+          {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1 mb-3','placeholder': 'Quel sujet voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
+
+          {{ form_widget(PostForm.description, {'attr': {'class': 'mt-1 mb-3'}} ) }}
+
+          <div class="d-lg-flex justify-content-between">
+              {{ form_widget(PostForm.category) }}
+              <button class="btn small-btn grey-bg full-width ml-3"><i class="fas fa-link mr-1"></i> Reprendre un article</button>
+          </div>
+
+          <div class="url-link d-none mt-3">
+              <div class="d-flex">
                   {{ form_widget(PostForm.urlLink) }}
                   <div class="btn grey-bg ml-1">Charger</div>
               </div>
           </div>
       </div>
-      <div class="hr"></div>
-      <div class="d-lg-flex justify-content-between">
-          <div id="types-posts" class="row">
-              <ul class="types-posts d-flex">
-                  <div class="col-lg-5 p-0">
-                      <li class="icon-type-post" id="information" data-id="1"><a class="d-inline-block" href="#"><i class="fa fa-newspaper"></i> <span>Informations</span></a></li>
-                      <li class="icon-type-post" id="job" data-id="4"><a class="d-inline-block" href="#"><i class="fa fa-user-friends"></i> <span>Emploi</span></a></li>
-                      <li class="icon-type-post" id="other" data-id="6"><a class="d-inline-block"  href="#"><i class="fa fa-plus"></i> <span>Autre</span></a></li>
-                  </div>
-                  <div class="col-lg-8 p-0">
-                      <li class="icon-type-post" id="commercial_opportunity" data-id="2"><a class="d-inline-block"  href="#"><i class="fa fa-chart-line"></i> <span>Opportunité commerciale</span></a></li>
-                      <li class="icon-type-post" id="question" data-id="3"><a class="d-inline-block" href="#"><i class="fa fa-question"></i> <span>Question à la communauté</span></a></li>
-                      <li class="icon-type-post" id="event" data-id="5"><a class="d-inline-block"  href="#"><i class="fa fa-calendar-alt"></i> <span>Evénement</span></a></li>
-                  </div>
-              </ul>
 
-              <div class="type-post-error"><small>Vous devez choisir le type du post</small></div>
-          </div>
+      <div class="mt-3">
+          <div class="image-file d-none">{{ form_widget(PostForm.imageFile) }}</div>
+          <div class="image-link">{{ form_widget(PostForm.imageLink) }}</div>
+      </div>
+      <div class="mt-3">
+          <div class="url-youtube d-none">{{ form_widget(PostForm.urlYoutube) }}</div>
+      </div>
 
-          <ul class="medias d-flex nav nav-tabs">
-              <li class="nav-item box-notification" data-toggle="tooltip" data-placement="top" title="Coller une URL"><a class="nav-link url-link" data-toggle="tab" href="#urlLink"><i class="fa fa-link p-2"></i></a></li>
-              <li class="nav-item box-notification" data-toggle="tooltip" data-placement="top" title="Ajouter une image"><a class="nav-link image" data-toggle="tab" href="#image"><i class="fa fa-image p-2"></i></a></li>
-              <li class="nav-item box-notification" data-toggle="tooltip" data-placement="top" title="Partager une vidéo"><a class="nav-link video" data-toggle="tab" href="#video"><i class="fa fa-video-camera p-2"></i></a></li>
-              <div class="d-none">{{ form_widget(PostForm.category) }}</div>
+      <div class="d-flex justify-content-between">
+          <ul class="medias d-flex">
+              <li class="nav-item box-notification"
+                  data-toggle="tooltip" data-placement="top" title="Ajouter une image">
+                  <a class="nav-link image"><i class="fa fa-image p-2"></i></a></li>
+              <li class="nav-item box-notification"
+                  data-toggle="tooltip" data-placement="top" title="Partager une vidéo">
+                  <a class="nav-link video"><i class="fa fa-video-camera p-2"></i></a></li>
           </ul>
 
-          <hr class="d-lg-none">
-
-          {% if app.user.profile.isCompleted == true %}
-              <button type="submit" class="btn small-btn grey-bg">
-                  {% if post is defined  %}Modifier{% else %} Publier{% endif %}
-              </button>
-          {% else %}
-              <button type="button" class="btn small-btn grey-bg"
-                      data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile"
-              >Publier</button>
-          {% endif %}
-
-
+          <button type="submit" class="btn big-btn orange-bg w-25">
+              {% if post is defined  %}Modifier{% else %} Publier{% endif %}
+          </button>
       </div>
 
       {{ form_end(PostForm) }}

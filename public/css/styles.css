@@ -30,7 +30,7 @@
 
 
   /* ============== border radius =========== */
-  --radius:12px;
+  --radius:6px;
   /* ============== border radius =========== */
 }
 @font-face {
@@ -55,7 +55,7 @@ h1,h2,h3,h4,h5,h6{
 
 body{
     height: 100%;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     background: #FAFAFA !important;
     font-family: 'Rubik-regular';
@@ -79,6 +79,10 @@ a.nav-link{
     margin-top: -5px;
     margin-left: -15px;
 }
+a.nav-link i{
+    font-size: 20px;
+    font-weight: 600 !important;
+}
 
 .main-nav{
     width: 100%;
@@ -93,7 +97,7 @@ a.nav-link{
     position: relative;
     padding: 10px 15px;
     transition: 0.3s;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
 }
 
@@ -111,6 +115,14 @@ a.nav-link{
 .box-navigation-items a{
     color: #132644;
     font-weight: 600;
+}
+
+#news-filter .active {
+    background: #FFF6F3;
+    color: #FF7F50 !important;
+}
+#news-filter .active a{
+    color: #FF7F50 !important;
 }
 
 .box{
@@ -142,17 +154,17 @@ a{
 
 p{
     font-weight: 500;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 input{
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
 }
 
 small{
     color: #B3B9C3;
-    font-size: 85%;
+    font-size: 90%;
 }
 
 hr{
@@ -171,12 +183,12 @@ textarea::placeholder,
 #service_description,
 input#service_title::placeholder
  {
-    font-size: 11px !important;
+    font-size: 13px !important;
 
 
 }
 .product-feed-tab input::placeholder {
-    font-size: 11px !important;
+    font-size: 13px !important;
     color: var(--form-placeholder-color) !important;
 }
 
@@ -362,6 +374,9 @@ textarea.form-control{
   max-height: 86px;
     width: 160px;
 }
+#landing-page-header .connexion-btn {
+  top: 30px;
+}
 .landing-page-connexin-link, .landing-page-connexin-link:hover{
     color:var(--text-color);
 }
@@ -424,7 +439,7 @@ textarea.form-control{
 }
 .landing-page-first-bloc{
     background-color: var(--bg-color);
-    padding:23px 90px 0 !important;
+    padding:0 90px 0 !important;
 
 
 }
@@ -553,7 +568,7 @@ ul.landing-page-list {
 }
 .footer-text{
     font-weight: bold;
-    font-size: 8px;
+    font-size: 10px;
     line-height: 9px;
     text-align: center;
 }
@@ -598,9 +613,6 @@ ul.landing-page-list {
         font-size: 24px;
         line-height: 28px;
         margin-bottom: 30px;
-    }
-    .landing-page-first-bloc{
-        padding: 0 !important;
     }
     .landign-page-slogan{
         font-size: 36px;
@@ -917,7 +929,7 @@ ul.landing-page-list {
 }
 .sign_in_sec h3 {
     color: var(--text-color);
-    font-size: 13px;
+    font-size: 20px;
     font-weight: 700;
     position: relative;
     padding-bottom: 10px;
@@ -1378,6 +1390,9 @@ ul.landing-page-list {
 
 }
 .company-up-info h3 a {
+    color: var(--text-color);
+}
+.company-up-info h5 a {
     color: var(--text-color);
 }
 .company-up-info h4 {
