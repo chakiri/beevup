@@ -35,35 +35,66 @@ $('.add-post').click(function(){
 });
 
 /**
- * Synchronise icons type with choice select
+ * add inputs on clicks to publish post
  */
-$('.icon-type-post').click(function(){
-    $('#post_category').val($(this).data('id'));
-
-    //Put active on click
-    $('.icon-type-post').each(function(){
-        $(this).find('a').removeClass('active');
-    });
-    $(this).find('a').addClass('active');
+$('.image').click(function () {
+    //If not image link from article
+    if ($('#post_imageLink').val() == ''){
+        if ($('.image-file').hasClass('d-none')){
+            $('.image-file').removeClass('d-none');
+        }else{
+            $('.image-file').addClass('d-none');
+        }
+    }
+});
+$('.video').click(function () {
+    if ($('.url-youtube').hasClass('d-none')){
+        $('.url-youtube').removeClass('d-none');
+    }else{
+        $('.url-youtube').addClass('d-none');
+    }
+});
+$('.article').click(function () {
+    if ($('.url-article').hasClass('d-none')){
+        $('.url-article').removeClass('d-none');
+    }else{
+        $('.url-article').addClass('d-none');
+    }
 });
 
 /**
- * Disable submit button while type empty
+ *Get Json data from API
  */
+$('#post_urlLink').on('change', function () {
+    var url = $('#post_urlLink').val();
+    var urlApi = 'https://app-1969cdc6-f757-4c93-b03f-00ff5d016840.cleverapps.io/zebulon/testscrap2.php?url=' + url;
+    $.ajax({
+        type: 'GET',
+        url: urlApi,
+        dataType: 'json',
+        success: function (result) {
+            $('#post_title').val(result.data.title);
+            $('#post_description').val(result.data.description);
+            console.log(result.data.image);
+            if (result.data.image){
+                //$('.image-file').addClass('d-none');
+                //$('.image-link').removeClass('d-none');
+                $('.image').addClass('cursor-not-allowed');
+                $('#post_imageLink').val(result.data.image);
+            }
+        }
+    });
+});
 
-$('.modal-add-post :submit').click(function(e){
-    if ($('#post_category').val() == ""){
-        e.preventDefault();
-        $('.type-post-error').css('display', 'block ');
-    }
-});
-//Only video or image
-$('.image').click(function () {
-    $('#post_urlYoutube').val("");
-});
-$('.video').click(function () {
-    $('#post_imageFile').val('');
-    $(".custom-file-label").html("Une image vaut mille mots");
+/**
+ *Disable data article
+ */
+$('.disable-article').click(function(){
+    $('#post_urlLink').val('');
+    $('#post_title').val('');
+    $('#post_description').val('');
+    $('#post_imageLink').val('');
+    $('.image').removeClass('cursor-not-allowed');
 });
 /* end publish post */
 
@@ -303,28 +334,4 @@ $('.custom-file-input').on('change', function(event) {
     $(inputFile).parent()
         .find('.custom-file-label')
         .html(inputFile.files[0].name);
-});
-
-/**
- *Get Json data from API
- */
-$('#post_urlLink').on('change', function () {
-    var url = $('#post_urlLink').val();
-    var urlApi = 'https://app-1969cdc6-f757-4c93-b03f-00ff5d016840.cleverapps.io/zebulon/testscrap2.php?url=' + url;
-    $.ajax({
-        type: 'GET',
-        url: urlApi,
-        dataType: 'json',
-        success: function (result) {
-            $('#post_title').val(result.data.title);
-            $('#post_description').val(result.data.description);
-            console.log(result.data.image);
-            if (result.data.image){
-                $('.image-file').addClass('d-none');
-                $('.image-link').removeClass('d-none');
-                $('.image-link').addClass('d-block');
-                $('#post_imageLink').val(result.data.image);
-            }
-        }
-    });
 });

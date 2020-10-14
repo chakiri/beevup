@@ -37,7 +37,6 @@ class PostType extends AbstractType
             ->add('category', EntityType::class, [
                     'label'=>'Catégorie',
                     'placeholder'=>'Choisissez votre catégorie',
-                    'required' => false,
                     'class' => PostCategory::class,
                 ]
             )
@@ -65,7 +64,7 @@ class PostType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('imageLink', HiddenType::class, [
+            ->add('imageLink', TextType::class, [
                 'required' => false,
             ])
         ;

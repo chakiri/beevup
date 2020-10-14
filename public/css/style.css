@@ -537,6 +537,10 @@ li.icon-type-post a.active{
     width: 10%;
 }
 
+.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;
