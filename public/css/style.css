@@ -84,10 +84,6 @@
     color: #9fa3ab;
 }
 
-.new-post button{
-    top: 30%;
-}
-
 .new-post .meta{
     transform: translateY(20%);
 }
@@ -504,11 +500,9 @@ li.icon-type-post a.active{
 }
 #welcomeModals .modal-body .img{
     width: 100%;
-    height: 180px;
 }
 #welcomeModals .modal-body p{
     padding: 15px;
-    text-align: justify;
     text-justify: inter-word;
 }
 #welcomeModals .modal-footer {
@@ -521,7 +515,7 @@ li.icon-type-post a.active{
 }
 
 #welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
-    max-width: 600px;
+    max-width: 60%;
 }
 
 .vertical-center{
@@ -541,11 +535,24 @@ li.icon-type-post a.active{
     cursor: not-allowed;
 }
 
+#filters-mobile i{
+    font-size: 25px;
+}
+
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;
     }
     .medias {
         justify-content: center;
+    }
+
+    #add-post-modal, #update-post-modal {
+        top: 0;
+        z-index: 2000;
+    }
+
+    .tab-content a{
+        margin-top: 10px;
     }
 }

@@ -127,7 +127,7 @@ a.nav-link i{
 
 .box{
     background: #FFFFFF;
-    border-radius: 8px;
+    border-radius: var(--radius);
     padding: 10px;
     margin: 10px 0;
 }
@@ -351,11 +351,11 @@ textarea.form-control{
 }
 /* ==============modals ========================*/
 .modal-content{
-    border-radius:12px
+    border-radius:var(--radius);
+    border:none;
 }
 .modal-header {
      color: var(--orange-color);
-     font-size: 12px;
  }
 .modal-header h5 {
     color: var(--orange-color);
@@ -2026,9 +2026,6 @@ ul.landing-page-list {
     height: 174px;
     object-fit: cover;
 }
-.row {
-    margin: 0;
-}
 .gallery_pt > a {
     position: absolute;
     top: 100%;
@@ -2823,15 +2820,13 @@ a:hover {
 
 .alert{
     position: fixed;
-    bottom: 14px;
-    HEIGHT: auto;
-    background-color: #000;
-    border-radius: 12px;
-    left: 20px;
-    color: #FFF;
-    z-index: 1111111111;
-    width: 328px;
-    line-height: 24px;
+    top: 12%;
+    /*background-color: #000;*/
+    /*color: #FFF;*/
+    border-radius: var(--radius);
+    margin-left: 15px;
+    z-index: 11111;
+    width: 330px;
 }
 
 

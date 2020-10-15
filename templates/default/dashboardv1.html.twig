@@ -33,7 +33,7 @@
                                         <small>{{ app.user.company.name|capitalize }}</small>
                                     </div>
                                 </div>
-                                <div class="top-3">
+                                <div class="vertical-center">
                                     {% if app.user.profile.isCompleted == true %}
                                         <button class="btn big-btn orange-bg  add-post" data-target="{{ path('post_create') }}">Publier un post</button>
                                     {% else %}
@@ -44,16 +44,19 @@
                         </div>
                     </div>
 
-                    <div class="d-lg-none">
+                    <div id="filters-mobile" class="d-lg-none">
                         <div class="box">
                             <div class="d-flex justify-content-center">
-                                <a href="{{ path('dashboard') }}"><i class="fa fa-clone p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 1}) }}"><i class="fa fa-newspaper p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 2}) }}"><i class="fa fa-chart-line p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 4}) }}"><i class="fa fa-user-friends p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 5}) }}"><i class="fa fa-calendar-alt p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 3}) }}"><i class="fa fa-question p-2 orange"></i></a>
-                                <a href="{{ path('dashboard_category', {'category': 6}) }}"><i class="fa fa-plus p-2 orange"></i></a>
+                                <a href="{{ path('dashboard') }}"><i class="fa fa-clone p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 1}) }}"><i class="far fa-newspaper p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 2}) }}"><i class="far fa-handshake p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 4}) }}"><i class="fas fa-business-time p-3 orange"></i></a>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ path('dashboard_category', {'category': 5}) }}"><i class="fa fa-calendar-alt p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 3}) }}"><i class="fa fa-question p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 6}) }}"><i class="fa fa-plus p-3 orange"></i></a>
+                                <a href="{{ path('dashboard_category', {'category': 7}) }}"><i class="fas fa-users p-3 orange"></i></a>
                             </div>
                         </div>
                     </div>
@@ -63,8 +66,8 @@
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-1">
-                <small class="greyed">Filtrez votre actualité</small>
                 <div id="news-filter" class="box-navigation-items">
+                    <small class="greyed">Filtrez votre actualité</small>
                     <ul>
                         <li class="{% if category is null %}active{% endif %}"value="All"><i class="fa fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
                         <li class="{% if category == 1 %}active{% endif %}" value="informations"><i class="far fa-newspaper mr-2"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
@@ -137,7 +140,7 @@
                 {% endif %}
 
                 <!-- Tutorial button -->
-                <div id="tutorial">
+                <div id="tutorial" class="d-sm-none d-lg-block">
                     <small class="greyed">Besoin d'aide ?</small>
                     <div>
                         <button class="btn grey-bg-white full-width" onclick="tutorialDashboard()"><i class="fas fa-question mr-2"></i>Tutoriel</button>
@@ -146,7 +149,7 @@
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-3">
-                <div class="box-advertising float-right">
+                <div class="box-advertising">
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}

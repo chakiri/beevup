@@ -444,7 +444,7 @@
     #frame #sidepanel #contacts ul li.contact .wrap .meta {
         display: none;
     }
-    #frame #sidepanel #contacts h4{
+    #frame #sidepanel #contacts h4, #frame #sidepanel #contacts small{
         display: none;
     }
     #frame #sidepanel #channels ul li.channels{
@@ -459,7 +459,7 @@
     }
     #frame #sidepanel #channels ul li.channels .meta p{
         display: block;
-        margin-top: -13px;
+        margin-top: -15px;
         margin-left: -4px;
         visibility: hidden;
     }

@@ -80,7 +80,7 @@
 		display: none;
 	}
 	.box-notification {
-		margin: 0;
+		margin: 6px;
 	}
 
 	.warnings {
@@ -231,7 +231,8 @@
 	.acc-leftbar .nav-tabs > a i {width: 30px;}
 	.acc-leftbar .nav-tabs > a {font-size: 14px;}
 	.notification-box {left: 100%;top: 0;}
-	nav ul ul {left: 50%;top: 0;border: 1px solid #e4e4e4;padding-left: 20px;padding-right: 20px;}
+	nav ul ul {left: 50%;top: 0;padding-left: 20px;padding-right: 20px;}
+	.notifications {justify-content: center;}
 	.sgt-text span {font-size: 12px;}
 }
 
