@@ -34,13 +34,12 @@ class PostType extends AbstractType
                     'class'    =>'entity-description',
                 ]
             ])
-            ->add('urlYoutube', TextType::class, [
-                'required' => false,
-                'label' => "Vidéo",
-                'attr' => [
-                    'placeholder' => 'Collez le lien Youtube de votre vidéo !',
+            ->add('category', EntityType::class, [
+                    'label'=>'Catégorie',
+                    'placeholder'=>'Choisissez votre catégorie',
+                    'class' => PostCategory::class,
                 ]
-            ])
+            )
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'label' => 'Image',
@@ -49,25 +48,24 @@ class PostType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('category', EntityType::class, [
-                'label'=>'Catégorie',
+            ->add('urlYoutube', TextType::class, [
                 'required' => false,
-                'class' => PostCategory::class,
+                'label' => "Vidéo",
+                'attr' => [
+                    'placeholder' => 'Collez le lien Youtube de votre vidéo !',
+                    'class' => 'form-control'
                 ]
-            )
+            ])
             ->add('urlLink', TextType::class, [
                 'required' => false,
                 'label' => "Url web",
                 'attr' => [
-                    'placeholder' => 'Saisissez l\'url de votre article, en s\'occupe du reste',
+                    'placeholder' => 'Saisissez l\'url de votre article, on s\'occupe du reste',
+                    'class' => 'form-control'
                 ]
             ])
             ->add('imageLink', TextType::class, [
                 'required' => false,
-                'label' => "Image de l'article",
-                'attr' => [
-                    'placeholder' => 'Cet url récupére automatiquement votre article',
-                ]
             ])
         ;
     }

@@ -13,10 +13,15 @@
     height: 45px;
     margin-right: 10px;
 }
+.big-avatar{
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
 
 .btn{
-    border-radius: 12px;
-    font-size: 12px;
+    border-radius: var(--radius);
+    font-size: 15px;
 }
 
 .orange-bg{
@@ -34,6 +39,10 @@
 .grey-bg {
     background: #F6F7F8 !important;
 }
+.grey-bg-white {
+    background: #cbcdd0f5 !important;
+    color: #fff !important;
+}
 
 .orange{
     color: #FF7F50;
@@ -41,14 +50,11 @@
 
 .small-btn{
     width: 107px;
-    height: 30px;
+    height: 33px;
 }
 
 .big-btn{
-    width: 70%px;
-    height: 40px;
-    border-radius: 27px;
-    font-size: 17px;
+    width: 100%;
 }
 
 .square-image{
@@ -62,12 +68,24 @@
     padding: 0;
 }
 
+.new-post .box{
+    background: #FFF6F3;
+}
+
+.shadow{
+    box-shadow: 0px 5px 5px #c7c7c7;
+}
+
 .new-post input{
     border: none;
     width: 100%;
 }
 .new-post a span{
     color: #9fa3ab;
+}
+
+.new-post .meta{
+    transform: translateY(20%);
 }
 
 .badge{
@@ -99,6 +117,11 @@
 .badge-blue{
     background: #F7F9FF;
     color: #275EFF;
+}
+
+.badge-blue-dark{
+    background: #edf2ff;
+    color: #132644;
 }
 
 .badge-grey{
@@ -140,7 +163,7 @@
     border: none;
     width: 100%;
     height: 32px;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .hover-btn {
@@ -152,16 +175,14 @@
 }
 
 .notifications{
-    padding: 6px;
+    padding: 0 6px;
 }
 
 .box-notification{
     position: relative;
     background: #F6F7F8;
     border-radius: 30px;
-    height: 27px;
-    width: 26px;
-    margin: 0 3px;
+    margin: 0 5px;
 }
 
 .box-notification .badge{
@@ -174,7 +195,15 @@
     color: white;
     transform: scale(.8);
     transform-origin: top right;
-}
+}.box-navigation-items .badge{
+     position: absolute;
+     padding: 5px 5px;
+     border-radius: 8.35rem;
+     background-color: #e74a3b;
+     color: white;
+     transform: scale(.8);
+     transform-origin: top right;
+ }
 
 .box-advisor a[type=button], .box-company a[type=button]{
     padding: 5px;
@@ -197,10 +226,17 @@
     top: 52px;
 }
 
-#add-post-modal .modal-content,#update-post-modal .modal-content {
+#add-post-modal .modal-content,#update-post-modal .modal-content{
     border-radius: 8px;
     border: none;
-    padding: 10px;
+}
+
+#add-post-modal .modal-content .modal-post-content,#update-post-modal .modal-content .modal-post-content{
+    padding: 2em;
+}
+
+.close{
+    right: 8px;
 }
 
 #add-post-modal .modal-header, #update-post-modal .modal-header{
@@ -216,13 +252,18 @@
 #add-post-modal input, #add-post-modal textarea, #update-post-modal input, #update-post-modal textarea {
     width: 100%;
     border: none;
-    font-size: 11px;
+    background-color: #FAFAFA;
 }
+
+#add-post-modal textarea::placeholder, #update-post-modal textarea::placeholder{
+    font-size: 14px !important;
+}
+
 #myTabContent input:not(#post_title){
-    --form-placeholder-size: 11px;
+    --form-placeholder-size: 15px;
 }
 #add-post-modal textarea, #update-post-modal textarea{
-    height: 70px;
+    height: 120px;
 }
 
 #post_title {
@@ -238,6 +279,12 @@
 .medias {
     list-style-type: none;
     margin: 0;
+    padding: 0;
+}
+.medias a{
+    color: #132644;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-link{
@@ -263,6 +310,13 @@
 
 .tab-content{
     width: 100%;
+}
+
+.tab-content select{
+    width: 230px;
+    background-color: #fff6f3;
+    border: none;
+    color: var(--orange-color);
 }
 
 .spinner-border{
@@ -351,6 +405,7 @@ li.icon-type-post a.active{
     padding: 7px;
     text-align: center;
     color: #fff;
+    font-size: 12px;
 }
 
 /* Advisor box mobile dashboard */
@@ -445,11 +500,9 @@ li.icon-type-post a.active{
 }
 #welcomeModals .modal-body .img{
     width: 100%;
-    height: 180px;
 }
 #welcomeModals .modal-body p{
     padding: 15px;
-    text-align: justify;
     text-justify: inter-word;
 }
 #welcomeModals .modal-footer {
@@ -462,7 +515,7 @@ li.icon-type-post a.active{
 }
 
 #welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
-    max-width: 600px;
+    max-width: 60%;
 }
 
 .vertical-center{
@@ -478,11 +531,28 @@ li.icon-type-post a.active{
     width: 10%;
 }
 
+.cursor-not-allowed{
+    cursor: not-allowed;
+}
+
+#filters-mobile i{
+    font-size: 25px;
+}
+
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;
     }
     .medias {
         justify-content: center;
+    }
+
+    #add-post-modal, #update-post-modal {
+        top: 0;
+        z-index: 2000;
+    }
+
+    .tab-content a{
+        margin-top: 10px;
     }
 }

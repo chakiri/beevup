@@ -3,15 +3,22 @@
 
     {% block header %}
         <div class="modal-header">
-            <p>Vous êtes maintenant prêts à vous lancer dans l’expérience Beev’Up.</p>
+            <h5>Vous êtes maintenant prêts à vous lancer dans l’expérience Beev’Up.</h5>
         </div>
     {% endblock %}
 
     {% block body %}
         <p>A tout moment, vous pouvez accéder à l’aide « pas à pas » en cliquant sur le bouton « Tutoriel » en haut de chaque écran.</p>
 
-        <div class="text-center m-5">
-            <button type="button" class="btn btn-success btn-lg" id="startIntro">Commencer</button>
+        <div class="row">
+            <div class="col-lg-6 vertical-center">
+                <img class="img align-middle" src="/images/homePage/beevup-img3.png" alt=""/>
+            </div>
+            <div class="col-lg-6 vertical-center">
+                <div class="text-center m-5">
+                    <button type="button" class="btn orange-bg big-btn" id="startIntro">Commencer</button>
+                </div>
+            </div>
         </div>
     {% endblock %}
 
