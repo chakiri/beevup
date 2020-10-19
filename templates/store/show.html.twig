@@ -21,26 +21,18 @@
                                 {% endif %}
                             </div><!--user-pro-img end-->
                             <div class="user_pro_status">
-
-                                <ul class="flw-hr">
-
-                                    {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
-
-                                        <li>
-                                          <a class="flww" href="{{ path('store_edit', {'id': store.id}) }}">
-                                              Modifier les informations
-                                          </a>
-                                        </li>
-                                        {% endif %}
-
-                                </ul>
-
+                                {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
+                                    <div class="btn white-bg">
+                                  <a class="" href="{{ path('store_edit', {'id': store.id}) }}">
+                                      Modifier les informations
+                                  </a>
+                                    </div>
+                                {% endif %}
                             </div><!--user_pro_status end-->
                             <ul class="social_links">
                                 <li><i class="fas fa-map-marker-alt"></i> <span class="social-links-span">{{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
-                                <li><i class="fas fa-mobile-alt"></i> <span class="social-links-span">  {{ store.phone }} <span class="social-links-span"></li>
+                                <li><i class="fas fa-mobile-alt"></i> <span class="social-links-span">  {{ store.phone ?? 'N° de téléphonse non saisi' }} </span></li>
                                 {% if store.city or store.country %}<li><i class="fas fa-flag p-1"></i>  {% if store.city %} <span>   {{ store.city }}</span> {% endif %}{% if store.country %}<span> {{ store.country }}</span> {% endif %}</li> {% endif %}
-
                             </ul>
                         </div><!--user_profile end-->
                         {% if users is defined %}
@@ -48,7 +40,7 @@
                                 <div class="suggestions-list">
                                     {% if companies is defined %}
                                         <div class="sd-title page-title sign_in_sec current">
-                                            <h3>Les derniers arrivés </h3>
+                                            <h5>Les derniers arrivés </h5>
 
                                         </div><!--sd-title end-->
                                         {% for company in companies %}
@@ -89,7 +81,7 @@
 
                         <div class="product-feed-tab current" id="info-dd">
                             <div class="user-profile-ov page-title sign_in_sec current">
-                                <h3>{{ store.name }} en quelques mots</h3>
+                                <h5>{{ store.name|capitalize }} en quelques mots</h5>
                                 <p>{{ store.description|raw ?: 'Pas de description' }}</p>
                             </div><!--user-profile-ov end-->
 
@@ -97,10 +89,10 @@
                             {% if  services %}
                                 <div class="top-profiles">
                                     <div class="pf-hd page-title sign_in_sec current">
-                                        <h3>Les services proposés par votre magasin Bureau Vallée</h3>
+                                        <h5>Les services proposés par votre magasin Bureau Vallée</h5>
                                         <i class="la la-ellipsis-v"></i>
                                     </div>
-                                    <div class="">
+                                    <div class="profiles-slider">
                                         <div class="row">
                                             {% for service in services %}
                                                 <div class="col-4">
@@ -141,9 +133,9 @@
                             {% endif %}
 
                             <div class="user-profile-ov st2 page-title sign_in_sec current">
-                                <h3>
+                                <h5>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ store.name|capitalize }} </a>
-                                </h3>
+                                </h5>
                                 {% if recommandationsServices %}
                                     {% for recommandationsService in recommandationsServices %}
                                         <div class="suggestion-usd">
@@ -169,9 +161,9 @@
                             </div>
 
                             <div class="user-profile-ov st2 page-title sign_in_sec current">
-                                <h3>
+                                <h5>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé {{ store.name|capitalize }} </a>
-                                </h3>
+                                </h5>
                                 {% if recommandationsStore %}
                                     {% for recommandationStore in recommandationsStore %}
                                         <div class="suggestion-usd">
@@ -202,30 +194,35 @@
                 <div class="col-lg-3">
                     <div class="right-sidebar">
                         <div class="sd-title page-title sign_in_sec current">
-                            <h3>Notre équipe pour vous servir</h3>
+                            <h5>Notre équipe pour vous servir</h5>
                         </div><!--sd-title end-->
                         <div class="suggestions-list">
-                            {%  for user in users %}
-                                {% if user.profile != null %}
-                                    {% if user.profile.isCompleted %}
-                                        <div class="suggestion-usd">
-
-                                            {% if user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                            {% else %}
-                                                <img src="/images/no-available-photo.png" alt="">
-                                            {% endif %}
-                                            <div class="sgt-text hover-info">
-                                                <p>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</p>
-                                                {% if user.profile.function != null %}
-                                                    <small>{{ user.profile.function.name|capitalize }}</small>
+                            {% if users %}
+                                {%  for user in users %}
+                                    {% if user.profile != null %}
+                                        {% if user.profile.isCompleted %}
+                                            <div class="suggestion-usd">
+                                                {% if user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                {% else %}
+                                                    <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
-                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
+                                                <div class="sgt-text hover-info">
+                                                    <p>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</p>
+                                                    {% if user.profile.function != null %}
+                                                        <small>{{ user.profile.function.name|capitalize }}</small>
+                                                    {% endif %}
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
-                            {% endfor %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="p-3">
+                                    <p>Aucun nouvel utilisateur</p>
+                                </div>
+                            {% endif %}
                         </div><!--suggestions-list end-->
                     </div><!--suggestions end-->
                 </div>

@@ -43,6 +43,15 @@
     {% include 'partials/header.html.twig' %}
 {% endif %}
 
+{#dispaly flash messages #}
+{% if app.request.attributes.get('_route') != 'service'
+and app.request.attributes.get('_route') != 'security_forgotten_password'
+and app.request.attributes.get('_route') != 'security_reset_password'
+and app.request.attributes.get('_route') != 'security_login'
+%}
+    {% include 'partials/flashes.html.twig' %}
+{% endif %}
+
 {% block body %}{% endblock %}
 
 {% block modals %}{% endblock %}
@@ -52,15 +61,6 @@
     and app.request.attributes.get('_route') != 'chat_private'
 %}
     {% include 'partials/footer.html.twig' %}
-{% endif %}
-
-{#dispaly flash messages #}
-{% if app.request.attributes.get('_route') != 'service'
-    and app.request.attributes.get('_route') != 'security_forgotten_password'
-    and app.request.attributes.get('_route') != 'security_reset_password'
-    and app.request.attributes.get('_route') != 'security_login'
-%}
-    {% include 'partials/flashes.html.twig' %}
 {% endif %}
 
 {# Display Toast info#}
@@ -101,7 +101,6 @@
 <script src="/lib/slick/slick.min.js"></script>
 <script src="/js/scrollbar.js"></script>
 <script src="/js/script.js"></script>
-
 {% endif %}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-4186509-8"></script>
