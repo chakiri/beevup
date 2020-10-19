@@ -31,7 +31,7 @@
 
 .white-bg{
     background: #FFFFFF;
-    color: #FF7F50;
+    color: #FF7F50 !important;
     border: 1px solid #ff622d;
     box-sizing: border-box;
 }
@@ -49,8 +49,7 @@
 }
 
 .small-btn{
-    width: 107px;
-    height: 33px;
+    max-width: 100%;
 }
 
 .big-btn{
@@ -374,6 +373,9 @@ li.icon-type-post a.active{
 .hover-info:hover > .popup-info{
     display: block;
     position: absolute;
+}
+.hover-info p{
+    margin: 0;
 }
 
 .popup-info{

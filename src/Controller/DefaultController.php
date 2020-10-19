@@ -55,7 +55,6 @@ class DefaultController extends AbstractController
             $posts = $postRepository->findByNotReportedPosts($minId);
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
-        //$lastSpecialOffer = $serviceRepository->findOneBy(['isDiscovery'=> 1 ],['createdAt' => 'DESC']);
 
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies, $this->getUser()->getStore());
