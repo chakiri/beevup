@@ -216,7 +216,14 @@ class ServiceController extends AbstractController
      */
     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository)
     {
-        if($service != null) {
+
+       /** if  the previous page is company so after creating a new service the user  will be redirected to company page
+        *else he will be redirected to service page
+        **/
+       $referer = $request->headers->get('referer');
+       $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
+
+         if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
             }
@@ -232,10 +239,14 @@ class ServiceController extends AbstractController
 
 
         }
-        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));
+        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer, 'previousPage' =>$previousPage));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+          $previousPage =    $form->get('previousUrl')->getData();
+
+
+
             if (!$service->getType())
                 //Set type depending on user role
                 $serviceSetting->setType($service);
@@ -254,7 +265,7 @@ class ServiceController extends AbstractController
             $service->setPrice( $this->floatvalue($service->getPrice()));
             $manager->persist($service);
 
-            /***** change post********/
+            /***** if the user change the service it should be updated in the posts ********/
             $relatedPost = $postRepository->findPostRelatedToService($service);
             if ($relatedPost != null){
                 $relatedPost->setTitle($service->getTitle());
@@ -264,7 +275,10 @@ class ServiceController extends AbstractController
 
             /************************/
             $manager->flush();
-            /*******Add automatic post***/
+
+            /**Add automatic post
+             * when the  user create a new service an automatic post will be created
+             ***/
             if ($request->get('_route') == 'service_new') {
                 $category = $postCategoryRepository->findOneBy(['id' => 6]);
                 $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
@@ -274,13 +288,18 @@ class ServiceController extends AbstractController
             $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
 
             $this->addFlash('success', $message);
+            if($previousPage =='company' )
+                return $this->redirectToRoute('company_show', ['slug'=>$service->getUser()->getcompany()->getSlug()]);
+            else
+                return $this->redirectToRoute('service_show', $optionsRedirect);
 
-            return $this->redirectToRoute('service_show', $optionsRedirect);
         }
+
         return $this->render('service/form.html.twig', [
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => $service->getId() != null,
+
         ]);
     }
 

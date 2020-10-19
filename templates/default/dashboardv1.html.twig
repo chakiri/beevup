@@ -30,7 +30,9 @@
                                     {% endif %}
                                     <div class="meta">
                                         <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
-                                        <small>{{ app.user.company.name|capitalize }}</small>
+                                        {% if app.user.company %}
+                                          <small>{{ app.user.company.name|capitalize }}</small>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="vertical-center">
@@ -84,40 +86,40 @@
                     </ul>
                 </div>
 
-                <div id="advisorebox" class="box-advisor">
-                    <small class="greyed">Votre conseiller</small>
-                    <div class="box mt-0">
-                        {% if  app.user.store != null %}
-                            {% if  app.user.store.defaultAdviser != null %}
-                                {% if  app.user.store.defaultAdviser.profile != null %}
-                                    <div class="d-flex">
-                                        <a href="#">
-                                            {% if app.user.store.defaultAdviser.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% else %}
-                                                <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% endif %}
-                                        </a>
-                                        <div>
-                                            <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
-                                            <small>{{ app.user.store.defaultAdviser.store }}</small>
+                    <div id="advisorebox" class="box-advisor">
+                        <small class="greyed">Votre conseiller</small>
+                        <div class="box mt-0">
+                            {% if  app.user.store != null %}
+                                {% if  app.user.store.defaultAdviser != null %}
+                                    {% if  app.user.store.defaultAdviser.profile != null %}
+                                        <div class="d-flex">
+                                            <a href="#">
+                                                {% if app.user.store.defaultAdviser.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                                {% endif %}
+                                            </a>
+                                            <div>
+                                                <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
+                                                <small>{{ app.user.store.defaultAdviser.store }}</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex pt-3">
-                                        <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-                                        <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                                    </div>
+                                        <div class="d-flex pt-3">
+                                            <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
+                                            <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <p>Aucun conseiller défini</p>
                                 {% endif %}
                             {% else %}
                                 <p>Aucun conseiller défini</p>
                             {% endif %}
-                        {% else %}
-                            <p>Aucun conseiller défini</p>
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
 
-                {% if app.user.company  %}
+                {% if app.user.company   %}
                 <div id="companybox" class="box-company mt-3">
                     <small class="greyed">Votre entreprise</small>
                     <div class="box mt-0">

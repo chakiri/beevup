@@ -57,7 +57,7 @@ class CompanyController extends AbstractController
             'recommandationsCompany'=> $recommandationsCompany,
             'users' => $users,
             'countServices' => count($services),
-            'services' => array_slice($services, 0, 3),
+            'services' => array_slice($services, -3, 3),
             'score' => $score,
             'isFavorit' => $isFavorit,
             'adviser'=>$adviser
