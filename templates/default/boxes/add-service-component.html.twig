@@ -1,0 +1,22 @@
+<div class="widget widget-jobs">
+    <div class="user-profile-ov page-title sign_in_sec current">
+        <h3>
+            Participez à la vie de votre communauté !
+        </h3>
+        <p>Gagnez en visibilité et cumulez des points Bureau Vallée en ajoutant, sur vos services, une offre dédiée à la communauté</p>
+
+        <div class="d-flex pt-3 aside-service">
+            <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Créer</a>
+            {% if is_granted('ROLE_ADMIN_STORE') %}
+            <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
+            {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
+            <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn white-bg">Mes services</a>
+            {% endif %}
+
+        </div>
+
+        {% if is_granted('ROLE_ADMIN_STORE') %}
+        <a id="assocaiteservicebox"  type="button"  href="{{ path('service_generic') }}" class="btn small-btn orange-bg mr-2">Ajouter un service BV</a>
+        {% endif %}
+    </div><!--user-profile-ov end-->
+</div><!--widget-jobs end-->

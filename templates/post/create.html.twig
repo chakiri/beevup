@@ -18,7 +18,9 @@
                       {% endif %}
                       <div class="meta">
                           <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
-                          <small>{{ app.user.company.name|capitalize }}</small>
+                          {% if app.user.company %}
+                            <small>{{ app.user.company.name|capitalize }}</small>
+                          {% endif %}
                       </div>
                   </div>
               </div>

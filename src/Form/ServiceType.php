@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 
@@ -32,6 +33,7 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+      
         $builder
             ->add('title', TextType::class, [
                 'label'    => 'Nom du service',
@@ -202,6 +204,12 @@ class ServiceType extends AbstractType
                 ],
 
             ])
+            ->add('previousUrl', HiddenType::class, [
+                'mapped'    => false,
+                 'attr'  => [
+                    'value' => $options['previousPage']
+                 ],
+            ])
         ;
 
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')){
@@ -231,6 +239,7 @@ class ServiceType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Service::class,
             'isOffer' => null,
+            'previousPage' => null,
         ]);
     }
 }
