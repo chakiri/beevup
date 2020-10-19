@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="main-section">
-    <div class="container">
+    <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
                 <div class="col-lg-3">
@@ -14,22 +14,18 @@
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}"  alt="">
                                 {% else %}
-                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                    <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
                                 <div class="">
                                     {% if service.user == app.user %}
-                                        <ul class="flw-hr">
-                                            <li>
-                                                <a href="{{ path('service_edit', {'id': service.id}) }}">
-                                                    Modifier
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" type="button" data-toggle="modal" data-target="#confirmDelete">
-                                                    Supprimer
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <div class="m-3">
+                                            <a class="btn white-bg" href="{{ path('service_edit', {'id': service.id}) }}">
+                                                Modifier
+                                            </a>
+                                            <a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#confirmDelete">
+                                                Supprimer
+                                            </a>
+                                        </div>
                                     {% elseif service.type.name == 'plateform' %}
                                         <ul class="flw-hr">
                                         {% if is_granted('ROLE_ADMIN_STORE') %}
@@ -99,7 +95,7 @@
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
                             <div class="mb-5">
-                                <h3>{{ service.title }}</h3>
+                                <h3>{{ service.title|capitalize }}</h3>
                                 <p><small>Proposé par : </small>
                                     {% if storeService %}
                                         <a href="{{ path('store_show', {'slug': storeService.store.slug}) }}">
@@ -122,7 +118,7 @@
                                      <p>{{ service.description|raw ?: 'Pas de description' }}</p>
                                  </div>
                                 {% if service.isDiscovery %}
-                                    <div class="user-profile-ov page-title sign_in_sec current">
+                                    <div class="user-profile-ov  page-title sign_in_sec current">
                                         <h3> A propos de l'offre exclusive</h3>
                                         <p>{{ service.discoveryContent|raw ?: 'Pas de description' }}</p>
                                     </div>
@@ -179,7 +175,7 @@
                                     {% endif %}
                                 </div>
 
-                                <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                <div class="user-profile-ov page-title sign_in_sec current st2">
                                     <h3>
                                         <a href="#" title="" class="exp-bx-open">La communauté a recommandé ce service </a>
                                     </h3>
@@ -189,15 +185,14 @@
                                                 {% if recommandation.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="http://via.placeholder.com/35x35" alt="">
+                                                    <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
-                                                <div class="sgt-text hover-info">
-                                                    <h4>
-                                                        <a href="{{ path('profile_show', {'id': recommandation.user.profile.id}) }}">
-                                                        {{recommandation.user.profile.lastname|capitalize }} {{recommandation.user.profile.firstname|capitalize }}</a></h4>
+                                                <div class="hover-info">
+                                                    <p>{{ recommandation.user.profile.firstname|capitalize }} {{ recommandation.user.profile.lastname|capitalize }}</p>
+                                                    <small>{{ recommandation.user.company|capitalize }}</small>
                                                     {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
                                                 </div>
-                                                <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
+                                                <p class="recommandation-message">
                                                     {{ recommandation.message  }}
                                                 </p>
 
@@ -209,7 +204,7 @@
                                 </div>
 
                                 {% if service.user.company != null and not storeService and service.type.name != 'plateform' %}
-                                   <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                   <div class="user-profile-ov page-title sign_in_sec current st2">
                                     <h3>
                                         <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">D'autres personnes ont recommandé {{ service.user.company|capitalize }}</a>
                                     </h3>
@@ -219,17 +214,14 @@
                                                 {% if recommandationCompany.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="http://via.placeholder.com/35x35" alt="">
+                                                    <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
-                                                <div class="sgt-text hover-info">
-                                                    <h4>
-                                                        <a href="{{ path('profile_show', {'id': recommandationCompany.user.profile.id}) }}">
-                                                          {{recommandationCompany.user.profile.lastname|capitalize }} {{recommandationCompany.user.profile.firstname|capitalize }}
-                                                        </a>
-                                                    </h4>
+                                                <div class="hover-info">
+                                                    <p>{{ recommandationCompany.user.profile.firstname|capitalize }} {{ recommandationCompany.user.profile.lastname|capitalize }}</p>
+                                                    <small>{{ recommandationCompany.user.company|capitalize }}</small>
                                                     {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationCompany.user} %}
                                                 </div>
-                                                <p style="float: left;position: relative;left: 11px;top: -10px;width: 84%;" class="recommandation-message">
+                                                <p class="recommandation-message">
                                                         {{recommandationCompany.message }}
                                                 </p>
 
@@ -248,7 +240,7 @@
                 <div class="col-lg-3">
                     {% if similarServices %}
                         <div class="suggestions full-width">
-                            <div class="sd-title page-title sign_in_sec current">
+                            <div class="sd-title page-title">
                                 <h3>Services similaires</h3>
                             </div><!--sd-title end-->
                             <div class="suggestions-list">
@@ -258,7 +250,7 @@
                                             {% if service.filename %}
                                                 <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                             {% else %}
-                                                <img src="http://via.placeholder.com/170x170" alt="">
+                                                <img src="/images/no-available-photo.png" alt="">
 
                                             {% endif %}
                                         </div>

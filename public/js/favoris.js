@@ -98,7 +98,7 @@ $('.add-company-favoris').click(function() {
     var companyAdministratorName =   $(this).attr('data-company-administrator-name');
     var companyAdministratorImg =    $(this).attr('data-company-administrator-img');
     if(companyAdministratorImg == ''){
-        companyAdministratorImg ='http://via.placeholder.com/90x90';
+        companyAdministratorImg ='/images/no-available-photo.png';
     }
     var userId =  $(this).attr('data-company-administrator-id');
     var selectedProfileId = $(this).attr('data-company-administrator-profile-id');
@@ -146,7 +146,7 @@ $('.add-company-favoris').click(function() {
                    <div class="popup-info box">
                     <div class="d-flex">
                         <a href="#">
-                            <img src="http://via.placeholder.com/90x90" class="rounded-circle medium-avatar" alt="avatar image">
+                            <img src="/images/no-available-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
                         </a>
                         <div>
                             <p> ` + companyAdministratorName + `</p>

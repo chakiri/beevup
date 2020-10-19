@@ -5,7 +5,7 @@
 {% block body %}
 <main>
         <div class="main-section">
-            <div class="container">
+            <div class="container-bv">
                 <div class="main-section-data page-content">
                     <div class="row">
                         <div class="col-lg-3">
@@ -15,7 +15,7 @@
                                         {% if app.user.profile.filename %}
                                             <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                         {% else %}
-                                            <img src="http://via.placeholder.com/170x170" alt="">
+                                            <img src="/images/no-available-photo.png" alt="">
                                         {% endif %}
                                     </div>
                                     <div class="user_pro_status">
@@ -41,7 +41,7 @@
                                             <div class="row">
                                                 <div class="suggestion-usd abuse-suggestion-usd">
                                                    {% if abuse.user.profile.filename is empty %}
-                                                       <img src="http://via.placeholder.com/35x35" alt="">
+                                                       <img src="/images/no-available-photo.png" alt="">
                                                    {% else %}
                                                        <img src="/images/profiles/{{ abuse.user.profile.filename }}" alt="">
                                                    {% endif %}

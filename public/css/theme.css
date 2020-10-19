@@ -932,9 +932,9 @@ border-radius: 5px;
    margin-bottom:10px;
    font-size:12px;
 }
-  
+
 .post-add-comment{
- 
+
   min-height: 40px;
   padding-left:10px;
   font-size:12px;
@@ -1825,7 +1825,7 @@ textarea {
 }
 .btn .badge {
   margin-left: 8px;
-  position: relative; 
+  position: relative;
   top: -1px;
 }
 /*.badge-pulse {
@@ -1866,7 +1866,7 @@ textarea {
   background-color: #f7b924;
 }
 /*.badge-pulse::after {
-   -webkit-animation-delay: .33s; 
+   -webkit-animation-delay: .33s;
    -webkit-animation-duration: 2.2s;
 }
 .badge-pulse::before, .badge-pulse::after {
