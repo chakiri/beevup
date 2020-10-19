@@ -1107,21 +1107,21 @@ ul.landing-page-list {
     width: 100%;
     padding: 0 30px;
 }
-.sign_in_sec a{
+#login-page .sign_in_sec a{
     color: var(--text-color);
     font-weight: 600;
 }
 .sign_in_sec.current {
     display: block;
 }
-.sign_in_sec h3 {
+.sign_in_sec h3, .sign_in_sec h5 {
     color: var(--text-color);
     font-weight: 700;
     position: relative;
     padding-bottom: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
-.sign_in_sec h3:before {
+.sign_in_sec h3:before, .sign_in_sec h5:before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -1555,11 +1555,11 @@ ul.landing-page-list {
     width: 90px;
     object-fit: cover;
 }
-.company-up-info h3 a {
+.company-up-info h3 a, .company-up-info h5 a {
     color: var(--text-color);
 }
-.company-up-info h5 a {
-    color: var(--text-color);
+.company-up-info h3, .company-up-info h5 {
+    height: 45px;
 }
 .company-up-info ul {
     width: 100%;

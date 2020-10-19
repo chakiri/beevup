@@ -37,7 +37,7 @@
                                                   <a href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a>
                                                 </li>
                                                 <li>
-                                                    <a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
+                                                    <div class="btn white-bg"><a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a></div>
                                                 </li>
                                             {% endif %}
                                         {% endif %}
@@ -49,7 +49,7 @@
                                                 <span><b>Prix :</b> Sur devis</span>
                                                 {% if app.user != service.user %}
                                                     <div class="lt-sec">
-                                                        <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Demander un devis</a>
+                                                        <div class="btn white-bg"><a href="{{ path('chat_private', {'id': service.user}) }}" title="">Demander un devis</a></div>
                                                     </div>
                                                 {% endif %}
                                             {% else %}
@@ -114,17 +114,17 @@
                             </div>
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current">
-                                    <h3> A propos du service</h3>
+                                    <h5> A propos du service</h5>
                                      <p>{{ service.description|raw ?: 'Pas de description' }}</p>
                                  </div>
                                 {% if service.isDiscovery %}
                                     <div class="user-profile-ov  page-title sign_in_sec current">
-                                        <h3> A propos de l'offre exclusive</h3>
+                                        <h5> A propos de l'offre exclusive</h5>
                                         <p>{{ service.discoveryContent|raw ?: 'Pas de description' }}</p>
                                     </div>
                                 {% endif %}
                                 <div class="user-profile-ov page-title sign_in_sec current">
-                                    <h3> Photos</h3>
+                                    <h5> Photos</h5>
                                     <div class="gallery_pf">
                                         <div class="row">
                                             {% if service.filename %}
@@ -176,9 +176,9 @@
                                 </div>
 
                                 <div class="user-profile-ov page-title sign_in_sec current st2">
-                                    <h3>
+                                    <h5>
                                         <a href="#" title="" class="exp-bx-open">La communauté a recommandé ce service </a>
-                                    </h3>
+                                    </h5>
                                     {% if recommandations %}
                                         {% for recommandation in recommandations %}
                                             <div class="suggestion-usd">
@@ -205,9 +205,9 @@
 
                                 {% if service.user.company != null and not storeService and service.type.name != 'plateform' %}
                                    <div class="user-profile-ov page-title sign_in_sec current st2">
-                                    <h3>
+                                    <h5>
                                         <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">D'autres personnes ont recommandé {{ service.user.company|capitalize }}</a>
-                                    </h3>
+                                    </h5>
                                     {% if recommandationsCompany %}
                                         {% for recommandationCompany in recommandationsCompany %}
                                             <div class="suggestion-usd">
@@ -241,7 +241,7 @@
                     {% if similarServices %}
                         <div class="suggestions full-width">
                             <div class="sd-title page-title">
-                                <h3>Services similaires</h3>
+                                <h5>Services similaires</h5>
                             </div><!--sd-title end-->
                             <div class="suggestions-list">
                                 {% for service in similarServices %}

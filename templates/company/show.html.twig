@@ -82,38 +82,37 @@
 
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current">
-                                    <h3>
+                                    <h5>
                                         {{ company.name }} en quelques mots
-                                    </h3>
+                                    </h5>
 
                                     <p>{{ company.description|raw ?: 'Pas de description' }}</p>
 
                                 </div><!--company description end-->
 
+
                                 {% if  countServices > 0 %}
                                     <div class="top-profiles">
-                                        <div class="pf-hd page-title">
-                                            <h3>{{ company.name }} vous propose les services suivants</h3>
+                                        <div class="pf-hd page-title sign_in_sec current">
+                                            <h5>{{ company.name }} vous propose les services suivants</h5>
                                             <i class="la la-ellipsis-v"></i>
                                         </div>
-                                        <div class="row">
+                                        <div class="profiles-slider">
                                             {% for service in services %}
-                                                <div class="col-4">
-                                                    <div class="user-profy">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="/images/no-available-photo.png" alt="">
-                                                        {% endif %}
-                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
-                                                    </div><!--user-profy end-->
-                                                </div>
+                                                <div class="user-profy">
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                    {% else %}
+                                                        <img src="/images/no-available-photo.png" alt="">
+                                                    {% endif %}
+                                                    <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
+                                                    <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                </div><!--user-profy end-->
                                             {% endfor %}
                                             {% if  countServices > 3 %}
                                                 <div class="user-profy">
-                                                     <div class="lt-sec">
-                                                         <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                    <div class="lt-sec">
+                                                        <i style="font-size: 57px" class="fas fa-folder-plus"></i>
 
                                                         <p style="min-height: 72px;text-align: center"><a href="{{ path('service_company', {'company': company.id}) }}">Voir tous les services de {{ company.name }}</a></p>
                                                     </div>
@@ -144,9 +143,9 @@
                             {% endif %}
 
                             <div class="user-profile-ov page-title sign_in_sec current st2">
-                                <h3>
+                                <h5>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ company.name|capitalize }} </a>
-                                </h3>
+                                </h5>
 
                                 {% if recommandationsServices %}
                                     {% for recommandationsService in recommandationsServices %}
@@ -172,9 +171,9 @@
                             </div>
 
                             <div class="user-profile-ov page-title sign_in_sec current st2">
-                                <h3>
+                                <h5>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé {{  company.name|capitalize }} </a>
-                                </h3>
+                                </h5>
                                 {% if recommandationsCompany %}
                                     {% for recommandationCompany in recommandationsCompany %}
                                         <div class="suggestion-usd">
@@ -205,8 +204,8 @@
                     <div class="right-sidebar">
                         {% if users %}
                             <div class="suggestions-list">
-                                <div class="sd-title">
-                                    <h3>Contacts</h3>
+                                <div class="user-profile-ov page-title sign_in_sec current mb-0">
+                                    <h5>Contacts</h5>
                                 </div><!--sd-title end-->
                                 {% for user in users %}
                                     {% if user.profile%}
