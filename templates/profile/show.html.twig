@@ -5,7 +5,7 @@
 {% block body %}
     <main>
         <div class="main-section">
-            <div class="container">
+            <div class="container-bv">
                 <div class="main-section-data page-content">
                     <div class="row">
                         <div class="col-lg-3">
@@ -15,7 +15,7 @@
                                         {% if profile.filename %}
                                             <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('card') }}"  alt="">
                                         {% else %}
-                                            <img src="http://via.placeholder.com/170x170" alt="">
+                                            <img src="/images/no-available-photo.png" alt="">
                                         {% endif %}
                                         {% if app.user.id == profile.user.id %}
                                            <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
@@ -87,7 +87,7 @@
                                         <p>{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
                                     </div><!--user-profile-ov end-->
                                     {% if profile.user.company %}
-                                        <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                        <div class="user-profile-ov page-title sign_in_sec current">
                                             <h3>
                                                     {{ profile.firstname|capitalize }} travaille chez {{ profile.user.company.name }}
                                             </h3>
@@ -98,7 +98,7 @@
 
                                     {% if  countServices > 0 %}
                                     <div class="top-profiles">
-                                        <div class="pf-hd page-title sign_in_sec current">
+                                        <div class="pf-hd">
                                             <h3>
                                                 {% if countServices == 1 %}
                                                   {{ countServices }} Service Bureau Vallée
@@ -106,19 +106,19 @@
                                                   {{ countServices }} Services Bureau Vallée
                                                 {% endif %}
                                             </h3>
-                                            <i class="la la-ellipsis-v"></i>
                                         </div>
-                                        <div class="profiles-slider">
+                                        <div class="row">
                                             {% for service in services %}
-                                                <div class="user-profy">
-
-                                                    {% if service.filename %}
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                    {% else %}
-                                                        <img src="http://via.placeholder.com/57x57" alt="">
-                                                    {% endif %}
-                                                    <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                    <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
+                                                <div class="col-4">
+                                                    <div class="user-profy">
+                                                        {% if service.filename %}
+                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                        {% else %}
+                                                            <img src="/images/no-available-photo.png" alt="">
+                                                        {% endif %}
+                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
+                                                        <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
+                                                    </div>
                                                 </div><!--user-profy end-->
                                             {% endfor %}
 
@@ -126,7 +126,7 @@
                                     </div><!--top-profiles end-->
                                     {% endif %}
 
-                                    <div class="user-profile-ov st2 page-title sign_in_sec current">
+                                    <div class="user-profile-ov page-title sign_in_sec current st2">
                                         <h3>
                                             La communauté a recommandé les services de {{ profile.firstname|capitalize }}
                                         </h3>
@@ -136,7 +136,7 @@
                                                     {% if profile.filename %}
                                                         <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                     {% else %}
-                                                        <img src="http://via.placeholder.com/35x35" alt="">
+                                                        <img src="/images/no-available-photo.png" alt="">
                                                     {% endif %}
 
                                                     <div class="sgt-text">
@@ -161,7 +161,7 @@
                             {% if profile.user.type.name != 'admin magasin' or profile.user.type.name != 'admin plateform' %}
                                 <div class="col-lg-3">
                                     <div class="suggestions full-width">
-                                        <div class="sd-title page-title sign_in_sec current">
+                                        <div class="sd-title">
                                             <h3>Ils travaillent dans la même entreprise</h3>
                                         </div><!--sd-title end-->
                                         <div class="suggestions-list">
@@ -172,14 +172,14 @@
                                                             {% if collegue.profile.filename %}
                                                                 <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                             {% else %}
-                                                                <img src="http://via.placeholder.com/170x170" alt="">
+                                                                <img src="/images/no-available-photo.png" alt="">
                                                             {% endif %}
-                                                            <div class="sgt-text hover-info">
-                                                                <h4>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h4>
-                                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+                                                            <div class="hover-info">
+                                                                <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
                                                                 {% if collegue.profile.function != null %}
-                                                                    <span>{{ collegue.profile.function.name|capitalize }}</span>
+                                                                    <small>{{ collegue.profile.function.name|capitalize }}</small>
                                                                 {% endif %}
+                                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
                                                             </div>
                                                         </div>
                                                     {% elseif collegues|length == 1 and collegues[0] == app.user %}
@@ -193,11 +193,6 @@
                                                     <p>Personne pour le moment</p>
                                                 </div>
                                             {% endif %}
-                                            <div class="view-more p-3">
-                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
-                                            </div>
-                                        {% endif %}
-                                        {% if profile.user.company != null %}
                                             <div class="view-more p-3">
                                                 <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
                                             </div>

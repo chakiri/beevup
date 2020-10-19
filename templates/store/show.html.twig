@@ -14,7 +14,7 @@
                                 {% if store.filename %}
                                     <img src="{{ vich_uploader_asset(store, 'imageFile')|imagine_filter('card') }}"  alt="">
                                 {% else %}
-                                    <img src="http://via.placeholder.com/170x170" alt="">
+                                    <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
                                 {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
                                   <a href="{{ path('store_edit', {'id': store.id}) }}" title=""><i class="fa fa-camera"></i></a>
@@ -44,38 +44,34 @@
                             </ul>
                         </div><!--user_profile end-->
                         {% if users is defined %}
+                            <div class="suggestions full-width">
+                                <div class="suggestions-list">
+                                    {% if companies is defined %}
+                                        <div class="sd-title page-title sign_in_sec current">
+                                            <h3>Les derniers arrivés </h3>
 
-                                        <div class="suggestions full-width">
-                                            <div class="suggestions-list">
-                                                {% if companies is defined %}
-                                                    <div class="sd-title page-title sign_in_sec current">
-                                                        <h3>Les derniers arrivés </h3>
+                                        </div><!--sd-title end-->
+                                        {% for company in companies %}
+                                            <div class="suggestion-usd">
 
-                                                    </div><!--sd-title end-->
-                                                    {% for company in companies %}
-                                                        <div class="suggestion-usd">
-
-                                                            {% if company.filename %}
-                                                                <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                            {% else %}
-                                                                <img src="http://via.placeholder.com/170x170" alt="">
-                                                            {% endif %}
-                                                            <div class="sgt-text">
-                                                                <h4>
-                                                                    <a href="{{ path('company_show', {'slug': company.slug}) }}">
-                                                                        {{ company.name }}</a> </h4>
-                                                                {% if company.category != null %}
-                                                                    <span>{{ company.category.name|capitalize }}</span>
-                                                                {% endif %}
-                                                            </div>
-                                                        </div>
-                                                    {% endfor %}
+                                                {% if company.filename %}
+                                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                {% else %}
+                                                    <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
-
-                                            </div><!--suggestions-list end-->
-
-                                        </div><!--suggestions end-->
-
+                                                <div class="sgt-text">
+                                                    <p>
+                                                        <a href="{{ path('company_show', {'slug': company.slug}) }}">
+                                                            {{ company.name }}</a> </p>
+                                                    {% if company.category != null %}
+                                                        <small>{{ company.category.name|capitalize }}</small>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div><!--suggestions-list end-->
+                            </div><!--suggestions end-->
                         {% endif %}
 
                     </div><!--main-left-sidebar end-->
@@ -84,7 +80,7 @@
                 <div class="col-lg-6">
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
-                            <h3>{{ store.name }}</h3>
+                            <h3>{{ store.name|capitalize }}</h3>
                             <div class="star-descp">
                                 <span>  {{ app.user.store.city }}  {{ app.user.store.country|country_name }}</span>
                                 <p>{{  store.introduction }} </p>
@@ -93,11 +89,7 @@
 
                         <div class="product-feed-tab current" id="info-dd">
                             <div class="user-profile-ov page-title sign_in_sec current">
-                                <h3>
-                                    <a href="#" title="" class="overview-open">
-                                        {{ store.name }} en quelques mots</a>
-                                </h3>
-
+                                <h3>{{ store.name }} en quelques mots</h3>
                                 <p>{{ store.description|raw ?: 'Pas de description' }}</p>
                             </div><!--user-profile-ov end-->
 
@@ -108,16 +100,15 @@
                                         <h3>Les services proposés par votre magasin Bureau Vallée</h3>
                                         <i class="la la-ellipsis-v"></i>
                                     </div>
-                                    <div class="profiles-slider">
+                                    <div class="">
                                         <div class="row">
-
                                             {% for service in services %}
                                                 <div class="col-4">
                                                     <div class="user-profy">
                                                         {% if service.filename %}
                                                             <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                         {% else %}
-                                                            <img src="http://via.placeholder.com/57x57" alt="">
+                                                            <img src="/images/no-available-photo.png" alt="">
                                                         {% endif %}
                                                         <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
                                                         <a href="#" title="">Voir plus</a>
@@ -159,19 +150,17 @@
                                             {% if recommandationsService.user.profile.filename %}
                                                 <img src="{{ vich_uploader_asset(recommandationsService.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                             {% else %}
-                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                                <img src="/images/no-available-photo.png" alt="">
                                             {% endif %}
 
-                                            <div class="sgt-text">
-                                                <div class="hover-info">
-                                                    <small>{{recommandationsService.user.profile.lastname|capitalize }} {{recommandationsService.user.profile.firstname|capitalize }}</small>
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
-                                                </div>
+                                            <div class="hover-info">
+                                                <p>{{ recommandationsService.user.profile.firstname|capitalize }} {{ recommandationsService.user.profile.lastname|capitalize }}</p>
+                                                <small>{{ recommandationsService.user.company|capitalize }}</small>
+                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
                                             </div>
-                                            <p style="float: left;width:85%" class="recommandation-message">
+                                            <p class="recommandation-message">
                                                 {{ recommandationsService.message  }}
                                             </p>
-
                                         </div>
                                     {% endfor %}
                                 {% else %}
@@ -189,19 +178,17 @@
                                             {% if recommandationStore.user.profile.filename %}
                                                 <img src="{{ vich_uploader_asset(recommandationStore.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                             {% else %}
-                                                <img src="http://via.placeholder.com/35x35" alt="">
+                                                <img src="/images/no-available-photo.png" alt="">
                                             {% endif %}
 
-                                            <div class="sgt-text">
-                                                <div class="hover-info">
-                                                    <small>{{recommandationStore.user.profile.lastname|capitalize }} {{recommandationStore.user.profile.firstname|capitalize }}</small>
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationStore.user} %}
-                                                </div>
+                                            <div class="hover-info">
+                                                <p>{{ recommandationStore.user.profile.firstname|capitalize }} {{ recommandationStore.user.profile.lastname|capitalize }}</p>
+                                                <small>{{ recommandationStore.user.company|capitalize }}</small>
+                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationStore.user} %}
                                             </div>
-                                            <p style="float: left;width:85%" class="recommandation-message">
+                                            <p class="recommandation-message">
                                                 {{ recommandationStore.message  }}
                                             </p>
-
                                         </div>
                                     {% endfor %}
                                 {% else %}
@@ -226,12 +213,12 @@
                                             {% if user.profile.filename %}
                                                 <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                             {% else %}
-                                                <img src="http://via.placeholder.com/170x170" alt="">
+                                                <img src="/images/no-available-photo.png" alt="">
                                             {% endif %}
                                             <div class="sgt-text hover-info">
-                                                <h4>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</h4>
+                                                <p>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</p>
                                                 {% if user.profile.function != null %}
-                                                    <span>{{ user.profile.function.name|capitalize }}</span>
+                                                    <small>{{ user.profile.function.name|capitalize }}</small>
                                                 {% endif %}
                                                 {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
                                             </div>
