@@ -630,7 +630,8 @@ textarea.form-control{
 
 /* ========== Landing page ========== */
 #landing-page-header{
-  height: 71px;
+    display: flex;
+    justify-content: space-between;
 }
 #landing-page-header .logo img {
   transition: all 0.5s;
@@ -649,7 +650,6 @@ textarea.form-control{
 }
 .security_registration, .security_new_account, .security_forgotten_password, .security_reset_password {
     padding: 0;
-  background-color: var(--white-color) !important;;
   overflow-x: hidden;
 
 }
@@ -927,6 +927,10 @@ ul.landing-page-list {
         width: 121px;
     }
 
+    .landing-page-first-bloc {
+        padding: 0 10px 0 !important;
+    }
+
     .alert {
         width: 87% !important;
     }
@@ -1073,6 +1077,10 @@ ul.landing-page-list {
 }
 
 /* =============== login-sec ============= */
+.security_registration{
+    padding: 0;
+    background-color: #FFF !important;
+}
 .security_login{
     padding: 0;
     background-color: var(--bg-color) !important;
@@ -1197,7 +1205,7 @@ ul.landing-page-list {
 }
 .sign_in_sec form input {
     height: 40px;
-    min-width: 70%
+    width: 100%
 }
 
 
