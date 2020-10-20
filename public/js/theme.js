@@ -536,7 +536,7 @@ $('#search_type').change(function(){
         $('#search_category').val('');
     }
 })
-    $('.input-textarea').on({
+    $('textarea').on({
         input: function(){
 
             var text = $(this).val();

@@ -43,32 +43,52 @@
                     <div class="main-ws-sec">
                         <div class="main-ws-sec">
                             <div class="product-feed-tab current" id="info-dd">
-                                <div class="user-profile-ov page-title sign_in_sec current">
+                                <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
                                     <h3>
-                                        Editer les informations
+                                        Modifier les informations
                                     </h3>
                                     {{ form_start(EditCompanyForm) }}
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12">
-                                            <div class="form-group required">
-                                                <label for="">N° SIRET</label>
-                                                {{ form_errors(EditCompanyForm.siret) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.siret) }}
+                                    <div class="row bv-form">
+                                        <div class="col-lg-5 col-md-12">
+                                            <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Informations</P>
+                                           <div class="form-row">
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">N° SIRET</label>
+                                                    {{ form_errors(EditCompanyForm.siret) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.siret) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Nom de l'entreprise</label>
-                                                {{ form_errors(EditCompanyForm.name) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.name) }}
+                                                <div class="form-group  col-md-6 required">
+                                                    <label for="">Nom de l'entreprise</label>
+                                                    {{ form_errors(EditCompanyForm.name) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.name) }}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                           </div>
                                             <div class="form-group required">
                                                 <label for="">Votre activité en une phrase</label>
                                                 {{ form_errors(EditCompanyForm.introduction) }}
                                                 <div class="input-group">
                                                     {{ form_widget(EditCompanyForm.introduction) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">Catégorie de l'entreprise</label>
+                                                    {{ form_errors(EditCompanyForm.category) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.category) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6 other-category required">
+                                                    <label for="">Précisez votre activité</label>
+                                                    {{ form_errors(EditCompanyForm.otherCategory) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.otherCategory) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -78,6 +98,11 @@
                                                     {{ form_widget(EditCompanyForm.description) }}
                                                 </div>
                                             </div>
+
+
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Coordonées</P>
                                             <div class="form-group required">
                                                 <label for="">Votre magasin Bureau vallée de référence</label>
                                                 {{ form_errors(EditCompanyForm.store) }}
@@ -85,72 +110,62 @@
                                                     {{ form_widget(EditCompanyForm.store) }}
                                                 </div>
                                             </div>
-                                            <div class="form-group required">
-                                                <label for="">Catégorie de l'entreprise</label>
-                                                {{ form_errors(EditCompanyForm.category) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.category) }}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">Email</label>
+                                                    {{ form_errors(EditCompanyForm.email) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.email) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Téléphone</label>
+                                                    {{ form_errors(EditCompanyForm.phone) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.phone) }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group other-category required">
-                                                <label for="">Précisez votre activité</label>
-                                                {{ form_errors(EditCompanyForm.otherCategory) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.otherCategory) }}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-3 required">
+                                                    <label for="">Numéro de rue</label>
+                                                    {{ form_errors(EditCompanyForm.addressNumber) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.addressNumber) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Email</label>
-                                                {{ form_errors(EditCompanyForm.email) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.email) }}
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">Rue</label>
+                                                    {{ form_errors(EditCompanyForm.addressStreet) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.addressStreet) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-lg-6 col-md-12">
-                                            <div class="form-group">
-                                                <label for="">Téléphone</label>
-                                                {{ form_errors(EditCompanyForm.phone) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.phone) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Numéro de rue</label>
-                                                {{ form_errors(EditCompanyForm.addressNumber) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.addressNumber) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Rue</label>
-                                                {{ form_errors(EditCompanyForm.addressStreet) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.addressStreet) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Code postal</label>
-                                                {{ form_errors(EditCompanyForm.addressPostCode) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.addressPostCode) }}
+                                                <div class="form-group col-md-3 required">
+                                                    <label for="">Code postal</label>
+                                                    {{ form_errors(EditCompanyForm.addressPostCode) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.addressPostCode) }}
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group required">
-                                                <label for="">Pays</label>
-                                                {{ form_errors(EditCompanyForm.country) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.country) }}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">Ville</label>
+                                                    {{ form_errors(EditCompanyForm.city) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.city) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Ville</label>
-                                                {{ form_errors(EditCompanyForm.city) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.city) }}
+                                                <div class="form-group col-md-6 required">
+                                                    <label for="">Pays</label>
+                                                    {{ form_errors(EditCompanyForm.country) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.country) }}
+                                                    </div>
                                                 </div>
+
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Votre logo</label>
@@ -159,18 +174,20 @@
                                                     {{ form_widget(EditCompanyForm.imageFile) }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="">Lien vidéo Youtube</label>
-                                                {{ form_errors(EditCompanyForm.video) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.video) }}
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 ">
+                                                    <label for="">Lien vidéo Youtube</label>
+                                                    {{ form_errors(EditCompanyForm.video) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.video) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="">Site web</label>
-                                                {{ form_errors(EditCompanyForm.website) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.website) }}
+                                                <div class="form-group col-md-6 ">
+                                                    <label for="">Site web</label>
+                                                    {{ form_errors(EditCompanyForm.website) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.website) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
