@@ -59,7 +59,7 @@
                                 </ul>
                             {% endif %}
                         </div><!--user_profile end-->
-                        {% include 'default/boxes/add-service-component.html.twig' %}
+
 
                     </div><!--main-left-sidebar end-->
                 </div>
@@ -97,6 +97,7 @@
                                         <div class="pf-hd page-title sign_in_sec current">
                                             <h5>{{ company.name }} vous propose les services suivants</h5>
                                             <i class="la la-ellipsis-v"></i>
+                                            <a style="float:right" id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Créer un service</a>
                                         </div>
                                         <div class="profiles-slider">
                                             {% for service in services %}

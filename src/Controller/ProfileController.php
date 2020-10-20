@@ -29,7 +29,7 @@ class ProfileController extends AbstractController
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
         $favoritUser= $userRepo->findBy(['id'=>$profile->getUser()]);
         if($profile->getUser()->getCompany() != null) {
-            $collegues = $userRepo->findBy(['company' => $profile->getUser()->getCompany()],[], 5);
+            $collegues = $userRepo->findBy(['company' => $profile->getUser()->getCompany(), 'isValid'=> 1],[], 5);
 
         }
 

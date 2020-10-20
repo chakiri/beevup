@@ -57,9 +57,11 @@
                                         <span>{{ profile.function.name|capitalize}}
                                             chez
                                                 {% if profile.user.company != null %}
-                                                  {{ profile.user.company.name|capitalize}}
-                                                    {% else  %}
-                                                        {{ profile.user.store.name|capitalize}}
+                                               <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">  {{ profile.user.company.name|capitalize}}</a>
+                                                {% else  %}
+                                                    <a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">    {{ profile.user.store.name|capitalize}}</a>
+
+
                                                 {% endif %}
 
                                         </span>
@@ -153,19 +155,23 @@
                                             {% if collegues %}
                                                 {% for collegue in collegues %}
                                                     {% if collegue != app.user %}
-                                                        <div class="suggestion-usd">
-                                                            {% if collegue.profile.filename %}
-                                                                <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                            {% else %}
-                                                                <img src="/images/no-available-photo.png" alt="">
-                                                            {% endif %}
-                                                            <div class="hover-info">
-                                                                <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
-                                                                {% if collegue.profile.function != null %}
-                                                                    <small>{{ collegue.profile.function.name|capitalize }}</small>
-                                                                {% endif %}
-                                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
-                                                            </div>
+                                                        {% if collegue.profile.isCompleted %}
+                                                            <div class="suggestion-usd">
+
+                                                                    {% if collegue.profile.filename %}
+                                                                        <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                                    {% else %}
+                                                                        <img src="/images/no-available-photo.png" alt="">
+                                                                    {% endif %}
+                                                                    <div class="hover-info">
+                                                                        <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
+                                                                        {% if collegue.profile.function != null %}
+                                                                            <small>{{ collegue.profile.function.name|capitalize }}</small>
+                                                                        {% endif %}
+                                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+
+                                                                </div>
+                                                        {% endif %}
                                                         </div>
                                                     {% elseif collegues|length == 1 and collegues[0] == app.user %}
                                                         <div class="suggestion-usd">
@@ -173,11 +179,15 @@
                                                         </div>
                                                     {% endif %}
                                                 {% endfor %}
+                                                <div class="view-more p-3">
+                                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
+                                                </div>
                                             {% else %}
                                                 <div class="suggestion-usd">
                                                     <p>Personne pour le moment</p>
                                                 </div>
                                             {% endif %}
+
                                         {% endif %}
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->

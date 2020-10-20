@@ -106,3 +106,4 @@ $('#cookies a').click(function(){
         }
     });
 });
+
