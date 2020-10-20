@@ -33,7 +33,8 @@ class Recommandation
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Service", cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $service;
 

@@ -72,6 +72,17 @@ input, textarea {
     color: #1c2e4a;
 }
 
+a {
+    transition: 0.5s;
+}
+
+a:hover,
+a:active,
+a:focus {
+    outline: none;
+    text-decoration: none;
+}
+
 .container-bv{
     margin: 30px 15px;
 }

@@ -24,7 +24,7 @@ class StoreService
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Service")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $service;
 
