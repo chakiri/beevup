@@ -416,6 +416,8 @@
     right: 0;
     margin-top: 10px;
     background: #FF7F50;
+    width: 15px;
+    height: 15px;
 }
 #frame #sidepanel #contacts ul li.contact .wrap span.online {
     background: #2ecc71;
@@ -585,6 +587,10 @@
 }
 #frame .content .contact-profile p {
     float: left;
+}
+
+#frame .content .contact-profile a {
+    color: inherit;
 }
 #frame .content .contact-profile .social-media {
     float: right;

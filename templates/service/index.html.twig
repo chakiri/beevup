@@ -10,7 +10,7 @@
                   <div class="col-lg-3">
                       <div id="servicessearchbox" class="user-profile-ov page-title sign_in_sec current page-title">
                           <div class="">
-                              <h3>Filtres</h3>
+                              <h5>Filtres</h5>
                               <small>Utilisez les filtres pour affiner votre recherche</small>
                           </div><!--filter-heading end-->
                           {{ form_start(searchForm) }}
@@ -33,28 +33,7 @@
 
                           {{ form_end(searchForm) }}
                       </div>
-                      <div class="widget widget-jobs">
-                          <div class="user-profile-ov page-title sign_in_sec current page-title">
-                              <h3>
-                                  Participez à la vie de votre communauté !
-                              </h3>
-                              <small>Gagnez en visibilité et cumulez des points Bureau Vallée en ajoutant, sur vos services, une offre dédiée à la communauté</small>
-
-                              <div class="d-flex pt-3 aside-service">
-                                  <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg mr-2">Créer</a>
-                                  {% if is_granted('ROLE_ADMIN_STORE') %}
-                                      <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn small-btn white-bg">Mes services</a>
-                                  {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
-                                       <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn small-btn white-bg">Mes services</a>
-                                  {% endif %}
-
-                               </div>
-
-                              {% if is_granted('ROLE_ADMIN_STORE') %}
-                                  <a id="assocaiteservicebox"  type="button"  href="{{ path('service_generic') }}" class="btn small-btn orange-bg mr-2">Ajouter un service BV</a>
-                              {% endif %}
-                          </div><!--user-profile-ov end-->
-                      </div><!--widget-jobs end-->
+                      {% include 'default/boxes/add-service-component.html.twig' %}
 
                       <!-- Tutorial button -->
                       <div id="tutorial" class="d-sm-none d-lg-block">
@@ -79,6 +58,12 @@
 
                           {% endif %}
                       </div>
+                      {% if app.request.attributes.get('_route') == 'service_company' and app.user.company.isValid == false %}
+                         <div class="warning-disabled-services page-description">
+                            <h5><i class="fas fa-exclamation-circle"></i> Vos services ne sont pas visibles par votre communauté !</h5>
+                            <p>Il se peut que votre entreprise soit désactivée pour des raisons de sécurité. <br>Nous vous invitons à contacter votre conseiller pour plus d'informations. </p>
+                          </div>
+                      {% endif %}
                       <div class="row">
                           {% if services is not empty %}
                               {% for service in services %}

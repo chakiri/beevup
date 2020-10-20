@@ -2,6 +2,8 @@
 
 {% form_theme EditCompanyForm 'bootstrap_4_layout.html.twig' %}
 
+{% block title %}{{ company.name }}{% endblock %}
+
 {% block body %}
 <div class="main-section">
     <div class="container-bv">
@@ -18,15 +20,13 @@
                                 {% endif %}
                             </div>
                             <div class="user_pro_status">
-                                <ul class="flw-hr">
+                                <div class="btn white-bg">
                                     {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                        <li>
-                                            <a href="{{ path('company_show', {'slug': company.slug}) }}" title="" class="flww">
-                                                Voir fiche
-                                            </a>
-                                        </li>
+                                        <a href="{{ path('company_show', {'slug': company.slug}) }}" title="" class="">
+                                            Voir fiche
+                                        </a>
                                     {% endif %}
-                                 </ul>
+                                 </div>
                             </div><!--user_pro_status end-->
                             {% if company.isCompleted %}
                                 <ul class="social_links">

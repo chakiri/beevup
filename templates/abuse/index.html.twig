@@ -96,19 +96,7 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <div class="right-sidebar">
-                                <div class="widget widget-jobs">
-                                    <div class="user-profile-ov page-title sign_in_sec current" style="margin-top:36px">
-                                        <h3>
-                                            Participez à la vie de votre communauté !
-                                        </h3>
-                                        <p>Gagnez en visibilité et cumulez des points Bureau Vallée en ajoutant, sur vos services, une offre dédiée à la communauté</p>
-                                        <div class="lt-sec">
-                                            <a href="{{ path('service_new') }}" title="">Je crée un service</a>
-                                        </div>
-                                    </div><!--user-profile-ov end-->
-                                </div><!--widget-jobs end-->
-                            </div><!--right-sidebar end-->
+                            {% include 'default/boxes/add-service-component.html.twig' %}
                         </div>
                     </div>
                 </div>

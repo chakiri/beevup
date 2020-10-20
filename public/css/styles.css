@@ -522,6 +522,12 @@ input:-webkit-autofill:active  {
 .form-group > label{
     color: var(--text-color);
 }
+
+.form-group.required label:after {
+    content:" *";
+    color:red;
+}
+
 textarea::placeholder{
     color: var(--gray-color) !important;
 }
@@ -1513,7 +1519,7 @@ ul.landing-page-list {
 .page-title.sign_in_sec.current h3:before{
    /* margin-left: 10px;*/
 }
-.page-title h3 {
+.page-title h3, .page-title h5 {
     color: var(--text-color);
     /*font-size: 20px;*/
     /*font-weight: 600;*/
@@ -2930,11 +2936,9 @@ a:hover {
     /*color: #FFF;*/
     border-radius: var(--radius);
     /*margin-left: 15px;*/
-    /*z-index: 11111;
-    width: 330px;*/
+    /*z-index: 11111;*/
+    width: 74%;
 }
-
-
 
 
 /* =============== ANIMATION LOADER =============== */

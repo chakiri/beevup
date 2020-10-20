@@ -2,7 +2,9 @@
 
 {% form_theme EditProfileForm 'bootstrap_4_layout.html.twig' %}
 
-  {% block body %}
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
 <main>
     <div class="main-section">
         <div class="container-bv">
@@ -19,14 +21,9 @@
                                     {% endif %}
                                 </div>
                                 <div class="user_pro_status">
-                                    <ul class="flw-hr">
-                                        <li>
-                                            <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}" title="" class="flww">
-                                                    Voir profil
-                                            </a>
-                                        </li>
-
-                                    </ul>
+                                    <div class="btn white-bg">
+                                        <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}" title="" class="">Voir profil</a>
+                                    </div>
 
                                 </div><!--user_pro_status end-->
                                 <ul class="social_links">
@@ -164,14 +161,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-
-
-
-
-
                                             <div class="form-actions form-group text-center">
                                                 <button type="submit" class="m-orange-btn">Enregistrer</button>
                                             </div>
@@ -182,20 +171,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="right-sidebar">
-
-                            <div class="widget widget-jobs">
-                                <div class="user-profile-ov page-title sign_in_sec current">
-                                    <h3>
-                                        Participez à la vie de votre communauté !
-                                    </h3>
-                                    <p>Gagnez en visibilité et cumulez des points Bureau Vallée en ajoutant, sur vos services, une offre dédiée à la communauté</p>
-                                    <div class="lt-sec">
-                                        <a href="{{ path('service_new') }}" title="">Je crée un service</a>
-                                    </div>
-                                </div><!--user-profile-ov end-->
-                            </div><!--widget-jobs end-->
-                        </div><!--right-sidebar end-->
+                        {% include 'default/boxes/add-service-component.html.twig' %}
                     </div>
 
 

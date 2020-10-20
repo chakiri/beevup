@@ -81,6 +81,9 @@ $('#post_urlLink').on('change', function () {
                 //$('.image-link').removeClass('d-none');
                 $('.image').addClass('cursor-not-allowed');
                 $('#post_imageLink').val(result.data.image);
+                if ($('.image-file').not('.d-none')){
+                    $('.image-file').addClass('d-none');
+                }
             }
         }
     });

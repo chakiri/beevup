@@ -21,19 +21,13 @@
                             </div><!--user-pro-img end-->
 
                             <div class="user_pro_status">
-                                <ul class="flw-hr">
+                                <div class="btn white-bg">
                                     {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
-                                        <li>
-                                            <a href="{{ path('store_show', {'slug': store.slug}) }}" title="" class="flww">
+                                            <a href="{{ path('store_show', {'slug': store.slug}) }}" title="" class="">
                                                Voir fiche
                                             </a>
-                                        </li>
-
                                     {% endif %}
-
-                                </ul>
-
-
+                                </div>
                             </div><!--user_pro_status end-->
 
                             <ul class="social_links">

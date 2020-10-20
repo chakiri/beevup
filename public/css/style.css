@@ -215,7 +215,7 @@
 
 .box-advertising img{
     width: 100%;
-    height: 176px;
+    /*height: 176px;*/
 }
 
 .company-infos-bloc {
@@ -545,7 +545,10 @@ li.icon-type-post a.active{
 #filters-mobile i{
     font-size: 25px;
 }
-
+.warning-disabled-services{
+    color: #FF7F50;
+    background: #FFF6F3;
+}
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;

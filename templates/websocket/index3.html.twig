@@ -112,7 +112,7 @@
                                         {% if user.profile.filename %}
                                             <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                         {% else %}
-                                            <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                            <img src="/images/default/user.png" class="img-fluid" alt="">
                                         {% endif %}
                                         <div class="meta">
                                             <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
@@ -137,7 +137,7 @@
                                                 {% if user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}" class="img-fluid" alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                                    <img src="/images/default/user.png" class="img-fluid" alt="">
                                                 {% endif %}
                                                 <div class="meta">
                                                     <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
@@ -162,13 +162,13 @@
                         {% if user.profile.filename %}
                             <img id="subjectAvatar" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature')  }}" class="img-fluid" alt="">
                         {% else %}
-                            <img id="subjectAvatar" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                            <img id="subjectAvatar" src="/images/default/user.png" class="img-fluid" alt="">
                         {% endif %}
                     {% elseif topic is defined and topic is not null %}
                         <img id="subjectAvatar" src="/images/default/channel.png" class="img-fluid" alt="">
                     {% endif %}
                     {% if user is defined and user is not null %}
-                        <strong>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</strong>
+                        <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</strong></a>
                     {% elseif topic is defined and topic is not null %}
                         {% if topic.name starts with 'general' %}
                             <strong>General</strong>
@@ -183,11 +183,6 @@
                             <small> (Discutez ici avec l'ensemble des collaborateurs de votre entreprise)</small>
                         {% endif %}
                     {% endif %}
-                    {% if user is defined and user is not null %}
-                        <div class="social-media mr-3">
-                            <a href="{{ path('profile_show', {'id': user.profile.id}) }}">Voir profil</a>
-                        </div>
-                    {% endif %}
                 </div>
                 <div id="wrapChat" class="messages">
                     <ul id="chat">
@@ -197,7 +192,7 @@
                                     {% if message.user.profile.filename %}
                                         <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />
                                     {% else %}
-                                        <img id="subjectAvatar" src="/images/no-available-photo.png" class="img-fluid" alt="">
+                                        <img id="subjectAvatar" src="/images/default/user.png" class="img-fluid" alt="">
                                     {% endif %}
                                     <p>{{ message.content }}</p>
                                 </div>

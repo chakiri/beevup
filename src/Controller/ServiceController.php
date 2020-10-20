@@ -42,9 +42,9 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities, StoreServicesRepository $storeServicesRepository)
     {
-
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
         $services = $serviceRepository->findByLocalServices($allCompanies);
+
         //Add related generic services of store
         $storeServices = $this->getUser()->getStore()->getServices();
         foreach ($storeServices as $storeService){
@@ -54,8 +54,6 @@ class ServiceController extends AbstractController
         if ($request->get('_route') == 'service_generic'|| $this->isGranted('ROLE_ADMIN_PLATEFORM')) {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
             $services = $serviceRepository->findByType($typeService);
-
-
         }
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findByIsDiscovery($allCompanies, $this->getUser()->getStore());
@@ -63,30 +61,22 @@ class ServiceController extends AbstractController
             foreach ($storeServices as $storeService){
                 if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());
             }
-
-
         }
         if ($company){
-
             $company = $companyRepository->findOneBy(['id' => $company]);
             $services =[];
             if (in_array($company->getId(), $allCompanies)) {
                 $services = $company->getServices();
-
             }
-
         }
         if ($store){
-
             $store = $storeRepository->findOneBy(['id' => $store]);
             $services = [];
             $storeServices = $store->getServices();
             foreach ($storeServices as $service){
                 array_push($services, $service->getService());
             }
-
         }
-
         if ($user) {
             $user = $userRepository->findBy(['id' => $user]);
             $services = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
@@ -110,7 +100,6 @@ class ServiceController extends AbstractController
                 }
             }
             $user = null;
-
         }
 
         //Get advisor of store
@@ -308,10 +297,7 @@ class ServiceController extends AbstractController
     */
     public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
     {
-        $company = null;
-        $companyId = null;
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
-
 
         //Get store Service if it's an association
         $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
@@ -325,7 +311,7 @@ class ServiceController extends AbstractController
         $similarServices = $serviceRepository->findByCategory($service->getCategory(), $allCompanies, $id);
 
         $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
-        $recommandationsCompany = $recommandationRepository->findBy(['company' => $company, 'service' => null, 'status'=>'Validated']);
+        $recommandationsCompany = $recommandationRepository->findBy(['company' => $service->getUser()->getCompany(), 'service' => null, 'status'=>'Validated']);
 
         return $this->render('service/show.html.twig', [
             'service' => $service,

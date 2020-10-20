@@ -63,7 +63,6 @@ class ProfileController extends AbstractController
      */
     public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost)
     {
-
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
             $form->handleRequest($request);
@@ -72,11 +71,10 @@ class ProfileController extends AbstractController
                 $isCompleted = $profile->getIsCompleted();
 
                 if(!$isCompleted){
-
                     /*******Add automatic post***/
                      $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                     $autmaticPost->Add("Bienvenue au ".$profile->getFirstname()." ".$profile->getLastname(), $profile->getIntroduction(), $category, $profile->getId(), 'User');
-
+                     $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profil de ' . $profile->getFirstname();
+                     $autmaticPost->Add("Bienvenue au ". $profile->getFirstname() . " ". $profile->getLastname(), $description, $category, $profile->getId(), 'User');
                 }
                 $profile->setIsCompleted(true);
 
@@ -90,15 +88,12 @@ class ProfileController extends AbstractController
                 return $this->redirectToRoute('profile_show', [
                     'id' => $profile->getId()
                 ]);
-
-
             }
-
 
             return $this->render('profile/form.html.twig', [
                 'EditProfileForm' => $form->createView(),
             ]);
-        } else {
+        }else {
             return $this->redirectToRoute('page_not_found', []);
         }
     }

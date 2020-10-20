@@ -176,9 +176,7 @@
                                 </div>
 
                                 <div class="user-profile-ov page-title sign_in_sec current st2">
-                                    <h5>
-                                        <a href="#" title="" class="exp-bx-open">La communauté a recommandé ce service </a>
-                                    </h5>
+                                    <h5>La communauté a recommandé ce service</h5>
                                     {% if recommandations %}
                                         {% for recommandation in recommandations %}
                                             <div class="suggestion-usd">
@@ -205,9 +203,7 @@
 
                                 {% if service.user.company != null and not storeService and service.type.name != 'plateform' %}
                                    <div class="user-profile-ov page-title sign_in_sec current st2">
-                                    <h5>
-                                        <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">D'autres personnes ont recommandé {{ service.user.company|capitalize }}</a>
-                                    </h5>
+                                    <h5>D'autres personnes ont recommandé <a href="{{ path('company_show', {'slug': service.user.company.slug}) }}">{{ service.user.company|capitalize }}</a></h5>
                                     {% if recommandationsCompany %}
                                         {% for recommandationCompany in recommandationsCompany %}
                                             <div class="suggestion-usd">

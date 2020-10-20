@@ -91,19 +91,12 @@
                                     {% if  countServices > 0 %}
                                         <div class="top-profiles">
                                             <div class="pf-hd page-title sign_in_sec current">
-                                                <h5>
-                                                    {% if countServices == 1 %}
-                                                        {{ countServices }} Service Bureau Vallée
-                                                    {% else %}
-                                                        {{ countServices }} Services Bureau Vallée
-                                                    {% endif %}
-                                                </h5>
+                                                <h5>{{ profile.user.company.name }} vous propose les services suivants</h5>
                                                 <i class="la la-ellipsis-v"></i>
                                             </div>
                                             <div class="profiles-slider">
                                                 {% for service in services %}
                                                     <div class="user-profy">
-
                                                         {% if service.filename %}
                                                             <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                         {% else %}
@@ -185,9 +178,6 @@
                                                     <p>Personne pour le moment</p>
                                                 </div>
                                             {% endif %}
-                                            <div class="view-more p-3">
-                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
-                                            </div>
                                         {% endif %}
                                     </div><!--suggestions-list end-->
                                 </div><!--suggestions end-->

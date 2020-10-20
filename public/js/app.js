@@ -1,3 +1,8 @@
+/* fade ut displayed alert */
+$(window).load(function(){
+    setTimeout(function(){ $('#alert').fadeOut("linear" ) }, 2000);
+});
+
 /* Recommandation Approve and reject buttons*/
 var url = '';
 var untreatedRecommandationNb = 0;
