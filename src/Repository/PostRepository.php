@@ -92,7 +92,7 @@ class PostRepository extends ServiceEntityRepository
         $qb
             ->andWhere('p.status IS NULL or p.status = 1')
             ->orderBy('p.createdAt', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(200)
         ;
 
 
@@ -117,7 +117,7 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.category = :category')
             ->setParameter('category', $category)
             ->orderBy('p.createdAt', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(200)
         ;
 
         return $qb

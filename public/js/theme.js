@@ -810,6 +810,7 @@ if($('.entity-description').length > 0 )
 
     })
 
+
     /*************************open street map***/
 
     function distance(lat1, lon1, lat2, lon2, unit) {
