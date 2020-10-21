@@ -391,7 +391,7 @@ li.icon-type-post a.active{
     border: 1px solid #f1f1f1;
     color: var(--text-color);
     width: 250px;
-    height: 111px;
+    height: 125px;
 }
 
 .popup-info > .content p{
