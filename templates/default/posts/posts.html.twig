@@ -29,7 +29,7 @@
                     <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
                     {% endif %}
                     <div class="hover-info">
-                        <p>{{ post.user.profile.firstname|capitalize }} {{ post.user.profile.lastname|capitalize }}</p>
+                        <p>{{ post.user.profile.firstname|title }} {{ post.user.profile.lastname|capitalize }}</p>
                         <small>{{ post.user.company|capitalize }}</small>
                         {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
                     </div>

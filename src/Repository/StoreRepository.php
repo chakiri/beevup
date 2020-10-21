@@ -63,4 +63,14 @@ class StoreRepository extends ServiceEntityRepository
             ->orWhere('s.isAdmin = false')
             ;
     }
+
+    public function getAllStoresOrderByPostalCode()
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.isAdmin is null')
+            ->orWhere('s.isAdmin = false')
+            ->orderBy('s.addressPostCode, s.name')
+
+            ;
+    }
 }

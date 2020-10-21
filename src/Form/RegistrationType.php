@@ -37,11 +37,13 @@ class RegistrationType extends AbstractType
             ])
              ->add('store', EntityType::class, [
                  'multiple'=>false,
-                 'placeholder' => 'Votre magasin Bureau Vallée le plus proche',
+                 'placeholder' => 'Choisissez votre communauté locale',
                  'class' => Store::class,
-                 'choice_label' =>'name',
+                 'choice_label' =>function (Store $store){
+                return $store->getAddressPostCode().' - '.$store->getName();
+                 },
                  'query_builder' => function (StoreRepository $storeRepository){
-                    return $storeRepository->getAllStoresQueryBuilder();
+                    return $storeRepository->getAllStoresOrderByPostalCode();
                  }
             ])
             ->add('email', EmailType::class, [
