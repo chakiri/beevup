@@ -67,7 +67,7 @@
                       <div class="row">
                           {% if services is not empty %}
                               {% for service in services %}
-                                  <div class="col-lg-3 col-md-3 col-sm-6">
+                                  <div class="col-lg-4 col-md-4 col-sm-6">
                                       <div class="company_profile_info">
                                           {% if service.isDiscovery %}
                                               <div class="badge-box">
@@ -75,34 +75,37 @@
                                               </div>
                                           {% endif %}
                                           <div class="company-up-info">
-                                              <a href="{{ path('service_show', {'id': service.id}) }}">
-                                                  {% if service.filename %}
-                                                      <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
-                                                  {% else  %}
-                                                      <img src="/images/no-available-photo.png" alt="">
-                                                  {% endif %}
-                                              </a>
-                                              <h5><a href="{{ path('service_show', {'id': service.id}) }}">{{ service.title|slice(0, 50) ~ '...' }} </a></h5>
+                                              <div class="company-image">
+                                                  <a href="{{ path('service_show', {'id': service.id}) }}">
+                                                      <h3>{{ service.title|slice(0, 50) ~ '...' }}</h3>
+                                                      {% if service.filename %}
+                                                          <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                      {% else  %}
+                                                          <img src="/images/no-available-photo.png" alt="">
+                                                      {% endif %}
+                                                  </a>
+
+                                                  <div class="company-infos-bloc">
+                                                      <div class="company-infos-distance">
+                                                          {% if distances and distances[service.id] is defined and distances[service.id] < 1000 %}
+                                                              {% if distances[service.id] < 1  %}
+                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small>À moins d'un kilomètre</small>
+                                                              {% else %}
+                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small>À {{ distances[service.id]|round }}Km</small>
+                                                              {% endif %}
+                                                          {% endif %}
+                                                      </div>
+                                                      <div class="company-infos-recommandations">
+                                                          {% if nbRecommandations and service.user.company and service.id in nbRecommandations|keys and nbRecommandations[service.id] > 0 %}
+                                                              <i class="far fa-star"></i> <small>{{ nbRecommandations[service.id] }}{% if nbRecommandations[service.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                          {% endif %}
+                                                      </div>
+                                                  </div>
+                                              </div>
                                               <div class="company-introduction-bloc">
-                                                  <small>{{ service.introduction|slice(0, 80) ~ '...' }}</small>
+                                                  <h5>{{ service.introduction|slice(0, 60)}} {% if service.introduction|length > 60 %}...{% endif %}</h5>
                                               </div>
 
-                                              <div class="company-infos-bloc">
-                                                  <div class="company-infos-distance">
-                                                      {% if distances and distances[service.id] is defined and distances[service.id] < 1000 %}
-                                                          {% if distances[service.id] < 1  %}
-                                                                <i class="fa fa-road"></i> <small>à moins d'un kilomètre</small>
-                                                          {% else %}
-                                                                <i class="fa fa-road"></i> <small>à {{ distances[service.id]|round }}Km</small>
-                                                          {% endif %}
-                                                      {% endif %}
-                                                  </div>
-                                                  <div class="">
-                                                      {% if nbRecommandations and service.user.company and service.id in nbRecommandations|keys and nbRecommandations[service.id] > 0 %}
-                                                          <i class="fa fa-star"></i> <small>{{ nbRecommandations[service.id] }}{% if nbRecommandations[service.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
-                                                      {% endif %}
-                                                  </div>
-                                              </div>
                                           </div>
                                           <a href="{{ path('service_show', {'id': service.id}) }}"  title="" class="view-more-pro">Voir plus</a>
                                       </div>

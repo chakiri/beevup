@@ -87,7 +87,7 @@
                                 {% for user in users %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="company_profile_info  user-profile-{{user.profile.id  }}">
-                                            <div class="company-up-info">
+                                            <div class="company-up-info user-up-info">
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                     {% if user.profile.filename is empty %}
                                                         <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
@@ -143,7 +143,7 @@
                                                     </div>
                                                     <div class="company-infos-reco">
                                                         {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
-                                                            <i class="fa fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            <i class="far fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -159,7 +159,7 @@
                                 {% for company in companies %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="company_profile_info">
-                                            <div class="company-up-info ">
+                                            <div class="company-up-info up-info">
                                                 <a href="{{path('company_show', { 'slug': company.slug}) }}">
                                                     {% if company.filename is empty %}
                                                         <img src="/images/no-available-photo.png" alt="">
@@ -197,7 +197,7 @@
                                                     </div>
                                                     <div class="company-infos-reco">
                                                         {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
-                                                            <i class="fa fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}
                                                     </div>
                                                 </div>

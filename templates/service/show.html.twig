@@ -10,7 +10,7 @@
                 <div class="col-lg-3">
                     <div class="main-left-sidebar">
                         <div class="user_profile">
-                            <div class="user-pro-img">
+                            <div class="service-pro-img">
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}"  alt="">
                                 {% else %}
@@ -48,7 +48,7 @@
                                             {% if service.isQuote %}
                                                 <span><b>Prix :</b> Sur devis</span>
                                                 {% if app.user != service.user %}
-                                                    <div class="lt-sec">
+                                                    <div class="mt-3">
                                                         <div class="btn white-bg"><a href="{{ path('chat_private', {'id': service.user}) }}" title="">Demander un devis</a></div>
                                                     </div>
                                                 {% endif %}
@@ -64,7 +64,7 @@
                                             {% endif %}
                                         </li>
                                         {% if service.isDiscovery == 1 %}
-                                            <li>
+                                            <li class="mt-3">
                                                 <span><b>Offre exclusive Beev'Up</b></span>
                                             </li>
                                         {% endif %}
@@ -94,7 +94,7 @@
                 <div class="col-lg-6">
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
-                            <div class="mb-5">
+                            <div class="mb-3">
                                 <h3>{{ service.title|capitalize }}</h3>
                                 <p><small>Proposé par : </small>
                                     {% if storeService %}

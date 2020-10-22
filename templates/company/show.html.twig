@@ -13,15 +13,15 @@
 
                         <div class="user_profile">
 
-                            <div class="user-pro-img">
+                            <div class="company-pro-img">
                                 {% if company.filename %}
                                     <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
-                                {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+                                {#{% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
                                    <a  href="{{ path('company_edit', {'id': company.id}) }}" title=""><i class="fa fa-camera"></i></a>
-                                {% endif %}
+                                {% endif %}#}
                             </div><!--user-pro-img end-->
 
                             <div class="user_pro_status">

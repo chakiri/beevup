@@ -218,13 +218,6 @@
     /*height: 176px;*/
 }
 
-.company-infos-bloc {
-    display: grid;
-}
-.company-infos-bloc small{
-    color: var(--text-color);
-}
-
 /*-------- Modals --------- */
 #add-post-modal, #update-post-modal{
     top: 52px;
@@ -479,6 +472,7 @@ li.icon-type-post a.active{
     position: absolute;
     font-size: 90%;
     margin: 5px;
+    z-index: 1;
 }
 
 .badge-box .badge {
