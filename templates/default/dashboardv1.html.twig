@@ -57,7 +57,8 @@
                         <li class="{% if category is null %}active{% endif %}"value="All"><i class="fa fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
                         <li class="{% if category == 1 %}active{% endif %}" value="informations"><i class="far fa-newspaper mr-2"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
                         <li class="{% if category == 7 %}active{% endif %}" value="Derniers arrivés"><i class="fas fa-users mr-2"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
-                        <li class="{% if category == 2 %}active{% endif %}" value="Opportunité commerciale"><i class="far fa-handshake mr-2"></i></i><a href="{{ path('dashboard_category', {'category': 2}) }}">  Opportunité commerciale</a>
+                        <li class="{% if category == 2 %}active{% endif %}" value="Opportunité commerciale"><i class="far fa-handshake mr-2"></i>
+                            <a href="{{ path('dashboard_category', {'category': 2}) }}" onclick="setSeenOpportunityNotification(this)" data-url="{{ path('opportunity_notification_set') }}">  Opportunité commerciale</a>
                             {% if opportunities|length > 0 %}
                                 <span class="badge bell-badge">{{ opportunities|length }}</span>
                             {% endif %}
