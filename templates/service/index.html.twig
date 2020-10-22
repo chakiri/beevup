@@ -79,7 +79,7 @@
                                                   <a href="{{ path('service_show', {'id': service.id}) }}">
                                                       <h3>{{ service.title|slice(0, 50) ~ '...' }}</h3>
                                                       {% if service.filename %}
-                                                          <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                          <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
                                                       {% else  %}
                                                           <img src="/images/no-available-photo.png" alt="">
                                                       {% endif %}

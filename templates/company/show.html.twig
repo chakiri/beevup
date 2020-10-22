@@ -13,7 +13,7 @@
                         <div class="user_profile">
                             <div class="company-pro-img">
                                 {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}

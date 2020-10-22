@@ -6,7 +6,7 @@
                      {% if  app.user.store.defaultAdviser.profile != null %}
                          <div class="box avatar adviser-avatar mobile-adviser-bloc">
                              {% if app.user.store.defaultAdviser.profile.filename %}
-                                 <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar">
+                                 <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('dashboard_box_advertising') }}" class="rounded-circle medium-avatar">
                              {% else %}
                                  <img src="/images/default/user.png" class="rounded-circle medium-avatar">
                              {% endif %}
@@ -22,7 +22,7 @@
              {% if lastSpecialOffer|length > 0 %}
                  <div class="box avatar adviser-avatar mobile-special-offer-bloc">
                      {% if lastSpecialOffer.filename %}
-                         <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar">
+                         <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('dashboard_box_advertising') }}" class="rounded-circle medium-avatar">
                      {% else %}
                          <img src="/images/no-available-photo.png" class="rounded-circle medium-avatar">
                      {% endif %}
