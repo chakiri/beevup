@@ -10,9 +10,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="main-left-sidebar">
-
                         <div class="user_profile">
-
                             <div class="company-pro-img">
                                 {% if company.filename %}
                                     <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
@@ -24,7 +22,7 @@
                                 {% endif %}#}
                             </div><!--user-pro-img end-->
 
-                            <div class="user_pro_status">
+                            <div class="user_pro_status pl-2 pr-2">
                                     {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
                                         <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg">
                                             Modifier les informations
@@ -48,11 +46,10 @@
                                         <b>{{ countServices }} </b>
                                     </li>
                                 </ul>
-
                             </div><!--user_pro_status end-->
                             {% if company.isCompleted %}
                                 <ul class="social_links">
-                                    <li><i class="fas fa-map-marker-alt p-1"></i><span class="social-links-span"> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
+                                    <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
                                     {% if company.phone %}<li><i class="fas fa-mobile-alt p-1"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
                                     {% if company.city or company.country %}<li><i class="fas fa-flag p-1"></i>  {% if company.city %} <span>   {{ company.city }}</span> {% endif %}{% if company.country %}<span> {{ company.country }}</span> {% endif %}</li> {% endif %}
                                     {% if company.website %}<li><i class="fas fa-external-link-alt p-1"></i><a target="_blank" href="//{{ company.website }}"><span class="social-links-span">Accéder au site web</span> </a></li>{% endif %}
