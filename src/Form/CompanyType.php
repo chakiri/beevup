@@ -148,9 +148,11 @@ class CompanyType extends AbstractType
             $builder->add('store', EntityType::class, [
                 'multiple'=>false,
                 'class' => Store::class,
-                'choice_label' =>'name',
+                'choice_label' =>function (Store $store){
+                    return $store->getAddressPostCode().' - '.$store->getName();
+                },
                 'query_builder' => function (StoreRepository $storeRepository){
-                    return $storeRepository->getAllStoresQueryBuilder();
+                    return $storeRepository->getAllStoresOrderByPostalCode();
                 }
             ]);
         }
