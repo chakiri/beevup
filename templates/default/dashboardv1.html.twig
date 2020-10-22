@@ -22,7 +22,7 @@
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex">
                                     {% if app.user.profile.filename %}
-                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                                     {% else %}
                                         <img src="/images/default/user.png" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                                     {% endif %}

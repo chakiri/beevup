@@ -12,7 +12,7 @@
                         <div class="user_profile pb-2">
                             <div class="service-pro-img">
                                 {% if service.filename %}
-                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}"  alt="">
+                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_show') }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
@@ -130,21 +130,21 @@
                                             {% if service.filename %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('card') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_show') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}
                                             {% if service.filename1 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile1')|imagine_filter('card') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile1')|imagine_filter('service_show') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}
                                             {% if service.filename2 %}
                                                 <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                                     <div class="gallery_pt">
-                                                        <img src="{{ vich_uploader_asset(service, 'imageFile2')|imagine_filter('card') }}" alt="">
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile2')|imagine_filter('service_show') }}" alt="">
                                                     </div><!--gallery_pt end-->
                                                 </div>
                                             {% endif %}

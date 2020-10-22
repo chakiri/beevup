@@ -92,7 +92,7 @@
                                                     {% if user.profile.filename is empty %}
                                                         <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
                                                     {% else  %}
-                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
+                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
                                                     {% endif %}
                                                 </a>
                                                 <div class="company-up-meta">
@@ -164,7 +164,7 @@
                                                     {% if company.filename is empty %}
                                                         <img src="/images/no-available-photo.png" alt="">
                                                     {% else  %}
-                                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}" >
+                                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
 
                                                     {% endif %}
                                                 </a>
