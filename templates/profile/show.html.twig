@@ -88,26 +88,37 @@
                                         </div><!--user-profile-ov end-->
                                     {% endif %}
 
+
                                     {% if  countServices > 0 %}
-                                        <div class="top-profiles">
-                                            <div class="pf-hd page-title sign_in_sec current">
+                                        <div class="top-profiles ">
+                                            <div class="page-title sign_in_sec current">
                                                 <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
                                                 <i class="la la-ellipsis-v"></i>
+                                                <div class="profiles-slider">
+                                                    {% for service in services %}
+                                                        <div class="user-profy">
+                                                            {% if service.filename %}
+                                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                            {% else %}
+                                                                <img src="/images/no-available-photo.png" alt="">
+                                                            {% endif %}
+                                                            <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
+                                                            <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                        </div><!--user-profy end-->
+                                                    {% endfor %}
+                                                    {% if  countServices > 3 %}
+                                                        <div class="user-profy">
+                                                            <div class="lt-sec">
+                                                                <a href="{{ path('service_company', {'company': profile.user.company.id}) }}">
+                                                                    <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                                    <p>Voir tous les services de {{ profile.user.company.name }}</p>
+                                                                </a>
+                                                            </div>
+                                                        </div><!--user-profy end-->
+                                                    {% endif %}
+                                                </div><!--profiles-slider end-->
+                                                <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
                                             </div>
-                                            <div class="profiles-slider">
-                                                {% for service in services %}
-                                                    <div class="user-profy">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="/images/no-available-photo.png" alt="">
-                                                        {% endif %}
-                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
-                                                    </div><!--user-profy end-->
-                                                {% endfor %}
-
-                                            </div><!--profiles-slider end-->
                                         </div><!--top-profiles end-->
                                     {% endif %}
 
@@ -197,5 +208,12 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/script.js"></script>
+    <script src="/js/jquery.mCustomScrollbar.js"></script>
+    <script src="/lib/slick/slick.min.js"></script>
+    <script src="/js/scrollbar.js"></script>
 {% endblock %}
 

@@ -113,6 +113,9 @@ liip_imagine:
       company_show:
           filters:
               thumbnail: { size: [170,155]}
+      company_show_services_card:
+          filters:
+              thumbnail: { size: [187,185]}
       dashboard_box_advertising:
           filters:
               thumbnail: { size: [290,235]}

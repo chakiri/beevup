@@ -135,13 +135,13 @@
                                                     <div class="company-infos-distance">
                                                         {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 and distances[user.company.id] != 0  %}
                                                             {% if distances[user.company.id] < 1  %}
-                                                                <i class="fa fa-road"></i> <small>à moins d'un kilomètre</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
                                                             {% else %}
-                                                                <i class="fa fa-road"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
-                                                    <div class="company-infos-reco">
+                                                    <div class="company-infos-recommandations">
                                                         {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
                                                             <i class="far fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}
@@ -189,13 +189,13 @@
                                                     <div class="company-infos-distance">
                                                         {% if distances and distances[company.id] and distances[company.id] < 1000 and distances[company.id] != 0  %}
                                                             {% if distances[company.id] < 1  %}
-                                                                <i class="fa fa-road"></i> <small>à moins d'un kilomètre</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
                                                             {% else %}
-                                                                <i class="fa fa-road"></i> <small>à {{ distances[company.id]|round }}Km</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[company.id]|round }}Km</small>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
-                                                    <div class="company-infos-reco">
+                                                    <div class="company-infos-recommandations">
                                                         {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
                                                             <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}

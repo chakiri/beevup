@@ -1531,7 +1531,7 @@ ul.landing-page-list {
 }
 .page-title {
     width: 100%;
-    padding: 0 15px;
+    padding: 15px;
     background-color: var(--white-color);
 }
 
@@ -1587,11 +1587,13 @@ ul.landing-page-list {
 }
 .company-image h3, .company-image h5 {
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 13%;
+    right: 13%;
     z-index: 10;
     color: #fff;
-    text-shadow: 0px 1px 2px #505050;
+    text-shadow: 0 1px 2px #505050;
+    font-weight: 600;
 }
 .company-up-info ul {
     width: 100%;
@@ -1614,32 +1616,25 @@ ul.landing-page-list {
     position: relative;
     color: var(--orange-color) !important;
 }
-.company-infos-distance{
-    position: absolute;
-    bottom: 10%;
-    left: 5px;
+.company-infos-bloc {
+    position: inherit;
+    bottom: 22px;
     z-index: 10;
-    color: #fff;
-}
-.company-infos-recommandations{
-    position: absolute;
-    bottom: 1%;
-    left: 5px;
-    z-index: 10;
-    color: #fff;
 }
 .company-infos-bloc i{
     color: #f9cb46;
 }
 .company-infos-bloc small{
-    color: #fff;
-    text-shadow: 0px 1px 2px #505050;
 }
 .company-up-meta{
     height: 100px;
 }
-.company-infos-distance, .company-infos-reco{
+.company-infos-distance, .company-infos-recommandations{
     height: 18px;
+    background: white;
+    padding: 2px;
+    border-radius: 12px;
+    font-size: 75%;
 }
 .company-introduction-bloc{
     margin:20px;
@@ -1687,6 +1682,8 @@ ul.landing-page-list {
     float: left;
     width: 100%;
     background-color: var(--white-color);
+    margin: 20px 0;
+    border-radius: var(--radius);
 }
 .suggestion-usd {
     float: left;
@@ -1696,13 +1693,11 @@ ul.landing-page-list {
 .suggestion-usd img {
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
-    -ms-border-radius: 100px;
-    -o-border-radius: 100px;
     border-radius: 100px;
     float:left;
     height: 35px;
     width: 35px;
-
+    margin-right: 5px;
 }
 .sgt-text {
     float: left;
@@ -2172,7 +2167,7 @@ ul.landing-page-list {
     object-fit: cover;
 }
 .up-info{
-    height: 300px !important;
+    height: 335px !important;
 }
 .up-info img{
     margin-bottom: 10px;
@@ -2214,22 +2209,6 @@ ul.landing-page-list {
     width: 100%;
     position: relative;
     overflow: hidden;
-}
-.gallery_pt:hover:before {
-    opacity: 1;
-    visibility: visible;
-    height: 100%;
-}
-.gallery_pt:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: rgba(0,0,0,0.60);
-    opacity: 0;
-    visibility: hidden;
 }
 .gallery_pt img {
     width: 100%;
@@ -2598,16 +2577,6 @@ a:hover {
     font-weight: 600;
     margin-bottom: 25px;
 }
-.lt-sec > a {
-    display: inline-block;
-    color: #ffffff;
-    font-size: 12px;
-    background-color: var(--orange-color);
-    padding: 10px 25px;
-    border-radius: var(--radius);
-}
-
-
 /* ============== price field ============== */
 
 .service-price{
@@ -2846,24 +2815,20 @@ a:hover {
 /* ============== profiles-slider ============== */
 
 .profiles-slider {
-    float: left;
-    width: 100%;
-    padding: 20px;
+    padding: 10px;
+    background: #fafafa;
+    border-radius: var(--radius);
 }
 .user-profy {
-    float: left;
-    width: 100%;
     background-color: #fff;
     text-align: center;
-    padding: 20px 0 0 0;
-    margin-top: 20px;
     border-radius: var(--radius);
 }
 .user-profy > img {
-    float: none;
-    margin-bottom: 6px;
-    height: 57px;
-    width: 57px;
+    width: 100%;
+    height: 185px;
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
 }
 .user-profy ul {
     float: left;
@@ -2903,15 +2868,8 @@ a:hover {
     border-top: 1px solid #ececec;
     font-weight: 600;
 }
-.user-profy > a:hover {
-    background-color: var(--orange-color);
-    color: #fff;
-}
-.slick-slide img {
-    display: inline-block;
-}
 .slick-slide {
-    margin: 0 4px;
+    margin: 0 5px;
 }
 .envlp img {
     position: relative;
