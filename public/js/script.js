@@ -3,6 +3,7 @@ $(window).on("load", function() {
 
     //  ============= PORTFOLIO SLIDER FUNCTION =========
 
+    $('.profiles-slider').addClass("d-block");
     $('.profiles-slider').slick({
         slidesToShow: 3,
         slick:true,
