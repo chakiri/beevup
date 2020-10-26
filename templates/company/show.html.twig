@@ -129,8 +129,8 @@
                                 <div class="right">
                                     {% if company != null and app.user.company != null %}
                                         {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                            <div class="btn white-bg float-right mb-1">
-                                                <a href="#" class="add-recommandation" title=""
+                                            <div class="">
+                                                <a href="#" class="add-recommandation btn white-bg float-right mb-1" title=""
                                                    data-toggle="modal"
                                                    data-target="{{ path('recommandation') }}"
                                                    data-whatever="@getbootstrap"

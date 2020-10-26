@@ -64,8 +64,8 @@
                             <p>Il se peut que votre entreprise soit désactivée pour des raisons de sécurité. <br>Nous vous invitons à contacter votre conseiller pour plus d'informations. </p>
                           </div>
                       {% endif %}
-                      <div class="row">
                           {% if services is not empty %}
+                            <div class="row">
                               {% for service in services %}
                                   <div class="col-lg-4 col-md-4 col-sm-6">
                                       <div class="company_profile_info">
@@ -112,6 +112,7 @@
                                       <!--company_profile_info end-->
                                   </div>
                               {% endfor %}
+                            </div>
                           {% else %}
                               <div class="box full-width">
                                   <div class="text-center">
@@ -119,7 +120,6 @@
                                   </div>
                               </div>
                           {% endif %}
-                      </div>
                   </div>
 
               </div>

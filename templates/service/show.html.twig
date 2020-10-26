@@ -159,12 +159,12 @@
                                     </div><!--gallery_pf end-->
                                 </div>
 
-                                <div class="message-btn right">
+                                <div class="">
                                     {% if service.user.id != app.user.id  and app.user.profile.isCompleted == true %}
                                         {% if not is_granted('ROLE_ADMIN_STORE') and not is_granted('ROLE_ADMIN_PLATEFORM') %}
                                             {% if service.type.name != 'plateform' or (service.type.name == 'plateform' and storeService) %}
-                                                <div class="btn white-bg float-right mb-1">
-                                                    <a href="#" type="button" class="add-recommandation btn btn-sm btn-2"  data-whatever="@getbootstrap" data-toggle="modal"
+                                                <div class="">
+                                                    <a href="#" type="button" class="add-recommandation btn white-bg float-right mb-1"  data-whatever="@getbootstrap" data-toggle="modal"
                                                        data-target="{{ path('recommandation') }}"
                                                        data-service="{{service.id}}"
                                                        data-company="{% if storeService or service.type.name == "store" %}{{ null }}{% else %}{{ service.user.company.id }}{% endif %}"
@@ -241,11 +241,9 @@
                         </div>
                     {% endif %}
                     {% if similarServices %}
-                        <div class="suggestions full-width">
-                            <div class="sd-title page-title">
-                                <h5>Services similaires</h5>
-                            </div><!--sd-title end-->
-                            <div class="suggestions-list">
+                        <div class="user-profile-ov  page-title sign_in_sec current">
+                            <h5>Services similaires</h5>
+                            {% if similarServices %}
                                 {% for service in similarServices %}
                                     <div class="suggestion-usd">
                                         <div class="service-bloc-inf">
@@ -258,12 +256,12 @@
                                         </div>
                                         <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">
                                             <h4> <a href="{{ path('service_show', {'id': service.id}) }}" title="">{{ service.title|slice(0, 50) ~ '...'  }}</a></h4>
-
                                         </div>
                                     </div>
                                 {% endfor %}
-                            </div><!--suggestions-list end-->
-                        </div><!--suggestions end-->
+                            {% endif %}
+                        </div>
+
                     {% endif %}
                 </div>
             </div>

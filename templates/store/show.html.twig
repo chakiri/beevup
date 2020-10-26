@@ -124,8 +124,8 @@
                                     {% if app.user.store != null %}
                                         {% if app.user.profile.isCompleted == true  %}
                                             {% if app.user.store == store and app.user.type.name != 'admin magasin' %}
-                                                <div class="btn white-bg float-right mb-1">
-                                                    <a href="#" class="add-recommandation" title=""
+                                                <div class="">
+                                                    <a href="#" class="add-recommandation btn white-bg float-right mb-1" title=""
                                                        data-toggle="modal"
                                                        data-target="{{ path('recommandation') }}"
                                                        data-whatever="@getbootstrap"
