@@ -105,8 +105,6 @@ class CompanyController extends AbstractController
                     /* end ******/
                     $manager->persist($company);
 
-
-
                     $manager->flush();
 
                     //init topic company category to user
@@ -122,6 +120,7 @@ class CompanyController extends AbstractController
                 return $this->render('company/form.html.twig', [
                     'company' => $company,
                     'EditCompanyForm' => $form->createView(),
+                    'countServices' => count($company->getServices()->toArray())
                 ]);
             } else {
                 return $this->redirectToRoute('page_not_found', []);
