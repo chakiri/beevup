@@ -204,7 +204,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper)
     {
 
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page

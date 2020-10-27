@@ -57,7 +57,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost)
     {
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
