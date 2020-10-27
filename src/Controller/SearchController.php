@@ -56,16 +56,21 @@ class SearchController extends AbstractController
         $nbRecommandations = [];
         $distances = [];
         foreach ($items as $item){
-            if ($item instanceof User) $company = $item->getCompany();
-            elseif ($item instanceof Company) $company = $item;
-            //Get nb recommandations of each company item
-            $nbRecommandation = count($recommandationRepository->findBy(['company' => $company]));
+            if ($item instanceof User){
+                $company = $item->getCompany();
+                //Get nb recommandations of each company item
+                $nbRecommandation = count($recommandationRepository->findByUserRecommandation($item, 'Validated'));
+            }
+            elseif ($item instanceof Company){
+                $company = $item;
+                //Get nb recommandations of each company item
+                $nbRecommandation = count($recommandationRepository->findByCompanyServices($company, 'Validated')) + count($recommandationRepository->findByCompanyWithoutServices($company, 'Validated'));
+            }
             $nbRecommandations[$company->getId()] = $nbRecommandation;
             //Get nb Km between current user company and company item
             $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
             $distances[$company->getId()] = $distance;
         }
-
 
         return $this->render('search/search.html.twig', [
             'SearchForm' => $form->createView(),

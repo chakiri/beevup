@@ -8,7 +8,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
-use App\Service\AutmaticPost;
+use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,9 +34,7 @@ class ProfileController extends AbstractController
         $favoritUser= $userRepo->findBy(['id'=>$profile->getUser()]);
         if($profile->getUser()->getCompany() != null) {
             $collegues = $userRepo->findBy(['company' => $profile->getUser()->getCompany(), 'isValid'=> 1],[], 5);
-
         }
-
 
         $isFavorit = "";
        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'favoritUser'=>$favoritUser])) > 0)
@@ -44,13 +42,7 @@ class ProfileController extends AbstractController
                 $isFavorit = "is-favorit-profile text-warning";
             }
 
-        $allRecommandations = [];
-        //dd($services);
-        foreach ($services as $service){
-            $recommandations = $recommandationRepository->findBy(['service' => $service]);
-            if ($recommandations)
-                $allRecommandations = array_merge($allRecommandations, $recommandations);
-        }
+        $allRecommandations = $recommandationRepository->findByUserRecommandation($profile->getUser(), 'Validated');
 
         return $this->render('profile/show.html.twig', [
             'profile' => $profile,
@@ -65,7 +57,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost, ImageCropper $imageCropper)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost)
     {
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);

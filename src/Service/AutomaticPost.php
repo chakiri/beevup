@@ -8,7 +8,7 @@ use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AutmaticPost
+class AutomaticPost
 
 {
     private $postCategoryRepository;

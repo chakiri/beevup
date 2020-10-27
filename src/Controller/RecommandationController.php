@@ -12,7 +12,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
-use App\Service\AutmaticPost;
+use App\Service\AutomaticPost;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -123,7 +123,7 @@ class RecommandationController extends AbstractController
   /**
      * @Route("/edit/recommandation/{variable}/{variable2}", defaults={"variable" = 0, "variable2" = 0}, name="recommandation_edit")
      */
-    public function edit(Request $request, EntityManagerInterface $manager, RecommandationRepository $repository,PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost,  $variable, $variable2)
+    public function edit(Request $request, EntityManagerInterface $manager, RecommandationRepository $repository, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, $variable, $variable2)
     {
         
         
