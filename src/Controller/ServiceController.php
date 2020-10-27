@@ -20,7 +20,7 @@ use App\Repository\UserTypeRepository;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
-use App\Service\AutmaticPost;
+use App\Service\AutomaticPost;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +53,7 @@ class ServiceController extends AbstractController
 
         if ($request->get('_route') == 'service_generic'|| $this->isGranted('ROLE_ADMIN_PLATEFORM')) {
             $typeService = $typeServiceRepository->findOneBy(['name' => 'plateform']);
-            $services = $serviceRepository->findByType($typeService);
+            $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
         }
         if ($request->get('_route') == 'service_discovery') {
             $services = $serviceRepository->findByIsDiscovery($allCompanies, $this->getUser()->getStore());
@@ -129,7 +129,7 @@ class ServiceController extends AbstractController
                 //Get assocaition if exist
                 $storeService = $storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->getUser()->getStore()]);
                 if ($storeService){
-                    $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $storeService->getStore(), 'service' => $service]));
+                    $nbRecommandation = count($recommandationRepository->findBy(['company' => null, 'service' => $service]));
                     $nbRecommandations[$service->getId()] = $nbRecommandation;
                     if ($this->getUser()->getCompany()){
                         $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
@@ -203,7 +203,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository)
     {
 
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page

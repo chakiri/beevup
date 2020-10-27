@@ -95,7 +95,7 @@ class Company implements \Serializable
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @ORM\Column(type="string", length=1500, nullable=true)
      */
     private $description;
 
