@@ -105,7 +105,8 @@ class StoreType extends AbstractType
                 'label' => 'Photo ',
                 'attr'  => [
                     'placeholder' => 'Photo',
-                    'class'       =>'form-control '
+                    'class'       =>'form-control form-imageFile',
+                    'onChange'=>'previousImage()',
                 ],
                 'constraints' => [
                     new File([

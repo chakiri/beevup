@@ -9,6 +9,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
 use App\Service\AutmaticPost;
+use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
 use App\Form\ProfileType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 class ProfileController extends AbstractController
 {
@@ -61,7 +65,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutmaticPost $autmaticPost, ImageCropper $imageCropper)
     {
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
@@ -69,6 +73,7 @@ class ProfileController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $isCompleted = $profile->getIsCompleted();
+                $imageCropper->move_directory($profile, 'uploads_dir');
 
                 if(!$isCompleted){
                     /*******Add automatic post***/
@@ -113,5 +118,46 @@ class ProfileController extends AbstractController
         $manager->flush();
 
         return $this->json($profile);
+    }
+
+    /**
+     * @Route("/uploade-image", name="image", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getImage(Request $request)
+    {
+
+        if ($request->isXmlHttpRequest())
+        {
+
+            $profile = new Profile();
+            $profile->setUser($this->getUser());
+            $form = $this->createForm(ProfileType::class, $profile);
+            $form->handleRequest($request);
+            // the file
+            $file = $_FILES['file'];
+            $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
+            $filename = $this->generateUniqueName() . '.' . $file->guessExtension();
+            $file->move(
+                $this->getTargetDir(),
+                $filename
+            );
+            $profile->setFilename($filename);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($profile);
+            $em->flush();
+        }
+        return new JsonResponse("This is not an ajax request");
+    }
+
+    private function generateUniqueName()
+    {
+        return md5(uniqid());
+    }
+
+    private function getTargetDir()
+    {
+        return $this->getParameter('uploads_dir');
     }
 }

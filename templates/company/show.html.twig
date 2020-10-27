@@ -11,9 +11,12 @@
                 <div class="col-lg-3">
                     <div class="main-left-sidebar">
                         <div class="user_profile">
-                            <div class="company-pro-img">
-                                {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
+
+
+                            <div class="user-pro-img">
+                                {% if company.croppedImageFileName %}
+                                    <img src="/images/company/cropper/{{ company.croppedImageFileName }}"  alt="">
+
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}

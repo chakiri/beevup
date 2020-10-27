@@ -98,8 +98,9 @@ class CompanyType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'attr'  => [
-                    'class'       =>'form-control',
+                    'class'       =>'form-control form-imageFile',
                     'placeholder' => 'Sélectionnez une image',
+                    'onChange'=>'previousImage()',
                 ],
                 'constraints' => [
                     new File([

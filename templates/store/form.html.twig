@@ -12,8 +12,8 @@
                     <div class="main-left-sidebar">
                         <div class="user_profile">
                            <div class="user-pro-img">
-                                {% if store.filename %}
-                                    <img src="{{ vich_uploader_asset(store, 'imageFile')|imagine_filter('card') }}"  alt="">
+                                {% if store.croppedImageFileName %}
+                                    <img src="/images/store/cropper/{{ store.croppedImageFileName }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
@@ -45,7 +45,7 @@
                                 <h3>
                                     Editer les informations
                                 </h3>
-                                {{ form_start(form) }}
+                                {{ form_start(form, {'attr':{'id':'BVform'}})}}
                                     <div class="row">
                                         <div class="form-group required col-lg-6 col-md-12">
                                             {{ form_label(form.name) }}
@@ -126,9 +126,14 @@
 
                                         <div class="form-group required col-lg-6 col-md-12">
                                             {{ form_label(form.imageFile) }}
-                                            <div class="input-group  store-file">
+                                            <div class="input-group  store-file data-entity-id" data-entity-id="{{ app.user.store.id }}" data-slug="{{ app.user.store.slug }}">
                                                 {{ form_widget(form.imageFile) }}
                                             </div>
+
+                                            <div id="previous-image">
+
+                                            </div>
+
                                         </div>
 
 
@@ -140,6 +145,9 @@
                                     </div>
                                 <div class="form-actions form-group text-center">
                                     <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                    <div class="spinner-border  hide-load" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
                                 {{ form_end(form) }}
 

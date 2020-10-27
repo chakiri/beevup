@@ -105,7 +105,8 @@ class ServiceType extends AbstractType
                 'label' => 'Photo principale',
                 'attr'  => [
                     'placeholder' => 'Photo principale',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control form-imageFile',
+                    'onChange'=>'previousImage()',
 
                 ],
                 'constraints' => [
