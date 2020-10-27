@@ -9,57 +9,7 @@
         <div class="main-section-data page-content">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="main-left-sidebar">
-                        <div class="user_profile">
-                            <div class="company-pro-img">
-                                {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
-                                {% else %}
-                                    <img src="/images/no-available-photo.png" alt="">
-                                {% endif %}
-                                {#{% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                   <a  href="{{ path('company_edit', {'id': company.id}) }}" title=""><i class="fa fa-camera"></i></a>
-                                {% endif %}#}
-                            </div><!--user-pro-img end-->
-
-                            <div class="user_pro_status pl-2 pr-2">
-                                    {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                        <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg">
-                                            Modifier les informations
-                                        </a>
-                                    {% else %}
-                                         <a href="#" title=""
-                                               class="btn white-bg add-favoris add-company-favoris {{ isFavorit }}"
-                                               data-company-id="{{  company.id }}"
-                                               data-target="{{path('favorit_company_add', {'companyId':company.id})}}"
-                                               data-delete="{{path('favorit_company_delete', {'companyId': company.id})}}">
-                                                {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}
-                                         </a>
-                                    {% endif %}
-                                <ul class="flw-status mt-3">
-                                    <li>
-                                        <span>Score</span>
-                                        <b> {{ score ?? 0 }}Pts</b>
-                                    </li>
-                                    <li>
-                                        <span> Services </span>
-                                        <b>{{ countServices }} </b>
-                                    </li>
-                                </ul>
-                            </div><!--user_pro_status end-->
-                            {% if company.isCompleted %}
-                                <ul class="social_links">
-                                    <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
-                                    {% if company.phone %}<li><i class="fas fa-mobile-alt p-1"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
-                                    {% if company.city or company.country %}<li><i class="fas fa-flag p-1"></i>  {% if company.city %} <span>   {{ company.city }}</span> {% endif %}{% if company.country %}<span> {{ company.country }}</span> {% endif %}</li> {% endif %}
-                                    {% if company.website %}<li><i class="fas fa-external-link-alt p-1"></i> <a target="_blank" href="//{{ company.website }}"><span class="">Accéder au site web</span></a></li> {% endif %}
-                                    <li><i class="fas fa-store"></i>  {{ company.store.name }} </li>
-                                </ul>
-                            {% endif %}
-                        </div><!--user_profile end-->
-
-
-                    </div><!--main-left-sidebar end-->
+                    {% include 'company/boxes/infoCompany.html.twig' %}
                 </div>
 
                 <div class="col-lg-6">
