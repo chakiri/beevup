@@ -23,3 +23,14 @@
 /public/js/wamp.js
 
 /public/pdf/CGU.pdf
+
+###> local images###
+/public/images/advertising
+/public/images/company
+/public/images/profil
+/public/images/profiles
+/public/images/publicity
+/public/images/service
+/public/images/services
+/public/images/stores
+###< local images###

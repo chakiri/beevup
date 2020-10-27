@@ -30,8 +30,8 @@
                                 {% endif %}
                             </div><!--user_pro_status end-->
                             <ul class="social_links">
-                                <li><i class="fas fa-map-marker-alt"></i> <span class="social-links-span">{{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
-                                <li><i class="fas fa-mobile-alt"></i> <span class="social-links-span">  {{ store.phone ?? 'N° de téléphonse non saisi' }} </span></li>
+                                <li><i class="fas fa-map-marker-alt"></i> <span class="">{{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
+                                <li><i class="fas fa-mobile-alt"></i> <span class="">  {{ store.phone ?? '<small>N° de téléphonse non saisi</small>' }} </span></li>
                                 {% if store.city or store.country %}<li><i class="fas fa-flag p-1"></i>  {% if store.city %} <span>   {{ store.city }}</span> {% endif %}{% if store.country %}<span> {{ store.country }}</span> {% endif %}</li> {% endif %}
                             </ul>
                         </div><!--user_profile end-->
@@ -85,40 +85,47 @@
                                 <p>{{ store.description|raw ?: 'Pas de description' }}</p>
                             </div><!--user-profile-ov end-->
 
-
                             {% if  services %}
-                                <div class="top-profiles">
-                                    <div class="pf-hd page-title sign_in_sec current">
+                                <div class="top-profiles ">
+                                    <div class="page-title sign_in_sec current">
                                         <h5>Les services proposés par votre magasin Bureau Vallée</h5>
                                         <i class="la la-ellipsis-v"></i>
-                                    </div>
-                                    <div class="profiles-slider">
-                                        <div class="row">
+                                        <div class="profiles-slider">
                                             {% for service in services %}
-                                                <div class="col-4">
-                                                    <div class="user-profy">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="/images/no-available-photo.png" alt="">
-                                                        {% endif %}
-                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                        <a href="#" title="">Voir plus</a>
-                                                    </div>
-                                                </div>
+                                                <div class="user-profy">
+                                                    {% if service.filename %}
+                                                        <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                    {% else %}
+                                                        <img src="/images/no-available-photo.png" alt="">
+                                                    {% endif %}
+                                                    <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
+                                                    <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                </div><!--user-profy end-->
                                             {% endfor %}
-                                        </div>
+                                            {% if  services|length > 3 %}
+                                                <div class="user-profy">
+                                                    <div class="lt-sec">
+                                                        <a href="{{ path('service_store', {'store': store.id}) }}">
+                                                            <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                            <p>Voir tous les services de votre magasin</p>
+                                                        </a>
+                                                    </div>
+                                                </div><!--user-profy end-->
+                                            {% endif %}
+                                        </div><!--profiles-slider end-->
+                                        <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
                                     </div>
-                                </div>
+                                </div><!--top-profiles end-->
                             {% endif %}
+
 
                             {% if store.isAdmin != true %}
                                 <div class="right">
                                     {% if app.user.store != null %}
                                         {% if app.user.profile.isCompleted == true  %}
                                             {% if app.user.store == store and app.user.type.name != 'admin magasin' %}
-                                                <div class="message-btn">
-                                                    <a href="#" class="add-recommandation" title=""
+                                                <div class="">
+                                                    <a href="#" class="add-recommandation btn white-bg float-right mb-1" title=""
                                                        data-toggle="modal"
                                                        data-target="{{ path('recommandation') }}"
                                                        data-whatever="@getbootstrap"
@@ -193,10 +200,8 @@
 
                 <div class="col-lg-3">
                     <div class="right-sidebar">
-                        <div class="sd-title page-title sign_in_sec current">
+                        <div class="user-profile-ov page-title sign_in_sec current">
                             <h5>Notre équipe pour vous servir</h5>
-                        </div><!--sd-title end-->
-                        <div class="suggestions-list">
                             {% if users %}
                                 {%  for user in users %}
                                     {% if user.profile != null %}
@@ -219,11 +224,9 @@
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <div class="p-3">
                                     <p>Aucun nouvel utilisateur</p>
-                                </div>
                             {% endif %}
-                        </div><!--suggestions-list end-->
+                        </div><!--user-profile-ov end-->
                     </div><!--suggestions end-->
                 </div>
 
@@ -237,8 +240,15 @@
     <div class="modal fade" id="recommandation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                {% include 'default/spinner.html.twig' %}
+                {% include 'partials/spinner.html.twig' %}
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/script.js"></script>
+    <script src="/js/jquery.mCustomScrollbar.js"></script>
+    <script src="/lib/slick/slick.min.js"></script>
+    <script src="/js/scrollbar.js"></script>
 {% endblock %}

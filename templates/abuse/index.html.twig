@@ -38,7 +38,7 @@
                                 {% if is_granted('ROLE_ADMIN') and abuses %}
                                     {% for abuse in abuses %}
                                         <div id ="abuse-{{abuse.id}}" class="box">
-                                            <div class="row">
+                                            <div class="">
                                                 <div class="suggestion-usd abuse-suggestion-usd">
                                                    {% if abuse.user.profile.filename is empty %}
                                                        <img src="/images/no-available-photo.png" alt="">
@@ -87,7 +87,7 @@
                                         </div>
                                     {% endfor %}
                                 {% else %}
-                                  <div class="row">
+                                  <div class="">
                                       <p>Il n'ya pas d'abus</p>
                                   </div>
 

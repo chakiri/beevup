@@ -95,7 +95,7 @@ a:focus {
     height: 58px;
     padding: 10px 3px;
     transition: all 0.5s;
-    z-index: 1;
+    z-index: 100;
     transition: all 0.5s;
     background: #fff;
     /*box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.3);*/
@@ -630,7 +630,8 @@ textarea.form-control{
 
 /* ========== Landing page ========== */
 #landing-page-header{
-  height: 71px;
+    display: flex;
+    justify-content: space-between;
 }
 #landing-page-header .logo img {
   transition: all 0.5s;
@@ -649,7 +650,6 @@ textarea.form-control{
 }
 .security_registration, .security_new_account, .security_forgotten_password, .security_reset_password {
     padding: 0;
-  background-color: var(--white-color) !important;;
   overflow-x: hidden;
 
 }
@@ -927,6 +927,10 @@ ul.landing-page-list {
         width: 121px;
     }
 
+    .landing-page-first-bloc {
+        padding: 0 10px 0 !important;
+    }
+
     .alert {
         width: 87% !important;
     }
@@ -1073,6 +1077,10 @@ ul.landing-page-list {
 }
 
 /* =============== login-sec ============= */
+.security_registration{
+    padding: 0;
+    background-color: #FFF !important;
+}
 .security_login{
     padding: 0;
     background-color: var(--bg-color) !important;
@@ -1197,7 +1205,7 @@ ul.landing-page-list {
 }
 .sign_in_sec form input {
     height: 40px;
-    min-width: 70%
+    width: 100%
 }
 
 
@@ -1523,7 +1531,7 @@ ul.landing-page-list {
 }
 .page-title {
     width: 100%;
-    padding: 0 15px;
+    padding: 15px;
     background-color: var(--white-color);
 }
 
@@ -1536,7 +1544,7 @@ ul.landing-page-list {
     /*font-weight: 600;*/
     background-color: #fff;
     padding: 10px 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 .companies-list {
@@ -1557,26 +1565,35 @@ ul.landing-page-list {
     float: left;
     width: 100%;
     height: 336px;
-    padding: 30px 0;
     border-bottom: 1px solid var(--footer-bg-color);
 }
-.company-up-info img {
+
+.company-up-info a{
+    color: inherit;
+}
+.company-image{
+    position: relative;
+}
+.company-image img {
     float: none;
-    margin-bottom: 10px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    -ms-border-radius: 100px;
-    -o-border-radius: 100px;
-    border-radius: 100px;
-    height: 90px;
-    width: 90px;
+    border-top-right-radius: var(--radius);
+    border-top-left-radius: var(--radius);
+    width: 100%;
+    height: 220px;
     object-fit: cover;
 }
-.company-up-info h3 a, .company-up-info h5 a {
+.company-image a, .company-image a {
     color: var(--text-color);
 }
-.company-up-info h3, .company-up-info h5 {
-    height: 45px;
+.company-image h3, .company-image h5 {
+    position: absolute;
+    top: 35%;
+    left: 13%;
+    right: 13%;
+    z-index: 10;
+    color: #fff;
+    text-shadow: 0 1px 2px #505050;
+    font-weight: 600;
 }
 .company-up-info ul {
     width: 100%;
@@ -1599,18 +1616,28 @@ ul.landing-page-list {
     position: relative;
     color: var(--orange-color) !important;
 }
-.company-up-meta{
-    height: 100px;
-}
-.company-infos-distance, .company-infos-reco{
-    height: 18px;
-}
-.company-introduction-bloc{
-    min-height: 50px;
-    margin:10px;
+.company-infos-bloc {
+    position: inherit;
+    bottom: 22px;
+    z-index: 10;
 }
 .company-infos-bloc i{
     color: #f9cb46;
+}
+.company-infos-bloc small{
+}
+.company-up-meta{
+    height: 100px;
+}
+.company-infos-distance, .company-infos-recommandations{
+    height: 18px;
+    background: white;
+    padding: 2px;
+    border-radius: 12px;
+    font-size: 75%;
+}
+.company-introduction-bloc{
+    margin:20px;
 }
 .message-us i{
     color:var(--orange-color);
@@ -1655,6 +1682,8 @@ ul.landing-page-list {
     float: left;
     width: 100%;
     background-color: var(--white-color);
+    margin: 20px 0;
+    border-radius: var(--radius);
 }
 .suggestion-usd {
     float: left;
@@ -1664,13 +1693,11 @@ ul.landing-page-list {
 .suggestion-usd img {
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
-    -ms-border-radius: 100px;
-    -o-border-radius: 100px;
     border-radius: 100px;
     float:left;
     height: 35px;
     width: 35px;
-
+    margin-right: 5px;
 }
 .sgt-text {
     float: left;
@@ -1896,7 +1923,6 @@ ul.landing-page-list {
 /* ================== social_links ============= */
 
 .social_links {
-    float: left;
     width: 100%;
     text-align: left;
     list-style: none;
@@ -1905,7 +1931,6 @@ ul.landing-page-list {
 
 }
 .social_links li {
-    float: left;
     width: 100%;
     padding: 15px 15px;
     border-bottom: 1px solid #e5e5e5;
@@ -1919,10 +1944,8 @@ ul.landing-page-list {
 
 }
 .social_links li i {
-   margin-right: 5px;
-    margin-right: 5px;
-    float: left;
-    margin-top: 1px;
+    margin-right: 10px;
+    margin-top: 5px;
 
 }
 
@@ -1963,7 +1986,6 @@ ul.landing-page-list {
 /* =============== flw-status ============ */
 
 .flw-status {
-    float: left;
     width: 100%;
     padding-left: 0;
 }
@@ -1990,15 +2012,12 @@ ul.landing-page-list {
 /* ============= user_profile ============= */
 
 .user_profile {
-    float: left;
-    width: 100%;
     background-color: #fff;
-    margin-bottom: 20px;
     text-align: center;
     margin-top: -40px;
+    border-radius: var(--radius);
 }
 .user-pro-img {
-    float: left;
     width: 100%;
     text-align: center;
     margin-bottom: 28px;
@@ -2027,13 +2046,24 @@ ul.landing-page-list {
     -ms-border-radius: 100px;
     -o-border-radius: 100px;
     border-radius: 100px;
-    float: none;
     border: 5px solid #fff;
     width: 170px;
     height: 170px;
 }
+
+.company-pro-img img {
+    border: 5px solid #fff;
+    width: 170px;
+    margin: 1em;
+}
+
+.service-pro-img img {
+    width: 100%;
+    border-top-right-radius: var(--radius);
+    border-top-left-radius: var(--radius);
+    margin-bottom: 20px;
+}
 .user_pro_status {
-    float: left;
     width: 100%;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 27px;
@@ -2127,7 +2157,27 @@ ul.landing-page-list {
     padding: 10px 15px;
 }
 
-
+.user-up-info img{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+}
+.up-info{
+    height: 335px !important;
+}
+.up-info img{
+    margin-bottom: 10px;
+    width: 100%;
+    max-height: 169px;
+    min-height: 169px;
+    object-fit: cover;
+    border-top-right-radius: var(--radius);
+    border-top-left-radius: var(--radius);
+}
 
 /* ==================== portfolio-gallery-sec ==================== */
 
@@ -2159,22 +2209,6 @@ ul.landing-page-list {
     width: 100%;
     position: relative;
     overflow: hidden;
-}
-.gallery_pt:hover:before {
-    opacity: 1;
-    visibility: visible;
-    height: 100%;
-}
-.gallery_pt:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: rgba(0,0,0,0.60);
-    opacity: 0;
-    visibility: hidden;
 }
 .gallery_pt img {
     width: 100%;
@@ -2543,16 +2577,6 @@ a:hover {
     font-weight: 600;
     margin-bottom: 25px;
 }
-.lt-sec > a {
-    display: inline-block;
-    color: #ffffff;
-    font-size: 12px;
-    background-color: var(--orange-color);
-    padding: 10px 25px;
-    border-radius: var(--radius);
-}
-
-
 /* ============== price field ============== */
 
 .service-price{
@@ -2791,24 +2815,21 @@ a:hover {
 /* ============== profiles-slider ============== */
 
 .profiles-slider {
-    float: left;
-    width: 100%;
-    padding: 20px;
+    display: none;
+    padding: 10px;
+    background: #fafafa;
+    border-radius: var(--radius);
 }
 .user-profy {
-    float: left;
-    width: 100%;
     background-color: #fff;
     text-align: center;
-    padding: 20px 0 0 0;
-    margin-top: 20px;
     border-radius: var(--radius);
 }
 .user-profy > img {
-    float: none;
-    margin-bottom: 6px;
-    height: 57px;
-    width: 57px;
+    width: 100%;
+    height: 185px;
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
 }
 .user-profy ul {
     float: left;
@@ -2848,15 +2869,8 @@ a:hover {
     border-top: 1px solid #ececec;
     font-weight: 600;
 }
-.user-profy > a:hover {
-    background-color: var(--orange-color);
-    color: #fff;
-}
-.slick-slide img {
-    display: inline-block;
-}
 .slick-slide {
-    margin: 0 4px;
+    margin: 0 5px;
 }
 .envlp img {
     position: relative;

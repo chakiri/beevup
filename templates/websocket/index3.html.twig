@@ -188,6 +188,7 @@
                     <ul id="chat">
                         {% for message in messages %}
                             <li class="{% if message.user == app.user %}replies{% else %}sent{% endif %}">
+                                <span><small>{{ message.user.profile.firstname|capitalize}}</small></span>
                                 <div>
                                     {% if message.user.profile.filename %}
                                         <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />

@@ -13,7 +13,7 @@ class WelcomePopup
         $this->session = $session;
     }
 
-    public function add(): array
+    public function add(): ?array
     {
         //Set welcome popup session
         $popup = $this->session->get('popup');

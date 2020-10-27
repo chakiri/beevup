@@ -215,14 +215,7 @@
 
 .box-advertising img{
     width: 100%;
-    /*height: 176px;*/
-}
-
-.company-infos-bloc {
-    display: grid;
-}
-.company-infos-bloc small{
-    color: var(--text-color);
+    height: 235px;
 }
 
 /*-------- Modals --------- */
@@ -479,6 +472,7 @@ li.icon-type-post a.active{
     position: absolute;
     font-size: 90%;
     margin: 5px;
+    z-index: 1;
 }
 
 .badge-box .badge {

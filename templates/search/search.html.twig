@@ -87,12 +87,12 @@
                                 {% for user in users %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="company_profile_info  user-profile-{{user.profile.id  }}">
-                                            <div class="company-up-info">
+                                            <div class="company-up-info user-up-info">
                                                 <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                     {% if user.profile.filename is empty %}
                                                         <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
                                                     {% else  %}
-                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('card') }}" >
+                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
                                                     {% endif %}
                                                 </a>
                                                 <div class="company-up-meta">
@@ -135,15 +135,15 @@
                                                     <div class="company-infos-distance">
                                                         {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 and distances[user.company.id] != 0  %}
                                                             {% if distances[user.company.id] < 1  %}
-                                                                <i class="fa fa-road"></i> <small>à moins d'un kilomètre</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
                                                             {% else %}
-                                                                <i class="fa fa-road"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
-                                                    <div class="company-infos-reco">
+                                                    <div class="company-infos-recommandations">
                                                         {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
-                                                            <i class="fa fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            <i class="far fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -159,12 +159,12 @@
                                 {% for company in companies %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="company_profile_info">
-                                            <div class="company-up-info ">
+                                            <div class="company-up-info up-info">
                                                 <a href="{{path('company_show', { 'slug': company.slug}) }}">
                                                     {% if company.filename is empty %}
                                                         <img src="/images/no-available-photo.png" alt="">
                                                     {% else  %}
-                                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('card') }}" >
+                                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
 
                                                     {% endif %}
                                                 </a>
@@ -189,15 +189,15 @@
                                                     <div class="company-infos-distance">
                                                         {% if distances and distances[company.id] and distances[company.id] < 1000 and distances[company.id] != 0  %}
                                                             {% if distances[company.id] < 1  %}
-                                                                <i class="fa fa-road"></i> <small>à moins d'un kilomètre</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
                                                             {% else %}
-                                                                <i class="fa fa-road"></i> <small>à {{ distances[company.id]|round }}Km</small>
+                                                                <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[company.id]|round }}Km</small>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
-                                                    <div class="company-infos-reco">
+                                                    <div class="company-infos-recommandations">
                                                         {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
-                                                            <i class="fa fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                         {% endif %}
                                                     </div>
                                                 </div>

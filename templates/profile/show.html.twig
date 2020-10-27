@@ -12,8 +12,10 @@
                             <div class="main-left-sidebar">
                                 <div class="user_profile">
                                     <div class="user-pro-img">
+
                                         {% if profile.croppedImageFileName %}
                                             <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
+
                                         {% else %}
                                             <img src="/images/no-available-photo.png" alt="">
                                         {% endif %}
@@ -43,6 +45,7 @@
                                         <li><i class="fas fa-envelope"></i>  {{ profile.user.email }} </li>
                                         {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
                                         {% if profile.addressPostCode != 0 %}  <li><i class="fa fa-map-marker"></i> Code postal:  {{ profile.addressPostCode }} </li>{% endif %}
+                                        <li><i class="fas fa-store"></i>  {{ profile.user.store.name }} </li>
                                     </ul>
                                 </div><!--user_profile end-->
 
@@ -60,10 +63,7 @@
                                                <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">  {{ profile.user.company.name|capitalize}}</a>
                                                 {% else  %}
                                                     <a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">    {{ profile.user.store.name|capitalize}}</a>
-
-
                                                 {% endif %}
-
                                         </span>
                                         {% endif %}
 
@@ -83,20 +83,52 @@
                                     {% if profile.user.company %}
                                         <div class="user-profile-ov page-title sign_in_sec current">
                                             <h5>
-                                                    {{ profile.firstname|capitalize }} travaille chez {{ profile.user.company.name }}
+                                                    {{ profile.firstname|capitalize }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
                                             </h5>
 
                                             <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
                                         </div><!--user-profile-ov end-->
                                     {% endif %}
 
+
                                     {% if  countServices > 0 %}
+
                                         <div class="top-profiles">
                                             {% if  (profile.user.company )%}
-                                            <div class="pf-hd page-title sign_in_sec current">
+                                           
                                                 <h5>{{ profile.user.company.name }} vous propose les services suivants</h5>
+
+                                        
+                                            <div class="page-title sign_in_sec current">
+                                                <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
+
                                                 <i class="la la-ellipsis-v"></i>
+                                                <div class="profiles-slider">
+                                                    {% for service in services %}
+                                                        <div class="user-profy">
+                                                            {% if service.filename %}
+                                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                            {% else %}
+                                                                <img src="/images/no-available-photo.png" alt="">
+                                                            {% endif %}
+                                                            <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
+                                                            <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                        </div><!--user-profy end-->
+                                                    {% endfor %}
+                                                    {% if  countServices > 3 %}
+                                                        <div class="user-profy">
+                                                            <div class="lt-sec">
+                                                                <a href="{{ path('service_company', {'company': profile.user.company.id}) }}">
+                                                                    <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                                    <p>Voir tous les services de {{ profile.user.company.name }}</p>
+                                                                </a>
+                                                            </div>
+                                                        </div><!--user-profy end-->
+                                                    {% endif %}
+                                                </div><!--profiles-slider end-->
+                                                <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
                                             </div>
+
                                             {% endif %}
                                             <div class="profiles-slider">
                                                 {% for service in services %}
@@ -112,6 +144,7 @@
                                                 {% endfor %}
 
                                             </div><!--profiles-slider end-->
+
                                         </div><!--top-profiles end-->
                                     {% endif %}
 
@@ -153,7 +186,7 @@
                                         <div class="">
                                             <h5>Ils travaillent dans la même entreprise</h5>
                                         </div><!--sd-title end-->
-                                        <div class="suggestions-list">
+                                        <div class="suggestions-list m-0">
                                             {% if collegues %}
                                                 {% for collegue in collegues %}
                                                     {% if collegue != app.user %}
@@ -181,9 +214,6 @@
                                                         </div>
                                                     {% endif %}
                                                 {% endfor %}
-                                                <div class="view-more p-3">
-                                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}" title="">Voir plus</a>
-                                                </div>
                                             {% else %}
                                                 <div class="suggestion-usd">
                                                     <p>Personne pour le moment</p>
@@ -201,5 +231,12 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/script.js"></script>
+    <script src="/js/jquery.mCustomScrollbar.js"></script>
+    <script src="/lib/slick/slick.min.js"></script>
+    <script src="/js/scrollbar.js"></script>
 {% endblock %}
 

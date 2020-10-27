@@ -1,0 +1,18 @@
+<div class="{% if app.request.attributes.get('_route') != 'security_registration' %}landing-page-first-bloc{% endif %}">
+    <header id="landing-page-header">
+        <div class="logo">
+            <a href="{{ path('dashboard') }}">
+                <img class="landing-page-logo" src="/images/default/Logo-beevup&bv2.png" alt="">
+            </a>
+        </div>
+        <div class="connexion-btn pt-3">
+            <button type="submit" class="white-btn" method="post">
+                {% if app.request.attributes.get('_route') == 'security_login' %}
+                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">Inscription </a>
+                {% else %}
+                    <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
+                {% endif %}
+            </button>
+        </div>
+    </header>
+</div>

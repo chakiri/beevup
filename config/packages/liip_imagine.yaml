@@ -89,3 +89,33 @@ liip_imagine:
           quality: 100
           filters:
               thumbnail: { size: [510, 250]}
+      avatar_big:
+          filters:
+              thumbnail: { size: [170, 170] }
+      avatar_medium:
+          filters:
+              thumbnail: { size: [90, 90] }
+      avatar_medium_2:
+          filters:
+              thumbnail: { size: [75, 75] }
+      avatar_small:
+          filters:
+              thumbnail: { size: [45, 45] }
+      service_card:
+          filters:
+              thumbnail: { size: [290,220]}
+      service_show:
+          filters:
+              thumbnail: { size: [290,235]}
+      company_card:
+          filters:
+              thumbnail: { size: [208,169]}
+      company_show:
+          filters:
+              thumbnail: { size: [170,155]}
+      company_show_services_card:
+          filters:
+              thumbnail: { size: [187,185]}
+      dashboard_box_advertising:
+          filters:
+              thumbnail: { size: [290,235]}
