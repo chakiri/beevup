@@ -14,8 +14,8 @@
                         <div class="user_profile">
 
                             <div class="user-pro-img">
-                                {% if company.filename %}
-                                    <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('square') }}"  alt="">
+                                {% if company.croppedImageFileName %}
+                                    <img src="/images/company/cropper/{{ company.croppedImageFileName }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}

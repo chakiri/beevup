@@ -15,7 +15,8 @@
                             <div class="user_profile">
                                 <div class="user-pro-img">
                                     {% if app.user.profile.filename %}
-                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
+
+                                        <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
                                     {% else %}
                                         <img src="/images/no-available-photo.png" alt="">
                                     {% endif %}
@@ -72,7 +73,7 @@
                                         Modifier mes informations
                                     </h3>
 
-                                    {{ form_start(EditProfileForm) }}
+                                    {{ form_start(EditProfileForm, {'attr':{'id':'BVform'}}) }}
                                             <div class="form-row">
                                                 <div class="form-group required col-lg-6 col-md-12">
                                                     {{ form_label(EditProfileForm.lastname) }}
@@ -149,9 +150,13 @@
                                                 <div class="form-group col-lg-6 col-md-12">
                                                     {{ form_label(EditProfileForm.imageFile) }}
 
-                                                    <div class="input-group">
+                                                    <div class="input-group data-entity-id"  data-entity-id="{{ app.user.profile.id }}">
                                                         {{ form_widget(EditProfileForm.imageFile) }}
                                                     </div>
+                                                    <div id="previous-image">
+
+                                                    </div>
+
                                                 </div>
                                                 <div class="form-group required col-lg-6 col-md-12">
                                                     {{ form_label(EditProfileForm.addressPostCode) }}
@@ -163,6 +168,9 @@
                                             </div>
                                             <div class="form-actions form-group text-center">
                                                 <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                                <div class="spinner-border  hide-load" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
                                             </div>
                                     {{ form_end(EditProfileForm) }}
 

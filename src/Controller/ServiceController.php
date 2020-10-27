@@ -21,6 +21,7 @@ use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
 use App\Service\AutmaticPost;
+use App\Service\ImageCropper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -203,7 +204,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutmaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper)
     {
 
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page
@@ -233,6 +234,7 @@ class ServiceController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
           $previousPage =    $form->get('previousUrl')->getData();
+          $imageCropper->move_directory($service, 'uploads_service_dir');
 
 
 
@@ -288,6 +290,7 @@ class ServiceController extends AbstractController
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => $service->getId() != null,
+
 
         ]);
     }

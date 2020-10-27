@@ -3085,6 +3085,9 @@ a:hover {
 .form-page-bg h3{background-color: transparent}
 .bv-form label {font-size: 13px;}
 #company_description{min-height: 200px}
+.previous-img{width:200px;height:200px;margin-top:10px}
+.hide-bloc, .hide-load{display: none}
+.load-ajax-form{display: block !important}
 /**********end************/
 
 

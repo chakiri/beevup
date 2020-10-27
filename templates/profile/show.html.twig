@@ -12,8 +12,8 @@
                             <div class="main-left-sidebar">
                                 <div class="user_profile">
                                     <div class="user-pro-img">
-                                        {% if profile.filename %}
-                                            <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('card') }}"  alt="">
+                                        {% if profile.croppedImageFileName %}
+                                            <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
                                         {% else %}
                                             <img src="/images/no-available-photo.png" alt="">
                                         {% endif %}
@@ -92,10 +92,12 @@
 
                                     {% if  countServices > 0 %}
                                         <div class="top-profiles">
+                                            {% if  (profile.user.company )%}
                                             <div class="pf-hd page-title sign_in_sec current">
                                                 <h5>{{ profile.user.company.name }} vous propose les services suivants</h5>
                                                 <i class="la la-ellipsis-v"></i>
                                             </div>
+                                            {% endif %}
                                             <div class="profiles-slider">
                                                 {% for service in services %}
                                                     <div class="user-profy">

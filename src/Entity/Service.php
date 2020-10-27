@@ -119,6 +119,11 @@ class Service implements \Serializable
      */
     private $unity;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $croppedImageFileName;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -364,6 +369,18 @@ class Service implements \Serializable
     public function setUnity(?string $unity): self
     {
         $this->unity = $unity;
+
+        return $this;
+    }
+
+    public function getCroppedImageFileName(): ?string
+    {
+        return $this->croppedImageFileName;
+    }
+
+    public function setCroppedImageFileName(?string $croppedImageFileName): self
+    {
+        $this->croppedImageFileName = $croppedImageFileName;
 
         return $this;
     }

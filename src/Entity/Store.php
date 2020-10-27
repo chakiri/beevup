@@ -149,6 +149,11 @@ class Store implements \Serializable
      */
     private $isAdmin;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $croppedImageFileName;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
@@ -567,6 +572,18 @@ class Store implements \Serializable
     public function setIsAdmin(?bool $isAdmin): self
     {
         $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getCroppedImageFileName(): ?string
+    {
+        return $this->croppedImageFileName;
+    }
+
+    public function setCroppedImageFileName(?string $croppedImageFileName): self
+    {
+        $this->croppedImageFileName = $croppedImageFileName;
 
         return $this;
     }

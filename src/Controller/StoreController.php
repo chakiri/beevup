@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Intl\Intl;
 use App\Service\Map;
+use App\Service\ImageCropper;
 use App\Service\GetCompanies;
 
 
@@ -72,7 +73,7 @@ class StoreController extends AbstractController
     * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id,  ImageCropper $imageCropper)
     {
        if(in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) {
             if (!$store) {
@@ -83,6 +84,7 @@ class StoreController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $imageCropper->move_directory($store, 'uploads_store_dir');
                 $store->setModifiedAt(new \DateTime());
                 $adresse = $store->getAddressNumber().' '.$store->getAddressStreet().' '.$store->getAddressPostCode().' '.$store->getCity().' '.$store->getCountry();
                 $map = new Map();

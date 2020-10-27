@@ -10,6 +10,7 @@ use App\Repository\FavoritRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,14 +68,15 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper)
     {
+
         if ($this->getUser()->getCompany() != NULL) {
             if ($id == $this->getUser()->getCompany()->getId()) {
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
-
+                    $imageCropper->move_directory($company, 'uploads_company_dir');
                    if($company->getIsCompleted() == false) {
                        $company->setIsCompleted(true);
                        // create a new welcome post
@@ -86,7 +88,6 @@ class CompanyController extends AbstractController
                        $post->setCategory($category);
                        $post->setTitle('Bienvenue à l\'entreprise '.$company->getName());
                        $post->setDescription($company->getIntroduction());
-
                        $post->setToCompany($company);
                        $manager->persist($post);
                    }

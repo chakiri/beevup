@@ -100,9 +100,11 @@ class ProfileType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'label' => 'Photo',
+
                 'attr'  => [
                     'placeholder' => 'Photo',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control form-imageFile',
+                     'onChange'=>'previousImage()',
                 ],
                 'constraints' => [
                     new File([

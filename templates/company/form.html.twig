@@ -47,7 +47,7 @@
                                     <h3>
                                         Modifier les informations
                                     </h3>
-                                    {{ form_start(EditCompanyForm) }}
+                                    {{ form_start(EditCompanyForm, {'attr':{'id':'BVform'}})}}
                                     <div class="row bv-form">
                                         <div class="col-lg-5 col-md-12">
                                             <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Informations</P>
@@ -170,9 +170,13 @@
                                             <div class="form-group">
                                                 <label for="">Votre logo</label>
                                                 {{ form_errors(EditCompanyForm.imageFile) }}
-                                                <div class="input-group">
+                                                <div class="input-group data-entity-id" data-entity-id="{{ app.user.company.id }}" data-slug="{{ app.user.company.slug }}">
                                                     {{ form_widget(EditCompanyForm.imageFile) }}
                                                 </div>
+                                                <div id="previous-image">
+
+                                                </div>
+
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6 ">
@@ -194,6 +198,9 @@
                                     </div>
                                     <div class="form-actions form-group text-center">
                                         <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                        <div class="spinner-border  hide-load" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
                                     </div>
 
 
