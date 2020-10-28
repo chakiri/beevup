@@ -186,7 +186,7 @@
                                                     <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
-                                                    <p>{{ recommandation.user.profile.firstname|capitalize }} {{ recommandation.user.profile.lastname|capitalize }}</p>
+                                                    <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
                                                     <small>{{ recommandation.user.company|capitalize }}</small>
                                                     {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
                                                 </div>
@@ -213,7 +213,7 @@
                                                     <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
-                                                    <p>{{ recommandationCompany.user.profile.firstname|capitalize }} {{ recommandationCompany.user.profile.lastname|capitalize }}</p>
+                                                    <p>{{ recommandationCompany.user.profile.firstname }} {{ recommandationCompany.user.profile.lastname }}</p>
                                                     <small>{{ recommandationCompany.user.company|capitalize }}</small>
                                                     {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationCompany.user} %}
                                                 </div>

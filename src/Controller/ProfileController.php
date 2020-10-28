@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
+use App\Service\Utility;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,7 +58,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility)
     {
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
@@ -73,6 +74,8 @@ class ProfileController extends AbstractController
                      $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profil de ' . $profile->getFirstname();
                      $autmaticPost->Add("Bienvenue au ". $profile->getFirstname() . " ". $profile->getLastname(), $description, $category, $profile->getId(), 'User');
                 }
+                $profile->setFirstname($utility->updateName($profile->getFirstname()));
+                $profile->setLastname($utility->updateName($profile->getLastname()));
                 $profile->setIsCompleted(true);
 
                 $manager->persist($profile);

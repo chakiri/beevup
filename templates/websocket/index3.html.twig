@@ -115,7 +115,7 @@
                                             <img src="/images/default/user.png" class="img-fluid" alt="">
                                         {% endif %}
                                         <div class="meta">
-                                            <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
+                                            <p class="name">{{ user.profile.firstname ?? 'non défini' }} {{ user.profile.lastname }}</p>
                                             <p class="preview"><small>{{ user.company }}</small></p>
                                         </div>
 
@@ -168,7 +168,7 @@
                         <img id="subjectAvatar" src="/images/default/channel.png" class="img-fluid" alt="">
                     {% endif %}
                     {% if user is defined and user is not null %}
-                        <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</strong></a>
+                        <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname }} {{ user.profile.lastname }}</strong></a>
                     {% elseif topic is defined and topic is not null %}
                         {% if topic.name starts with 'general' %}
                             <strong>General</strong>
@@ -188,7 +188,7 @@
                     <ul id="chat">
                         {% for message in messages %}
                             <li class="{% if message.user == app.user %}replies{% else %}sent{% endif %}">
-                                <span><small>{{ message.user.profile.firstname|capitalize}}</small></span>
+                                <span><small>{{ message.user.profile.firstname}}</small></span>
                                 <div>
                                     {% if message.user.profile.filename %}
                                         <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />

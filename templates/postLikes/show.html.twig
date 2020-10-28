@@ -28,7 +28,7 @@
       <div class="col-7" style="float:left">
         <p class="post-likes">
           <a class="link-to-profil"  href="{{path('profile_show', { 'id': Like.user.profile.id}) }}">
-            {{Like.user.profile.firstname|capitalize}} {{Like.user.profile.lastname|capitalize}}
+            {{Like.user.profile.firstname}} {{Like.user.profile.lastname}}
         </a>
         </p>
           {% if Like.user.company %}

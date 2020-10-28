@@ -43,7 +43,7 @@
                                                     <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
                                                 <div style="margin-left: 50px;">
-                                                    <p><strong>{{recommandation.user.profile.firstname|capitalize }} {{recommandation.user.profile.lastname|capitalize }}</strong></p>
+                                                    <p><strong>{{recommandation.user.profile.firstname }} {{recommandation.user.profile.lastname }}</strong></p>
                                                     <p class="text-muted">{{recommandation.message }}</p>
                                                     <p class="text-muted"><strong class="text-dark">Date:</strong> {{recommandation.createAt|date("d/m/Y") }}</p>
                                                 </div>
