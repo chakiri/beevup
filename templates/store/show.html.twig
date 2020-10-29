@@ -153,7 +153,7 @@
                                             {% endif %}
 
                                             <div class="hover-info">
-                                                <p>{{ recommandationsService.user.profile.firstname|capitalize }} {{ recommandationsService.user.profile.lastname|capitalize }}</p>
+                                                <p>{{ recommandationsService.user.profile.firstname }} {{ recommandationsService.user.profile.lastname }}</p>
                                                 <small>{{ recommandationsService.user.company|capitalize }}</small>
                                                 {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
                                             </div>
@@ -181,7 +181,7 @@
                                             {% endif %}
 
                                             <div class="hover-info">
-                                                <p>{{ recommandationStore.user.profile.firstname|capitalize }} {{ recommandationStore.user.profile.lastname|capitalize }}</p>
+                                                <p>{{ recommandationStore.user.profile.firstname }} {{ recommandationStore.user.profile.lastname }}</p>
                                                 <small>{{ recommandationStore.user.company|capitalize }}</small>
                                                 {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationStore.user} %}
                                             </div>
@@ -213,7 +213,7 @@
                                                     <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
                                                 <div class="sgt-text hover-info">
-                                                    <p>  {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</p>
+                                                    <p>  {{ user.profile.firstname }} {{ user.profile.lastname }}</p>
                                                     {% if user.profile.function != null %}
                                                         <small>{{ user.profile.function.name|capitalize }}</small>
                                                     {% endif %}

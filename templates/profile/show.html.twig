@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ profile.firstname|capitalize }}{% endblock %}
+{% block title %} {{ profile.firstname }}{% endblock %}
 
 {% block body %}
     <main>
@@ -54,7 +54,7 @@
                         <div class="col-lg-6">
                             <div class="main-ws-sec">
                                 <div class="user-tab-sec">
-                                    <h3>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h3>
+                                    <h3>{{ profile.firstname }} {{ profile.lastname }}</h3>
                                     <div class="star-descp">
                                         {% if profile.function %}
                                             <span>{{ profile.function.name|capitalize}}
@@ -77,13 +77,13 @@
 
                                 <div class="product-feed-tab current" id="info-dd">
                                     <div class="user-profile-ov page-title sign_in_sec current">
-                                        <h5> {{ profile.firstname|capitalize }} en quelques mots</h5>
+                                        <h5> {{ profile.firstname }} en quelques mots</h5>
                                         <p>{{ profile.introduction|raw ?: 'Pas d\'introduction' }}</p>
                                     </div><!--user-profile-ov end-->
                                     {% if profile.user.company %}
                                         <div class="user-profile-ov page-title sign_in_sec current">
                                             <h5>
-                                                {{ profile.firstname|capitalize }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
+                                                {{ profile.firstname }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
                                             </h5>
 
                                             <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
@@ -126,7 +126,7 @@
 
                                     <div class="user-profile-ov page-title sign_in_sec current st2">
                                         <h5>
-                                            La communauté a recommandé les services de {{ profile.firstname|capitalize }}
+                                            La communauté a recommandé les services de {{ profile.firstname }}
                                         </h5>
                                         {% if recommandations %}
                                             {% for recommandation in recommandations %}
@@ -137,7 +137,7 @@
                                                         <img src="/images/no-available-photo.png" alt="">
                                                     {% endif %}
                                                     <div class="hover-info">
-                                                        <p>{{ recommandation.user.profile.firstname|capitalize }} {{ recommandation.user.profile.lastname|capitalize }}</p>
+                                                        <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
                                                         <small>{{ recommandation.user.company|capitalize }}</small>
                                                         {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
                                                     </div>
@@ -175,7 +175,7 @@
                                                     <img src="/images/no-available-photo.png" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
-                                                    <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
+                                                    <p>{{ collegue.profile.firstname }} {{ profile.lastname }}</p>
                                                     {% if collegue.profile.function != null %}
                                                         <small>{{ collegue.profile.function.name|capitalize }}</small>
                                                     {% endif %}

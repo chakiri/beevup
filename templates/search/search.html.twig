@@ -47,7 +47,7 @@
                                             <div class="sgt-text hover-info">
                                                 <p>
                                                     <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                      {{ favorit.favoritUser.profile.firstname|capitalize }} {{ favorit.favoritUser.profile.lastname|capitalize }}
+                                                      {{ favorit.favoritUser.profile.firstname }} {{ favorit.favoritUser.profile.lastname }}
                                                     </a>
                                                 </p>
                                                 {% if favorit.favoritUser.company %}
@@ -97,7 +97,7 @@
                                                 </a>
                                                 <div class="company-up-meta">
                                                     <h5>
-                                                        <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }}</a>
+                                                        <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname }} {{ user.profile.lastname }}</a>
                                                     </h5>
                                                     {% if user.profile.function  %}
                                                         {% if user.company %}

@@ -249,7 +249,7 @@
                                 <div class="text" style="padding: 0 3em;background-color:#FFFFFF">
                                     {%   if user.profile != null %}
                                         {% if user.profile.firstname != null and user.profile.lastname != null %}
-                                            <p style="color:#000;font-size:12px">Bonjour {{ user.profile.firstname|capitalize }} {{ user.profile.lastname|capitalize }},</p>
+                                            <p style="color:#000;font-size:12px">Bonjour {{ user.profile.firstname }} {{ user.profile.lastname }},</p>
                                         {% else %}
                                             <p style="color:#000;font-size:12px">Bonjour, </p>
                                         {% endif %}

@@ -18,7 +18,7 @@
       <textarea id ="post-add-comment-{{post.id}}" 
                 class="post-add-comment input-radius col-10"
                 data-post-id = "{{post.id}}" 
-                data-user="{{app.user.profile.firstname|capitalize}} {{app.user.profile.lastname|capitalize}}"
+                data-user="{{app.user.profile.firstname}} {{app.user.profile.lastname}}"
                 data-target="{{ path('comment_delete', {'id': 0}) }}"
                 placeholder="Ajouter un commentaire"> </textarea>
      

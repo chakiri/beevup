@@ -3,7 +3,7 @@
         {% if  app.user.store.defaultAdviser.profile != null %}
                 <div id="advisorbox" class="row box dashboard-box d-none d-lg-block">
                     <div  class="box-title-container">
-                        <p class="box-title">{{ app.user.store.defaultAdviser.profile.firstname|capitalize ?: 'Profil incomplet'}} {{ app.user.store.defaultAdviser.profile.lastname|capitalize }}</p>
+                        <p class="box-title">{{ app.user.store.defaultAdviser.profile.firstname ?: 'Profil incomplet'}} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
 
                     </div>
 

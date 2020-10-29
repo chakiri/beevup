@@ -24,6 +24,7 @@ class ImageCropper
                 $this->container->getParameter($uploadDirectory),
                 $filename
             );
+
             $entity->setCroppedImageFileName($filename);
             $entity->setFilename($filename);
 
