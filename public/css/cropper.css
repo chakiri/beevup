@@ -284,10 +284,19 @@
 }
 
 
-.cropper-view-box {
+.profile_edit .cropper-view-box {
   box-shadow: 0 0 0 1px #39f;
   border-radius: 50%;
   outline: 0;
+  height: 170px;
+  width:170px;
+}
+.cropper-view-box {
+  box-shadow: 0 0 0 1px #39f;
+  border-radius: 0;
+  outline: 0;
+  height: 170px;
+  width:170px;
 }
 .cropper-face {
   background-color:inherit !important;

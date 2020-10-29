@@ -25,6 +25,9 @@ class ImageCropper
                 $filename
             );
             $entity->setCroppedImageFileName($filename);
+            $entity->setFilename($filename);
+
+
         }
 
 }
