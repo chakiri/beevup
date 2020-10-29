@@ -68,6 +68,8 @@ class ProfileController extends AbstractController
                 $isCompleted = $profile->getIsCompleted();
                 $imageCropper->move_directory($profile, 'uploads_dir');
 
+
+
                 if(!$isCompleted){
                     /*******Add automatic post***/
                      $category = $postCategoryRepository->findOneBy(['id' => 7]);
