@@ -9,19 +9,15 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="main-left-sidebar">
-
-                        <div class="user_profile">
-                            <div class="user-pro-img">
-                                {% if service.croppedImageFileName %}
-                                    <img src="/images/services/cropper/{{ service.croppedImageFileName }}"  alt="">
-
                         <div class="user_profile pb-2">
                             {% if service.isDiscovery %}
                                 <div class="badge-box">
                                     <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
                                 </div>
                             {% endif %}
- 
+                            <div class="user-pro-img">
+                                {% if service.croppedImageFileName %}
+                                    <img src="/images/services/cropper/{{ service.croppedImageFileName }}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}
@@ -249,13 +245,12 @@
                             <h5>Services similaires</h5>
                             {% if similarServices %}
                                 {% for service in similarServices %}
-                                    <div class="suggestion-usd">
+                                    <div class="suggestion-usd d-flex">
                                         <div class="service-bloc-inf">
                                             {% if service.filename %}
                                                 <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                             {% else %}
                                                 <img src="/images/no-available-photo.png" alt="">
-
                                             {% endif %}
                                         </div>
                                         <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">

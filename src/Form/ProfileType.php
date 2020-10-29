@@ -57,7 +57,7 @@ class ProfileType extends AbstractType
                 'required' => false,
                 'attr'  => [
                     'placeholder' => 'Intro ...',
-                    'maxlength' => 255
+                    'maxlength' => 1500
                  ]
             ])
             ->add('mobileNumber', TextType::class, [

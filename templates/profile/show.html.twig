@@ -12,32 +12,32 @@
                             <div class="main-left-sidebar">
                                 <div class="user_profile">
                                     <div class="user-pro-img">
-
                                         {% if profile.croppedImageFileName %}
                                             <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
-
+                                        {#{% if profile.filename %}
+                                            <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('avatar_big') }}"  alt="">#}
                                         {% else %}
                                             <img src="/images/no-available-photo.png" alt="">
                                         {% endif %}
                                         {% if app.user.id == profile.user.id %}
-                                           <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
+                                            <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
                                         {% endif %}
                                     </div><!--user-pro-img end-->
                                     <div class="user_pro_status pl-2 pr-2">
                                         {% if profile.user == app.user  %}
                                             <div class="btn white-bg"><a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">
-                                            Modifier profil</a></div>
+                                                    Modifier profil</a></div>
                                         {% else %}
                                             <div class="btn white-bg mt-1"><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="">
-                                            Contacter {{ profile.firstname }}</a></div>
+                                                    Contacter {{ profile.firstname }}</a></div>
 
                                             <div class="btn white-bg mt-1"><a href="#" title=""
-                                               class="add-favoris profil-add-favoris {{ isFavorit }}"
-                                               data-user-id="{{  profile.user.id }}"
-                                               data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
-                                               data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
-                                            >
-                                            {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}</a></div>
+                                                                              class="add-favoris profil-add-favoris {{ isFavorit }}"
+                                                                              data-user-id="{{  profile.user.id }}"
+                                                                              data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
+                                                                              data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
+                                                >
+                                                    {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}</a></div>
                                         {% endif %}
 
                                     </div><!--user_pro_status end-->
@@ -57,21 +57,21 @@
                                     <h3>{{ profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</h3>
                                     <div class="star-descp">
                                         {% if profile.function %}
-                                        <span>{{ profile.function.name|capitalize}}
-                                            chez
+                                            <span>{{ profile.function.name|capitalize}}
+                                                chez
                                                 {% if profile.user.company != null %}
-                                               <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">  {{ profile.user.company.name|capitalize}}</a>
+                                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">  {{ profile.user.company.name|capitalize}}</a>
                                                 {% else  %}
                                                     <a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">    {{ profile.user.store.name|capitalize}}</a>
                                                 {% endif %}
                                         </span>
                                         {% endif %}
 
-                                       {% if profile.jobTitle != '' %}
+                                        {% if profile.jobTitle != '' %}
                                             <p style="clear: both;color:#686868;">
                                                 ( {{ profile.jobTitle }} )
                                             </p>
-                                       {% endif %}
+                                        {% endif %}
                                     </div><!--star-descp end-->
                                 </div><!--user-tab-sec end-->
 
@@ -83,7 +83,7 @@
                                     {% if profile.user.company %}
                                         <div class="user-profile-ov page-title sign_in_sec current">
                                             <h5>
-                                                    {{ profile.firstname|capitalize }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
+                                                {{ profile.firstname|capitalize }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
                                             </h5>
 
                                             <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
@@ -92,16 +92,9 @@
 
 
                                     {% if  countServices > 0 %}
-
-                                        <div class="top-profiles">
-                                            {% if  (profile.user.company )%}
-                                           
-                                                <h5>{{ profile.user.company.name }} vous propose les services suivants</h5>
-
-                                        
+                                        <div class="top-profiles ">
                                             <div class="page-title sign_in_sec current">
                                                 <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
-
                                                 <i class="la la-ellipsis-v"></i>
                                                 <div class="profiles-slider">
                                                     {% for service in services %}
@@ -128,23 +121,6 @@
                                                 </div><!--profiles-slider end-->
                                                 <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
                                             </div>
-
-                                            {% endif %}
-                                            <div class="profiles-slider">
-                                                {% for service in services %}
-                                                    <div class="user-profy">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="/images/no-available-photo.png" alt="">
-                                                        {% endif %}
-                                                        <p style="min-height: 76px">{{ service.description|slice(0, 50) ~ '...' }}</p>
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}" title="">Voir plus</a>
-                                                    </div><!--user-profy end-->
-                                                {% endfor %}
-
-                                            </div><!--profiles-slider end-->
-
                                         </div><!--top-profiles end-->
                                     {% endif %}
 
@@ -182,47 +158,47 @@
                         {% if profile.user.company != null %}
                             {% if profile.user.type.name != 'admin magasin' or profile.user.type.name != 'admin plateform' %}
                                 <div class="col-lg-3">
-                                    <div class="user-profile-ov page-title sign_in_sec current">
-                                        <div class="">
-                                            <h5>Ils travaillent dans la même entreprise</h5>
-                                        </div><!--sd-title end-->
-                                        <div class="suggestions-list m-0">
-                                            {% if collegues %}
-                                                {% for collegue in collegues %}
-                                                    {% if collegue != app.user %}
-                                                        {% if collegue.profile.isCompleted %}
-                                                            <div class="suggestion-usd">
-
-                                                                    {% if collegue.profile.filename %}
-                                                                        <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                                    {% else %}
-                                                                        <img src="/images/no-available-photo.png" alt="">
-                                                                    {% endif %}
-                                                                    <div class="hover-info">
-                                                                        <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
-                                                                        {% if collegue.profile.function != null %}
-                                                                            <small>{{ collegue.profile.function.name|capitalize }}</small>
-                                                                        {% endif %}
-                                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
-
-                                                                </div>
-                                                        {% endif %}
-                                                        </div>
-                                                    {% elseif collegues|length == 1 and collegues[0] == app.user %}
-                                                        <div class="suggestion-usd">
-                                                            <p>Personne pour le moment</p>
-                                                        </div>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% else %}
+                                <div class="user-profile-ov page-title sign_in_sec current">
+                                <div class="">
+                                    <h5>Ils travaillent dans la même entreprise</h5>
+                                </div><!--sd-title end-->
+                                <div class="suggestions-list m-0">
+                                {% if collegues %}
+                                    {% for collegue in collegues %}
+                                        {% if collegue != app.user %}
+                                            {% if collegue.profile.isCompleted %}
                                                 <div class="suggestion-usd">
-                                                    <p>Personne pour le moment</p>
+
+                                                {% if collegue.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                {% else %}
+                                                    <img src="/images/no-available-photo.png" alt="">
+                                                {% endif %}
+                                                <div class="hover-info">
+                                                    <p>{{ collegue.profile.firstname|capitalize }} {{ profile.lastname|capitalize }}</p>
+                                                    {% if collegue.profile.function != null %}
+                                                        <small>{{ collegue.profile.function.name|capitalize }}</small>
+                                                    {% endif %}
+                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': collegue} %}
+
                                                 </div>
                                             {% endif %}
-
+                                            </div>
+                                        {% elseif collegues|length == 1 and collegues[0] == app.user %}
+                                            <div class="suggestion-usd">
+                                                <p>Personne pour le moment</p>
+                                            </div>
                                         {% endif %}
-                                    </div><!--suggestions-list end-->
-                                </div><!--suggestions end-->
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="suggestion-usd">
+                                        <p>Personne pour le moment</p>
+                                    </div>
+                                {% endif %}
+
+                            {% endif %}
+                            </div><!--suggestions-list end-->
+                            </div><!--suggestions end-->
                             </div>
                         {% endif %}
 

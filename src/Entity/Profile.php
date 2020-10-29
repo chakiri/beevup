@@ -73,7 +73,7 @@ class Profile implements \Serializable
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=1500, nullable=true)
      */
     private $introduction;
 

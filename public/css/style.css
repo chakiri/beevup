@@ -228,7 +228,7 @@
     border: none;
 }
 
-#add-post-modal .modal-content .modal-post-content,#update-post-modal .modal-content .modal-post-content{
+#add-post-modal .modal-content .modal-post-content,#update-post-modal .modal-content .modal-post-content, .modal-content-update-post{
     padding: 2em;
 }
 

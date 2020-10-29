@@ -10,34 +10,9 @@
         <div class="main-section-data page-content">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="main-left-sidebar">
-                        <div class="user_profile">
-                            <div class="user-pro-img">
-                                {% if company.croppedImageFileName %}
-                                    <img src="/images/company/cropper/{{ company.croppedImageFileName }}"  alt="">
-                                {% else %}
-                                    <img src="/images/no-available-photo.png" alt="">
-                                {% endif %}
-                            </div>
-                            <div class="user_pro_status">
-                                <div class="btn white-bg">
-                                    {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                                        <a href="{{ path('company_show', {'slug': company.slug}) }}" title="" class="">
-                                            Voir fiche
-                                        </a>
-                                    {% endif %}
-                                 </div>
-                            </div><!--user_pro_status end-->
-                            {% if company.isCompleted %}
-                                <ul class="social_links">
-                                    <li><i class="fas fa-map-marker-alt"></i><span class="social-links-span"> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}</span></li>
-                                    {% if company.phone %}<li><i class="fas fa-mobile-alt"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
-                                    {% if company.website %}<li><i class="fas fa-external-link-alt"></i><a target="_blank" href="//{{ company.website }}"><span class="social-links-span">Accéder au site web</span> </a></li>{% endif %}
-                                 </ul>
-                            {% endif %}
 
-                         </div>
-                    </div>
+                    {% include 'company/boxes/infoCompany.html.twig' %}
+
                 </div>
                 <div class="col-lg-9">
                     <div class="main-ws-sec">
