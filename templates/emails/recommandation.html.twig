@@ -247,7 +247,14 @@
                         <tr>
                             <td>
                                 <div class="text" style="padding: 0 3em;background-color:#FFFFFF">
-                                    <p style="color:#000;font-size:12px">Bonjour, </p>
+                                  
+                                    {%   if user.profile != null %}
+                                        {% if user.profile.firstname != null and user.profile.lastname != null %}
+                                            <p style="color:#000;font-size:12px">Bonjour {{ user.profile.firstname }} {{ user.profile.lastname }},</p>
+                                        {% else %}
+                                            <p style="color:#000;font-size:12px">Bonjour, </p>
+                                        {% endif %}
+                                    {% endif %}
                                     <p style="color:#000;font-size:12px">
                                         Un autre membre a recommandé votre entreprise ou l'un de vos services.
                                         Pour que cette recommandation soit visible par les autres membres alors rendez vous sur
