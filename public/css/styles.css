@@ -3102,15 +3102,22 @@ a:hover {
 .form-page-bg h3{background-color: transparent}
 .bv-form label {font-size: 13px;}
 #company_description{min-height: 200px}
-.previous-img{width:200px;height:200px;margin-top:10px}
+.previous-img{width:400px;height:400px;margin-top:10px}
 .hide-bloc, .hide-load{display: none}
 .load-ajax-form{display: block !important}
 /**********end************/
+
+/******error page***********/
+.error-page h3{font-size: 40px}
+.error-page p{font-size: 20px}
+.error-content{margin: 0 auto; text-align: center}
+.error-txt{text-align: center}
+/******end error page*******/
+
 
 /** Cropped Image **/
 .profile_edit .cropper-view-box{
     border-radius: 50%;
 }
-
 
 
