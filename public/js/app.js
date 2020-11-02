@@ -225,6 +225,9 @@ $('#cookies a').click(function(){
             success: function(){
                 console.log(redirectedUrl);
                 window.location = redirectedUrl;
+            },
+            error: function(){
+                alert("Un problème est survenu. Veuillez réessayer")
             }
         });
     }

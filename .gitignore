@@ -27,10 +27,9 @@
 ###> local images###
 /public/images/advertising/*
 /public/images/company/*
-/public/images/profil/*
-/public/images/profiles/*
+/public/images/profile/*
+/public/images/profile/*
 /public/images/publicity/*
 /public/images/service/*
-/public/images/services/*
-/public/images/stores/*
+/public/images/store/*
 ###< local images###

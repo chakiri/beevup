@@ -2,6 +2,7 @@
 
 
 namespace App\Service;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,25 +19,11 @@ class ImageCropper
     public function move_directory($entity)
     {
         if( isset($_FILES['file'])) {
-            $file = $_FILES['file'];
-            $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
-            $filename = $this->generateUniqueName() . '.' . $file->guessExtension();
-            /*$file->move(
-                $this->container->getParameter($uploadDirectory),
-                $filename
-            );*/
+            $file = new UploadedFile($_FILES['file']['tmp_name'], $_FILES['file']['name'], $_FILES['file']['type']);
 
             $entity->setImageFile($file);
         }
 
     }
-
-    public function generateUniqueName()
-    {
-        return md5(uniqid());
-    }
-
-
-
 
 }
