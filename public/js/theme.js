@@ -751,12 +751,16 @@ if($('.entity-description').length > 0 )
                 currentUserLongitude = e.longitude;
                 currentUserLatitude = e.latitude;
 
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+               /* L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
                     maxZoom: 18,
                     id: 'mapbox/streets-v11',
                     tileSize: 512,
                     zoomOffset: -1
-                }).addTo(mymap);
+                }).addTo(mymap);*/
+
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(mymap);
+
 
                 for (var i = 0; i < allStores.stores.length; i++) {
                     if (distance(currentUserLatitude, currentUserLongitude, allStores.stores[i].lat, parseFloat(allStores.stores[i].lng), "K") <= 1000) {
