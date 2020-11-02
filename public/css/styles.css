@@ -3107,5 +3107,10 @@ a:hover {
 .load-ajax-form{display: block !important}
 /**********end************/
 
+/** Cropped Image **/
+.profile_edit .cropper-view-box{
+    border-radius: 50%;
+}
+
 
 
