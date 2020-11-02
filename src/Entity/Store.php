@@ -91,7 +91,7 @@ class Store implements \Serializable
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
+     * @Vich\UploadableField(mapping="store_image", fileNameProperty = "filename")
      */
     private $imageFile;
 
@@ -148,11 +148,6 @@ class Store implements \Serializable
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $isAdmin;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $croppedImageFileName;
 
     public function __construct()
     {
@@ -572,18 +567,6 @@ class Store implements \Serializable
     public function setIsAdmin(?bool $isAdmin): self
     {
         $this->isAdmin = $isAdmin;
-
-        return $this;
-    }
-
-    public function getCroppedImageFileName(): ?string
-    {
-        return $this->croppedImageFileName;
-    }
-
-    public function setCroppedImageFileName(?string $croppedImageFileName): self
-    {
-        $this->croppedImageFileName = $croppedImageFileName;
 
         return $this;
     }

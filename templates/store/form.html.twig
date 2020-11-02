@@ -10,32 +10,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="main-left-sidebar">
-                        <div class="user_profile">
-                           <div class="user-pro-img">
-                                {% if store.croppedImageFileName %}
-                                    <img src="/images/store/cropper/{{ store.croppedImageFileName }}"  alt="">
-                                {% else %}
-                                    <img src="/images/no-available-photo.png" alt="">
-                                {% endif %}
-
-                            </div><!--user-pro-img end-->
-
-                            <div class="user_pro_status">
-                                <div class="btn white-bg">
-                                    {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
-                                            <a href="{{ path('store_show', {'slug': store.slug}) }}" title="" class="">
-                                               Voir fiche
-                                            </a>
-                                    {% endif %}
-                                </div>
-                            </div><!--user_pro_status end-->
-
-                            <ul class="social_links">
-                                    <li><i class="fas fa-map-marker-alt"></i><span class="social-links-span"> {{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
-                                    {% if store.phone %}<li><i class="fas fa-mobile-alt"></i><span class="social-links-span">   {{ store.phone }}</span></li> {% endif %}
-                            </ul>
-
-                        </div><!--user_profile end-->
+                        {% include 'store/boxes/infoStore.html.twig' %}
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -135,20 +110,17 @@
                                             </div>
 
                                         </div>
-
-
-
-
-
-
-
                                     </div>
-                                <div class="form-actions form-group text-center">
-                                    <button type="submit" class="m-orange-btn">Enregistrer</button>
-                                    <div class="spinner-border  hide-load" role="status">
-                                        <span class="sr-only">Loading...</span>
+
+                                    <div class="text-center hide-load">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <div class="form-actions form-group text-center">
+                                        <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                    </div>
                                 {{ form_end(form) }}
 
                             </div>

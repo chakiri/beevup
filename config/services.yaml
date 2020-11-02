@@ -6,10 +6,6 @@
 parameters:
     router.request_context.host: '%env(HOST_NAME)%' #you can also use %env(HOST) and then set the HOST variable in your .env file
     router.request_context.scheme: https
-    uploads_dir: '%kernel.project_dir%/public/images/profiles/cropper'
-    uploads_company_dir: '%kernel.project_dir%/public/images/company/cropper'
-    uploads_store_dir: '%kernel.project_dir%/public/images/store/cropper'
-    uploads_service_dir: '%kernel.project_dir%/public/images/services/cropper'
 
 services:
     # default configuration for services in *this* file

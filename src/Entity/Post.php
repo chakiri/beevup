@@ -90,7 +90,7 @@ class Post implements \Serializable
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
+     * @Vich\UploadableField(mapping="post_image", fileNameProperty = "filename")
      */
     private $imageFile;
 

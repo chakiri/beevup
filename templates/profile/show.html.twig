@@ -9,47 +9,7 @@
                 <div class="main-section-data page-content">
                     <div class="row">
                         <div class="col-lg-3">
-                            <div class="main-left-sidebar">
-                                <div class="user_profile">
-                                    <div class="user-pro-img">
-                                        {% if profile.croppedImageFileName %}
-                                            <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
-                                        {#{% if profile.filename %}
-                                            <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('avatar_big') }}"  alt="">#}
-                                        {% else %}
-                                            <img src="/images/no-available-photo.png" alt="">
-                                        {% endif %}
-                                        {% if app.user.id == profile.user.id %}
-                                            <a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
-                                        {% endif %}
-                                    </div><!--user-pro-img end-->
-                                    <div class="user_pro_status pl-2 pr-2">
-                                        {% if profile.user == app.user  %}
-                                            <div class="btn white-bg"><a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">
-                                                    Modifier profil</a></div>
-                                        {% else %}
-                                            <div class="btn white-bg mt-1"><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="">
-                                                    Contacter {{ profile.firstname }}</a></div>
-
-                                            <div class="btn white-bg mt-1"><a href="#" title=""
-                                                                              class="add-favoris profil-add-favoris {{ isFavorit }}"
-                                                                              data-user-id="{{  profile.user.id }}"
-                                                                              data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
-                                                                              data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
-                                                >
-                                                    {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}</a></div>
-                                        {% endif %}
-
-                                    </div><!--user_pro_status end-->
-                                    <ul class="social_links">
-                                        <li><i class="fas fa-envelope"></i>  {{ profile.user.email }} </li>
-                                        {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
-                                        {% if profile.addressPostCode != 0 %}  <li><i class="fa fa-map-marker"></i> Code postal:  {{ profile.addressPostCode }} </li>{% endif %}
-                                        <li><i class="fas fa-store"></i>  {{ profile.user.store.name }} </li>
-                                    </ul>
-                                </div><!--user_profile end-->
-
-                            </div><!--main-left-sidebar end-->
+                            {% include 'profile/boxes/infoProfile.html.twig' %}
                         </div>
                         <div class="col-lg-6">
                             <div class="main-ws-sec">

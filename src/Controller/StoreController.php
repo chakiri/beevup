@@ -25,15 +25,6 @@ use App\Service\GetCompanies;
 
 class StoreController extends AbstractController
 {
-    /**
-     * @Route("/store", name="store")
-     */
-    public function index()
-    {
-        return $this->render('store/show.html.twig', [
-            'controller_name' => 'StoreController',
-        ]);
-    }
 
     /**
      * @Route("/store/{slug}", name="store_show")
@@ -70,7 +61,7 @@ class StoreController extends AbstractController
     }
 
     /**
-    * @Route("/store/{id}/edit", name="store_edit")
+     * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
     public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id,  ImageCropper $imageCropper)
@@ -84,7 +75,6 @@ class StoreController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $imageCropper->move_directory($store, 'uploads_store_dir');
                 $store->setModifiedAt(new \DateTime());
                 $adresse = $store->getAddressNumber().' '.$store->getAddressStreet().' '.$store->getAddressPostCode().' '.$store->getCity().' '.$store->getCountry();
                 $map = new Map();
@@ -94,6 +84,9 @@ class StoreController extends AbstractController
                     $store->setLatitude($coordonnees[0]);
                     $store->setLongitude($coordonnees[1]);
                 }
+
+                //Cropped Image
+                $imageCropper->move_directory($store);
 
                 $manager->persist($store);
                 $manager->flush();

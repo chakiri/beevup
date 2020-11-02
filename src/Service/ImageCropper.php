@@ -8,30 +8,28 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ImageCropper
 {
-    private $container; // <- Add this
+    private $container;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function move_directory($entity, $uploadDirectory){
-
+    public function move_directory($entity)
+    {
         if( isset($_FILES['file'])) {
             $file = $_FILES['file'];
             $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
             $filename = $this->generateUniqueName() . '.' . $file->guessExtension();
-            $file->move(
+            /*$file->move(
                 $this->container->getParameter($uploadDirectory),
                 $filename
-            );
+            );*/
 
-            $entity->setCroppedImageFileName($filename);
-            $entity->setFilename($filename);
-
-
+            $entity->setImageFile($file);
         }
 
-}
+    }
 
     public function generateUniqueName()
     {

@@ -182,11 +182,6 @@ class Company implements \Serializable
      */
     private $subscription;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $croppedImageFileName;
-
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -638,18 +633,6 @@ class Company implements \Serializable
            if ( $user->getType()->getId() == 3) return $user;
         }
 
-    }
-
-    public function getCroppedImageFileName(): ?string
-    {
-        return $this->croppedImageFileName;
-    }
-
-    public function setCroppedImageFileName(?string $croppedImageFileName): self
-    {
-        $this->croppedImageFileName = $croppedImageFileName;
-
-        return $this;
     }
     
 }

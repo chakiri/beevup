@@ -1,0 +1,32 @@
+<div class="user_profile">
+    <div class="company-pro-img">
+        {% if store.filename %}
+            <img src="{{ vich_uploader_asset(store, 'imageFile') }}"  alt="">
+        {% else %}
+            <img src="/images/no-available-photo.png" alt="">
+        {% endif %}
+        {#{% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}#}
+        {#<a href="{{ path('store_edit', {'id': store.id}) }}" title=""><i class="fa fa-camera"></i></a>#}
+        {#{% endif %}#}
+    </div><!--user-pro-img end-->
+    <div class="user_pro_status">
+        {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
+            <div class="btn white-bg">
+                {% if app.request.attributes.get('_route') == 'store_edit' %}
+                    <a class="" href="{{ path('store_show', {'slug': store.slug}) }}">
+                        Voir les informations
+                    </a>
+                {% else %}
+                    <a class="" href="{{ path('store_edit', {'id': store.id}) }}">
+                        Modifier les informations
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div><!--user_pro_status end-->
+    <ul class="social_links">
+        <li><i class="fas fa-map-marker-alt"></i> <span class="">{{ store.addressNumber }} {{ store.addressStreet }} {{ store.addressPostCode }}</span></li>
+        <li><i class="fas fa-mobile-alt"></i> <span class="">  {{ store.phone ?? '<small>N° de téléphonse non saisi</small>' }} </span></li>
+        {% if store.city or store.country %}<li><i class="fas fa-flag p-1"></i>  {% if store.city %} <span>   {{ store.city }}</span> {% endif %}{% if store.country %}<span> {{ store.country }}</span> {% endif %}</li> {% endif %}
+    </ul>
+</div><!--user_profile end-->

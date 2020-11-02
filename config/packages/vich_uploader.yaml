@@ -3,21 +3,24 @@ vich_uploader:
 
     mappings:
         service_image:
-            uri_prefix:         /images/services
-            upload_destination: '%kernel.project_dir%/public/images/services'
+            uri_prefix:         /images/service
+            upload_destination: '%kernel.project_dir%/public/images/service'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         profile_image:
-            uri_prefix:         /images/profiles
-            upload_destination: '%kernel.project_dir%/public/images/profiles'
+            uri_prefix:         /images/profile
+            upload_destination: '%kernel.project_dir%/public/images/profile'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         company_image:
             uri_prefix:         /images/company
             upload_destination: '%kernel.project_dir%/public/images/company'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
         store_image:
-            uri_prefix:         /images/stores
+            uri_prefix:         /images/store
             upload_destination: '%kernel.project_dir%/public/images/store'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
-        publicity_images:
+        publicity_image:
             uri_prefix:         /images/publicity
             upload_destination: '%kernel.project_dir%/public/images/publicity'
+        post_image:
+            uri_prefix:         /images/post
+            upload_destination: '%kernel.project_dir%/public/images/post'

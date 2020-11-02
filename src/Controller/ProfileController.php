@@ -66,19 +66,19 @@ class ProfileController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $isCompleted = $profile->getIsCompleted();
-                $imageCropper->move_directory($profile, 'uploads_dir');
 
-
-
+                /*******Add automatic post***/
                 if(!$isCompleted){
-                    /*******Add automatic post***/
                      $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                     $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profil de ' . $profile->getFirstname();
+                     $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
                      $autmaticPost->Add("Bienvenue au ". $profile->getFirstname() . " ". $profile->getLastname(), $description, $category, $profile->getId(), 'User');
                 }
                 $profile->setFirstname($utility->updateName($profile->getFirstname()));
                 $profile->setLastname($utility->updateName($profile->getLastname()));
                 $profile->setIsCompleted(true);
+
+                //Cropped Image
+                $imageCropper->move_directory($profile);
 
                 $manager->persist($profile);
                 $manager->flush();
@@ -94,6 +94,7 @@ class ProfileController extends AbstractController
 
             return $this->render('profile/form.html.twig', [
                 'EditProfileForm' => $form->createView(),
+                'profile' => $profile,
             ]);
         }else {
             return $this->redirectToRoute('page_not_found', []);

@@ -75,8 +75,9 @@ class CompanyController extends AbstractController
             if ($id == $this->getUser()->getCompany()->getId()) {
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
+                //dd($form->getErrors());
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $imageCropper->move_directory($company, 'uploads_company_dir');
+
                    if($company->getIsCompleted() == false) {
                        $company->setIsCompleted(true);
                        // create a new welcome post
@@ -103,6 +104,10 @@ class CompanyController extends AbstractController
                         $company->setLongitude($coordonnees[1]);
                     }
                     /* end ******/
+
+                    /* cropped image */
+                    $imageCropper->move_directory($company);
+
                     $manager->persist($company);
 
                     $manager->flush();

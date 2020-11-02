@@ -193,24 +193,22 @@
                                 </div>
 
                                 <div id="toIndividuals" class="form-row">
+                                    {{ form_label(ServiceForm.toIndividuals) }}
+                                    {{ form_errors(ServiceForm.toIndividuals) }}
+                                    <div class="input-group">
 
-                                        {{ form_label(ServiceForm.toIndividuals) }}
-                                        {{ form_errors(ServiceForm.toIndividuals) }}
-                                        <div class="input-group">
-
-                                            {{ form_widget(ServiceForm.toIndividuals) }}
-                                        </div>
+                                        {{ form_widget(ServiceForm.toIndividuals) }}
+                                    </div>
                                 </div>
 
-
-
+                                <div class="text-center hide-load">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-actions form-group text-center">
                                     <button type="submit" class="m-orange-btn">Enregistrer</button>
-                                    <div class="spinner-border  hide-load" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
                                 </div>
                                 {{ form_end(ServiceForm) }}
                             </div>

@@ -15,9 +15,9 @@
                                     <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
                                 </div>
                             {% endif %}
-                            <div class="user-pro-img">
-                                {% if service.croppedImageFileName %}
-                                    <img src="/images/services/cropper/{{ service.croppedImageFileName }}"  alt="">
+                            <div class="service-pro-img">
+                                {% if service.filename %}
+                                    <img src="{{ vich_uploader_asset(service, 'imageFile')}}"  alt="">
                                 {% else %}
                                     <img src="/images/no-available-photo.png" alt="">
                                 {% endif %}

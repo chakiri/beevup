@@ -26,7 +26,7 @@ class Publicity
     private $filename;
 
     /**
-     * @Vich\UploadableField(mapping="publicity_images", fileNameProperty="filename")
+     * @Vich\UploadableField(mapping="publicity_image", fileNameProperty="filename")
      * @var File
      */
     private $imageFile;

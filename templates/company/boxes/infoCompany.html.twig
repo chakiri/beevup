@@ -13,9 +13,15 @@
 
         <div class="user_pro_status pl-2 pr-2">
             {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg">
-                    Modifier les informations
-                </a>
+                {% if app.request.attributes.get('_route') == 'company_edit' %}
+                    <a href="{{ path('company_show', {'slug': company.slug}) }}" title="" class="btn white-bg">
+                        Afficher mes informations
+                    </a>
+                {% else %}
+                    <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg">
+                        Modifier les informations
+                    </a>
+                {% endif %}
             {% else %}
                 <a href="#" title=""
                    class="btn white-bg add-favoris add-company-favoris {{ isFavorit }}"

@@ -17,8 +17,8 @@ $('.add-favoris').click(function() {
         $('#result-user-item-' + userId).removeClass('fa-star').addClass('fa-star-o');
 
 
-        if( $('.profil-add-favoris').length) {
-            $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
+        if( $('.profile-add-favoris').length) {
+            $('.profile-add-favoris').text('').append("Ajouter aux Favoris");
         }
         $('.favorit-user-'+selectedProfileId).remove();
         if($('.suggestion-usd').length ==0){
@@ -40,8 +40,8 @@ $('.add-favoris').click(function() {
 
 
 
-        if( $('.profil-add-favoris').length ) {
-            $('.profil-add-favoris').text('').append("Favoris");
+        if( $('.profile-add-favoris').length ) {
+            $('.profile-add-favoris').text('').append("Favoris");
         }
 
         if ($('.favorit-user-'+userId).length == 0) {

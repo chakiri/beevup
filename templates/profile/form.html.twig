@@ -11,59 +11,7 @@
             <div class="main-section-data page-content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="main-left-sidebar">
-                            <div class="user_profile">
-                                <div class="user-pro-img">
-                                    {% if app.user.profile.filename %}
-
-                                        <img src="/images/profiles/cropper/{{ app.user.profile.croppedImageFileName }}"  alt="">
-                                    {% else %}
-                                        <img src="/images/no-available-photo.png" alt="">
-                                    {% endif %}
-                                </div>
-                                <div class="user_pro_status">
-                                    <div class="btn white-bg">
-                                        <a href="{{ path('profile_show', {'id': app.user.profile.id}) }}" title="" class="">Voir profil</a>
-                                    </div>
-
-                                </div><!--user_pro_status end-->
-                                <ul class="social_links">
-                                    {% if app.user.profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ app.user.profile.mobileNumber }} </li>{% endif %}
-                                    {% if app.user.profile.addressPostCode != 0 %}  <li><i class="fa fa-map-marker"></i> Code postal:  {{ app.user.profile.addressPostCode }} </li>{% endif %}
-                                </ul>
-                            </div>
-
-                            <div id="advisorbox" class="box-advisor min-col">
-                                <small class="greyed">Votre conseiller</small>
-                                <div class="box">
-                                    {% if  app.user.store != null %}
-                                        {% if  app.user.store.defaultAdviser != null %}
-                                            {% if  app.user.store.defaultAdviser.profile != null %}
-                                                <div class="d-flex">
-                                                    <a href="#">
-                                                        {% if app.user.store.defaultAdviser.profile.filename %}
-                                                            <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                                        {% else %}
-                                                            <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
-                                                        {% endif %}
-                                                    </a>
-                                                    <div>
-                                                        <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
-                                                        <small>{{ app.user.store.defaultAdviser.store }}</small>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex pt-3">
-                                                    <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-                                                    <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                                                </div>
-                                            {% endif %}
-                                        {% else %}
-                                            <p>Aucun conseiller défini</p>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+                        {% include 'profile/boxes/infoProfile.html.twig' %}
                     </div>
                     <div class="col-lg-6">
                         <div class="main-ws-sec">
@@ -166,11 +114,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-actions form-group text-center">
-                                                <button type="submit" class="m-orange-btn">Enregistrer</button>
-                                                <div class="spinner-border  hide-load" role="status">
+
+                                            <div class="text-center hide-load">
+                                                <div class="spinner-border" role="status">
                                                     <span class="sr-only">Loading...</span>
                                                 </div>
+                                            </div>
+
+                                            <div class="form-actions form-group text-center">
+                                                <button type="submit" class="m-orange-btn">Enregistrer</button>
                                             </div>
                                     {{ form_end(EditProfileForm) }}
 

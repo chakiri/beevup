@@ -210,9 +210,8 @@ class ServiceController extends AbstractController
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page
         *else he will be redirected to service page
         **/
-       $referer = $request->headers->get('referer');
-       $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
-
+        $referer = $request->headers->get('referer');
+        $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
          if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
@@ -225,27 +224,24 @@ class ServiceController extends AbstractController
             $url = $this->generateUrl('service_new');
             $message = "Votre Service a bien été crée ! <a href='$url'>Créer un nouveau service</a>";
             $service->setUser($this->getUser());
-
-
-
         }
+
         $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer, 'previousPage' =>$previousPage));
+
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid())
         {
-          $previousPage =    $form->get('previousUrl')->getData();
-          $imageCropper->move_directory($service, 'uploads_service_dir');
+            $previousPage =    $form->get('previousUrl')->getData();
 
-
-
+            //Set type depending on user role
             if (!$service->getType())
-                //Set type depending on user role
                 $serviceSetting->setType($service);
 
             $serviceSetting->setToParent($service);
 
-            $optionsRedirect = [];
             //Add score to user if creation
+            $optionsRedirect = [];
             if ($service->getIsDiscovery()){
                 $nbPoints = 20;
                 if (!$service->getId()){
@@ -254,6 +250,10 @@ class ServiceController extends AbstractController
                 }
             }
             $service->setPrice( $this->floatvalue($service->getPrice()));
+
+            //Cropped image
+            $imageCropper->move_directory($service);
+
             $manager->persist($service);
 
             /***** if the user change the service it should be updated in the posts ********/
@@ -263,8 +263,8 @@ class ServiceController extends AbstractController
                 $relatedPost->setDescription($service->getDescription());
                 $manager->persist($relatedPost);
             }
+            /** ******************** **/
 
-            /************************/
             $manager->flush();
 
             /**Add automatic post
@@ -283,15 +283,12 @@ class ServiceController extends AbstractController
                 return $this->redirectToRoute('company_show', ['slug'=>$service->getUser()->getcompany()->getSlug()]);
             else
                 return $this->redirectToRoute('service_show', $optionsRedirect);
-
         }
 
         return $this->render('service/form.html.twig', [
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => $service->getId() != null,
-
-
         ]);
     }
 

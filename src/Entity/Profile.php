@@ -102,11 +102,6 @@ class Profile implements \Serializable
      */
     private $jobTitle;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $croppedImageFileName;
-
     public function __construct()
     {
         $this->isCompleted = false;
@@ -339,18 +334,6 @@ class Profile implements \Serializable
     public function setJobTitle(?string $jobTitle): self
     {
         $this->jobTitle = $jobTitle;
-
-        return $this;
-    }
-
-    public function getCroppedImageFileName(): ?string
-    {
-        return $this->croppedImageFileName;
-    }
-
-    public function setCroppedImageFileName(?string $croppedImageFileName): self
-    {
-        $this->croppedImageFileName = $croppedImageFileName;
 
         return $this;
     }

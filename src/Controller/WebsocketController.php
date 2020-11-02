@@ -39,7 +39,7 @@ class WebsocketController extends AbstractController
 
         //If profile is incomplete
         if ($this->getUser()->getProfile()->getIsCompleted() == false){
-            $this->addFlash('warning', 'Veuillez completer votre profil pour accéder au chat !');
+            $this->addFlash('warning', 'Veuillez completer votre profile pour accéder au chat !');
 
             return $this->redirectToRoute('profile_edit', [
                 'id' => $this->getUser()->getProfile()->getId()
