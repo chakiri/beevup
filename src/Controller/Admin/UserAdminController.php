@@ -90,6 +90,11 @@ class UserAdminController extends EasyAdminController
             $user->setType($type);
 
         }
+        if(in_array('ROLE_CONTRIBUTOR', $userRoles)){
+            $type = $this->userTypeRepo->findOneBy(['id'=> 7]);
+            $user->setType($type);
+
+        }
         if(in_array('ROLE_USER', $userRoles)){
             if($user->getCompany()!= null)
             {

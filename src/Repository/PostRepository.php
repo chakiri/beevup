@@ -71,8 +71,10 @@ class PostRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->innerJoin('p.user', 'u')
+            ->innerJoin('u.type', 'T')
             ->addSelect('u')
             ->andWhere('u.store = :store')
+            ->orWhere('T.id=7')
             ->setParameter('store', $this->security->getUser()->getStore())
         ;
 
