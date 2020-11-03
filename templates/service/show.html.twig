@@ -24,26 +24,18 @@
                                 <div class="">
                                     {% if service.user == app.user %}
                                         <div class="m-3">
-                                            <a class="btn white-bg" href="{{ path('service_edit', {'id': service.id}) }}">
-                                                Modifier
-                                            </a>
-                                            <a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#confirmDelete">
-                                                Supprimer
-                                            </a>
+                                            <a class="btn white-bg" href="{{ path('service_edit', {'id': service.id}) }}">Modifier</a>
+                                            <a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#confirmDelete">Supprimer</a>
                                         </div>
                                     {% elseif service.type.name == 'plateform' %}
-                                        <ul class="flw-hr">
+                                        <ul class="ul-none">
                                         {% if is_granted('ROLE_ADMIN_STORE') %}
                                             {% if storeService %}
-                                                <li><a href="{{ path('service_dissociate', {'id': service.id}) }}" type="button">Retirer</a></li>
-                                                <li><a href="#" type="button" data-toggle="modal" data-target="#editPrice">Editer le prix</a></li>
+                                                <li><a class="btn white-bg" href="{{ path('service_dissociate', {'id': service.id}) }}" type="button">Retirer</a></li>
+                                                <li><a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#editPrice">Editer le prix</a></li>
                                             {% else %}
-                                                <li>
-                                                  <a href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a>
-                                                </li>
-                                                <li>
-                                                    <div class="btn white-bg"><a target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a></div>
-                                                </li>
+                                                <li><a class="btn white-bg" href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a></li>
+                                                <li><a class="btn white-bg" target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a></li>
                                             {% endif %}
                                         {% endif %}
                                         </ul>
