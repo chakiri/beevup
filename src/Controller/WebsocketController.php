@@ -175,7 +175,7 @@ class WebsocketController extends AbstractController
     public function sendEmail(User $currentUser,User $user)
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
 
         $message = (new \Swift_Message())
             ->setSubject('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté')
@@ -226,7 +226,7 @@ class WebsocketController extends AbstractController
     public function sendDaillyEmail(User $user, \Swift_Mailer $mailer, $notificationNumber): void
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
         $url = $this->generateUrl('chat_topic', ['name' => 'general-' . $user->getStore()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
         $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
         $message = (new \Swift_Message())

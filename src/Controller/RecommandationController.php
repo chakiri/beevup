@@ -72,13 +72,13 @@ class RecommandationController extends AbstractController
                 $recommandation->setStore($store);
                 $userTypeAdminStore =  $userTypeRepository->findOneBy(['id'=> 1]);
                 $admin = $userRepository->findOneBy(['type'=> $userTypeAdminStore, 'store'=> $store]);
-                $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $store]);
+                $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $store, 'isValid'=>1]);
                 $messageFlash ='Merci pour votre proposition de recommandation, le responsable de magasin '.$store->getName().'  a été notifié et va pouvoir valider votre message';
             }elseif ($company){
                 $recommandation->setCompany($company);
                 $userTypeAdminCompany =  $userTypeRepository->findOneBy(['id'=> 3]);
                 $admin = $userRepository->findOneBy(['type'=> $userTypeAdminCompany, 'company'=> $company]);
-                $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $company->getStore()]);
+                $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=> $company->getStore(), 'isValid'=>1]);
                 $messageFlash ='Merci pour votre proposition de recommandation, le responsable de l\'entreprise '.$company->getName().'  a été notifié et va pouvoir valider votre message';
             }
 

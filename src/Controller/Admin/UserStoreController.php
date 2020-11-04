@@ -53,7 +53,7 @@ class UserStoreController extends EasyAdminController
             $user->setRoles(['ROLE_USER']);
         }
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
 
         /* add admin topics to user */
         //$this->topicHandler->addAdminTopicsToUser($user);
