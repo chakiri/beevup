@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
                 $company = new Company();
                 $userType = $userTypeRepository->findOneBy(['id' => 3]);
                 $userTypePatron = $userTypeRepository->findOneBy(['id' => 4]);
-                $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore()]);
+                $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
 
 
                 $company->setSiret($form->get('company')->getData()->getSiret());
@@ -172,7 +172,7 @@ class SecurityController extends AbstractController
             }
 
             $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
-            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
 
             $token = $tokenGenerator->generateToken();
             $user->setResetToken($token);
@@ -235,15 +235,6 @@ class SecurityController extends AbstractController
 
 
         if($form->isSubmitted() && $form->isValid()) {
-
-            //$user = $userRepository->findOneBy(['resetToken' => $token]);
-
-            /*if (!$user){
-                $this->addFlash('danger', 'le lien de confirmation a expiré');
-
-                return $this->redirectToRoute('security_login');
-            }*/
-
             $user->setResetToken(null);
             $user->setPassword($encoder->encodePassword($user, $form->getData()->getPassword()));
             if($isNewAccount) {
@@ -297,7 +288,7 @@ class SecurityController extends AbstractController
             /****send welcome email *****/
 
             $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
-            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
             $message = (new \Swift_Message())
                 ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
                 ->setFrom($_ENV['DEFAULT_EMAIL'])

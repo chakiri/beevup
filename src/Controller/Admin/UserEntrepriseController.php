@@ -46,7 +46,7 @@ class UserEntrepriseController extends EasyAdminController
             $user->setCompany($currentUser->getCompany());
         }
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore()]);
+        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
 
 
 
