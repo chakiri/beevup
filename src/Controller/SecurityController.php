@@ -235,15 +235,6 @@ class SecurityController extends AbstractController
 
 
         if($form->isSubmitted() && $form->isValid()) {
-
-            //$user = $userRepository->findOneBy(['resetToken' => $token]);
-
-            /*if (!$user){
-                $this->addFlash('danger', 'le lien de confirmation a expiré');
-
-                return $this->redirectToRoute('security_login');
-            }*/
-
             $user->setResetToken(null);
             $user->setPassword($encoder->encodePassword($user, $form->getData()->getPassword()));
             if($isNewAccount) {
