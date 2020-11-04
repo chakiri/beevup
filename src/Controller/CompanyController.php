@@ -10,6 +10,7 @@ use App\Repository\FavoritRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\Error\Error;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\CompanyType;
 use App\Repository\RecommandationRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\BarCode;
 use App\Service\Map;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 
 class CompanyController extends AbstractController
@@ -68,7 +71,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper, Error $error)
     {
 
         if ($this->getUser()->getCompany() != NULL) {
@@ -76,50 +79,60 @@ class CompanyController extends AbstractController
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
                 //dd($form->getErrors());
-                if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->isSubmitted()) {
+                    if($form->isValid())
+                    {
 
-                   if($company->getIsCompleted() == false) {
-                       $company->setIsCompleted(true);
-                       // create a new welcome post
-                       $AdminPLatformeType = $userTypeRepository->findOneBy(['id' =>5]);
-                       //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
-                       $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                       $post = new Post();
-                       $post->setUser($this->getUser());
-                       $post->setCategory($category);
-                       $post->setTitle('Bienvenue à l\'entreprise '.$company->getName());
-                       $post->setDescription($company->getIntroduction());
-                       $post->setToCompany($company);
-                       $manager->persist($post);
-                   }
+                        if ($company->getIsCompleted() == false) {
+                            $company->setIsCompleted(true);
+                            // create a new welcome post
+                            $AdminPLatformeType = $userTypeRepository->findOneBy(['id' => 5]);
+                            //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                            $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                            $post = new Post();
+                            $post->setUser($this->getUser());
+                            $post->setCategory($category);
+                            $post->setTitle('Bienvenue à l\'entreprise ' . $company->getName());
+                            $post->setDescription($company->getIntroduction());
+                            $post->setToCompany($company);
+                            $manager->persist($post);
+                        }
 
-                    /* generate bar code*/
-                    $company->setBarCode($barCode->generate($company->getId()));
-                    $adresse = $company->getAddressNumber().' '.$company->getAddressStreet().' '.$company->getAddressPostCode().' '.$company->getCity().' '.$company->getCountry();
-                    $map = new Map();
-                    $coordonnees =  $map->geocode($adresse);
-                 
-                    if($coordonnees !=null) {
-                        $company->setLatitude($coordonnees[0]);
-                        $company->setLongitude($coordonnees[1]);
+                        /* generate bar code*/
+                        $company->setBarCode($barCode->generate($company->getId()));
+                        $adresse = $company->getAddressNumber() . ' ' . $company->getAddressStreet() . ' ' . $company->getAddressPostCode() . ' ' . $company->getCity() . ' ' . $company->getCountry();
+                        $map = new Map();
+                        $coordonnees = $map->geocode($adresse);
+
+                        if ($coordonnees != null) {
+                            $company->setLatitude($coordonnees[0]);
+                            $company->setLongitude($coordonnees[1]);
+                        }
+                        /* end ******/
+
+                        /* cropped image */
+                        $imageCropper->move_directory($company);
+
+                        $manager->persist($company);
+
+                        $manager->flush();
+
+                        //init topic company category to user
+                        $topicHandler->initCategoryCompanyTopic($company->getCategory());
+
+                        $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+
+                        return $this->redirectToRoute('company_show', [
+                            'slug' => $company->getSlug()
+                        ]);
                     }
-                    /* end ******/
-
-                    /* cropped image */
-                    $imageCropper->move_directory($company);
-
-                    $manager->persist($company);
-
-                    $manager->flush();
-
-                    //init topic company category to user
-                    $topicHandler->initCategoryCompanyTopic($company->getCategory());
-
-                    $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-
-                    return $this->redirectToRoute('company_show', [
-                        'slug' => $company->getSlug()
-                    ]);
+                    else{
+                        return new JsonResponse( array(
+                            'result' => 0,
+                            'message' => 'Invalid form',
+                            'data' => $error->getErrorMessages($form)
+                        ));
+                    }
 
                 }
                 return $this->render('company/form.html.twig', [

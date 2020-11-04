@@ -11,6 +11,7 @@ use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\Error\Error;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,7 +65,7 @@ class StoreController extends AbstractController
      * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id,  ImageCropper $imageCropper)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id,  ImageCropper $imageCropper, Error $error)
     {
        if(in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) {
             if (!$store) {
@@ -74,26 +75,36 @@ class StoreController extends AbstractController
             $form = $this->createForm(StoreType::class, $store);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $store->setModifiedAt(new \DateTime());
-                $adresse = $store->getAddressNumber().' '.$store->getAddressStreet().' '.$store->getAddressPostCode().' '.$store->getCity().' '.$store->getCountry();
-                $map = new Map();
-                $coordonnees =  $map->geocode($adresse);
+            if ($form->isSubmitted() ) {
+                if($form->isValid())
+                {
+                    $store->setModifiedAt(new \DateTime());
+                    $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
+                    $map = new Map();
+                    $coordonnees = $map->geocode($adresse);
 
-                if($coordonnees !=null) {
-                    $store->setLatitude($coordonnees[0]);
-                    $store->setLongitude($coordonnees[1]);
+                    if ($coordonnees != null) {
+                        $store->setLatitude($coordonnees[0]);
+                        $store->setLongitude($coordonnees[1]);
+                    }
+
+                    //Cropped Image
+                    $imageCropper->move_directory($store);
+
+                    $manager->persist($store);
+                    $manager->flush();
+
+                    return $this->redirectToRoute('store_show', [
+                        'slug' => $store->getSlug()
+                    ]);
                 }
-
-                //Cropped Image
-                $imageCropper->move_directory($store);
-
-                $manager->persist($store);
-                $manager->flush();
-
-                return $this->redirectToRoute('store_show', [
-                    'slug' => $store->getSlug()
-                ]);
+                else{
+                    return new JsonResponse( array(
+                        'result' => 0,
+                        'message' => 'Invalid form',
+                        'data' => $error->getErrorMessages($form)
+                    ));
+                }
             }
 
             return $this->render('store/form.html.twig', [

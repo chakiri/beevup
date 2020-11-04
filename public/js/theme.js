@@ -760,6 +760,7 @@ if($('.entity-description').length > 0 )
 
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(mymap);
+                L.DomEvent.disableClickPropagation(div);
 
 
                 for (var i = 0; i < allStores.stores.length; i++) {

@@ -110,14 +110,17 @@ $('#cookies a').click(function(){
 /*************** crop image ******************************/
 (function ($) {
     "use strict";
-
-    var fileInput =  document.getElementsByClassName('form-imageFile')[0];
-    var cropper;
-    var previousImage = document.createElement("img");
-    previousImage.classList.add('previous-img');
-    previousImage.classList.add('hide-bloc');
-    var previousImageBloc = document.getElementById('previous-image');
-    previousImageBloc.appendChild(previousImage);
+    if(document.getElementsByClassName('form-imageFile')[0] !="") {
+        var fileInput = document.getElementsByClassName('form-imageFile')[0];
+        var cropper;
+        var previousImage = document.createElement("img");
+        previousImage.classList.add('previous-img');
+        previousImage.classList.add('hide-bloc');
+        var previousImageBloc = document.getElementById('previous-image');
+        if(previousImageBloc != null) {
+            previousImageBloc.appendChild(previousImage);
+        }
+    }
 
 
     window.previousImage = function()
@@ -126,9 +129,11 @@ $('#cookies a').click(function(){
         previousImage.classList.remove('hide-bloc');
         var file = fileInput.files[0];
         let reader = new FileReader();
-        reader.addEventListener('load', function (event) {
-            previousImage.src = reader.result
-        }, false)
+        if(reader != null){
+            reader.addEventListener('load', function (event) {
+                previousImage.src = reader.result
+            }, false)
+        }
 
         if(file){
             reader.readAsDataURL(file);
@@ -136,38 +141,41 @@ $('#cookies a').click(function(){
 
     }
 
-    previousImage.addEventListener('load', function () {
-        if (cropper) {
-            cropper.destroy();
-            cropper = new Cropper(previousImage, {
-                aspectRatio: 1
-            });
-        }
-        else
-            cropper =  new Cropper(previousImage,{
-                aspectRatio: 1
-            })
-    });
+    if(previousImage != null) {
+        previousImage.addEventListener('load', function () {
+            if (cropper) {
+                cropper.destroy();
+                cropper = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+            } else
+                cropper = new Cropper(previousImage, {
+                    aspectRatio: 1
+                })
+        });
+    }
 
-    let form = document.getElementById('BVform');
+     let form = document.getElementById('BVform');
+     if(form != null)
+     {
+        form.addEventListener('submit', function (event)
+        {
 
-    form.addEventListener('submit', function (event)
-    {
+            if(fileInput.files[0]) {
 
-        if(fileInput.files[0]) {
+                event.preventDefault()
+                $('.hide-load').addClass('load-ajax-form');
+                cropper.getCroppedCanvas({
+                    maxHeight: 1000,
+                    maxWidth: 1000,
 
-            event.preventDefault()
-            $('.hide-load').addClass('load-ajax-form');
-            cropper.getCroppedCanvas({
-                maxHeight: 1000,
-                maxWidth: 1000,
+                }).toBlob(function (blob) {
+                    ajaxWithAxios(blob);
+                })
+            }
 
-            }).toBlob(function (blob) {
-                ajaxWithAxios(blob);
-            })
-        }
-
-    });
+        });
+     }
 
     function urls(){
         let hostname = location.hostname;
@@ -222,9 +230,21 @@ $('#cookies a').click(function(){
             processData: false,
             contentType: false,
             headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function(){
-                console.log(redirectedUrl);
-                window.location = redirectedUrl;
+            success: function(data){
+                if(data.result == 0) {
+                    $('.hide-load').removeClass('load-ajax-form');
+
+                    for (var key in data.data) {
+                        let error = "<p class='form-error'>"+data.data[key]+"</p>";
+
+                       //$('[for*="'+key+'"]').first().before(error);
+                       $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+
+                    }
+                } else {
+                    window.location = redirectedUrl;
+                }
+
             },
             error: function(){
                 alert("Un problème est survenu. Veuillez réessayer")
