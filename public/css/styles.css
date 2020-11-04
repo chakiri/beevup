@@ -3119,5 +3119,9 @@ a:hover {
 .profile_edit .cropper-view-box{
     border-radius: 50%;
 }
-
+/*******form errors******/
+.form-error{
+    color:red;
+}
+/********form errors*****/
 

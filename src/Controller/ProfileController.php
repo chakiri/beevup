@@ -9,6 +9,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
 use App\Service\AutomaticPost;
+use App\Service\Error\Error;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use App\Service\Utility;
@@ -58,38 +59,47 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility, Error $error)
     {
         if($profile->getUser() == $this->getUser()) {
             $form = $this->createForm(ProfileType::class, $profile);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $isCompleted = $profile->getIsCompleted();
+            if ($form->isSubmitted()) {
+                if ($form->isValid()) {
+                    $isCompleted = $profile->getIsCompleted();
 
-                /*******Add automatic post***/
-                if(!$isCompleted){
-                     $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                     $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
-                     $autmaticPost->Add("Bienvenue au ". $profile->getFirstname() . " ". $profile->getLastname(), $description, $category, $profile->getId(), 'User');
+                    /*******Add automatic post***/
+                    if (!$isCompleted) {
+                        $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                        $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
+                        $autmaticPost->Add("Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
+                    }
+                    $profile->setFirstname($utility->updateName($profile->getFirstname()));
+                    $profile->setLastname($utility->updateName($profile->getLastname()));
+                    $profile->setIsCompleted(true);
+
+                    //Cropped Image
+                    $imageCropper->move_directory($profile);
+
+                    $manager->persist($profile);
+                    $manager->flush();
+
+                    /* Add topic function to user type 2 */
+                    if ($profile->getUser()->getType()->getId() == 2)
+                        $topicHandler->initFunctionStoreTopic($profile->getUser());
+                    $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+                    return $this->redirectToRoute('profile_show', [
+                        'id' => $profile->getId()
+                    ]);
                 }
-                $profile->setFirstname($utility->updateName($profile->getFirstname()));
-                $profile->setLastname($utility->updateName($profile->getLastname()));
-                $profile->setIsCompleted(true);
-
-                //Cropped Image
-                $imageCropper->move_directory($profile);
-
-                $manager->persist($profile);
-                $manager->flush();
-
-                /* Add topic function to user type 2 */
-                if ($profile->getUser()->getType()->getId() == 2)
-                    $topicHandler->initFunctionStoreTopic($profile->getUser());
-                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-                return $this->redirectToRoute('profile_show', [
-                    'id' => $profile->getId()
-                ]);
+                else{
+                    return new JsonResponse( array(
+                        'result' => 0,
+                        'message' => 'Invalid form',
+                        'data' => $error->getErrorMessages($form)
+                    ));
+                }
             }
 
             return $this->render('profile/form.html.twig', [
@@ -158,4 +168,6 @@ class ProfileController extends AbstractController
     {
         return $this->getParameter('uploads_dir');
     }
+
+
 }

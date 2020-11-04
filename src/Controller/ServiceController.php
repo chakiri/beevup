@@ -17,12 +17,14 @@ use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\Communities;
 use App\Repository\UserTypeRepository;
+use App\Service\Error\Error;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
 use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -204,7 +206,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper)
+    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
     {
 
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page
@@ -230,59 +232,69 @@ class ServiceController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $previousPage =    $form->get('previousUrl')->getData();
+        if($form->isSubmitted()) {
+            if($form->isValid())
+            {
 
-            //Set type depending on user role
-            if (!$service->getType())
-                $serviceSetting->setType($service);
+                $previousPage = $form->get('previousUrl')->getData();
 
-            $serviceSetting->setToParent($service);
+                //Set type depending on user role
+                if (!$service->getType())
+                    $serviceSetting->setType($service);
 
-            //Add score to user if creation
-            $optionsRedirect = [];
-            if ($service->getIsDiscovery()){
-                $nbPoints = 20;
-                if (!$service->getId()){
-                    $scoreHandler->add($this->getUser(), $nbPoints);
-                    $optionsRedirect = ['toastScore' => $nbPoints];
+                $serviceSetting->setToParent($service);
+
+                //Add score to user if creation
+                $optionsRedirect = [];
+                if ($service->getIsDiscovery()) {
+                    $nbPoints = 20;
+                    if (!$service->getId()) {
+                        $scoreHandler->add($this->getUser(), $nbPoints);
+                        $optionsRedirect = ['toastScore' => $nbPoints];
+                    }
                 }
+                $service->setPrice($this->floatvalue($service->getPrice()));
+
+                //Cropped image
+                $imageCropper->move_directory($service);
+
+                $manager->persist($service);
+
+                /***** if the user change the service it should be updated in the posts ********/
+                $relatedPost = $postRepository->findPostRelatedToService($service);
+                if ($relatedPost != null) {
+                    $relatedPost->setTitle($service->getTitle());
+                    $relatedPost->setDescription($service->getDescription());
+                    $manager->persist($relatedPost);
+                }
+                /** ******************** **/
+
+                $manager->flush();
+
+                /**Add automatic post
+                 * when the  user create a new service an automatic post will be created
+                 ***/
+                if ($request->get('_route') == 'service_new') {
+                    $category = $postCategoryRepository->findOneBy(['id' => 6]);
+                    $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
+                }
+
+                //Merge score option to options array
+                $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
+
+                $this->addFlash('success', $message);
+                if ($previousPage == 'company')
+                    return $this->redirectToRoute('company_show', ['slug' => $service->getUser()->getcompany()->getSlug()]);
+                else
+                    return $this->redirectToRoute('service_show', $optionsRedirect);
             }
-            $service->setPrice( $this->floatvalue($service->getPrice()));
-
-            //Cropped image
-            $imageCropper->move_directory($service);
-
-            $manager->persist($service);
-
-            /***** if the user change the service it should be updated in the posts ********/
-            $relatedPost = $postRepository->findPostRelatedToService($service);
-            if ($relatedPost != null){
-                $relatedPost->setTitle($service->getTitle());
-                $relatedPost->setDescription($service->getDescription());
-                $manager->persist($relatedPost);
+            else{
+                return new JsonResponse( array(
+                    'result' => 0,
+                    'message' => 'Invalid form',
+                    'data' => $error->getErrorMessages($form)
+                ));
             }
-            /** ******************** **/
-
-            $manager->flush();
-
-            /**Add automatic post
-             * when the  user create a new service an automatic post will be created
-             ***/
-            if ($request->get('_route') == 'service_new') {
-                $category = $postCategoryRepository->findOneBy(['id' => 6]);
-                $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
-            }
-
-            //Merge score option to options array
-            $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
-
-            $this->addFlash('success', $message);
-            if($previousPage =='company' )
-                return $this->redirectToRoute('company_show', ['slug'=>$service->getUser()->getcompany()->getSlug()]);
-            else
-                return $this->redirectToRoute('service_show', $optionsRedirect);
         }
 
         return $this->render('service/form.html.twig', [
@@ -366,5 +378,8 @@ class ServiceController extends AbstractController
         $val = preg_replace('/\.(?=.*\.)/', '', $val);
         return floatval($val);
     }
+     // Generate an array contains a key -> value with the errors where the key is the name of the form field
+
+
 
 }
