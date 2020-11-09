@@ -381,4 +381,8 @@
 	.accept-feat {width: 100%;}
 	.requests-list {padding-bottom: 50px;}
 }
+
+@media (min-width: 1600PX) {
+.container-bv{margin: 30px 250px}
+}
 /********end from template

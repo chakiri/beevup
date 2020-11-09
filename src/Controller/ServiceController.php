@@ -45,8 +45,9 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities, StoreServicesRepository $storeServicesRepository)
     {
+        
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
-        $services = $serviceRepository->findByLocalServices($allCompanies);
+       $services = $serviceRepository->findByLocalServices($allCompanies);
 
         //Add related generic services of store
         $storeServices = $this->getUser()->getStore()->getServices();
@@ -214,7 +215,7 @@ class ServiceController extends AbstractController
         **/
         $referer = $request->headers->get('referer');
         $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
-         if($service != null) {
+        if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
             }
