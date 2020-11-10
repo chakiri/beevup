@@ -2024,7 +2024,7 @@ ul.landing-page-list {
     margin-top: 25px;
     position: relative;
 }
-.user-pro-img > a {
+.user-pro-img > a, .company-pro-img a {
     width: 40px;
     height: 40px;
     -webkit-border-radius: 100px;
@@ -3118,6 +3118,9 @@ a:hover {
 /** Cropped Image **/
 .profile_edit .cropper-view-box{
     border-radius: 50%;
+}
+#previous-image{
+    margin-top: 10px;
 }
 /*******form errors******/
 .form-error{

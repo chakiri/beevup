@@ -107,10 +107,30 @@ $('#cookies a').click(function(){
     });
 });
 
-/*************** crop image ******************************/
+/**
+ * cropper image
+ *
+ */
 (function ($) {
     "use strict";
-    if(document.getElementsByClassName('form-imageFile')[0] !="") {
+
+       var fileInput = document.getElementsByClassName('form-imageFile')[0];
+        var cropper;
+        var previousImage = document.createElement("img");
+        previousImage.classList.add('previous-img');
+        previousImage.classList.add('hide-bloc');
+        var previousImageBloc = document.getElementById('previous-image');
+
+        if(previousImageBloc != null) {
+
+            previousImageBloc.appendChild(previousImage);
+        }
+
+
+
+    window.previousImage = function()
+    {
+        $('#previous-image').empty();
         var fileInput = document.getElementsByClassName('form-imageFile')[0];
         var cropper;
         var previousImage = document.createElement("img");
@@ -118,15 +138,12 @@ $('#cookies a').click(function(){
         previousImage.classList.add('hide-bloc');
         var previousImageBloc = document.getElementById('previous-image');
         if(previousImageBloc != null) {
+
             previousImageBloc.appendChild(previousImage);
         }
-    }
-
-
-    window.previousImage = function()
-    {
 
         previousImage.classList.remove('hide-bloc');
+        fileInput = document.getElementsByClassName('form-imageFile')[0];
         var file = fileInput.files[0];
         let reader = new FileReader();
         if(reader != null){
@@ -137,45 +154,99 @@ $('#cookies a').click(function(){
 
         if(file){
             reader.readAsDataURL(file);
+
+        }
+
+        if(previousImage != null) {
+            previousImage.addEventListener('load', function () {
+                if (cropper) {
+
+                    cropper.destroy();
+                    cropper = new Cropper(previousImage, {
+                        aspectRatio: 1
+                    });
+                } else {
+
+                    cropper = new Cropper(previousImage, {
+                        aspectRatio: 1
+                    })
+                }
+            });
+        }
+        let form = document.getElementById('BVform');
+        if(form != null)
+        {
+            form.addEventListener('submit', function (event)
+            {
+
+                if(fileInput.files[0]) {
+
+                    event.preventDefault()
+                    $('.hide-load').addClass('load-ajax-form');
+                    cropper.getCroppedCanvas({
+                        maxHeight: 1000,
+                        maxWidth: 1000,
+
+                    }).toBlob(function (blob) {
+                        ajaxWithAxios(blob, form);
+                    })
+                }
+
+            });
         }
 
     }
 
-    if(previousImage != null) {
-        previousImage.addEventListener('load', function () {
-            if (cropper) {
-                cropper.destroy();
-                cropper = new Cropper(previousImage, {
-                    aspectRatio: 1
-                });
-            } else
-                cropper = new Cropper(previousImage, {
-                    aspectRatio: 1
-                })
+
+
+
+
+     function update_img_url(){
+       var url =   $('.upload-photo').attr('data-url');
+       return url;
+     }
+
+    function ajaxWithAxios(blob, form)
+    {
+        let url = update_img_url();
+        let data = new FormData(form);
+        data.append('file', blob);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            async: false,
+            data:data,
+            processData: false,
+            contentType: false,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(data){
+                $('#modal').modal('toggle');
+                document.location.reload(true);
+                if(data.result == 0) {
+                    $('.hide-load').removeClass('load-ajax-form');
+
+                    for (var key in data.data) {
+                        let error = "<p class='form-error'>"+data.data[key]+"</p>";
+                        $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+
+                    }
+                }
+                if(data.message == 'service created') {
+
+                        //window.location = redirectedUrl;
+                        history.back();
+               }
+                else{
+                    window.location
+                }
+
+            },
+            error: function(){
+                alert("Un problème est survenu. Veuillez réessayer")
+            }
         });
     }
-
-     let form = document.getElementById('BVform');
-     if(form != null)
-     {
-        form.addEventListener('submit', function (event)
-        {
-
-            if(fileInput.files[0]) {
-
-                event.preventDefault()
-                $('.hide-load').addClass('load-ajax-form');
-                cropper.getCroppedCanvas({
-                    maxHeight: 1000,
-                    maxWidth: 1000,
-
-                }).toBlob(function (blob) {
-                    ajaxWithAxios(blob);
-                })
-            }
-
-        });
-     }
 
     function urls(){
         let hostname = location.hostname;
@@ -214,10 +285,11 @@ $('#cookies a').click(function(){
     }
 
 
-    function ajaxWithAxios(blob)
+    function ajaxWithAxios2(blob)
     {
         let url = urls()['url'];
         let redirectedUrl = urls()['redirectedUrl'];
+
 
         let data = new FormData(form);
         data.append('file', blob);
@@ -236,8 +308,6 @@ $('#cookies a').click(function(){
 
                     for (var key in data.data) {
                         let error = "<p class='form-error'>"+data.data[key]+"</p>";
-
-                       //$('[for*="'+key+'"]').first().before(error);
                        $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
 
                     }
@@ -251,5 +321,21 @@ $('#cookies a').click(function(){
             }
         });
     }
+
+    /**
+     * update profile image
+     *
+     */
+
+    $('.update-image').click(function(e){
+
+        var postId = $(this).attr('data-id');
+       var url = $(this).attr('data-url') ;
+        $.get(url, function (data) {
+            $('.modal-content-update-profile-img').html(data);
+
+        });
+    })
+
 })(jQuery);
-/*************** END crop image ******************************/
+

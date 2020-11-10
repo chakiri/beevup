@@ -54,7 +54,11 @@
                                     {% if  countServices > 0 %}
                                         <div class="top-profiles ">
                                             <div class="page-title sign_in_sec current">
+                                                {% if profile.user.company %}
                                                 <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
+                                                {% else  %}
+                                                <h5><a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">{{ profile.user.store.name }}</a> vous propose les services suivants</h5>
+                                                {% endif %}
                                                 <i class="la la-ellipsis-v"></i>
                                                 <div class="profiles-slider">
                                                     {% for service in services %}
@@ -71,10 +75,13 @@
                                                     {% if  countServices > 3 %}
                                                         <div class="user-profy">
                                                             <div class="lt-sec">
+                                                                {% if profile.user.company %}
                                                                 <a href="{{ path('service_company', {'company': profile.user.company.id}) }}">
                                                                     <i style="font-size: 57px" class="fas fa-folder-plus"></i>
                                                                     <p>Voir tous les services de {{ profile.user.company.name }}</p>
                                                                 </a>
+
+                                                                {% endif %}
                                                             </div>
                                                         </div><!--user-profy end-->
                                                     {% endif %}

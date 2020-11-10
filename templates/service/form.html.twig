@@ -75,7 +75,10 @@
                                         <div class="form-group col-lg-6 col-md-12">
                                             {{ form_label(ServiceForm.imageFile) }}
 
-                                            <div class="input-group data-entity-id" data-entity-id="{{ service.id }}">
+                                            <div class="input-group data-entity-id upload-photo"
+                                                 data-entity-id="{{ service.id }}"
+                                                 data-url={% if edit == true %} "{{  path('service_edit',{'id':service.id})}}" {% else %} "{{  path('service_new')}}"{% endif %}"
+                                            >
 
                                                 {{ form_widget(ServiceForm.imageFile) }}
                                             </div>

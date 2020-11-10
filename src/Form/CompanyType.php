@@ -95,24 +95,7 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('imageFile', FileType::class, [
-                'required' => false,
-                'attr'  => [
-                    'class'       =>'form-control form-imageFile',
-                    'placeholder' => 'Sélectionnez une image',
-                    'onChange'=>'previousImage()',
-                ],
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/*'
-                        ],
-                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
-                    ])
-                ]
-        
-            ])
+
             ->add('video', TextType::class, [
                 'required' => false
             ])

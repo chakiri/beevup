@@ -1,0 +1,41 @@
+{% form_theme ImageCompanyForm 'bootstrap_4_layout.html.twig' %}
+
+<div class="modal-header">
+
+    <h5 class="modal-title" >Modifier la photo </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="card-body card-block">
+
+
+    {{ form_start(ImageCompanyForm, {'attr':{'id':'BVform'}}) }}
+    <div class="form-group">
+        {{ form_label(ImageCompanyForm.imageFile) }}
+
+        <div class="input-group data-entity-id"  data-entity-id="{{ app.user.company.id }}">
+            {{ form_widget(ImageCompanyForm.imageFile) }}
+        </div>
+        <div id="previous-image">
+
+        </div>
+
+    </div>
+    <div class="form-actions form-group">
+        <button type="submit" id="submit-photo"
+                class="btn float-right"
+                data-post=""
+                data-comment=""
+                data-target=""
+
+        >Enregistrer la photo</button>
+
+    {{ form_end(ImageCompanyForm) }}
+
+
+    </div>
+
+
+</div>
+

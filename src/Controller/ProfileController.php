@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProfileImageType;
 use App\Repository\PostCategoryRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\RecommandationRepository;
@@ -127,6 +128,8 @@ class ProfileController extends AbstractController
 
         return $this->json($profile);
     }
+
+
 
     /**
      * @Route("/uploade-image", name="image", methods={"POST"})

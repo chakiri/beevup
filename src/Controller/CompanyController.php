@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\Post;
+use App\Entity\Profile;
 use App\Entity\UserType;
+use App\Form\CompanyImageType;
+use App\Form\ProfileImageType;
 use App\Repository\PostCategoryRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\ServiceRepository;
@@ -148,4 +151,7 @@ class CompanyController extends AbstractController
         return $this->redirectToRoute('page_not_found', []);
     }
     }
+
+
+
 }

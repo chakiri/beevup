@@ -5,9 +5,11 @@
         {% else %}
             <img src="/images/no-available-photo.png" alt="">
         {% endif %}
-        {#{% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}#}
-        {#<a href="{{ path('store_edit', {'id': store.id}) }}" title=""><i class="fa fa-camera"></i></a>#}
-        {#{% endif %}#}
+        {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
+
+            <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ store.id  }}" data-url ="{{ path('store_update_image', {'id': store.id}) }}" title=""><i class="fa fa-camera"></i></a>
+
+        {% endif %}
     </div><!--user-pro-img end-->
     <div class="user_pro_status">
         {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
@@ -30,3 +32,8 @@
         {% if store.city or store.country %}<li><i class="fas fa-flag p-1"></i>  {% if store.city %} <span>   {{ store.city }}</span> {% endif %}{% if store.country %}<span> {{ store.country }}</span> {% endif %}</li> {% endif %}
     </ul>
 </div><!--user_profile end-->
+
+
+
+
+{% include 'default/modals/uploadImageModal.html.twig' %}

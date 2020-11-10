@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\Store;
 use App\Form\StoreType;
 use App\Repository\CompanyRepository;
@@ -14,6 +15,7 @@ use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -89,7 +91,7 @@ class StoreController extends AbstractController
                     }
 
                     //Cropped Image
-                    $imageCropper->move_directory($store);
+                   // $imageCropper->move_directory($store);
 
                     $manager->persist($store);
                     $manager->flush();
@@ -116,5 +118,7 @@ class StoreController extends AbstractController
             return $this->redirectToRoute('page_not_found', []);
         }
     }
+
+
 
 }
