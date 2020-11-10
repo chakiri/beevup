@@ -2,15 +2,8 @@
 namespace App\Controller\Admin\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\PostRepository;
-use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
-use App\Repository\UserTypeRepository;
-use App\Service\Email;
-use App\Service\Map;
-use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class CompanyController extends EasyAdminController
 {
@@ -62,4 +55,3 @@ class CompanyController extends EasyAdminController
 
     }
 }
-

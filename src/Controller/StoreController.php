@@ -2,13 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Company;
 use App\Entity\Store;
 use App\Form\StoreType;
 use App\Repository\CompanyRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
-use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
@@ -17,10 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Intl\Intl;
 use App\Service\Map;
 use App\Service\ImageCropper;
 use App\Service\GetCompanies;

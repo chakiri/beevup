@@ -10,10 +10,7 @@ use App\Entity\Profile;
 use App\Form\CompanyImageType;
 use App\Form\ProfileImageType;
 use App\Form\StoreImageType;
-use App\Repository\AbuseRepository;
 use App\Repository\CompanyRepository;
-use App\Repository\MessageNotificationRepository;
-use App\Repository\OpportunityNotificationRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
@@ -30,9 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
-use App\Repository\CommentRepository;
-use App\Repository\PostNotificationRepository;
-use App\Repository\PostLikeRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ProfileImageType;
+
 use App\Repository\PostCategoryRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\RecommandationRepository;
@@ -15,7 +15,6 @@ use App\Service\ImageCropper;
 use App\Service\TopicHandler;
 use App\Service\Utility;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
