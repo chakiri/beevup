@@ -7,18 +7,15 @@ use App\Form\StoreType;
 use App\Repository\CompanyRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
-use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Intl\Intl;
 use App\Service\Map;
 use App\Service\ImageCropper;
 use App\Service\GetCompanies;
@@ -89,7 +86,7 @@ class StoreController extends AbstractController
                     }
 
                     //Cropped Image
-                    $imageCropper->move_directory($store);
+                   // $imageCropper->move_directory($store);
 
                     $manager->persist($store);
                     $manager->flush();
@@ -116,5 +113,7 @@ class StoreController extends AbstractController
             return $this->redirectToRoute('page_not_found', []);
         }
     }
+
+
 
 }

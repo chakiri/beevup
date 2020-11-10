@@ -2,27 +2,31 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\Post;
 use App\Entity\PostCategory;
-use App\Repository\AbuseRepository;
+use App\Entity\Store;
+use App\Entity\Profile;
+use App\Form\CompanyImageType;
+use App\Form\ProfileImageType;
+use App\Form\StoreImageType;
 use App\Repository\CompanyRepository;
-use App\Repository\MessageNotificationRepository;
-use App\Repository\OpportunityNotificationRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\Error\Error;
 use App\Service\GetCompanies;
+use App\Service\ImageCropper;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\WelcomePopup;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
-use App\Repository\CommentRepository;
-use App\Repository\PostNotificationRepository;
-use App\Repository\PostLikeRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -150,6 +154,59 @@ class DefaultController extends AbstractController
 
         return $this->json($popup);
     }
+
+    /**
+     * @Route("/company/{id}/updateCompanyImage", name="company_update_image")
+     * @Route("/store/{id}/updateStoreImage", name="store_update_image")
+     * @Route("/account/{id}/updateProfileImage", name="profile_update_image")
+     */
+    public function updateImageForm(Request $request,EntityManagerInterface $manager,  Company $company = null, Store $store = null, Profile $profile = null, ImageCropper $imageCropper,  Error $error){
+
+        if ( $request->get('_route') == 'company_update_image') {
+            $formType = CompanyImageType::class;
+            $entity = $company;
+        }
+        if ( $request->get('_route') == 'store_update_image'){
+            $formType = StoreImageType::class;
+            $entity = $store;
+        }
+        if ( $request->get('_route') == 'profile_update_image'){
+            $formType = ProfileImageType::class;
+            $entity = $profile;
+        }
+
+        $form = $this->createForm( $formType,  $entity);
+        $form->handleRequest($request);
+        if($form->isSubmitted())
+        {
+            if ($form->isValid()) {
+
+                $imageCropper->move_directory( $entity);
+                $manager->persist( $entity);
+                $manager->flush();
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+                return new JsonResponse( array(
+                    'message' => 'Votre photo a été bien modifier',
+
+                ));
+            }
+            else{
+                return new JsonResponse( array(
+                    'result' => 0,
+                    'message' => 'Invalid form',
+                    'data' => $error->getErrorMessages($form)
+                ));
+            }
+        }
+        else {
+            return $this->render('default/updateImage.html.twig', [
+                'ImageForm' => $form->createView(),
+                'entity' =>  $entity,
+            ]);
+        }
+
+    }
+
 
 
 

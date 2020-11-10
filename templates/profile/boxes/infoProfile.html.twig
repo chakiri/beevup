@@ -6,9 +6,9 @@
             {% else %}
                 <img src="/images/no-available-photo.png" alt="">
             {% endif %}
-            {#{% if app.user.id == profile.user.id %}#}
-            {#<a href="{{ path('profile_edit', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>#}
-            {#{% endif %}#}
+            {% if app.user.id == profile.user.id %}
+            <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
+            {% endif %}
         </div><!--user-pro-img end-->
         <div class="user_pro_status pl-2 pr-2">
             {% if profile.user == app.user  %}
@@ -46,3 +46,7 @@
     </div><!--user_profile end-->
 
 </div><!--main-left-sidebar end-->
+
+
+{% include 'default/modals/uploadImageModal.html.twig' %}
+

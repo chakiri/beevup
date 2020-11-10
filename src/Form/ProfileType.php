@@ -97,26 +97,7 @@ class ProfileType extends AbstractType
                 },
                 'choice_label' =>'name'
             ])
-            ->add('imageFile', FileType::class, [
-                'required' => false,
-                'label' => 'Photo',
 
-                'attr'  => [
-                    'placeholder' => 'Photo',
-                    'class'       =>'form-control form-imageFile',
-                     'onChange'=>'previousImage()',
-                ],
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/*'
-                         ],
-                        'mimeTypesMessage' => 'Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)',
-                    ])
-    ]
-
-            ])
             ->add('addressPostCode', TextType::class, [
                 'required' => true,
                 'label' => 'Code postal',

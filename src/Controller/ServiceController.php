@@ -212,8 +212,9 @@ class ServiceController extends AbstractController
        /** if  the previous page is company so after creating a new service the user  will be redirected to company page
         *else he will be redirected to service page
         **/
-        $referer = $request->headers->get('referer');
-        $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
+        //$referer = $request->headers->get('referer');
+        //$previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
+        //$redirectedPage ='';
          if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
@@ -228,7 +229,7 @@ class ServiceController extends AbstractController
             $service->setUser($this->getUser());
         }
 
-        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer, 'previousPage' =>$previousPage));
+        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer/*, 'previousPage' =>$previousPage*/));
 
         $form->handleRequest($request);
 
@@ -236,7 +237,7 @@ class ServiceController extends AbstractController
             if($form->isValid())
             {
 
-                $previousPage = $form->get('previousUrl')->getData();
+                //$previousPage = $form->get('previousUrl')->getData();
 
                 //Set type depending on user role
                 if (!$service->getType())
@@ -283,16 +284,21 @@ class ServiceController extends AbstractController
                 $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
 
                 $this->addFlash('success', $message);
-                if ($previousPage == 'company')
-                    return $this->redirectToRoute('company_show', ['slug' => $service->getUser()->getcompany()->getSlug()]);
+               /* if ($previousPage == 'company')
+                     $redirectedPage = $this->redirectToRoute('company_show', ['slug' => $service->getUser()->getcompany()->getSlug()]);
                 else
-                    return $this->redirectToRoute('service_show', $optionsRedirect);
+                     $redirectedPage = $this->redirectToRoute('service_show', $optionsRedirect);*/
+
+                return new JsonResponse( array(
+                   'message'=>'service created'
+                ));
             }
             else{
                 return new JsonResponse( array(
                     'result' => 0,
                     'message' => 'Invalid form',
-                    'data' => $error->getErrorMessages($form)
+                    'data' => $error->getErrorMessages($form),
+                    'refer'=>$redirectedPage
                 ));
             }
         }
