@@ -42,10 +42,5 @@ class AutomaticPost
        $this->manager->flush();
    }
 
-   public function generatePost($entity, $category)
-   {
-     $postTitle = 'Nouvelle Recommandation';
-     $this->Add($postTitle ,  $entity->getMessage(), $category, $entity->getId(), 'Recommandation', $entity);
 
-   }
 }
