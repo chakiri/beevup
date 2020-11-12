@@ -209,13 +209,7 @@ class ServiceController extends AbstractController
     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
     {
 
-       /** if  the previous page is company so after creating a new service the user  will be redirected to company page
-        *else he will be redirected to service page
-        **/
-        //$referer = $request->headers->get('referer');
-        //$previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
-        //$redirectedPage ='';
-         if($service != null) {
+      if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
             }
@@ -229,7 +223,7 @@ class ServiceController extends AbstractController
             $service->setUser($this->getUser());
         }
 
-        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer/*, 'previousPage' =>$previousPage*/));
+        $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));
 
         $form->handleRequest($request);
 
@@ -237,7 +231,7 @@ class ServiceController extends AbstractController
             if($form->isValid())
             {
 
-                //$previousPage = $form->get('previousUrl')->getData();
+
 
                 //Set type depending on user role
                 if (!$service->getType())
@@ -298,7 +292,7 @@ class ServiceController extends AbstractController
                     'result' => 0,
                     'message' => 'Invalid form',
                     'data' => $error->getErrorMessages($form),
-                    'refer'=>$redirectedPage
+
                 ));
             }
         }
