@@ -89,8 +89,8 @@ function loadToast(){
 }
 
 /**
-*Set Session cookie
-*/
+ *Set Session cookie
+ */
 $('#cookies a').click(function(){
     const url = $(this).data('url');
 
@@ -114,23 +114,24 @@ $('#cookies a').click(function(){
 (function ($) {
     "use strict";
 
-       var fileInput = document.getElementsByClassName('form-imageFile')[0];
-        var cropper;
-        var previousImage = document.createElement("img");
-        previousImage.classList.add('previous-img');
-        previousImage.classList.add('hide-bloc');
-        var previousImageBloc = document.getElementById('previous-image');
+    var fileInput = document.getElementsByClassName('form-imageFile')[0];
+    var cropper;
+    var previousImage = document.createElement("img");
+    previousImage.classList.add('previous-img');
+    previousImage.classList.add('hide-bloc');
+    var previousImageBloc = document.getElementById('previous-image');
 
-        if(previousImageBloc != null) {
+    if(previousImageBloc != null) {
 
-            previousImageBloc.appendChild(previousImage);
-        }
+        previousImageBloc.appendChild(previousImage);
+    }
 
 
 
     window.previousImage = function()
     {
         $('#previous-image').empty();
+
         var fileInput = document.getElementsByClassName('form-imageFile')[0];
         var cropper;
         var previousImage = document.createElement("img");
@@ -188,7 +189,7 @@ $('#cookies a').click(function(){
                         maxWidth: 1000,
 
                     }).toBlob(function (blob) {
-                        ajaxWithAxios(blob, form);
+                        ajaxWithAxios(blob, form, cropper);
                     })
                 }
 
@@ -201,12 +202,12 @@ $('#cookies a').click(function(){
 
 
 
-     function update_img_url(){
-       var url =   $('.upload-photo').attr('data-url');
-       return url;
-     }
+    function update_img_url(){
+        var url =   $('.upload-photo').attr('data-url');
+        return url;
+    }
 
-    function ajaxWithAxios(blob, form)
+    function ajaxWithAxios(blob, form, cropper)
     {
         let url = update_img_url();
         let data = new FormData(form);
@@ -221,24 +222,27 @@ $('#cookies a').click(function(){
             contentType: false,
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             success: function(data){
-                $('#modal').modal('toggle');
-                document.location.reload(true);
                 if(data.result == 0) {
                     $('.hide-load').removeClass('load-ajax-form');
 
                     for (var key in data.data) {
                         let error = "<p class='form-error'>"+data.data[key]+"</p>";
                         $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+                        cropper.destroy();
 
                     }
                 }
-                if(data.message == 'service created') {
+                else {
+                    if (data.message == 'service created') {
 
                         //window.location = redirectedUrl;
                         history.back();
-               }
-                else{
-                    window.location
+                    } else {
+                        window.location
+                    }
+                    $('#modal').modal('toggle');
+                    document.location.reload(true);
+
                 }
 
             },
@@ -308,7 +312,7 @@ $('#cookies a').click(function(){
 
                     for (var key in data.data) {
                         let error = "<p class='form-error'>"+data.data[key]+"</p>";
-                       $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+                        $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
 
                     }
                 } else {
@@ -330,7 +334,7 @@ $('#cookies a').click(function(){
     $('.update-image').click(function(e){
 
         var postId = $(this).attr('data-id');
-       var url = $(this).attr('data-url') ;
+        var url = $(this).attr('data-url') ;
         $.get(url, function (data) {
             $('.modal-content-update-profile-img').html(data);
 
