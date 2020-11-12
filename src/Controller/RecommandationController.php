@@ -28,9 +28,10 @@ class RecommandationController extends AbstractController
      */
     public function index(RecommandationRepository $recommandationRepository)
     {
-        if ($this->getUser()->getType()->getName() == 'admin magasin'){
+
+        if ($this->getUser()->getType()->getId() == 1){
             $recommandations = $recommandationRepository->findBy(['store' => $this->getUser()->getStore(), 'status'=>'Open']);
-        }elseif ($this->getUser()->getType()->getName() == 'admin entreprise'){
+        }elseif ($this->getUser()->getType()->getId() == 3){
             $recommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany(), 'status'=>'Open']);
         }
 
@@ -130,13 +131,12 @@ class RecommandationController extends AbstractController
         $recommandation = $repository->findOneById($variable2);
         $status = (1 == $variable) ? 'Validated' : 'Rejected';
         $recommandation->setStatus($status);
-        /********  Add automatic post ****/
-        /*if($variable == 1){
+        //============Add automatic post ============
+        if($variable == 1){
 
             $category = $postCategoryRepository->findOneBy(['id' => 7]);
-            $autmaticPost->Add($recommandation->getMessage(), "", $category, $recommandation->getId(), 'Recommandation');
-
-        }*/
+            $autmaticPost->generatePost($recommandation, $category);
+        }
         $manager->persist($recommandation);
         $manager->flush();
         $response = new Response(

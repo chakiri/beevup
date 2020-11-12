@@ -119,6 +119,11 @@ class Post implements \Serializable
      */
     private $relatedToType;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Recommandation::class, cascade={"persist", "remove"})
+     */
+    private $relatedToRecommandation;
+
      public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -450,6 +455,20 @@ class Post implements \Serializable
 
         return $this;
     }
+
+    public function getRelatedToRecommandation(): ?Recommandation
+    {
+        return $this->relatedToRecommandation;
+    }
+
+    public function setRelatedToRecommandation(?Recommandation $relatedToRecommandation): self
+    {
+        $this->relatedToRecommandation = $relatedToRecommandation;
+
+        return $this;
+    }
+
+
 
 
 }
