@@ -112,7 +112,7 @@
                                 {% if app.user.company.filename %}
                                     <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% else %}
-                                    <img src="/images/no-available-company-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
+                                    <img src="/images/no-available-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
                                 {% endif %}
                             </a>
                             <div class="pb-3">
