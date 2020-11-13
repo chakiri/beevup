@@ -1,5 +1,6 @@
 
 $('.add-favoris').click(function() {
+
     var url = '';
     var userId = $(this).attr('data-user-id');
     var selectedProfileId = $(this).attr('data-profile-id');
@@ -11,14 +12,18 @@ $('.add-favoris').click(function() {
     //var selectProfileCompanyURL = $('.user-companyName-'+selectedProfileId).text();
 
     if ($(this).hasClass("text-warning")) {
+
         /***** remove from favoris *****/
         url = $(this).attr('data-delete');
         $('#result-user-item-' + userId).removeClass('text-warning').addClass('text-muted');
         $('#result-user-item-' + userId).removeClass('fa-star').addClass('fa-star-o');
 
 
-        if( $('.profile-add-favoris').length) {
-            $('.profile-add-favoris').text('').append("Ajouter aux Favoris");
+
+
+        if( $('.profil-add-favoris').length) {
+            $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
+            $('.profil-add-favoris').removeClass('text-warning').addClass('text-muted');
         }
         $('.favorit-user-'+selectedProfileId).remove();
         if($('.suggestion-usd').length ==0){
@@ -26,6 +31,7 @@ $('.add-favoris').click(function() {
         }
 
     } else {
+
         /***** add to favoris  *****/
 
 
@@ -36,12 +42,14 @@ $('.add-favoris').click(function() {
         $('#result-user-item-' + userId).removeClass('text-muted').addClass('text-warning');
         $('#result-user-item-' + userId).removeClass('fa-star-o').addClass('fa-star');
 
+
         /**********add to favoris list *******************/
 
 
 
-        if( $('.profile-add-favoris').length ) {
-            $('.profile-add-favoris').text('').append("Favoris");
+        if( $('.profil-add-favoris').length ) {
+            $('.profil-add-favoris').text('').append("Supprimer Favoris");
+            $('.profil-add-favoris').removeClass('text-muted').addClass('text-warning');
         }
 
         if ($('.favorit-user-'+userId).length == 0) {

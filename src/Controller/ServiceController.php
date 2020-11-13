@@ -45,8 +45,9 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities, StoreServicesRepository $storeServicesRepository)
     {
+        
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
-        $services = $serviceRepository->findByLocalServices($allCompanies);
+       $services = $serviceRepository->findByLocalServices($allCompanies);
 
         //Add related generic services of store
         $storeServices = $this->getUser()->getStore()->getServices();
@@ -206,7 +207,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-    public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
+     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
     {
 
       if($service != null) {
