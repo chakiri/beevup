@@ -24,7 +24,7 @@ class AutomaticPost
         $this->userRepository =$userRepository;
     }
 
-    public function Add($title, $description, $category, $relatedTo, $relatedToType)
+    public function Add($title, $description, $category, $relatedTo, $relatedToType, $recommandation = null)
    {
        $adminPLatformeType = $this->userTypeRepository->findOneBy(['id'=>5]);
        $adminPLatformeAccount = $this->userRepository->findOneBy(['type'=>$adminPLatformeType]);
@@ -35,7 +35,12 @@ class AutomaticPost
        $post->setDescription($description);
        $post->setRelatedTo($relatedTo);
        $post->setRelatedToType($relatedToType);
+       if($recommandation != null){
+         $post->setRelatedToRecommandation($recommandation);
+        }
        $this->manager->persist($post);
        $this->manager->flush();
    }
+
+
 }
