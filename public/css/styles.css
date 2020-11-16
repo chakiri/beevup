@@ -1678,7 +1678,7 @@ ul.landing-page-list {
     right: 5px;
     top: 15px;
 }
-.suggestions-list {
+.suggestions-list, .contact-list {
     float: left;
     width: 100%;
     background-color: var(--white-color);

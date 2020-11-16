@@ -118,7 +118,7 @@
                                                 <ul>
                                                     <li>
                                                         <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                            class="fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
+                                                            class="favoris-icon fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
                                                             data-user-id ="{{ user.id }}"
                                                             data-profile-id ="{{ user.profile.id }}"
                                                             data-target="{{path('favorit_add', {'userId':user.id})  }}"
