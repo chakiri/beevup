@@ -51,9 +51,17 @@ class PostController extends AbstractController
             if ($post->getUrlYoutube() != null){
                 //Get id video
                 $query = parse_url($post->getUrlYoutube(), PHP_URL_QUERY);
-                $parameters = str_replace('v=', '', $query);
-                $idUrl = explode("&", $parameters, 2);
-                $post->setUrlYoutube($idUrl[0]);
+                //If url contain parameter
+                if ($query){
+                    $parameters = str_replace('v=', '', $query);
+                    $idsUrl = explode("&", $parameters, 2);
+                    $idUrl = $idsUrl[0];
+                }else{
+                    $query = parse_url($post->getUrlYoutube(), PHP_URL_PATH);
+                    $idUrl = str_replace('/', '', $query);
+                }
+                $post->setUrlYoutube($idUrl);
+
             }
 
             $manager->persist($post);
@@ -163,24 +171,18 @@ class PostController extends AbstractController
     }
 
 
-
     /**
     * @Route("/post/{id}/edit", name="post_edit")
     */
     public function edit(Post $post, EntityManagerInterface $manager, Request $request)
     {
-        
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $manager->persist($post);
             $manager->flush();
 
-           return $this->redirectToRoute('dashboard', [
-               
-           ]);
-
+           return $this->redirectToRoute('dashboard');
         }
         return $this->render('post/create.html.twig', [
             'company' => $post,
@@ -189,52 +191,5 @@ class PostController extends AbstractController
 
         ]);
     }
-
-    /*
-     * @Route("/post/{id}/delete", name="post_delete")
-     */
-    /*public function delete(EntityManagerInterface $manager, PostRepository $postRepository, PostLikeRepository $postLikeRepository, CommentRepository $commentRepository, PostNotificationRepository $dashboardNotificationRepo, AbuseRepository $abuseRepo, OpportunityNotificationRepository $opportunityNotificationRepo, $id)
-    {
-     $post = $postRepository->findOneByID($id);
-
-     $postLikes = $postLikeRepository->findByPost($post);
-     $comments = $commentRepository->findByPost($post);
-     $dashboardNotifications = $dashboardNotificationRepo->findByPost($post);
-     $opportunityNotif = $opportunityNotificationRepo->findBy(['post'=>$post],[]);
-     $abuses = $abuseRepo->findByPost($post);
-     
-     foreach ($postLikes as $object) {
-        $manager->remove($object);
-     }
-     foreach ($abuses as $object) {
-        $manager->remove($object);
-     }
-
-      foreach ($opportunityNotif as $object) {
-          $manager->remove($object);
-      }
-     foreach ($comments as $object) {
-        $abuses = $abuseRepo->findByComment($object);
-        if($abuses !=null ){
-        foreach ($abuses as $obj) {
-        $manager->remove($obj);
-        }
-    }
-        $manager->remove($object);
-     }
-     foreach ($dashboardNotifications as $object) {
-        $manager->remove($object);
-     }
-     
-     $manager->remove($post);
-     $manager->flush();
-     $response = new Response(
-        'Content',
-        Response::HTTP_OK,
-        ['content-type' => 'text/html']
-    );
-    return $response;
-
-    }*/
 
 }
