@@ -219,6 +219,10 @@
 }
 
 /*-------- Modals --------- */
+.modal{
+    overflow: auto;
+}
+
 #add-post-modal, #update-post-modal{
     top: 52px;
 }
@@ -558,5 +562,9 @@ li.icon-type-post a.active{
 
     .tab-content a{
         margin-top: 10px;
+    }
+
+    #welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
+        max-width: 100%;
     }
 }
