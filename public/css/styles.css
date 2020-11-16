@@ -327,7 +327,7 @@ a.nav-link i{
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 2;
+    z-index: 1000;
     border: 0;
     background: none;
     font-size: 24px;
