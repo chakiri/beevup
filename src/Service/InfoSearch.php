@@ -21,7 +21,7 @@ class InfoSearch
         $this->communities = $communities;
         $this->currentUser = $security->getUser();
     }
-    public function getRecommandations($item, $nbRecommandations): array
+    public function getNbRecommandations($item, $nbRecommandations): array
     {
         if ($item instanceof User){
             $company = $item->getCompany();

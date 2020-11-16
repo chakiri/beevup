@@ -58,12 +58,12 @@ class SearchController extends AbstractController
         $distances = [];
         foreach ($items as $item){
             //Get nbRecommandations of each result
-            $nbRecommandations = $infoSearch->getRecommandations($item, $nbRecommandations);
+            $nbRecommandations = $infoSearch->getNbRecommandations($item, $nbRecommandations);
             //Get nb Km between current user company and company item
             $distances = $infoSearch->getDistance($item, $distances);
         }
 
-        dd($nbRecommandations, $distances);
+        //dd($nbRecommandations, $distances);
 
         return $this->render('search/search.html.twig', [
             'SearchForm' => $form->createView(),

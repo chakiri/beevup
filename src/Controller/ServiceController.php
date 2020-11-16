@@ -43,7 +43,7 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, Communities $communities, StoreServicesRepository $storeServicesRepository)
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting)
     {
         
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
@@ -113,34 +113,8 @@ class ServiceController extends AbstractController
         $nbRecommandations = [];
         $distances = [];
         foreach ($services as $service){
-            if ($service->getType()->getName() == 'company') {
-                //Get nb recommandations of each company
-                $nbRecommandation = count($recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service]));
-                $nbRecommandations[$service->getId()] = $nbRecommandation;
-                //Get nb Km between current user company and company service
-                if ($this->getUser()->getCompany()){
-                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $company, 'K');
-                    $distances[$service->getId()] = $distance;
-                }
-            }elseif ($service->getType()->getName() == 'store'){
-                $nbRecommandation = count($recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service]));
-                $nbRecommandations[$service->getId()] = $nbRecommandation;
-                if ($this->getUser()->getCompany()) {
-                    $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
-                    $distances[$service->getId()] = $distance;
-                }
-            }elseif ($service->getType()->getName() == 'plateform'){
-                //Get assocaition if exist
-                $storeService = $storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->getUser()->getStore()]);
-                if ($storeService){
-                    $nbRecommandation = count($recommandationRepository->findBy(['company' => null, 'service' => $service]));
-                    $nbRecommandations[$service->getId()] = $nbRecommandation;
-                    if ($this->getUser()->getCompany()){
-                        $distance = $communities->calculateDistanceBetween($this->getUser()->getCompany(), $store, 'K');
-                        $distances[$service->getId()] = $distance;
-                    }
-                }
-            }
+            $nbRecommandations = $serviceSetting->getNbRecommandations($service, $nbRecommandations);
+            $distances = $serviceSetting->getDistance($service, $distances);
         }
 
         return $this->render('service/index.html.twig', [
@@ -231,9 +205,6 @@ class ServiceController extends AbstractController
         if($form->isSubmitted()) {
             if($form->isValid())
             {
-
-
-
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);
