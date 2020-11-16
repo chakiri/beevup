@@ -20,7 +20,7 @@ $('.add-favoris').click(function() {
 
         if( $('.profil-add-favoris').length) {
 
-            $('.profil-add-favoris').text('').append("Ajouter aux Favoris");
+            $('.profil-add-favoris').text('').append("Ajouter aux favoris");
             $('.profil-add-favoris').removeClass('text-warning').addClass('text-muted');
         }
 
@@ -115,14 +115,14 @@ $('.add-company-favoris').click(function() {
         $('#result-company-item-' + companyId).removeClass('fa-star').addClass('fa-star-o');
         $('.favorit-user-'+selectedProfileId).remove();
         if( $('#result-company-item-' + companyId).length ==0) {
-           $('.company-page').text('').append("Ajouter aux Favoris");
+           $('.company-page').text('').append("Ajouter aux favoris");
             $('.add-company-favoris').removeClass('text-warning').addClass('text-muted');
 
 
 
         }
         if($('.acompany-page').length > 0){
-            $('.add-company-favoris').text('').append("Ajouter aux Favoris");
+            $('.add-company-favoris').text('').append("Ajouter aux favoris");
         }
 
 
