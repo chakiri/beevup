@@ -26,11 +26,11 @@
                 {% endif %}
             {% else %}
                 <a href="#" title=""
-                   class="btn white-bg add-favoris add-company-favoris {{ isFavorit }}"
+                   class="add-company-favoris company-page btn white-bg add-favoris {{ isFavorit }}"
                    data-company-id="{{  company.id }}"
                    data-target="{{path('favorit_company_add', {'companyId':company.id})}}"
                    data-delete="{{path('favorit_company_delete', {'companyId': company.id})}}">
-                    {% if isFavorit !="" %} Favoris {% else %} Ajouter au favoris {% endif %}
+                    {% if isFavorit !="" %} Supprimer favoris {% else %} Ajouter au favoris {% endif %}
                 </a>
             {% endif %}
             <ul class="flw-status mt-3">
