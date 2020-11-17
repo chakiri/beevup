@@ -723,7 +723,7 @@ if($('.entity-description').length > 0 )
         if (unit=="N") { dist = dist * 0.8684 }
         return dist
     }
-    if($('#mapid').length > 0) {
+    if($('#mapid').length > 0 && window.innerWidth > 769) {
         var allStores = '';
         $.ajax({
             url: '/map',
@@ -751,16 +751,9 @@ if($('.entity-description').length > 0 )
                 currentUserLongitude = e.longitude;
                 currentUserLatitude = e.latitude;
 
-               /* L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                    maxZoom: 18,
-                    id: 'mapbox/streets-v11',
-                    tileSize: 512,
-                    zoomOffset: -1
-                }).addTo(mymap);*/
-
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
-                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(mymap);
-                L.DomEvent.disableClickPropagation(div);
+                    attribution: ''}).addTo(mymap);
+               // L.DomEvent.disableClickPropagation(div);
 
 
                 for (var i = 0; i < allStores.stores.length; i++) {
