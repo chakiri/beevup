@@ -133,43 +133,47 @@ if ($('#advisorebox').length != 0){
         position: 'top',
         scrollTo: 'tooltip'
     })
-}if ($('#communitybox').length != 0 ){
-    stepsDashboard.push({
-        element: "#communitybox",
-        intro: "<small>Retrouvez les membres de la communauté locale afin de prévoir un moment de convivialité, d’échange du business ou pour découvrir les entreprises locales</small>",
-        position: 'bottom'
-    })
-}if ($('#servicesbox').length != 0){
-    stepsDashboard.push({
-        element: "#servicesbox",
-        intro: "<small>Proposez vos services à la communauté ou trouvez une solution à vos besoins tout en privilégiant le savoir faire local</small>",
-        position: 'bottom'
-    })
-}if ($('#chatbox').length != 0){
-    stepsDashboard.push({
-        element: "#chatbox",
-        intro: "<small>​Discutez en direct avec les autres membres de la communauté en utilisant le Chat</small>",
-        position: 'bottom'
-    })
-}if ($('#postsNotifications').length != 0 ){
-    stepsDashboard.push({
-        element: "#postsNotifications",
-        intro: "<small>Vous êtes notifiés lorsque l’un de vos post est commenté ou apprécié par d’autres membres de la communauté</small>",
-        position: 'top',
-        scrollTo: 'tooltip'
-    })
-}if ($('#messagesNotifications').length != 0){
-    stepsDashboard.push({
-        element: "#messagesNotifications",
-        intro: "<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>",
-        position: 'top',
-    })
-}if ($('#opportunities').length != 0 ){
-    stepsDashboard.push({
-        element: "#opportunities",
-        intro: "<small>Vous êtes notifiés dès qu’une opportunité commerciale est postée. Soyez rapide comme l’éclair pour prendre contact avec le membre de la communauté locale et répondre à cette opportunité​</small>",
-        position: 'top',
-    })
+}
+//If mobile hide this section because of hidden nav bar
+if(!window.matchMedia("(max-width: 767px)").matches){
+    if ($('#communitybox').length != 0 ){
+        stepsDashboard.push({
+            element: "#communitybox",
+            intro: "<small>Retrouvez les membres de la communauté locale afin de prévoir un moment de convivialité, échange de business ou pour découvrir les entreprises locales</small>",
+            position: 'bottom'
+        })
+    }if ($('#servicesbox').length != 0){
+        stepsDashboard.push({
+            element: "#servicesbox",
+            intro: "<small>Proposez vos services à la communauté ou trouvez une solution à vos besoins tout en privilégiant le savoir faire local</small>",
+            position: 'bottom'
+        })
+    }if ($('#chatbox').length != 0){
+        stepsDashboard.push({
+            element: "#chatbox",
+            intro: "<small>​Discutez en direct avec les autres membres de la communauté en utilisant le Chat</small>",
+            position: 'bottom'
+        })
+    }if ($('#postsNotifications').length != 0 ){
+        stepsDashboard.push({
+            element: "#postsNotifications",
+            intro: "<small>Vous êtes notifiés lorsque l’un de vos post est commenté ou apprécié par d’autres membres de la communauté</small>",
+            position: 'top',
+            scrollTo: 'tooltip'
+        })
+    }if ($('#messagesNotifications').length != 0){
+        stepsDashboard.push({
+            element: "#messagesNotifications",
+            intro: "<small>D’autres membres de la communauté essaient de vous contacter. Cela tombe bien le Chat est fait pour ça. Vous êtes notifiés dès qu’une nouvelle demande apparait​</small>",
+            position: 'top',
+        })
+    }if ($('#opportunities').length != 0 ){
+        stepsDashboard.push({
+            element: "#opportunities",
+            intro: "<small>Vous êtes notifiés dès qu’une opportunité commerciale est postée. Soyez rapide comme l’éclair pour prendre contact avec le membre de la communauté locale et répondre à cette opportunité​</small>",
+            position: 'top',
+        })
+    }
 }
 
 var stepsServices = [];
