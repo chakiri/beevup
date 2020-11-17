@@ -133,9 +133,11 @@
                                                 </ul>
                                                 <div class="company-infos-bloc">
                                                     <div class="company-infos-distance">
-                                                        {% if distances and distances[user.company.id] and distances[user.company.id] < 1000 and distances[user.company.id] != 0  %}
+                                                        {% if distances and distances[user.company.id] is defined %}
                                                             {% if distances[user.company.id] < 1  %}
                                                                 <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
+                                                            {% elseif distances[user.company.id] > 1000 %}
+                                                                <i class="fas fa-map-marker-alt"></i> <small>Distance non disponible</small>
                                                             {% else %}
                                                                 <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
                                                             {% endif %}
@@ -187,9 +189,11 @@
                                                 </ul>
                                                 <div class="company-infos-bloc">
                                                     <div class="company-infos-distance">
-                                                        {% if distances and distances[company.id] and distances[company.id] < 1000 and distances[company.id] != 0  %}
+                                                        {% if distances and distances[company.id] is defined%}
                                                             {% if distances[company.id] < 1  %}
                                                                 <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
+                                                            {% elseif distances[company.id] > 1000 %}
+                                                                <i class="fas fa-map-marker-alt"></i> <small>Distance non disponible</small>
                                                             {% else %}
                                                                 <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[company.id]|round }}Km</small>
                                                             {% endif %}

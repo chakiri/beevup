@@ -76,66 +76,53 @@ class CompanyController extends AbstractController
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper, Error $error)
     {
-
         if ($this->getUser()->getCompany() != NULL) {
-            if ($id == $this->getUser()->getCompany()->getId()) {
+            if ($company == $this->getUser()->getCompany()) {
                 $form = $this->createForm(CompanyType::class, $company);
                 $form->handleRequest($request);
-                //dd($form->getErrors());
-                if ($form->isSubmitted()) {
-                    if($form->isValid())
-                    {
-
-                        if ($company->getIsCompleted() == false) {
-                            $company->setIsCompleted(true);
-                            // create a new welcome post
-                            $AdminPLatformeType = $userTypeRepository->findOneBy(['id' => 5]);
-                            //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
-                            $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                            $post = new Post();
-                            $post->setUser($this->getUser());
-                            $post->setCategory($category);
-                            $post->setTitle('Bienvenue à l\'entreprise ' . $company->getName());
-                            $post->setDescription($company->getIntroduction());
-                            $post->setToCompany($company);
-                            $manager->persist($post);
-                        }
-
-                        /* generate bar code*/
-                        $company->setBarCode($barCode->generate($company->getId()));
-                        $adresse = $company->getAddressNumber() . ' ' . $company->getAddressStreet() . ' ' . $company->getAddressPostCode() . ' ' . $company->getCity() . ' ' . $company->getCountry();
-                        $map = new Map();
-                        $coordonnees = $map->geocode($adresse);
-
-                        if ($coordonnees != null) {
-                            $company->setLatitude($coordonnees[0]);
-                            $company->setLongitude($coordonnees[1]);
-                        }
-                        /* end ******/
-
-                        /* cropped image */
-                        $imageCropper->move_directory($company);
-
-                        $manager->persist($company);
-
-                        $manager->flush();
-
-                        //init topic company category to user
-                        $topicHandler->initCategoryCompanyTopic($company->getCategory());
-
-                        $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-
-                        return $this->redirectToRoute('company_show', [
-                            'slug' => $company->getSlug()
-                        ]);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    if ($company->getIsCompleted() == false) {
+                        $company->setIsCompleted(true);
+                        // create a new welcome post
+                        $AdminPLatformeType = $userTypeRepository->findOneBy(['id' => 5]);
+                        //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
+                        $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                        $post = new Post();
+                        $post->setUser($this->getUser());
+                        $post->setCategory($category);
+                        $post->setTitle('Bienvenue à l\'entreprise ' . $company->getName());
+                        $post->setDescription($company->getIntroduction());
+                        $post->setToCompany($company);
+                        $manager->persist($post);
                     }
-                    else{
-                        return new JsonResponse( array(
-                            'result' => 0,
-                            'message' => 'Invalid form',
-                            'data' => $error->getErrorMessages($form)
-                        ));
+
+                    /* generate bar code*/
+                    $company->setBarCode($barCode->generate($company->getId()));
+                    $adresse = $company->getAddressNumber() . ' ' . $company->getAddressStreet() . ' ' . $company->getAddressPostCode() . ' ' . $company->getCity() . ' ' . $company->getCountry();
+                    $map = new Map();
+                    $coordonnees = $map->geocode($adresse);
+
+                    if ($coordonnees != null) {
+                        $company->setLatitude($coordonnees[0]);
+                        $company->setLongitude($coordonnees[1]);
                     }
+                    /* end ******/
+
+                    /* cropped image */
+                    $imageCropper->move_directory($company);
+
+                    $manager->persist($company);
+
+                    $manager->flush();
+
+                    //init topic company category to user
+                    $topicHandler->initCategoryCompanyTopic($company->getCategory());
+
+                    $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+
+                    return $this->redirectToRoute('company_show', [
+                        'slug' => $company->getSlug()
+                    ]);
 
                 }
                 return $this->render('company/form.html.twig', [
@@ -147,9 +134,9 @@ class CompanyController extends AbstractController
                 return $this->redirectToRoute('page_not_found', []);
             }
         }
-    else{
-        return $this->redirectToRoute('page_not_found', []);
-    }
+        else{
+            return $this->redirectToRoute('page_not_found', []);
+        }
     }
 
 

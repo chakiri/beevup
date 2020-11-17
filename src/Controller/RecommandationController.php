@@ -28,7 +28,6 @@ class RecommandationController extends AbstractController
      */
     public function index(RecommandationRepository $recommandationRepository)
     {
-
         if ($this->getUser()->getType()->getId() == 1){
             $recommandations = $recommandationRepository->findBy(['store' => $this->getUser()->getStore(), 'status'=>'Open']);
         }elseif ($this->getUser()->getType()->getId() == 3){
@@ -121,13 +120,12 @@ class RecommandationController extends AbstractController
             'RecommandationForm' => $form->createView(),
         ]);
     }
-  /**
+
+    /**
      * @Route("/edit/recommandation/{variable}/{variable2}", defaults={"variable" = 0, "variable2" = 0}, name="recommandation_edit")
      */
     public function edit(Request $request, EntityManagerInterface $manager, RecommandationRepository $repository, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, $variable, $variable2)
     {
-        
-        
         $recommandation = $repository->findOneById($variable2);
         $status = (1 == $variable) ? 'Validated' : 'Rejected';
         $recommandation->setStatus($status);

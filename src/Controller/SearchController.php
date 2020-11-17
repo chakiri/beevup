@@ -11,6 +11,7 @@ use App\Repository\FavoritRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\UserRepository;
 use App\Service\Communities;
+use App\Service\InfoSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/search", name="search")
      */
-    public function index(Request $request, GetCompanies $getCompanies, UserRepository $userRepository, FavoritRepository $favoritRepository, CompanyRepository $companyRepository, RecommandationRepository $recommandationRepository, Communities $communities)
+    public function index(Request $request, GetCompanies $getCompanies, UserRepository $userRepository, FavoritRepository $favoritRepository, CompanyRepository $companyRepository, InfoSearch $infoSearch)
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
@@ -56,20 +57,10 @@ class SearchController extends AbstractController
         $nbRecommandations = [];
         $distances = [];
         foreach ($items as $item){
-            if ($item instanceof User){
-                $company = $item->getCompany();
-                //Get nb recommandations of each company item
-                $nbRecommandation = count($recommandationRepository->findByUserRecommandation($item, 'Validated'));
-            }
-            elseif ($item instanceof Company){
-                $company = $item;
-                //Get nb recommandations of each company item
-                $nbRecommandation = count($recommandationRepository->findByCompanyServices($company, 'Validated')) + count($recommandationRepository->findByCompanyWithoutServices($company, 'Validated'));
-            }
-            $nbRecommandations[$company->getId()] = $nbRecommandation;
+            //Get nbRecommandations of each result
+            $nbRecommandations = $infoSearch->getNbRecommandations($item, $nbRecommandations);
             //Get nb Km between current user company and company item
-            $distance = $communities->calculateDistanceBetween($company, $this->getUser()->getCompany(), 'K');
-            $distances[$company->getId()] = $distance;
+            $distances = $infoSearch->getDistance($item, $distances);
         }
 
         return $this->render('search/search.html.twig', [

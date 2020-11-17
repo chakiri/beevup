@@ -34,9 +34,7 @@ class StoreController extends AbstractController
         if ($getCompanies->isStoreInLocalStores($store, $localStores) == true || $this->getUser()->getStore() == $store ) {
             $users = $userRepository->findByStore($store);
             $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
-            //$usersType = $userTypeRepository->findBy(['id' => array(1, 2, 4)]);
-            //$storeUsers = $userRepository->findBy(['store' => $store, 'type' => $usersType]);
-            //$services = $serviceRepository->findBy(['user' => $storeUsers]);
+
             $services = [];
             foreach ($store->getServices() as $service){
                 array_push($services, $service->getService());
@@ -72,37 +70,25 @@ class StoreController extends AbstractController
             $form = $this->createForm(StoreType::class, $store);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() ) {
-                if($form->isValid())
-                {
-                    $store->setModifiedAt(new \DateTime());
-                    $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
-                    $map = new Map();
-                    $coordonnees = $map->geocode($adresse);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $store->setModifiedAt(new \DateTime());
+                $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
+                $map = new Map();
+                $coordonnees = $map->geocode($adresse);
 
-                    if ($coordonnees != null) {
-                        $store->setLatitude($coordonnees[0]);
-                        $store->setLongitude($coordonnees[1]);
-                    }
-
-                    //Cropped Image
-                   // $imageCropper->move_directory($store);
-
-                    $manager->persist($store);
-                    $manager->flush();
-
-                    return $this->redirectToRoute('store_show', [
-                        'slug' => $store->getSlug()
-                    ]);
+                if ($coordonnees != null) {
+                    $store->setLatitude($coordonnees[0]);
+                    $store->setLongitude($coordonnees[1]);
                 }
-                else{
-                    return new JsonResponse( array(
-                        'result' => 0,
-                        'message' => 'Invalid form',
-                        'data' => $error->getErrorMessages($form)
-                    ));
-                }
+
+                $manager->persist($store);
+                $manager->flush();
+
+                return $this->redirectToRoute('store_show', [
+                    'slug' => $store->getSlug()
+                ]);
             }
+
 
             return $this->render('store/form.html.twig', [
                 'store' => $store,
@@ -113,7 +99,5 @@ class StoreController extends AbstractController
             return $this->redirectToRoute('page_not_found', []);
         }
     }
-
-
 
 }

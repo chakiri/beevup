@@ -5,6 +5,8 @@ namespace App\Service;
 
 use App\Entity\Service;
 use App\Entity\StoreService;
+use App\Repository\RecommandationRepository;
+use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -17,11 +19,20 @@ class ServiceSetting
 
     private $manager;
 
-    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository, EntityManagerInterface $manager)
+    private$recommandationRepository;
+
+    private $storeServicesRepository;
+
+    private $communities;
+
+    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository, EntityManagerInterface $manager, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, Communities $communities)
     {
         $this->security = $security;
         $this->typeServiceRepository = $typeServiceRepository;
         $this->manager = $manager;
+        $this->recommandationRepository = $recommandationRepository;
+        $this->storeServicesRepository = $storeServicesRepository;
+        $this->communities = $communities;
     }
 
     public function setType(Service $service): Service
@@ -60,5 +71,42 @@ class ServiceSetting
         $this->manager->persist($storeService);
 
         return $storeService;
+    }
+
+    public function getNbRecommandations($service, $nbRecommandations): array
+    {
+        if ($service->getType()->getName() == 'company') {
+            $nbRecommandation = count($this->recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service, 'status'=>'Validated']));
+            $nbRecommandations[$service->getId()] = $nbRecommandation;
+        }elseif ($service->getType()->getName() == 'store'){
+            $nbRecommandation = count($this->recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service, 'status'=>'Validated']));
+            $nbRecommandations[$service->getId()] = $nbRecommandation;
+        }elseif ($service->getType()->getName() == 'plateform'){
+            //Get assocaition if exist
+            $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
+            if ($storeService){
+                $nbRecommandation = count($this->recommandationRepository->findBy(['company' => null, 'service' => $service, 'status'=>'Validated']));
+                $nbRecommandations[$service->getId()] = $nbRecommandation;
+            }
+        }
+        return $nbRecommandations;
+    }
+
+    public function getDistance($service, $distances): array
+    {
+        if ($service->getType()->getName() == 'company') $item = $service->getUser()->getCompany();
+        elseif ($service->getType()->getName() == 'store') $item = $service->getUser()->getStore();
+        elseif ($service->getType()->getName() == 'plateform'){
+            //Get assocaition if exist
+            $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
+            if ($storeService)  $item = $this->security->getUser()->getStore();
+        }
+
+        if ($this->security->getUser()->getCompany()){
+            $distance = $this->communities->calculateDistanceBetween($this->security->getUser()->getCompany(), $item, 'K');
+            $distances[$service->getId()] = $distance;
+        }
+
+        return $distances;
     }
 }

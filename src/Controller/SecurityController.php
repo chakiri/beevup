@@ -207,7 +207,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/forgottenPassword.html.twig', [
             'forgotPasswordForm' => $form->createView()
-]);
+        ]);
     }
 
     /**
@@ -319,8 +319,6 @@ class SecurityController extends AbstractController
             }
             $manager->flush();
 
-
-
          $guardHandler->authenticateUserAndHandleSuccess(
             $user,
             $request,
@@ -333,11 +331,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *@Route("/cgu/accept", name="cgu_accept")
+     * @Route("/cgu/accept", name="cgu_accept")
      */
     public function cguAccept(Request $request, CookieAccepted $cookieAccepted)
     {
-        //$cookie = $cookieAccepted->addSession();
         $cookieAccepted->addCookie($request);
 
         return $this->json(true);

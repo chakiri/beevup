@@ -65,41 +65,32 @@ class ProfileController extends AbstractController
             $form = $this->createForm(ProfileType::class, $profile);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted()) {
-                if ($form->isValid()) {
-                    $isCompleted = $profile->getIsCompleted();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $isCompleted = $profile->getIsCompleted();
 
-                    /*******Add automatic post***/
-                    if (!$isCompleted) {
-                        $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                        $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
-                        $autmaticPost->Add("Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
-                    }
-                    $profile->setFirstname($utility->updateName($profile->getFirstname()));
-                    $profile->setLastname($utility->updateName($profile->getLastname()));
-                    $profile->setIsCompleted(true);
-
-                    //Cropped Image
-                    $imageCropper->move_directory($profile);
-
-                    $manager->persist($profile);
-                    $manager->flush();
-
-                    /* Add topic function to user type 2 */
-                    if ($profile->getUser()->getType()->getId() == 2)
-                        $topicHandler->initFunctionStoreTopic($profile->getUser());
-                    $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-                    return $this->redirectToRoute('profile_show', [
-                        'id' => $profile->getId()
-                    ]);
+                /*******Add automatic post***/
+                if (!$isCompleted) {
+                    $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                    $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
+                    $autmaticPost->Add("Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
                 }
-                else{
-                    return new JsonResponse( array(
-                        'result' => 0,
-                        'message' => 'Invalid form',
-                        'data' => $error->getErrorMessages($form)
-                    ));
-                }
+                $profile->setFirstname($utility->updateName($profile->getFirstname()));
+                $profile->setLastname($utility->updateName($profile->getLastname()));
+                $profile->setIsCompleted(true);
+
+                //Cropped Image
+                $imageCropper->move_directory($profile);
+
+                $manager->persist($profile);
+                $manager->flush();
+
+                /* Add topic function to user type 2 */
+                if ($profile->getUser()->getType()->getId() == 2)
+                    $topicHandler->initFunctionStoreTopic($profile->getUser());
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+                return $this->redirectToRoute('profile_show', [
+                    'id' => $profile->getId()
+                ]);
             }
 
             return $this->render('profile/form.html.twig', [
@@ -127,49 +118,5 @@ class ProfileController extends AbstractController
 
         return $this->json($profile);
     }
-
-
-
-    /**
-     * @Route("/uploade-image", name="image", methods={"POST"})
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function getImage(Request $request)
-    {
-
-        if ($request->isXmlHttpRequest())
-        {
-
-            $profile = new Profile();
-            $profile->setUser($this->getUser());
-            $form = $this->createForm(ProfileType::class, $profile);
-            $form->handleRequest($request);
-            // the file
-            $file = $_FILES['file'];
-            $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type']);
-            $filename = $this->generateUniqueName() . '.' . $file->guessExtension();
-            $file->move(
-                $this->getTargetDir(),
-                $filename
-            );
-            $profile->setFilename($filename);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($profile);
-            $em->flush();
-        }
-        return new JsonResponse("This is not an ajax request");
-    }
-
-    private function generateUniqueName()
-    {
-        return md5(uniqid());
-    }
-
-    private function getTargetDir()
-    {
-        return $this->getParameter('uploads_dir');
-    }
-
 
 }
