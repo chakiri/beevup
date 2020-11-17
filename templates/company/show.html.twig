@@ -68,7 +68,11 @@
                                                     </div><!--user-profy end-->
                                                 {% endif %}
                                             </div><!--profiles-slider end-->
-                                            <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
+                                            {% if app.user.company != null %}
+                                                {% if app.user.company.id == company.id %}
+                                                       <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
+                                                    {% endif %}
+                                            {% endif %}
                                         </div>
                                     </div><!--top-profiles end-->
                                 {% endif %}
