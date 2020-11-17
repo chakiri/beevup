@@ -48,7 +48,8 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Description',
                     'class'       =>'form-control input-textarea entity-description',
-                    'maxlength' => 1500
+                    'maxlength' => 1500,
+                    'rows'=>5
                 ],
             ])
             ->add('introduction', TextareaType::class, [
@@ -56,7 +57,8 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Votre service en une courte phrase',
                     'class'       =>'form-control input-textarea',
-                    'maxlength' => 1500
+                    'maxlength' => 1500,
+                    'rows'=>5
                 ],
             ])
             ->add('category', EntityType::class, [
