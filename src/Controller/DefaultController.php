@@ -174,7 +174,7 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted())
         {
-            if ($form->isValid()) {
+            if ($form->get('imageFile')->isValid()) {
 
                 $imageCropper->move_directory( $entity);
                 $manager->persist( $entity);
