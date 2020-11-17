@@ -547,6 +547,8 @@ li.icon-type-post a.active{
     color: #FF7F50;
     background: #FFF6F3;
 }
+
+
 @media (max-width: 769px) {
     #types-posts {
         width: 100%;
@@ -566,5 +568,12 @@ li.icon-type-post a.active{
 
     #welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
         max-width: 100%;
+    }
+    .desk{
+        display:none;
+        height: 0;
+    }
+    .landing-page-section3 {
+        padding: 10px 0 96px;
     }
 }
