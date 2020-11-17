@@ -3127,4 +3127,7 @@ a:hover {
     color:red;
 }
 /********form errors*****/
-
+.custom-file-label::after {
+    content: 'Charger' !important;
+    color: #000 !IMPORTANT;
+}
