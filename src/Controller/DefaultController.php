@@ -119,7 +119,6 @@ class DefaultController extends AbstractController
               $allStores = $allStores . "{\"name\": \"" . $store->getName() . "\", \"lat\": \"" . $store->getLatitude() . "\",\"lng\": \"" . $store->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
           }
 
-
        }
         foreach ($companies as $company)
         {
@@ -127,8 +126,6 @@ class DefaultController extends AbstractController
                 $adresse = $company->getAddressNumber().' '. $company->getAddressStreet(). ' '.$company->getAddressPostCode();
                 $allCompanies = $allCompanies. "{\"name\": \"" . $company->getName() . "\", \"lat\": \"" . $company->getLatitude() . "\",\"lng\": \"" . $company->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
             }
-
-
         }
         $all = $allStores. $allCompanies ;
 
@@ -142,7 +139,6 @@ class DefaultController extends AbstractController
             Response::HTTP_OK,
             ['content-type' => 'text/html']
         );
-
     }
 
     /**
@@ -151,7 +147,6 @@ class DefaultController extends AbstractController
     public function welcomePopup(WelcomePopup $welcomePopup)
     {
         $popup = $welcomePopup->add();
-
         return $this->json($popup);
     }
 
@@ -206,9 +201,5 @@ class DefaultController extends AbstractController
         }
 
     }
-
-
-
-
 
 }

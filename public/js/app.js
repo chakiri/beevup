@@ -103,7 +103,7 @@ $(window).load(function(){
             const url = $(this).data('url');
 
             $.ajax({
-                type: 'SET',
+                type: 'GET',
                 url: url,
                 success: function (){
                     console.log('Set cookie session');
@@ -205,10 +205,6 @@ $(window).load(function(){
 
             }
 
-
-
-
-
     function update_img_url(){
         var url =   $('.upload-photo').attr('data-url');
         return url;
@@ -291,8 +287,6 @@ $(window).load(function(){
 
         return urls;
     }
-
-
 
 
     //  ============= update profile image =========

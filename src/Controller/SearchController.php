@@ -63,8 +63,6 @@ class SearchController extends AbstractController
             $distances = $infoSearch->getDistance($item, $distances);
         }
 
-        //dd($nbRecommandations, $distances);
-
         return $this->render('search/search.html.twig', [
             'SearchForm' => $form->createView(),
             'items' => $items,

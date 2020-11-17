@@ -19,7 +19,6 @@ class FavoritController extends AbstractController
     /**
      * @Route("/favorit/add/{userId}", name="favorit_add")
      */
-
      public function addFavorit(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, $userId)
      {
         $user =  $userRepo->findOneBy(['id' => $userId]);
@@ -33,13 +32,12 @@ class FavoritController extends AbstractController
               Response::HTTP_OK,
               ['content-type' => 'text/html']
               );
-              return $response;
+        return $response;
      }
 
          /**
           * @Route("/favorit/delete/{userId}", name="favorit_delete")
           */
-
         public function deleteFavorit(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $userId)
         {
 
@@ -78,24 +76,23 @@ class FavoritController extends AbstractController
                    return $response;
           }
 
-              /**
-               * @Route("/favoritCompany/delete/{companyId}", name="favorit_company_delete")
-               */
+          /**
+           * @Route("/favoritCompany/delete/{companyId}", name="favorit_company_delete")
+           */
 
-             public function deleteFavoritCompany(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $companyId)
-             {
+         public function deleteFavoritCompany(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $companyId)
+         {
 
-              $favorit =  $favoritRepo->findOneBy(['user' => $this->getUser(), 'company' => $companyId]);
-              $manager->remove($favorit);
-              $manager->flush();
-              $response = new Response(
-                            'Content',
-                            Response::HTTP_OK,
-                            ['content-type' => 'text/html']
-                            );
-                            return $response;
+          $favorit =  $favoritRepo->findOneBy(['user' => $this->getUser(), 'company' => $companyId]);
+          $manager->remove($favorit);
+          $manager->flush();
+          $response = new Response(
+                        'Content',
+                        Response::HTTP_OK,
+                        ['content-type' => 'text/html']
+                        );
+                        return $response;
 
-             }
-
+         }
 
 }
