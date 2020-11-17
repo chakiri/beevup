@@ -103,7 +103,7 @@ class ServiceSetting
         }
 
         if ($this->security->getUser()->getCompany()){
-            $distance = $this->communities->calculateDistanceBetween($this->security->getUser()->getCompany(), $item, 'K');
+            $distance = $this->communities->calculateDistanceBetween($this->security->getUser()->getCompany(), $item ?? null, 'K');
             $distances[$service->getId()] = $distance;
         }
 
