@@ -23,6 +23,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            switch_user: true
 
             form_login:
                 login_path: security_login
@@ -63,7 +64,7 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
         #OUR ROLES
-        ROLE_ADMIN_PLATEFORM: ROLE_SUPER_ADMIN
+        ROLE_ADMIN_PLATEFORM: [ROLE_SUPER_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         ROLE_ADMIN_STORE: ROLE_ADMIN
         ROLE_ADMIN_COMPANY: ROLE_ADMIN
         ROLE_CONTRIBUTOR: ROLE_CONTRIBUTOR

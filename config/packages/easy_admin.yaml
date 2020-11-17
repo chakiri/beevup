@@ -157,7 +157,8 @@ easy_admin:
               - { name: 'new', label: 'Ajouter', icon: 'plus'  }
               - { name: 'edit', icon: 'pencil' }
               - { name: 'delete', icon: 'close' }
-              fields:  
+              - { name: 'switch', label: 'se loguer', icon: 'sign-in'}
+              fields:
               - { property: 'email', label: 'Email' }
               - { property: 'store', label: 'Magasin' }
               - { property: 'company', label: 'Entreprise' }

@@ -165,4 +165,14 @@ class UserAdminController extends EasyAdminController
             $user->setRoles($user->getRoles());
         }
     }
+
+    public function switchAction()
+    {
+        $id = $this->request->query->get('id');
+        $user = $this->userRepo->findOneBy(['id' => $id]);
+
+        return $this->redirectToRoute('dashboard', [
+            '_switch_user' => $user->getUsername()
+        ]);
+    }
 }

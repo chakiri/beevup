@@ -24,15 +24,15 @@
                     </div>
                     {% else %}
                     {% if post.user.profile.filename %}
-                    <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                        <img src="{{ vich_uploader_asset(post.user.profile, 'imageFile')|imagine_filter('avatar_small') }}"  class="rounded-circle medium-avatar" alt="avatar image">
                     {% else %}
-                    <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
+                        <img src="/images/default/user.png" class="rounded-circle medium-avatar" alt="avatar image">
                     {% endif %}
-                    <div class="hover-info">
-                        <p>{{ post.user.profile.firstname }} {{ post.user.profile.lastname }}</p>
-                        <small>{{ post.user.company|capitalize }}</small>
-                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
-                    </div>
+                        <div class="hover-info">
+                            <p>{{ post.user.profile.firstname }} {{ post.user.profile.lastname }}</p>
+                            <small>{{ post.user.company|capitalize }}</small>
+                            {% include 'default/modals/hoverUserPopin.html.twig' with {'user': post.user} %}
+                        </div>
                     {% endif %}
                 </div>
                 <div>
@@ -174,7 +174,7 @@
                 {% for comment in post.comments|reverse %}
                 <div class="box-comment d-flex">
                     <div class="d-flex mb-2">
-                        {% if post.user.profile.filename %}
+                        {% if comment.user.profile.filename %}
                         <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle small-avatar" alt="avatar image">
                         {% else %}
                         <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
