@@ -67,6 +67,7 @@ class ServiceRepository extends ServiceEntityRepository
     }
 
 
+
     public function findByLocalServices($allCompanies){
 
         return $this->createQueryBuilder('s')

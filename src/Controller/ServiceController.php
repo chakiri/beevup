@@ -95,14 +95,9 @@ class ServiceController extends AbstractController
             $category = $searchForm->get('category')->getData();
             $isDiscovery = $searchForm->get('isDiscovery')->getData();
             $services = $serviceRepository->findSearch($query, $category, $isDiscovery, $allCompanies);
-            //Add services of store
-            foreach ($storeServices as $storeService){
-                if ($isDiscovery == true){
-                    if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());
-                }else{
-                    array_push($services, $storeService->getService());
-                }
-            }
+            //Add services of store if match query
+            $storeServicesMatched = $this->ServicesMatchQuery($storeServices, $query, $category, $isDiscovery);
+            $services = array_merge($services, $storeServicesMatched);
             $user = null;
         }
 
@@ -126,6 +121,29 @@ class ServiceController extends AbstractController
             'adviser'=> $adviser,
             'searchForm' => $searchForm->createView()
         ]);
+    }
+
+    /**
+     * Return matched services from list of Store services
+     * @param $storeServices
+     * @param $query
+     * @param $category
+     * @param $isDiscovery
+     * @return array
+     */
+    private function ServicesMatchQuery($storeServices, $query, $category, $isDiscovery)
+    {
+        $servicesMatches = [];
+        foreach ($storeServices as $storeService){
+            if (strpos($storeService->getService()->getTitle(), $query) == true || strpos($storeService->getService()->getDescription(), $query) == true ||strpos($storeService->getService()->getIntroduction(), $query) == true
+                || $storeService->getService()->getCategory() == $category){
+                if ($isDiscovery == true){
+                    if ($storeService->getService()->getIsDiscovery() == true)    array_push($servicesMatches, $storeService->getService());
+                }else   array_push($servicesMatches, $storeService->getService());
+            }
+        }
+
+        return $servicesMatches;
     }
 
     /**

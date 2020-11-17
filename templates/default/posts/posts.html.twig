@@ -174,7 +174,7 @@
                 {% for comment in post.comments|reverse %}
                 <div class="box-comment d-flex">
                     <div class="d-flex mb-2">
-                        {% if post.user.profile.filename %}
+                        {% if comment.user.profile.filename %}
                         <img src="{{ vich_uploader_asset(comment.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle small-avatar" alt="avatar image">
                         {% else %}
                         <img src="/images/default/user.png" class="rounded-circle small-avatar" alt="avatar image">
