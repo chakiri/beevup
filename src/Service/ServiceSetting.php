@@ -75,20 +75,23 @@ class ServiceSetting
 
     public function getNbRecommandations($service, $nbRecommandations): array
     {
-        if ($service->getType()->getName() == 'company') {
-            $nbRecommandation = count($this->recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service, 'status'=>'Validated']));
-            $nbRecommandations[$service->getId()] = $nbRecommandation;
-        }elseif ($service->getType()->getName() == 'store'){
-            $nbRecommandation = count($this->recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service, 'status'=>'Validated']));
-            $nbRecommandations[$service->getId()] = $nbRecommandation;
-        }elseif ($service->getType()->getName() == 'plateform'){
-            //Get assocaition if exist
-            $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
-            if ($storeService){
-                $nbRecommandation = count($this->recommandationRepository->findBy(['company' => null, 'service' => $service, 'status'=>'Validated']));
+        if ($service->getType()){
+            if ($service->getType()->getName() == 'company') {
+                $nbRecommandation = count($this->recommandationRepository->findBy(['company' => $company = $service->getUser()->getCompany(), 'service' => $service, 'status'=>'Validated']));
                 $nbRecommandations[$service->getId()] = $nbRecommandation;
+            }elseif ($service->getType()->getName() == 'store'){
+                $nbRecommandation = count($this->recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service, 'status'=>'Validated']));
+                $nbRecommandations[$service->getId()] = $nbRecommandation;
+            }elseif ($service->getType()->getName() == 'plateform'){
+                //Get assocaition if exist
+                $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
+                if ($storeService){
+                    $nbRecommandation = count($this->recommandationRepository->findBy(['company' => null, 'service' => $service, 'status'=>'Validated']));
+                    $nbRecommandations[$service->getId()] = $nbRecommandation;
+                }
             }
         }
+
         return $nbRecommandations;
     }
 

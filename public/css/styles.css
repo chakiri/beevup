@@ -666,7 +666,6 @@ textarea.form-control{
 .landign-page-description{
   font-size: 18px;
   line-height: 136%;
-  color: var(--gray-color);
 }
 .landing-page-registration-form{
   background-color: var(--white-color);
