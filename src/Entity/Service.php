@@ -55,7 +55,7 @@ class Service implements \Serializable
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=500)
      */
     private $introduction;
 

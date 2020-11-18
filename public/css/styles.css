@@ -1945,8 +1945,14 @@ ul.landing-page-list {
 }
 .social_links li i {
     margin-right: 10px;
-    margin-top: 5px;
+   float:left
 
+}
+.social-media-text{
+    display: flex;
+}
+.social-media-icon{
+    margin-top: 3px;
 }
 
 .social_links li a i {
@@ -3130,4 +3136,7 @@ a:hover {
 .custom-file-label::after {
     content: 'Charger' !important;
     color: #000 !IMPORTANT;
+}
+.file-not-correct{
+    color: red;
 }
