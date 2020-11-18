@@ -95,14 +95,11 @@ class ServiceController extends AbstractController
             $category = $searchForm->get('category')->getData();
             $isDiscovery = $searchForm->get('isDiscovery')->getData();
             $services = $serviceRepository->findSearch($query, $category, $isDiscovery, $allCompanies);
-            //Add services of store
-            foreach ($storeServices as $storeService){
-                if ($isDiscovery == true){
-                    if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());
-                }else{
-                    array_push($services, $storeService->getService());
-                }
-            }
+
+            //Add services of store if match query
+            $storeServices = $serviceRepository->findSearchStoreServices($storeServices, $query, $category, $isDiscovery);
+            $services = array_merge($services, $storeServices);
+
             $user = null;
         }
 

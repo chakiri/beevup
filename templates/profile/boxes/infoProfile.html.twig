@@ -38,9 +38,8 @@
 
         </div><!--user_pro_status end-->
         <ul class="social_links">
-            <li><i class="fas fa-envelope social-media-icon"></i>  {{ profile.user.email }} </li>
-            {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt social-media-icon"></i>  {{ profile.mobileNumber }} </li>{% endif %}
-            {% if profile.addressPostCode != 0 %}  <li><i class="fa fa-map-marker social-media-icon"></i> Code postal:  {{ profile.addressPostCode }} </li>{% endif %}
+            <li><i class="fas fa-envelope"></i>  {{ profile.user.email }} </li>
+            {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt"></i>  {{ profile.mobileNumber }} </li>{% endif %}
             <li><i class="fas fa-store"></i>  {{ profile.user.store.name }} </li>
         </ul>
     </div><!--user_profile end-->
