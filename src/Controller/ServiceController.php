@@ -241,8 +241,8 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
-                    $category = $postCategoryRepository->findOneBy(['id' => 6]);
-                    $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
+                    $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                    $autmaticPost->Add($this->getUser(), $service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
                 }
 
                 //Merge score option to options array
