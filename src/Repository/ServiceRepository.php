@@ -29,14 +29,16 @@ class ServiceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSearch($query, $category, $isDiscovery, $allCompanies){
+
+    private function findSearchQueryBuilder($query, $category, $isDiscovery)
+    {
         $q = $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
-            ->leftJoin('u.company', 'c');
+            ->leftJoin('u.company', 'c')
+        ;
 
         if ($query){
-            $q
-                ->andWhere('s.title LIKE :query')
+            $q->andWhere('s.title LIKE :query')
                 ->orWhere('s.introduction LIKE :query')
                 ->orWhere('s.description LIKE :query')
                 ->setParameter('query', '%' .$query . '%')
@@ -44,29 +46,51 @@ class ServiceRepository extends ServiceEntityRepository
         }
 
         if ($category)
-            $q
-                ->andWhere('s.category = :category')
+            $q->andWhere('s.category = :category')
                 ->setParameter('category', $category)
-        ;
+            ;
 
         if ($isDiscovery)
-            $q
-                ->andWhere('s.isDiscovery = :isDiscovery')
+            $q->andWhere('s.isDiscovery = :isDiscovery')
                 ->setParameter('isDiscovery', $isDiscovery)
-        ;
+            ;
+
+        return $q;
+    }
+
+    public function findSearch($query, $category, $isDiscovery, $allCompanies)
+    {
+        $q = $this->findSearchQueryBuilder($query, $category, $isDiscovery);
 
         $q->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
-          ->setParameter('companies', $allCompanies);
-        $q->orderBy('s.createdAt', 'DESC');
+            ->setParameter('companies', $allCompanies)
+            ->orderBy('s.createdAt', 'DESC')
+        ;
 
-        return $q
-            ->getQuery()
+        return $q->getQuery()
             ->getResult()
             ;
     }
 
+    public function findSearchStoreServices($storeServices, $query, $category, $isDiscovery)
+    {
+        $servicesStoreMatchedQuery = [];
+        foreach($storeServices as $storeService){
+            $q = $this->findSearchQueryBuilder($query, $category, $isDiscovery);
+            $q->andWhere('s.id = :idService')
+                ->setParameter('idService', $storeService->getService()->getId())
+                ;
+            $serviceMatchedQuery = $q->getQuery()
+                ->getOneOrNullResult()
+            ;
 
+            if ($serviceMatchedQuery){
+                array_push($servicesStoreMatchedQuery, $serviceMatchedQuery);
+            }
+        }
+        return $servicesStoreMatchedQuery;
+    }
 
     public function findByLocalServices($allCompanies){
 
