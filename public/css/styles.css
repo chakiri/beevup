@@ -696,6 +696,7 @@ textarea.form-control{
     width: 85%;
     position: relative;
     left: 95px;
+    border-radius: 12px;
 }
 .landing-page-dashbord{
     margin-top: 68px;

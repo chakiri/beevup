@@ -46,9 +46,8 @@
         </div><!--user_pro_status end-->
         {% if company.isCompleted %}
             <ul class="social_links">
-                <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}</span></li>
-                {% if company.phone %}<li><i class="fas fa-mobile-alt p-1"></i><span class="social-links-span">   {{ company.phone }}</span></li> {% endif %}
-                {% if company.city or company.country %}<li><i class="fas fa-flag p-1"></i>  {% if company.city %} <span>   {{ company.city }}</span> {% endif %}{% if company.country %}<span> {{ company.country }}</span> {% endif %}</li> {% endif %}
+                <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}, {{ company.country }}</span></li>
+                <li><i class="fas fa-mobile-alt"></i> <span class="">  {{ company.phone ?? '<small>N° de téléphonse non renseigné</small>' }} </span></li>
                 {% if company.website %}<li><i class="fas fa-external-link-alt p-1"></i> <a target="_blank" href="//{{ company.website }}"><span class="">Accéder au site web</span></a></li> {% endif %}
                 <li><i class="fas fa-store"></i>  {{ company.store.name }} </li>
             </ul>
