@@ -77,6 +77,8 @@
 
                                             <div class="input-group data-entity-id upload-photo"
                                                  data-entity-id="{{ service.id }}"
+                                                 data-previous="{{ previous }}"
+                                                 {%  if service.user.company != null  %}data-company-slug="{{ service.user.company.slug }}" {% endif %}
                                                  data-url={% if edit == true %} "{{  path('service_edit',{'id':service.id})}}" {% else %} "{{  path('service_new')}}"{% endif %}"
                                             >
 
@@ -209,7 +211,7 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-
+                            <div class="file-not-correct"></div>
                                 <div class="form-actions form-group text-center">
                                     <button type="submit" class="m-orange-btn">Enregistrer</button>
                                 </div>
