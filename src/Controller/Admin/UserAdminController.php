@@ -109,7 +109,7 @@ class UserAdminController extends EasyAdminController
         }
 
 
-        array_push($userRoles, 'ROLE_USER');
+        array_push($userRoles);
 
 
 
@@ -146,7 +146,7 @@ class UserAdminController extends EasyAdminController
         }
 
 
-        array_push($userRoles, 'ROLE_USER');
+        array_push($userRoles);
         $user->setRoles($userRoles);
         $this->updatePassword($user);
         parent::updateEntity($user);

@@ -46,7 +46,7 @@ class UserStoreController extends EasyAdminController
         }
         if($user->getType()->getId() == 1)
         {
-            $user->setRoles(['ROLE_USER', 'ROLE_ADMIN_STORE']);
+            $user->setRoles(['ROLE_ADMIN_STORE']);
         }
         if($user->getType()->getId() == 2)
         {
