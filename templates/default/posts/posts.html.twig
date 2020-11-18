@@ -83,10 +83,27 @@
                     <h5>
                         {% if post.relatedToRecommandation != null %}
                             <a target="_blank" href="{{ path('profile_show',{'id':post.relatedToRecommandation.user.profile.id}) }}">
-                             {{ post.relatedToRecommandation.user.profile.firstname }}{{ post.relatedToRecommandation.user.profile.lastname }}
+                             {{ post.relatedToRecommandation.user.profile.firstname }} {{ post.relatedToRecommandation.user.profile.lastname }}
                             </a>
-                            a recommandé les servies de l'entreprise
-                            <a target="_blank" href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug})}}">{{ post.relatedToRecommandation.company.name }}</a>
+                            a recommandé
+
+                             {% if post.relatedToRecommandation.store != null %}
+                                     {% if post.relatedToRecommandation.service != null %}
+                                       le service  <a target="_blank" href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}">{{ post.relatedToRecommandation.service.title }}</a>
+                                         du magasin  <a target="_blank" href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}">{{ post.relatedToRecommandation.store.name }}</a>
+                                     {% else %}
+                                       le magasin  <a target="_blank" href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}">{{ post.relatedToRecommandation.store.name }}</a>
+                                     {% endif %}
+
+                             {% else  %}
+                                 {% if post.relatedToRecommandation.service != null %}
+                                     le service <a target="_blank" href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}">{{ post.relatedToRecommandation.service.title }}</a>
+                                     de l'entreprise  <a target="_blank" href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug})}}">{{ post.relatedToRecommandation.company.name }}</a>
+                                 {% else %}
+                                     l'entreprise   <a target="_blank" href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug})}}">{{ post.relatedToRecommandation.company.name }}</a>
+                                 {% endif %}
+                             {% endif %}
+
                         {% endif %}
                     </h5>
                 {% else  %}

@@ -133,7 +133,7 @@ class RecommandationController extends AbstractController
         if($variable == 1){
 
             $category = $postCategoryRepository->findOneBy(['id' => 7]);
-            $autmaticPost->Add('Nouvelle Recommandation' ,  $recommandation->getMessage(), $category, $recommandation->getId(), 'Recommandation', $recommandation);
+            $autmaticPost->Add($this->getUser(), 'Nouvelle Recommandation' ,  $recommandation->getMessage(), $category, $recommandation->getId(), 'Recommandation', $recommandation);
 
         }
         $manager->persist($recommandation);

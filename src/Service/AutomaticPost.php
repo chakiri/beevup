@@ -24,12 +24,13 @@ class AutomaticPost
         $this->userRepository =$userRepository;
     }
 
-    public function Add($title, $description, $category, $relatedTo, $relatedToType, $recommandation = null)
+    public function Add($user, $title, $description, $category, $relatedTo, $relatedToType, $recommandation = null)
    {
        $adminPLatformeType = $this->userTypeRepository->findOneBy(['id'=>5]);
        $adminPLatformeAccount = $this->userRepository->findOneBy(['type'=>$adminPLatformeType]);
        $post = new Post();
-       $post->setUser($adminPLatformeAccount);
+     //  $post->setUser($adminPLatformeAccount);
+       $post->setUser($user);
        $post->setCategory($category);
        $post->setTitle($title);
        $post->setDescription($description);
