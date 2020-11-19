@@ -95,14 +95,11 @@ class ServiceController extends AbstractController
             $category = $searchForm->get('category')->getData();
             $isDiscovery = $searchForm->get('isDiscovery')->getData();
             $services = $serviceRepository->findSearch($query, $category, $isDiscovery, $allCompanies);
-            //Add services of store
-            foreach ($storeServices as $storeService){
-                if ($isDiscovery == true){
-                    if ($storeService->getService()->getIsDiscovery() == true) array_push($services, $storeService->getService());
-                }else{
-                    array_push($services, $storeService->getService());
-                }
-            }
+
+            //Add services of store if match query
+            $storeServices = $serviceRepository->findSearchStoreServices($storeServices, $query, $category, $isDiscovery);
+            $services = array_merge($services, $storeServices);
+
             $user = null;
         }
 
@@ -183,7 +180,8 @@ class ServiceController extends AbstractController
      */
      public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
     {
-
+      $referer = $request->headers->get('referer');
+      $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
       if($service != null) {
             if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
                 return $this->redirectToRoute('page_not_found', []);
@@ -203,8 +201,10 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
+
             if($form->isValid())
             {
+
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);
@@ -224,7 +224,6 @@ class ServiceController extends AbstractController
 
                 //Cropped image
                 $imageCropper->move_directory($service);
-
                 $manager->persist($service);
 
                 /***** if the user change the service it should be updated in the posts ********/
@@ -242,30 +241,36 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
-                    $category = $postCategoryRepository->findOneBy(['id' => 6]);
-                    $autmaticPost->Add($service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
+                    $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                    $autmaticPost->Add($this->getUser(), $service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
                 }
 
                 //Merge score option to options array
                 $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
 
                 $this->addFlash('success', $message);
-               /* if ($previousPage == 'company')
-                     $redirectedPage = $this->redirectToRoute('company_show', ['slug' => $service->getUser()->getcompany()->getSlug()]);
-                else
-                     $redirectedPage = $this->redirectToRoute('service_show', $optionsRedirect);*/
 
-                return new JsonResponse( array(
-                   'message'=>'service created'
-                ));
+
+                if ($request->isXmlHttpRequest())
+                {
+                   return new JsonResponse( array(
+                        'message'=> $service->getId()
+                    ));
+               }
+                else {
+                    return $this->redirectToRoute('service_show', $optionsRedirect);
+                }
             }
             else{
-                return new JsonResponse( array(
-                    'result' => 0,
-                    'message' => 'Invalid form',
-                    'data' => $error->getErrorMessages($form),
+                if($request->isXmlHttpRequest()) {
+                    return new JsonResponse(array(
+                        'result' => 0,
+                        'message' => 'Invalid form',
+                        'data' => $error->getErrorMessages($form),
 
-                ));
+
+                    ));
+                }
             }
         }
 
@@ -273,6 +278,7 @@ class ServiceController extends AbstractController
             'service' => $service,
             'ServiceForm' => $form->createView(),
             'edit' => $service->getId() != null,
+            'previous'=>$previousPage
         ]);
     }
 

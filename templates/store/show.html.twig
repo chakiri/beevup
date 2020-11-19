@@ -90,7 +90,9 @@
                                                 </div><!--user-profy end-->
                                             {% endif %}
                                         </div><!--profiles-slider end-->
-                                        <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
+                                        {% if app.user.store.id == store.id  and  app.user.type.id == 1 %}
+                                           <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
+                                        {% endif %}
                                     </div>
                                 </div><!--top-profiles end-->
                             {% endif %}
@@ -225,7 +227,5 @@
 
 {% block javascripts %}
     <script src="/js/script.js"></script>
-    <script src="/js/jquery.mCustomScrollbar.js"></script>
     <script src="/lib/slick/slick.min.js"></script>
-    <script src="/js/scrollbar.js"></script>
-{% endblock %}
+ {% endblock %}

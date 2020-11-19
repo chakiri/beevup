@@ -666,7 +666,6 @@ textarea.form-control{
 .landign-page-description{
   font-size: 18px;
   line-height: 136%;
-  color: var(--gray-color);
 }
 .landing-page-registration-form{
   background-color: var(--white-color);
@@ -697,6 +696,7 @@ textarea.form-control{
     width: 85%;
     position: relative;
     left: 95px;
+    border-radius: 12px;
 }
 .landing-page-dashbord{
     margin-top: 68px;
@@ -708,7 +708,7 @@ textarea.form-control{
 
 }
 .landing-page-second-bloc{
-    padding: 0 7em  !important;
+    padding: 0 13em  !important;
     background-color: var(--white-color);
 }
 .landing-page-map img{
@@ -1945,8 +1945,14 @@ ul.landing-page-list {
 }
 .social_links li i {
     margin-right: 10px;
-    margin-top: 5px;
+   float:left
 
+}
+.social-media-text{
+    display: flex;
+}
+.social-media-icon{
+    margin-top: 3px;
 }
 
 .social_links li a i {
@@ -3130,4 +3136,7 @@ a:hover {
 .custom-file-label::after {
     content: 'Charger' !important;
     color: #000 !IMPORTANT;
+}
+.file-not-correct{
+    color: red;
 }

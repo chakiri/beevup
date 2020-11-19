@@ -57,7 +57,7 @@ class ServiceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Votre service en une courte phrase',
                     'class'       =>'form-control input-textarea',
-                    'maxlength' => 1500,
+                    'maxlength' => 500,
                     'rows'=>5
                 ],
             ])

@@ -161,27 +161,27 @@
                             <div class="contact-lists">
                                 <div class="user-profile-ov page-title sign_in_sec current mb-0">
                                     <h5>Contacts</h5>
-                                </div><!--sd-title end-->
-                                {% for user in users %}
-                                    {% if user.profile%}
-                                        {% if user.profile.isCompleted %}
-                                            <div class="suggestion-usd">
-                                                {% if user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
-                                                {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
-                                                {% endif %}
-                                                <div class="sgt-text hover-info">
-                                                    <h4> {{ user.profile.firstname }} {{ user.profile.lastname }}</h4>
-                                                    {% if user.profile.function != null %}
-                                                        <span>{{ user.profile.function.name|capitalize }}</span>
+                                    {% for user in users %}
+                                        {% if user.profile%}
+                                            {% if user.profile.isCompleted %}
+                                                <div class="suggestion-usd">
+                                                    {% if user.profile.filename %}
+                                                        <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
+                                                    {% else %}
+                                                        <img src="/images/no-available-photo.png" alt="">
                                                     {% endif %}
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
+                                                    <div class="sgt-text hover-info">
+                                                        <h4> {{ user.profile.firstname }} {{ user.profile.lastname }}</h4>
+                                                        {% if user.profile.function != null %}
+                                                            <span>{{ user.profile.function.name|capitalize }}</span>
+                                                        {% endif %}
+                                                        {% include 'default/modals/hoverUserPopin.html.twig' with {'user': user} %}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                         {% endif %}
-                                     {% endif %}
-                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div><!--sd-title end-->
                             </div><!--suggestions-list end-->
                         {% endif %}
                     </div><!--suggestions end-->
@@ -204,8 +204,6 @@
 
 {% block javascripts %}
     <script src="/js/script.js"></script>
-    <script src="/js/jquery.mCustomScrollbar.js"></script>
     <script src="/lib/slick/slick.min.js"></script>
-    <script src="/js/scrollbar.js"></script>
 {% endblock %}
 

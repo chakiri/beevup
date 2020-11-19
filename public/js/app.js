@@ -137,7 +137,8 @@ $(window).load(function(){
 
             window.previousImage = function()
             {
-                $('#previous-image').empty();
+                let form = '';
+               $('#previous-image').empty();
 
                 var fileInput = document.getElementsByClassName('form-imageFile')[0];
                 var cropper;
@@ -167,6 +168,9 @@ $(window).load(function(){
 
                 if(previousImage != null) {
                     previousImage.addEventListener('load', function () {
+                        if(document.getElementById('BVformService')) {
+                            form = document.getElementById('BVformService');
+                        }
                         if (cropper) {
 
                             cropper.destroy();
@@ -181,32 +185,68 @@ $(window).load(function(){
                         }
                     });
                 }
-                let form = document.getElementById('BVform');
-                if(form != null)
+                if(document.getElementById('BVform')) {
+                    form = document.getElementById('BVform');
+                }
+                function handler (event)
                 {
-                    form.addEventListener('submit', function (event)
-                    {
 
-                        if(fileInput.files[0]) {
+                    if(fileInput.files[0]) {
 
-                            event.preventDefault()
-                            $('.hide-load').addClass('load-ajax-form');
+                        event.preventDefault()
+                        $('.hide-load').addClass('load-ajax-form');
+                        if (cropper) {
+
                             cropper.getCroppedCanvas({
                                 maxHeight: 1000,
                                 maxWidth: 1000,
 
                             }).toBlob(function (blob) {
                                 ajaxWithAxios(blob, form, cropper);
+
                             })
                         }
+                        else {
 
-                    });
+                            $('.hide-load').removeClass('load-ajax-form');
+                            // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
+                            $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
+                        }
+                    }
+
+                }
+                if(form != null)
+                {
+                    //form.removeEventListener('submit', handler);
+                    form.addEventListener('submit', handler);
+
                 }
 
             }
 
     function update_img_url(){
         var url =   $('.upload-photo').attr('data-url');
+        return url;
+    }
+
+    function serviceRedirectedUrl(id)
+    {
+        let serviceId = id;
+        let companySlug = $('.data-entity-id').attr('data-company-slug');
+        let previousUrl = $('.data-entity-id').attr('data-previous');
+        let url='';
+        let hostname = location.hostname;
+        let protocol = location.protocol;
+        let port     = location.port;
+        let portURL ='';
+        if (port !=''){
+            portURL = ':'+port;
+        }
+        if(previousUrl !='company')
+        url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
+        else
+            url = protocol+'//'+hostname+portURL+'/company/'+companySlug;
+
         return url;
     }
 
@@ -231,18 +271,24 @@ $(window).load(function(){
                     for (var key in data.data) {
                         let error = "<p class='form-error'>"+data.data[key]+"</p>";
                         $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
-                        cropper.destroy();
-
+                       if(key=='imageFile') {
+                           cropper.destroy();
+                       }
                     }
                 }
                 else {
-                    if (data.message == 'service created') {
-                       //history.back();
-                        window.location.reload(history.back());
+                    //  ============= if data.message is a number so it's a service json return =========
+
+                    if(Number.isInteger(data.message)){
+                    let url2 = serviceRedirectedUrl(data.message);
+                    window.location = url2;
+
+                   //  ============= profile, store or company image upload =========
                     } else {
                         $('#modal').modal('toggle');
                         document.location.reload(true);
                     }
+
                  }
 
             },
@@ -251,6 +297,8 @@ $(window).load(function(){
             }
         });
     }
+
+
 
     function urls(){
         let hostname = location.hostname;
@@ -264,9 +312,9 @@ $(window).load(function(){
         let dataEntityId = $('.data-entity-id').attr('data-entity-id');
         let dataSlug = $('.data-entity-id').attr('data-slug');
         let action = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId+'/edit';
-        if(subDomain !='account' && subDomain !='service'){
+       /* if(subDomain !='account' && subDomain !='service'){
             dataEntityId = dataSlug ;
-        }
+        }*/
         if(subDomain =='service'){
 
             let subDomain2 = window.location.pathname.split('/')[2];
@@ -277,6 +325,7 @@ $(window).load(function(){
                     action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new/'+subDomain3;
                 }
             }
+
 
         }
         let redirectedUrl = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId;
