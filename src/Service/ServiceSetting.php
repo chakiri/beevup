@@ -43,6 +43,14 @@ class ServiceSetting
         }elseif ($this->security->isGranted('ROLE_ADMIN_COMPANY')){
             $type = $this->typeServiceRepository->findOneBy(['name' => 'company']);
             $service->setType($type);
+        }elseif ($this->security->isGranted('ROLE_USER')){
+            if ($this->security->getUser()->getType()->getId() == 6){
+                $type = $this->typeServiceRepository->findOneBy(['name' => 'company']);
+                $service->setType($type);
+            }elseif ($this->security->getUser()->getType()->getId() == 2){
+                $type = $this->typeServiceRepository->findOneBy(['name' => 'store']);
+                $service->setType($type);
+            }
         }
 
         return $service;
