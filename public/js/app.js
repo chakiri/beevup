@@ -137,7 +137,8 @@ $(window).load(function(){
 
             window.previousImage = function()
             {
-                $('#previous-image').empty();
+                let form = '';
+               $('#previous-image').empty();
 
                 var fileInput = document.getElementsByClassName('form-imageFile')[0];
                 var cropper;
@@ -167,6 +168,9 @@ $(window).load(function(){
 
                 if(previousImage != null) {
                     previousImage.addEventListener('load', function () {
+                        if(document.getElementById('BVformService')) {
+                            form = document.getElementById('BVformService');
+                        }
                         if (cropper) {
 
                             cropper.destroy();
@@ -181,17 +185,17 @@ $(window).load(function(){
                         }
                     });
                 }
-                let form = document.getElementById('BVform');
-                if(form != null)
+                if(document.getElementById('BVform')) {
+                    form = document.getElementById('BVform');
+                }
+                function handler (event)
                 {
-                    form.addEventListener('submit', function (event)
-                    {
 
-                        if(fileInput.files[0]) {
+                    if(fileInput.files[0]) {
 
-                            event.preventDefault()
-                            $('.hide-load').addClass('load-ajax-form');
-                            if (cropper) {
+                        event.preventDefault()
+                        $('.hide-load').addClass('load-ajax-form');
+                        if (cropper) {
 
                             cropper.getCroppedCanvas({
                                 maxHeight: 1000,
@@ -199,17 +203,23 @@ $(window).load(function(){
 
                             }).toBlob(function (blob) {
                                 ajaxWithAxios(blob, form, cropper);
+
                             })
                         }
-                            else {
+                        else {
 
-                                $('.hide-load').removeClass('load-ajax-form');
-                               // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
-                                $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
-                            }
+                            $('.hide-load').removeClass('load-ajax-form');
+                            // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
+                            $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
                         }
+                    }
 
-                    });
+                }
+                if(form != null)
+                {
+                    //form.removeEventListener('submit', handler);
+                    form.addEventListener('submit', handler);
+
                 }
 
             }
