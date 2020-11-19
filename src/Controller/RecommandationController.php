@@ -132,7 +132,7 @@ class RecommandationController extends AbstractController
         //============Add automatic post ============
         if($variable == 1){
 
-            $category = $postCategoryRepository->findOneBy(['id' => 7]);
+            $category = $postCategoryRepository->findOneBy(['id' => 8]);
             $autmaticPost->Add($this->getUser(), 'Nouvelle Recommandation' ,  $recommandation->getMessage(), $category, $recommandation->getId(), 'Recommandation', $recommandation);
 
         }

@@ -69,6 +69,7 @@
                     {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fa fa-calendar-alt' %}
                     {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fa fa-plus' %}
                     {% elseif post.category.id == 7 %}{% set badge = 'badge-blue-dark' %}{% set fa = 'fas fa-users' %}
+                    {% elseif post.category.id == 8 %}{% set badge = 'badge-black' %}{% set fa = 'fas fa-info-circle' %}
                     {% endif %}
                     <small class="d-block al-r">{{ time }}</small>
                     <span class="badge {{ badge }} float-right">
