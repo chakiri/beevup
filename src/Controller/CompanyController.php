@@ -2,33 +2,27 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Company;
 use App\Entity\Post;
-use App\Entity\Profile;
-use App\Entity\UserType;
-use App\Form\CompanyImageType;
-use App\Form\ProfileImageType;
 use App\Repository\PostCategoryRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Repository\RecommandationRepository;
 use App\Service\Error\Error;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Form\CompanyType;
-use App\Repository\RecommandationRepository;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Service\BarCode;
 use App\Service\Map;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Service\AutomaticPost;
+use App\Form\CompanyType;
+
+
 
 
 
@@ -75,7 +69,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper, Error $error)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, UserTypeRepository $userTypeRepository, UserRepository $userRepository, $id, PostCategoryRepository $postCategoryRepository, ImageCropper $imageCropper, Error $error, AutomaticPost $automaticPost)
     {
         if ($this->getUser()->getCompany() != NULL) {
             if ($company == $this->getUser()->getCompany()) {
@@ -84,17 +78,8 @@ class CompanyController extends AbstractController
                 if ($form->isSubmitted() && $form->isValid()) {
                     if ($company->getIsCompleted() == false) {
                         $company->setIsCompleted(true);
-                        // create a new welcome post
-                        $AdminPLatformeType = $userTypeRepository->findOneBy(['id' => 5]);
-                        //$user = $userRepository->findOneBy(['type'=>$AdminPLatformeType]);
                         $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                        $post = new Post();
-                        $post->setUser($this->getUser());
-                        $post->setCategory($category);
-                        $post->setTitle('Bienvenue à l\'entreprise ' . $company->getName());
-                        $post->setDescription($company->getIntroduction());
-                        $post->setToCompany($company);
-                        $manager->persist($post);
+                        $automaticPost->Add($this->getUser(), 'Bienvenue à l\'entreprise ' . $company->getName(), '', $category, null, null);
                     }
 
                     /* generate bar code*/
@@ -107,20 +92,12 @@ class CompanyController extends AbstractController
                         $company->setLatitude($coordonnees[0]);
                         $company->setLongitude($coordonnees[1]);
                     }
-                    /* end ******/
-
-                    /* cropped image */
-                    $imageCropper->move_directory($company);
-
                     $manager->persist($company);
-
                     $manager->flush();
 
                     //init topic company category to user
                     $topicHandler->initCategoryCompanyTopic($company->getCategory());
-
                     $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-
                     return $this->redirectToRoute('company_show', [
                         'slug' => $company->getSlug()
                     ]);
