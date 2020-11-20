@@ -92,12 +92,7 @@ class Profile implements \Serializable
      */
     private $isOnboarding;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $addressPostCode;
-
-    /**
+     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $jobTitle;
@@ -310,18 +305,6 @@ class Profile implements \Serializable
     public function setIsOnboarding(?bool $isOnboarding): self
     {
         $this->isOnboarding = $isOnboarding;
-
-        return $this;
-    }
-
-    public function getAddressPostCode(): ?int
-    {
-        return $this->addressPostCode;
-    }
-
-    public function setAddressPostCode(?int $addressPostCode): self
-    {
-        $this->addressPostCode = $addressPostCode;
 
         return $this;
     }

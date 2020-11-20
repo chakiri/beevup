@@ -98,14 +98,6 @@ class ProfileType extends AbstractType
                 'choice_label' =>'name'
             ])
 
-            ->add('addressPostCode', TextType::class, [
-                'required' => true,
-                'label' => 'Code postal',
-                'attr'  => [
-                    'placeholder' => 'Code postal',
-                     'id'         => 'addressPostCode'
-                ]
-            ])
             ->add('jobTitle', TextType::class, [
                 'required' => false,
                 'label' => 'Titre',
