@@ -59,8 +59,6 @@ class UserAdminController extends EasyAdminController
                 $userStore->setDefaultAdviser( $user);
             }
 
-
-
             /* add admin topics to user */
             //$this->topicHandler->addAdminTopicsToUser($user);
             /* add general community to user */
@@ -108,11 +106,6 @@ class UserAdminController extends EasyAdminController
 
         }
 
-
-        array_push($userRoles);
-
-
-
         $user->setIsDeleted(0);
         $user->setRoles($userRoles);
         $this->updateRoles($user);
@@ -145,8 +138,6 @@ class UserAdminController extends EasyAdminController
             $user->setType($type);
         }
 
-
-        array_push($userRoles);
         $user->setRoles($userRoles);
         $this->updatePassword($user);
         parent::updateEntity($user);
