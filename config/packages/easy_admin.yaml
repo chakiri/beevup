@@ -73,7 +73,7 @@ easy_admin:
               - { property: 'reference', label: 'Code BV' }
               - { property: 'name', label: 'Nom' , type_options: {  required: true , attr: {  maxlength: 255  } }}
               - { property: 'introduction', label: 'Introduction', type: 'textarea', type_options: {  required: true , attr: {  maxlength: 255  } }}
-              - { property: 'description', label: 'Description', type: 'textarea', type_options: { attr: {  maxlength: 1000  } } }
+              - { property: 'description', label: 'Description', type: 'textarea', type_options: { attr: {  maxlength: 1500  } } }
               - { type: 'group', label: 'Adresse', icon: 'map-marker',  css_class: 'col-lg-6'}
               - { property: 'address_number',type: 'text', label: 'Numéro Adresse',  type_options: { required: true } }
               - { property: 'address_street', label: 'Rue', type: 'text' , type_options: { required: true } }
