@@ -43,5 +43,16 @@ class AutomaticPost
        $this->manager->flush();
    }
 
+   public function  generateTitle($service){
+   $title = '';
+
+    if($service->getUser()->getCompany() != null) {
+         $title = 'L\'entreprise '.$service->getUser()->getCompany()->getName() . ' vous propose le service ' . $service->getTitle();
+    } else {
+         $title = 'Le magasin '.$service->getUser()->getStore()->getName() . ' vous propose le service ' . $service->getTitle();
+    }
+    return $title;
+   }
+
 
 }

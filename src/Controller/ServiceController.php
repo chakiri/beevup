@@ -229,8 +229,7 @@ class ServiceController extends AbstractController
                 /***** if the user change the service it should be updated in the posts ********/
                 $relatedPost = $postRepository->findPostRelatedToService($service);
                 if ($relatedPost != null) {
-                    $relatedPost->setTitle($service->getTitle());
-                    $relatedPost->setDescription($service->getDescription());
+                    $relatedPost->setTitle($autmaticPost->generateTitle($service));
                     $manager->persist($relatedPost);
                 }
                 /** ******************** **/
@@ -241,8 +240,8 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
-                    $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                    $autmaticPost->Add($this->getUser(), $service->getTitle(), $service->getDescription(), $category, $service->getId(), 'Service');
+                    $category = $postCategoryRepository->findOneBy(['id' => 8]);
+                    $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
                 }
 
                 //Merge score option to options array
