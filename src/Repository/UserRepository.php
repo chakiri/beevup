@@ -72,6 +72,17 @@ class UserRepository extends ServiceEntityRepository
             ->setParameters(array('value1' => $store, 'value2' => '%"'.$role.'"%'));
         return $qb->getQuery()->getResult();
     }
+
+    public function findByAdminCompany($companyId){
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.type', 't')
+            ->where('u.company = :companyId')
+            ->andWhere('u.isValid = true')
+            ->andWhere('t.id = 3')
+            ->setParameter('companyId', $companyId);
+        return $qb->getQuery()->getOneOrNullResult();
+
+    }
     public function findAdvisersOfStore( $store , $type, $type2, $type3 )
     {
         $result = array_merge($type, $type2, $type3 );
