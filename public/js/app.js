@@ -134,10 +134,9 @@ $(window).load(function(){
             }
 
 
-
+            var ServiceCropper ='';
             window.previousImage = function()
             {
-                let form = '';
                $('#previous-image').empty();
 
                 var fileInput = document.getElementsByClassName('form-imageFile')[0];
@@ -168,9 +167,7 @@ $(window).load(function(){
 
                 if(previousImage != null) {
                     previousImage.addEventListener('load', function () {
-                        if(document.getElementById('BVformService')) {
-                            form = document.getElementById('BVformService');
-                        }
+
                         if (cropper) {
 
                             cropper.destroy();
@@ -182,47 +179,67 @@ $(window).load(function(){
                             cropper = new Cropper(previousImage, {
                                 aspectRatio: 1
                             })
+                            ServiceCropper = cropper;
                         }
                     });
                 }
-                if(document.getElementById('BVform')) {
-                    form = document.getElementById('BVform');
-                }
+                let form = document.getElementById('BVform');
                 function handler (event)
+                  {
+                        if(fileInput.files[0]) {
+
+                            event.preventDefault()
+                            $('.hide-load').addClass('load-ajax-form');
+                            if (cropper) {
+
+                                cropper.getCroppedCanvas({
+                                    maxHeight: 1000,
+                                    maxWidth: 1000,
+
+                                }).toBlob(function (blob) {
+                                      ajaxWithAxios(blob, form, cropper);
+
+
+                                })
+                            }
+                            else {
+
+                                $('.hide-load').removeClass('load-ajax-form');
+                                // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
+                                $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
+                            }
+                        }
+                  }
+                    if(form != null)
+                    {
+                       form.addEventListener('submit', handler);
+                    }
+
+                }
+            //====================== fix service issue =========//
+
+                let form = document.getElementById('BVformService');
+                if(form != null)
                 {
+                    form.addEventListener('submit', function (event)
+                    {
 
-                    if(fileInput.files[0]) {
+                        if(fileInput.files[0]) {
 
-                        event.preventDefault()
-                        $('.hide-load').addClass('load-ajax-form');
-                        if (cropper) {
-
-                            cropper.getCroppedCanvas({
+                            event.preventDefault()
+                            $('.hide-load').addClass('load-ajax-form');
+                            ServiceCropper.getCroppedCanvas({
                                 maxHeight: 1000,
                                 maxWidth: 1000,
 
                             }).toBlob(function (blob) {
-                                ajaxWithAxios(blob, form, cropper);
-
+                                ajaxWithAxios(blob, form, ServiceCropper);
                             })
                         }
-                        else {
 
-                            $('.hide-load').removeClass('load-ajax-form');
-                            // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
-                            $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
-                        }
-                    }
-
+                    });
                 }
-                if(form != null)
-                {
-                    //form.removeEventListener('submit', handler);
-                    form.addEventListener('submit', handler);
-
-                }
-
-            }
+            //====================== fix service issue =========//
 
     function update_img_url(){
         var url =   $('.upload-photo').attr('data-url');
