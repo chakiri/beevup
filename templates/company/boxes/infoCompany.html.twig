@@ -25,6 +25,11 @@
                     </a>
                 {% endif %}
             {% else %}
+                <div class="btn white-bg mt-1 mb-2">
+                    <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}">
+                        Contacter
+                    </a>
+                </div>
                 <a href="#" title=""
                    class="add-company-favoris company-page btn white-bg add-favoris {{ isFavorit }}"
                    data-company-id="{{  company.id }}"

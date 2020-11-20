@@ -67,7 +67,8 @@ class CompanyController extends AbstractController
             'services' => array_slice($services, -3, 3),
             'score' => $score,
             'isFavorit' => $isFavorit,
-            'adviser'=>$adviser
+            'adviser'=>$adviser,
+            'companyAdministrator'=>$userRepo->findByAdminCompany($company->getId())
         ]);
     }
 

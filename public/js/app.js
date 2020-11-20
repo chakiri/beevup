@@ -187,7 +187,6 @@ $(window).load(function(){
                 function handler (event)
                   {
                         if(fileInput.files[0]) {
-
                             event.preventDefault()
                             $('.hide-load').addClass('load-ajax-form');
                             if (cropper) {
@@ -241,130 +240,130 @@ $(window).load(function(){
                 }
             //====================== fix service issue =========//
 
-    function update_img_url(){
-        var url =   $('.upload-photo').attr('data-url');
-        return url;
-    }
-
-    function serviceRedirectedUrl(id)
-    {
-        let serviceId = id;
-        let companySlug = $('.data-entity-id').attr('data-company-slug');
-        let previousUrl = $('.data-entity-id').attr('data-previous');
-        let url='';
-        let hostname = location.hostname;
-        let protocol = location.protocol;
-        let port     = location.port;
-        let portURL ='';
-        if (port !=''){
-            portURL = ':'+port;
+        function update_img_url(){
+            var url =   $('.upload-photo').attr('data-url');
+            return url;
         }
-        if(previousUrl !='company')
-        url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
-        else
-            url = protocol+'//'+hostname+portURL+'/company/'+companySlug;
 
-        return url;
-    }
-
-    function ajaxWithAxios(blob, form, cropper)
-    {
-        let url = update_img_url();
-        let data = new FormData(form);
-        data.append('file', blob);
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            async: false,
-            data:data,
-            processData: false,
-            contentType: false,
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function(data){
-                if(data.result == 0) {
-                    $('.hide-load').removeClass('load-ajax-form');
-
-                    for (var key in data.data) {
-                        let error = "<p class='form-error'>"+data.data[key]+"</p>";
-                        $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
-                       if(key=='imageFile') {
-                           cropper.destroy();
-                       }
-                    }
-                }
-                else {
-                    //  ============= if data.message is a number so it's a service json return =========
-
-                    if(Number.isInteger(data.message)){
-                    let url2 = serviceRedirectedUrl(data.message);
-                    window.location = url2;
-
-                   //  ============= profile, store or company image upload =========
-                    } else {
-                        $('#modal').modal('toggle');
-                        document.location.reload(true);
-                    }
-
-                 }
-
-            },
-            error: function(){
-                alert("Un problème est survenu. Veuillez réessayer")
+        function serviceRedirectedUrl(id)
+        {
+            let serviceId = id;
+            let companySlug = $('.data-entity-id').attr('data-company-slug');
+            let previousUrl = $('.data-entity-id').attr('data-previous');
+            let url='';
+            let hostname = location.hostname;
+            let protocol = location.protocol;
+            let port     = location.port;
+            let portURL ='';
+            if (port !=''){
+                portURL = ':'+port;
             }
-        });
-    }
+            if(previousUrl !='company')
+            url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
+            else
+                url = protocol+'//'+hostname+portURL+'/company/'+companySlug;
 
-
-
-    function urls(){
-        let hostname = location.hostname;
-        let protocol = location.protocol;
-        let port     = location.port;
-        let portURL ='';
-        if (port !=''){
-            portURL = ':'+port;
+            return url;
         }
-        let subDomain = window.location.pathname.split('/')[1];
-        let dataEntityId = $('.data-entity-id').attr('data-entity-id');
-        let dataSlug = $('.data-entity-id').attr('data-slug');
-        let action = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId+'/edit';
-       /* if(subDomain !='account' && subDomain !='service'){
-            dataEntityId = dataSlug ;
-        }*/
-        if(subDomain =='service'){
 
-            let subDomain2 = window.location.pathname.split('/')[2];
-            let subDomain3 = window.location.pathname.split('/')[3];
-            if(subDomain2 =='new'){
-                action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new';
-                if(subDomain3 !=undefined){
-                    action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new/'+subDomain3;
+        function ajaxWithAxios(blob, form, cropper)
+        {
+            let url = update_img_url();
+            let data = new FormData(form);
+            data.append('file', blob);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                async: false,
+                data:data,
+                processData: false,
+                contentType: false,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                success: function(data){
+                    if(data.result == 0) {
+                        $('.hide-load').removeClass('load-ajax-form');
+
+                        for (var key in data.data) {
+                            let error = "<p class='form-error'>"+data.data[key]+"</p>";
+                            $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+                           if(key=='imageFile') {
+                               cropper.destroy();
+                           }
+                        }
+                    }
+                    else {
+                        //  ============= if data.message is a number so it's a service json return =========
+
+                        if(Number.isInteger(data.message)){
+                        let url2 = serviceRedirectedUrl(data.message);
+                        window.location = url2;
+
+                       //  ============= profile, store or company image upload =========
+                        } else {
+                            $('#modal').modal('toggle');
+                            document.location.reload(true);
+                        }
+
+                     }
+
+                },
+                error: function(){
+                    alert("Un problème est survenu. Veuillez réessayer")
                 }
-            }
-
-
-        }
-        let redirectedUrl = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId;
-
-        let urls = [];
-        urls['url'] = action;
-        urls['redirectedUrl'] = redirectedUrl;
-
-        return urls;
-    }
-
-
-    //  ============= update profile image =========
-
-        $('.update-image').click(function(e){
-
-            var url = $(this).attr('data-url') ;
-            $.get(url, function (data) {
-                $('.modal-content-update-profile-img').html(data);
-
             });
-        })
+        }
+
+
+
+        function urls(){
+            let hostname = location.hostname;
+            let protocol = location.protocol;
+            let port     = location.port;
+            let portURL ='';
+            if (port !=''){
+                portURL = ':'+port;
+            }
+            let subDomain = window.location.pathname.split('/')[1];
+            let dataEntityId = $('.data-entity-id').attr('data-entity-id');
+            let dataSlug = $('.data-entity-id').attr('data-slug');
+            let action = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId+'/edit';
+           /* if(subDomain !='account' && subDomain !='service'){
+                dataEntityId = dataSlug ;
+            }*/
+            if(subDomain =='service'){
+
+                let subDomain2 = window.location.pathname.split('/')[2];
+                let subDomain3 = window.location.pathname.split('/')[3];
+                if(subDomain2 =='new'){
+                    action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new';
+                    if(subDomain3 !=undefined){
+                        action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new/'+subDomain3;
+                    }
+                }
+
+
+            }
+            let redirectedUrl = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId;
+
+            let urls = [];
+            urls['url'] = action;
+            urls['redirectedUrl'] = redirectedUrl;
+
+            return urls;
+        }
+
+
+        //  ============= update profile image =========
+
+            $('.update-image').click(function(e){
+
+                var url = $(this).attr('data-url') ;
+                $.get(url, function (data) {
+                    $('.modal-content-update-profile-img').html(data);
+
+                });
+            })
 
 })(jQuery);
 
