@@ -123,7 +123,7 @@ class Store implements \Serializable
     private $modifiedAt;
 
     /**
-     * @Assert\Length(max=1000)
+     * @Assert\Length(max=1500)
      * @ORM\Column(type="string", length=1500, nullable=true)
      */
     private $description;
