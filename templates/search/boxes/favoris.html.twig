@@ -1,0 +1,39 @@
+<div class="page-title sign_in_sec current">
+    <h5>Favoris</h5>
+    <div class="suggestions full-width">
+        <div class="suggestions-list">
+            {%  if favoris  %}
+                {% for favorit in favoris %}
+                    <div class="suggestion-usd favorit-user-{{ favorit.favoritUser.profile.id }}">
+                        <div class="" style="float:left">
+                            <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                {% if favorit.favoritUser.profile.filename is empty %}
+                                    <img src="/images/no-available-photo.png" alt="">
+                                {% else  %}
+                                    <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('miniature')}}" style="width: 35px;height:35px">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="sgt-text hover-info">
+                            <p>
+                                <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
+                                    {{ favorit.favoritUser.profile.firstname }} {{ favorit.favoritUser.profile.lastname }}
+                                </a>
+                            </p>
+                            {% if favorit.favoritUser.company %}
+                                <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}"><small>{{favorit.favoritUser.company.name|capitalize }}</small></a>
+                            {% else %}
+                                <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> <small>{{favorit.favoritUser.store.name|capitalize }}</small></a>
+                            {% endif %}
+                            {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="p-3">
+                    <p>Aucun favori</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
