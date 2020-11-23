@@ -33,14 +33,9 @@
   --radius:6px;
   /* ============== border radius =========== */
 }
+
 @font-face {
-  font-family: 'Rubik-bold';
-  src: url(/fonts/Rubik/Rubik-Bold.ttf);
-  font-weight: bold;
-}
-@font-face {
-  font-family: 'Rubik-regular';
-  src: url(/fonts/Rubik/Rubik-Regular.ttf);
+    font-family: 'Rubik', sans-serif;
 }
 /* ============== DEFAULT component =========== */
 html {
@@ -49,16 +44,12 @@ html {
     --thumbBG: var(--bg-color);
 }
 
-h1,h2,h3,h4,h5,h6{
-  font-family:Rubik-regular !important ;
-}
-
 body{
     height: 100%;
     font-size: 14px;
     font-weight: 500;
     background: #FAFAFA !important;
-    font-family: 'Rubik-regular';
+    font-family: 'Rubik', sans-serif;
     color: #132644;
     padding: 3.5em 0 0 0;
 }
@@ -748,8 +739,6 @@ ul.landing-page-list {
     text-align: center;
     margin: 24px;
     color: var(--text-color);
-    font-family:Rubik-bold !important ;
-
 }
 .landing-page-section4-bloc{
     border: 1px solid var(--border-color);

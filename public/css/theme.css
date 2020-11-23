@@ -56,13 +56,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-body {
-  background: #FAFAFA !important;
-  color: #132644;
-  font-family: 'Rubik';
-  padding: 3.5em 0 0 0;
-}
-
 
 a {
   color: #007bff;
@@ -82,16 +75,6 @@ p {
   margin: 0 0 0 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Rubik", sans-serif;
-  font-weight: 400;
-  padding: 0;
-}
 .hidden {
   display:none;
 }

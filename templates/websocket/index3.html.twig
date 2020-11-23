@@ -22,20 +22,6 @@
                         <p>{{ app.user.profile.firstname }} {{ app.user.profile.lastname }}</p>
                     </div>
                 </div>
-                {#<div id="search">
-                    <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-                    <input type="text" placeholder="Chercher un contact" />
-                </div>#}
-
-                {# Get nb of notifications by topic#}
-                {#{% set notificationsTopics = {} %}
-                {% for topic in topics %}
-                    {% for notification in notifications %}
-                        {% if notification.topic != null and notification.topic.name == topic.name %}
-                            {% set notificationsTopics = notificationsTopics|merge({ (topic.name) : notification.nbMessages }) %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}#}
 
                 {# Get nb of notifications by user#}
                 {% set notificationsTopics = {} %}
@@ -75,16 +61,6 @@
                         {% endfor %}
                     </ul>
                 </div>
-
-                {# Get nb of notifications by user#}
-                {#{% set notificationsUsers = {} %}
-                {% for user in users %}
-                    {% for notification in notifications %}
-                        {% if notification.receiver != null and notification.receiver.id == user.id %}
-                            {% set notificationsUsers = notificationsUsers + {(user.id): notification.nbMessages} %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}#}
 
                 {# Get nb of notifications by user#}
                 {% set notificationsUsers = {} %}
@@ -218,10 +194,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="/lib/autobahn/autobahn.js"></script>
-    <script type="text/javascript" src="/js/wamp.js"></script>
-    <script type="text/javascript" src="/js/sendAjax.js"></script>
-    {#<script type="text/javascript" src="/js/chatTemplate.js"></script>#}
-    {#<script type="text/javascript" src="/js/websocket.js"></script>#}
+    {{ encore_entry_script_tags('wamp') }}
+    {{ encore_entry_script_tags('sendAjax') }}
 {% endblock %}
 

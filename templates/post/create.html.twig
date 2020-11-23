@@ -77,6 +77,6 @@
   {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="/js/form.js"></script>
-    <script type="text/javascript" src="/js/dashboard.js"></script>
+    {{ encore_entry_script_tags('form') }}
+    {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}

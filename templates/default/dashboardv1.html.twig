@@ -161,6 +161,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="application/javascript" src="/js/dashboard.js"></script>
-    <script src="/js/modals.js"></script>
+    {{ encore_entry_script_tags('dashboard') }}
+    {{ encore_entry_script_tags('modals') }}
 {% endblock %}

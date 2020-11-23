@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
     <title>Beevup - {% block title %}{% endblock %}</title>
-    <link rel="shortcut icon" href="/images/default/favicon-beevup.png" />
-    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+    {{ encore_entry_link_tags('app') }}
+
+    <!-- Font Rubik Google -->
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/images/default/favicon-beevup.png" />
 
     <!-- Libraries CSS Files -->
-    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="/lib/animate/animate.min.css" rel="stylesheet">
     <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
     <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="/lib/introjs/css/introjs.min.css" rel="stylesheet">
     <link href="/lib/slick/slick.css" rel="stylesheet">
-    <link href="/lib/font-awesome/css/all.css" rel="stylesheet">
     <link href="/lib/cropper/css/cropper.css" rel="stylesheet">
-    {#<link href="/lib/introjs/css/introjs-rtl.min.css" rel="stylesheet">#}
 
     <link href="/css/styles.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
@@ -65,41 +64,21 @@ and app.request.attributes.get('_route') != 'security_login'
     {% include 'partials/footer.html.twig' %}
 {% endif %}
 
-{# Display Toast info#}
+{# Display Toast info #}
 {% if toast is defined and toast is not empty %}
     {% include 'partials/toast.html.twig' %}
 {% endif %}
 
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/js/vendor/popper.min.js"></script>
-<script src="/js/vendor/bootstrap.min.js"></script>
+<!-- JavaScript -->
+{# Call app.js wich contain js files #}
+{{ encore_entry_script_tags('app') }}
 
 {% block javascripts %}{% endblock %}
 
-<!-- JavaScript Theme Libraries -->
-<script src="/lib/jquery/jquery-migrate.min.js"></script>
-<script src="/lib/easing/easing.min.js"></script>
-<script src="/lib/mobile-nav/mobile-nav.js"></script>
-<script src="/lib/wow/wow.min.js"></script>
-<script src="/lib/waypoints/waypoints.min.js"></script>
-<script src="/lib/counterup/counterup.min.js"></script>
-<script src="/lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="/lib/isotope/isotope.pkgd.min.js"></script>
-<script src="/lib/lightbox/js/lightbox.min.js"></script>
-<script src="/lib/introjs/js/intro.min.js"></script>
-<script src="/lib/cropper/js/cropper.js"></script>
-<script src="https://kit.fontawesome.com/9c3111e9a9.js" crossorigin="anonymous"></script>
-
-<!-- Template Main Javascript File -->
-<script src="/js/app.js"></script>
-<script src="/js/theme.js"></script>
-<script src="/js/favoris.js"></script>
 
 {# Zendesk widget#}
 {% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
-    <!-- Start of zebulon Zendesk Widget script -->
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=163defed-53e1-47e6-8d8a-73c2a57f2e12"> </script>
-    <!-- End of zebulon Zendesk Widget script -->
 {% endif %}
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

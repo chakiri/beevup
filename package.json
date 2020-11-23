@@ -1,8 +1,18 @@
 {
     "devDependencies": {
         "@symfony/webpack-encore": "^0.31.0",
+        "autobahn": "^20.9.2",
+        "bootstrap": "^4.5.3",
         "core-js": "^3.0.0",
+        "cropperjs": "^1.5.9",
+        "font-awesome": "^4.7.0",
+        "intro.js": "^3.0.1",
+        "jquery": "^3.5.1",
+        "leaflet": "^1.7.1",
+        "mobile-nav": "^1.4.3",
+        "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
+        "slick-carousel": "^1.8.1",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -12,5 +22,6 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    }
+    },
+    "dependencies": {}
 }

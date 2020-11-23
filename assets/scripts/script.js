@@ -1,5 +1,7 @@
+import $ from 'jquery';
+
 //  =============  fade ut displayed alert  =========
-$(window).load(function(){
+$(window).on('load', function(){
     setTimeout(function(){ $('#alert').fadeOut("linear" ) }, 5000);
 });
 
@@ -108,7 +110,7 @@ $('#cookies a').click(function(){
 
 
 //  ============= cropper image =========
-(function ($) {
+
     "use strict";
 
     var fileInput = document.getElementsByClassName('form-imageFile')[0];
@@ -347,8 +349,8 @@ $('#cookies a').click(function(){
             $('.modal-content-update-profile-img').html(data);
 
         });
-    })
-})(jQuery);
+    });
+
 
 // ============= Other javascript =========
 
