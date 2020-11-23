@@ -1,0 +1,20 @@
+<div class="filter-secs">
+    <div class="page-title sign_in_sec current">
+        <h5>Filtres</h5>
+    </div>
+    {{ form_start(SearchForm) }}
+    <div class="paddy">
+        <div class="filter-dd">
+            <div class="form-actions form-group">
+                {{ form_widget(SearchForm.name) }}
+            </div>
+            <div class="form-actions form-group">
+                {{ form_widget(SearchForm.type) }}
+            </div>
+            <div class="form-actions form-group">
+                <button  type="submit" class="btn small-btn orange-bg">Chercher</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(SearchForm) }}
+</div>

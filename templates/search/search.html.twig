@@ -5,228 +5,187 @@
     <section id="search-page">
         <div class="container-bv">
             <div class="row">
-
                 <div class="col-lg-3">
-                    <div class="filter-secs">
-                        <div class="page-title sign_in_sec current">
-                            <h5>Filtres</h5>
-                        </div>
-                        {{ form_start(SearchForm) }}
-                        <div class="paddy">
-                            <div class="filter-dd">
-                                <div class="form-actions form-group">
-                                    {{ form_widget(SearchForm.name) }}
-                                </div>
-                                <div class="form-actions form-group">
-                                    {{ form_widget(SearchForm.type) }}
-                                </div>
-                                <div class="form-actions form-group">
-                                    <button  type="submit" class="btn small-btn orange-bg">Chercher</button>
-                                </div>
-                            </div>
-                        </div>
-                        {{ form_end(SearchForm) }}
+                    {# display this bloc only in mobile#}
+                    <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+                     {% include 'search/boxes/search-description.html.twig' %}
                     </div>
-
-                    <div class="page-title sign_in_sec current">
-                        <h5>Favoris</h5>
-                        <div class="suggestions full-width">
-                            <div class="suggestions-list">
-                                {%  if favoris  %}
-                                    {% for favorit in favoris %}
-                                        <div class="suggestion-usd favorit-user-{{ favorit.favoritUser.profile.id }}">
-                                            <div class="" style="float:left">
-                                                <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                    {% if favorit.favoritUser.profile.filename is empty %}
-                                                      <img src="/images/no-available-photo.png" alt="">
-                                                    {% else  %}
-                                                        <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('miniature')}}" style="width: 35px;height:35px">
-                                                    {% endif %}
-                                                </a>
-                                            </div>
-                                            <div class="sgt-text hover-info">
-                                                <p>
-                                                    <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
-                                                      {{ favorit.favoritUser.profile.firstname }} {{ favorit.favoritUser.profile.lastname }}
-                                                    </a>
-                                                </p>
-                                                {% if favorit.favoritUser.company %}
-                                                        <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}"><small>{{favorit.favoritUser.company.name|capitalize }}</small></a>
-                                                {% else %}
-                                                        <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> <small>{{favorit.favoritUser.store.name|capitalize }}</small></a>
-                                                {% endif %}
-                                                {% include 'default/modals/hoverUserPopin.html.twig' with {'user': favorit.favoritUser} %}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <div class="p-3">
-                                        <p>Aucun favori</p>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
+                    {#  end  #}
+                    {% include 'search/boxes/filter.html.twig' %}
+                   <div class="d-none d-sm-block d-md-none d-lg-block d-xl-block">
+                   {% include 'search/boxes/favoris.html.twig' %}
+                   </div>
                 </div>
 
                 <div class="col-lg-9">
-                    <div class="">
-                        <div class="page-description">
-                            <h3>Communauté locale</h3>
-                            <P style="background-color:#fff;padding:10px">
-                                Recherchez des membres ou des entreprises de la communauté locale pour entrer en contact et développer votre business
-                                ou agrandir votre carnet d'adresse. Utilisez les filtres pour affiner votre recherche
-                            </p>
-                        </div>
+
+                    <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+                     {% include 'search/boxes/search-description.html.twig' %}
                     </div>
 
-                    {% if items %}
-                        {% if isUser %}
-                            <div class="row">
-                                {% set users = items %}
-                                {% for user in users %}
-                                    <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="company_profile_info  user-profile-{{user.profile.id  }}">
-                                            <div class="company-up-info user-up-info">
-                                                <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                    {% if user.profile.filename is empty %}
-                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
-                                                    {% else  %}
-                                                        <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
-                                                    {% endif %}
-                                                </a>
-                                                <div class="company-up-meta">
-                                                    <h5>
-                                                        <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname }} {{ user.profile.lastname }}</a>
-                                                    </h5>
-                                                    {% if user.profile.function  %}
-                                                        {% if user.company %}
-                                                            <small>{{ user.profile.function.name|capitalize }} chez
-                                                                <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug}) }}">
-                                                                    {{user.company.name|capitalize }}
-                                                                </a>
-                                                            </small>
-                                                        {% else %}
-                                                            <h4>{{ user.profile.function.name|capitalize }} chez
-                                                                <a href="{{path('store_show', { 'slug': user.store.slug}) }}">
-                                                                    {{user.store.name|capitalize }}
-                                                                </a>
-                                                            </h4>
+
+                        {% if items %}
+                            {% if isUser %}
+                                <div class="row">
+                                    {% set users = items %}
+                                    {% for user in users %}
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <div class="company_profile_info  user-profile-{{user.profile.id  }}">
+                                                <div class="company-up-info user-up-info">
+                                                    <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
+                                                        {% if user.profile.filename is empty %}
+                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
+                                                        {% else  %}
+                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
                                                         {% endif %}
-                                                    {% endif %}
-                                                </div>
-                                                <ul>
-                                                    <li>
-                                                        <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                            class="favoris-icon fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
-                                                            data-user-id ="{{ user.id }}"
-                                                            data-profile-id ="{{ user.profile.id }}"
-                                                            data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                                            data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
-                                                        </i>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
-                                                            <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="company-infos-bloc">
-                                                    <div class="company-infos-distance">
-                                                        {% if distances and distances[user.company.id] is defined %}
-                                                            {% if distances[user.company.id] < 1  %}
-                                                                <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
-                                                            {% elseif distances[user.company.id] > 1000 %}
-                                                                <i class="fas fa-map-marker-alt"></i> <small>Distance non disponible</small>
+                                                    </a>
+                                                    <div class="company-up-meta">
+                                                        <h5>
+                                                            <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname }} {{ user.profile.lastname }}</a>
+                                                        </h5>
+                                                        {% if user.profile.function  %}
+                                                            {% if user.company %}
+                                                                <small>{{ user.profile.function.name|capitalize }} chez
+                                                                    <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                                                        {{user.company.name|capitalize }}
+                                                                    </a>
+                                                                </small>
                                                             {% else %}
-                                                                <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
+                                                                <h4>{{ user.profile.function.name|capitalize }} chez
+                                                                    <a href="{{path('store_show', { 'slug': user.store.slug}) }}">
+                                                                        {{user.store.name|capitalize }}
+                                                                    </a>
+                                                                </h4>
                                                             {% endif %}
                                                         {% endif %}
                                                     </div>
-                                                    <div class="company-infos-recommandations">
-                                                        {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
-                                                            <i class="far fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
-                                        </div><!--company_profile_info end-->
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="row">
-                                {% set companies = items %}
-                                {% for company in companies %}
-                                    <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="company_profile_info">
-                                            <div class="company-up-info up-info result-company">
-                                                <div class="result-company-image">
-                                                    <a href="{{path('company_show', { 'slug': company.slug}) }}">
-                                                        {% if company.filename is empty %}
-                                                            <img src="/images/no-available-photo.png" alt="">
-                                                        {% else  %}
-                                                            <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
-
-                                                        {% endif %}
-                                                    </a>
-                                                    <div class="company-infos-bloc d-flex justify-content-between result-company-distance">
+                                                    <ul>
+                                                        <li>
+                                                            <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
+                                                                class="favoris-icon fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
+                                                                data-user-id ="{{ user.id }}"
+                                                                data-profile-id ="{{ user.profile.id }}"
+                                                                data-target="{{path('favorit_add', {'userId':user.id})  }}"
+                                                                data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
+                                                            </i>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
+                                                                <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="company-infos-bloc">
                                                         <div class="company-infos-distance">
-                                                            {% if distances and distances[company.id] is defined%}
-                                                                {% if distances[company.id] < 1  %}
+                                                            {% if distances and distances[user.company.id] is defined %}
+                                                                {% if distances[user.company.id] < 1  %}
                                                                     <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
-                                                                {% elseif distances[company.id] > 1000 %}
+                                                                {% elseif distances[user.company.id] > 1000 %}
                                                                     <i class="fas fa-map-marker-alt"></i> <small>Distance non disponible</small>
                                                                 {% else %}
-                                                                    <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[company.id]|round }}Km</small>
+                                                                    <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[user.company.id]|round }}Km</small>
                                                                 {% endif %}
                                                             {% endif %}
                                                         </div>
                                                         <div class="company-infos-recommandations">
-                                                            {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
-                                                                <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            {% if nbRecommandations and nbRecommandations[user.company.id] > 0 %}
+                                                                <i class="far fa-star"></i> <small>{{ nbRecommandations[user.company.id] }}{% if nbRecommandations[user.company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                             {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                            </div><!--company_profile_info end-->
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    {% set companies = items %}
+                                    {% for company in companies %}
+                                        <div class="col-lg-3 col-md-3 col-sm-6">
+                                            <div class="company_profile_info">
+                                                <div class="company-up-info up-info result-company">
+                                                    <div class="result-company-image">
+                                                        <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                            {% if company.filename is empty %}
+                                                                <img src="/images/no-available-photo.png" alt="">
+                                                            {% else  %}
+                                                                <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
 
-                                                <h5> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h5>
-                                                <h6>{{ company.otherCategory }}</h6>
-                                                <ul>
-                                                    <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
-                                                        <i id="result-company-item-{{ company.id }}"
-                                                           class="fa  {% if company.id in favorisCompaniesIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
-                                                           aria-hidden="true"
-                                                           data-company-id ="{{ company.id }}"
-                                                           data-company-name="{{ company.name }}"
-                                                           data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
-                                                           data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
-                                                           data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
-                                                           data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
-                                                           data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
-                                                           data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile')}}{% endif %}"
-                                                        ></i>
-                                                    </li>
-                                                </ul>
+                                                            {% endif %}
+                                                        </a>
+                                                        <div class="company-infos-bloc d-flex justify-content-between result-company-distance">
+                                                            <div class="company-infos-distance">
+                                                                {% if distances and distances[company.id] is defined%}
+                                                                    {% if distances[company.id] < 1  %}
+                                                                        <i class="fas fa-map-marker-alt"></i> <small>à moins d'un kilomètre</small>
+                                                                    {% elseif distances[company.id] > 1000 %}
+                                                                        <i class="fas fa-map-marker-alt"></i> <small>Distance non disponible</small>
+                                                                    {% else %}
+                                                                        <i class="fas fa-map-marker-alt"></i> <small>à {{ distances[company.id]|round }}Km</small>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="company-infos-recommandations">
+                                                                {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
+                                                                    <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                            </div>
-                                            <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
-                                        </div><!--company_profile_info end-->
-                                    </div>
-                                {% endfor %}
+                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h5>
+                                                    <h6>{{ company.otherCategory }}</h6>
+                                                    <ul>
+                                                        <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
+                                                            <i id="result-company-item-{{ company.id }}"
+                                                               class="fa  {% if company.id in favorisCompaniesIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
+                                                               aria-hidden="true"
+                                                               data-company-id ="{{ company.id }}"
+                                                               data-company-name="{{ company.name }}"
+                                                               data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
+                                                               data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
+                                                               data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
+                                                               data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
+                                                               data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
+                                                               data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile')}}{% endif %}"
+                                                            ></i>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                                <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                            </div><!--company_profile_info end-->
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="page-title sign_in_sec">
+                                <div class="page-description">
+                                    <P style="background-color:#fff;padding:10px">
+                                        Aucun résulat</p>
+                                </div>
                             </div>
                         {% endif %}
-                    {% else %}
-                        <div class="page-title sign_in_sec">
-                            <div class="page-description">
-                                <P style="background-color:#fff;padding:10px">
-                                    Aucun résulat</p>
-                            </div>
-                        </div>
-                    {% endif %}
-            </div>
+                    {#display only on mobile #}
+                    <div class="d-block d-sm-block d-md-block d-lg-none">
+                        {% include 'search/boxes/favoris.html.twig' %}
+                    </div>
+                    {# end #}
+
+
+
+
+                </div>
+
+
+
+
         </div>
+
+
     </section>
 
 
