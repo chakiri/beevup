@@ -53,7 +53,15 @@
             <ul class="social_links">
                 <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}, {{ company.country }}</span></li>
                 <li><i class="fas fa-mobile-alt"></i> <span class="">  {{ company.phone ?? '<small>N° de téléphonse non renseigné</small>' }} </span></li>
-                {% if company.website %}<li><i class="fas fa-external-link-alt p-1"></i> <a target="_blank" href="//{{ company.website }}"><span class="">Accéder au site web</span></a></li> {% endif %}
+                {% if company.website %}
+                    <li>
+                     <i class="fas fa-external-link-alt p-1"></i>
+                     <a target="_blank"
+                        href="{% if ('http' in company.website or 'https' in company.website ) %}{{ company.website }}
+                              {% else %} //{{ company.website }} {% endif %}"> {# I added // to not concatenate website url with the plateform ulr #}
+                         <span class="">Accéder au site web</span>
+                     </a>
+                    </li> {% endif %}
                 <li><i class="fas fa-store"></i>  {{ company.store.name }} </li>
             </ul>
         {% endif %}
