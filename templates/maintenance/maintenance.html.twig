@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notre site est actuellement en maintenance{% endblock %}
+
+{% block body %}
+    <section id="login-page" class="clearfix section-bg-light">
+        <div>
+          <div class="row sign-in-page">
+                <div class="signin-popup">
+                    <div class="error-page">
+                        <div class="row">
+                            <div class="error-content">
+                                <img src="/images/errors/404.png" alt="">
+                                <div class="">
+                                    <div class="error-txt" id="tab-1">
+                                        <h3>Notre site est actuellement en maintenance</h3>
+                                        <p>Afin d’améliorer notre service, le site est momentanément indisponible.</p>
+                                        <p>Veuillez nous excuser pour la gêne occasionnée.</p>
+                                       {# <p>Pour tout renseignement, n’hésitez pas à nous contacter :</p>
+                                        <p>- Par email : #}
+                                    </div><!--sign_in_sec end-->
+
+                                </div><!--login-sec end-->
+                            </div>
+                        </div>
+
+                    </div><!--signin-pop end-->
+
+                </div><!--signin-popup end-->
+
+            </div><!--sign-in-page end-->
+
+        </div>
+
+
+
+    </section>
+{% endblock %}
