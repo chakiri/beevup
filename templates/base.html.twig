@@ -13,25 +13,10 @@
     <!-- Webpack Encore CSS -->
     {{ encore_entry_link_tags('app') }}
 
-    {#<link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">#}
-    <!-- Libraries CSS Files -->
-    {#<link href="/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-    <link href="/lib/introjs/css/introjs.min.css" rel="stylesheet">
-    <link href="/lib/slick/slick.css" rel="stylesheet">
-    <link href="/lib/cropper/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/leaflet/leaflet.css" integrity="" crossorigin=""/>#}
-
-    {#<link href="/css/styles.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/responsive.css" rel="stylesheet">#}
-
     {% block stylesheets %}{% endblock %}
 </head>
 
-{% set toast = app.request.get('toastScore') %}
-<body class="{{ app.request.get('_route') }}" {% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
+<body class="{{ app.request.get('_route') }}" {% set toast = app.request.get('toastScore') %}{% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 
 {# Display header #}
 {% if app.request.attributes.get('_route') != 'security_registration' and

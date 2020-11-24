@@ -752,7 +752,7 @@ ul.landing-page-list {
     justify-content: center;
 }
 .landing-page-join-beevup-bloc{
-    background-image: url(../images/homePage/Beevup_Brush_Background.png);
+    background-image: url('../images/homePage/Beevup_Brush_Background.png');
     background-repeat: no-repeat;
     background-position-x: center;
     min-height: 400px;
@@ -913,9 +913,6 @@ ul.landing-page-list {
     font-size: 28px;
     font-weight: 500;
 }
-
-
-
 
 /* ================= sign-in ================ */
 
@@ -3024,9 +3021,11 @@ a:hover {
     text-align: center;
     color: #ccc;
 }
-#map{
-    height:300px;
+#mapid {
+    height:400px;
+    border-radius: 12px;
 }
+
 #company_country, #company_store, #company_category{height: 40px}
 .form-page-bg{background-color:var(--base-bg-color); }
 .bv-form{margin-top: 20px}

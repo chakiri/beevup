@@ -66,7 +66,7 @@
                                                             {% if service.filename %}
                                                                 <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
                                                             {% else %}
-                                                                <img src="/images/no-available-photo.png" alt="">
+                                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                             {% endif %}
                                                             <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
                                                             <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
@@ -104,7 +104,7 @@
                                                     {% if recommandation.user.profile.filename %}
                                                         <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                     {% else %}
-                                                        <img src="/images/no-available-photo.png" alt="">
+                                                        <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                     {% endif %}
                                                     <div class="hover-info">
                                                         <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
@@ -142,7 +142,7 @@
                                                 {% if collegue.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(collegue.profile, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
                                                     <p>{{ collegue.profile.firstname }} {{ profile.lastname }}</p>

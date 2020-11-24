@@ -11,15 +11,14 @@
       {% if Like.user.profile.filename is empty %}
           <img class="media-object photo-profile" 
           style="float:left" 
-          src="/images/default/user.png"
+          src="{{ asset('build/images/default/user.png') }}"
           width="32" 
           height="32" 
           alt="...">
-
       {% else %}
           <img class="media-object photo-profile" 
           style="float:left" 
-          src="/images/profiles/{{Like.user.profile.filename}}"
+          src="{{ vich_uploader_asset(profile, 'imageFile') }}"
           width="32" 
           height="32" 
           alt="...">

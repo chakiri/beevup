@@ -639,8 +639,8 @@ import $ from 'jquery';
         mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
             .on('locationfound', function (e) {
                 var greenIcon = new L.Icon({
-                    iconUrl: 'css/leaflet/images/marker-icon-2x-red.png',
-                    shadowUrl: 'css/leaflet/images/marker-shadow.png',
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                     iconSize: [25, 41],
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],

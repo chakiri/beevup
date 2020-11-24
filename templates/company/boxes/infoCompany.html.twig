@@ -4,7 +4,7 @@
             {% if company.filename %}
                 <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
             {% else %}
-                <img src="/images/no-available-photo.png" alt="">
+                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
             {% endif %}
             {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
 

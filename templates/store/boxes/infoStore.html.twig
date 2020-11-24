@@ -3,7 +3,7 @@
         {% if store.filename %}
             <img src="{{ vich_uploader_asset(store, 'imageFile') }}"  alt="">
         {% else %}
-            <img src="/images/no-available-photo.png" alt="">
+            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
         {% endif %}
         {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
 

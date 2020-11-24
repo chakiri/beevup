@@ -19,7 +19,7 @@
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')}}"  alt="">
                                 {% else %}
-                                    <img src="/images/no-available-photo.png" alt="">
+                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                 {% endif %}
                                 <div class="">
                                     {% if service.user == app.user %}
@@ -175,7 +175,7 @@
                                                 {% if recommandation.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
                                                     <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
@@ -202,7 +202,7 @@
                                                 {% if recommandationCompany.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
                                                     <p>{{ recommandationCompany.user.profile.firstname }} {{ recommandationCompany.user.profile.lastname }}</p>
@@ -242,7 +242,7 @@
                                             {% if service.filename %}
                                                 <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                             {% else %}
-                                                <img src="/images/no-available-photo.png" alt="">
+                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                             {% endif %}
                                         </div>
                                         <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">

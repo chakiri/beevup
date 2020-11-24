@@ -25,13 +25,13 @@
 /public/pdf/CGU.pdf
 
 ###> local images###
-/public/images/advertising/*
-/public/images/company/*
-/public/images/profile/*
-/public/images/profile/*
-/public/images/publicity/*
-/public/images/service/*
-/public/images/store/*
+/assets/images/advertising/*
+/assets/images/company/*
+/assets/images/profile/*
+/assets/images/profile/*
+/assets/images/publicity/*
+/assets/images/service/*
+/assets/images/store/*
 ###< local images###
 
 ###> symfony/webpack-encore-bundle ###

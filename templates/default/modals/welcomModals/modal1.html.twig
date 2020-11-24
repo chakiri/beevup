@@ -2,7 +2,7 @@
 
     {% block header %}
         <div class="modal-header">
-            <img src="/images/default/Logo-beevup&bv2.png" alt=""/>
+            <img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""/>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -12,7 +12,7 @@
     {% block body %}
         <div class="row flex-column-reverse flex-md-row">
             <div class="col-lg-3">
-                <img class="logo" src="/images/logo_bv_main.png" alt=""/>
+                <img class="logo" src="{{ asset('build/images/logo_bv_main.png') }}" alt=""/>
             </div>
             <div class="col-lg-9">
                 <p>Bienvenue sur la plateforme Beev’Up, le nouveau service {% if adminStore %}proposé par {{ adminStore.profile.firstname }} {{ adminStore.profile.lastname }} et son équipe {% endif %}du magasin Bureau Vallée de {{ app.user.store.city }}</p>

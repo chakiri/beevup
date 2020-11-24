@@ -8,7 +8,7 @@
                              {% if app.user.store.defaultAdviser.profile.filename %}
                                  <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('dashboard_box_advertising') }}" class="rounded-circle medium-avatar">
                              {% else %}
-                                 <img src="/images/default/user.png" class="rounded-circle medium-avatar">
+                                 <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle medium-avatar">
                              {% endif %}
                              <p class="user-contact">
                                  <a class="simple-link" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}">Votre Conseiller</a>
@@ -24,7 +24,7 @@
                      {% if lastSpecialOffer.filename %}
                          <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('dashboard_box_advertising') }}" class="rounded-circle medium-avatar">
                      {% else %}
-                         <img src="/images/no-available-photo.png" class="rounded-circle medium-avatar">
+                         <img src="{{ asset('build/images/no-available-photo.png') }}" class="rounded-circle medium-avatar">
                      {% endif %}
                      <p class="user-contact">
                          <a class="simple-link" href="{{ path('service_discovery') }}">Offres exclusives</a>
