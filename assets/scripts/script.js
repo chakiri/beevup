@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Cropper from 'cropperjs';
 
 //  =============  fade ut displayed alert  =========
 $(window).on('load', function(){

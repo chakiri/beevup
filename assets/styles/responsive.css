@@ -133,12 +133,110 @@
     padding: 20px !important;
   }
 }
-@media (mIN-width: 1025px) {
+@media (min-width: 1025px) {
   .home-page-section2{
     padding-left:90px  ;
   }
 }
 
+@media (max-width: 769px) {
+	#types-posts {
+		width: 100%;
+	}
+	.medias {
+		justify-content: center;
+	}
+
+	#add-post-modal, #update-post-modal {
+		top: 0;
+		z-index: 2000;
+	}
+
+	.tab-content a{
+		margin-top: 10px;
+	}
+
+	#welcomeModal2 .modal-dialog, #welcomeModal3 .modal-dialog{
+		max-width: 100%;
+	}
+	.desk{
+		display:none;
+		height: 0;
+	}
+	.landing-page-section3 {
+		padding: 10px 0 96px;
+	}
+	.subscription .container-bv {
+		margin: 20px 10px !important;
+	}
+	.only-mobile{
+		display: block;
+	}
+	.no-mobile{
+		display: none;
+	}
+	.bloc-title{
+		font-size: 24px;
+		line-height: 28px;
+		margin-bottom: 30px;
+	}
+	.landign-page-slogan{
+		font-size: 36px;
+		line-height: 43px;
+	}
+	.landign-page-description{
+		margin-bottom: 32px;
+	}
+	/*.landing-page-dashboard-img{
+        margin-top:230px
+    }*/
+	.landing-page-man{
+		display: none;
+	}
+	.landing-page-section3-description{
+		left:0;
+	}
+	.landing-page-second-bloc {
+		padding: 0 30px !important;
+
+	}
+	.cnx-btn{
+		float: right;
+		margin-top:-45px;
+	}
+	.landing-page-list{
+		padding-left: 13px;
+		margin-bottom: 39px;
+		padding-top: 16px;
+		padding-bottom: 24px;
+	}
+	.landing-page-section4-first-bloc {
+		padding-left: 15px;
+	}
+	.landing-page-dashboard-screenshot {
+		width: 100%;
+		left:0;
+	}
+	.landing-page-join-beevup-bloc {
+		padding-top: 100px;
+	}
+	.landing-page-section4-last-bloc{
+		padding-right: 15px;
+	}
+
+	#landing-page-header .logo img {
+		padding-top: 10px;
+		width: 121px;
+	}
+
+	.landing-page-first-bloc {
+		padding: 0 10px 0 !important;
+	}
+
+	.alert {
+		width: 87% !important;
+	}
+}
 
 /********** from template******/
 @media (max-width: 1200px) {
@@ -329,4 +427,4 @@
 @media (min-width: 1600PX) {
 .container-bv{margin: 30px 250px}
 }
-/********end from template
+/********end from template ***/

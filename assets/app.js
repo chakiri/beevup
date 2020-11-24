@@ -14,13 +14,12 @@ global.$ = global.jQuery = $;
 //No need to import popper.js because we installed it in node_module and bootstrap automatically call it
 import 'bootstrap';
 
-//Import librairies
-import 'intro.js';
+//Import libraries
 import 'slick-carousel';
-import 'cropperjs';
 
 //Import app JS files
 import './scripts/script';
 import './scripts/theme';
+
 
 console.log('Hello Webpack Encore! Edit me in assets/app.js !');

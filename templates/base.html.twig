@@ -5,27 +5,27 @@
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
     <title>Beevup - {% block title %}{% endblock %}</title>
 
-    {{ encore_entry_link_tags('app') }}
-
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/images/default/favicon-beevup.png" />
     <!-- Font Rubik Google -->
     <link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap" rel="stylesheet">
 
-    <link rel="shortcut icon" href="/images/default/favicon-beevup.png" />
+    <!-- Webpack Encore CSS -->
+    {{ encore_entry_link_tags('app') }}
 
+    {#<link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">#}
     <!-- Libraries CSS Files -->
-    <link href="/lib/animate/animate.min.css" rel="stylesheet">
+    {#<link href="/lib/animate/animate.min.css" rel="stylesheet">
     <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
     <link href="/lib/introjs/css/introjs.min.css" rel="stylesheet">
     <link href="/lib/slick/slick.css" rel="stylesheet">
     <link href="/lib/cropper/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/leaflet/leaflet.css" integrity="" crossorigin=""/>#}
 
-    <link href="/css/styles.css" rel="stylesheet">
+    {#<link href="/css/styles.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/responsive.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/leaflet/leaflet.css" integrity="" crossorigin=""/>
-
+    <link href="/css/responsive.css" rel="stylesheet">#}
 
     {% block stylesheets %}{% endblock %}
 </head>
@@ -45,10 +45,9 @@
 {% endif %}
 
 {#dispaly flash messages #}
-{% if
-    app.request.attributes.get('_route') != 'security_forgotten_password'
-and app.request.attributes.get('_route') != 'security_reset_password'
-and app.request.attributes.get('_route') != 'security_login'
+{% if app.request.attributes.get('_route') != 'security_forgotten_password'and
+      app.request.attributes.get('_route') != 'security_reset_password'and
+      app.request.attributes.get('_route') != 'security_login'
 %}
     {% include 'partials/flashes.html.twig' %}
 {% endif %}
@@ -58,8 +57,8 @@ and app.request.attributes.get('_route') != 'security_login'
 {% block modals %}{% endblock %}
 
 {#dispaly footer #}
-{% if app.request.attributes.get('_route') != 'chat_topic'
-    and app.request.attributes.get('_route') != 'chat_private'
+{% if app.request.attributes.get('_route') != 'chat_topic'and
+    app.request.attributes.get('_route') != 'chat_private'
 %}
     {% include 'partials/footer.html.twig' %}
 {% endif %}
@@ -75,14 +74,9 @@ and app.request.attributes.get('_route') != 'security_login'
 
 {% block javascripts %}{% endblock %}
 
+{# CDN Javascript Libraries #}
+{% include 'partials/cdns.html.twig' %}
 
-{# Zendesk widget#}
-{% if app.request.attributes.get('_route') != 'chat_topic' and app.request.attributes.get('_route') != 'chat_private'  %}
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=163defed-53e1-47e6-8d8a-73c2a57f2e12"> </script>
-{% endif %}
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-4186509-8"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

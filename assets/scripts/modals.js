@@ -1,3 +1,5 @@
+import introJs from 'intro.js';
+
 $( window ).on( "load", function() {
     var isOnboarding = $('#onboarding').data('onboarding');
     var sessionOnboarding = $('#onboarding').data('sessionOnboarding');
@@ -72,12 +74,6 @@ function setSessionPopup(){
 //Intro Js
 function startIntro(steps){
     var intro = introJs();
-    /*intro.onbeforechange(function () {
-     //Get number before last step (4)
-     if (this._currentStep === 4) {
-     setOnborading();
-     }
-     });*/
     intro.setOptions({
         'skipLabel': 'Passer',
         'doneLabel': 'Terminer',
@@ -88,7 +84,7 @@ function startIntro(steps){
     intro.start();
 }
 
-function tutorialDashboard(){
+window.tutorialDashboard = function (){
     startIntro(stepsDashboard);
 }
 

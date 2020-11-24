@@ -22,7 +22,7 @@ Encore
      * (including one that's included on every page - e.g. "app")
      *
      * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.ev
      */
     .addEntry('app', './assets/app.js')
     .addEntry('admin', './assets/scripts/admin.js')
@@ -31,7 +31,6 @@ Encore
     .addEntry('modals', './assets/scripts/modals.js')
     .addEntry('wamp', './assets/scripts/wamp.js')
     .addEntry('sendAjax', './assets/scripts/sendAjax.js')
-    .addEntry('map', './assets/scripts/map.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

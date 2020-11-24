@@ -1,3 +1,8 @@
 @import '~bootstrap';
 @import '~font-awesome';
+@import '~slick-carousel/slick/slick.css';
+@import '~intro.js/minified/introjs.min.css';
+@import '~cropperjs';
 
+@import './styles.css';
+@import './responsive.css';
