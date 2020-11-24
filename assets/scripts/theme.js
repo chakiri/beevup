@@ -530,7 +530,7 @@ import $ from 'jquery';
             $('#inscription-btn').attr('disabled', false);
         }
 
-        $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
+        $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
     }
     if($('#company_country').length  > 0) {
 
