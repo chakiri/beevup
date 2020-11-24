@@ -56,11 +56,15 @@ class FavoritController extends AbstractController
           * @Route("/favoritCompany/add/{companyId}", name="favorit_company_add")
           */
 
-          public function addFavoritCompany(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo, UserTypeRepository $userTypeRepo,  $companyId)
+          public function addFavoritCompany(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo, UserTypeRepository $userTypeRepo,  $companyId, FavoritRepository $favoritRepo)
           {
              $company =  $companyRepo->findOneBy(['id' => $companyId]);
              $companyAdministratorType = $userTypeRepo->findOneBy(['id' => 3]);
              $user = $userRepo->findOneBy(['company' =>  $company , 'type' => $companyAdministratorType]);
+             /** check if administrator already exist **/
+             $response = "l'utilisateur est déja en favoris";
+             $isFavorit = $favoritRepo->findOneByFavoritUser($this->getUser(), $user);
+             if($isFavorit == null){
              $favorit =  new Favorit();
              $favorit->setUser($this->getUser())
                      ->setFavoritUser($user)
@@ -68,8 +72,10 @@ class FavoritController extends AbstractController
 
              $manager->persist($favorit);
              $manager->flush();
+             $response = "utilisateur ajouter à la liste des favoris";
+             }
              $response = new Response(
-                   'Content',
+                   $response,
                    Response::HTTP_OK,
                    ['content-type' => 'text/html']
                    );
