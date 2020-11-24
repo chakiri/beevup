@@ -105,7 +105,7 @@ class Company implements \Serializable
      *  @Assert\Regex(
      * pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})",
      * match=true,
-     * message="L'URL doit commencer par http ou https"
+     * message="Veuillez saisir une URL valide"
      * )
      */
     private $website;

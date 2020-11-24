@@ -127,15 +127,10 @@
                                                                     {% endif %}
                                                                 {% endif %}
                                                             </div>
-                                                            <div class="company-infos-recommandations">
-                                                                {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
-                                                                    <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
-                                                                {% endif %}
-                                                            </div>
-                                                        </div>
+                                                         </div>
                                                     </div>
 
-                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name|capitalize }}</a></h5>
+                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name }}</a></h5>
                                                     <h6>{{ company.otherCategory }}</h6>
                                                     <ul>
                                                         <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
@@ -153,6 +148,13 @@
                                                             ></i>
                                                         </li>
                                                     </ul>
+                                                    <div class="company-infos-bloc">
+                                                        <div class="company-infos-distance">
+                                                            {% if nbRecommandations and nbRecommandations[company.id] > 0 %}
+                                                                <i class="far fa-star"></i> <small>{{ nbRecommandations[company.id] }}{% if nbRecommandations[company.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                                 <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
