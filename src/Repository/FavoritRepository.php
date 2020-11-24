@@ -18,7 +18,16 @@ class FavoritRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Favorit::class);
     }
-
+    public function findOneByFavoritUser($currentUser, $favoritUser): ?Favorit
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.user = :currentUser')
+            ->andWhere('f.favoritUser = :favoritUser')
+            ->setParameters(['currentUser'=>$currentUser, 'favoritUser'=>$favoritUser])
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
     // /**
     //  * @return Favorit[] Returns an array of Favorit objects
     //  */
@@ -36,15 +45,7 @@ class FavoritRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Favorit
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+
+
+
 }
