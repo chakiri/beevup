@@ -6,6 +6,9 @@
 parameters:
     router.request_context.host: '%env(HOST_NAME)%' #you can also use %env(HOST) and then set the HOST variable in your .env file
     router.request_context.scheme: https
+    maintenance:
+        statut: '%env(MAINTENANCE)%'
+        ipAuthorized: ["::1",'%env(IP_AUTHORIZED)%']
 
 services:
     # default configuration for services in *this* file
@@ -32,6 +35,11 @@ services:
     App\EventListener\LoginListener:
         tags:
           - { name: kernel.event_listener, event: security.interactive_login }
+
+    App\EventListener\MaintenanceListener:
+        tags:
+            - {name: kernel.event_listener, event: kernel.request}
+        arguments: ['%maintenance%']
 
 
     # add more service definitions when explicit configuration is needed
