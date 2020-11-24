@@ -3149,11 +3149,19 @@ a:hover {
 .form-error{
     color:red;
 }
-/********form errors*****/
+
 .custom-file-label::after {
     content: 'Charger' !important;
     color: #000 !IMPORTANT;
 }
 .file-not-correct{
     color: red;
+}
+
+/***********make cropper Image round for profil image ************/
+form[name="profile_image"] .cropper-view-box {
+    border-radius: 50%;
+}
+form[name="profile_image"] .cropper-face {
+    background-color:inherit !important;
 }
