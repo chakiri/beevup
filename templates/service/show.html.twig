@@ -228,7 +228,7 @@
                 <div class="col-lg-3">
                     {% if service.user.company %}
                         <div class="user-profile-ov  page-title sign_in_sec current">
-                            <h5>{{ service.user.company.name|capitalize }}</h5>
+                            <h5>{{ service.user.company.name }}</h5>
                             <p>{{ service.user.company.description|raw ?: 'Pas de description' }}</p>
                         </div>
                     {% endif %}
