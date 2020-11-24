@@ -62,7 +62,7 @@ class FavoritController extends AbstractController
              $companyAdministratorType = $userTypeRepo->findOneBy(['id' => 3]);
              $user = $userRepo->findOneBy(['company' =>  $company , 'type' => $companyAdministratorType]);
              /** check if administrator already exist **/
-             $response = "l'utilisateur est déja en favoris";
+             $response = "l'utilisateur est déja dans la liste favoris";
              $isFavorit = $favoritRepo->findOneByFavoritUser($this->getUser(), $user);
              if($isFavorit == null){
              $favorit =  new Favorit();
@@ -72,7 +72,7 @@ class FavoritController extends AbstractController
 
              $manager->persist($favorit);
              $manager->flush();
-             $response = "utilisateur ajouter à la liste des favoris";
+             $response = "utilisateur a été ajouté à la liste des favoris";
              }
              $response = new Response(
                    $response,
