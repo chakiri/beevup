@@ -2846,6 +2846,7 @@ a:hover {
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
+    font-family: fontawesome;
     width: 30px;
     height: 30px;
     background-color: #fff;

@@ -63,8 +63,8 @@
                                 <span class="badge bell-badge">{{ opportunities|length }}</span>
                             {% endif %}
                         </li>
-                        <li class="{% if category == 4 %}active{% endif %}" value="Emploi"><i class="fas fa-business-time mr-2"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
-                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fa fa-calendar-alt mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li class="{% if category == 4 %}active{% endif %}" value="Emploi"><i class="fas fa-briefcase mr-2"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
+                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fa fa-calendar mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
                         <li class="{% if category == 3 %}active{% endif %}" value="Question à la communauté"><i class="fa fa-question mr-2"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
                         <li class="{% if category == 6 %}active{% endif %}" value="Autre"><i class="fa fa-plus mr-2"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
                     </ul>
