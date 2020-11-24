@@ -234,12 +234,12 @@ class Company implements \Serializable
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
