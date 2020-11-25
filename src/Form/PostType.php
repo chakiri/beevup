@@ -4,13 +4,12 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\PostCategory;
+use App\Repository\PostCategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -38,6 +37,13 @@ class PostType extends AbstractType
                     'label'=>'Catégorie',
                     'placeholder'=>'Choisissez votre catégorie',
                     'class' => PostCategory::class,
+                    'query_builder' => function (PostCategoryRepository $er) {
+                        return $er->createQueryBuilder('pc')
+                            ->where('pc.id NOT IN (:ids)')
+                            ->setParameter('ids', array(7, 8))
+                            ->orderBy('pc.id', 'ASC');
+                    },
+
                 ]
             )
             ->add('imageFile', FileType::class, [
