@@ -24,15 +24,9 @@
 
 /public/media/pdf/CGU.pdf
 
-###> local images###
-/assets/images/advertising/*
-/assets/images/company/*
-/assets/images/profile/*
-/assets/images/profile/*
-/assets/images/publicity/*
-/assets/images/service/*
-/assets/images/store/*
-###< local images###
+###> local uploads###
+/media/uploads/
+###< local uploads###
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

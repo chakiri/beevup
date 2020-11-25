@@ -1,3 +1,4 @@
+import '../styles/admin.css';
 import 'mobile-nav';
 
 

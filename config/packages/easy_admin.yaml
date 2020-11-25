@@ -16,11 +16,6 @@ easy_admin:
          
         brand_color: '#007bff'
         assets:
-            css:
-               - 'css/admin.css'
-            js:
-              - 'lib/mobile-nav/mobile-nav.js'
-              - 'js/admin.js'
             favicon:
                path: 'images/default/favicon.ico'
 
