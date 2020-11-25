@@ -8,7 +8,7 @@
             {% endif %}
             {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
 
-                <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ company.id  }}" data-url ="{{ path('company_update_image', {'id': company.id}) }}" title=""><i class="fa fa-camera"></i></a>
+                <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ company.id  }}" data-url ="{{ path('company_update_image', {'id': company.id}) }}" title=""><i class="fas fa-camera"></i></a>
 
             {% endif %}
         </div><!--user-pro-img end-->

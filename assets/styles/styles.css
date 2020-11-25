@@ -2961,7 +2961,7 @@ a:hover {
     font-size: 11px !important;
     margin-top: 5px;
 }
-.add-company-favoris.text-muted.fa-star, .fa.add-company-favoris.text-warning.fa-star, .fa.fa-star-o.text-muted.add-company-favoris, .fa.fa-star-o.text-muted.add-favoris, .fa.fa-star-o.add-favoris.text-warning, .fa.add-favoris.text-warning.fa-star{
+.favoris-icon, .add-company-favoris {
     color:var(--orange-color) !important;
     font-size: 22px;
 }

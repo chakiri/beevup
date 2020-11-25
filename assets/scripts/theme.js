@@ -99,7 +99,7 @@ import $ from 'jquery';
           data-target="#LikesList"
           data-whatever="@mdo"
           data-path="`+dataPath+`">
-          <i id="post-likes-icon-`+postId+`" class="fa fa-thumbs-up text-primary" aria-hidden="true"></i> 
+          <i id="post-likes-icon-`+postId+`" class="fas fa-thumbs-up text-primary" aria-hidden="true"></i> 
                                 <span id ="post-likes-number-`+postId+`" class="post-likes-number">1</span></span>`;
         }
         else{
@@ -234,7 +234,7 @@ import $ from 'jquery';
                           data-comment-id='`+newCommentId+`'
                           data-post-id='`+postId+`'
                           >
-                             <i class="fa fa-pencil" aria-hidden="true"></i>
+                             <i class="fas fa-pencil" aria-hidden="true"></i>
                           </button>
                         </div>
                     </div>`

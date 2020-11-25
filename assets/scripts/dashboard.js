@@ -130,12 +130,12 @@ $('.updateLike').click(function(){
     });
 
     var icon = $(this).find('i');
-    if (icon.hasClass('fa-thumbs-up')){
-        icon.removeClass('fa-thumbs-up');
-        icon.addClass('fa-thumbs-o-up');
-    }else if (icon.hasClass('fa-thumbs-o-up')){
-        icon.removeClass('fa-thumbs-o-up');
-        icon.addClass('fa-thumbs-up');
+    if (icon.hasClass('fas')){
+        icon.removeClass('fas');
+        icon.addClass('far');
+    }else if (icon.hasClass('far')){
+        icon.removeClass('far');
+        icon.addClass('fas');
     }
 });
 

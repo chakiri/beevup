@@ -64,10 +64,10 @@
                     </div>
                     {% if     post.category.id == 1 %}{% set badge = 'badge-green' %}{% set fa = 'far fa-newspaper' %}
                     {% elseif post.category.id == 2 %}{% set badge = 'badge-orange' %}{% set fa = 'far fa-handshake' %}
-                    {% elseif post.category.id == 3 %}{% set badge = 'badge-yellow' %}{% set fa = 'fa fa-question' %}
+                    {% elseif post.category.id == 3 %}{% set badge = 'badge-yellow' %}{% set fa = 'fas fa-question' %}
                     {% elseif post.category.id == 4 %}{% set badge = 'badge-purple' %}{% set fa = 'fas fa-business-time' %}
-                    {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fa fa-calendar-alt' %}
-                    {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fa fa-plus' %}
+                    {% elseif post.category.id == 5 %}{% set badge = 'badge-blue' %}{% set fa = 'fas fa-calendar-alt' %}
+                    {% elseif post.category.id == 6 %}{% set badge = 'badge-grey' %}{% set fa = 'fas fa-plus' %}
                     {% elseif post.category.id == 7 %}{% set badge = 'badge-blue-dark' %}{% set fa = 'fas fa-users' %}
                     {% elseif post.category.id == 8 %}{% set badge = 'badge-black' %}{% set fa = 'fas fa-info-circle' %}
                     {% endif %}
@@ -140,7 +140,7 @@
                          data-toggle="modal"
                          data-target="#LikesList"
                          data-path="{{path('post_likes', { 'id': post.id})}}">
-                        <i class="fa fa-thumbs-up p-1 orange"></i>
+                        <i class="fas fa-thumbs-up p-1 orange"></i>
                         <small>
                             <span id="{{ 'nblikespost' ~ post.id }}">{{post.likes|length}}</span>
                             {% if post.likes|length > 1 %}
@@ -168,13 +168,13 @@
             <div class="d-flex">
                 <button class="btn updateLike" data-id="{{ post.id }}" data-url="{{ path("post_like", {'id': post.id}) }}">
                 {% if post.isLikedByUser(app.user) %}
-                <i class="fa fa-thumbs-up"></i>
+                    <i class="fas fa-thumbs-up"></i>
                 {% else %}
-                <i class="fa fa-thumbs-o-up"></i>
+                    <i class="far fa-thumbs-up"></i>
                 {% endif %}
                 J'aime
                 </button>
-                <button class="btn comment"><i class="fa fa-commenting-o ml-5 "></i> Commenter</button>
+                <button class="btn comment"><i class="far fa-comment-dots ml-5 "></i> Commenter</button>
             </div>
             <hr>
             <div class="post-interaction" data-id="{{ post.id }}">
@@ -187,7 +187,7 @@
                     <div class="text-comment-box">
                         <textarea placeholder="Ajouter un commentaire"></textarea>
                     </div>
-                    <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="fa fa-send-o"></i></button>
+                    <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="far fa-send"></i></button>
                 </div>
                 {% for comment in post.comments|reverse %}
                 <div class="box-comment d-flex">

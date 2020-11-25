@@ -16,7 +16,7 @@ $('.add-favoris').click(function() {
          /***** remove from favoris *****/
         url = $(this).attr('data-delete');
         $('#result-user-item-' + userId).removeClass('text-warning').addClass('text-muted');
-        $('#result-user-item-' + userId).removeClass('fa-star').addClass('fa-star-o');
+        $('#result-user-item-' + userId).removeClass('fas').addClass('far');
 
         if( $('.profil-add-favoris').length) {
 
@@ -37,7 +37,7 @@ $('.add-favoris').click(function() {
         /***** add to favoris  *****/
         url = $(this).attr('data-target');
         $('#result-user-item-' + userId).removeClass('text-muted').addClass('text-warning');
-        $('#result-user-item-' + userId).removeClass('fa-star-o').addClass('fa-star');
+        $('#result-user-item-' + userId).removeClass('far').addClass('fas');
 
 
 
@@ -112,7 +112,7 @@ $('.add-company-favoris').click(function() {
     if ($(this).hasClass("text-warning")) {
         url = $(this).attr('data-delete');
         $('#result-company-item-' + companyId).removeClass('text-warning').addClass('text-muted');
-        $('#result-company-item-' + companyId).removeClass('fa-star').addClass('fa-star-o');
+        $('#result-company-item-' + companyId).removeClass('fas').addClass('far');
         $('.favorit-user-'+selectedProfileId).remove();
         if( $('#result-company-item-' + companyId).length ==0) {
            $('.company-page').text('').append("Ajouter aux favoris");
@@ -129,7 +129,7 @@ $('.add-company-favoris').click(function() {
     } else {
         url = $(this).attr('data-target');
         $('#result-company-item-' + companyId).removeClass('text-muted').addClass('text-warning');
-        $('#result-company-item-' + companyId).removeClass('fa-star-o').addClass('fa-star');
+        $('#result-company-item-' + companyId).removeClass('far').addClass('fas');
         if( $('#result-company-item-' + companyId).length ==0) {
 
             $('.company-page').text('').append("Supprimer favoris");

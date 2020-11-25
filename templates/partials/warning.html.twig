@@ -1,7 +1,7 @@
 {% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription and app.user.company.subscription.isExpired == true %}
     <div class="warning p-3 warning-subscription">
         <button type="button" class="close close-subscription-notification" data-dismiss="alert" aria-label="close">&times;</button>
-        <h5 class="alert-heading"><i class="fa fa-eye"></i> Votre abonnement Premium est arrivé à échéance</h5>
+        <h5 class="alert-heading"><i class="fas fa-eye"></i> Votre abonnement Premium est arrivé à échéance</h5>
         <p class="mb-0"><a href="{{ path('subscription') }}" class="alert-link">Cliquez ici</a> pour le renouveler.</p>
     </div>
 {% endif %}
@@ -9,7 +9,7 @@
 {% if app.user.company %}
     {% if app.user.profile.isCompleted != true or app.user.company.isCompleted != true%}
         <div class="warning p-3">
-            <h5 class="alert-heading"><i class="fa fa-eye"></i> Vous n’êtes pas encore visible!</h5>
+            <h5 class="alert-heading"><i class="fas fa-eye"></i> Vous n’êtes pas encore visible!</h5>
             <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté.
                 {% if app.user.profile.isCompleted != true %}
                     <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profil</a>.
@@ -24,7 +24,7 @@
 {% else %}
     {% if app.user.profile.isCompleted != true%}
         <div class="warning p-3">
-            <h5 class="alert-heading"><i class="fa fa-eye"></i> Vous n’êtes pas encore visible!</h5>
+            <h5 class="alert-heading"><i class="fas fa-eye"></i> Vous n’êtes pas encore visible!</h5>
             <p class="mb-0">Vous devez compléter vos informations pour être visible par votre communauté.
                 {% if app.user.profile.isCompleted != true %}
                     <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" class="alert-link">Je complète mon profil</a>.
@@ -37,7 +37,7 @@
 {% if untreatedRecommandations %}
     {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_ADMIN_COMPANY') %}
         <div class="warning p-3">
-            <h5 class="alert-heading"><i class="fa fa-eye"></i> {{ untreatedRecommandations|length }}
+            <h5 class="alert-heading"><i class="fas fa-eye"></i> {{ untreatedRecommandations|length }}
                 {% if untreatedRecommandations|length > 1 %}
                     nouvelles recommandations
                 {% elseif untreatedRecommandations|length == 1 %}

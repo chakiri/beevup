@@ -54,7 +54,7 @@
                 <div id="news-filter" class="box-navigation-items">
                     <small class="greyed">Filtrez votre actualité</small>
                     <ul>
-                        <li class="{% if category is null %}active{% endif %}"value="All"><i class="fa fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
+                        <li class="{% if category is null %}active{% endif %}"value="All"><i class="fas fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
                         <li class="{% if category == 1 %}active{% endif %}" value="informations"><i class="far fa-newspaper mr-2"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
                         <li class="{% if category == 7 %}active{% endif %}" value="Derniers arrivés"><i class="fas fa-users mr-2"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
                         <li class="{% if category == 2 %}active{% endif %}" value="Opportunité commerciale"><i class="far fa-handshake mr-2"></i>
@@ -64,9 +64,9 @@
                             {% endif %}
                         </li>
                         <li class="{% if category == 4 %}active{% endif %}" value="Emploi"><i class="fas fa-briefcase mr-2"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
-                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fa fa-calendar mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
-                        <li class="{% if category == 3 %}active{% endif %}" value="Question à la communauté"><i class="fa fa-question mr-2"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
-                        <li class="{% if category == 6 %}active{% endif %}" value="Autre"><i class="fa fa-plus mr-2"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
+                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fas fa-calendar mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
+                        <li class="{% if category == 3 %}active{% endif %}" value="Question à la communauté"><i class="fas fa-question mr-2"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
+                        <li class="{% if category == 6 %}active{% endif %}" value="Autre"><i class="fas fa-plus mr-2"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
                     </ul>
                 </div>
 

@@ -31,6 +31,7 @@ Encore
     .addEntry('modals', './assets/scripts/modals.js')
     .addEntry('wamp', './assets/scripts/wamp.js')
     .addEntry('sendAjax', './assets/scripts/sendAjax.js')
+    .addEntry('favoris', './assets/scripts/favoris.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
