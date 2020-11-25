@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
                 /* insert company data*/
                 $company = new Company();
                 $userType = $userTypeRepository->findOneBy(['id' => 3]);
-                $userTypePatron = $userTypeRepository->findOneBy(['id' => 4]);
+                $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
                 $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
 
 
@@ -171,7 +171,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('security_forgotten_password');
             }
 
-            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
             $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
 
             $token = $tokenGenerator->generateToken();
@@ -287,7 +287,7 @@ class SecurityController extends AbstractController
 
             /****send welcome email *****/
 
-            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 4]);
+            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
             $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
             $message = (new \Swift_Message())
                 ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
