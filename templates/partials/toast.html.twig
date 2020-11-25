@@ -1,10 +1,12 @@
-<div class="toast" data-delay="5000">
-    <div class="toast-header">
-        <strong class="mr-auto">Nouveau score !</strong>
-        <small>{{ app.request.get('toastScore') }} pts</small>
+{% if toast is defined and toast is not empty %}
+    <div class="toast" data-delay="5000">
+        <div class="toast-header">
+            <strong class="mr-auto">Nouveau score !</strong>
+            <small>{{ app.request.get('toastScore') }} pts</small>
+        </div>
+        <div class="toast-body">
+            Félicitations, vous venez d'obtenir {{ app.request.get('toastScore') }} points supplémentaires.
+            Votre nouveau score est de {{ app.user.score.points }} points !
+        </div>
     </div>
-    <div class="toast-body">
-        Félicitations, vous venez d'obtenir {{ app.request.get('toastScore') }} points supplémentaires.
-        Votre nouveau score est de {{ app.user.score.points }} points !
-    </div>
-</div>
+{% endif %}

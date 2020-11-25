@@ -18,49 +18,30 @@
 
 <body class="{{ app.request.get('_route') }}" {% set toast = app.request.get('toastScore') %}{% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 
-{# Display header #}
-{% if app.request.attributes.get('_route') != 'security_registration' and
-      app.request.attributes.get('_route') != 'security_login' and
-      app.request.attributes.get('_route') != 'security_forgotten_password' and
-      app.request.attributes.get('_route') != 'security_new_account' and
-      app.request.attributes.get('_route') != 'security_reset_password' and
-      app.request.attributes.get('_route') != 'waiting_validation'
-%}
+    {# Display header #}
     {% include 'partials/header.html.twig' %}
-{% endif %}
 
-{#dispaly flash messages #}
-{% if app.request.attributes.get('_route') != 'security_forgotten_password'and
-      app.request.attributes.get('_route') != 'security_reset_password'and
-      app.request.attributes.get('_route') != 'security_login'
-%}
+    {#dispaly flash messages #}
     {% include 'partials/flashes.html.twig' %}
-{% endif %}
 
-{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 
-{% block modals %}{% endblock %}
+    {% block modals %}{% endblock %}
 
-{#dispaly footer #}
-{% if app.request.attributes.get('_route') != 'chat_topic'and
-    app.request.attributes.get('_route') != 'chat_private'
-%}
+    {#dispaly footer #}
     {% include 'partials/footer.html.twig' %}
-{% endif %}
 
-{# Display Toast info #}
-{% if toast is defined and toast is not empty %}
+    {# Display Toast info #}
     {% include 'partials/toast.html.twig' %}
-{% endif %}
 
-<!-- JavaScript -->
-{# Call app.js wich contain js files #}
-{{ encore_entry_script_tags('app') }}
+    <!-- JavaScript -->
+    {# Call app.js wich contain js files #}
+    {{ encore_entry_script_tags('app') }}
 
-{% block javascripts %}{% endblock %}
+    {% block javascripts %}{% endblock %}
 
-{# CDN Javascript Libraries #}
-{% include 'partials/cdns.html.twig' %}
+    {# CDN Javascript Libraries #}
+    {% include 'partials/cdns.html.twig' %}
 
 <script>
     window.dataLayer = window.dataLayer || [];

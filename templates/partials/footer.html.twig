@@ -1,7 +1,12 @@
-<footer class="footer-copyright text-center">
-    <div class="footer">
-        <p class="footer-text">Beevup est une marque de Bureau Vallée
-            <a target="_blank" href="https://beevup.fr/media/pdf/CGU.pdf" class="footer-text-link">CGU</a>
-        </p>
-    </div>
-</footer>
+{% if app.request.attributes.get('_route') != 'chat_topic'and
+    app.request.attributes.get('_route') != 'chat_private'
+%}
+    <footer class="footer-copyright text-center">
+        <div class="footer">
+            <p class="footer-text">Beevup est une marque de Bureau Vallée
+                <a target="_blank" href="https://beevup.fr/media/pdf/CGU.pdf" class="footer-text-link">CGU</a>
+            </p>
+        </div>
+    </footer>
+
+{% endif %}

@@ -1,3 +1,11 @@
+{% if app.request.attributes.get('_route') != 'security_registration' and
+    app.request.attributes.get('_route') != 'security_login' and
+    app.request.attributes.get('_route') != 'security_forgotten_password' and
+    app.request.attributes.get('_route') != 'security_new_account' and
+    app.request.attributes.get('_route') != 'security_reset_password' and
+    app.request.attributes.get('_route') != 'waiting_validation'
+%}
+
 <header id="header" class="fixed-top d-flex justify-content-between">
 
 <div class="logo float-left">
@@ -189,3 +197,5 @@
         </div>
     </div>
 {% endblock %}
+
+{% endif %}
