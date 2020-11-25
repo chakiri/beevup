@@ -2,9 +2,6 @@
 
 {% block title %}Chat{% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="/css/chat.css">
-{% endblock %}
 
 {% block body %}
     <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}" data-urlfirstmail="{{ path('check_first_message') }}">
