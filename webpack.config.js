@@ -60,6 +60,7 @@ Encore
         config.corejs = 3;
     })
 
+    //Copies Images assets into build
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[hash:8].[ext]'
