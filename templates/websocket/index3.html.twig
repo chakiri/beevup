@@ -2,6 +2,9 @@
 
 {% block title %}Chat{% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('wamp') }}
+{% endblock %}
 
 {% block body %}
     <section id="chatPlateform" data-private="{{ isPrivate }}" data-subject="{{ subject }}" data-from="{{ app.user.id }}" data-url="{{ path('save_notification') }}" data-urlfirstmail="{{ path('check_first_message') }}">
