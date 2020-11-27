@@ -161,7 +161,7 @@ $('.add-company-favoris').click(function() {
                    <div class="popup-info box">
                     <div class="d-flex">
                         <a href="#">
-                            <img src="` + companyAdministratorImg + `"  class="rounded-circle medium-avatar" alt="avatar image">
+                            <img src="`+companyAdministratorImg+`"  class="rounded-circle medium-avatar" alt="avatar image">
                         </a>
                         <div>
                             <p> ` + companyAdministratorName + `</p>
