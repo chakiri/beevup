@@ -339,14 +339,3 @@ $('.custom-file-input').on('change', function(event) {
         .html(inputFile.files[0].name);
 });
 
-$('textarea').on({
-    input: function(){
-
-        var text = $(this).val();
-        span.text(text);
-        $(this).height(text ? span.height() : '1.1em');
-    },
-    focus: function(){
-        initSpan($(this));
-    }
-});

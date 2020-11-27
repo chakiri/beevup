@@ -11,8 +11,8 @@
 
         {% block head_stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
-            {{ encore_entry_link_tags('app') }}
             {{ encore_entry_link_tags('admin') }}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block head_custom_stylesheets %}

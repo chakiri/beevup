@@ -70,7 +70,7 @@ import $ from 'jquery';
       */
      $('.add-post').click(function(){
       $('.modal-add-post').modal();
-      url = $(this).attr('data-target');
+      var url = $(this).attr('data-target');
       $.get(url, function (data) {
         $('.modal-post-content').html(data);
         //$('#modal1').modal('open');
@@ -90,7 +90,7 @@ import $ from 'jquery';
         {
           action = 'add';
           $(this).addClass('post-liked');
-          url = 'post/'+postId+'/update-post-likes/add';
+          var url = 'post/'+postId+'/update-post-likes/add';
           var dataPath = $('#post-'+postId+'-likes-number').attr('data-path');
           newLikeStructure = `<span id="likes-list-`+postId+`" 
           class="post-likes"  
@@ -105,7 +105,7 @@ import $ from 'jquery';
         else{
           action = 'remove';
           $(this).removeClass('post-liked');
-          url = 'post/'+postId+'/update-post-likes/remove';
+          var url = 'post/'+postId+'/update-post-likes/remove';
         }
         $.get(url, function (data) {
           if(action =='add') {
@@ -372,7 +372,7 @@ import $ from 'jquery';
       $('#comment-description-'+commentId).text(updatedText)
       /** if we need to add the word updated to the comment */
       //.append("  <span class='updated-comment-text'>(modifié)</span>");
-      url = 'comment/'+commentId+'/update-comment/'+updatedText;
+      var url = 'comment/'+commentId+'/update-comment/'+updatedText;
       $.get(url, function (data) {
         $('.edit-comment-btn').prop('disabled', false);
        });
@@ -412,7 +412,7 @@ import $ from 'jquery';
       $('#spinner-approve-'+abuseId).removeClass('spinner-hidden');
       $('#spinner-approve-'+abuseId).addClass('spinner-visible');
 
-      url = 'edit/abuse/1/'+abuseId;
+      var url = 'edit/abuse/1/'+abuseId;
         $.get(url, function (data) {
 
           untreatedAbuseNb = $('.abuse-approve').length;
@@ -430,7 +430,7 @@ import $ from 'jquery';
       $('#spinner-reject-'+abuseId).removeClass('spinner-hidden');
       $('#spinner-reject-'+abuseId).addClass('spinner-visible');
 
-      url = 'edit/abuse/0/'+abuseId;
+      var url = 'edit/abuse/0/'+abuseId;
         $.get(url, function (data) {
           untreatedAbuseNb = $('.abuse-reject').length;
           $('#abuse-'+abuseId).addClass('rejeccted-box');
@@ -595,7 +595,7 @@ import $ from 'jquery';
     $('body').on('click', '.load-more-posts-section', function () {
         var minPostId = $(this).attr('data-first-post');
         var pathNameUrl  = window.location.pathname;
-        url = pathNameUrl+'/load_more/'+minPostId;
+        var url = pathNameUrl+'/load_more/'+minPostId;
         $('.load-more-posts-section').remove();
         if(minPostId != 'undefined') {
             $.get(url, function (data) {
@@ -662,7 +662,20 @@ import $ from 'jquery';
         }
      $('.close-subscription-notification').click(function(){
      $('.warning-subscription').remove();
+
+     $('textarea').on({
+         input: function(){
+
+             var text = $(this).val();
+             span.text(text);
+             $(this).height(text ? span.height() : '1.1em');
+         },
+         focus: function(){
+             initSpan($(this));
+         }
+     });
 });
+
 
 
 
