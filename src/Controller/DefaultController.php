@@ -43,7 +43,6 @@ class DefaultController extends AbstractController
     */
     public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0)
     {
-
         $store = $this->getUser()->getStore();
         if ($category != null)
             $posts = $postRepository->findByCategory($category, $minId);

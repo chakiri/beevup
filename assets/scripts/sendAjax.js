@@ -1,3 +1,8 @@
+/*Put functions in global variables to use it outside the file*/
+window.sender = sender;
+window.saveNotification = saveNotification;
+window.checkFirstMessage = checkFirstMessage;
+
 function sender() {
     var from = document.getElementById("chatPlateform").dataset.from;
     var subject = document.getElementById("chatPlateform").dataset.subject;

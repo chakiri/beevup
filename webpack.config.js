@@ -1,4 +1,6 @@
 var Encore = require('@symfony/webpack-encore');
+//To access env variable in assets
+var dotenv = require('dotenv');
 
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -30,7 +32,6 @@ Encore
     .addEntry('form', './assets/scripts/form.js')
     .addEntry('modals', './assets/scripts/modals.js')
     .addEntry('wamp', './assets/scripts/wamp.js')
-    .addEntry('sendAjax', './assets/scripts/sendAjax.js')
     .addEntry('favoris', './assets/scripts/favoris.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -64,6 +65,19 @@ Encore
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[hash:8].[ext]'
+    })
+
+    // define the environment variables
+    .configureDefinePlugin(options => {
+        const env = dotenv.config();
+
+        if (env.error) {
+            throw env.error;
+        }
+
+        //Define the twis env variable form wamp server
+        options['process.env'].APP_ENV = JSON.stringify(env.parsed.APP_ENV);
+        options['process.env'].WAMP_PORT = JSON.stringify(env.parsed.WAMP_PORT);
     })
 
     // enables Sass/SCSS support

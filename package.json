@@ -6,6 +6,7 @@
         "bootstrap": "^4.5.3",
         "core-js": "^3.0.0",
         "cropperjs": "^1.5.9",
+        "dotenv": "^8.2.0",
         "font-awesome": "^4.7.0",
         "intro.js": "^3.0.1",
         "ionicons-webpack": "^0.0.1",
