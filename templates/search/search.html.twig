@@ -34,7 +34,7 @@
                                                 <div class="company-up-info user-up-info">
                                                     <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
                                                         {% if user.profile.filename is empty %}
-                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="/images/no-available-photo.png" alt="">
+                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                         {% else  %}
                                                             <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
                                                         {% endif %}
@@ -62,7 +62,7 @@
                                                     <ul>
                                                         <li>
                                                             <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                                class="favoris-icon fa {% if user.id in favorisUsersIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-favoris"
+                                                                class="favoris-icon {% if user.id in favorisUsersIds %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-favoris"
                                                                 data-user-id ="{{ user.id }}"
                                                                 data-profile-id ="{{ user.profile.id }}"
                                                                 data-target="{{path('favorit_add', {'userId':user.id})  }}"
@@ -71,7 +71,7 @@
                                                         </li>
                                                         <li>
                                                             <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
-                                                                <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fa fa-comments search-contact"></i>
+                                                                <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fas fa-comments search-contact"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -109,7 +109,7 @@
                                                     <div class="result-company-image">
                                                         <a href="{{path('company_show', { 'slug': company.slug}) }}">
                                                             {% if company.filename is empty %}
-                                                                <img src="/images/no-available-photo.png" alt="">
+                                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                             {% else  %}
                                                                 <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
 
@@ -135,7 +135,7 @@
                                                     <ul>
                                                         <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
                                                             <i id="result-company-item-{{ company.id }}"
-                                                               class="fa  {% if company.id in favorisCompaniesIds %} fa-star text-warning {% else %} fa-star-o text-muted {% endif %}  add-company-favoris"
+                                                               class="{% if company.id in favorisCompaniesIds %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-company-favoris"
                                                                aria-hidden="true"
                                                                data-company-id ="{{ company.id }}"
                                                                data-company-name="{{ company.name }}"

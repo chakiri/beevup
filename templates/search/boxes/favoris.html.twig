@@ -8,7 +8,7 @@
                         <div class="" style="float:left">
                             <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">
                                 {% if favorit.favoritUser.profile.filename is empty %}
-                                    <img src="/images/no-available-photo.png" alt="">
+                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                 {% else  %}
                                     <img src="{{ vich_uploader_asset(favorit.favoritUser.profile, 'imageFile')|imagine_filter('miniature')}}" style="width: 35px;height:35px">
                                 {% endif %}
