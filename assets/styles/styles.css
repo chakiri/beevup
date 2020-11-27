@@ -1494,13 +1494,14 @@ ul.landing-page-list {
 }
 .company-image h3, .company-image h5 {
     position: absolute;
-    top: 35%;
-    left: 13%;
-    right: 13%;
-    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #fff;
     text-shadow: 0 1px 2px #505050;
     font-weight: 600;
+    height: 4.8em;
+    overflow: hidden;
 }
 .company-up-info ul {
     width: 100%;
