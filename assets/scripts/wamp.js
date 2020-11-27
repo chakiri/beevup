@@ -9,7 +9,7 @@ const APP_ENV = process.env.APP_ENV;
 const WAMP_PORT = process.env.WAMP_PORT;
 if (APP_ENV == "dev"){
     var wsuri = 'ws';
-}else if (WAMP_HOST_IS_SECURITY == "prod"){
+}else if (APP_ENV  == "prod"){
     var wsuri = 'wss';
 }
 
