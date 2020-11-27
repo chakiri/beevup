@@ -81,7 +81,7 @@
                                                       {% if service.filename %}
                                                           <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
                                                       {% else  %}
-                                                          <img src="/images/no-available-photo.png" alt="">
+                                                          <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                       {% endif %}
                                                   </a>
 
@@ -130,5 +130,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="/js/modals.js"></script>
+    {{ encore_entry_script_tags('modals') }}
 {% endblock %}

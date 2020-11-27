@@ -2,7 +2,7 @@
 
 <div class="logo float-left">
     <!-- Uncomment below if you prefer to use an image logo -->
-    <a href="{{ path('dashboard') }}"><img src="/images/default/Logo-beevup&bv2.png" alt=""></a>
+    <a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>
 </div>
 
 <nav class="main-nav d-none d-lg-block">
@@ -24,7 +24,7 @@
                         <li id="postsNotifications" class="box-notification nav-item dropdown"
                             data-toggle="tooltip" data-placement="left" title="Vos notifications de posts">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell-o p-2"></i>
+                                <i class="far fa-bell p-2"></i>
                                 {% if postsNotifications|length > 0 %}
                                     <span class="badge bell-badge">{{ postsNotifications|length }}</span>
                                 {% endif %}
@@ -36,7 +36,7 @@
                                             {% if notification.user.profile.filename %}
                                                 <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                             {% else %}
-                                                <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                             {% endif %}
                                             <small class="pt-2">
                                                 {% if notification.type == 'like' %}
@@ -55,7 +55,7 @@
                         <li id="messagesNotifications" class="box-notification nav-item dropdown"
                             data-toggle="tooltip" data-placement="right" title="Vos notifications de messages">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-envelope-o p-2"></i>
+                                <i class="far fa-envelope p-2"></i>
                                 {% if messagesNotifications|length > 0 %}
                                     <span class="badge bell-badge">{{ messagesNotifications|length }}</span>
                                 {% endif %}
@@ -70,7 +70,7 @@
                                                         {% if user.profile.filename %}
                                                             <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                         {% else %}
-                                                            <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                            <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                         {% endif %}
                                                         <small class="pt-2">
                                                             {{ user.profile.firstname }} vous a envoyé {{ notification }} messages
@@ -78,7 +78,7 @@
                                                     {% endif %}
                                                 {% endfor %}
                                             {% else %}
-                                                <img src="/images/default/channel.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                <img src="{{ asset('build/images/default/channel.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 <small class="pt-2">
                                                     Vous avez {{ notification }} messages dans
                                                     {% if key starts with 'general' %}
@@ -104,7 +104,7 @@
                         {% if app.user.profile.filename %}
                             <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                         {% else %}
-                            <img src="/images/default/user.png" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                            <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                         {% endif %}
                     </a>
                     <ul class="btn-radius">

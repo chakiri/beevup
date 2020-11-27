@@ -1,3 +1,8 @@
-body {
-    background-color: lightgray;
-}
+@import '~bootstrap';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~slick-carousel/slick/slick.css';
+@import '~intro.js/minified/introjs.min.css';
+@import '~cropperjs';
+
+@import './styles.css';
+@import './responsive.css';

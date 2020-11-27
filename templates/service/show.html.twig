@@ -19,7 +19,7 @@
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')}}"  alt="">
                                 {% else %}
-                                    <img src="/images/no-available-photo.png" alt="">
+                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                 {% endif %}
                                 <div class="">
                                     {% if service.user == app.user %}
@@ -160,7 +160,7 @@
                                                        data-target="{{ path('recommandation') }}"
                                                        data-service="{{service.id}}"
                                                        data-company="{% if storeService or service.type.name == "store" %}{{ null }}{% else %}{{ service.user.company.id }}{% endif %}"
-                                                       data-store="{% if storeService %}{{ storeService.store.id }}{% elseif service.type.name == "store" %}{{ service.user.store.id }}{% else %}{{ null }}{% endif %}"><i class="fa fa-thumbs-up"></i> Laisser une recommandation </a>
+                                                       data-store="{% if storeService %}{{ storeService.store.id }}{% elseif service.type.name == "store" %}{{ service.user.store.id }}{% else %}{{ null }}{% endif %}"><i class="fas fa-thumbs-up"></i> Laisser une recommandation </a>
                                                 </div>
                                             {% endif %}
                                         {% endif %}
@@ -175,7 +175,7 @@
                                                 {% if recommandation.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
                                                     <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
@@ -202,7 +202,7 @@
                                                 {% if recommandationCompany.user.profile.filename %}
                                                     <img src="{{ vich_uploader_asset(recommandationCompany.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
                                                 {% else %}
-                                                    <img src="/images/no-available-photo.png" alt="">
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <div class="hover-info">
                                                     <p>{{ recommandationCompany.user.profile.firstname }} {{ recommandationCompany.user.profile.lastname }}</p>
@@ -242,7 +242,7 @@
                                             {% if service.filename %}
                                                 <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('miniature') }}"  alt="">
                                             {% else %}
-                                                <img src="/images/no-available-photo.png" alt="">
+                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                             {% endif %}
                                         </div>
                                         <div class="sgt-text" style="position: relative;left: 10px;float: left;width: 193px;">
@@ -323,8 +323,4 @@
     </div>
 {% endblock %}
 
-{% block javascripts %}
-    <script src="/js/script.js"></script>
-    <script src="/lib/slick/slick.min.js"></script>
-{% endblock %}
 

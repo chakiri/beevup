@@ -8,13 +8,11 @@
         <meta name="generator" content="EasyAdmin" />
 
         <title>{% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
-         {% block header_stylesheets %}
-            <link href="/css/theme.css" rel="stylesheet">
-            <link href="/css/styles.css" rel="stylesheet">
-            <link href="/css/style.css" rel="stylesheet">
-        {% endblock %}
+
         {% block head_stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('admin') }}
         {% endblock %}
 
         {% block head_custom_stylesheets %}
@@ -44,7 +42,7 @@
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.rtl.css') }}">
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app-custom-rtl.css') }}">
         {% endif %}
-        <script src="/lib/mobile-nav/mobile-nav.js"></script>
+        {{ encore_entry_script_tags('admin') }}
     </head>
 	
 	<div class="clearfix"></div>
@@ -139,6 +137,7 @@
         {% block body_custom_javascript %}
             {% for js_asset in easyadmin_config('design.assets.js') %}
                 <script src="{{ asset(js_asset) }}"></script>
+                {{ encore_entry_script_tags('admin') }}
             {% endfor %}
         {% endblock body_custom_javascript %}
 

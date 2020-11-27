@@ -231,6 +231,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="/js/modals.js"></script>
-    <script type="text/javascript" src="/js/form.js"></script>
+    {{ encore_entry_script_tags('modals') }}
+    {{ encore_entry_script_tags('form') }}
 {% endblock %}

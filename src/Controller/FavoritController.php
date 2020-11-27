@@ -19,7 +19,7 @@ class FavoritController extends AbstractController
     /**
      * @Route("/favorit/add/{userId}", name="favorit_add")
      */
-     public function addFavorit(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, $userId)
+     public function addFavorit(EntityManagerInterface $manager,UserRepository $userRepo, $userId)
      {
         $user =  $userRepo->findOneBy(['id' => $userId]);
         $favorit =  new Favorit();
@@ -38,7 +38,7 @@ class FavoritController extends AbstractController
          /**
           * @Route("/favorit/delete/{userId}", name="favorit_delete")
           */
-        public function deleteFavorit(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $userId)
+        public function deleteFavorit(EntityManagerInterface $manager,FavoritRepository $favoritRepo, $userId)
         {
 
          $favorit =  $favoritRepo->findOneBy(['user' => $this->getUser(), 'favoritUser' => $userId]);
@@ -56,7 +56,7 @@ class FavoritController extends AbstractController
           * @Route("/favoritCompany/add/{companyId}", name="favorit_company_add")
           */
 
-          public function addFavoritCompany(Request $request, EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo, UserTypeRepository $userTypeRepo,  $companyId, FavoritRepository $favoritRepo)
+          public function addFavoritCompany(EntityManagerInterface $manager,UserRepository $userRepo, CompanyRepository $companyRepo, UserTypeRepository $userTypeRepo,  $companyId, FavoritRepository $favoritRepo)
           {
              $company =  $companyRepo->findOneBy(['id' => $companyId]);
              $companyAdministratorType = $userTypeRepo->findOneBy(['id' => 3]);
@@ -86,7 +86,7 @@ class FavoritController extends AbstractController
            * @Route("/favoritCompany/delete/{companyId}", name="favorit_company_delete")
            */
 
-         public function deleteFavoritCompany(Request $request, EntityManagerInterface $manager,FavoritRepository $favoritRepo, $companyId)
+         public function deleteFavoritCompany(EntityManagerInterface $manager,FavoritRepository $favoritRepo, $companyId)
          {
 
           $favorit =  $favoritRepo->findOneBy(['user' => $this->getUser(), 'company' => $companyId]);

@@ -8,7 +8,18 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+import $ from 'jquery';
+global.$ = global.jQuery = $;
 
-console.log('Hello Webpack Encore! Edit me in assets/app.js');
+//No need to import popper.js because we installed it in node_module and bootstrap automatically call it
+import 'bootstrap';
+
+//Import libraries
+import 'slick-carousel';
+
+//Import app JS files
+import './scripts/script';
+import './scripts/theme';
+
+
+console.log('Hello Webpack Encore! Edit me in assets/app.js !');

@@ -15,24 +15,20 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
+###> Local chat conifg ###
+/src/Command/WampServerCommand.php
+/public/js/wamp.js
+###< Local chat conifg ###
+
+/public/media/pdf/CGU.pdf
+
+###> local uploads###
+/public/media/uploads/
+###< local uploads###
+
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
-
-/src/Command/WampServerCommand.php
-/public/js/wamp.js
-
-/public/pdf/CGU.pdf
-
-###> local images###
-/public/images/advertising/*
-/public/images/company/*
-/public/images/profile/*
-/public/images/profile/*
-/public/images/publicity/*
-/public/images/service/*
-/public/images/store/*
-###< local images###
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

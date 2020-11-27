@@ -14,7 +14,7 @@
                       {% if app.user.profile.filename %}
                           <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                       {% else %}
-                          <img src="/images/default/user.png" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                          <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                       {% endif %}
                       <div class="meta">
                           <p><strong>{{ app.user.profile.firstname }}</strong></p>
@@ -61,10 +61,10 @@
               </li>
               <li class="nav-item box-notification"
                   data-toggle="tooltip" data-placement="top" title="Ajouter une image">
-                  <a class="nav-link image" href="#"><i class="fa fa-image p-2"></i></a></li>
+                  <a class="nav-link image" href="#"><i class="fas fa-image p-2"></i></a></li>
               <li class="nav-item box-notification"
                   data-toggle="tooltip" data-placement="top" title="Partager une vidéo">
-                  <a class="nav-link video" href="#"><i class="fa fa-video-camera p-2"></i></a></li>
+                  <a class="nav-link video" href="#"><i class="fas fa-video-camera p-2"></i></a></li>
           </ul>
 
           <button type="submit" class="btn big-btn orange-bg w-25">
@@ -77,6 +77,6 @@
   {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="/js/form.js"></script>
-    <script type="text/javascript" src="/js/dashboard.js"></script>
+    {{ encore_entry_script_tags('form') }}
+    {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}

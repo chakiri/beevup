@@ -4,10 +4,10 @@
             {% if profile.filename %}
                 <img src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('avatar_big') }}"  alt="">
             {% else %}
-                <img src="/images/no-available-photo.png" alt="">
+                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
             {% endif %}
             {% if app.user.id == profile.user.id %}
-            <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}" title=""><i class="fa fa-camera"></i></a>
+            <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}" title=""><i class="fas fa-camera"></i></a>
             {% endif %}
         </div><!--user-pro-img end-->
         <div class="user_pro_status pl-2 pr-2">

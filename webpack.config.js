@@ -1,5 +1,6 @@
 var Encore = require('@symfony/webpack-encore');
 
+
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -21,18 +22,24 @@ Encore
      * (including one that's included on every page - e.g. "app")
      *
      * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.ev
      */
     .addEntry('app', './assets/app.js')
-    //.addEntry('page1', './assets/page1.js')
-    //.addEntry('page2', './assets/page2.js')
+    .addEntry('admin', './assets/scripts/admin.js')
+    .addEntry('dashboard', './assets/scripts/dashboard.js')
+    .addEntry('form', './assets/scripts/form.js')
+    .addEntry('modals', './assets/scripts/modals.js')
+    .addEntry('wamp', './assets/scripts/wamp.js')
+    .addEntry('sendAjax', './assets/scripts/sendAjax.js')
+    .addEntry('favoris', './assets/scripts/favoris.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
+    //.enableSingleRuntimeChunk()
+    .disableSingleRuntimeChunk()
 
     /*
      * FEATURE CONFIG
@@ -51,6 +58,12 @@ Encore
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = 3;
+    })
+
+    //Copies Images assets into build
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[hash:8].[ext]'
     })
 
     // enables Sass/SCSS support
