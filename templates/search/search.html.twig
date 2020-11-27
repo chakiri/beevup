@@ -144,7 +144,7 @@
                                                                data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
                                                                data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
                                                                data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
-                                                               data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile')}}{% endif %}"
+                                                               data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile')}}{% else %}{{ asset('build/images/no-available-photo.png') }}{% endif %}"
                                                             ></i>
                                                         </li>
                                                     </ul>

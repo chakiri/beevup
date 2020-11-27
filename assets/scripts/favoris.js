@@ -102,9 +102,7 @@ $('.add-company-favoris').click(function() {
     var url = '';
     var companyAdministratorName =   $(this).attr('data-company-administrator-name');
     var companyAdministratorImg =    $(this).attr('data-company-administrator-img');
-    if(companyAdministratorImg == ''){
-        companyAdministratorImg ='/images/no-available-photo.png';
-    }
+
     var userId =  $(this).attr('data-company-administrator-id');
     var selectedProfileId = $(this).attr('data-company-administrator-profile-id');
     var companyId = $(this).attr('data-company-id');
@@ -163,7 +161,7 @@ $('.add-company-favoris').click(function() {
                    <div class="popup-info box">
                     <div class="d-flex">
                         <a href="#">
-                            <img src="/images/no-available-photo.png" class="rounded-circle medium-avatar" alt="avatar image">
+                            <img src="` + companyAdministratorImg + `"  class="rounded-circle medium-avatar" alt="avatar image">
                         </a>
                         <div>
                             <p> ` + companyAdministratorName + `</p>

@@ -187,7 +187,7 @@
                     <div class="text-comment-box">
                         <textarea placeholder="Ajouter un commentaire"></textarea>
                     </div>
-                    <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="far fa-send"></i></button>
+                    <button class="submit-comment-box btn" data-url="{{ path('comment_post', {'id': post.id}) }}"><i class="far fa-paper-plane"></i></button>
                 </div>
                 {% for comment in post.comments|reverse %}
                 <div class="box-comment d-flex">
