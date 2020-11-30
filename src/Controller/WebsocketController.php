@@ -35,7 +35,7 @@ class WebsocketController extends AbstractController
     public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification)
     {
         //Verification passing bad subject to url
-        if (!$topic && !$user) return $this->redirectToRoute('page_not_found');
+        if (!$topic && !$user) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         //If profile is incomplete
         if ($this->getUser()->getProfile()->getIsCompleted() == false){
@@ -56,9 +56,7 @@ class WebsocketController extends AbstractController
 
         }elseif($request->get('_route') == 'chat_topic'){
             //if user not having this topic
-            if (!in_array($topic, $this->getUser()->getTopics()->toArray())){
-                return $this->redirectToRoute('page_not_found');
-            }
+            if (!in_array($topic, $this->getUser()->getTopics()->toArray())) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
             //Assign topic to the subject
             $subject = $topic->getName();

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
 use App\Entity\Service;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
@@ -15,7 +14,6 @@ use App\Repository\StoreRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
-use App\Service\Communities;
 use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
 use App\Service\ScoreHandler;
@@ -25,16 +23,12 @@ use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class ServiceController extends AbstractController
 {
-
     /**
     * @Route("/service", name="service")
     * @Route("/service/generic", name="service_generic")
@@ -45,9 +39,8 @@ class ServiceController extends AbstractController
     */
     public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting)
     {
-        
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
-       $services = $serviceRepository->findByLocalServices($allCompanies);
+        $services = $serviceRepository->findByLocalServices($allCompanies);
 
         //Add related generic services of store
         $storeServices = $this->getUser()->getStore()->getServices();
@@ -180,13 +173,9 @@ class ServiceController extends AbstractController
      */
      public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
     {
-      $referer = $request->headers->get('referer');
-      $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
-      if($service != null) {
-            if ($request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId()) {
-                return $this->redirectToRoute('page_not_found', []);
-            }
-        }
+        if ($service != null && $request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId())  return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        $referer = $request->headers->get('referer');
+        $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
 
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
@@ -197,14 +186,11 @@ class ServiceController extends AbstractController
         }
 
         $form = $this->createForm(ServiceType::class, $service, array('isOffer'=>$isOffer));
-
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-
             if($form->isValid())
             {
-
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);
@@ -249,7 +235,6 @@ class ServiceController extends AbstractController
 
                 $this->addFlash('success', $message);
 
-
                 if ($request->isXmlHttpRequest())
                 {
                    return new JsonResponse( array(
@@ -266,8 +251,6 @@ class ServiceController extends AbstractController
                         'result' => 0,
                         'message' => 'Invalid form',
                         'data' => $error->getErrorMessages($form),
-
-
                     ));
                 }
             }
@@ -284,7 +267,7 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service/{id}", name="service_show")
     */
-    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, CompanyRepository $companyRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
+    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
     {
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
 
@@ -350,13 +333,11 @@ class ServiceController extends AbstractController
         }
     }
 
-    function floatvalue($val){
+    // Generate an array contains a key -> value with the errors where the key is the name of the form field
+    private function floatvalue($val){
         $val = str_replace(",",".",$val);
         $val = preg_replace('/\.(?=.*\.)/', '', $val);
         return floatval($val);
     }
-     // Generate an array contains a key -> value with the errors where the key is the name of the form field
-
-
 
 }

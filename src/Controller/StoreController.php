@@ -23,81 +23,77 @@ use App\Service\GetCompanies;
 
 class StoreController extends AbstractController
 {
-
     /**
      * @Route("/store/{slug}", name="store_show")
      */
-    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, RecommandationRepository $recommandationRepository, UserTypeRepository $userTypeRepository, ServiceRepository $serviceRepository, StoreServicesRepository $storeServicesRepository, GetCompanies $getCompanies)
+    public function show(Store $store, UserRepository $userRepository, CompanyRepository $companyRepository, RecommandationRepository $recommandationRepository, GetCompanies $getCompanies)
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $localStores = $getCompanies->getLocalStores($store , $allCompanies);
-        if ($getCompanies->isStoreInLocalStores($store, $localStores) == true || $this->getUser()->getStore() == $store ) {
-            $users = $userRepository->findByStore($store);
-            $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
 
-            $services = [];
-            foreach ($store->getServices() as $service){
-                array_push($services, $service->getService());
-            }
+        //Denie access
+        if ($getCompanies->isStoreInLocalStores($store, $localStores) != true || $this->getUser()->getStore() != $store) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
-            $recommandationsServices = $recommandationRepository->findByStoreServices($store, 'Validated');
-            $recommandationsStore = $recommandationRepository->findByStoreWithoutServices($store, 'Validated');
+        $users = $userRepository->findByStore($store);
+        $companies = $companyRepository->findBy(['store' => $store, 'isCompleted' => true], ['id' => 'DESC'], 3);
 
-            return $this->render('store/show.html.twig', [
-                'store' => $store,
-                'users' => $users,
-                'companies' => $companies,
-                'services' => $services,
-                'recommandationsServices' => $recommandationsServices,
-                'recommandationsStore' => $recommandationsStore
-            ]);
-        }else{
-            return $this->redirectToRoute('page_not_found', []);
+        $services = [];
+        foreach ($store->getServices() as $service){
+            array_push($services, $service->getService());
         }
+
+        $recommandationsServices = $recommandationRepository->findByStoreServices($store, 'Validated');
+        $recommandationsStore = $recommandationRepository->findByStoreWithoutServices($store, 'Validated');
+
+        return $this->render('store/show.html.twig', [
+            'store' => $store,
+            'users' => $users,
+            'companies' => $companies,
+            'services' => $services,
+            'recommandationsServices' => $recommandationsServices,
+            'recommandationsStore' => $recommandationsStore
+        ]);
     }
 
     /**
      * @Route("/store/{id}/edit", name="store_edit")
      * @Route("/store/new", name="store_new")
      */
-    public function form(Request $request, ?Store $store, EntityManagerInterface $manager, $id,  ImageCropper $imageCropper, Error $error)
+    public function form(Request $request, ?Store $store, EntityManagerInterface $manager)
     {
-       if(in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) {
-            if (!$store) {
-                $store = new Store();
-                $store->setReference('12323434');
-            }
-            $form = $this->createForm(StoreType::class, $store);
-            $form->handleRequest($request);
+        //Denie Access
+        if(!in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $store->setModifiedAt(new \DateTime());
-                $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
-                $map = new Map();
-                $coordonnees = $map->geocode($adresse);
+        if (!$store) {
+            $store = new Store();
+            $store->setReference('12323434');
+        }
+        $form = $this->createForm(StoreType::class, $store);
+        $form->handleRequest($request);
 
-                if ($coordonnees != null) {
-                    $store->setLatitude($coordonnees[0]);
-                    $store->setLongitude($coordonnees[1]);
-                }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $store->setModifiedAt(new \DateTime());
+            $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
+            $map = new Map();
+            $coordonnees = $map->geocode($adresse);
 
-                $manager->persist($store);
-                $manager->flush();
-
-                return $this->redirectToRoute('store_show', [
-                    'slug' => $store->getSlug()
-                ]);
+            if ($coordonnees != null) {
+                $store->setLatitude($coordonnees[0]);
+                $store->setLongitude($coordonnees[1]);
             }
 
+            $manager->persist($store);
+            $manager->flush();
 
-            return $this->render('store/form.html.twig', [
-                'store' => $store,
-                'form' => $form->createView()
+            return $this->redirectToRoute('store_show', [
+                'slug' => $store->getSlug()
             ]);
         }
-        else{
-            return $this->redirectToRoute('page_not_found', []);
-        }
+
+        return $this->render('store/form.html.twig', [
+            'store' => $store,
+            'form' => $form->createView()
+        ]);
     }
 
 }

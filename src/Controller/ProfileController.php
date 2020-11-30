@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
 use App\Form\ProfileType;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class ProfileController extends AbstractController
@@ -29,7 +27,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}", name="profile_show")
      */
-    public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, FavoritRepository $favoritRepository, UserRepository $userRepo, ProfilRepository $profileRepo, $id)
+    public function show(Profile $profile, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, FavoritRepository $favoritRepository, UserRepository $userRepo)
     {
         $collegues = null;
         $services = $serviceRepository->findBy(['user' => $profile->getUser()], ['createdAt' => 'DESC']);
@@ -59,47 +57,46 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility, Error $error)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility)
     {
-        if($profile->getUser() == $this->getUser()) {
-            $form = $this->createForm(ProfileType::class, $profile);
-            $form->handleRequest($request);
+        if(!$profile->getUser() != $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $isCompleted = $profile->getIsCompleted();
+        $form = $this->createForm(ProfileType::class, $profile);
+        $form->handleRequest($request);
 
-                /*******Add automatic post***/
-                if (!$isCompleted) {
-                    $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                    $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
-                    $autmaticPost->Add($this->getUser(), "Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
-                }
-                $profile->setFirstname($utility->updateName($profile->getFirstname()));
-                $profile->setLastname($utility->updateName($profile->getLastname()));
-                $profile->setIsCompleted(true);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $isCompleted = $profile->getIsCompleted();
 
-                //Cropped Image
-                $imageCropper->move_directory($profile);
-
-                $manager->persist($profile);
-                $manager->flush();
-
-                /* Add topic function to user type 2 */
-                if ($profile->getUser()->getType()->getId() == 2)
-                    $topicHandler->initFunctionStoreTopic($profile->getUser());
-                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-                return $this->redirectToRoute('profile_show', [
-                    'id' => $profile->getId()
-                ]);
+            /*******Add automatic post***/
+            if (!$isCompleted) {
+                $category = $postCategoryRepository->findOneBy(['id' => 7]);
+                $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
+                $autmaticPost->Add($this->getUser(), "Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
             }
+            $profile->setFirstname($utility->updateName($profile->getFirstname()));
+            $profile->setLastname($utility->updateName($profile->getLastname()));
+            $profile->setIsCompleted(true);
 
-            return $this->render('profile/form.html.twig', [
-                'EditProfileForm' => $form->createView(),
-                'profile' => $profile,
+            //Cropped Image
+            $imageCropper->move_directory($profile);
+
+            $manager->persist($profile);
+            $manager->flush();
+
+            /* Add topic function to user type 2 */
+            if ($profile->getUser()->getType()->getId() == 2)
+                $topicHandler->initFunctionStoreTopic($profile->getUser());
+            $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+            return $this->redirectToRoute('profile_show', [
+                'id' => $profile->getId()
             ]);
-        }else {
-            return $this->redirectToRoute('page_not_found', []);
         }
+
+        return $this->render('profile/form.html.twig', [
+            'EditProfileForm' => $form->createView(),
+            'profile' => $profile,
+        ]);
+
     }
 
     /**

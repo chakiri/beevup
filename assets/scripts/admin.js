@@ -1,8 +1,5 @@
 import '../styles/admin.css';
-import 'mobile-nav';
 
-
-"use strict";
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&'),
@@ -17,7 +14,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 }
-
 
 if($('#store_country').length  > 0) {
     var action = getUrlParameter('action');
