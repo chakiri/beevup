@@ -20,6 +20,6 @@ import 'slick-carousel';
 //Import app JS files
 import './scripts/script';
 import './scripts/theme';
-
+import './scripts/gtag'
 
 console.log('Hello Webpack Encore! Edit me in assets/app.js !');
