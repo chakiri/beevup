@@ -1,10 +1,17 @@
-{% for label, messages in app.flashes %}
-    <div id="alert" class="container-bv">
-        {% for message in messages %}
-            <div class="alert alert-dismissible alert-{{ label }} mb-0">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>{{ message|raw }}</strong>
-            </div>
-        {% endfor %}
-    </div>
-{% endfor %}
+{% if app.request.attributes.get('_route') != 'security_forgotten_password'and
+    app.request.attributes.get('_route') != 'security_reset_password'and
+    app.request.attributes.get('_route') != 'security_login'
+%}
+
+    {% for label, messages in app.flashes %}
+        <div id="alert" class="container-bv">
+            {% for message in messages %}
+                <div class="alert alert-dismissible alert-{{ label }} mb-0">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{ message|raw }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endif %}

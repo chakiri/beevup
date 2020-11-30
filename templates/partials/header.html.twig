@@ -1,3 +1,11 @@
+{% if app.request.attributes.get('_route') != 'security_registration' and
+    app.request.attributes.get('_route') != 'security_login' and
+    app.request.attributes.get('_route') != 'security_forgotten_password' and
+    app.request.attributes.get('_route') != 'security_new_account' and
+    app.request.attributes.get('_route') != 'security_reset_password' and
+    app.request.attributes.get('_route') != 'waiting_validation'
+%}
+
 <header id="header" class="fixed-top d-flex justify-content-between">
 
 <div class="logo float-left">
@@ -24,7 +32,7 @@
                         <li id="postsNotifications" class="box-notification nav-item dropdown"
                             data-toggle="tooltip" data-placement="left" title="Vos notifications de posts">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-bell p-2"></i>
+                                <i class="fas fa-bell p-2"></i>
                                 {% if postsNotifications|length > 0 %}
                                     <span class="badge bell-badge">{{ postsNotifications|length }}</span>
                                 {% endif %}
@@ -55,7 +63,7 @@
                         <li id="messagesNotifications" class="box-notification nav-item dropdown"
                             data-toggle="tooltip" data-placement="right" title="Vos notifications de messages">
                             <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-envelope p-2"></i>
+                                <i class="fas fa-envelope p-2"></i>
                                 {% if messagesNotifications|length > 0 %}
                                     <span class="badge bell-badge">{{ messagesNotifications|length }}</span>
                                 {% endif %}
@@ -189,3 +197,5 @@
         </div>
     </div>
 {% endblock %}
+
+{% endif %}

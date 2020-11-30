@@ -3599,11 +3599,6 @@ growly@^1.3.0:
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
-gs-util@^1.5.6:
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/gs-util/-/gs-util-1.5.6.tgz#c2c0c833b446653eb85d35a4118f2d17251a2be5"
-  integrity sha1-wsDIM7RGZT64XTWkEY8tFyUaK+U=
-
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
@@ -4513,11 +4508,6 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash.debounce@4.0.8:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
-  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
-
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -4765,11 +4755,6 @@ mississippi@^3.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
-mitt@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.1.2.tgz#380e61480d6a615b660f07abb60d51e0a4e4bed6"
-  integrity sha1-OA5hSA1qYVtmDwertg1R4KTkvtY=
-
 mixin-deep@^1.2.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
@@ -4789,14 +4774,6 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
-
-mobile-nav@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/mobile-nav/-/mobile-nav-1.4.3.tgz#3a870390622164e36ca274c68cadfd85dc22d358"
-  integrity sha1-OocDkGIhZONsonTGjK39hdwi01g=
-  dependencies:
-    gs-util "^1.5.6"
-    resize-start-end "^1.0.2"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -6391,14 +6368,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
-
-resize-start-end@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/resize-start-end/-/resize-start-end-1.0.2.tgz#11df294f1c5f5354ec7a192d70d0c47ceb3e1121"
-  integrity sha512-U+ZoiKsfV1e08qqhzKWcmfiaBmCKNJbcO8fRt6Jhs7Xysf0WkeCUHu6+ZyfIPwpoQ7ATWLbr2DxtGuHIl9RJNA==
-  dependencies:
-    lodash.debounce "4.0.8"
-    mitt "1.1.2"
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

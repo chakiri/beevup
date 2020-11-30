@@ -12,7 +12,6 @@
         "ionicons-webpack": "^0.0.1",
         "jquery": "^3.5.1",
         "leaflet": "^1.7.1",
-        "mobile-nav": "^1.4.3",
         "node-sass": "^5.0.0",
         "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
