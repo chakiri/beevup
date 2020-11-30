@@ -72,7 +72,7 @@ class ProfileController extends AbstractController
                 if (!$isCompleted) {
                     $category = $postCategoryRepository->findOneBy(['id' => 7]);
                     $description = $profile->getFirstname() ?? 'Pour plus d\'information, visitez le profile de ' . $profile->getFirstname();
-                    $autmaticPost->Add($this->getUser(), "Bienvenue au " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
+                    $autmaticPost->Add($this->getUser(), "Bienvenue à " . $profile->getFirstname() . " " . $profile->getLastname(), $description, $category, $profile->getId(), 'User');
                 }
                 $profile->setFirstname($utility->updateName($profile->getFirstname()));
                 $profile->setLastname($utility->updateName($profile->getLastname()));
