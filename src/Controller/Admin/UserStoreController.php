@@ -122,6 +122,24 @@ class UserStoreController extends EasyAdminController
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }
+    protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
+    {
+        $store = $this->getUser()->getStore();
+        $qb = parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+
+
+        if ($entityClass === User::class) {
+            $qb->innerJoin('entity.profile', 'P')
+                ->orWhere('LOWER(P.firstname) LIKE :search or LOWER(P.lastname) LIKE :search')
+                ->andWhere('entity.store = :store')
+                ->setParameter('search','%'.$searchQuery.'%')
+                ->setParameter('store',$store)
+            ;
+        }
+
+        return $qb;
+    }
+
     /*protected function removeEntity($entity)
     {
        if ($this->getUser()->getId() == $entity->getId()) {
