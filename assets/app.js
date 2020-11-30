@@ -16,7 +16,6 @@ import 'bootstrap';
 
 //Import libraries
 import 'slick-carousel';
-import 'mobile-nav';
 
 //Import app JS files
 import './scripts/script';

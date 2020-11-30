@@ -290,7 +290,9 @@ a.nav-link i{
 }
 
 .mobile-nav .drop-down > a:after {
+    font-family: "Font Awesome 5 Free";
     content: "\f078";
+    font-weight: 900;
     padding-left: 10px;
     position: absolute;
     right: 15px;
@@ -2842,12 +2844,6 @@ a:hover {
     position: absolute;
     top: 50%;
     line-height: 27px;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-family: fontawesome;
     width: 30px;
     height: 30px;
     background-color: #fff;
@@ -2865,6 +2861,17 @@ a:hover {
     background-color: var(--orange-color);
     color: #fff;
     border-color: transparent;
+}
+
+.slick-previous:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f104";
+}
+.slick-nexti:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f105";
 }
 
 /* =================Alerts ============================*/
