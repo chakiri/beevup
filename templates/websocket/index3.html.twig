@@ -167,7 +167,7 @@
                                 <span><small>{{ message.user.profile.firstname}}</small></span>
                                 <div>
                                     {% if message.user.profile.filename %}
-                                        <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile')|imagine_filter('miniature')  }}" alt="" />
+                                        <img src="{{ vich_uploader_asset(message.user.profile, 'imageFile') }}" alt="" />
                                     {% else %}
                                         <img id="subjectAvatar" src="{{ asset('build/images/default/user.png') }}" class="img-fluid" alt="">
                                     {% endif %}
