@@ -21,3 +21,4 @@ if($('#store_country').length  > 0) {
         $('#store_country').val("FR");
     }
 }
+
