@@ -40,8 +40,8 @@ class WampServerCommand extends Command
                 new Server('0.0.0.0:' . $port, $loop),
                 $loop,
                 array(
-                    'local_cert' => '/etc/letsencrypt/live/mvp.chakiri.fr/fullchain.pem',
-                    'local_pk' => '/etc/letsencrypt/live/mvp.chakiri.fr/privkey.pem',
+                    'local_cert' => '/etc/letsencrypt/live/beevup.fr/cert.pem',
+                    'local_pk' => '/etc/letsencrypt/live/beevup.fr/privkey.pem',
                     'verify_peer' => false,
                     'verify_peer_name' => false
                 )
