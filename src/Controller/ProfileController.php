@@ -59,7 +59,7 @@ class ProfileController extends AbstractController
      */
     public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility)
     {
-        if(!$profile->getUser() != $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        if($profile->getUser() != $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);

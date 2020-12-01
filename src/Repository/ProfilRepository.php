@@ -19,32 +19,24 @@ class ProfilRepository extends ServiceEntityRepository
         parent::__construct($registry, Profile::class);
     }
 
-    // /**
-    //  * @return Profile[] Returns an array of Profile objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $allCompanies
+     * @param $query
+     * @return int|mixed|string
+     */
+    public function findByQuery($allCompanies, $query)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('p.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
+
+            ->andWhere('p.firstname LIKE :query OR p.lastname LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('companies', $allCompanies)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Profile
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -49,3 +49,19 @@
     {% endif %}
 {% endif %}
 
+{% if beContactedList %}
+    {% if is_granted('ROLE_ADMIN_COMPANY') %}
+        <div class="warning p-3">
+            <h5 class="alert-heading"><i class="fa fa-eye"></i> {{ beContactedList|length }}
+                {% if beContactedList|length > 1 %}
+                    nouvelles demandes de contact
+                {% elseif beContactedList|length == 1 %}
+                    nouvelle demande de contact
+                {% endif %}
+            </h5>
+            <p class="mb-0">Vous avez des demandes de contact à gérer <a href="{{ path('be_contacted_list') }}" class="alert-link">cliquer ici</a>.</p>
+        </div>
+    {% endif %}
+{% endif %}
+
+

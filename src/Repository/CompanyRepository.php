@@ -108,6 +108,7 @@ class CompanyRepository extends ServiceEntityRepository
             ;
         if ($name != ''){
             $qb->andWhere('c.name LIKE :namelike')
+                ->orWhere('c.introduction LIKE :namelike')
                 ->orWhere('c.email = :name')
                 ->orWhere('c.siret = :name')
                 ->orWhere('c.phone = :name')

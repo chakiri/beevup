@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moteur de recherche{% endblock %}
+
+{% block body %}
+
+    {% include 'partials/headerSecurity.html.twig' %}
+
+    <section class="bg-search">
+        <div class="container-bv">
+            <div class="row">
+                <div class="col-6">
+                    <h1>Les meilleurs services sont ceux de votre entourage</h1>
+                    <h4>Trouvez ce que vous recherchez à deux pas de chez vous</h4>
+                    <div class="box-search">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            {{ form_widget(form.querySearch) }}
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="pt-3"><i class="fas fa-store mr-2"></i> {{ store.name }}</h5>
+                            <button type="submit" class="btn btn-search">Rechercher</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-5 pb-5">
+        <div class="container-bv container search-carousel">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="mb-3">Faites votre marché dans les services proposés</h3>
+                </div>
+                {% if services is empty %}
+            </div>
+            <div class="box">
+                <div class="text-center">
+                    <h5 class="m-0">Aucun service attaché au {{ store.name }}</h5>
+                </div>
+            </div>
+            {% else %}
+                <div class="col-6 text-right">
+                    <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-12">
+                    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% set i = 0 %}
+                            {% set j = 0 %}
+                            {% for service in services %}
+                                {% set i = i + 1 %}
+                                {% set j = j + 1 %}
+                                {% if i == 1 %}
+                                    <div class="carousel-item {% if j == 1 %}active{% endif %}">
+                                    <div class="row row-equal">
+                                {% endif %}
+                                <div class="col-md-3 mb-3">
+                                    <div class="card">
+                                        {% if service.isDiscovery %}
+                                            <div class="badge-box">
+                                                <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
+                                            </div>
+                                        {% endif %}
+                                        {% if service.filename %}
+                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
+                                        {% else  %}
+                                            <img src="/images/no-available-photo.png" alt="">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h4 class="card-title">{{ service.title }}</h4>
+                                            <ul class="list-unstyled list-inline rating mb-0">
+                                                <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange"> </i></li>
+                                                <li class="list-inline-item"><p class="text-muted">3 Recommandations</p></li>
+                                            </ul>
+                                            <p class="card-text">{{ service.introduction }}</p>
+                                            <p class="text-muted mt-3">Proposé par : {{ service.user.company.name }}</p>
+                                        </div>
+                                        <hr>
+
+                                        <!-- Button -->
+                                        <div class="my-4 text-center">
+                                            <a href="{{ path('external_company_show', {'slug': service.user.company.slug}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if i == 4 %}
+                                    </div>
+                                    </div>
+                                    {% set i = 0 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        </div>
+    </section>
+
+{% endblock %}

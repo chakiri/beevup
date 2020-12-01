@@ -35,6 +35,7 @@ class RecommandationController extends AbstractController
         }
 
         return $this->render('recommandation/index.html.twig', [
+            'profile' => $this->getUser()->getProfile(),
             'recommandations' => $recommandations
         ]);
     }

@@ -5,14 +5,17 @@
                 <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
             </a>
         </div>
-        <div class="connexion-btn pt-3">
-            <button type="submit" class="white-btn" method="post">
-                {% if app.request.attributes.get('_route') == 'security_login' %}
-                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">Inscription </a>
-                {% else %}
+        <div>
+            {% if app.request.attributes.get('_route') != 'security_login' %}
+                <button type="submit" class="white-btn connexion-btn mt-4" method="post">
                     <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
-                {% endif %}
-            </button>
+                </button>
+            {% endif %}
+            {% if app.request.attributes.get('_route') != 'security_registration' %}
+                <button type="submit" class="white-btn connexion-btn mt-4" method="post">
+                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
+                </button>
+            {% endif %}
         </div>
     </header>
 </div>

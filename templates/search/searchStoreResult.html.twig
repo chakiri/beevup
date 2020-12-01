@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ query }}{% endblock %}
+
+{% block body %}
+
+    {% include 'partials/headerSecurity.html.twig' %}
+
+    <section class="search-store-result">
+        <div class="container-bv container-bv-search-result">
+
+            {% if results %}
+                <ul class="list-unstyled list-inline pt-3 pb-3">
+                    <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
+                    <li class="list-inline-item ml-3"><span><a href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
+                </ul>
+
+                <div class="">
+                    <div class="row row-equal">
+                        {% for result in results %}
+                            <div class="col-lg-3 col-md-4">
+                                <!-- Card -->
+                                <div class="card">
+                                    <!-- Card image -->
+                                    <div class="view">
+                                        {% if result.filename %}
+                                            <img class = "card-img-top" src="{{ vich_uploader_asset(result, 'imageFile') }}" >
+                                        {% else  %}
+                                            <img class = "card-img-top" src="/images/no-available-photo.png" alt="">
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Card content -->
+                                    <div class="card-body">
+
+                                        <h4 class="card-title font-weight-bold"><a>{{ result.name }}</a></h4>
+                                        <ul class="list-unstyled list-inline rating mb-0">
+                                            <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
+                                            <li class="list-inline-item"><p class="text-muted">3 Recommandations</p></li>
+                                        </ul>
+                                        <ul class="list-unstyled list-inline rating mb-0">
+                                            <li class="list-inline-item mr-0"><i class="fas fa-map-pin"></i></li>
+                                            <li class="list-inline-item"><p> • {{ result.city }}</p></li>
+                                        </ul>
+                                        <p class="card-text">{{ result.introduction }}</p>
+                                        <hr class="my-4">
+
+                                        <!-- Button -->
+                                        <div class="text-center">
+                                            <a href="{{ path('external_company_show', {'slug': result.slug}) }}" class="btn btn-flat p-1 mx-0 mb-0">Voir plus</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- Card -->
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            {% else %}
+                <ul class="list-unstyled list-inline pt-3 pb-3">
+                    <li class="list-inline-item mr-0"><h3>Aucune entreprise disponible pour votre recherche "{{ query }}".</h3></li>
+                    <li class="list-inline-item ml-3"><span><a href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
+
