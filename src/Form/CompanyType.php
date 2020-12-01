@@ -110,7 +110,8 @@ class CompanyType extends AbstractType
                'attr'  => [
                     'placeholder' => 'Description',
                     'class'       =>'form-control entity-description',
-                    'maxlength'   => 1500
+                    'maxlength'   => 1500,
+                   'rows'=>5
                 ]
             ])
             ->add('website', TextType::class, [

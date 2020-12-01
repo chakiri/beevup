@@ -332,6 +332,7 @@ $('#cookies a').click(function(){
                     }
 
                 }
+                // =================================append copper Image ============
 
             },
             error: function(){

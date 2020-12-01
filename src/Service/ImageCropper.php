@@ -20,10 +20,10 @@ class ImageCropper
     {
         if( isset($_FILES['file'])) {
             $file = new UploadedFile($_FILES['file']['tmp_name'], $_FILES['file']['name'], $_FILES['file']['type']);
-
             $entity->setImageFile($file);
         }
 
     }
+
 
 }

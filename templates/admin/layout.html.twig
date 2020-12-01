@@ -42,7 +42,7 @@
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.rtl.css') }}">
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app-custom-rtl.css') }}">
         {% endif %}
-        {{ encore_entry_script_tags('admin') }}
+
     </head>
 	
 	<div class="clearfix"></div>
@@ -132,13 +132,14 @@
         </div>
         {% endblock wrapper_wrapper %}
 
-        {% block body_javascript %}{% endblock body_javascript %}
+        {% block body_javascript %}
+            {{ encore_entry_script_tags('admin') }}
+        {% endblock body_javascript %}
 
         {% block body_custom_javascript %}
             {% for js_asset in easyadmin_config('design.assets.js') %}
                 <script src="{{ asset(js_asset) }}"></script>
-                {{ encore_entry_script_tags('admin') }}
-            {% endfor %}
+             {% endfor %}
         {% endblock body_custom_javascript %}
 
     </body>

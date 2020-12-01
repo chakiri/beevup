@@ -107,7 +107,8 @@ class StoreType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Introduction',
                     'class'       =>'form-control',
-                    'maxlength' => 255
+                    'maxlength' => 255,
+                    'rows'=>5
                     ]
                 ])
             ->add('description', TextareaType::class, [
@@ -116,7 +117,8 @@ class StoreType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Description',
                      'class'       =>'form-control entity-description',
-                    'maxlength' => 1500
+                    'maxlength' => 1500,
+                    'rows'=>5
                 ]
             ])
 
