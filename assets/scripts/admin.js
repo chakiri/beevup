@@ -1,6 +1,5 @@
 import '../styles/admin.css';
 import Cropper from 'cropperjs';
-var utility = require("./utility.js");
 
 function handler (event, fileInput, cropper, form,targetUrl,  redirectUrl)
 {
