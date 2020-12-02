@@ -210,7 +210,7 @@ $('#cookies a').click(function(){
             });
         }
         let form = document.getElementById('BVform');
-        function handler (event)
+        function handler ()
         {
             if(fileInput.files[0]) {
                 event.preventDefault()
@@ -237,9 +237,7 @@ $('#cookies a').click(function(){
         }
         if(form != null)
         {
-            form.addEventListener('submit',function (e) {
-                handler(e);
-            });
+            form.addEventListener('submit',handler);
 
         }
     }
@@ -296,9 +294,9 @@ $('#cookies a').click(function(){
 
     function ajaxWithAxios(blob, form, cropper)
     {
-        console.log(cropper.getCroppedCanvas().toDataURL());
+
        let url = update_img_url();
-        let data = new FormData(form);
+       let data = new FormData(form);
         data.append('file', blob);
 
         $.ajax({
