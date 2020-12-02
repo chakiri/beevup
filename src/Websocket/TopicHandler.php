@@ -104,7 +104,7 @@ class TopicHandler implements WampServerInterface
         }
 
         //Save message in Database
-        $this->saveMessage->save($entryData['user'], $entryData['message'], $entryData['isprivate'], $entryData['subject']);
+        $this->saveMessage->save($entryData['from'], $entryData['message'], $entryData['isprivate'], $entryData['subject']);
 
     }
 
