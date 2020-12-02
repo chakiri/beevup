@@ -20,13 +20,12 @@ class PublicityController extends EasyAdminController
 {
     private $pubRepository;
     private $manager;
-    private $file;
-    public function __construct(PublicityRepository $publicityRepository, EntityManagerInterface $manager, ImageCropper $file)
+    public function __construct(PublicityRepository $publicityRepository, EntityManagerInterface $manager)
     {
 
         $this->pubRepository = $publicityRepository;
         $this->manager = $manager;
-        $this->file = $file;
+
     }
 
     public function persistPublicityEntity($publicity)
@@ -37,11 +36,11 @@ class PublicityController extends EasyAdminController
     /**
      * @Route("/admin/updatePublicity/{id}", name="updatePublicity")
      */
-    public function editPublicity(Request $request, $id )
+    public function editPublicity(Request $request, $id, ImageCropper $imageCropper )
     {
         if ($request->isXmlHttpRequest()){
             $publicity = $this->pubRepository->findOneBy(['id'=>$id]);
-            $this->file->move_directory( $publicity);
+            $imageCropper->move_directory( $publicity);
             $publicity->setLink( $request->request->get('publicity')['link']);
             $this->manager->persist($publicity);
             $this->manager->flush();
