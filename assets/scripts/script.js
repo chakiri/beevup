@@ -180,8 +180,10 @@ $('#cookies a').click(function(){
         previousImage.classList.remove('hide-bloc');
         fileInput = document.getElementsByClassName('form-imageFile')[0];
         var file = fileInput.files[0];
-        var reader = new FileReader();
+        let reader = new FileReader();
         if(reader != null){
+            //console.log(1111111);
+            //console.log("reader.result");
             reader.addEventListener('load', function (event) {
                 previousImage.src = reader.result
             }, false)
@@ -329,6 +331,7 @@ $('#cookies a').click(function(){
                         //  ============= profile, store or company image upload =========
                     } else {
                         // =================================append copper Image ============
+                        $('#previous-image').empty();
                         $('#update-img-modal').modal('hide');
                         $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
                     }
