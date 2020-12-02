@@ -182,9 +182,7 @@ $('#cookies a').click(function(){
         var file = fileInput.files[0];
         let reader = new FileReader();
         if(reader != null){
-            //console.log(1111111);
-            //console.log("reader.result");
-            reader.addEventListener('load', function (event) {
+             reader.addEventListener('load', function (event) {
                 previousImage.src = reader.result
             }, false)
         }
