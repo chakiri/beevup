@@ -26,7 +26,6 @@ function sendForm(blob, form, cropper, targetUrl, redirectUrl)
 {
     let data = new FormData(form);
     data.append('file', blob);
-
     $.ajax({
         url: targetUrl,
         type: 'POST',
