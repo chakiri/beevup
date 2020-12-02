@@ -156,7 +156,6 @@ $('#cookies a').click(function(){
     previousImage.classList.add('previous-img');
     previousImage.classList.add('hide-bloc');
     var previousImageBloc = document.getElementById('previous-image');
-
     if(previousImageBloc != null) {
 
         previousImageBloc.appendChild(previousImage);
@@ -181,7 +180,7 @@ $('#cookies a').click(function(){
         previousImage.classList.remove('hide-bloc');
         fileInput = document.getElementsByClassName('form-imageFile')[0];
         var file = fileInput.files[0];
-        let reader = new FileReader();
+        var reader = new FileReader();
         if(reader != null){
             reader.addEventListener('load', function (event) {
                 previousImage.src = reader.result
@@ -238,7 +237,10 @@ $('#cookies a').click(function(){
         }
         if(form != null)
         {
-            form.addEventListener('submit', handler);
+            form.addEventListener('submit',function (e) {
+                handler(e);
+            });
+
         }
     }
 
@@ -294,7 +296,8 @@ $('#cookies a').click(function(){
 
     function ajaxWithAxios(blob, form, cropper)
     {
-        let url = update_img_url();
+        console.log(cropper.getCroppedCanvas().toDataURL());
+       let url = update_img_url();
         let data = new FormData(form);
         data.append('file', blob);
 
@@ -327,12 +330,13 @@ $('#cookies a').click(function(){
 
                         //  ============= profile, store or company image upload =========
                     } else {
-                        $('#modal').modal('toggle');
-                        document.location.reload(true);
+                        // =================================append copper Image ============
+                        $('#update-img-modal').modal('hide');
+                        $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
                     }
 
                 }
-                // =================================append copper Image ============
+
 
             },
             error: function(){

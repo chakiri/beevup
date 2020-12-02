@@ -178,7 +178,7 @@ class DefaultController extends AbstractController
                 $imageCropper->move_directory( $entity);
                 $manager->persist( $entity);
                 $manager->flush();
-                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+                //$this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
                 return new JsonResponse( array(
                     'message' => 'Votre photo a été bien modifier',
 
