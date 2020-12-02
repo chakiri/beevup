@@ -34,14 +34,13 @@ class SaveMessage
         $this->mailer = $mailer;
     }
 
-    public function save($name, $content, $isPrivate, $subject)
+    public function save($idUser, $content, $isPrivate, $subject)
     {
         //Save data in DB
         $message = new Message();
 
-        //Get user from firstname
-        $profile = $this->profilRepository->findOneBy(['firstname' => $name]);
-        $user = $profile->getUser();
+        //Get user from idUser
+        $user = $this->userRepository->findOneBy(['id' => $idUser]);
 
         $message
             ->setUser($user)

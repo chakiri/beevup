@@ -2,9 +2,9 @@
     <div class="user_profile">
         <div class="company-pro-img">
             {% if company.filename %}
-                <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
+                <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
             {% else %}
-                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
             {% endif %}
             {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
 
@@ -25,11 +25,13 @@
                     </a>
                 {% endif %}
             {% else %}
-                <div class="btn white-bg">
-                    <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}">
-                        Contacter
-                    </a>
-                </div>
+                {% if (companyAdministrator != null) %}
+                    <div class="btn white-bg">
+                        <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}">
+                            Contacter
+                        </a>
+                    </div>
+                 {% endif %}
                 <a href="#" title=""
                    class="add-company-favoris company-page btn white-bg add-favoris {{ isFavorit }}"
                    data-company-id="{{  company.id }}"

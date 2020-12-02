@@ -1,9 +1,9 @@
 <div class="user_profile">
     <div class="company-pro-img">
         {% if store.filename %}
-            <img src="{{ vich_uploader_asset(store, 'imageFile') }}"  alt="">
+            <img class="main-img"src="{{ vich_uploader_asset(store, 'imageFile') }}"  alt="">
         {% else %}
-            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+            <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
         {% endif %}
         {% if is_granted('ROLE_ADMIN_STORE') and store.id == app.user.store.id %}
 
