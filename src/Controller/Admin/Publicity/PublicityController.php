@@ -20,7 +20,6 @@ class PublicityController extends EasyAdminController
 {
     private $pubRepository;
     private $manager;
-    private $file;
     public function __construct(PublicityRepository $publicityRepository, EntityManagerInterface $manager)
     {
 
