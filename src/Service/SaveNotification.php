@@ -28,7 +28,7 @@ class SaveNotification
 
     public function save($userid, $subject)
     {
-        $user = $this->userRepository->find($userid);
+        $user = $this->userRepository->findOneBy(['id' => $userid]);
 
         //If subject is user
         if (ctype_digit($subject) == true)   {
