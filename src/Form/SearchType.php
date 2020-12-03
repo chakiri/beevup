@@ -32,8 +32,9 @@ class SearchType extends AbstractType
                     'class'=>'btn-radius'
                 ],
                 'choices'  => [
-                    'Personnes' => 'users',
-                    'Entreprise' => 'company'
+                    'Entreprise' => 'company',
+                    'Personnes' => 'users'
+
                 ],
             ])
            /* ->add('category', EntityType::class, [
