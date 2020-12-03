@@ -153,21 +153,29 @@ $('#cookies a').click(function(){
     var fileInput = document.getElementsByClassName('form-imageFile')[0];
     var cropper;
     var previousImage = document.createElement("img");
+
     previousImage.classList.add('previous-img');
     previousImage.classList.add('hide-bloc');
     var previousImageBloc = document.getElementById('previous-image');
     if(previousImageBloc != null) {
 
         previousImageBloc.appendChild(previousImage);
-    }
+   }
 
     var ServiceCropper ='';
     window.previousImage = function()
     {
         $('#previous-image').empty();
-
         var fileInput = document.getElementsByClassName('form-imageFile')[0];
         var cropper;
+        var cutbtn = document.createElement("span");
+        var resetBtn = document.createElement("span");
+        cutbtn.classList.add('cut-btn');
+        cutbtn.innerHTML = "couper la photo";
+        resetBtn.innerHTML = "Annuler";
+        resetBtn.classList.add('reset-btn');
+
+
         var previousImage = document.createElement("img");
         previousImage.classList.add('previous-img');
         previousImage.classList.add('hide-bloc');
@@ -175,6 +183,9 @@ $('#cookies a').click(function(){
         if(previousImageBloc != null) {
 
             previousImageBloc.appendChild(previousImage);
+            previousImageBloc.appendChild(cutbtn);
+
+
         }
 
         previousImage.classList.remove('hide-bloc');
@@ -240,6 +251,33 @@ $('#cookies a').click(function(){
             form.addEventListener('submit',handler);
 
         }
+        $(document).on('click', '.cut-btn', function(e) {
+
+        $('.cropper-modal').addClass('imageCupped');
+        var previousCuppedImage = document.createElement("img");
+        previousCuppedImage.classList.add('previous-cupped-img');
+        $('#previous-image').empty();
+        previousImageBloc.appendChild(previousCuppedImage);
+        $('.previous-cupped-img').attr('src', ServiceCropper.getCroppedCanvas().toDataURL());
+        previousImageBloc.appendChild(resetBtn);
+
+    });
+        $(document).on('click', '.reset-btn', function(e) {
+
+           $('.cropper-modal').removeClass('imageCupped');
+            var previousImage = document.createElement("img");
+            previousImage.classList.add('previous-img');
+            $('#previous-image').empty();
+            previousImage.src = reader.result;
+            previousImageBloc.appendChild(previousImage);
+
+            ServiceCropper = new Cropper(previousImage, {
+                aspectRatio: 1
+            });
+            previousImageBloc.appendChild(cutbtn);
+
+
+        });
     }
 
     //====================== fix service issue =========//
