@@ -24,7 +24,7 @@ class AutomaticPost
         $this->userRepository =$userRepository;
     }
 
-    public function Add($user, $title, $description, $category, $relatedTo, $relatedToType, $recommandation = null)
+    public function Add($user, $title, $description, $category, $relatedTo, $relatedToType, $recommandation = null, $toCompany = null)
    {
        $post = new Post();
        $post->setUser($user);
@@ -33,7 +33,10 @@ class AutomaticPost
        $post->setDescription($description);
        $post->setRelatedTo($relatedTo);
        $post->setRelatedToType($relatedToType);
-       if($recommandation != null){
+       if( ! is_null($toCompany)){
+       $post->setToCompany($toCompany);
+       }
+       if( ! is_null($recommandation) ){
          $post->setRelatedToRecommandation($recommandation);
         }
        $this->manager->persist($post);
