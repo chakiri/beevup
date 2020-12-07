@@ -316,9 +316,9 @@ window.setSeenOpportunityNotification = function(e)
         success: function (response){
             console.log('opportunity notification seen');
         },
-        /*error: function(xhr){
+        error: function(xhr){
             alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
-        }*/
+        }
     });
 }
 
