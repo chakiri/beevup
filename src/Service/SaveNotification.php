@@ -28,7 +28,11 @@ class SaveNotification
 
     public function save($userid, $subject)
     {
-        $user = $this->userRepository->findOneBy(['id' => $userid]);
+        $this->manager = $this->getEntityManager();
+
+        //Use repository with the restablished entity manager
+        $user = $this->manager->getRepository(User::class)->findOneBy(['id' => $userid]);
+        //$user = $this->userRepository->findOneBy(['id' => $userid]);
 
         //If subject is user
         if (ctype_digit($subject) == true)   {
@@ -50,5 +54,15 @@ class SaveNotification
         $this->manager->persist($notification);
 
         $this->manager->flush();
+    }
+
+    protected function getEntityManager()
+    {
+        if (false === $this->manager->getConnection()->ping()) {
+            $this->manager->getConnection()->close();
+            $this->manager->getConnection()->connect();
+        }
+
+        return $this->manager;
     }
 }

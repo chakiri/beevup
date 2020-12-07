@@ -63,7 +63,11 @@ class TopicHandler implements WampServerInterface
     public function onMessage($entry)
     {
         //Check mysql connection
-        $this->getMysqlConnection();
+        //$this->getMysqlConnection();
+
+        //Reconnect to Doctrine anyway
+        $this->manager->getConnection()->close();
+        $this->manager->getConnection()->connect();
 
         $entryData = json_decode($entry, true);
 
