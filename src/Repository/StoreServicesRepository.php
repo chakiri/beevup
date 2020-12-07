@@ -31,6 +31,20 @@ class StoreServicesRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneByIsDiscovery($store){
+
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.service', 's')
+            ->andWhere('t.store = :store')
+            ->andWhere('s.isDiscovery= 1')
+            ->andWhere('s.type = 1')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setParameter('store', $store)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return StoreService[] Returns an array of StoreService objects
     //  */

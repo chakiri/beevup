@@ -15,6 +15,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
@@ -41,7 +42,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
      * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer)
     {
         $store = $this->getUser()->getStore();
         if ($category != null)
@@ -60,7 +61,7 @@ class DefaultController extends AbstractController
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
 
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
-        $lastSpecialOffer = $serviceRepository->findOneByIsDiscovery($allCompanies, $this->getUser()->getStore());
+        $lastSpecialOffer = $specialOffer->find($allCompanies, $this->getUser()->getStore());
 
         //Recommandations
         if (in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())){
