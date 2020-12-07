@@ -306,19 +306,19 @@ $('body').on('click', '.likes-info', function () {
 /**
  * Set seen opportunities notification
  */
-function setSeenOpportunityNotification(e){
-
+window.setSeenOpportunityNotification = function(e)
+{
     const url = $(e).data('url');
 
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
         success: function (response){
             console.log('opportunity notification seen');
         },
-        error: function(xhr){
+        /*error: function(xhr){
             alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
-        }
+        }*/
     });
 }
 
