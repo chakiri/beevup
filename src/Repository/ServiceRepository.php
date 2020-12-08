@@ -129,7 +129,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
-            ->orWhere('u.company is NULL AND u.store = :store')
+            ->orWhere('u.company is NULL AND u.store = :store AND s.isDiscovery = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
             ->setMaxResults(1)

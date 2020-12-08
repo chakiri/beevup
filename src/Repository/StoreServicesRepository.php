@@ -42,7 +42,8 @@ class StoreServicesRepository extends ServiceEntityRepository
             ->setParameter('store', $store)
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+            ;
     }
 
     // /**

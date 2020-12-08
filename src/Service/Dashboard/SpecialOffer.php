@@ -19,18 +19,27 @@ class SpecialOffer
         $this->storeServicesRepository = $storeServicesRepository;
     }
 
+    /**
+     * Find the last special offer between services and associated services
+     *
+     * @param $allCompanies
+     * @param $store
+     * @return int|mixed|string|null
+     */
     public function find($allCompanies, $store)
     {
         $lastSpecialOfferService = $this->serviceRepository->findOneByIsDiscovery($allCompanies, $store);
+        $lastStoreServiceDiscovery = $this->storeServicesRepository->findOneByIsDiscovery($store);
 
-        $lastSpecialOfferStoreService = $this->storeServicesRepository->findOneByIsDiscovery($store)->getService();
+        if ($lastStoreServiceDiscovery){
+            $lastSpecialOfferPf = $lastStoreServiceDiscovery->getService();
 
-        dd($lastSpecialOfferService, $lastSpecialOfferStoreService);
-        if ($lastSpecialOfferService->getCreatedAt() < $lastSpecialOfferStoreService->getCreatedAt())
-            $lastSpecialOffer = $lastSpecialOfferService;
-        else $lastSpecialOffer = $lastSpecialOfferStoreService;
+            if ($lastSpecialOfferService->getCreatedAt() > $lastStoreServiceDiscovery->getCreatedAt()) $lastSpecialOffer = $lastSpecialOfferService;
+            else $lastSpecialOffer = $lastSpecialOfferPf;
 
-        dd($lastSpecialOffer);
-        return $lastSpecialOffer;
+            return $lastSpecialOffer;
+        }
+
+        return $lastSpecialOfferService;
     }
 }
