@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Service|null find($id, $lockMode = null, $lockVersion = null)
@@ -123,7 +123,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->andWhere('s.isDiscovery = 1')
             ->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
-            ->orWhere('u.company is NULL AND u.store = :store')
+            ->orWhere('u.company is NULL AND u.store = :store AND s.isDiscovery = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
             ;

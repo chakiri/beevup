@@ -237,7 +237,7 @@ class WebsocketController extends AbstractController
             )
         ;
 
-        //$mailer->send($message);
+        $mailer->send($message);
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\UserFunction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method UserFunction|null find($id, $lockMode = null, $lockVersion = null)

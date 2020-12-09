@@ -16,11 +16,10 @@
         <div class="mb-3">
             <div class=" d-flex justify-content-between">
                 <div class="d-flex">
-                    {% if post.category.id == 7 %}
+                    {% if post.category.id in [7,8] %}
                     <img src="{{ asset('build/images/default/favicon-beevup.png') }}" class="rounded-circle medium-avatar" alt="avatar image">
                     <div>
-                        <p>Administrateur Beevup</p>
-                        <small>Beevup</small>
+                        <p>Beev'Up</p>
                     </div>
                     {% else %}
                     {% if post.user.profile.filename %}
@@ -51,7 +50,7 @@
                             <small>Supprimer</small>
                         </a>
                         {% else %}
-                        {% if post.isreportedByUser(app.user) == false and post.category.id != 7%}
+                        {% if post.isreportedByUser(app.user) == false and post.category.id not in  [7,8] %}
                         <a type="button"
                            data-post = "{{ post.id }}"
                            class="btn post-delete report-abuse-btn p-0"

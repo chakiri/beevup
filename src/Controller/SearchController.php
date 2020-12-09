@@ -31,7 +31,8 @@ class SearchController extends AbstractController
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
 
-        $items = $userRepository->findByIsCompletedProfile($allCompanies);
+        //$items = $userRepository->findByIsCompletedProfile($allCompanies);
+        $items = $companyRepository->findBySearch('', $allCompanies);
 
         $favoris = $favoritRepository->findBy(['user'=> $this->getUser()]);
         $favorisUsersIds = [];
@@ -46,7 +47,7 @@ class SearchController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()){
             if ($search->getType() == 'company'){
                 $items = $companyRepository->findBySearch($search->getName(), $allCompanies);
             }elseif ($search->getType() == 'users'){

@@ -71,7 +71,7 @@ class CompanyController extends AbstractController
                 if ($company->getIsCompleted() == false) {
                     $company->setIsCompleted(true);
                     $category = $postCategoryRepository->findOneBy(['id' => 7]);
-                    $automaticPost->Add($this->getUser(), 'Bienvenue à l\'entreprise ' . $company->getName(), '', $category, null, null);
+                    $automaticPost->Add($this->getUser(), 'Bienvenue à l\'entreprise ' . $company->getName(), '', $category, null, null, null, $company);
                 }
 
                 /* generate bar code*/

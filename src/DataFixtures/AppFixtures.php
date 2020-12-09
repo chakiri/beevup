@@ -20,7 +20,7 @@ use App\Repository\TopicTypeRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

@@ -7,6 +7,7 @@ use App\Repository\MessageNotificationRepository;
 use App\Repository\TopicRepository;
 use App\Service\Chat\SaveMessage;
 use App\Service\SaveNotification;
+use Doctrine\ORM\EntityManagerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 
@@ -29,7 +30,9 @@ class TopicHandler implements WampServerInterface
 
     protected $saveMessage;
 
-    public function __construct(SaveNotification $saveNotification, \App\Service\TopicHandler $topicHandler, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository, SaveMessage $saveMessage)
+    protected $manager;
+
+    public function __construct(EntityManagerInterface $manager, SaveNotification $saveNotification, \App\Service\TopicHandler $topicHandler, TopicRepository $topicRepository, MessageNotificationRepository $messageNotificationRepository, SaveMessage $saveMessage)
     {
         $this->clients = new \SplObjectStorage;
         $this->saveNotification = $saveNotification;
@@ -37,6 +40,7 @@ class TopicHandler implements WampServerInterface
         $this->topicRepository = $topicRepository;
         $this->messageNotificationRepository = $messageNotificationRepository;
         $this->saveMessage = $saveMessage;
+        $this->manager = $manager;
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -56,7 +60,15 @@ class TopicHandler implements WampServerInterface
     /**
      * @param string JSON'ified string we'll receive from ZeroMQ
      */
-    public function onMessage($entry) {
+    public function onMessage($entry)
+    {
+        //Check mysql connection
+        //$this->getMysqlConnection();
+
+        //Reconnect to Doctrine anyway
+        $this->manager->getConnection()->close();
+        $this->manager->getConnection()->connect();
+
         $entryData = json_decode($entry, true);
 
         //If it's private chat
@@ -120,6 +132,18 @@ class TopicHandler implements WampServerInterface
                     echo "Closed : " . $key . "\n";
                 }
             }
+        }
+    }
+
+    private function getMysqlConnection(): void
+    {
+        //Check if mysql is always connected
+        if (!$this->manager->getConnection()->isConnected()){
+            $this->manager->getConnection()->close();
+            $this->manager->getConnection()->connect();
+            echo "mysql reconnected\n";
+        }else{
+            echo "mysql already connected\n";
         }
     }
 
