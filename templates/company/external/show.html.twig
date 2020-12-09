@@ -180,3 +180,17 @@
         </div>
     </div>
 {% endblock %}
+
+{% block modals %}
+    <div class="modal fade" id="beContacted" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {% include 'partials/spinner.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('extern') }}
+{% endblock %}

@@ -65,7 +65,7 @@ class BeContactedController extends AbstractController
             }
         }
 
-        return $this->render('beContacted/create.html.twig', [
+        return $this->render('default/beContacted/create.html.twig', [
             'form' => $form->createView(),
             'company' => $company
         ]);
