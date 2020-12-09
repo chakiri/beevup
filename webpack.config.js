@@ -75,9 +75,10 @@ Encore
             throw env.error;
         }
 
-        //Define the twis env variable form wamp server
+        //Define env variable for js files
         options['process.env'].APP_ENV = JSON.stringify(env.parsed.APP_ENV);
         options['process.env'].WAMP_PORT = JSON.stringify(env.parsed.WAMP_PORT);
+        options['process.env'].GOOGLE_TAG_MANAGER_ID = JSON.stringify(env.parsed.GOOGLE_TAG_MANAGER_ID);
     })
 
     // enables Sass/SCSS support
