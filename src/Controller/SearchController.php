@@ -88,6 +88,7 @@ class SearchController extends AbstractController
         //Get local services of store
         $allCompanies = $getCompanies->getAllCompanies($store);
         $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
+        $companies = $companyRepository->getCompaniesObjects($allCompanies);
 
         $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
 
@@ -127,6 +128,7 @@ class SearchController extends AbstractController
 
         return $this->render("search/searchStore.html.twig", [
             'form' => $form->createView(),
+            'companies' => $companies,
             'services' => $services,
             'store' => $store,
         ]);

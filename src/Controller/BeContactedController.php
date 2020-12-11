@@ -18,15 +18,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class BeContactedController extends AbstractController
 {
     /**
-     * @Route("/be/contacted/list", name="be_contacted_list")
+     * @Route("/be/contacted/list/{status}", name="be_contacted_list")
      */
-    public function index(BeContactedRepository $beContactedRepository): Response
+    public function index(BeContactedRepository $beContactedRepository, $status): Response
     {
-        $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false]);
+        if ($status == 'current')
+            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
+        elseif ($status == 'isWaiting')
+            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isWaiting' => true]);
+        elseif ($status == 'isArchived')
+            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => true]);
 
-        return $this->render('beContacted/index.html.twig', [
+        return $this->render('default/beContacted/index.html.twig', [
             'profile' => $this->getUser()->getProfile(),
             'beContactedList' => $beContactedList,
+            'status' => $status
         ]);
     }
 
@@ -92,15 +98,32 @@ class BeContactedController extends AbstractController
     /**
      * @Route("/be/contacted/archive/{id}", name="be_contacted_archive")
      */
-    public function archive(BeContacted $beContacted, EntityManagerInterface  $manager, BeContactedRepository $beContactedRepository): Response
+    public function archive(BeContacted $beContacted, EntityManagerInterface  $manager): Response
     {
         if ($beContacted->getIsArchived() == false){
             $beContacted->setIsArchived(true);
+            $beContacted->setIsWaiting(false);
 
             $manager->persist($beContacted);
             $manager->flush();
         }
 
         return new JsonResponse(['message' => 'is archived'],200);
+    }
+
+    /**
+     * @Route("/be/contacted/waiting/{id}", name="be_contacted_waiting")
+     */
+    public function wainting(BeContacted $beContacted, EntityManagerInterface  $manager): Response
+    {
+        if ($beContacted->getIsWaiting() == false){
+            $beContacted->setIsWaiting(true);
+            $beContacted->setIsArchived(false);
+
+            $manager->persist($beContacted);
+            $manager->flush();
+        }
+
+        return new JsonResponse(['message' => 'is waiting'],200);
     }
 }

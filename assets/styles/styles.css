@@ -3750,5 +3750,12 @@ li.icon-type-post a.active{
 .external_company_show{
     padding : 0;
 }
+.be-contacted-handle-btn{
+    text-align: right;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #ff7f50;
+}
 /* End external company show for search */
 

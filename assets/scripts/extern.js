@@ -1,5 +1,6 @@
 // ============= beContacted =========
 import $ from "jquery";
+import 'bootstrap';
 
 /**
  *Load beContacted form in modal
@@ -13,7 +14,6 @@ $('.be-contacted-btn').click(function(){
 });
 //display errors forms beContacted in modal
 $('#beContactedForm').submit(function( event ) {
-    console.log('hhhd');
     event.preventDefault();
 
     let formSerialize = $(this).serialize();
@@ -29,6 +29,7 @@ $('#beContactedForm').submit(function( event ) {
         },
         error: function(xhr) {
             for (var key in xhr.responseJSON.data) {
+                $('#beContactedForm input[name="be_contacted[' + key + ']"]').nextAll().remove();
                 $('#beContactedForm input[name="be_contacted[' + key + ']"]').after('<ul class="errors"><li>' + xhr.responseJSON.data[key] + '</li></ul>');
             }
         }

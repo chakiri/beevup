@@ -154,24 +154,21 @@ class CompanyRepository extends ServiceEntityRepository
             ;
     }
 
-
-
-    // /**
-    //  * @return Company[] Returns an array of Company objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getCompaniesObjects($allCompanies): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $companies = [];
+        foreach($allCompanies as $companyId){
+            $company = $this->createQueryBuilder('c')
+                ->andWhere('c.id = :id')
+                ->setParameter('id', $companyId)
+                ->getQuery()
+                ->getResult()
+            ;
+            $companies = array_merge($companies, $company);
+        }
+
+        return $companies;
     }
-    */
 
     
     

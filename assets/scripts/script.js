@@ -494,5 +494,22 @@ $('.be-contacted-archive').click(function(){
         }
     });
 });
+//Wainting beContacted
+$('.be-contacted-waiting').click(function(){
+    let btn = $(this);
+    let url = $(this).data('target');
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(){
+            console.log('en attente');
+            btn.parents('.box').css('display', 'none');
+        },
+        error: function(){
+            alert('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+    });
+});
 
 

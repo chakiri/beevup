@@ -52,6 +52,11 @@ class BeContacted
      */
     private $isArchived;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isWaiting;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -131,6 +136,18 @@ class BeContacted
     public function setIsArchived(bool $isArchived): self
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    public function getIsWaiting(): ?bool
+    {
+        return $this->isWaiting;
+    }
+
+    public function setIsWaiting(bool $isWaiting): self
+    {
+        $this->isWaiting = $isWaiting;
 
         return $this;
     }

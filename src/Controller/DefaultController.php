@@ -77,7 +77,7 @@ class DefaultController extends AbstractController
 
         //Be contacted List of external users
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
-            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false]);
+            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
         $firstPost =  end($posts);
         $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();

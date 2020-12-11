@@ -59,7 +59,7 @@
                     nouvelle demande de contact
                 {% endif %}
             </h5>
-            <p class="mb-0">Vous avez des demandes de contact à gérer <a href="{{ path('be_contacted_list') }}" class="alert-link">cliquer ici</a>.</p>
+            <p class="mb-0">Vous avez des demandes de contact à gérer <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" class="alert-link">cliquer ici</a>.</p>
         </div>
     {% endif %}
 {% endif %}
