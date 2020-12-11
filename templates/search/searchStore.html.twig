@@ -74,7 +74,7 @@
                                         {% if service.filename %}
                                             <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
                                         {% else  %}
-                                            <img src="/images/no-available-photo.png" alt="">
+                                            <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 220px" alt="">
                                         {% endif %}
                                         <div class="card-body">
                                             <h4 class="card-title">{{ service.title }}</h4>
@@ -108,7 +108,7 @@
     </section>
 
     {# Map companies of store #}
-    <div id="map" style="height: 550px; width: 100%;"></div>
+    {% include 'default/map.html.twig' %}
 
     {# Section companies of store carousel #}
 
@@ -151,7 +151,7 @@
                                         {% if company.filename %}
                                             <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" alt="">
                                         {% else  %}
-                                            <img src="/images/no-available-photo.png" alt="">
+                                            <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 169px" alt="">
                                         {% endif %}
                                         <div class="card-body">
                                             <h4 class="card-title">{{ company.name }}</h4>
@@ -181,11 +181,13 @@
                 </div>
             {% endif %}
         </div>
-        </div>
     </section>
 
 {% endblock %}
 
 {% block javascripts %}
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY"></script>
+    <script>
+        var mymap = L.map('mapid').setView([48.83778838669827, 2.358753074857719], 13);
+        var marker = L.marker([48.842222903745125, 2.366177428950787]).addTo(mymap);
+    </script>
 {% endblock %}

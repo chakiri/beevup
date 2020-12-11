@@ -8,6 +8,58 @@
 
     {% include 'partials/flashes.html.twig' %}
 
+    <section>
+        <div class="company-header">
+            <div class="container-bv">
+                <div class="d-flex">
+                    <div class="company-pro-img">
+                        {% if company.filename %}
+                            <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
+                        {% else %}
+                            <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="company-pro-meta p-4">
+                        <h3>{{ company.name }}</h3>
+                        {% if company.category %}
+                            {% if  company.category.name != 'Autre' %}
+                                <span>{{ company.category.name  }}</span>
+                            {% else  %}
+                                <span>{{ company.otherCategory }}</span>
+                            {% endif %}
+                            <p>{{ company.introduction|raw }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="company-nav">
+            <div class="container-bv pt-0 pb-0">
+                <nav class="">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Active</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <section class="company-content">
+
+    </section>
+
     <div class="main-section">
         <div class="container-bv">
             <div class="main-section-data page-content">
@@ -17,9 +69,9 @@
                             <div class="user_profile">
                                 <div class="company-pro-img">
                                     {% if company.filename %}
-                                        <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
+                                        <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
                                     {% else %}
-                                        <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                        <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                     {% endif %}
                                 </div><!--user-pro-img end-->
 
@@ -31,7 +83,7 @@
                                     </a>
                                 </div>
 
-                                <div class="user_pro_status pl-2 pr-2">
+                                <div class="p-2">
                                     <ul class="flw-status mt-3">
                                         <li>
                                             <span>Score</span>
@@ -43,22 +95,7 @@
                                         </li>
                                     </ul>
                                 </div><!--user_pro_status end-->
-                                {% if company.isCompleted %}
-                                    <ul class="social_links">
-                                        <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}, {{ company.country }}</span></li>
-                                        <li><i class="fas fa-mobile-alt mt-1"></i> <span class="">  {{ company.phone ?? '<small>N° de téléphonse non renseigné</small>' }} </span></li>
-                                        {% if company.website %}
-                                            <li>
-                                                <i class="fas fa-external-link-alt m-1"></i>
-                                                <a target="_blank"
-                                                   href="{% if ('http' in company.website or 'https' in company.website ) %}{{ company.website }}
-                                                 {% else %} //{{ company.website }} {% endif %}"> {# I added // to not concatenate website url with the plateform ulr #}
-                                                    <span class="">Accéder au site web</span>
-                                                </a>
-                                            </li> {% endif %}
-                                        <li><i class="fas fa-store mt-1"></i>  {{ company.store.name }} </li>
-                                    </ul>
-                                {% endif %}
+
                             </div>
                         </div>
                     </div>

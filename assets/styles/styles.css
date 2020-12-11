@@ -3744,6 +3744,48 @@ li.icon-type-post a.active{
     list-style: none;
     color: red;
 }
+.btn-warning {
+    color: #ffffff;
+    background-color: #ff7f50;
+    border-color: #ff7f50;
+}
+
+.company-header{
+    height: 180px;
+    display: flex;
+    background-color: rgba(67,95,113,0.9);
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.company-header .company-pro-meta{
+    color: #fff;
+}
+.company-pro-img{
+    z-index: 11;
+}
+.company-nav{
+    background-color: #fff;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 10px 0 rgba(67,95,113,0.2);
+}
+.company-nav nav{
+    margin: 0 0 0 218px;
+}
+.company-nav a {
+    color: inherit;
+}
+.company-nav .nav-item {
+    display: inline-block;
+    font-family: "Montserrat",arial,sans-serif;
+    list-style: none;
+    height: 100%;
+    font-size: 16px;
+    line-height: 60px;
+    margin-left: 1em;
+}
 /* End Search all */
 
 /* External company show for search */
