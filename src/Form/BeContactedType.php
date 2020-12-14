@@ -15,7 +15,7 @@ class BeContactedType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, [
-                'label' => 'Email',
+                'label' => 'Votre adresse mail',
                 'attr' => [
                     'placeholder' => 'xyz@bureau-vallee.com',
                     'class' => 'form-control'
@@ -29,7 +29,7 @@ class BeContactedType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => 'Motif',
                 'attr'  => [
                     'placeholder' => 'Décrivez en quelques mots l\'objet de votre demande',
                     'class'       =>'form-control form-message textArea-min-height'

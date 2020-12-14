@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\BeContacted;
+use App\Form\BeContactedType;
+use App\Repository\BeContactedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,12 +109,32 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/external/{slug}", name="external_company_show")
      */
-    public function showExternal(Company $company, RecommandationRepository $recommandationRepository)
+    public function showExternal(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
     {
         $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
         $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
 
         $services = $company->getServices()->toArray();
+
+        $users = $userRepository->findBy(['company' => $company]);
+
+        $beContacted = new BeContacted();
+        $form = $this->createForm(BeContactedType::class, $beContacted);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($beContactedRepository->findBy(['company' => $company, 'email' => $beContacted->getEmail(), 'isArchived' => false])){
+                $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
+            }else{
+                $beContacted->setCompany($company);
+                $manager->persist($beContacted);
+
+                $manager->flush();
+
+                $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
+            }
+        }
 
         return $this->render('company/external/show.html.twig', [
             'company' => $company,
@@ -119,6 +142,8 @@ class CompanyController extends AbstractController
             'recommandationsCompany'=> $recommandationsCompany,
             'countServices' => count($services),
             'services' => array_slice($services, -6, 6),
+            'users' => $users,
+            'formBeContacted' => $form->createView()
         ]);
     }
 

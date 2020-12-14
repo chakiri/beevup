@@ -61,6 +61,7 @@ class BeContacted
     {
         $this->createdAt = new \Datetime();
         $this->isArchived = false;
+        $this->isWaiting = false;
     }
 
     public function getId(): ?int

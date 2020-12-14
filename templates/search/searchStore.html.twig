@@ -186,8 +186,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        var mymap = L.map('mapid').setView([48.83778838669827, 2.358753074857719], 13);
-        var marker = L.marker([48.842222903745125, 2.366177428950787]).addTo(mymap);
-    </script>
+    {{ encore_entry_script_tags('extern') }}
 {% endblock %}
