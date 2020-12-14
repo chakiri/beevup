@@ -23,9 +23,9 @@
                         <h3>{{ company.name }}</h3>
                         {% if company.category %}
                             {% if  company.category.name != 'Autre' %}
-                                <span>{{ company.category.name  }}</span>
+                                <span><strong>{{ company.category.name  }}</strong></span>
                             {% else  %}
-                                <span>{{ company.otherCategory }}</span>
+                                <span><strong>{{ company.otherCategory }}</strong></span>
                             {% endif %}
                             <p>{{ company.introduction|raw }}</p>
                         {% endif %}

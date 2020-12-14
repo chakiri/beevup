@@ -626,13 +626,13 @@ textarea.form-control{
     justify-content: space-between;
 }
 #landing-page-header .logo img {
-  transition: all 0.5s;
-  padding: 0;
-  max-height: 86px;
-    width: 160px;
+    transition: all 0.5s;
+    padding: 0;
+    max-height: 86px;
+    width: 129px;
 }
 #landing-page-header .connexion-btn {
-  top: 30px;
+    margin-top: 0.8rem;
 }
 .landing-page-connexin-link, .landing-page-connexin-link:hover{
     color:var(--text-color);
@@ -3752,10 +3752,11 @@ li.icon-type-post a.active{
 
 .company-header .container-bv{
     margin: 0 0 0 30px;
+    padding: 0 200px;
 }
 
 .company-header{
-    height: 180px;
+    height: 120px;
     display: flex;
     background-color: rgba(67,95,113,0.9);
     z-index: -1;
