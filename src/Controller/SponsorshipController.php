@@ -37,6 +37,7 @@ class SponsorshipController  extends AbstractController
             $customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
             foreach ($emails as $email){
                if( $sponsorshipRepository->findOneBy(['email' => $email]) == null ) {
+                   $email = trim($email);
                   $sponsorship->setEmail($email);
                   $sponsorship->setMessage($customMessage);
                   $sponsorship->setUser($this->getUser());
