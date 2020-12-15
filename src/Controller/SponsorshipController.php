@@ -40,18 +40,19 @@ class SponsorshipController  extends AbstractController
             foreach ($emails as $email){
                if( $sponsorshipRepository->findOneBy(['email' => $email]) == null ) {
                    $email = trim($email);
-                  $sponsorship->setEmail($email);
-                  $sponsorship->setMessage($customMessage);
-                  $sponsorship->setUser($this->getUser());
+                   $sponsorship->setEmail($email);
+                   $sponsorship->setMessage($customMessage);
+                   $sponsorship->setUser($this->getUser());
 
                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                        $manager->persist($sponsorship);
                        $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+                       $scoreHandler->add($this->getUser(), 50);
 
                    } else {
                        array_push($emailsNotCorrect, $email);
                    }
-                   $scoreHandler->add($this->getUser(), 50);
+
 
 
                } else {
