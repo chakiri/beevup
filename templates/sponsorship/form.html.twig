@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme sponsorshipForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %} Parrainage{% endblock %}
+
+{% block body %}
+    <div class="main-section">
+        <div class="container-bv">
+            <div class="main-section-data page-content">
+                <div class="row">
+                    <div class="main-ws-sec">
+                        <div class="product-feed-tab current" id="info-dd">
+                            <div class="user-profile-ov page-title sign_in_sec current page-title">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h3>Développez votre réseau professionnel en parrainant vos connaissances professionnelles et cumulez des points Beev’Up​</h3>
+                                            {{ form_start(sponsorshipForm) }}
+                                                <div class="form-row">
+                                                    <div class="form-group required">
+                                                        {{ form_label(sponsorshipForm.emailsList) }}
+
+                                                        <div class="input-group">
+
+                                                            {{ form_widget(sponsorshipForm.emailsList) }}
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                <div class="form-row">
+                                                    <div class="form-group required">
+                                                        {{ form_label(sponsorshipForm.message) }}
+
+                                                        <div class="input-group">
+
+                                                            {{ form_widget(sponsorshipForm.message) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-actions form-group text-center">
+                                                    <button  type="submit" class="m-orange-btn">Inviter</button>
+                                                </div>
+                                            {{ form_end(sponsorshipForm) }}
+                                        <p>Chaque contact invité vous rapporté 50 points Beev’Up</p>
+                                        <p>Chaque contact qui s’inscrit vous rapporte 100 points supplémentaires​</p>
+                                        <small>Les points Beev’Up vous permettront d’accéder à des services exclusifs de la plateforme Beev’up</small>
+
+
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

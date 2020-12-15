@@ -1,0 +1,17 @@
+{% extends '/emails/baseEmail.html.twig' %}
+ {% block emailContent %}
+  <tr>
+   <td valign="middle" class="hero bg_white" style="background-color:#FFFFFF">
+    <div class="overlay"></div>
+    <table>
+     <tr>
+      <td>
+       <div style="padding: 20px;line-height:25px;color:#000">
+          {{ message|raw }}
+       </div>
+      </td>
+     </tr>
+    </table>
+   </td>
+  </tr>
+ {% endblock %}
