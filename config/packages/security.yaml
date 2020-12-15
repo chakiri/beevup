@@ -58,7 +58,7 @@ security:
         - { path: ^/confirmEmail, allow_if: "!is_authenticated()"}
         - { path: ^/search/store/, allow_if: "!is_authenticated()"}
         - { path: ^/be/contacted/by/, allow_if: "!is_authenticated()"}
-        - { path: ^/company/external/, allow_if: "!is_authenticated()"}
+        - { path: ^/external/company/, allow_if: "!is_authenticated()"}
         - { path: ^/be/contacted/list/, roles: ROLE_ADMIN_COMPANY}
         - { path: ^/, roles: ROLE_USER}
 

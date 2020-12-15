@@ -3835,8 +3835,34 @@ li.icon-type-post a.active{
 
 /* End Search all */
 
+/* External Company Slider */
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+}
+.external_company_slider .carousel-inner{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.external_company_slider .card-body {
+    background: #FAFAFA;
+}
+.card-company-services{
+    padding: 10px;
+    background: #fafafa;
+    border-radius: var(--radius);
+}
+
+.carousel-control-prev:after{
+    content:"\f002";
+    position: absolute;
+    right: 15px;
+}
+/* End external company slider */
+
 /* External company show for search */
-.external_company_show{
+.external_company_show, .external_company_slider{
     padding : 0;
 }
 .be-contacted-handle-btn{

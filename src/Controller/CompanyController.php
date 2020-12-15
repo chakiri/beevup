@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\BeContacted;
+use App\Entity\Store;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
+use App\Repository\CompanyRepository;
+use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,9 +110,9 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/company/external/{slug}", name="external_company_show")
+     * @Route("/external/company/{slug}", name="external_company_show")
      */
-    public function showExternal(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
     {
         $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
         $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
@@ -144,6 +147,21 @@ class CompanyController extends AbstractController
             'services' => array_slice($services, -6, 6),
             'users' => $users,
             'formBeContacted' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/external/company/slider/{reference}", name="external_company_slider")
+     */
+    public function externalSlider(Store $store, GetCompanies  $getCompanies, CompanyRepository $companyRepository)
+    {
+        //Get local companies of store
+        $allCompanies = $getCompanies->getAllCompanies($store);
+        $companies = $companyRepository->getCompaniesObjects($allCompanies);
+
+        return $this->render('company/external/slider.html.twig', [
+            'store' => $store,
+            'companies' => $companies
         ]);
     }
 
