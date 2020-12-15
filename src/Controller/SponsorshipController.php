@@ -30,7 +30,7 @@ class SponsorshipController  extends AbstractController
         $message ='';
         if($this->getUser()->getProfile() !=null)
         {
-            $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname();
+            $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname().' ';
         }
         $form = $this->createForm(SponsorshipType::class, $sponsorship);
         $form->handleRequest($request);
@@ -97,7 +97,7 @@ class SponsorshipController  extends AbstractController
 
     public function sendEmail($sponsor, $email, $customMessage, $mailer){
         $message = (new \Swift_Message())
-            ->setSubject($sponsor.'vous propose de le rejoindre sur Beevup.fr​')
+            ->setSubject($sponsor.' vous propose de le rejoindre sur Beevup.fr')
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($email)
             ->setBody(

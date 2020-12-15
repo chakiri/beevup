@@ -326,7 +326,9 @@ class SecurityController extends AbstractController
         $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
         if ($sponsor  != null){
             $scoreHandler->add($sponsor->getUser(), 100);
+            $scoreHandler->add($user, 50);
         }
+
 
          $guardHandler->authenticateUserAndHandleSuccess(
             $user,
