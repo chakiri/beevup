@@ -429,7 +429,7 @@ $('#cookies a').click(function(){
                  if (ServiceCropper != '') {
 
                     ServiceCropper.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob0 = blob;
-                             ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3);
+                             //ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3);
                     });
 
                 }
