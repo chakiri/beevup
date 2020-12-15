@@ -3722,4 +3722,13 @@ li.icon-type-post a.active{
     margin-right: 0.25em;
     /* 4px */
 }
+.add-sponsorship-btn{
+    font-size:11px;
+    margin-top:10px;
+    float:left
+}
+.add-sponsorship-btn:hover{
+    color: #FFFFFF;
+}
+
 
