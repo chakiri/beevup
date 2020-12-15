@@ -238,8 +238,6 @@ $('#cookies a').click(function(){
         if(e != undefined){
              serviceFieldId = e.target.id;
             $('#previous-image'+getFieldId(serviceFieldId)).empty();
-            console.log($('#previous-image'+getFieldId(serviceFieldId)+ ' span'));
-            console.log('previous image spanaaaa');
             $('#previous-image'+getFieldId(serviceFieldId)+ ' + span').removeClass('d-none');
         } else {
             $('#previous-image').empty();
