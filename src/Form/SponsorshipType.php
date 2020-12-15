@@ -41,7 +41,7 @@ class SponsorshipType extends AbstractType
          'emailsList', TextareaType::class, [
                 'required' => true,
                 'mapped' => false,
-                'label' => 'Veuillez saisir l\'adress email des amis que vous souhaitez inviter',
+                'label' => 'Veuillez saisir l\'adress email des personnes que vous souhaitez inviter',
                 'attr' => [
                     'cols' => 100,
                     'rows' => 5
