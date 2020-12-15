@@ -3655,15 +3655,13 @@ li.icon-type-post a.active{
     padding: 4px;
     color: #fff;
     border-radius: 2px;
-    position: absolute;
-    bottom: 3px;
+    position: relative;
+    bottom: 30px;
     left: 10px;
-    /*position: relative;
-    top: -22px;*/
 }
 .reset-btn, .reset-btn1, .reset-btn2, .reset-btn3{
-    position: absolute;
-    bottom: 3px;
+    position: relative;
+    bottom: 30px;
     left: 10px;
     color: #fff;
     background-color: var(--orange-color);
@@ -3730,5 +3728,16 @@ li.icon-type-post a.active{
 .add-sponsorship-btn:hover{
     color: #FFFFFF;
 }
-
+.delete-img-service{
+    background-color: var(--orange-color);
+    color: #fff;
+    border-radius: 2px;
+    font-size: 11px;
+    top: -26px;
+    right: 10px;
+    position:relative;
+    margin-top: -23px;
+    padding: 3px;
+    float: right;
+ }
 

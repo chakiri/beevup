@@ -161,13 +161,50 @@ $('#cookies a').click(function(){
         if(serviceClassName.slice(-1) ==  'e')   return '';
 
     }
-    function setToEmpty(id)
-    {
-        document.getElementById('previous-image'+id).empty() ;
-    }
+     function getDeleteFileUrl(serviceId, fieldId){
+        let url ='/service/'+serviceId+'/delete/'+fieldId;
+        return url;
+     }
+
     $(document).on('click', '.delete-img-service', function(e) {
+        $(this).addClass('d-none');
         let fieldId = $(this).attr('data-input-id');
-        $('#service_imageFile2').val('');
+        let serviceId = $(this).attr('data-service-id');
+
+        if (fieldId == 'service_imageFile1') {
+            $('#previous-image1').empty();
+            $('#service_imageFile1').val('');
+            serviceCropper1 = '';
+        }
+        if (fieldId == 'service_imageFile2') {
+            $('#previous-image2').empty();
+            $('#service_imageFile2').val('');
+            serviceCropper2 = '';
+        }
+        if (fieldId == 'service_imageFile3') {
+            $('#previous-image3').empty();
+            $('#service_imageFile3').val('');
+            serviceCropper3 = '';
+        }
+        if(serviceId != ''){
+        let deletFileUrl = getDeleteFileUrl(serviceId, fieldId);
+        $.ajax({
+            url: deletFileUrl,
+            type: 'POST',
+            async: false,
+            processData: false,
+            contentType: false,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function (data) {
+
+
+            },
+            error: function () {
+                alert("Un problème est survenu. Veuillez réessayer")
+            }
+        })
+    }
+
     });
 
 
@@ -201,6 +238,9 @@ $('#cookies a').click(function(){
         if(e != undefined){
              serviceFieldId = e.target.id;
             $('#previous-image'+getFieldId(serviceFieldId)).empty();
+            console.log($('#previous-image'+getFieldId(serviceFieldId)+ ' span'));
+            console.log('previous image spanaaaa');
+            $('#previous-image'+getFieldId(serviceFieldId)+ ' + span').removeClass('d-none');
         } else {
             $('#previous-image').empty();
         }
@@ -318,7 +358,6 @@ $('#cookies a').click(function(){
         if(form != null)
         {
             form.addEventListener('submit',handler);
-
         }
 
 
@@ -429,8 +468,7 @@ $('#cookies a').click(function(){
                  if (ServiceCropper != '') {
 
                     ServiceCropper.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob0 = blob;
-                             //ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3);
-                    });
+                   });
 
                 }
 

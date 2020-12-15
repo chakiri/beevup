@@ -332,6 +332,25 @@ class ServiceController extends AbstractController
             ]);
         }
     }
+    /**
+     * @Route("/service/{id}/delete/{fileId}", name="delete-file")
+     */
+    public function deleteFile(Service $service, EntityManagerInterface $manager, $fileId){
+
+
+        if($fileId == 'service_imageFile1') {
+            $service->setFilename1(null);
+        } elseif($fileId == 'service_imageFile2'){
+            $service->setFilename2(null);
+        } elseif($fileId == 'service_imageFile3'){
+            $service->setFilename3(null);
+        }
+           $manager->persist($service);
+           $manager->flush();
+            return new JsonResponse( array(
+                'result' => 0,
+            ));
+    }
 
     // Generate an array contains a key -> value with the errors where the key is the name of the form field
     private function floatvalue($val){
