@@ -3780,9 +3780,6 @@ li.icon-type-post a.active{
     top: 0;
     box-shadow: 0 2px 10px 0 rgba(67,95,113,0.2);
 }
-.company-nav nav{
-    margin: 0 0 0 240px;
-}
 .company-nav a {
     color: inherit;
     letter-spacing: 1.2px;
@@ -3803,7 +3800,6 @@ li.icon-type-post a.active{
 .company-be-contacted .user-profile-ov{
     padding: 0 !important;
     border-radius: var(--radius);
-    margin-top: -150px;
 }
 .company-be-contacted-title{
     color: #fff;

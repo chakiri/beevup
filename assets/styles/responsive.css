@@ -8,6 +8,9 @@
 	.div-only-mobile{
 		display: none;
 	}
+	.company-nav nav{
+		margin: 0 0 0 240px;
+	}
 
 }
 
@@ -41,7 +44,6 @@
 	.search .page-title .sign_in_sec h3 .search .page-title .sign_in_sec p, .search .page-title.search-page-title, .service-title-page{
 		background-color: transparent !important;
 	}
-
 }
 
 
@@ -100,6 +102,9 @@
   .profil-actions{
     margin-top: 15px;
   }
+.company-nav {
+	display: none;
+}
 }
 
 @media (max-width: 574px) {
@@ -276,6 +281,14 @@
 	nav ul ul {left: 50%;top: 0;padding-left: 20px;padding-right: 20px;}
 	.notifications {justify-content: center;}
 	.sgt-text span {font-size: 12px;}
+	.company-header .container-bv{
+		margin: 0;
+		padding: 0;
+	}
+
+	.company-header{
+		height: 100%;
+	}
 }
 
 
@@ -319,6 +332,7 @@
 	.profile-account-setting {margin-bottom: 50px;}
 	.profile-bx-info {margin-bottom: 25px;}
 	.profile-bx-details {margin-bottom: -25px;}
+
 }
 
 
@@ -346,8 +360,6 @@
 	.mf-field button {margin-left: 0;margin-bottom: 10px;}
 	.message-inner-dt > img {margin-bottom: 10px;}
 	.home-page-authentificated-user{display: none;min-height: 0px !important;}
-
-
 }
 
 
@@ -426,5 +438,14 @@
 
 @media (min-width: 1600PX) {
 .container-bv{padding: 50px 200px;}
+}
+
+@media (min-width: 1200PX) {
+	.company-be-contacted .user-profile-ov {
+		margin-top: -150px;
+	}
+	.company-nav nav{
+		margin: 0 0 0 240px;
+	}
 }
 /********end from template ***/

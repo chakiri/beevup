@@ -119,4 +119,10 @@ if($('.search_store #mapid').length > 0 && window.innerWidth > 769) {
             }
         });
     var popup = L.popup();
+
+    function onLocationError(e) {
+        alert(e.message);
+    }
+
+    map.on('locationerror', onLocationError);
 }

@@ -11,7 +11,7 @@
     <section>
         <div class="company-header">
             <div class="container-bv">
-                <div class="d-flex">
+                <div class="d-md-flex d-lg-flex">
                     <div class="company-pro-img">
                         {% if company.filename %}
                             <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
@@ -62,7 +62,7 @@
     <section class="company-content" data-spy="scroll" data-target="#company-content" data-offset="0">
         <div class="container-bv">
             <div class="row">
-                <div class="offset-2 col-7">
+                <div class="offset-xl-2 col-lg-7">
                     <div class="company-content-presentation">
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-presentation">
                             <h5>Présentation de {{ company.name }}</h5>
@@ -83,7 +83,7 @@
                                                     <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                 {% endif %}
                                                 <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
-                                                <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                {#<a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>#}
                                             </div>
                                         {% endfor %}
                                         {% if  countServices > 3 %}
@@ -106,7 +106,7 @@
                     <div class="company-content-access">
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-access">
                             <div class="row">
-                                <div class="col-7">
+                                <div class="col-lg-7">
                                     <h5 class="mb-5">Carte et information</h5>
                                     <strong>{{ company.name }}</strong>
                                     <p>{{ company.addressNumber }}, {{ company.addressStreet }}, {{ company.addressPostCode }} {{ company.city }}</p>
@@ -115,7 +115,7 @@
                                     <br>
                                     <p><span class="text-muted">Adresse mail :</span> {{ company.email ?? 'non renseignée' }}</p>
                                 </div>
-                                <div class="col-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
+                                <div class="col-lg-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
                                     {% include 'default/map.html.twig' %}
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-lg-4 col-xl-3">
                     <div class="company-be-contacted">
                         <div class="user-profile-ov">
                             <div class="company-be-contacted-title">
