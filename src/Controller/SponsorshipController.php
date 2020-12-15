@@ -25,7 +25,9 @@ class SponsorshipController  extends AbstractController
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
+        $emailsNotCorrect = [];
         $sponsor ='';
+        $message ='';
         if($this->getUser()->getProfile() !=null)
         {
             $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname();
@@ -41,8 +43,14 @@ class SponsorshipController  extends AbstractController
                   $sponsorship->setEmail($email);
                   $sponsorship->setMessage($customMessage);
                   $sponsorship->setUser($this->getUser());
-                  $manager->persist($sponsorship);
-                  $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+
+                   if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                       $manager->persist($sponsorship);
+                       $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+
+                   } else {
+                       array_push($emailsNotCorrect, $email);
+                   }
                    $scoreHandler->add($this->getUser(), 50);
 
 
@@ -52,10 +60,24 @@ class SponsorshipController  extends AbstractController
             }
 
             $manager->flush();
-            if(count($emailsExist)> 0){
-               $message = (count($emailsExist) == 1) ? 'l\'email suivant est déjà référencé sur notre plateforme: ' : 'les emails suivants  sont déjà référencés sur notre plateforme: ';
-                foreach ($emailsExist as $emailExist){
-                    $message = $message.'<br/> '.$emailExist;
+             $emailsExistCount = count($emailsExist);
+             $emailsNotCorrectCount = count($emailsNotCorrect);
+            if($emailsExistCount > 0 || $emailsNotCorrectCount > 0 ){
+                if($emailsExistCount > 0 ){
+                    $message = ($emailsExistCount == 1) ? 'l\'email suivant est déjà référencé sur notre plateforme: ' : 'les emails suivants  sont déjà référencés sur notre plateforme: ';
+                    $message = $message . '<ul>';
+                    foreach ($emailsExist as $emailExist) {
+                        $message = $message . '<li> ' . $emailExist . '</li>';
+                }
+                    $message = $message . '</ul>';
+                }
+                if($emailsNotCorrectCount > 0) {
+                    $message = $message. '<br/> les email(s) suivant(s) sont non valides: ';
+                    $message = $message . '<ul>';
+                    foreach ($emailsNotCorrect as $emailNotCorrect) {
+                        $message = $message . '<li> ' . $emailNotCorrect . '</li>';
+                    }
+                    $message = $message . '</ul>';
                 }
                $this->addFlash('danger', nl2br($message));
 
@@ -68,6 +90,7 @@ class SponsorshipController  extends AbstractController
         return $this->render('sponsorship/form.html.twig', [
             'sponsorshipForm' => $form->createView(),
             'sponsorship' => $sponsorship
+
           ]);
     }
 
