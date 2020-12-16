@@ -1,4 +1,5 @@
-{% if
+{% if app.request.attributes.get('_route') != 'security_forgotten_password'and
+    app.request.attributes.get('_route') != 'security_reset_password'and
     app.request.attributes.get('_route') != 'security_login'
 %}
 

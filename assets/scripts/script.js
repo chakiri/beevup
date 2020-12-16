@@ -195,10 +195,7 @@ $('#cookies a').click(function(){
             processData: false,
             contentType: false,
             headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function (data) {
-
-
-            },
+            success: function (data) { },
             error: function () {
                 alert("Un problème est survenu. Veuillez réessayer")
             }
