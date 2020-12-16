@@ -121,6 +121,8 @@ class CompanyController extends AbstractController
 
         $users = $userRepository->findBy(['company' => $company]);
 
+        $admin = $userRepository->findByAdminCompany($company->getId());
+
         $beContacted = new BeContacted();
         $form = $this->createForm(BeContactedType::class, $beContacted);
 
@@ -146,6 +148,7 @@ class CompanyController extends AbstractController
             'countServices' => count($services),
             'services' => array_slice($services, -6, 6),
             'users' => $users,
+            'admin' => $admin,
             'formBeContacted' => $form->createView()
         ]);
     }

@@ -210,6 +210,17 @@
                                 <strong>Envoyez une demande de contact</strong>
                                 <p>Renseignez les informations suivantes</p>
                             </div>
+                            <div class="company-be-contacted-admin text-center">
+                                <div class="company-be-contacted-admin-avatar">
+                                    {% if admin.profile.filename %}
+                                        <img src="{{ vich_uploader_asset(admin.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                    {% else %}
+                                        <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                    {% endif %}
+                                    <p><strong>{{ admin.profile.firstname }} {{ admin.profile.lastname }}</strong></p>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="company-be-contacted-form">
                                 <div class="be-contacted">
                                     {{ form_start(formBeContacted) }}
@@ -217,7 +228,7 @@
                                     {{ form_row(formBeContacted.phone) }}
                                     {{ form_row(formBeContacted.description) }}
 
-                                    <button type="submit" class="btn btn-warning be-contacted-submit right"><i class="fas fa-paper-plane"></i></button>
+                                    <button type="submit" class="btn btn-warning be-contacted-submit">Envoyer</button>
                                     {{ form_end(formBeContacted) }}
                                 </div>
                             </div>
