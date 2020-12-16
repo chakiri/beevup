@@ -66,11 +66,6 @@
                                 {% endif %}
                                 <div class="col-md-3 mb-3">
                                     <div class="card">
-                                        {% if service.isDiscovery %}
-                                            <div class="badge-box">
-                                                <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
-                                            </div>
-                                        {% endif %}
                                         {% if service.filename %}
                                             <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
                                         {% else  %}
@@ -112,7 +107,7 @@
 
     {# Section companies of store carousel #}
 
-    <section class="pt-5 pb-5">
+    <section class="search-company-carousel pt-5 pb-5">
         <div class="container-bv container search-carousel">
             <div class="row">
                 <div class="col-6">

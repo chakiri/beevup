@@ -3034,6 +3034,8 @@ a:hover {
 }
 #mapid {
     height:400px;
+}
+.security_registration #mapid {
     border-radius: 12px;
 }
 
@@ -3674,6 +3676,12 @@ li.icon-type-post a.active{
     background-size: cover;
     color: #FFF;
     min-height: 70%;
+    background-attachment: fixed;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
 }
 .bg-search h1{
     font-size: 3.34375rem;
@@ -3707,6 +3715,10 @@ li.icon-type-post a.active{
     border-radius: 12px !important;
     padding: 10px !important;
 }
+.search-company-carousel {
+    background: rgba(67,95,113,0.9);
+    color: #fff;
+}
 
 .search-carousel .card{
     border-radius: 6px;
@@ -3716,7 +3728,7 @@ li.icon-type-post a.active{
     border-top-right-radius: 6px;
 }
 .be-contacted{
-    padding: 3em 2em;
+    padding: 1em 2em;
 }
 /* equal card height */
 .bg-search .container-bv{
@@ -3829,10 +3841,15 @@ li.icon-type-post a.active{
 }
 .company-be-contacted-form button{
     margin-left: auto;
+    margin-right: auto;
     display: block;
-    margin-right: 0;
 }
-
+.company-be-contacted-admin{
+    padding: 10px;
+}
+.company-be-contacted hr{
+    border: 1px dashed var(--gray-color);
+}
 /* End Search all */
 
 /* External company show for search */
