@@ -69,13 +69,11 @@
                                                 {% endif %}
                                             </div><!--profiles-slider end-->
 
-                                            {% if app.user.company != null %}
-                                                {% if app.user.company != company %}
-                                                       <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
-                                                    {% endif %}
-                                            {% endif %}
                                         </div>
                                     </div><!--top-profiles end-->
+                                {% endif %}
+                                {% if app.user.company != null and app.user.type.id == 3 %}
+                                    <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3 mb-3">Créer un service</a>
                                 {% endif %}
 
                             </div>
