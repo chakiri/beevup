@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Sponsorship;
 use App\Form\PostType;
 use App\Repository\SponsorshipRepository;
+use App\Repository\UserRepository;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
@@ -21,7 +22,7 @@ class SponsorshipController  extends AbstractController
     /**
      * @Route("/sponorship", name="Parrainez un membre de votre réseau​")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler, UserRepository $userRepository)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
@@ -37,27 +38,27 @@ class SponsorshipController  extends AbstractController
          if ($form->isSubmitted() && $form->isValid()) {
             $emails =  $utility->getEmailsList($form['emailsList']->getData());
             $customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
-            foreach ($emails as $email){
-               if( $sponsorshipRepository->findOneBy(['email' => $email]) == null ) {
-                   $email = trim($email);
-                   $sponsorship->setEmail($email);
-                   $sponsorship->setMessage($customMessage);
-                   $sponsorship->setUser($this->getUser());
+            foreach ($emails as $email) {
+                $email = trim($email);
+                if($email != ''){
+                if ($sponsorshipRepository->findOneBy(['email' => $email]) == null && $userRepository->findOneBy(['email' => $email]) == null) {
+                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $sponsorship->setEmail($email);
+                        $sponsorship->setMessage($customMessage);
+                        $sponsorship->setUser($this->getUser());
+                        $manager->persist($sponsorship);
+                        $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+                        $scoreHandler->add($this->getUser(), 50);
 
-                   if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                       $manager->persist($sponsorship);
-                       $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
-                       $scoreHandler->add($this->getUser(), 50);
-
-                   } else {
-                       array_push($emailsNotCorrect, $email);
-                   }
+                    } else {
+                        array_push($emailsNotCorrect, $email);
+                    }
 
 
-
-               } else {
-                  array_push($emailsExist, $email);
+                } else {
+                    array_push($emailsExist, $email);
                 }
+            }
             }
 
             $manager->flush();
