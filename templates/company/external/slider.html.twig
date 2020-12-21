@@ -3,11 +3,11 @@
 {% block title %}{{ store.name }}{% endblock %}
 
 {% block body %}
-
-    {% include 'partials/headerSecurity.html.twig' %}
-
-    {% include 'partials/flashes.html.twig' %}
-
+    {#<header id="landing-page-header">
+        <div class="logo p-3">
+            <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+        </div>
+    </header>#}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -18,63 +18,46 @@
             {% for company in companies %}
                 <div class="carousel-item {% if company == companies[0] %}active{% endif %}">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 mt-3">
-                                <div class="card">
-                                    <div class="card-horizontal">
-                                        <div class="company-pro-img">
-                                            {% if company.filename %}
-                                                <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
-                                            {% else %}
-                                                <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                            {% endif %}
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="card-body-header">
-                                                <h3 class="card-title">{{ company.name }}</h3>
-                                                {% if company.category %}
-                                                    {% if  company.category.name != 'Autre' %}
-                                                        <span><strong>{{ company.category.name  }}</strong></span>
-                                                    {% else  %}
-                                                        <span><strong>{{ company.otherCategory }}</strong></span>
-                                                    {% endif %}
-                                                {% endif %}
-                                                <p class="card-text">{{ company.introduction }}</p>
-                                            </div>
-                                            <div class="card-body-data mt-5">
-                                                <div class="company-content-presentation">
-                                                    <div class="user-profile-ov page-title sign_in_sec current">
-                                                        <h5>Présentation de {{ company.name }}</h5>
-                                                        <p>{{ company.description|raw ?: 'Pas de description' }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="user-profile-ov page-title sign_in_sec current">
-                                                    <h5>{{ company.name }} vous propose les services suivants</h5>
-                                                    {% if  company.services|length > 0 %}
-                                                        <div class="page-title sign_in_sec current">
-                                                            <div class="row">
-                                                                {% for service in company.services %}
-                                                                    <div class="col-3 user-profy">
-                                                                        {% if service.filename %}
-                                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
-                                                                        {% else %}
-                                                                            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                                                        {% endif %}
-                                                                        <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
-                                                                        {#<a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>#}
-                                                                    </div>
-                                                                {% endfor %}
+                        <div class="big-card">
+                            <div class="img-avatar">
+                                {% if admins[company.id] and admins[company.id].profile.filename %}
+                                    <img src="{{ vich_uploader_asset(admins[company.id].profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                                {% else %}
+                                    <img src="{{ asset('build/images/default/user.png') }}" class="" alt="avatar image">
+                                {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <div class="portada">
+                                    {% if company.filename %}
+                                        <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile') }}"  alt="">
+                                    {% else %}
+                                        <img class="main-img" src="{{ asset('build/images/logo_beevup_solo.png') }}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="title-total">
+                                    <div class="meta">
+                                        {% if admins[company.id] %}<div class="title">{{ admins[company.id].profile.firstname }} {{ admins[company.id].profile.lastname }}</div>{% endif %}
+                                        <h1>{{ company.name }}</h1>
+                                        <div class="desc">{{ company.otherCategory }} - {{ company.introduction ?? 'Pas d\'inscription' }}</div>
+                                        {% if servicesArray[company.id] %}
+                                            <div class="services pt-5">
+                                                <div class="card-deck">
+                                                    {% for service in servicesArray[company.id] %}
+                                                        <div class="card">
+                                                            {% if service.filename %}
+                                                                <img class="card-img-top" src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                            {% else %}
+                                                                <img class="card-img-top" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                                            {% endif %}
+                                                            <div class="card-body">
+                                                                <h3 class="card-title">{{ service.title }}</h3>
+                                                                <p class="card-text"><small class="text-muted"></small></p>
                                                             </div>
                                                         </div>
-                                                    {% else %}
-                                                        <p>Aucun service saisi pour le moment. Contacter directement {{ company.name }} pour en savoir plus.</p>
-                                                    {% endif %}
+                                                    {% endfor %}
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <small class="text-muted">A 12Km de {{ store.name }}</small>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +66,11 @@
                 </div>
             {% endfor %}
         </div>
+        <footer>
+            <div class="logo">
+                <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+            </div>
+        </footer>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>

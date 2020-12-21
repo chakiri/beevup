@@ -156,15 +156,27 @@ class CompanyController extends AbstractController
     /**
      * @Route("/external/company/slider/{reference}", name="external_company_slider")
      */
-    public function externalSlider(Store $store, GetCompanies  $getCompanies, CompanyRepository $companyRepository)
+    public function externalSlider(Store $store, GetCompanies  $getCompanies, CompanyRepository $companyRepository, UserRepository  $userRepository)
     {
         //Get local companies of store
         $allCompanies = $getCompanies->getAllCompanies($store);
         $companies = $companyRepository->getCompaniesObjects($allCompanies);
 
+        //Get admin of each company
+        $admins = [];
+        $servicesArray = [];
+        foreach ($companies as $company){
+            $admin = $userRepository->findByAdminCompany($company->getId());
+            $admins[$company->getId()] = $admin;
+            $services = $company->getServices()->toArray();
+            $servicesArray[$company->getId()] = array_slice($services, -3, 3);
+        }
+
         return $this->render('company/external/slider.html.twig', [
             'store' => $store,
-            'companies' => $companies
+            'companies' => $companies,
+            'admins' => $admins,
+            'servicesArray' => $servicesArray
         ]);
     }
 
