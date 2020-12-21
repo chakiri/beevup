@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Company;
 use App\Entity\Search;
+use App\Entity\Store;
 use App\Entity\User;
+use App\Form\SearchStoreType;
 use App\Form\SearchType;
 use App\Repository\CompanyRepository;
 use App\Repository\FavoritRepository;
-use App\Repository\RecommandationRepository;
+use App\Repository\ProfilRepository;
+use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
-use App\Service\Communities;
 use App\Service\InfoSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -75,5 +76,61 @@ class SearchController extends AbstractController
             'isUser' => $items ? $items[0] instanceof User : false,
         ]);
 
+    }
+
+    /**
+     * @Route("/search/store/{reference}", name="search_store")
+     */
+    public function searchStore(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies)
+    {
+        if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
+
+        //Get local services of store
+        $allCompanies = $getCompanies->getAllCompanies($store);
+        $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
+        $companies = $companyRepository->getCompaniesObjects($allCompanies);
+
+        $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $results = [];
+
+            //Get companies from services search
+            $services =  $serviceRepository->findByQuery($allCompanies, $form->get('querySearch')->getData());
+            foreach ($services as $service){
+                if (!in_array($service->getUser()->getCompany(), $results))
+                    array_push($results, $service->getUser()->getCompany());
+            }
+
+            //Get companies from profiles search
+            $profiles =  $profilRepository->findByQuery($allCompanies, $form->get('querySearch')->getData());
+            foreach ($profiles as $profile){
+                if (!in_array($profile->getUser()->getCompany(), $results))
+                    array_push($results, $profile->getUser()->getCompany());
+            }
+
+            //Get companies from profiles search
+            $companies =  $companyRepository->findBySearch($form->get('querySearch')->getData(), $allCompanies);
+            foreach ($companies as $company){
+                if (!in_array($company, $results))
+                    array_push($results, $company);
+            }
+
+            return $this->render("search/searchStoreResult.html.twig", [
+                'query' => $form->get('querySearch')->getData(),
+                'results' => $results,
+                'store' => $store,
+            ]);
+
+        }
+
+        return $this->render("search/searchStore.html.twig", [
+            'form' => $form->createView(),
+            'companies' => $companies,
+            'services' => $services,
+            'store' => $store,
+        ]);
     }
 }

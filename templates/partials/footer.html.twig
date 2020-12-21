@@ -1,5 +1,6 @@
 {% if app.request.attributes.get('_route') != 'chat_topic'and
-    app.request.attributes.get('_route') != 'chat_private'
+    app.request.attributes.get('_route') != 'chat_private' and
+    app.request.attributes.get('_route') != 'external_company_slider'
 %}
     <footer class="footer-copyright text-center">
         <div class="footer">

@@ -23,7 +23,6 @@
                             <div class="col-lg-6">
                                 <div class="">
                                     <div class="sign_in_sec" id="tab-1">
-                                        {% include 'partials/flashes.html.twig' %}
                                         {% for message in app.flashes('create-service-success') %}
                                             <div class="alert alert-success">
                                                 {{ message }}

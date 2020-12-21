@@ -10,6 +10,7 @@ use App\Entity\Profile;
 use App\Form\CompanyImageType;
 use App\Form\ProfileImageType;
 use App\Form\StoreImageType;
+use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
@@ -42,7 +43,7 @@ class DefaultController extends AbstractController
      * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
      * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
         $store = $this->getUser()->getStore();
         if ($category != null)
@@ -74,29 +75,28 @@ class DefaultController extends AbstractController
         $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
         $adminStore = $userRepository->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
 
+        //Be contacted List of external users
+        if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
+            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
+
         $firstPost =  end($posts);
         $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();
-        if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
 
-            return $this->render('default/posts/posts.html.twig', [
-                'posts' => $posts,
-                'publicity' => $publicity,
-                'lastSpecialOffer' => $lastSpecialOffer,
-                'untreatedRecommandations' => $untreatedRecommandations ?? null,
-                'adminStore'=> $adminStore[0] ?? null,
-                'minPostId' => $minPostId
-            ]);
-        }
-        else {
-            return $this->render('default/dashboardv1.html.twig', [
-                'posts' => $posts,
-                'publicity' => $publicity,
-                'lastSpecialOffer' => $lastSpecialOffer,
-                'untreatedRecommandations' => $untreatedRecommandations ?? null,
-                'adminStore' => $adminStore[0] ?? null,
-                'minPostId' => $minPostId,
-                'category' => $category ? $category->getId() : null
-            ]);
+        $options = [
+            'posts' => $posts,
+            'publicity' => $publicity,
+            'lastSpecialOffer' => $lastSpecialOffer,
+            'untreatedRecommandations' => $untreatedRecommandations ?? null,
+            'adminStore'=> $adminStore[0] ?? null,
+            'minPostId' => $minPostId,
+            'beContactedList' => $beContactedList ?? null
+        ];
+
+        if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
+            return $this->render('default/posts/posts.html.twig', $options);
+        }else {
+            $options['category'] = $category ? $category->getId() : null;
+            return $this->render('default/dashboardv1.html.twig', $options);
         }
     }
 
@@ -194,7 +194,7 @@ class DefaultController extends AbstractController
             }
         }
         else {
-            return $this->render('default/updateImage.html.twig', [
+            return $this->render('default/modals/upload/updateImage.html.twig', [
                 'ImageForm' => $form->createView(),
                 'entity' =>  $entity,
             ]);

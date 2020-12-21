@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se faire contacter liste{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="main-section">
+            <div class="container-bv">
+                <div class="main-section-data page-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {% include 'profile/boxes/infoProfile.html.twig' %}
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="main-ws-sec">
+                                <h3 class="my-3">Personnes souhaitant être contactés</h3>
+
+                                <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+                                    <li class="nav-item p-3">
+                                        <a class="nav-link {% if status == 'current' %}active{% endif %}" href="{{ path('be_contacted_list', {'status': 'current'}) }}" >En cours</a>
+                                    </li>
+                                    <li class="nav-item p-3">
+                                        <a class="nav-link {% if status == 'isWaiting' %}active{% endif %}"  href="{{ path('be_contacted_list', {'status': 'isWaiting'}) }}">En attente</a>
+                                    </li>
+                                    <li class="nav-item p-3">
+                                        <a class="nav-link {% if status == 'isArchived' %}active{% endif %}"  href="{{ path('be_contacted_list', {'status': 'isArchived'}) }}">Archivées</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    {% if beContactedList %}
+                                        {% for beContacted in beContactedList %}
+                                            <div class="box">
+                                                <p><span class="text-muted">Email : </span>{{ beContacted.email }}</p>
+                                                <p><span class="text-muted">Téléphone : </span>{{ beContacted.phone }}</p>
+                                                <p><span class="text-muted">Description : </span>{{ beContacted.description }}</p>
+                                                <div class="be-contacted-handle-btn">
+                                                    {% if status == 'current' %}
+                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_waiting', {'id': beContacted.id}) }}">Mettre en attente</button>
+                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_archive', {'id': beContacted.id}) }}">Archiver</button>
+                                                    {% elseif status == 'isWaiting'  %}
+                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_archive', {'id': beContacted.id}) }}">Archiver</button>
+                                                    {% elseif status == 'isArchived' %}
+                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_waiting', {'id': beContacted.id}) }}">Remettre en attente</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="box">
+                                            <div class="">
+                                                <p>La liste est vide</p>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            {% include 'default/boxes/add-service-component.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+{% endblock %}

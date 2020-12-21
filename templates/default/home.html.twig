@@ -84,7 +84,7 @@
                 <h2 class="bloc-title mb-3">
                     Rejoignez les entreprises locales
                 </h2>
-                {% include 'homePage/map.html.twig' %}
+                {% include 'default/map.html.twig' %}
             </div>
 
             <div class="row landing-page-section3 mt-3">
@@ -171,4 +171,8 @@
     {#dispaly cookies message #}
     {% include 'partials/cookies.html.twig' %}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('home') }}
 {% endblock %}

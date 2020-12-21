@@ -1,0 +1,9 @@
+{% if app.request.attributes.get('_route') != 'security_forgotten_password'and
+    app.request.attributes.get('_route') != 'security_reset_password'and
+    app.request.attributes.get('_route') != 'security_login' and
+    app.request.attributes.get('_route') != 'external_company_show'
+%}
+
+    {% include 'partials/flashes.html.twig' %}
+
+{% endif %}

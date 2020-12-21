@@ -332,4 +332,9 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function isGranted($role)
+    {
+        return in_array($role, $this->getRoles());
+    }
 }
