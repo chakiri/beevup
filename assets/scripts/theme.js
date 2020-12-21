@@ -649,7 +649,6 @@ import $ from 'jquery';
                 var marker = L.marker([e.latitude, e.longitude], {icon: greenIcon}).addTo(mymap).bindPopup("<b>Je suis là</b>").openPopup();
                 currentUserLongitude = e.longitude;
                 currentUserLatitude = e.latitude;
-               
 
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
                     attribution: ''}).addTo(mymap);

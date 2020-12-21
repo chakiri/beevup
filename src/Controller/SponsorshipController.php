@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SponsorshipController  extends AbstractController
 {
     /**
-     * @Route("/sponorship", name="Parrainez un membre de votre réseau​")
+     * @Route("/sponsorship", name="Parrainez un membre de votre réseau​")
      */
     public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler, UserRepository $userRepository)
     {
