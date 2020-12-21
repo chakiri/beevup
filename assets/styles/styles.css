@@ -3941,10 +3941,11 @@ li.icon-type-post a.active{
     height: 200px;
     position: absolute;
     border-radius: 50%;
-    border: 7px solid #B3B9C3;
+    border: 1px solid #B3B9C3;
     /*background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);*/
     top: 45px;
     left: 27%;
+    background: #fff;
 }
 .external_company_slider .card-content .title {
     color: green;
@@ -4003,7 +4004,7 @@ li.icon-type-post a.active{
     width: 574px;
     background-position: bottom center;
     background-size: cover;
-    border: 7px solid #B3B9C3;
+    border: 1px solid #B3B9C3;
 }
 
 .external_company_slider .actions i{
