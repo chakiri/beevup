@@ -3715,6 +3715,12 @@ li.icon-type-post a.active{
     border-radius: 12px !important;
     padding: 10px !important;
 }
+.search_store .search-store-result .title-search{
+    display: flex;
+    justify-content: space-between;
+}.search_store .search-store-result ul .big-btn{
+    font-size: 18px;
+}
 .search-company-carousel {
     background: rgba(67,95,113,0.9);
     color: #fff;
