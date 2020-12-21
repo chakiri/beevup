@@ -29,6 +29,10 @@ if($('#mapid').length > 0 && window.innerWidth > 769) {
 
     var currentUserLongitude = "";
     var currentUserLatitude = "";
+    var container = L.DomUtil.get('mapid');
+    if(container != null){
+        container._leaflet_id = null;
+    }
     var mymap = L.map('mapid').setView([51.505, -0.09], 13);
     mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
         .on('locationfound', function (e) {

@@ -3984,6 +3984,7 @@ li.icon-type-post a.active{
 .external_company_slider .title-total {
     padding: 2.5em 1.5em 1.5em 7em;
     display: table;
+    height: 100%;
 }
 
 .portada{
