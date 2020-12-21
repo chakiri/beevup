@@ -107,8 +107,8 @@ class ServiceType extends AbstractType
                 'label' => 'Photo principale',
                 'attr'  => [
                     'placeholder' => 'Photo principale',
-                    'class'       =>'form-control form-imageFile',
-                    'onChange'=>'previousImage()',
+                    'class'       =>'form-control form-imageFile custom-input-file',
+                    'onChange'=>'previousImage(event)',
 
                 ],
                 'constraints' => [
@@ -126,7 +126,8 @@ class ServiceType extends AbstractType
                 'label' => 'Photo supplémentaire 1',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 1',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control custom-input-file',
+                    'onChange'=>'previousImage(event)'
                 ],
                 'constraints' => [
                     new File([
@@ -143,7 +144,8 @@ class ServiceType extends AbstractType
                 'label' => 'Photo supplémentaire 2',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 2',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control custom-input-file',
+                    'onChange'=>'previousImage(event)'
                 ],
                 'constraints' => [
                     new File([
@@ -160,7 +162,8 @@ class ServiceType extends AbstractType
                 'label' => 'Photo supplémentaire 3',
                 'attr'  => [
                     'placeholder' => 'Photo secondaire 3',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control custom-input-file',
+                    'onChange'=>'previousImage(event)'
                 ],
                 'constraints' => [
                     new File([

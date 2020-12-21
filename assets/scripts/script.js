@@ -39,7 +39,11 @@ if ($('.main-nav').length) {
 
 //  =============  fade ut displayed alert  =========
 $(window).on('load', function(){
-    setTimeout(function(){ $('#alert').fadeOut("linear" ) }, 5000);
+    if($('.sponsorship-page').length ==0) {
+        setTimeout(function () {
+            $('#alert').fadeOut("linear")
+        }, 5000);
+    }
 });
 
 
@@ -150,8 +154,64 @@ $('#cookies a').click(function(){
 
     "use strict";
 
+    function createPreviousImageBloc(id){
+       let idValue =  (id.slice(id.length - 1) =='e') ? '' : id.slice(id.length - 1);
+        return document.getElementById('previous-image'+idValue) ;
+    }
+    function getFieldId(serviceClassName){
+        if(serviceClassName.slice(-1) ==    1)   return 1;
+        if(serviceClassName.slice(-1) ==    2)   return 2;
+        if(serviceClassName.slice(-1) ==    3)   return 3;
+        if(serviceClassName.slice(-1) ==  'e')   return '';
+
+    }
+     function getDeleteFileUrl(serviceId, fieldId){
+        let url ='/service/'+serviceId+'/delete/'+fieldId;
+        return url;
+     }
+
+    $(document).on('click', '.delete-img-service', function(e) {
+        $(this).addClass('d-none');
+        let fieldId = $(this).attr('data-input-id');
+        let serviceId = $(this).attr('data-service-id');
+
+        if (fieldId == 'service_imageFile1') {
+            $('#previous-image1').empty();
+            $('#service_imageFile1').val('');
+            serviceCropper1 = '';
+        }
+        if (fieldId == 'service_imageFile2') {
+            $('#previous-image2').empty();
+            $('#service_imageFile2').val('');
+            serviceCropper2 = '';
+        }
+        if (fieldId == 'service_imageFile3') {
+            $('#previous-image3').empty();
+            $('#service_imageFile3').val('');
+            serviceCropper3 = '';
+        }
+        if(serviceId != ''){
+        let deletFileUrl = getDeleteFileUrl(serviceId, fieldId);
+        $.ajax({
+            url: deletFileUrl,
+            type: 'POST',
+            async: false,
+            processData: false,
+            contentType: false,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function (data) { },
+            error: function () {
+                alert("Un problème est survenu. Veuillez réessayer")
+            }
+        })
+    }
+
+    });
+
+
+
     var fileInput = document.getElementsByClassName('form-imageFile')[0];
-    var cropper;
+    //var cropper;
     var previousImage = document.createElement("img");
 
     previousImage.classList.add('previous-img');
@@ -163,33 +223,67 @@ $('#cookies a').click(function(){
    }
 
     var ServiceCropper ='';
-    window.previousImage = function()
+    var serviceCropper1 ='';
+    var serviceCropper2 ='';
+    var serviceCropper3 ='';
+    var reader1 = new FileReader();
+    var reader2 = new FileReader();
+    var reader3 = new FileReader();
+
+    window.previousImage = function(e)
     {
-        $('#previous-image').empty();
-        var fileInput = document.getElementsByClassName('form-imageFile')[0];
+
+        let serviceInputsId = ['service_imageFile1','service_imageFile2','service_imageFile3']
+        let serviceFieldId ='';
+        /* to check if the page is service or [profile, store, company] */
+        if(e != undefined){
+             serviceFieldId = e.target.id;
+            $('#previous-image'+getFieldId(serviceFieldId)).empty();
+            $('#previous-image'+getFieldId(serviceFieldId)+ ' + span').removeClass('d-none');
+        } else {
+            $('#previous-image').empty();
+        }
+        if(serviceInputsId.includes(serviceFieldId)) {
+             var fileInput = document.getElementById(e.target.id);
+
+        } else {
+            var fileInput = document.getElementsByClassName('form-imageFile')[0];
+        }
+
         var cropper;
         var cutbtn = document.createElement("span");
-        var resetBtn = document.createElement("span");
-        cutbtn.classList.add('cut-btn');
-        cutbtn.innerHTML = "couper la photo";
-        resetBtn.innerHTML = "Annuler";
-        resetBtn.classList.add('reset-btn');
+
+        if(serviceFieldId != undefined) {
+            cutbtn.setAttribute('data-image', serviceFieldId);
+    }
+        if(e != undefined) {
+            cutbtn.classList.add('cut-btn' + getFieldId(serviceFieldId));
+            cutbtn.innerHTML = "Rogner la photo";
+        }
+
 
 
         var previousImage = document.createElement("img");
         previousImage.classList.add('previous-img');
         previousImage.classList.add('hide-bloc');
+        if(serviceInputsId.includes(serviceFieldId)){
+        var previousImageBloc = createPreviousImageBloc(serviceFieldId);
+
+    } else {
         var previousImageBloc = document.getElementById('previous-image');
+    }
         if(previousImageBloc != null) {
 
             previousImageBloc.appendChild(previousImage);
             previousImageBloc.appendChild(cutbtn);
-
-
         }
 
         previousImage.classList.remove('hide-bloc');
-        fileInput = document.getElementsByClassName('form-imageFile')[0];
+        if(serviceInputsId.includes(serviceFieldId)) {
+           var fileInput = document.getElementById(serviceFieldId);
+        } else {
+            var fileInput = document.getElementsByClassName('form-imageFile')[0];
+        }
         var file = fileInput.files[0];
         let reader = new FileReader();
         if(reader != null){
@@ -216,8 +310,24 @@ $('#cookies a').click(function(){
                     cropper = new Cropper(previousImage, {
                         aspectRatio: 1
                     })
-                    ServiceCropper = cropper;
-                }
+                    if(serviceFieldId.slice(-1) == 1){
+                        serviceCropper1 = cropper;
+                        reader1 = reader;
+                    }
+                     if(serviceFieldId.slice(-1) ==2){
+                        serviceCropper2 = cropper;
+                         reader2 = reader;
+                    }
+                     if(serviceFieldId.slice(-1) ==3){
+                        serviceCropper3 = cropper;
+                         reader3 = reader;
+                    }
+
+                     if(serviceFieldId.slice(-1) =='e'){
+                        ServiceCropper = cropper;
+                    }
+
+                 }
             });
         }
         let form = document.getElementById('BVform');
@@ -234,9 +344,7 @@ $('#cookies a').click(function(){
 
                     }).toBlob(function (blob) {
                         ajaxWithAxios(blob, form, cropper);
-
-
-                    })
+                     })
                 }
                 else {
 
@@ -249,36 +357,82 @@ $('#cookies a').click(function(){
         if(form != null)
         {
             form.addEventListener('submit',handler);
-
         }
-        $(document).on('click', '.cut-btn', function(e) {
 
-        $('.cropper-modal').addClass('imageCupped');
+
+        $(document).on('click', '.cut-btn'+getFieldId(serviceFieldId), function(e) {
+        previousImageBloc = createPreviousImageBloc($(this).attr('data-image'));
+        $('.cropper-modal').addClass('imageCupped'+getFieldId(serviceFieldId));
         var previousCuppedImage = document.createElement("img");
-        previousCuppedImage.classList.add('previous-cupped-img');
-        $('#previous-image').empty();
+        previousCuppedImage.classList.add('previous-cupped-img'+getFieldId($(this).attr('data-image')));
+        $('#previous-image'+getFieldId($(this).attr('data-image'))).empty();
         previousImageBloc.appendChild(previousCuppedImage);
-        $('.previous-cupped-img').attr('src', ServiceCropper.getCroppedCanvas().toDataURL());
-        previousImageBloc.appendChild(resetBtn);
+            var resetBtn = document.createElement("span");
+            resetBtn.innerHTML = "Annuler";
+            resetBtn.classList.add('reset-btn'+ getFieldId(serviceFieldId));
+            resetBtn.setAttribute('data-image', serviceFieldId);
+            previousImageBloc.appendChild(resetBtn);
+        if(getFieldId($(this).attr('data-image')) == 1){
+            $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper1.getCroppedCanvas().toDataURL());
+         }
+            else if(getFieldId($(this).attr('data-image')) == 2){
+                $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper2.getCroppedCanvas().toDataURL());
+            }
+        else if(getFieldId($(this).attr('data-image')) == 3){
+            $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper3.getCroppedCanvas().toDataURL());
+        }
+        else {
+            $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', ServiceCropper.getCroppedCanvas().toDataURL());
+        }
+
 
     });
-        $(document).on('click', '.reset-btn', function(e) {
-
-           $('.cropper-modal').removeClass('imageCupped');
+        $(document).on('click', '.reset-btn'+getFieldId(serviceFieldId), function(e) {
+             previousImageBloc = createPreviousImageBloc($(this).attr('data-image'));
+            $('.imageCupped'+getFieldId(serviceFieldId)).removeClass('imageCupped'+getFieldId(serviceFieldId));
             var previousImage = document.createElement("img");
-            previousImage.classList.add('previous-img');
-            $('#previous-image').empty();
-            previousImage.src = reader.result;
-            previousImageBloc.appendChild(previousImage);
+            previousImage.classList.add('previous-img'+getFieldId(serviceFieldId));
+            $('#previous-image'+getFieldId(serviceFieldId)).empty();
+            if(getFieldId(serviceFieldId) == 1) {
 
-            ServiceCropper = new Cropper(previousImage, {
-                aspectRatio: 1
-            });
+                previousImage.src = reader1.result;
+                previousImageBloc.appendChild(previousImage);
+                serviceCropper1 = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+
+            } else if(getFieldId(serviceFieldId) == 2){
+                previousImage.src = reader2.result;
+                previousImageBloc.appendChild(previousImage);
+                serviceCropper2 = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+
+            } else if(getFieldId(serviceFieldId) == 3){
+
+                previousImage.src = reader3.result;
+                previousImageBloc.appendChild(previousImage);
+                serviceCropper3 = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+
+            } else {
+
+               previousImage.src = reader.result;
+                previousImageBloc.appendChild(previousImage);
+                ServiceCropper = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+
+            }
+
+
             previousImageBloc.appendChild(cutbtn);
 
 
         });
-    }
+
+   }
 
     //====================== fix service issue =========//
     let form = document.getElementById('BVformService');
@@ -286,21 +440,39 @@ $('#cookies a').click(function(){
     {
         form.addEventListener('submit', function (event)
         {
+            let blob0 ='';
+            let blob1 ='';
+            let blob2 ='';
+            let blob3 ='';
+            let imageDimension = {maxHeight: 1000, maxWidth: 1000 };
 
-            if(fileInput.files[0]) {
+            if(fileInput.files[0]  || fileInput != null ) {
 
-                event.preventDefault()
+                event.preventDefault();
+
+
                 $('.hide-load').addClass('load-ajax-form');
-                ServiceCropper.getCroppedCanvas({
-                    maxHeight: 1000,
-                    maxWidth: 1000,
 
-                }).toBlob(function (blob) {
-                    ajaxWithAxios(blob, form, ServiceCropper);
-                })
-            }
+                if (serviceCropper1 != '') {
+                   serviceCropper1.getCroppedCanvas(imageDimension).toBlob(function (blob) {  blob1 = blob; });  }
 
-        });
+                if (serviceCropper2 != '') {
+                    serviceCropper2.getCroppedCanvas(imageDimension).toBlob(function (blob) {   blob2 = blob;  });
+                 }
+
+                if (serviceCropper3 != '') {
+                    serviceCropper3.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob3 = blob;  });
+                 }
+
+                 if (ServiceCropper != '') {
+
+                    ServiceCropper.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob0 = blob;
+                   });
+
+                }
+
+                setTimeout(function(){  ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3); }, 500); }
+         });
     }
 
     //====================== fix service issue =========//
@@ -330,13 +502,16 @@ $('#cookies a').click(function(){
         return url;
     }
 
-    function ajaxWithAxios(blob, form, cropper)
+    function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
     {
 
        let url = update_img_url();
        let data = new FormData(form);
-        data.append('file', blob);
 
+        data.append('file', blob);
+        data.append('file1', blob1);
+        data.append('file2', blob2);
+        data.append('file3', blob3);
         $.ajax({
             url: url,
             type: 'POST',
@@ -475,8 +650,18 @@ $(window).on("load", function() {
             // instead of a settings object
         ]
     });
-});
+ // ===================custom input field ========
 
+    if($('#sponsorship_message').length > 0) {
+        let userStore = $('#sponsorship_message').attr('data-store');
+        let emailSignature = $('#sponsorship_message').attr('data-email-footer');
+        $('#sponsorship_message').val('Bonjour, \n Je suis inscrit sur la plateforme Beevup.fr et je vous propose de venir me rejoindre dans la communauté du magasin Bureau Vallée '+userStore +'\n ' +
+            'Beev\'Up est la première plateforme locale dédiée aux Artisans, Commerçants, Professions Libérales, Indépendants et TPE/PME.\n Nous pouvons élargir notre ' +
+            'réseau en rencontrant d’autres professionnels, échanger de l’information et des opportunités commerciales, vendre nos services,  promouvoir nos activités et nos entreprises par un affichage sur le web ' +
+            'et dans les magasins Bureau Vallée. \n L’inscription est gratuite.​\n ' +
+            'N’hésitez pas, venez me rejoindre. \n'+emailSignature );
+    }
+    });
 //Archive beContacted
 $('.be-contacted-archive').click(function(){
     let btn = $(this);
@@ -510,6 +695,6 @@ $('.be-contacted-waiting').click(function(){
             alert('Une erreur s\'est produite. Veuillez réessayer.');
         }
     });
-});
+ });
 
 

@@ -620,6 +620,23 @@ import $ from 'jquery';
         });
     });
 
+        var currentUserLongitude = "";
+        var currentUserLatitude = "";
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
+            .on('locationfound', function (e) {
+                var greenIcon = new L.Icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+                var marker = L.marker([e.latitude, e.longitude], {icon: greenIcon}).addTo(mymap).bindPopup("<b>Je suis là</b>").openPopup();
+                currentUserLongitude = e.longitude;
+                currentUserLatitude = e.latitude;
 
+            });
 
 

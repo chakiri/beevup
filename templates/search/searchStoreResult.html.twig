@@ -8,17 +8,20 @@
 
     <section class="search-store-result">
         <div class="container-bv container-bv-search-result">
+            <ul class="title-search list-unstyled list-inline pt-3 pb-3">
+                {% if not results %}
+                    <li class="list-inline-item mr-0"><h3>Aucune entreprise disponible pour votre recherche "{{ query }}".</h3></li>
+                {% else %}
+                    <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
+                {% endif %}
+                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
+            </ul>
 
             {% if results %}
-                <ul class="list-unstyled list-inline pt-3 pb-3">
-                    <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
-                    <li class="list-inline-item ml-3"><span><a href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
-                </ul>
-
                 <div class="">
                     <div class="row row-equal">
                         {% for result in results %}
-                            <div class="col-lg-3 col-md-4">
+                            <div class="col-lg-3 col-md-4 mt-3">
                                 <!-- Card -->
                                 <div class="card">
                                     <!-- Card image -->
@@ -60,11 +63,6 @@
                     </div>
 
                 </div>
-            {% else %}
-                <ul class="list-unstyled list-inline pt-3 pb-3">
-                    <li class="list-inline-item mr-0"><h3>Aucune entreprise disponible pour votre recherche "{{ query }}".</h3></li>
-                    <li class="list-inline-item ml-3"><span><a href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
-                </ul>
             {% endif %}
         </div>
     </section>

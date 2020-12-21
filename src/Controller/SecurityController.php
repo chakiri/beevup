@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Security\LoginFormAuthenticator;
 use App\Service\Session\CookieAccepted;
+use App\Service\ScoreHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
@@ -11,6 +12,7 @@ use App\Form\ResetPasswordType;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Repository\SponsorshipRepository;
 use App\Service\TopicHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +27,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\BarCode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+
+
 
 
 
@@ -274,7 +278,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler)
     {
 
 
@@ -318,6 +322,13 @@ class SecurityController extends AbstractController
                 }
             }
             $manager->flush();
+        /*****check if the user is coming from invitation****/
+       $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
+        if ($sponsor  != null){
+            $scoreHandler->add($sponsor->getUser(), 100);
+            $scoreHandler->add($user, 50);
+        }
+
 
          $guardHandler->authenticateUserAndHandleSuccess(
             $user,

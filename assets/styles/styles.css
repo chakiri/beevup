@@ -2996,6 +2996,10 @@ a:hover {
 .abuse-suggestion-usd p {
     margin-left: 50px;
 }
+#toIndividuals , #toProfessionals  {
+    float: left;
+}
+
 #toIndividuals label, #toProfessionals label {
     margin-top: 8px;
 }
@@ -3049,6 +3053,7 @@ a:hover {
 .previous-img{width:400px;height:400px;margin-top:10px}
 .hide-bloc, .hide-load{display: none}
 .load-ajax-form{display: block !important}
+.service-type{margin-top: 15px}
 /**********end************/
 
 /******error page***********/
@@ -3063,8 +3068,14 @@ a:hover {
 .profile_edit .cropper-view-box{
     border-radius: 50%;
 }
-#previous-image{
+#previous-image, #previous-image1, #previous-image2, #previous-image3{
     margin-top: 10px;
+}
+#previous-image img, #previous-image1 img, #previous-image2 img , #previous-image3 img{
+position: relative;
+width: 100%;
+border: 1px solid #eee;
+padding: 2px;
 }
 /*******form errors******/
 .form-error{
@@ -3641,21 +3652,19 @@ li.icon-type-post a.active{
     color: #FF7F50;
     background: #FFF6F3;
 }
-.cut-btn{
+.cut-btn, .cut-btn1, .cut-btn2, .cut-btn3{
     font-size: 11px;
     background-color: var(--orange-color);
     padding: 4px;
     color: #fff;
     border-radius: 2px;
-    position: absolute;
-    bottom: 3px;
+    position: relative;
+    bottom: 30px;
     left: 10px;
-    /*position: relative;
-    top: -22px;*/
 }
-.reset-btn{
-    position: absolute;
-    bottom: 3px;
+.reset-btn, .reset-btn1, .reset-btn2, .reset-btn3{
+    position: relative;
+    bottom: 30px;
     left: 10px;
     color: #fff;
     background-color: var(--orange-color);
@@ -3664,8 +3673,31 @@ li.icon-type-post a.active{
     border-radius: 3px;
 }
 .modal-content .cut-btn, .modal-content .reset-btn{display: none}
-.previous-cupped-img{
+.previous-cupped-img, .previous-cupped-img1, .previous-cupped-img2, .previous-cupped-img3{
     height: 216px;
+}
+/*==== custom field upload */
+.custom-input-file+ label{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.add-file-label{
+    max-width: 80%;
+    font-size: 12px;
+    /* 20px */
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
 }
 
 /*--------------------------------------------------------------
@@ -3714,6 +3746,12 @@ li.icon-type-post a.active{
     margin-bottom: 10px !important;
     border-radius: 12px !important;
     padding: 10px !important;
+}
+.search_store .search-store-result .title-search{
+    display: flex;
+    justify-content: space-between;
+}.search_store .search-store-result ul .big-btn{
+    font-size: 18px;
 }
 .search-company-carousel {
     background: rgba(67,95,113,0.9);
@@ -3946,6 +3984,7 @@ li.icon-type-post a.active{
 .external_company_slider .title-total {
     padding: 2.5em 1.5em 1.5em 7em;
     display: table;
+    height: 100%;
 }
 .external_company_slider .carousel-control-prev-icon, .external_company_slider .carousel-control-next-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' fill-opacity='0' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
@@ -3987,4 +4026,53 @@ li.icon-type-post a.active{
     width: 200px;
 }
 /* End external company show for search */
+
+.add-file-label
+{
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.add-file-label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.add-file-label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+.add-sponsorship-btn{
+    font-size:11px;
+    margin-top:10px;
+    float:left;
+    background-color: var(--orange-color);
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+}
+.add-sponsorship-btn:hover{
+    color: #FFFFFF;
+}
+.delete-img-service{
+    background-color: var(--orange-color);
+    color: #fff;
+    border-radius: 2px;
+    font-size: 11px;
+    top: -26px;
+    right: 10px;
+    position:relative;
+    margin-top: -23px;
+    padding: 3px;
+    float: right;
+ }
+.box-advertising{
+    clear: both;
+}
 

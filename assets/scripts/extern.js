@@ -65,6 +65,12 @@ if($('.external_company_show #mapid').length > 0 && window.innerWidth > 769) {
         center: [latitude, longitude],
         zoom: 13
     }
+    //Check if map already initialize
+    var container = L.DomUtil.get('mapid');
+    if(container != null){
+        container._leaflet_id = null;
+    }
+
     // Creating a map object
     var map = L.map('mapid', mapOptions);
 
@@ -95,6 +101,13 @@ if($('.search_store #mapid').length > 0 && window.innerWidth > 769) {
 
     var currentUserLongitude = "";
     var currentUserLatitude = "";
+
+    //Check if map already initialize
+    var container = L.DomUtil.get('mapid');
+    if(container != null){
+        container._leaflet_id = null;
+    }
+
     var mymap = L.map('mapid').setView([51.505, -0.09], 13);
     mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
         .on('locationfound', function (e) {
@@ -124,5 +137,5 @@ if($('.search_store #mapid').length > 0 && window.innerWidth > 769) {
         alert(e.message);
     }
 
-    map.on('locationerror', onLocationError);
+    /*map.on('locationerror', onLocationError);*/
 }
