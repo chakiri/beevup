@@ -39,7 +39,11 @@ if ($('.main-nav').length) {
 
 //  =============  fade ut displayed alert  =========
 $(window).on('load', function(){
-    setTimeout(function(){ $('#alert').fadeOut("linear" ) }, 5000);
+    if($('.sponsorship-page').length ==0) {
+        setTimeout(function () {
+            $('#alert').fadeOut("linear")
+        }, 5000);
+    }
 });
 
 
@@ -655,7 +659,7 @@ $(window).on("load", function() {
         let emailSignature = $('#sponsorship_message').attr('data-email-footer');
         $('#sponsorship_message').val('Bonjour, \n Je suis inscrit sur la plateforme Beevup.fr et je vous propose de venir me rejoindre dans la communauté du magasin Bureau Vallée '+userStore +'\n ' +
             'Beev\'Up est la première plateforme locale dédiée aux Artisans, Commerçants, Professions Libérales, Indépendants et TPE/PME.\n Nous pouvons élargir notre ' +
-            'réseau en rencontrant d’autres professionnels, échanger de l’information et des opportunités commerciales, vendre nos services,  promouvoir nos activités et nos entreprise par un affichage sur le web ' +
+            'réseau en rencontrant d’autres professionnels, échanger de l’information et des opportunités commerciales, vendre nos services,  promouvoir nos activités et nos entreprises par un affichage sur le web ' +
             'et dans les magasins Bureau Vallée. \n L’inscription est gratuite.​\n ' +
             'N’hésitez pas, venez me rejoindre. \n'+emailSignature );
     }

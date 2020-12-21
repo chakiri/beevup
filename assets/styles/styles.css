@@ -3723,7 +3723,11 @@ li.icon-type-post a.active{
 .add-sponsorship-btn{
     font-size:11px;
     margin-top:10px;
-    float:left
+    float:left;
+    background-color: var(--orange-color);
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
 }
 .add-sponsorship-btn:hover{
     color: #FFFFFF;
@@ -3740,4 +3744,7 @@ li.icon-type-post a.active{
     padding: 3px;
     float: right;
  }
+.box-advertising{
+    clear: both;
+}
 

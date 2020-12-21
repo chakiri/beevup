@@ -135,7 +135,8 @@
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-3">
-                <div class="box-advertising">
+                {% include 'default/boxes/add-sponsorship.html.twig' %}
+                <div class="box-advertising clearfix">
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
                     {% endif %}
@@ -144,7 +145,7 @@
                         {% include 'default/boxes/specialOffer-box.html.twig' %}
                     {% endif %}
                 </div>
-                {% include 'default/boxes/add-sponsorship.html.twig' %}
+
             </div>
 
         </div>
