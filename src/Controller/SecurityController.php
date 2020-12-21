@@ -323,7 +323,7 @@ class SecurityController extends AbstractController
             }
             $manager->flush();
         /*****check if the user is coming from invitation****/
-        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
+       $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
         if ($sponsor  != null){
             $scoreHandler->add($sponsor->getUser(), 100);
             $scoreHandler->add($user, 50);

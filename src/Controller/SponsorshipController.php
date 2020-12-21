@@ -29,6 +29,9 @@ class SponsorshipController  extends AbstractController
         $emailsNotCorrect = [];
         $sponsor ='';
         $message ='';
+        $newEmail = false;
+        $points = 0;
+        $points_msg = '';
         if($this->getUser()->getProfile() !=null)
         {
             $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname().' ';
@@ -43,12 +46,14 @@ class SponsorshipController  extends AbstractController
                 if($email != ''){
                 if ($sponsorshipRepository->findOneBy(['email' => $email]) == null && $userRepository->findOneBy(['email' => $email]) == null) {
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $newEmail = true;
                         $sponsorship->setEmail($email);
                         $sponsorship->setMessage($customMessage);
                         $sponsorship->setUser($this->getUser());
                         $manager->persist($sponsorship);
                         $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
                         $scoreHandler->add($this->getUser(), 50);
+                        $points +=50;
 
                     } else {
                         array_push($emailsNotCorrect, $email);
@@ -62,11 +67,16 @@ class SponsorshipController  extends AbstractController
             }
 
             $manager->flush();
+             $points_msg = '<p><strong> Vous venez d\'obtenir '.$points. ' points </strong></p>';
              $emailsExistCount = count($emailsExist);
              $emailsNotCorrectCount = count($emailsNotCorrect);
             if($emailsExistCount > 0 || $emailsNotCorrectCount > 0 ){
                 if($emailsExistCount > 0 ){
-                    $message = ($emailsExistCount == 1) ? 'l\'email suivant est déjà référencé sur notre plateforme: ' : 'les emails suivants  sont déjà référencés sur notre plateforme: ';
+                    if(  $newEmail == true ) {
+                        $message = ($emailsExistCount == 1) ? 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.<p><strong> l\'email suivant est déjà référencé sur notre plateforme: </strong></p>' : 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.<p><strong>  les emails suivants  sont déjà référencés sur notre plateforme:</strong></p> ';
+                    } else {
+                        $message = ($emailsExistCount == 1) ? 'L\'email suivant est déjà référencé sur notre plateforme: ' : 'Les emails suivants  sont déjà référencés sur notre plateforme: ';
+                    }
                     $message = $message . '<ul>';
                     foreach ($emailsExist as $emailExist) {
                         $message = $message . '<li> ' . $emailExist . '</li>';
@@ -80,11 +90,15 @@ class SponsorshipController  extends AbstractController
                         $message = $message . '<li> ' . $emailNotCorrect . '</li>';
                     }
                     $message = $message . '</ul>';
+
+                }
+                if($points > 0){
+                    $message = $message.' '.$points_msg ;
                 }
                $this->addFlash('danger', nl2br($message));
 
             } else {
-                $this->addFlash('success', 'Vos contacts vont revoir un e-mail d’invitation. Nous vous remercions pour votre action');
+                $this->addFlash('success', 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.'.$points_msg);
 
             }
         }
