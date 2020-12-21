@@ -605,14 +605,12 @@ $('#cookies a').click(function(){
         });
     });
 
-
 // ============= Other javascript =========
 
 $(window).on("load", function() {
     "use strict";
 
     //  ============= PORTFOLIO SLIDER FUNCTION =========
-
     $('.profiles-slider').addClass("d-block");
     $('.profiles-slider').slick({
         slidesToShow: 3,
@@ -663,7 +661,40 @@ $(window).on("load", function() {
             'et dans les magasins Bureau Vallée. \n L’inscription est gratuite.​\n ' +
             'N’hésitez pas, venez me rejoindre. \n'+emailSignature );
     }
+    });
+//Archive beContacted
+$('.be-contacted-archive').click(function(){
+    let btn = $(this);
+    let url = $(this).data('target');
 
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(){
+            console.log('archivé');
+            btn.parents('.box').css('display', 'none');
+        },
+        error: function(){
+            alert('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+    });
+});
+//Wainting beContacted
+$('.be-contacted-waiting').click(function(){
+    let btn = $(this);
+    let url = $(this).data('target');
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(){
+            console.log('en attente');
+            btn.parents('.box').css('display', 'none');
+        },
+        error: function(){
+            alert('Une erreur s\'est produite. Veuillez réessayer.');
+        }
+    });
  });
 
 

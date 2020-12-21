@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Recommandations{% endblock %}
 
 {% block body %}
 <main>
@@ -9,25 +9,7 @@
             <div class="main-section-data page-content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="main-left-sidebar">
-                            <div class="user_profile">
-                                <div class="user-pro-img">
-                                    {% if app.user.profile.filename %}
-                                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('card') }}"  alt="">
-                                    {% else %}
-                                        <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                    {% endif %}
-                                </div>
-                                <div class="user_pro_status">
-                                    <div class="btn white-bg">
-                                            <a href="{{ path('profile_edit', {'id': app.user.profile.id}) }}" title="" class="">
-                                                    Modifier profil
-                                            </a>
-                                    </div>
-
-                                </div><!--user_pro_status end-->
-                            </div>
-                        </div>
+                        {% include 'profile/boxes/infoProfile.html.twig' %}
                     </div>
                     <div class="col-lg-6">
                         <div class="main-ws-sec">

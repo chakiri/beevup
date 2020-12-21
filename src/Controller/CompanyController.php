@@ -2,6 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\BeContacted;
+use App\Entity\Store;
+use App\Form\BeContactedType;
+use App\Repository\BeContactedRepository;
+use App\Repository\CompanyRepository;
+use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +32,7 @@ class CompanyController extends AbstractController
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
     {
         $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
-        $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
+        if ($this->getUser()) $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
         $score = 0;
         foreach ($users as $user){
             if ($user->getScore()) $score += $user->getScore()->getPoints();
@@ -48,10 +54,10 @@ class CompanyController extends AbstractController
             'recommandationsCompany'=> $recommandationsCompany,
             'users' => $users,
             'countServices' => count($services),
-            'services' => array_slice($services, -3, 3),
+            'services' => array_slice($services, -6, 6),
             'score' => $score,
             'isFavorit' => $isFavorit,
-            'adviser'=>$adviser,
+            'adviser'=>$adviser ?? null,
             'companyAdministrator'=>$userRepo->findByAdminCompany($company->getId())
         ]);
     }
@@ -101,6 +107,77 @@ class CompanyController extends AbstractController
                 'countServices' => count($company->getServices()->toArray())
             ]);
         }
+    }
+
+    /**
+     * @Route("/external/company/{slug}", name="external_company_show")
+     */
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
+    {
+        $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
+        $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
+
+        $services = $company->getServices()->toArray();
+
+        $users = $userRepository->findBy(['company' => $company]);
+
+        $admin = $userRepository->findByAdminCompany($company->getId());
+
+        $beContacted = new BeContacted();
+        $form = $this->createForm(BeContactedType::class, $beContacted);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($beContactedRepository->findBy(['company' => $company, 'email' => $beContacted->getEmail(), 'isArchived' => false])){
+                $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
+            }else{
+                $beContacted->setCompany($company);
+                $manager->persist($beContacted);
+
+                $manager->flush();
+
+                $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
+            }
+        }
+
+        return $this->render('company/external/show.html.twig', [
+            'company' => $company,
+            'recommandationsServices'=> $recommandationsServices,
+            'recommandationsCompany'=> $recommandationsCompany,
+            'countServices' => count($services),
+            'services' => array_slice($services, -6, 6),
+            'users' => $users,
+            'admin' => $admin,
+            'formBeContacted' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/external/company/slider/{reference}", name="external_company_slider")
+     */
+    public function externalSlider(Store $store, GetCompanies  $getCompanies, CompanyRepository $companyRepository, UserRepository  $userRepository)
+    {
+        //Get local companies of store
+        $allCompanies = $getCompanies->getAllCompanies($store);
+        $companies = $companyRepository->getCompaniesObjects($allCompanies);
+
+        //Get admin of each company
+        $admins = [];
+        $servicesArray = [];
+        foreach ($companies as $company){
+            $admin = $userRepository->findByAdminCompany($company->getId());
+            $admins[$company->getId()] = $admin;
+            $services = $company->getServices()->toArray();
+            $servicesArray[$company->getId()] = array_slice($services, -3, 3);
+        }
+
+        return $this->render('company/external/slider.html.twig', [
+            'store' => $store,
+            'companies' => $companies,
+            'admins' => $admins,
+            'servicesArray' => $servicesArray
+        ]);
     }
 
 }

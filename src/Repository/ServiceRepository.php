@@ -17,18 +17,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Service::class);
-    }  
-
-    public function findOneById($value): ?Service
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.id = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
     }
-
 
     private function findSearchQueryBuilder($query, $category, $isDiscovery)
     {
@@ -92,7 +81,7 @@ class ServiceRepository extends ServiceEntityRepository
         return $servicesStoreMatchedQuery;
     }
 
-    public function findByLocalServices($allCompanies){
+    public function findByLocalServicesQuery($allCompanies){
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
@@ -102,27 +91,32 @@ class ServiceRepository extends ServiceEntityRepository
             ->orderBy('s.createdAt', 'DESC')
             ->addOrderBy('s.isDiscovery', 'DESC')
             ->setParameters(array('companies'=>$allCompanies))
-            ->getQuery()
-            ->getResult() ;
+            ;
     }
 
-    public function findByIsDiscovery( $allCompanies, $store){
+    public function findByLocalServices($allCompanies){
 
-        return $this->createQueryBuilder('s')
-            ->leftJoin('s.user', 'u')
-            ->leftJoin('u.company', 'c')
-            ->andWhere('s.isDiscovery = 1')
-            ->andWhere('c.id in (:companies)')
-            ->andWhere('c.isValid = 1')
-            ->orWhere('u.company is NULL AND u.store = :store')
-            ->orderBy('s.createdAt', 'DESC')
-            ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
+        $qb = $this->findByLocalServicesQuery($allCompanies);
+
+        return $qb
             ->getQuery()
-            ->getResult() ;
+            ->getResult()
+            ;
     }
 
-    public function findOneByIsDiscovery( $allCompanies, $store){
+    public function findByLocalServicesWithLimit($allCompanies, $limit){
 
+        $qb = $this->findByLocalServicesQuery($allCompanies);
+
+        return $qb
+            ->getQuery()
+            ->setMaxResults( $limit )
+            ->getResult()
+            ;
+    }
+
+    public function findByIsDiscoveryQuery($allCompanies, $store)
+    {
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
             ->leftJoin('u.company', 'c')
@@ -132,9 +126,28 @@ class ServiceRepository extends ServiceEntityRepository
             ->orWhere('u.company is NULL AND u.store = :store AND s.isDiscovery = 1')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
+            ;
+    }
+
+    public function findByIsDiscovery($allCompanies, $store)
+    {
+        $query = $this->findByIsDiscoveryQuery($allCompanies, $store);
+
+        return $query
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findOneByIsDiscovery( $allCompanies, $store)
+    {
+        $query = $this->findByIsDiscoveryQuery($allCompanies, $store);
+
+        return $query
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 
     public function findByType($type){
@@ -165,34 +178,21 @@ class ServiceRepository extends ServiceEntityRepository
             ->setMaxResults(3)
             ->getQuery()
             ->getResult() ;
-
     }
-    // /**
-    //  * @return Service[] Returns an array of Service objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByQuery($allCompanies, $query)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
+            ->andWhere('s.title LIKE :query OR s.introduction LIKE :query OR s.description LIKE :query')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('companies', $allCompanies)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Service
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
