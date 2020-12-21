@@ -137,5 +137,5 @@ if($('.search_store #mapid').length > 0 && window.innerWidth > 769) {
         alert(e.message);
     }
 
-    map.on('locationerror', onLocationError);
+    /*map.on('locationerror', onLocationError);*/
 }
