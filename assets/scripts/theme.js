@@ -637,6 +637,35 @@ import $ from 'jquery';
                 currentUserLongitude = e.longitude;
                 currentUserLatitude = e.latitude;
 
+
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
+                    attribution: ''}).addTo(mymap);
+                for (var i = 0; i < allStores.stores.length; i++) {
+                    if (distance(currentUserLatitude, currentUserLongitude, allStores.stores[i].lat, parseFloat(allStores.stores[i].lng), "K") <= 1000) {
+                       var marker = L.marker([allStores.stores[i].lat, parseFloat(allStores.stores[i].lng)]).addTo(mymap).bindPopup("<b>" + allStores.stores[i].name + "</b><br/><span style='color:#FF7F50'>" + allStores.stores[i].adress + "</span>");
+                     }
+                }
+             });
+             var popup = L.popup();
+        }
+     $('.close-subscription-notification').click(function(){
+     $('.warning-subscription').remove();
+
+     $('textarea').on({
+         input: function(){
+
+             var text = $(this).val();
+             span.text(text);
+             $(this).height(text ? span.height() : '1.1em');
+         },
+         focus: function(){
+             initSpan($(this));
+         }
+     });
+});
+
+
+
             });
 
 
