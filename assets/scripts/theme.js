@@ -633,50 +633,5 @@ if($('#mapid').length > 0 && window.innerWidth > 769) {
         }
     });
 
-    var currentUserLongitude = "";
-    var currentUserLatitude = "";
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
-    mymap.locate({setView: true, watch: true}) /* This will return map so you can do chaining */
-        .on('locationfound', function (e) {
-            var greenIcon = new L.Icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-            var marker = L.marker([e.latitude, e.longitude], {icon: greenIcon}).addTo(mymap).bindPopup("<b>Je suis là</b>").openPopup();
-            currentUserLongitude = e.longitude;
-            currentUserLatitude = e.latitude;
-
-
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
-                attribution: ''}).addTo(mymap);
-            for (var i = 0; i < allStores.stores.length; i++) {
-                if (distance(currentUserLatitude, currentUserLongitude, allStores.stores[i].lat, parseFloat(allStores.stores[i].lng), "K") <= 1000) {
-                    var marker = L.marker([allStores.stores[i].lat, parseFloat(allStores.stores[i].lng)]).addTo(mymap).bindPopup("<b>" + allStores.stores[i].name + "</b><br/><span style='color:#FF7F50'>" + allStores.stores[i].adress + "</span>");
-                }
-            }
-        });
-    var popup = L.popup();
-}
-$('.close-subscription-notification').click(function(){
-    $('.warning-subscription').remove();
-
-    $('textarea').on({
-        input: function(){
-
-            var text = $(this).val();
-            span.text(text);
-            $(this).height(text ? span.height() : '1.1em');
-        },
-        focus: function(){
-            initSpan($(this));
-        }
-    });
-});
-
-
 
 

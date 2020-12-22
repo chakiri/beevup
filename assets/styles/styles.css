@@ -3937,14 +3937,14 @@ li.icon-type-post a.active{
 }
 
 .external_company_slider .img-avatar img{
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 200px;
     position: absolute;
     border-radius: 50%;
-    border: 7px solid #dbf698;
+    border: 7px solid #B3B9C3;
     /*background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);*/
-    top: 15px;
-    left: 29%;
+    top: 45px;
+    left: 27%;
 }
 .external_company_slider .card-content .title {
     color: green;
@@ -3975,18 +3975,24 @@ li.icon-type-post a.active{
     cursor: pointer;
     transition:.5s;
  }
-
-.external_company_slider .card-content button :hover {
-    color: #4CAF50;
-    transform: rotate(22deg);
-}
-
 .external_company_slider .title-total {
     padding: 2.5em 1.5em 1.5em 7em;
     display: table;
+    width: 100%;
     height: 100%;
 }
-
+.external_company_slider .carousel-control-prev-icon, .external_company_slider .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' fill-opacity='0' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
+}
+.total-image{
+    text-align: center;
+}
+.total-image .logo-image img{
+    width: 400px;
+}
+.total-image .avatar-image img{
+    width: 300px;
+}
 .portada{
     display: flex;
     align-items: center;
@@ -3994,16 +4000,14 @@ li.icon-type-post a.active{
 }
 
 .portada img{
-    width: 100%;
+    width: 574px;
     background-position: bottom center;
     background-size: cover;
+    border: 7px solid #B3B9C3;
 }
 
 .external_company_slider .actions i{
     font-size: 24px;
-}
-.external_company_slider .actions{
-    color: #8bc34a;
 }
 /* End external company slider */
 
