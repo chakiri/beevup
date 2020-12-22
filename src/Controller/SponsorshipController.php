@@ -68,14 +68,17 @@ class SponsorshipController  extends AbstractController
 
             $manager->flush();
              $points_msg = '<p><strong> Vous venez d\'obtenir '.$points. ' points </strong></p>';
+             if(  $newEmail == true ) {
+                 $message ='Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.';
+             }
              $emailsExistCount = count($emailsExist);
              $emailsNotCorrectCount = count($emailsNotCorrect);
             if($emailsExistCount > 0 || $emailsNotCorrectCount > 0 ){
                 if($emailsExistCount > 0 ){
                     if(  $newEmail == true ) {
-                        $message = ($emailsExistCount == 1) ? 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.<p><strong> l\'email suivant est déjà référencé sur notre plateforme: </strong></p>' : 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.<p><strong>  les emails suivants  sont déjà référencés sur notre plateforme:</strong></p> ';
+                        $message = ($emailsExistCount == 1) ? $message.'<p><strong> l\'email suivant est déjà référencé sur notre plateforme: </strong></p>' : $message.'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.<p><strong>  les emails suivants  sont déjà référencés sur notre plateforme:</strong></p> ';
                     } else {
-                        $message = ($emailsExistCount == 1) ? 'L\'email suivant est déjà référencé sur notre plateforme: ' : 'Les emails suivants  sont déjà référencés sur notre plateforme: ';
+                        $message = ($emailsExistCount == 1) ? $message.'L\'email suivant est déjà référencé sur notre plateforme: ' : $message.'Les emails suivants  sont déjà référencés sur notre plateforme: ';
                     }
                     $message = $message . '<ul>';
                     foreach ($emailsExist as $emailExist) {
@@ -84,7 +87,8 @@ class SponsorshipController  extends AbstractController
                     $message = $message . '</ul>';
                 }
                 if($emailsNotCorrectCount > 0) {
-                    $message = $message. '<br/> les email(s) suivant(s) sont non valides: ';
+
+                    $message = $message . '<br/> les email(s) suivant(s) sont non valides: ';
                     $message = $message . '<ul>';
                     foreach ($emailsNotCorrect as $emailNotCorrect) {
                         $message = $message . '<li> ' . $emailNotCorrect . '</li>';
