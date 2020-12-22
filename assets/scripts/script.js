@@ -527,11 +527,11 @@ $('#cookies a').click(function(){
                     for (var key in data.data) {
                         error = "<p class='form-error'>"+data.data[key]+"</p>";
                         $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
-                        if(key=='imageFile') {
-                            if(cropper) {
-                                cropper.destroy();
+                        /*if(key=='imageFile') {
+                            if(cropper !=null) {
+                               cropper.destroy();
                             }
-                        }
+                        }*/
                     }
                     if($('.serviceError').length > 0){
                         $('.serviceError').append(error);
