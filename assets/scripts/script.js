@@ -523,14 +523,20 @@ $('#cookies a').click(function(){
             success: function(data){
                 if(data.result == 0) {
                     $('.hide-load').removeClass('load-ajax-form');
-
+                    let error='';
                     for (var key in data.data) {
-                        let error = "<p class='form-error'>"+data.data[key]+"</p>";
+                        error = "<p class='form-error'>"+data.data[key]+"</p>";
                         $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
                         if(key=='imageFile') {
-                            cropper.destroy();
+                            if(cropper) {
+                                cropper.destroy();
+                            }
                         }
                     }
+                    if($('.serviceError').length > 0){
+                        $('.serviceError').append(error);
+                    }
+                   // alert(error);
                 }
                 else {
                     //  ============= if data.message is a number so it's a service json return =========

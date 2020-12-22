@@ -18,7 +18,7 @@ class Sponsorship
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=1000)
      */
     private $email;
 
@@ -34,7 +34,7 @@ class Sponsorship
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=1500)
      */
     private $message;
 
