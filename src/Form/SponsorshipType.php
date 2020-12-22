@@ -56,7 +56,8 @@ class SponsorshipType extends AbstractType
                    'rows'=>15,
                    'cols' => 100,
                    'data-email-footer'=>$emailSignature,
-                   'data-store'=>$userStore
+                   'data-store'=>$userStore,
+                   'maxlength'   => 1500,
 
 
                ]

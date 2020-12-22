@@ -68,7 +68,7 @@ class Service implements \Serializable
     /**
      * @var File|null
      * @Vich\UploadableField(mapping="service_image", fileNameProperty = "filename")
-     *  @Assert\Expression("this.getImageFile() or this.getFilename()", message="Vous devez uploader une photo.")
+     *  @Assert\Expression("this.getImageFile() or this.getFilename()", message="L'image principale est obligatoire")
      */
     private $imageFile;
 
