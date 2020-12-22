@@ -632,6 +632,7 @@ if($('#mapid').length > 0 && window.innerWidth > 769) {
             allStores = JSON.parse(data);
         }
     });
+}
 
 
 
