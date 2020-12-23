@@ -534,6 +534,7 @@ $('#cookies a').click(function(){
                         }*/
                     }
                     if($('.serviceError').length > 0){
+                        $('.serviceError').text('');
                         $('.serviceError').append(error);
                     }
                    // alert(error);
