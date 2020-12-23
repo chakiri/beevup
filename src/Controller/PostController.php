@@ -35,18 +35,13 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $optionsRedirect = [];
-            if ($post->getCategory() == 'Opportunité commerciale'){
-                $nbPoints = 30;
-                $scoreHandler->add($this->getUser(), $nbPoints);
-                $optionsRedirect = ['toastScore' => $nbPoints];
-            }elseif ($post->getCategory() == 'emploi'){
-                $nbPoints = 20;
-                $scoreHandler->add($this->getUser(), $nbPoints);
-                $optionsRedirect = ['toastScore' => $nbPoints];
-            }
+            if ($post->getCategory() == 'Opportunité commerciale')  $nbPoints = 30;
+            elseif ($post->getCategory() == 'emploi') $nbPoints = 20;
+
+            $scoreHandler->add($this->getUser(), $nbPoints);
+            $optionsRedirect = ['toastScore' => $nbPoints];
 
             if ($post->getUrlYoutube() != null){
                 //Get id video

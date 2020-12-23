@@ -128,7 +128,8 @@ $('.custom-file-input').on('change', function(event) {
 
 
 //  =============toast popup showing score =========
-function loadToast(){
+window.loadToast = function()
+{
     $('.toast').toast('show');
 }
 
