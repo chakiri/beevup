@@ -44,35 +44,36 @@ class SponsorshipController  extends AbstractController
             foreach ($emails as $email) {
                 $email = trim($email);
                 if($email != ''){
-                if ($sponsorshipRepository->findOneBy(['email' => $email]) == null && $userRepository->findOneBy(['email' => $email]) == null) {
-                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $newEmail = true;
-                        $sponsorship->setEmail($email);
-                        $sponsorship->setMessage($customMessage);
-                        $sponsorship->setUser($this->getUser());
-                        $manager->persist($sponsorship);
-                        $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
-                        $scoreHandler->add($this->getUser(), 50);
-                        $points +=50;
+                    if ($sponsorshipRepository->findOneBy(['email' => $email]) == null && $userRepository->findOneBy(['email' => $email]) == null) {
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            $newEmail = true;
+                            $sponsorship->setEmail($email);
+                            $sponsorship->setMessage($customMessage);
+                            $sponsorship->setUser($this->getUser());
+                            $manager->persist($sponsorship);
+                            $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+                            $scoreHandler->add($this->getUser(), 50);
+                            $points +=50;
 
+                        } else {
+                            array_push($emailsNotCorrect, $email);
+                        }
                     } else {
-                        array_push($emailsNotCorrect, $email);
+                        array_push($emailsExist, $email);
                     }
-
-
-                } else {
-                    array_push($emailsExist, $email);
                 }
-            }
             }
 
             $manager->flush();
+
              $points_msg = '<p><strong> Vous venez d\'obtenir '.$points. ' points </strong></p>';
-             if(  $newEmail == true ) {
+
+             if($newEmail == true ) {
                  $message ='Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.';
              }
              $emailsExistCount = count($emailsExist);
              $emailsNotCorrectCount = count($emailsNotCorrect);
+
             if($emailsExistCount > 0 || $emailsNotCorrectCount > 0 ){
                 if($emailsExistCount > 0 ){
                     if(  $newEmail == true ) {
@@ -83,7 +84,7 @@ class SponsorshipController  extends AbstractController
                     $message = $message . '<ul>';
                     foreach ($emailsExist as $emailExist) {
                         $message = $message . '<li> ' . $emailExist . '</li>';
-                }
+                    }
                     $message = $message . '</ul>';
                 }
                 if($emailsNotCorrectCount > 0) {
