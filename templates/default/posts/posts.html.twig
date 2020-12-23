@@ -98,9 +98,9 @@
                              {% else  %}
                                  {% if post.relatedToRecommandation.service != null %}
                                      le service <a  href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}">{{ post.relatedToRecommandation.service.title }}</a>
-                                     de l'entreprise  <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug})}}">{{ post.relatedToRecommandation.company.name }}</a>
+                                     de l'entreprise  <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}">{{ post.relatedToRecommandation.company.name }}</a>
                                  {% else %}
-                                     l'entreprise   <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug})}}">{{ post.relatedToRecommandation.company.name }}</a>
+                                     l'entreprise   <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}">{{ post.relatedToRecommandation.company.name }}</a>
                                  {% endif %}
                              {% endif %}
 

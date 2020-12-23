@@ -21,7 +21,7 @@
                                 </a>
                             </p>
                             {% if favorit.favoritUser.company %}
-                                <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug}) }}"><small>{{favorit.favoritUser.company.name|capitalize }}</small></a>
+                                <a href="{{path('company_show', { 'slug': favorit.favoritUser.company.slug, 'id': favorit.favoritUser.company.id}) }}"><small>{{favorit.favoritUser.company.name|capitalize }}</small></a>
                             {% else %}
                                 <a href="{{path('store_show', { 'slug': favorit.favoritUser.store.slug}) }}"> <small>{{favorit.favoritUser.store.name|capitalize }}</small></a>
                             {% endif %}

@@ -121,7 +121,7 @@
                     <ul class="btn-radius">
                         <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profil</a></li>
                         {%  if app.user.company %}
-                            <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug}) }}">Mon Entreprise</a></li>
+                            <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}">Mon Entreprise</a></li>
                         {% endif %}
                         {#{%  if app.user.type.id != 6 %}#}
                         <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
