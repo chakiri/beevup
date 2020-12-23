@@ -120,7 +120,7 @@
                                 <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
                             </div>
                         </div>
-                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
                     </div>
                 </div>
                 {% endif %}

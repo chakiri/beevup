@@ -27,7 +27,7 @@ use App\Form\CompanyType;
 class CompanyController extends AbstractController
 {
     /**
-     * @Route("/company/{slug}", name="company_show")
+     * @Route("/company/{slug}/{id}", name="company_show")
      */
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
     {

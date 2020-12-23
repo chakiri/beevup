@@ -44,7 +44,7 @@
                                                         {% if user.profile.function  %}
                                                             {% if user.company %}
                                                                 <small>{{ user.profile.function.name|capitalize }} chez
-                                                                    <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug}) }}">
+                                                                    <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug, 'id': user.company.id}) }}">
                                                                         {{user.company.name|capitalize }}
                                                                     </a>
                                                                 </small>
@@ -105,7 +105,7 @@
                                             <div class="company_profile_info">
                                                 <div class="company-up-info up-info result-company">
                                                     <div class="result-company-image">
-                                                        <a href="{{path('company_show', { 'slug': company.slug}) }}">
+                                                        <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">
                                                             {% if company.filename is empty %}
                                                                 <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                             {% else  %}
@@ -128,7 +128,7 @@
                                                          </div>
                                                     </div>
 
-                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug}) }}">  {{company.name }}</a></h5>
+                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">  {{company.name }}</a></h5>
                                                     <h6>{{ company.otherCategory }}</h6>
                                                     <ul>
                                                         <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
@@ -155,7 +155,7 @@
                                                     </div>
 
                                                 </div>
-                                                <a href="{{path('company_show', { 'slug': company.slug}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                                <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
                                             </div><!--company_profile_info end-->
                                         </div>
                                     {% endfor %}

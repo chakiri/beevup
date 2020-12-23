@@ -20,7 +20,7 @@
                                             <span>{{ profile.function.name|capitalize}}
                                                 chez
                                                 {% if profile.user.company != null %}
-                                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">  {{ profile.user.company.name|capitalize}}</a>
+                                                    <a href="{{ path('company_show', {'slug': profile.user.company.slug, 'id': profile.user.company.id}) }}">  {{ profile.user.company.name|capitalize}}</a>
                                                 {% else  %}
                                                     <a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">    {{ profile.user.store.name|capitalize}}</a>
                                                 {% endif %}
@@ -43,7 +43,7 @@
                                     {% if profile.user.company %}
                                         <div class="user-profile-ov page-title sign_in_sec current">
                                             <h5>
-                                                {{ profile.firstname }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a>
+                                                {{ profile.firstname }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug, 'id': profile.user.company.id}) }}">{{ profile.user.company.name }}</a>
                                             </h5>
 
                                             <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
@@ -55,7 +55,7 @@
                                         <div class="top-profiles ">
                                             <div class="page-title sign_in_sec current">
                                                 {% if profile.user.company %}
-                                                <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
+                                                <h5><a href="{{ path('company_show', {'slug': profile.user.company.slug, 'id': profile.user.company.id}) }}">{{ profile.user.company.name }}</a> vous propose les services suivants</h5>
                                                 {% else  %}
                                                 <h5><a href="{{ path('store_show', {'slug': profile.user.store.slug}) }}">{{ profile.user.store.name }}</a> vous propose les services suivants</h5>
                                                 {% endif %}

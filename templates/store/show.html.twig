@@ -30,7 +30,7 @@
                                                 {% endif %}
                                                 <div class="sgt-text">
                                                     <p>
-                                                        <a href="{{ path('company_show', {'slug': company.slug}) }}">
+                                                        <a href="{{ path('company_show', {'slug': company.slug, 'id': company.id}) }}">
                                                             {{ company.name }}</a> </p>
                                                     {% if company.category != null %}
                                                         <small>{{ company.category.name|capitalize }}</small>

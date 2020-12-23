@@ -31,7 +31,7 @@
         </a>
         </p>
           {% if Like.user.company %}
-             <p class="post-likes"><a class="link-to-company"  href="{{path('company_show', { 'slug': Like.user.company.slug}) }}">{{Like.user.company.name|capitalize}}</a> </p>
+             <p class="post-likes"><a class="link-to-company"  href="{{path('company_show', { 'slug': Like.user.company.slug, 'id': Like.user.company.id}) }}">{{Like.user.company.name|capitalize}}</a> </p>
          {% else %}
              <p class="post-likes"><a class="link-to-company"  href="{{path('store_show', { 'slug': Like.user.store.slug}) }}">{{Like.user.store.name|capitalize}}</a> </p>
 
