@@ -8,6 +8,7 @@ use App\Form\ServiceType;
 use App\Repository\PostCategoryRepository;
 use App\Repository\PostRepository;
 use App\Repository\RecommandationRepository;
+use App\Repository\ScorePointRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
@@ -171,7 +172,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error)
+     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error, ScorePointRepository $scorePointRepository)
     {
         if ($service != null && $request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId())  return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
         $referer = $request->headers->get('referer');
@@ -200,7 +201,7 @@ class ServiceController extends AbstractController
                 //Add score to user if creation
                 $optionsRedirect = [];
                 if ($service->getIsDiscovery()) {
-                    $nbPoints = 20;
+                    $nbPoints = $scorePointRepository->findOneBy(['id' => 3])->getPoint();
                     if (!$service->getId()) {
                         $scoreHandler->add($this->getUser(), $nbPoints);
                         $optionsRedirect = ['toastScore' => $nbPoints];

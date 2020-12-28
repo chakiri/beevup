@@ -6,6 +6,7 @@ use App\Entity\PostNotification;
 use App\Entity\Post;
 use App\Entity\PostLike;
 use App\Repository\OpportunityNotificationRepository;
+use App\Repository\ScorePointRepository;
 use App\Service\ScoreHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,21 +30,20 @@ class PostController extends AbstractController
     /**
      * @Route("/post/create", name="post_create")
      */
-    public function create(Request $request, EntityManagerInterface $manager, ScoreHandler $scoreHandler){
+    public function create(Request $request, EntityManagerInterface $manager, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository){
         $post = new Post();
         $post->setUser($this->getUser());
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $optionsRedirect = [];
-            if ($post->getCategory() == 'Opportunité commerciale'){
-                $nbPoints = 30;
+            if ($post->getCategory()->getId() == 2){
+                $nbPoints = $scorePointRepository->findOneBy(['id' => 1])->getPoint();
                 $scoreHandler->add($this->getUser(), $nbPoints);
                 $optionsRedirect = ['toastScore' => $nbPoints];
-            }elseif ($post->getCategory() == 'emploi'){
-                $nbPoints = 20;
+            } elseif ($post->getCategory()->getId() == 4){
+                $nbPoints = $scorePointRepository->findOneBy(['id' => 2])->getPoint();
                 $scoreHandler->add($this->getUser(), $nbPoints);
                 $optionsRedirect = ['toastScore' => $nbPoints];
             }
@@ -61,7 +61,6 @@ class PostController extends AbstractController
                     $idUrl = str_replace('/', '', $query);
                 }
                 $post->setUrlYoutube($idUrl);
-
             }
 
             $manager->persist($post);

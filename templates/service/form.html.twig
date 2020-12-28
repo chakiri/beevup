@@ -175,7 +175,7 @@
                                     <div class="input-group data-entity-id upload-photo"
                                          data-entity-id="{{ service.id }}"
                                          data-previous="{{ previous }}"
-                                         {%  if service.user.company != null  %}data-company-slug="{{ service.user.company.slug }}" {% endif %}
+                                         {%  if service.user.company != null  %}data-company-slug="{{ service.user.company.slug }}" data-company-id="{{ service.user.company.id }}" {% endif %}
                                          data-url={% if edit == true %} "{{  path('service_edit',{'id':service.id})}}" {% else %} "{{  path('service_new')}}"{% endif %}>
                                    {{ form_widget(ServiceForm.imageFile) }}
 
