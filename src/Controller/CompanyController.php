@@ -27,42 +27,6 @@ use App\Form\CompanyType;
 class CompanyController extends AbstractController
 {
     /**
-     * @Route("/company/{slug}/{id}", name="company_show")
-     */
-    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
-    {
-        $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
-        if ($this->getUser()) $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
-        $score = 0;
-        foreach ($users as $user){
-            if ($user->getScore()) $score += $user->getScore()->getPoints();
-        }
-
-        $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
-        $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
-
-        $services = $company->getServices()->toArray();
-        $isFavorit = "";
-        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'company'=>$company])) > 0)
-        {
-            $isFavorit = "is-favorit-profile text-warning";
-        }
-
-        return $this->render('company/show.html.twig', [
-            'company' => $company,
-            'recommandationsServices'=> $recommandationsServices,
-            'recommandationsCompany'=> $recommandationsCompany,
-            'users' => $users,
-            'countServices' => count($services),
-            'services' => array_slice($services, -6, 6),
-            'score' => $score,
-            'isFavorit' => $isFavorit,
-            'adviser'=>$adviser ?? null,
-            'companyAdministrator'=>$userRepo->findByAdminCompany($company->getId())
-        ]);
-    }
-
-    /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost)
@@ -108,6 +72,42 @@ class CompanyController extends AbstractController
                 'countServices' => count($company->getServices()->toArray())
             ]);
         }
+    }
+
+    /**
+     * @Route("/company/{slug}/{id}", name="company_show")
+     */
+    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
+    {
+        $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
+        if ($this->getUser()) $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
+        $score = 0;
+        foreach ($users as $user){
+            if ($user->getScore()) $score += $user->getScore()->getPoints();
+        }
+
+        $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
+        $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
+
+        $services = $company->getServices()->toArray();
+        $isFavorit = "";
+        if (count($favoritRepository->findBy(['user'=> $this->getUser(), 'company'=>$company])) > 0)
+        {
+            $isFavorit = "is-favorit-profile text-warning";
+        }
+
+        return $this->render('company/show.html.twig', [
+            'company' => $company,
+            'recommandationsServices'=> $recommandationsServices,
+            'recommandationsCompany'=> $recommandationsCompany,
+            'users' => $users,
+            'countServices' => count($services),
+            'services' => array_slice($services, -6, 6),
+            'score' => $score,
+            'isFavorit' => $isFavorit,
+            'adviser'=>$adviser ?? null,
+            'companyAdministrator'=>$userRepo->findByAdminCompany($company->getId())
+        ]);
     }
 
     /**

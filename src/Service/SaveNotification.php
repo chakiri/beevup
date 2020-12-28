@@ -37,7 +37,7 @@ class SaveNotification
         //$user = $this->userRepository->findOneBy(['id' => $userid]);
 
         //If subject is user
-        if (ctype_digit($subject) == true)   {
+        if (ctype_digit($subject) == true || is_int($subject) == true)   {
             //$receiver = $this->userRepository->findOneBy(['id' => $subject]);
             $receiver = $this->manager->getRepository(User::class)->findOneBy(['id' => $subject]);
             $topic = null;

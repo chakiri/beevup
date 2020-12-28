@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
+use App\Service\Chat\AutomaticMessage;
 use App\Service\Session\CookieAccepted;
 use App\Service\ScoreHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -263,7 +264,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage)
     {
         $user = $userRepository->findOneBy(['resetToken' => $token]);
 
@@ -306,13 +307,17 @@ class SecurityController extends AbstractController
 
         /*****check if the user is coming from invitation****/
         $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
-        $pointsReceiver = $scorePointRepository->findOneBy(['id' => 5])->getPoint();
-        $pointsSender = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
+        $pointsSender = $scorePointRepository->findOneBy(['id' => 5])->getPoint();
+        $pointsReceiver = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
         $optionsRedirect = [];
         if ($sponsor  != null){
-            $scoreHandler->add($sponsor->getUser(), $pointsReceiver);
-            $scoreHandler->add($user, $pointsSender);
-            $optionsRedirect = ['toastScore' => $pointsSender];
+            $scoreHandler->add($sponsor->getUser(), $pointsSender);
+            $scoreHandler->add($user, $pointsReceiver);
+            $optionsRedirect = ['toastScore' => $pointsReceiver];
+
+            /* add chat message to sponsor */
+            $automaticMessage->fromAdvisorToSponsored($sponsor, $user);
+            $automaticMessage->fromAdvisorToSponsor($sponsor, $user);
         }
 
         $guardHandler->authenticateUserAndHandleSuccess(

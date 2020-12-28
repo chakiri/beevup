@@ -33,7 +33,7 @@ class SponsorshipController  extends AbstractController
         $optionsToast = [];
         $newEmail = false;
         $points = 0;
-        $pointsSender = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
+        $pointsSender = $scorePointRepository->findOneBy(['id' => 6])->getPoint();
         if($this->getUser()->getProfile() !=null)
         {
             $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname().' ';
