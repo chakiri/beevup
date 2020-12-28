@@ -486,6 +486,7 @@ $('#cookies a').click(function(){
     {
         let serviceId = id;
         let companySlug = $('.data-entity-id').attr('data-company-slug');
+        let companyId= $('.data-entity-id').attr('data-company-id');
         let previousUrl = $('.data-entity-id').attr('data-previous');
         let url='';
         let hostname = location.hostname;
@@ -498,7 +499,7 @@ $('#cookies a').click(function(){
         if(previousUrl !='company')
             url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
         else
-            url = protocol+'//'+hostname+portURL+'/company/'+companySlug;
+            url = protocol+'//'+hostname+portURL+'/company/'+companySlug+'/'+companyId;
 
         return url;
     }

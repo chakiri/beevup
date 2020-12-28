@@ -111,7 +111,8 @@ class RecommandationController extends AbstractController
                 ]);
             }elseif ($company){
                 return $this->redirectToRoute('company_show', [
-                    'slug' => $company->getSlug()
+                    'slug' => $company->getSlug(),
+                    'id' => $company->getId()
                 ]);
             }
         }
