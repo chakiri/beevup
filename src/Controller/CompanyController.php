@@ -97,7 +97,8 @@ class CompanyController extends AbstractController
                 $topicHandler->initCategoryCompanyTopic($company->getCategory());
                 $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
                 return $this->redirectToRoute('company_show', [
-                    'slug' => $company->getSlug()
+                    'slug' => $company->getSlug(),
+                    'id' => $company->getId(),
                 ]);
 
             }
