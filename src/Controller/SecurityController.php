@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Session\CookieAccepted;
 use App\Service\ScoreHandler;
@@ -27,11 +28,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\BarCode;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-
-
-
-
-
 
 
 class SecurityController extends AbstractController
@@ -119,19 +115,16 @@ class SecurityController extends AbstractController
                 'RegistrationForm' => $form->createView(),
             ]);
         }else{
-            return $this->redirectToRoute('dashboard', []);
+            return $this->redirectToRoute('dashboard');
         }
-
     }
 
     /**
      * @Route("/waitingValidation", name="waiting_validation")
      */
-    public function test(){
+    public function waitingValidation(){
         return $this->render('security/waitingValidation.html.twig');
-
     }
-
 
     /**
      * @Route("/login", name="security_login")
@@ -198,16 +191,11 @@ class SecurityController extends AbstractController
             ;
             $result = $mailer->send($message);
 
-
             $this->addFlash('success', 'Nous avons envoyé un email à votre adresse email. Cliquez sur le lien figurant dans cet email pour réinitialiser votre mot de passe.
                            Si vous ne voyez pas l\'email, vérifiez les autres endroits où il pourrait être, comme votre courrier indésirable, spam, social, ou autres dossiers.');
 
-
             return $this->redirectToRoute('security_forgotten_password');
-
         }
-
-
 
         return $this->render('security/forgottenPassword.html.twig', [
             'forgotPasswordForm' => $form->createView()
@@ -237,7 +225,6 @@ class SecurityController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-
         if($form->isSubmitted() && $form->isValid()) {
             $user->setResetToken(null);
             $user->setPassword($encoder->encodePassword($user, $form->getData()->getPassword()));
@@ -248,18 +235,16 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-           if($user->isValid()) {
+            if($user->isValid()) {
                $guardHandler->authenticateUserAndHandleSuccess(
                    $user,
                    $request,
                    $authenticator,
                    'main'
                );
-           }
-
+            }
 
             if ($request->get('_route')=='security_new_account') {
-
                 $this->addFlash('success', 'Bienvenue à Beev\'Up ');
             } else {
                 $this->addFlash('success', 'Le mot de passe a été modifié');
@@ -278,67 +263,66 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder , GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository)
     {
+        $user = $userRepository->findOneBy(['resetToken' => $token]);
 
-
-       $user = $userRepository->findOneBy(['resetToken' => $token]);
-
-            if (!$user){
-                $this->addFlash('danger', 'le lien de confirmation a expiré');
-                return $this->redirectToRoute('security_login');
-            }
-
-            /****send welcome email *****/
-
-            $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
-            $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-            $message = (new \Swift_Message())
-                ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
-                ->setFrom($_ENV['DEFAULT_EMAIL'])
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/welcome.html.twig',
-                        ['user'=> $user, 'storePatron'=> $storePatron]
-                    ),
-                    'text/html'
-                );
-
-
-             $result = $mailer->send($message);
-            /*****end ******/
-
-            $user->setResetToken(null);
-            $user->setIsValid(1);
-
-            $manager->persist($user);
-
-            if($user->getCompany() != null) {
-                $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
-                if ($company != null) {
-                    $company->setIsValid(true);
-                    $manager->persist($company);
-                }
-            }
-            $manager->flush();
-        /*****check if the user is coming from invitation****/
-       $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
-        if ($sponsor  != null){
-            $scoreHandler->add($sponsor->getUser(), 100);
-            $scoreHandler->add($user, 50);
+        if (!$user){
+            $this->addFlash('danger', 'le lien de confirmation a expiré');
+            return $this->redirectToRoute('security_login');
         }
 
+        /****send welcome email *****/
+        $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
+        $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
+        $message = (new \Swift_Message())
+            ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
+            ->setFrom($_ENV['DEFAULT_EMAIL'])
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/welcome.html.twig',
+                    ['user'=> $user, 'storePatron'=> $storePatron]
+                ),
+                'text/html'
+            );
+         $result = $mailer->send($message);
+        /*****end ******/
 
-         $guardHandler->authenticateUserAndHandleSuccess(
+        $user->setResetToken(null);
+        $user->setIsValid(1);
+
+        $manager->persist($user);
+
+        if($user->getCompany() != null) {
+            $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
+            if ($company != null) {
+                $company->setIsValid(true);
+                $manager->persist($company);
+            }
+        }
+        $manager->flush();
+
+
+        /*****check if the user is coming from invitation****/
+        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
+        $pointsReceiver = $scorePointRepository->findOneBy(['id' => 5])->getPoint();
+        $pointsSender = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
+        $optionsRedirect = [];
+        if ($sponsor  != null){
+            $scoreHandler->add($sponsor->getUser(), $pointsReceiver);
+            $scoreHandler->add($user, $pointsSender);
+            $optionsRedirect = ['toastScore' => $pointsSender];
+        }
+
+        $guardHandler->authenticateUserAndHandleSuccess(
             $user,
             $request,
             $authenticator,
             'main'
         );
         $this->addFlash('success', 'votre compte a été activé');
-        return $this->redirectToRoute('dashboard');
-
+        return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
     /**

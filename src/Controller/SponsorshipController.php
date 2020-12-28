@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Sponsorship;
 use App\Form\PostType;
+use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
 use App\Service\ScoreHandler;
@@ -20,18 +21,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class SponsorshipController  extends AbstractController
 {
     /**
-     * @Route("/sponsorship", name="Parrainez un membre de votre réseau​")
+     * @Route("/sponsorship", name="sponsorship")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler, UserRepository $userRepository)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
         $emailsNotCorrect = [];
         $sponsor ='';
         $message ='';
+        $optionsToast = [];
         $newEmail = false;
         $points = 0;
-        $points_msg = '';
+        $pointsSender = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
         if($this->getUser()->getProfile() !=null)
         {
             $sponsor = $this->getUser()->getProfile()->getFirstname() .' '. $this->getUser()->getProfile()->getLastname().' ';
@@ -52,9 +54,8 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
                             $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
-                            $scoreHandler->add($this->getUser(), 50);
-                            $points +=50;
-
+                            $scoreHandler->add($this->getUser(), $pointsSender);
+                            $points += $pointsSender;
                         } else {
                             array_push($emailsNotCorrect, $email);
                         }
@@ -66,13 +67,13 @@ class SponsorshipController  extends AbstractController
 
             $manager->flush();
 
-             $points_msg = '<p><strong> Vous venez d\'obtenir '.$points. ' points </strong></p>';
+            $points_msg = '<p><strong> Vous venez d\'obtenir '.$points. ' points </strong></p>';
 
-             if($newEmail == true ) {
-                 $message ='Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.';
-             }
-             $emailsExistCount = count($emailsExist);
-             $emailsNotCorrectCount = count($emailsNotCorrect);
+            if($newEmail == true ) {
+             $message ='Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.';
+            }
+            $emailsExistCount = count($emailsExist);
+            $emailsNotCorrectCount = count($emailsNotCorrect);
 
             if($emailsExistCount > 0 || $emailsNotCorrectCount > 0 ){
                 if($emailsExistCount > 0 ){
@@ -88,31 +89,29 @@ class SponsorshipController  extends AbstractController
                     $message = $message . '</ul>';
                 }
                 if($emailsNotCorrectCount > 0) {
-
                     $message = $message . '<br/> les email(s) suivant(s) sont non valides: ';
                     $message = $message . '<ul>';
                     foreach ($emailsNotCorrect as $emailNotCorrect) {
                         $message = $message . '<li> ' . $emailNotCorrect . '</li>';
                     }
                     $message = $message . '</ul>';
-
                 }
                 if($points > 0){
                     $message = $message.' '.$points_msg ;
                 }
                $this->addFlash('danger', nl2br($message));
-
             } else {
                 $this->addFlash('success', 'Vos contacts vont recevoir un e-mail d’invitation. Nous vous remercions pour votre action.'.$points_msg);
+                $optionsToast = ['toastScore' => $points];
 
+                return $this->redirectToRoute('dashboard', $optionsToast);
             }
         }
 
         return $this->render('sponsorship/form.html.twig', [
             'sponsorshipForm' => $form->createView(),
             'sponsorship' => $sponsorship
-
-          ]);
+        ]);
     }
 
     public function sendEmail($sponsor, $email, $customMessage, $mailer){

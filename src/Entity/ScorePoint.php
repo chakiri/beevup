@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ScorePointRepository::class)
  */
-abstract class ScorePoint
+class ScorePoint
 {
     /**
      * @ORM\Id
