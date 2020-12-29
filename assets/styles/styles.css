@@ -706,6 +706,16 @@ textarea.form-control{
 .landing-page-map img{
    border-radius: var(--radius);
 }
+.landing-page-map {
+   margin: 10em 0 10em 0;
+}
+.landing-page-video{
+    text-align: center;
+    margin: 10em 0 4em 0;
+}
+.landing-page-video video{
+    border-radius: 10px;
+}
 
 .map-responsive {
     overflow:hidden;
@@ -742,16 +752,23 @@ ul.landing-page-list {
     color: var(--text-color);
 }
 .landing-page-section4-bloc{
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    text-align: center;
-    height: 368px;
+    min-height: 450px;
+    padding: 23px 25px 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    vertical-align: middle;
 }
 .landing-page-section4-bloc-image{
-    height: 255px;
+    /*display: flex;
+    align-items: center;
+    justify-content: center;*/
+    height: 300px;
+}
+.landing-page-section4-bloc-text{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50%;
 }
 .landing-page-join-beevup-bloc{
     background-image: url('../images/homePage/Beevup_Brush_Background.png');
@@ -761,7 +778,15 @@ ul.landing-page-list {
     text-align: center;
     padding-top:100px;
 }
-
+.landing-page-boxes{
+    padding: 4em 0 4em 0;
+}
+.landing-page-boxes p{
+    line-height: 27px;
+}
+.landing-page-boxes h4{
+    padding-bottom: 1em;
+}
 
 .landing-page-section3-img{
     width: 85%;
@@ -770,6 +795,30 @@ ul.landing-page-list {
 .landing-page-section3-description{
     top:60px;
     left:70px
+}
+.landing-page-testimonials{
+    width: 70%;
+    min-height: 400px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4em;
+    margin-bottom: 4em;
+}
+.landing-page-testimonials img {
+    height: 400px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.landing-page-testimonials i{
+    font-size: 35px;
+    padding: 1em;
+}
+.landing-page-testimonials .meta{
+    text-align: center;
+    padding: 3em;
 }
 .shape {
     height: 200px;
@@ -812,7 +861,8 @@ ul.landing-page-list {
     margin-top: 16px;
 }
 .landing-page-section4-img{
-    width: 170px;
+    width: 100%;
+    border-radius: 10px;
 }
 .footer{
     padding: 16px;
@@ -852,6 +902,9 @@ ul.landing-page-list {
 }
 .no-mobile{
     display: block;
+}
+.container-landing-page{
+
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
