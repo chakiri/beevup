@@ -114,7 +114,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="landing-page-section4-bloc-text">
                             <div>
-                                <h4 class="mb-5">Inscrivez-vous gratuitement !</h4>
+                                <h4 class="mb-1">Inscrivez-vous gratuitement !</h4>
                                 <a href="#inscription"><u>Cliquez ici <i class="fas fa-arrow-right pl-1"></i></u></a>
                             </div>
                         </div>
@@ -123,12 +123,12 @@
             </div>
 
             {# Testimonial #}
-            <div class="landing-page-testimonials">
+            <div class="landing-page-testimonials ">
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="card-testimonial d-flex">
-                                <img src="{{ asset('build/images/homePage/testimonials/testimonial2.png') }}" alt="">
+                                <img class="no-mobile" src="{{ asset('build/images/homePage/testimonials/testimonial2.png') }}" alt="">
                                 <div class="meta">
                                     <i class="fas fa-quote-left"></i>
                                     <h4>"J’apprécie de pouvoir faire connaitre mes différents services aux autres clients de Bureau Vallée et de pouvoir échanger avec eux"</h4>
@@ -139,7 +139,7 @@
                         </div>
                         <div class="carousel-item">
                             <div class="card-testimonial d-flex">
-                                <img src="{{ asset('build/images/homePage/testimonials/testimonial1.png') }}" alt="">
+                                <img class="no-mobile" src="{{ asset('build/images/homePage/testimonials/testimonial1.png') }}" alt="">
                                 <div class="meta">
                                     <i class="fas fa-quote-left"></i>
                                     <h4>"Très belle plateforme, simple d’utilisation. L’équipe est à l’écoute de ses clients pour faire évoluer leurs services"</h4>
@@ -152,7 +152,7 @@
                 </div>
             </div>
 
-            <div class="landing-page-map">
+            <div class="landing-page-map no-mobile">
                 <h2 class="bloc-title mb-3">
                     Rejoignez les entreprises locales
                 </h2>
@@ -161,7 +161,7 @@
 
             {# Video #}
             <div class="landing-page-video">
-                <video autoplay controls muted>
+                <video autoplay controls muted loop>
                     <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

@@ -710,6 +710,7 @@ textarea.form-control{
    margin: 10em 0 10em 0;
 }
 .landing-page-video{
+    position: relative;
     text-align: center;
     margin: 10em 0 4em 0;
 }
@@ -753,7 +754,7 @@ ul.landing-page-list {
 }
 .landing-page-section4-bloc{
     min-height: 450px;
-    padding: 23px 25px 20px;
+    padding: 15px 15px 15px;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
     vertical-align: middle;
@@ -762,13 +763,12 @@ ul.landing-page-list {
     /*display: flex;
     align-items: center;
     justify-content: center;*/
-    height: 300px;
+    margin-bottom: 50px;
 }
 .landing-page-section4-bloc-text{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
 }
 .landing-page-join-beevup-bloc{
     background-image: url('../images/homePage/Beevup_Brush_Background.png');
@@ -797,7 +797,7 @@ ul.landing-page-list {
     left:70px
 }
 .landing-page-testimonials{
-    width: 70%;
+    width: 900px;
     min-height: 400px;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
