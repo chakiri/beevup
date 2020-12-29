@@ -764,6 +764,7 @@ ul.landing-page-list {
     align-items: center;
     justify-content: center;*/
     margin-bottom: 50px;
+    height: 280px;
 }
 .landing-page-section4-bloc-text{
     display: flex;
