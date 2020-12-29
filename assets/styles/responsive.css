@@ -102,9 +102,15 @@
   .profil-actions{
     margin-top: 15px;
   }
-.company-nav {
-	display: none;
-}
+	.company-nav {
+		display: none;
+	}
+	.landing-page-video video {
+		width: 100%;
+	}
+	.landing-page-testimonials {
+		width: 100% !important;
+	}
 }
 
 @media (max-width: 574px) {
