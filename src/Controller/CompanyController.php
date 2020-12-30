@@ -7,6 +7,7 @@ use App\Entity\Store;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Service\Email;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -111,9 +112,9 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/external/company/{slug}", name="external_company_show")
+     * @Route("/external/company/{slug}/{id}", name="external_company_show")
      */
-    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Email $email)
     {
         $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
         $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
@@ -135,11 +136,17 @@ class CompanyController extends AbstractController
             }else{
                 $beContacted->setCompany($company);
                 $manager->persist($beContacted);
-
                 $manager->flush();
+
+                //Send email to external user
+                $email->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
 
                 $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
             }
+            return $this->redirectToRoute('external_company_show', [
+                'slug' => $company->getSlug(),
+                'id' => $company->getId(),
+            ]);
         }
 
         return $this->render('company/external/show.html.twig', [

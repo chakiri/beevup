@@ -212,7 +212,7 @@
                             </div>
                             <div class="company-be-contacted-admin text-center">
                                 <div class="company-be-contacted-admin-avatar">
-                                    {% if admin.profile.filename %}
+                                    {% if admin and admin.profile.filename %}
                                         <img src="{{ vich_uploader_asset(admin.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                                     {% else %}
                                         <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
@@ -227,8 +227,9 @@
                                     {{ form_row(formBeContacted.email) }}
                                     {{ form_row(formBeContacted.phone) }}
                                     {{ form_row(formBeContacted.description) }}
+                                    {{ form_row(formBeContacted.acceptConditions) }}
 
-                                    <button type="submit" class="btn btn-warning be-contacted-submit">Envoyer</button>
+                                    <button type="submit" class="btn btn-warning be-contacted-submit" disabled>Envoyer</button>
                                     {{ form_end(formBeContacted) }}
                                 </div>
                             </div>

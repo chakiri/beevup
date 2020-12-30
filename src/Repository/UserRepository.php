@@ -77,7 +77,6 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u')
             ->leftJoin('u.type', 't')
             ->where('u.company = :companyId')
-            ->andWhere('u.isValid = true')
             ->andWhere('t.id = 3')
             ->setParameter('companyId', $companyId);
         return $qb->getQuery()->getOneOrNullResult();

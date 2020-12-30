@@ -84,7 +84,7 @@
 
                                         <!-- Button -->
                                         <div class="my-4 text-center">
-                                            <a href="{{ path('external_company_show', {'slug': service.user.company.slug}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
+                                            <a href="{{ path('external_company_show', {'slug': service.user.company.slug, 'id': service.user.company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
 
                                         <!-- Button -->
                                         <div class="my-4 text-center">
-                                            <a href="{{ path('external_company_show', {'slug': company.slug}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ company.name }}</a>
+                                            <a href="{{ path('external_company_show', {'slug': company.slug, 'id': company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ company.name }}</a>
                                         </div>
                                     </div>
                                 </div>
