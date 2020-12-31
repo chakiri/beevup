@@ -3807,18 +3807,6 @@ li.icon-type-post a.active{
 }.search_store .search-store-result ul .big-btn{
     font-size: 18px;
 }
-.search-company-carousel {
-    background: rgba(67,95,113,0.9);
-}.search-company-carousel h3{
-     color: #fff;
-}
-.search-company-carousel .card-image{
-    height: 200px;
-    display: flex;
-    margin-right: auto;
-    margin-left: auto;
-}
-
 .search-carousel .card{
     border-radius: 6px;
 }
@@ -3831,8 +3819,23 @@ li.icon-type-post a.active{
 .search-carousel .card-image {
     height: 200px;
     display: flex;
+}
+.search-company-carousel {
+    background: rgba(67,95,113,0.9);
+}.search-company-carousel h3{
+     color: #fff;
+}
+.search-company-carousel .card-image{
+    height: 200px;
+    display: flex;
     margin-right: auto;
     margin-left: auto;
+}
+.search-company-carousel .card-image img{
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    height: 100%;
+    width: 100%;
 }
 .be-contacted{
     padding: 1em 2em;
