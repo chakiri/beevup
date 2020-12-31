@@ -13,6 +13,7 @@ use App\Repository\ProfilRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\InfoSearch;
+use App\Service\ServiceSetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +82,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/search/store/{reference}", name="search_store")
      */
-    public function searchStore(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies)
+    public function searchStore(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch)
     {
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
 
@@ -89,6 +90,17 @@ class SearchController extends AbstractController
         $allCompanies = $getCompanies->getAllCompanies($store);
         $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
         $companies = $companyRepository->getCompaniesObjects($allCompanies);
+
+        //Get informations of services
+        $nbRecommandationsServices = [];
+        foreach ($services as $service){
+            $nbRecommandationsServices = $serviceSetting->getNbRecommandations($service, $nbRecommandationsServices);
+        }
+        //Get infos from each item
+        $nbRecommandationsCompanies = [];
+        foreach ($companies as $company){
+            $nbRecommandationsCompanies = $infoSearch->getNbRecommandations($company, $nbRecommandationsCompanies);
+        }
 
         $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
 
@@ -118,9 +130,16 @@ class SearchController extends AbstractController
                     array_push($results, $company);
             }
 
+            //Get infos from each company
+            $nbRecommandationsCompanies = [];
+            foreach ($results as $result){
+                $nbRecommandationsCompanies = $infoSearch->getNbRecommandations($result, $nbRecommandationsCompanies);
+            }
+
             return $this->render("search/searchStoreResult.html.twig", [
                 'query' => $form->get('querySearch')->getData(),
                 'results' => $results,
+                'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
                 'store' => $store,
             ]);
 
@@ -130,6 +149,8 @@ class SearchController extends AbstractController
             'form' => $form->createView(),
             'companies' => $companies,
             'services' => $services,
+            'nbRecommandationsServices' => $nbRecommandationsServices,
+            'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
             'store' => $store,
         ]);
     }

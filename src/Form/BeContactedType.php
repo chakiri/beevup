@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\BeContacted;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,6 +34,14 @@ class BeContactedType extends AbstractType
                 'attr'  => [
                     'placeholder' => 'Décrivez en quelques mots l\'objet de votre demande',
                     'class'       =>'form-control form-message textArea-min-height'
+                ]
+            ])
+            ->add('acceptConditions', CheckboxType::class, [
+                'mapped'=>false,
+                'label'    => 'J\'accepte',
+                'required' => false,
+                'attr'  => [
+                    'class'       =>'accpet-condition'
                 ]
             ])
         ;

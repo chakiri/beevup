@@ -3,7 +3,7 @@
 {% block body %}
 
     <div class="be-contacted container">
-        {{ form_start(form, {'action': path('be_contacted_new', {'slug': company.slug} ), 'attr': {'id': 'beContactedForm', 'data-redirect': path('external_company_show', {'slug': company.slug})}} ) }}
+        {{ form_start(form, {'action': path('be_contacted_new', {'slug': company.slug} ), 'attr': {'id': 'beContactedForm', 'data-redirect': path('external_company_show', {'slug': company.slug, 'id': company.id})}} ) }}
         {{ form_row(form.email) }}
         {{ form_row(form.phone) }}
         {{ form_row(form.description) }}

@@ -1,0 +1,42 @@
+{% extends '/emails/baseEmail.html.twig' %}
+{% block emailContent %}
+<tr>
+                <td valign="middle" class="hero bg_white" style="background-color:#FFFFFF">
+                    <div class="overlay"></div>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="text" style="padding: 0 3em;background-color:#FFFFFF">
+                                    <p style="color:#000;font-size:12px">Bonjour, </p>
+                                    <p style="color:#000;font-size:12px">
+                                        Nous vous remercions pour votre demande de contact sur le site Beevup.fr à destination de l’entreprise {{ company.name }}
+                                    </p>
+
+                                    <p style="color:#000;font-size:12px">Voici le récapitulatif :</p>
+                                    <p style="color:#000;font-size:12px">Demande effectué le : {{ beContacted.createdAt|date('d/m/Y à H:i') }}</p>
+                                    <p style="color:#000;font-size:12px">Entreprise sollicitée : {{ company.name }}</p>
+                                    <p style="color:#000;font-size:12px">Votre demande : {{ beContacted.description }}</p>
+                                    <p style="color:#000;font-size:12px">Vos coordonnées :</p>
+                                    <p style="color:#000;font-size:12px">Email : {{ beContacted.email }}</p>
+                                    <p style="color:#000;font-size:12px">Téléphone : {{ beContacted.phone }}</p>
+                                    <p style="color:#000;font-size:12px">Votre demande a été transmise à l’entreprise qui reviendra vers vous rapidement.</p>
+
+                                    <p style="color:#000;font-size:12px">N’hésitez pas à nous contacter pour toute questions <a style="font-weight: bold" href="mailto:beevup@bureau-vallee.com">
+                                            beevup@bureau-vallee.com
+                                        </a>
+                                    </p>
+                                    <p style="color:#000;font-size:12px">
+                                        A bientôt,
+                                    </p>
+                                    <p style="color:#000;font-size:12px">
+                                        L’équipe Bureau Vallée – Beevup de votre magasin Bureau Vallée {{ company.store}}
+                                    </p>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr><!-- end tr -->
+{% endblock %}
+

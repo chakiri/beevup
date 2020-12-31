@@ -7,6 +7,8 @@ use App\Entity\Store;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Service\Chat\AutomaticMessage;
+use App\Service\Email;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -110,49 +112,6 @@ class CompanyController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/external/company/{slug}", name="external_company_show")
-     */
-    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager)
-    {
-        $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
-        $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
-
-        $services = $company->getServices()->toArray();
-
-        $users = $userRepository->findBy(['company' => $company]);
-
-        $admin = $userRepository->findByAdminCompany($company->getId());
-
-        $beContacted = new BeContacted();
-        $form = $this->createForm(BeContactedType::class, $beContacted);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            if ($beContactedRepository->findBy(['company' => $company, 'email' => $beContacted->getEmail(), 'isArchived' => false])){
-                $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
-            }else{
-                $beContacted->setCompany($company);
-                $manager->persist($beContacted);
-
-                $manager->flush();
-
-                $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
-            }
-        }
-
-        return $this->render('company/external/show.html.twig', [
-            'company' => $company,
-            'recommandationsServices'=> $recommandationsServices,
-            'recommandationsCompany'=> $recommandationsCompany,
-            'countServices' => count($services),
-            'services' => array_slice($services, -6, 6),
-            'users' => $users,
-            'admin' => $admin,
-            'formBeContacted' => $form->createView()
-        ]);
-    }
 
     /**
      * @Route("/external/company/slider/{reference}", name="external_company_slider")
@@ -178,6 +137,60 @@ class CompanyController extends AbstractController
             'companies' => $companies,
             'admins' => $admins,
             'servicesArray' => $servicesArray
+        ]);
+    }
+
+    /**
+     * @Route("/external/company/{slug}/{id}", name="external_company_show")
+     */
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Email $email, AutomaticMessage $automaticMessage)
+    {
+        $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
+        $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
+
+        $services = $company->getServices()->toArray();
+
+        $users = $userRepository->findBy(['company' => $company]);
+
+        $admin = $userRepository->findByAdminCompany($company->getId());
+
+        $beContacted = new BeContacted();
+        $form = $this->createForm(BeContactedType::class, $beContacted);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($beContactedRepository->findBy(['company' => $company, 'email' => $beContacted->getEmail(), 'isArchived' => false])){
+                $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
+            }else{
+                $beContacted->setCompany($company);
+                $manager->persist($beContacted);
+                $manager->flush();
+
+                //Send email to external user
+                $email->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
+
+                // add chat message to sponsor
+                if ($admin)
+                    $automaticMessage->fromAdvisorToUser($admin, 'Une demande de contact vous attend sur votre espace Beev\'up.');
+
+                $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
+            }
+            return $this->redirectToRoute('external_company_show', [
+                'slug' => $company->getSlug(),
+                'id' => $company->getId(),
+            ]);
+        }
+
+        return $this->render('company/external/show.html.twig', [
+            'company' => $company,
+            'recommandationsServices'=> $recommandationsServices,
+            'recommandationsCompany'=> $recommandationsCompany,
+            'countServices' => count($services),
+            'services' => array_slice($services, -6, 6),
+            'users' => $users,
+            'admin' => $admin,
+            'formBeContacted' => $form->createView()
         ]);
     }
 

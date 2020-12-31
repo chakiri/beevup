@@ -36,10 +36,10 @@ class BeContactedController extends AbstractController
         ]);
     }
 
-    /**
+    /*
      * @Route("/be/contacted/by/{slug}", name="be_contacted_new")
      */
-    public function form(Request $request, EntityManagerInterface $manager, Company $company, BeContactedRepository $beContactedRepository): Response
+    /*public function form(Request $request, EntityManagerInterface $manager, Company $company, BeContactedRepository $beContactedRepository): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(['message' => 'You can access this only using Ajax!'], 400);
@@ -75,7 +75,7 @@ class BeContactedController extends AbstractController
             'form' => $form->createView(),
             'company' => $company
         ]);
-    }
+    }*/
 
     // Generate an array contains a key -> value with the errors where the key is the name of the form field
     protected function getErrorMessages(FormInterface $form)

@@ -35,7 +35,7 @@
         </div>
 
         <div class="company-nav">
-            <div class="container-bv pt-0 pb-0">
+            <div class=" pt-0 pb-0">
                 <nav id="company-content">
                     <ul class="nav">
                         <li class="nav-item">
@@ -107,13 +107,11 @@
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-access">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <h5 class="mb-5">Carte et information</h5>
+                                    <h5 class="mb-5">Carte et informations</h5>
                                     <strong>{{ company.name }}</strong>
                                     <p>{{ company.addressNumber }}, {{ company.addressStreet }}, {{ company.addressPostCode }} {{ company.city }}</p>
                                     <br>
                                     <p><span class="text-muted">Téléphone :</span> {{ company.phone ?? 'non renseigné' }}</p>
-                                    <br>
-                                    <p><span class="text-muted">Adresse mail :</span> {{ company.email ?? 'non renseignée' }}</p>
                                 </div>
                                 <div class="col-lg-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
                                     {% include 'default/map.html.twig' %}
@@ -121,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="company-content-users">
+                    {#<div class="company-content-users">
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-users">
                             <h5 class="mb-5">Présentation de l'équipe</h5>
                             <div class="row">
@@ -143,7 +141,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>#}
                     <div class="company-content-recommandations-services">
                         <div class="user-profile-ov page-title sign_in_sec current st2" id="company-recommandations-services">
                             <h5>
@@ -212,7 +210,7 @@
                             </div>
                             <div class="company-be-contacted-admin text-center">
                                 <div class="company-be-contacted-admin-avatar">
-                                    {% if admin.profile.filename %}
+                                    {% if admin and admin.profile.filename %}
                                         <img src="{{ vich_uploader_asset(admin.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                                     {% else %}
                                         <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
@@ -227,8 +225,9 @@
                                     {{ form_row(formBeContacted.email) }}
                                     {{ form_row(formBeContacted.phone) }}
                                     {{ form_row(formBeContacted.description) }}
+                                    {{ form_row(formBeContacted.acceptConditions) }}
 
-                                    <button type="submit" class="btn btn-warning be-contacted-submit">Envoyer</button>
+                                    <button type="submit" class="btn btn-warning be-contacted-submit" disabled>Envoyer</button>
                                     {{ form_end(formBeContacted) }}
                                 </div>
                             </div>

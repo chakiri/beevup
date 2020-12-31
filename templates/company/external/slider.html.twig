@@ -3,11 +3,6 @@
 {% block title %}{{ store.name }}{% endblock %}
 
 {% block body %}
-    {#<header id="landing-page-header">
-        <div class="logo p-3">
-            <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
-        </div>
-    </header>#}
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -31,7 +26,7 @@
                                     {% if company.filename %}
                                         <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile') }}"  alt="">
                                     {% else %}
-                                        <img class="main-img" src="{{ asset('build/images/logo_beevup_solo.png') }}" alt="">
+                                        <img class="main-img" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
                                     {% endif %}
                                 </div>
                                 <div class="title-total">

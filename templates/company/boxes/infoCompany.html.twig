@@ -66,6 +66,13 @@
             </ul>
         {% endif %}
     </div><!--user_profile end-->
+
+    {# Be contacted list #}
+    {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+        <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" title="" class="btn white-bg full-width mt-3" target="_blank">
+            Voir les demandes de contact
+        </a>
+    {% endif %}
 </div><!--main-left-sidebar end-->
 
 

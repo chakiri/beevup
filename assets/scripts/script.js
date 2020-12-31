@@ -706,4 +706,22 @@ $('.be-contacted-waiting').click(function(){
     });
  });
 
-
+//CGU link and buttun beContacted
+if(!$('#be_contacted_acceptConditions').is(':checked')){
+    $('.be-contacted-submit').addClass('orange-btn-greyed');
+}
+if ($('#be_contacted_acceptConditions').length > 0 ){
+    if($('.accpet-condition').is(':checked')){
+        $('.be-contacted-submit').attr('disabled', false);
+    }
+    $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
+}
+$('.accpet-condition').click(function () {
+    if ($(this).is(':checked')) {
+        $('.be-contacted-submit').removeAttr('disabled');
+        $('.be-contacted-submit').removeClass('orange-btn-greyed');
+    } else {
+        $('.be-contacted-submit').attr('disabled', true);
+        $('.be-contacted-submit').addClass('orange-btn-greyed');
+    }
+});

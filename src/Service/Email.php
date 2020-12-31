@@ -33,7 +33,23 @@ class Email
                         'storePatron'=>$storePatron
                     ]
                 ),
+                'text/html'
+            )
+        ;
+        $this->mailer->send($message);
+    }
 
+    //Function for all sending email
+    public function sendEmail($subject, $email, array $content, $template): void
+    {
+        $message = (new \Swift_Message())
+            ->setSubject($subject)
+            ->setFrom($_ENV['DEFAULT_EMAIL'])
+            ->setTo($email)
+            ->setBody(
+                $this->templating->render(
+                    'emails/'.$template, $content
+                ),
                 'text/html'
             )
         ;

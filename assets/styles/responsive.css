@@ -8,9 +8,6 @@
 	.div-only-mobile{
 		display: none;
 	}
-	.company-nav nav{
-		margin: 0 0 0 240px;
-	}
 
 }
 
@@ -451,7 +448,7 @@
 		margin-top: -150px;
 	}
 	.company-nav nav{
-		margin: 0 0 0 240px;
+		margin: 0 0 0 443px;
 	}
 }
 /********end from template ***/
