@@ -7,6 +7,7 @@ use App\Entity\Store;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Service\Chat\AutomaticMessage;
 use App\Service\Email;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -114,7 +115,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/external/company/{slug}/{id}", name="external_company_show")
      */
-    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Email $email)
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Email $email, AutomaticMessage $automaticMessage)
     {
         $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
         $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
@@ -140,6 +141,10 @@ class CompanyController extends AbstractController
 
                 //Send email to external user
                 $email->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
+
+                // add chat message to sponsor
+                if ($admin)
+                    $automaticMessage->fromAdvisorToUser($admin, 'Une demande de contact vous attend sur votre espace Beev\'up.');
 
                 $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
             }

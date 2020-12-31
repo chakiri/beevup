@@ -27,28 +27,28 @@ class AutomaticMessage
 
     public function fromAdvisorToSponsored(Sponsorship $sponsor, User $sponsored): void
     {
-        //Get advisor of store
-        $advisor = $this->userRepository->findOneBy(['id'=> $sponsored->getStore()->getDefaultAdviser()]);
-
         $content = "Bravo vous venez de vous inscrire grâce au parrainage de " . $sponsor->getUser()->getProfile()->getFirstname() . " " . $sponsor->getUser()->getProfile()->getLastname() . " de la société " . $sponsor->getUser()->getCompany();
 
-        //Save message
-        $this->saveMessage->save($advisor->getId(), $content, true, $sponsored->getId());
-
-        //Save Notification
-        $this->saveNotification->save($sponsored->getId(), $advisor->getId());
+        $this->fromAdvisorToUser($sponsored, $content);
 
     }
 
     public function fromAdvisorToSponsor(Sponsorship $sponsor, User $sponsored): void
     {
         $user = $sponsor->getUser();
-        //Get advisor of store
-        $advisor = $this->userRepository->findOneBy(['id'=> $user->getStore()->getDefaultAdviser()]);
 
         $points = $this->scorePointRepository->findOneBy(['id' => 5])->getPoint();
 
-        $content = "Merci, " . $user->getProfile()->getFirstname() . ", grâce à vous, la société " . $sponsored->getCompany() . " vient de rejoindre la communauté Beev’Up et vous avez gagneé " . $points ." points";
+        $content = "Merci, " . $user->getProfile()->getFirstname() . ", grâce à vous, la société " . $sponsored->getCompany() . " vient de rejoindre la communauté Beev’Up et vous avez gagné " . $points ." points";
+
+        $this->fromAdvisorToUser($user, $content);
+
+    }
+
+    public function fromAdvisorToUser(User $user, string $content): void
+    {
+        //Get advisor of store
+        $advisor = $this->userRepository->findOneBy(['id'=> $user->getStore()->getDefaultAdviser()]);
 
         //Save message
         $this->saveMessage->save($advisor->getId(), $content, true, $user->getId());

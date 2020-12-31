@@ -35,7 +35,7 @@
         </div>
 
         <div class="company-nav">
-            <div class="container-bv pt-0 pb-0">
+            <div class=" pt-0 pb-0">
                 <nav id="company-content">
                     <ul class="nav">
                         <li class="nav-item">
@@ -107,13 +107,11 @@
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-access">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <h5 class="mb-5">Carte et information</h5>
+                                    <h5 class="mb-5">Carte et informations</h5>
                                     <strong>{{ company.name }}</strong>
                                     <p>{{ company.addressNumber }}, {{ company.addressStreet }}, {{ company.addressPostCode }} {{ company.city }}</p>
                                     <br>
                                     <p><span class="text-muted">Téléphone :</span> {{ company.phone ?? 'non renseigné' }}</p>
-                                    <br>
-                                    <p><span class="text-muted">Adresse mail :</span> {{ company.email ?? 'non renseignée' }}</p>
                                 </div>
                                 <div class="col-lg-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
                                     {% include 'default/map.html.twig' %}
@@ -121,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="company-content-users">
+                    {#<div class="company-content-users">
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-users">
                             <h5 class="mb-5">Présentation de l'équipe</h5>
                             <div class="row">
@@ -143,7 +141,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>#}
                     <div class="company-content-recommandations-services">
                         <div class="user-profile-ov page-title sign_in_sec current st2" id="company-recommandations-services">
                             <h5>
