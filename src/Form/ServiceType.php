@@ -113,7 +113,7 @@ class ServiceType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/*'
                         ],
@@ -131,7 +131,7 @@ class ServiceType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/*'
                         ],
@@ -149,7 +149,7 @@ class ServiceType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/*'
                         ],
@@ -167,7 +167,7 @@ class ServiceType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/*'
                         ],
