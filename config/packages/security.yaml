@@ -47,6 +47,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/subscription, roles: ROLE_ADMIN_COMPANY }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/homePage2, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/map, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/waitingValidation, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/cgu/accept, roles: IS_AUTHENTICATED_ANONYMOUSLY}
