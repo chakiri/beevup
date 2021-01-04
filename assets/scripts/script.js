@@ -664,11 +664,26 @@ $(window).on("load", function() {
     if($('#sponsorship_message').length > 0) {
         let userStore = $('#sponsorship_message').attr('data-store');
         let emailSignature = $('#sponsorship_message').attr('data-email-footer');
-        $('#sponsorship_message').val('Bonjour, \n Je suis inscrit sur la plateforme Beevup.fr et je vous propose de venir me rejoindre dans la communauté du magasin Bureau Vallée '+userStore +'\n ' +
-            'Beev\'Up est la première plateforme locale dédiée aux Artisans, Commerçants, Professions Libérales, Indépendants et TPE/PME.\n Nous pouvons élargir notre ' +
-            'réseau en rencontrant d’autres professionnels, échanger de l’information et des opportunités commerciales, vendre nos services,  promouvoir nos activités et nos entreprises par un affichage sur le web ' +
-            'et dans les magasins Bureau Vallée. \n L’inscription est gratuite.​\n ' +
-            'N’hésitez pas, venez me rejoindre. \n'+emailSignature );
+
+
+        $.ajax({
+            url: 'emailContent/1',
+            type: 'POST',
+            async: false,
+            processData: false,
+            contentType: false,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(data){
+
+                $('#sponsorship_message').val(data.replaceAll("<br/>","\r\n").replaceAll("{%userStore%}",userStore).replaceAll("{%emailSignature%}",emailSignature));
+
+
+            },
+            error: function(){
+                alert("Un problème est survenu. Veuillez réessayer")
+            }
+        });
+
     }
     });
 //Archive beContacted
