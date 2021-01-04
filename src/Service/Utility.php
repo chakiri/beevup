@@ -24,9 +24,9 @@ class Utility
        return  explode(';', $emailsList);
     }
 
-    public function addLink(string $str)
+    public function addLink(string $str, string $hostname)
     {
-        $str =  str_replace( 'Beevup.fr', '<a href=\'http://beevup.fr/\'>Beevup.fr</a>',$str);
+        $str =  str_replace( 'Beevup.fr', '<a href='.$hostname.'>Beevup.fr</a>',$str);
         return $str;
     }
 
