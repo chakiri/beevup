@@ -9,6 +9,7 @@ use App\Repository\TypeServiceRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -178,10 +179,6 @@ class ServiceType extends AbstractType
             ->add('toIndividuals', CheckboxType::class, [
                 'label'    => 'Pour les particuliers',
                 'required' => false
-
-
-
-
             ])
             ->add('toProfessionals', CheckboxType::class, [
             'label'    => 'Pour les pros',
@@ -246,6 +243,16 @@ class ServiceType extends AbstractType
             'data_class' => Service::class,
             'isOffer' => null,
             'previousPage' => null,
+            'validation_groups' => function (FormInterface $form) {
+                $data = $form->getData();
+
+                //If checkbox isDiscovery is checked apply group validation "isDiscovery"
+                if ($data->getIsDiscovery() === true) {
+                    return array('Default', 'isDiscovery');
+                }
+
+                return array('Default');
+            },
         ]);
     }
 }

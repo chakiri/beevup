@@ -118,7 +118,6 @@
                                                 {{ form_label(ServiceForm.toIndividuals) }}
                                                 {{ form_errors(ServiceForm.toIndividuals) }}
                                                 <div class="input-group">
-
                                                     {{ form_widget(ServiceForm.toIndividuals) }}
                                                 </div>
                                             </div>
@@ -128,10 +127,10 @@
                                     <div class="form-row">
                                         <div id="discovery" class="form-group  col-lg-12" >
                                             {{ form_label(ServiceForm.discoveryContent) }}
-                                            {{ form_errors(ServiceForm.discoveryContent) }}
                                             <div class="input-group">
                                                 {{ form_widget(ServiceForm.discoveryContent) }}
                                             </div>
+                                            {{ form_errors(ServiceForm.discoveryContent) }}
                                         </div>
                                     </div>
 
@@ -209,14 +208,15 @@
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-                                <div class="serviceError"></div>
-                                    <div class="file-not-correct"></div>
-                                        <div class="form-actions form-group text-center">
-                                            <button type="submit" class="m-orange-btn">Enregistrer</button>
-                                        </div>
-                                        {{ form_end(ServiceForm) }}
-                                    </div>
+
+                                {#<div class="serviceError"></div>#}
+                                <div class="file-not-correct"></div>
+
+                                <div class="form-actions form-group text-center">
+                                    <button type="submit" class="m-orange-btn">Enregistrer</button>
                                 </div>
+
+                                {{ form_end(ServiceForm) }}
                             </div>
                         </div>
                     </div>

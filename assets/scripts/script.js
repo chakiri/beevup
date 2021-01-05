@@ -528,7 +528,8 @@ $('#cookies a').click(function(){
                     let error='';
                     for (var key in data.data) {
                         error = "<p class='form-error'>"+data.data[key]+"</p>";
-                        $(form).find('[name*="'+key+'"]').first().parent('div').before(error);
+                        $(form).find('[name*="'+key+'"]').first().parent('div').next(".form-error").remove();
+                        $(form).find('[name*="'+key+'"]').first().parent('div').after(error);
                         /*if(key=='imageFile') {
                             if(cropper !=null) {
                                cropper.destroy();
