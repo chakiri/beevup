@@ -58,7 +58,7 @@ class Company implements \Serializable
     private $addressStreet;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $addressPostCode;
 
@@ -275,12 +275,12 @@ class Company implements \Serializable
         return $this;
     }
 
-    public function getAddressePostCode(): ?int
+    public function getAddressPostCode(): ?string
     {
         return $this->addressPostCode;
     }
 
-    public function setAddressPostCode(int $addressPostCode): self
+    public function setAddressPostCode(string $addressPostCode): self
     {
         $this->addressPostCode = $addressPostCode;
 
@@ -366,10 +366,7 @@ class Company implements \Serializable
         return $this;
     }
 
-    public function getAddressPostCode(): ?int
-    {
-        return $this->addressPostCode;
-    }
+
 
     public function getName(): ?string
     {
