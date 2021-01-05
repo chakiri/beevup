@@ -24,11 +24,6 @@ class Utility
        return  explode(';', $emailsList);
     }
 
-    public function addLink(string $str)
-    {
-        $str =  str_replace( 'Beevup.fr', '<a href=\'http://beevup.fr/\'>Beevup.fr</a>',$str);
-        return $str;
-    }
 
 
 }

@@ -77,7 +77,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/company/{slug}/{id}", name="company_show")
+     * @Route("/company/{slug}/{id}", name="company_show", requirements={"slug"="[a-zA-Z0-9\-_\/]+", "id"="\d+"})
      */
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
     {

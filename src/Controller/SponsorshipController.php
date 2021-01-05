@@ -33,6 +33,7 @@ class SponsorshipController  extends AbstractController
         $optionsToast = [];
         $newEmail = false;
         $points = 0;
+        $url = $this->generateUrl('security_registration');
         $pointsSender = $scorePointRepository->findOneBy(['id' => 6])->getPoint();
         if($this->getUser()->getProfile() !=null)
         {
@@ -53,7 +54,7 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
-                            $this->sendEmail($sponsor, $email, $utility->addLink($customMessage), $mailer);
+                            $this->sendEmail($sponsor, $email, $customMessage, $mailer);
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
                         } else {
@@ -110,7 +111,8 @@ class SponsorshipController  extends AbstractController
 
         return $this->render('sponsorship/form.html.twig', [
             'sponsorshipForm' => $form->createView(),
-            'sponsorship' => $sponsorship
+            'sponsorship' => $sponsorship,
+
         ]);
     }
 
