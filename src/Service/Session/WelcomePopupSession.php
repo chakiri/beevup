@@ -4,7 +4,7 @@ namespace App\Service\Session;
 
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class WelcomePopup
+class WelcomePopupSession
 {
     private $session;
 

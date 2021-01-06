@@ -88,10 +88,10 @@ window.tutorialDashboard = function (){
     startIntro(stepsDashboard);
 }
 
-function tutorialServices(){
+window.tutorialServices = function (){
     startIntro(stepsServices);
 }
-function tutorialNewService(){
+window.tutorialNewService = function (){
     startIntro(stepsNewService);
 }
 

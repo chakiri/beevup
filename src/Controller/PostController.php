@@ -70,7 +70,6 @@ class PostController extends AbstractController
 
             //Get all options redirect in array
             $optionsRedirect = array_merge($optionsRedirect, ['id' => $post->getId()]);
-
             return $this->redirectToRoute('dashboard', $optionsRedirect);
         }
         return $this->render('post/create.html.twig', [
@@ -142,29 +141,17 @@ class PostController extends AbstractController
         }else{
             $like = new PostLike();
             $like->setUser($user)
-                ->setPost($post)
-            ;
-
+                 ->setPost($post);
             $manager->persist($like);
 
             $notification = new PostNotification();
-
             $notification->setPost($post)
-                ->setUser($user)
-                ->setType('like')
-                ->setSeen(false)
-            ;
-
+                         ->setUser($user)
+                         ->setType('like')
+                         ->setSeen(false);
             $manager->persist($notification);
-
             $manager->flush();
-
-            return $this->json([
-                'code'=> 200,
-                'message'=> 'like created',
-                'likes' => $postLikeRepository->count(['post' => $post])
-            ], 200);
-
+            return $this->json([ 'code'=> 200,  'message'=> 'like created', 'likes' => $postLikeRepository->count(['post' => $post])], 200);
         }
 
     }

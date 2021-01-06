@@ -7,6 +7,12 @@
             <p class="footer-text">Beevup est une marque de Bureau Vallée
                 <a target="_blank" href="https://beevup.fr/media/pdf/CGU.pdf" class="footer-text-link">CGU</a>
             </p>
+            {% if app.request.attributes.get('_route') == 'security_registration' %}
+                <p class="footer-text">Referral Vectors by
+                    <a href="https://www.vecteezy.com/free-vector/referral">Vecteezy</a> and
+                    <a href="https://www.freepik.com/vectors/technology">www.freepik.com</a>
+                </p>
+            {% endif %}
         </div>
     </footer>
 
