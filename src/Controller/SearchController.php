@@ -14,6 +14,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\InfoSearch;
 use App\Service\ServiceSetting;
+use App\Service\Session\ExternalStoreSession;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,8 +83,11 @@ class SearchController extends AbstractController
     /**
      * @Route("/external/search/{reference}", name="external_search")
      */
-    public function externalSearch(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch)
+    public function externalSearch(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
     {
+        //Set reference in session
+        $externalStoreSession->setReference($request);
+
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
 
         //Get local services of store

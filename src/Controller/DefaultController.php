@@ -21,7 +21,7 @@ use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
 use App\Service\Notification\PostNotificationSeen;
-use App\Service\Session\WelcomePopup;
+use App\Service\Session\WelcomePopupSession;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -144,9 +144,9 @@ class DefaultController extends AbstractController
     /**
      *  @Route("/welcomePopup", name="welcomepopup")
      */
-    public function welcomePopup(WelcomePopup $welcomePopup)
+    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
     {
-        $popup = $welcomePopup->add();
+        $popup = $welcomePopupSession->add();
         return $this->json($popup);
     }
 
