@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {% include 'partials/headerSecurity.html.twig' %}
+    {% include 'partials/header/headerExternal.html.twig' %}
 
     <section class="search-store-result">
         <div class="container-bv container-bv-search-result">
@@ -14,7 +14,7 @@
                 {% else %}
                     <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
                 {% endif %}
-                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("search_store", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
+                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("external_search", {'reference': store.reference}) }}">Je modifie ma recherche</a></span></li>
             </ul>
 
             {% if results %}

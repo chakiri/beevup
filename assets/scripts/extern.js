@@ -88,7 +88,7 @@ if($('.external_company_show #mapid').length > 0 && window.innerWidth > 769) {
 }
 
 
-if($('.search_store #mapid').length > 0 && window.innerWidth > 769) {
+if($('.external_search #mapid').length > 0 && window.innerWidth > 769) {
     var allStores = '';
     $.ajax({
         url: '/map',

@@ -8,7 +8,7 @@
         <div style="position:relative">
            <div class="landing-page-first-bloc">
 
-               {% include 'partials/headerSecurity.html.twig' %}
+               {% include 'partials/header/headerSecurity.html.twig' %}
 
                <div class="landign-page-bloc1">
 
@@ -53,15 +53,52 @@
                        <div class="landing-page-dashboard-img">
                            <div class="landing-page-section2">
                                <img class="landing-page-man" src="{{ asset('build/images/homePage/landingPage-man.png') }}"/>
-                               <div class="landing-page-dashbord d-none d-lg-block">
+                               {#<div class="landing-page-dashbord d-none d-lg-block">
                                    <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
-                               </div>
+                               </div>#}
                            </div>
                        </div>
                     </section>
                </div>
            </div>
-           <svg version="1.0"
+
+            <div class="container-bv container-landing-page-boxes">
+                {# case information boxes#}
+                <div class="landing-page-boxes">
+                    <div class="row row-equal">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/developpement.jpg') }}" alt="">
+                                </div>
+                                <h4>Faites connaitre votre entreprise</h4>
+                                <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/social.jpg') }}" alt="">
+                                </div>
+                                <h4>Réseau d'entrepreneurs</h4>
+                                <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="">
+                                </div>
+                                <h4>Marketplace de services</h4>
+                                <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <svg version="1.0"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 1920.000000 110.000000"
                 preserveAspectRatio="xMidYMid meet">
@@ -76,43 +113,15 @@
                         55 -790 90 -137 16 -554 64 -925 106 -642 72 -944 106 -1360 154 -102 12 -236
                         27 -297 34 l-113 12 0 -548z"/>
                 </g>
-          </svg>
+            </svg>
+
+            <div class="block-background-white"></div>
         </div>
 
         <div class="landing-page-second-bloc">
 
-            {# case information boxes#}
-            <div class="landing-page-boxes">
-                <div class="row row-equal">
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="landing-page-section4-bloc">
-                            <div class="landing-page-section4-bloc-image">
-                                <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/developpement.jpg') }}" alt="">
-                            </div>
-                            <h4>Faites connaitre votre entreprise</h4>
-                            <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="landing-page-section4-bloc">
-                            <div class="landing-page-section4-bloc-image">
-                                <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/social.jpg') }}" alt="">
-                            </div>
-                            <h4>Réseau d'entrepreneurs</h4>
-                            <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="landing-page-section4-bloc">
-                            <div class="landing-page-section4-bloc-image">
-                                <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="">
-                            </div>
-                            <h4>Marketplace de services</h4>
-                            <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="landing-page-dashbord d-none d-lg-block">
+                <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
             </div>
 
             {# Testimonial #}

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
-use App\Service\Session\CookieAccepted;
+use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
 use App\Service\Email;
 use Symfony\Component\HttpFoundation\Request;
@@ -300,15 +300,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/cgu/accept", name="cgu_accept")
      */
-    public function cguAccept(Request $request, CookieAccepted $cookieAccepted)
+    public function cguAccept(Request $request, CookieAcceptedSession $cookieAcceptedSession)
     {
-        $cookieAccepted->addCookie($request);
+        $cookieAcceptedSession->addCookie($request);
 
         return $this->json(true);
     }
 
-
-
+  
     /**
      * @Route("/homePage2", name="security_registration2")
      */
@@ -380,5 +379,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
     }
+
 
 }

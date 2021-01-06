@@ -678,16 +678,14 @@ textarea.form-control{
 }
 .landing-page-man{
     width: 273px;
-    height: 208px;
-    margin-top: -179px;
-    z-index: 1;
+    height: 217px;
+    margin-top: -79px;
+    z-index: 111;
     position: absolute;
     margin-left:45px
 }
 .landing-page-dashboard-screenshot{
-    width: 85%;
-    position: relative;
-    left: 95px;
+    width: 100%;
     border-radius: 12px;
 }
 .landing-page-dashbord{
@@ -696,8 +694,13 @@ textarea.form-control{
 .landing-page-first-bloc{
     background-color: var(--bg-color);
     padding:0 40px 0 !important;
-
-
+}
+.block-background-white{
+    background: #fff;
+    height: 354px;
+    position: absolute;
+    width: 100%;
+    margin-top: -339px;
 }
 .landing-page-second-bloc{
     padding: 0 13em  !important;
@@ -754,10 +757,12 @@ ul.landing-page-list {
 }
 .landing-page-section4-bloc{
     min-height: 450px;
+    background: #fff;
     padding: 15px 15px 15px;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
     vertical-align: middle;
+    z-index: 11;
 }
 .landing-page-section4-bloc-image{
     /*display: flex;
@@ -781,6 +786,10 @@ ul.landing-page-list {
 }
 .landing-page-boxes{
     padding: 4em 0 4em 0;
+}
+.container-landing-page-boxes{
+    margin-top: -48px;
+    background-color: var(--bg-color);
 }
 .landing-page-boxes p{
     line-height: 27px;
@@ -893,7 +902,8 @@ ul.landing-page-list {
 }
 .security_registration svg{
     position: absolute;
-    bottom:0;
+    bottom:338px;
+    z-index: 1;
 }
 .rejoindre-link, .rejoindre-link:hover{
     color:var(--white-color);
@@ -1046,7 +1056,7 @@ ul.landing-page-list {
     padding: 0;
     background-color: #FFF !important;
 }
-.security_login, .search_store{
+.security_login, .external_search{
     padding: 0;
     background-color: var(--bg-color) !important;
 }
@@ -3791,7 +3801,7 @@ li.icon-type-post a.active{
      color: #FFF;
      border-radius: 50%;
  }
-.search_store .box-search input, .search_store .box-search select{
+.external_search .box-search input, .external_search .box-search select{
     border: 1px solid #E0DED9 !important;
     font-size: 17px !important;
     width: 100% !important;
@@ -3801,10 +3811,10 @@ li.icon-type-post a.active{
     border-radius: 12px !important;
     padding: 10px !important;
 }
-.search_store .search-store-result .title-search{
+.external_search .search-store-result .title-search{
     display: flex;
     justify-content: space-between;
-}.search_store .search-store-result ul .big-btn{
+}.external_search .search-store-result ul .big-btn{
     font-size: 18px;
 }
 .search-carousel .card{
@@ -3853,11 +3863,11 @@ li.icon-type-post a.active{
     width: 100%;
 }
 
-.search_store .card{
+.external_search .card{
     border: none;
     border-radius: var(--radius);
 }
-.search_store .card-img-top{
+.external_search .card-img-top{
     border-top-right-radius: var(--radius);
     border-top-left-radius: var(--radius);
 }
