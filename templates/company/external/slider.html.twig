@@ -11,56 +11,58 @@
         </ol>
         <div class="carousel-inner">
             {% for company in companies %}
-                <div class="carousel-item {% if company == companies[0] %}active{% endif %}">
-                    <div class="container-fluid">
-                        <div class="big-card">
-                            <div class="img-avatar">
-                                {% if admins[company.id] and admins[company.id].profile.filename %}
-                                    <img src="{{ vich_uploader_asset(admins[company.id].profile, 'imageFile') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="{{ asset('build/images/default/user.png') }}" class="" alt="avatar image">
-                                {% endif %}
-                            </div>
-                            <div class="card-content">
-                                <div class="portada">
-                                    {% if company.filename %}
-                                        <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile') }}"  alt="">
+                {% if company.isCompleted == true %}
+                    <div class="carousel-item {% if company == companies[0] %}active{% endif %}">
+                        <div class="container-fluid">
+                            <div class="big-card">
+                                <div class="img-avatar">
+                                    {% if admins[company.id] and admins[company.id].profile.filename %}
+                                        <img src="{{ vich_uploader_asset(admins[company.id].profile, 'imageFile') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
                                     {% else %}
-                                        <img class="main-img" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
+                                        <img src="{{ asset('build/images/default/user.png') }}" class="" alt="avatar image">
                                     {% endif %}
                                 </div>
-                                <div class="title-total">
-                                    <div class="meta">
-                                        {% if admins[company.id] %}<div class="title">{{ admins[company.id].profile.firstname }} {{ admins[company.id].profile.lastname }}</div>{% endif %}
-                                        <h1>{{ company.name }}</h1>
-                                        <div class="desc">{{ company.otherCategory }} - {{ company.introduction ?? 'Pas d\'inscription' }}</div>
-                                        {% if servicesArray[company.id] %}
-                                            <div class="services pt-5">
-                                                <div class="row row-equal">
-                                                    {% for service in servicesArray[company.id] %}
-                                                        <div class="col-4">
-                                                            <div class="card">
-                                                                {% if service.filename %}
-                                                                    <img class="card-img-top" src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
-                                                                {% else %}
-                                                                    <img class="card-img-top" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                                                {% endif %}
-                                                                <div class="card-body">
-                                                                    <h3 class="card-title">{{ service.title }}</h3>
-                                                                    <p class="card-text"><small class="text-muted"></small></p>
+                                <div class="card-content">
+                                    <div class="portada">
+                                        {% if company.filename %}
+                                            <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile') }}"  alt="">
+                                        {% else %}
+                                            <img class="main-img" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="title-total">
+                                        <div class="meta">
+                                            {% if admins[company.id] %}<div class="title">{{ admins[company.id].profile.firstname }} {{ admins[company.id].profile.lastname }}</div>{% endif %}
+                                            <h1>{{ company.name }}</h1>
+                                            <div class="desc">{{ company.otherCategory }} - {{ company.introduction ?? 'Pas d\'inscription' }}</div>
+                                            {% if servicesArray[company.id] %}
+                                                <div class="services pt-5">
+                                                    <div class="row row-equal">
+                                                        {% for service in servicesArray[company.id] %}
+                                                            <div class="col-4">
+                                                                <div class="card">
+                                                                    {% if service.filename %}
+                                                                        <img class="card-img-top" src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                                    {% else %}
+                                                                        <img class="card-img-top" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                                                    {% endif %}
+                                                                    <div class="card-body">
+                                                                        <h3 class="card-title">{{ service.title }}</h3>
+                                                                        <p class="card-text"><small class="text-muted"></small></p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    {% endfor %}
+                                                        {% endfor %}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        {% endif %}
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
         <footer>

@@ -48,9 +48,6 @@
                             <a class="nav-link" href="#company-access">Informations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#company-users">Equipe</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#company-recommandations-services">Recommandations</a>
                         </li>
                     </ul>
@@ -62,7 +59,12 @@
     <section class="company-content" data-spy="scroll" data-target="#company-content" data-offset="0">
         <div class="container-bv">
             <div class="row">
-                <div class="offset-xl-2 col-lg-7">
+                <div class="col-lg-2">
+                    <a href="{{ path('external_search', {'reference': company.store.reference}) }}" title="" class="btn white-bg float-right">
+                        Nouvelle recherche
+                    </a>
+                </div>
+                <div class="col-lg-7">
                     <div class="company-content-presentation">
                         <div class="user-profile-ov page-title sign_in_sec current" id="company-presentation">
                             <h5>Présentation de {{ company.name }}</h5>
@@ -86,16 +88,6 @@
                                                 {#<a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>#}
                                             </div>
                                         {% endfor %}
-                                        {% if  countServices > 3 %}
-                                            <div class="user-profy">
-                                                <div class="lt-sec">
-                                                    <a href="{{ path('service_company', {'company': company.id}) }}">
-                                                        <i style="font-size: 57px" class="fas fa-folder-plus"></i>
-                                                        <p>Voir tous les services de {{ company.name }}</p>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        {% endif %}
                                     </div>
                                 </div>
                             {% else %}
@@ -156,7 +148,7 @@
                                         {% else %}
                                             <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                         {% endif %}
-                                        <div class="hover-info">
+                                        <div class="">
                                             <p>{{ recommandationsService.user.profile.firstname }} {{ recommandationsService.user.profile.lastname }}</p>
                                             <small>{{ recommandationsService.user.company|capitalize }}</small>
                                             {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationsService.user} %}
@@ -184,7 +176,7 @@
                                         {% else %}
                                             <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                         {% endif %}
-                                        <div class="hover-info">
+                                        <div class="">
                                             <p>{{ recommandationCompany.user.profile.firstname }} {{ recommandationCompany.user.profile.lastname }}</p>
                                             <small>{{ recommandationCompany.user.company|capitalize }}</small>
                                             {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandationCompany.user} %}
