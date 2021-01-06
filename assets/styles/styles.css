@@ -3820,7 +3820,7 @@ li.icon-type-post a.active{
 .search-carousel .card{
     border-radius: 6px;
 }
-.search-carousel .card img{
+.service-card img{
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     height: 100%;
@@ -3866,10 +3866,33 @@ li.icon-type-post a.active{
 .external_search .card{
     border: none;
     border-radius: var(--radius);
+    height: 525px;
+}
+.company-card{
+    height: 455px !important;
+}
+.external_search .card-title{
+    height: 60px;
+    overflow: hidden;
+}
+.external_search .card-text{
+    height: 86px;
+    overflow: hidden;
+}
+.external_search .card-btn{
+    height: 30px;
+    overflow: hidden;
+}
+.external_search .card-nbreco{
+    height: 21px;
+}
+.external_search .view{
+    height: 180px;
+    text-align: center;
+    padding: 20px;
 }
 .external_search .card-img-top{
-    border-top-right-radius: var(--radius);
-    border-top-left-radius: var(--radius);
+    width: 50%;
 }
 .errors {
     padding-left: 0;

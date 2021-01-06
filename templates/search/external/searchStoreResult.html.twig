@@ -19,11 +19,11 @@
 
             {% if results %}
                 <div class="">
-                    <div class="row row-equal">
+                    <div class="row">
                         {% for result in results %}
                             <div class="col-lg-3 col-md-4 mt-3">
                                 <!-- Card -->
-                                <div class="card">
+                                <div class="company-card card">
                                     <!-- Card image -->
                                     <div class="view">
                                         {% if result.filename %}
@@ -35,23 +35,24 @@
 
                                     <!-- Card content -->
                                     <div class="card-body">
-
                                         <h4 class="card-title font-weight-bold"><a>{{ result.name }}</a></h4>
-                                        {% if nbRecommandationsCompanies[result.id] > 0 %}
-                                            <ul class="list-unstyled list-inline rating mb-0 d-flex">
-                                                <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange mr-1"> </i></li>
-                                                <li class="list-inline-item">
-                                                    {% if nbRecommandationsCompanies[result.id] == 1  %}<p class="text-muted"><small> 1 Recommandation</small></p>
-                                                    {% else %} <p class="text-muted"><small> {{ nbRecommandationsCompanies[result.id] }} Recommandations</small></p></li>{% endif %}
-                                                </li>
-                                            </ul>
-                                        {% endif %}
                                         <ul class="list-unstyled list-inline rating mb-0">
                                             <li class="list-inline-item mr-0"><i class="fas fa-map-pin"></i></li>
-                                            <li class="list-inline-item"><p> • {{ result.city }}</p></li>
+                                            <li class="list-inline-item"><p class="text-muted"> {{ result.city }}</p></li>
                                         </ul>
                                         <p class="card-text">{{ result.introduction }}</p>
-                                        <hr class="my-4">
+                                        <div class="card-nbreco">
+                                            {% if nbRecommandationsCompanies[result.id] > 0 %}
+                                                <ul class="list-unstyled list-inline rating mb-0 d-flex">
+                                                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange mr-1"> </i></li>
+                                                    <li class="list-inline-item">
+                                                        {% if nbRecommandationsCompanies[result.id] == 1  %}<p class="text-muted"><small> 1 Recommandation</small></p>
+                                                        {% else %} <p class="text-muted"><small> {{ nbRecommandationsCompanies[result.id] }} Recommandations</small></p></li>{% endif %}
+                                                    </li>
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                        <hr>
 
                                         <!-- Button -->
                                         <div class="text-center">
