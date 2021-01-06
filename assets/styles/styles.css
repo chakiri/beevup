@@ -1056,7 +1056,7 @@ ul.landing-page-list {
     padding: 0;
     background-color: #FFF !important;
 }
-.security_login, .search_store{
+.security_login, .external_search{
     padding: 0;
     background-color: var(--bg-color) !important;
 }
@@ -3801,7 +3801,7 @@ li.icon-type-post a.active{
      color: #FFF;
      border-radius: 50%;
  }
-.search_store .box-search input, .search_store .box-search select{
+.external_search .box-search input, .external_search .box-search select{
     border: 1px solid #E0DED9 !important;
     font-size: 17px !important;
     width: 100% !important;
@@ -3811,10 +3811,10 @@ li.icon-type-post a.active{
     border-radius: 12px !important;
     padding: 10px !important;
 }
-.search_store .search-store-result .title-search{
+.external_search .search-store-result .title-search{
     display: flex;
     justify-content: space-between;
-}.search_store .search-store-result ul .big-btn{
+}.external_search .search-store-result ul .big-btn{
     font-size: 18px;
 }
 .search-carousel .card{
@@ -3863,11 +3863,11 @@ li.icon-type-post a.active{
     width: 100%;
 }
 
-.search_store .card{
+.external_search .card{
     border: none;
     border-radius: var(--radius);
 }
-.search_store .card-img-top{
+.external_search .card-img-top{
     border-top-right-radius: var(--radius);
     border-top-left-radius: var(--radius);
 }

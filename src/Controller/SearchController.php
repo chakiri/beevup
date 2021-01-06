@@ -80,9 +80,9 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search/store/{reference}", name="search_store")
+     * @Route("/external/search/{reference}", name="external_search")
      */
-    public function searchStore(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch)
+    public function externalSearch(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch)
     {
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
 
@@ -136,7 +136,7 @@ class SearchController extends AbstractController
                 $nbRecommandationsCompanies = $infoSearch->getNbRecommandations($result, $nbRecommandationsCompanies);
             }
 
-            return $this->render("search/searchStoreResult.html.twig", [
+            return $this->render("search/external/searchStoreResult.html.twig", [
                 'query' => $form->get('querySearch')->getData(),
                 'results' => $results,
                 'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
@@ -145,7 +145,7 @@ class SearchController extends AbstractController
 
         }
 
-        return $this->render("search/searchStore.html.twig", [
+        return $this->render("search/external/searchStore.html.twig", [
             'form' => $form->createView(),
             'companies' => $companies,
             'services' => $services,
