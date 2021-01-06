@@ -678,16 +678,14 @@ textarea.form-control{
 }
 .landing-page-man{
     width: 273px;
-    height: 208px;
-    margin-top: -179px;
-    z-index: 1;
+    height: 217px;
+    margin-top: -79px;
+    z-index: 111;
     position: absolute;
     margin-left:45px
 }
 .landing-page-dashboard-screenshot{
-    width: 85%;
-    position: relative;
-    left: 95px;
+    width: 100%;
     border-radius: 12px;
 }
 .landing-page-dashbord{
@@ -696,8 +694,13 @@ textarea.form-control{
 .landing-page-first-bloc{
     background-color: var(--bg-color);
     padding:0 40px 0 !important;
-
-
+}
+.block-background-white{
+    background: #fff;
+    height: 354px;
+    position: absolute;
+    width: 100%;
+    margin-top: -339px;
 }
 .landing-page-second-bloc{
     padding: 0 13em  !important;
@@ -754,10 +757,12 @@ ul.landing-page-list {
 }
 .landing-page-section4-bloc{
     min-height: 450px;
+    background: #fff;
     padding: 15px 15px 15px;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
     vertical-align: middle;
+    z-index: 11;
 }
 .landing-page-section4-bloc-image{
     /*display: flex;
@@ -781,6 +786,10 @@ ul.landing-page-list {
 }
 .landing-page-boxes{
     padding: 4em 0 4em 0;
+}
+.container-landing-page-boxes{
+    margin-top: -48px;
+    background-color: var(--bg-color);
 }
 .landing-page-boxes p{
     line-height: 27px;
@@ -893,7 +902,8 @@ ul.landing-page-list {
 }
 .security_registration svg{
     position: absolute;
-    bottom:0;
+    bottom:338px;
+    z-index: 1;
 }
 .rejoindre-link, .rejoindre-link:hover{
     color:var(--white-color);
