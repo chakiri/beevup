@@ -111,11 +111,8 @@ class ProfileController extends AbstractController
 
         if ($_POST['value'] === "true")     $profile->setIsOnboarding(true);
         else $profile->setIsOnboarding(false);
-
         $manager->persist($profile);
-
         $manager->flush();
-
         return $this->json($profile);
     }
 

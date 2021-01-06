@@ -8,6 +8,7 @@ use App\Form\PostType;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
+use App\Service\Email;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
@@ -23,7 +24,7 @@ class SponsorshipController  extends AbstractController
     /**
      * @Route("/sponsorship", name="sponsorship")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, \Swift_Mailer $mailer, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository,  ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Email $emailService)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
@@ -54,7 +55,7 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
-                            $this->sendEmail($sponsor, $email, $customMessage, $mailer);
+                            $emailService->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email,   ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
                         } else {
@@ -116,20 +117,5 @@ class SponsorshipController  extends AbstractController
         ]);
     }
 
-    public function sendEmail($sponsor, $email, $customMessage, $mailer){
-        $message = (new \Swift_Message())
-            ->setSubject($sponsor.' vous propose de le rejoindre sur Beevup.fr')
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'emails/spnsorship.html.twig',
-                    ['message' => nl2br($customMessage)]
-                ),
-                'text/html'
-            )
-        ;
-        $result = $mailer->send($message);
-    }
 
 }

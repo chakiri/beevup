@@ -13,6 +13,7 @@ use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\AutomaticPost;
+use App\Service\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +44,7 @@ class RecommandationController extends AbstractController
     /**
      * @Route("/recommandation", name="recommandation")
      */
-    public function create(Request $request, EntityManagerInterface $manager, ServiceRepository $serviceRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer)
+    public function create(Request $request, EntityManagerInterface $manager, ServiceRepository $serviceRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, Email $email)
     {
         $recommandation = new Recommandation();
 
@@ -85,20 +86,7 @@ class RecommandationController extends AbstractController
 
             $manager->persist($recommandation);
             $manager->flush();
-
-            $message = (new \Swift_Message())
-                ->setSubject('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé')
-                ->setFrom($_ENV['DEFAULT_EMAIL'])
-                ->setTo($admin->getEmail())
-                ->setBody(
-                    $this->renderView('emails/recommandation.html.twig',
-                        ['user'=> $admin, 'storePatron'=> $storePatron]
-                    ),
-                    'text/html'
-                )
-            ;
-            $mailer->send($message);
-
+            $email->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
             $this->addFlash('success', $messageFlash);
 
             if ($service){

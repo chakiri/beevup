@@ -28,8 +28,6 @@ class EmailContentController extends AbstractController
         } else {
             return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
         }
-
-
     }
 }
 

@@ -20,8 +20,6 @@ class PostLikesController extends AbstractController
     {
         $post = $postReporsitory->findOneBy(['id' => $id]);
         $postLikes = $postLikesRepository->findBy(['post' => $post->getId()], []);
-        return $this->render('postLikes/show.html.twig', [
-            'postLikes' => $postLikes,
-        ]);
+        return $this->render('postLikes/show.html.twig', [  'postLikes' => $postLikes]);
     }
 }

@@ -7,6 +7,7 @@ use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
+use App\Service\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
@@ -36,7 +37,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/", name="security_registration")
      */
-       public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer): Response
+       public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Email $email): Response
     {
         if ($this->isGranted('ROLE_USER') == false) {
             $user = new User();
@@ -77,17 +78,6 @@ class SecurityController extends AbstractController
                 $token = $tokenGenerator->generateToken();
                 $user->setResetToken($token);
                 $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-                $message = (new \Swift_Message())
-                    ->setSubject('Beev\'Up par Bureau Vallée | Confirmation du compte')
-                    ->setFrom($_ENV['DEFAULT_EMAIL'])
-                    ->setTo($user->getEmail())
-                    ->setBody(
-                        $this->renderView(
-                            'emails/confirmEmail.html.twig',
-                            ['url' => $url, 'user' => $user, 'storePatron' => $storePatron]
-                        ),
-                        'text/html'
-                    );
 
                 /* add admin topics to user */
                 //$topicHandler->addAdminTopicsToUser($user);
@@ -105,9 +95,8 @@ class SecurityController extends AbstractController
                 $manager->persist($profile);
 
                 $manager->flush();
-                $result = $mailer->send($message);
-                //$this->addFlash('success', 'Votre compte a bien été crée. Veuillez confirmer votre adresse email en vous rendant sur le lien envoyé');
-                //return $this->redirectToRoute('security_login');
+                $email->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(),  ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
+
 
                 return $this->redirectToRoute('waiting_validation');
             }
@@ -178,19 +167,7 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $message = (new \Swift_Message())
-                ->setSubject('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe')
-                ->setFrom($_ENV['DEFAULT_EMAIL'])
-                ->setTo($email)
-                ->setBody(
-                    $this->renderView(
-                        'emails/forgotPassword.html.twig',
-                        ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron]
-                    ),
-                    'text/html'
-                   )
-            ;
-            $result = $mailer->send($message);
+            $email->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
 
             $this->addFlash('success', 'Nous avons envoyé un email à votre adresse email. Cliquez sur le lien figurant dans cet email pour réinitialiser votre mot de passe.
                            Si vous ne voyez pas l\'email, vérifiez les autres endroits où il pourrait être, comme votre courrier indésirable, spam, social, ou autres dossiers.');
@@ -264,7 +241,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, \Swift_Mailer $mailer, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Email $email)
     {
         $user = $userRepository->findOneBy(['resetToken' => $token]);
 
@@ -276,18 +253,8 @@ class SecurityController extends AbstractController
         /****send welcome email *****/
         $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
         $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-        $message = (new \Swift_Message())
-            ->setSubject('Beev\'Up par Bureau Vallée | Bienvenue')
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/welcome.html.twig',
-                    ['user'=> $user, 'storePatron'=> $storePatron]
-                ),
-                'text/html'
-            );
-         $result = $mailer->send($message);
+        $email->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(),  ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
+
         /*****end ******/
 
         $user->setResetToken(null);
@@ -339,5 +306,79 @@ class SecurityController extends AbstractController
 
         return $this->json(true);
     }
+
+  
+    /**
+     * @Route("/homePage2", name="security_registration2")
+     */
+    public function inscription2(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Email $email): Response
+    {
+        if ($this->isGranted('ROLE_USER') == false) {
+            $user = new User();
+
+            $form = $this->createForm(RegistrationType::class, $user);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                /* insert company data*/
+                $company = new Company();
+                $userType = $userTypeRepository->findOneBy(['id' => 3]);
+                $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
+                $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
+
+
+                $company->setSiret($form->get('company')->getData()->getSiret());
+                $company->setName($form->get('name')->getData());
+                $company->setEmail($user->getEmail());
+                $company->setStore($user->getStore());
+                $company->setIntroduction(' ');
+
+                /* generate bar code*/
+                $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
+                $company->setBarCode($barCode->generate($companyId));
+                /* end ******/
+
+                $manager->persist($company);
+
+                /* insert user data*/
+                $user->setStore($user->getStore());
+                $user->setCompany($company);
+                $user->setType($userType);
+                $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
+
+                $token = $tokenGenerator->generateToken();
+                $user->setResetToken($token);
+                $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+                $email->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(),  ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
+
+
+                /* add admin topics to user */
+                //$topicHandler->addAdminTopicsToUser($user);
+                $topicHandler->initGeneralStoreTopic($user);
+
+                $manager->persist($user);
+
+                /* add company topic to user */
+                $topicHandler->initCompanyTopic($company, $user);
+
+                // new profile
+                $profile = new Profile();
+                $profile->setUser($user);
+                $manager->persist($profile);
+                $manager->flush();
+                return $this->redirectToRoute('waiting_validation');
+            }
+
+            return $this->render('default/home2.html.twig', [
+                'RegistrationForm' => $form->createView(),
+            ]);
+        } else{
+            return $this->redirectToRoute('dashboard');
+        }
+    }
+
 
 }

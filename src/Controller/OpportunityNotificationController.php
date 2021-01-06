@@ -19,24 +19,15 @@ class OpportunityNotificationController extends AbstractController
     public function set(EntityManagerInterface $manager, OpportunityNotificationRepository $opportunityNotificationRepository)
     {
         $opportunityNotification = $opportunityNotificationRepository->findOneBy(['user' => $this->getUser()]);
-
         if (!$opportunityNotification){
             $opportunityNotification = new OpportunityNotification();
-
             $opportunityNotification->setUser($this->getUser());
         }
 
         $opportunityNotification->setSeen(true);
-
         $opportunityNotification->setLastSeen(new \Datetime());
-
         $manager->persist($opportunityNotification);
-
         $manager->flush();
-
-        return $this->json([
-            'code' => 200,
-            'message' => 'Notification opportunities set to true'
-        ], 200);
+        return $this->json(['code' => 200,  'message' => 'Notification opportunities set to true'], 200);
     }
 }

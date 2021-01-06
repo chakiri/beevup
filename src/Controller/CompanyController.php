@@ -162,7 +162,7 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             if ($beContactedRepository->findBy(['company' => $company, 'email' => $beContacted->getEmail(), 'isArchived' => false])){
                 $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
-            }else{
+            } else{
                 $beContacted->setCompany($company);
                 $manager->persist($beContacted);
                 $manager->flush();
