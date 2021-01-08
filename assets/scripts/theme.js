@@ -530,7 +530,8 @@ if ($('#registration_acceptConditions').length > 0 || $('#reset_password_acceptC
         $('#inscription-btn').attr('disabled', false);
     }
 
-    $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
+   // $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
+    $('label[for=registration_acceptConditions]').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
 }
 if($('#company_country').length  > 0) {
 

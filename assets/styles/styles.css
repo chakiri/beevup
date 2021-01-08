@@ -4145,3 +4145,9 @@ li.icon-type-post a.active{
 .box-advertising .box-image{
     margin-top: 10px;
 }
+
+.error {
+    font-size: 9px;
+    margin-left: 13px;
+    color: red;
+}

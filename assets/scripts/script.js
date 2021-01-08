@@ -741,3 +741,118 @@ $('.accpet-condition').click(function () {
         $('.be-contacted-submit').addClass('orange-btn-greyed');
     }
 });
+
+/*========== get siret =========== */
+
+function call_api(){
+    if($('.siret-list').length > 0){
+        $('.siret-list').remove();
+    }
+    let companyName =  $('#registration_name').val();
+    if(companyName != '') {
+        getSiret(companyName);
+    } else {
+        if($('.error').length > 0){
+            $('.error').remove();
+        }
+        let emptyCompanyError = document.createElement("p");
+        emptyCompanyError.className ='error';
+        emptyCompanyError.append('Vous devez saisir le nom d\'entreprise');
+        insertAfter(document.getElementById("registration_name"), emptyCompanyError);
+    }
+}
+
+$('.get-siret').click(function(){
+    call_api();
+});
+
+function set_error(text){
+    if($('.error').length > 0){
+        $('.error').empty();
+        $('.error').append(text);
+    } else {
+        let error = document.createElement("p");
+        error.className ='error';
+        error.append(text);
+        insertAfter(document.getElementById("registration_name"), error);
+    }
+}
+
+$("#registration_get_siret_from_api").change(function() {
+    if(this.checked) {
+        $('.siret-list').show();
+        call_api();
+    } else {
+        $('.siret-list').hide();
+    }
+});
+
+$('#registration_name').change(function(){
+   if($("#registration_get_siret_from_api").is(':checked')){
+       if($('.siret-list').length > 0){
+           $('.siret-list').remove();
+       }
+       let companyName =  $('#registration_name').val();
+       if(companyName != '') {
+           getSiret(companyName);
+       } else {
+          set_error('Vous devez saisir le nom d\' entreprise');
+       }
+   }
+});
+
+
+
+$('body').on('change', '.siret-list', function () {
+   $('#registration_company_siret').val($('.siret-list').val());
+});
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+function getSiret(companyName) {
+   var data = "q=denominationUniteLegale%3A%20%22companyName%22&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
+   data = data.replace('companyName',companyName);
+
+    $.ajax({
+
+        url: 'https://api.insee.fr/entreprises/sirene/V3/siret',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        type: 'POST',
+        dataType: 'JSON',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer 706c85e2-0eb6-3e68-89dd-7e6f17032445');
+        },
+        data: data,
+        async: false,
+        processData: false,
+        contentType: 'application/x-www-form-urlencode',
+        success: function (data) {
+
+            var selectBox = document.createElement("select");
+            selectBox.className = "form-control siret-list";
+            let i = 0;
+            selectBox.options[selectBox.options.length] = new Option ('séléctionnez votre entreprise', '0');
+
+            for (i = 0; i < data.etablissements.length; ++i) {
+                selectBox.options[selectBox.options.length] = new Option(data.etablissements[i].uniteLegale.denominationUniteLegale + '-' + data.etablissements[i].adresseEtablissement.codePostalEtablissement, data.etablissements[i].siret);
+            }
+
+            var div = document.getElementById("box-get-siret");
+            insertAfter(div, selectBox);
+            if($('.error').length > 0){
+                $('.error').remove();
+            }
+
+
+
+
+        },
+        error: function () {
+          set_error('Aucun résultat trouvé');
+        }
+    });
+}
