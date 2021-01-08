@@ -31,9 +31,13 @@
                                       {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
                                       {{ form_errors(RegistrationForm.name) }}
                                       {{ form_widget(RegistrationForm.name) }}
+                                      <div id ='box-get-siret'>
+                                      {{ form_errors(RegistrationForm.get_siret_from_api) }}
+                                      {{ form_widget(RegistrationForm.get_siret_from_api) }}
+                                      </div>
                                       {{ form_errors(RegistrationForm.company) }}
                                       {{ form_widget(RegistrationForm.company) }}
-                                      {{ form_errors(RegistrationForm.store) }}
+                                       {{ form_errors(RegistrationForm.store) }}
                                       {{ form_widget(RegistrationForm.store) }}
                                       {{ form_errors(RegistrationForm.email) }}
                                       {{ form_widget(RegistrationForm.email) }}

@@ -27,6 +27,11 @@ class RegistrationType extends AbstractType
         ->add('company', InscriptionCompanyType::class, [
             'label' => false,
          ])
+            ->add('get_siret_from_api', CheckboxType::class, [
+                'label'    => 'Vous avez oublié votre siret ?',
+                'required' => false,
+                'mapped'   => false,
+            ])
             ->add('name', TextType::class, [
 
                 'mapped'=>false,
