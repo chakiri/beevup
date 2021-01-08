@@ -172,7 +172,7 @@ class CompanyController extends AbstractController
 
                 // add chat message to sponsor
                 if ($admin)
-                    $automaticMessage->fromAdvisorToUser($admin, 'Une demande de contact vous attend sur votre espace Beev\'up.');
+                    $automaticMessage->fromAdvisorToUser($admin, 'Bonne nouvelle !<br> Un client souhaite être contacté. <a href="' . $this->generateUrl('be_contacted_list', ['status' => 'current']) . '">Voir la liste des demandes</a>');
 
                 $this->addFlash('success', $company->getName() . ' a été notifiée et reviendra vers vous dans les plus brefs délais');
             }

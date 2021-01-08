@@ -719,6 +719,7 @@ textarea.form-control{
 }
 .landing-page-video video{
     border-radius: 10px;
+    width: 100%;
 }
 
 .map-responsive {
