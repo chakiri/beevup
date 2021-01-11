@@ -805,6 +805,8 @@ $('#registration_name').change(function(){
 
 $('body').on('change', '.siret-list', function () {
    $('#registration_company_siret').val($('.siret-list').val());
+   $('#registration_get_siret_from_api').prop('checked', false);
+   $('.siret-list').hide();
 });
 
 function insertAfter(referenceNode, newNode) {

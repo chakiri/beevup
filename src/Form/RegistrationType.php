@@ -28,7 +28,7 @@ class RegistrationType extends AbstractType
             'label' => false,
          ])
             ->add('get_siret_from_api', CheckboxType::class, [
-                'label'    => 'Vous avez oublié votre siret ?',
+                'label'    => 'Recherchez votre SIRET',
                 'required' => false,
                 'mapped'   => false,
             ])
