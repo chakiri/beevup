@@ -812,10 +812,7 @@ $('body').on('change', '.siret-list', function () {
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
-function sortByPostalCode(key1, key2){
-    console.log(key1);console.log(key2);
-    return key1.adresseEtablissement.codePostalEtablissement > key2.adresseEtablissement.codePostalEtablissement;
-}
+
 function getSiret(companyName) {
    var data = "q=denominationUniteLegale%3A%20%22companyName%22&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
    data = data.replace('companyName',companyName);
