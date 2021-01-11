@@ -812,6 +812,10 @@ $('body').on('change', '.siret-list', function () {
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+function sortByPostalCode(key1, key2){
+    console.log(key1);console.log(key2);
+    return key1.adresseEtablissement.codePostalEtablissement > key2.adresseEtablissement.codePostalEtablissement;
+}
 function getSiret(companyName) {
    var data = "q=denominationUniteLegale%3A%20%22companyName%22&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
    data = data.replace('companyName',companyName);
@@ -833,14 +837,21 @@ function getSiret(companyName) {
         processData: false,
         contentType: 'application/x-www-form-urlencode',
         success: function (data) {
+            let etablissements = data.etablissements;
+            function sortByPostalCode(a,b) {
+                return parseInt(a.adresseEtablissement.codePostalEtablissement, 10) - parseInt(b.adresseEtablissement.codePostalEtablissement, 10);
+            }
+            etablissements =  etablissements.sort(sortByPostalCode);
+
+
 
             var selectBox = document.createElement("select");
             selectBox.className = "form-control siret-list";
             let i = 0;
             selectBox.options[selectBox.options.length] = new Option ('séléctionnez votre entreprise', '0');
 
-            for (i = 0; i < data.etablissements.length; ++i) {
-                selectBox.options[selectBox.options.length] = new Option(data.etablissements[i].uniteLegale.denominationUniteLegale + '-' + data.etablissements[i].adresseEtablissement.codePostalEtablissement, data.etablissements[i].siret);
+            for (i = 0; i < etablissements.length; ++i) {
+                selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' +etablissements[i].uniteLegale.denominationUniteLegale  , etablissements[i].siret);
             }
 
             var div = document.getElementById("box-get-siret");
