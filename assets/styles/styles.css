@@ -4175,3 +4175,8 @@ li.icon-type-post a.active{
     margin-left: 13px;
     color: red;
 }
+
+label[for='registration_get_siret_from_api']{
+    font-size:16px;
+    font-weight: normal;
+}
