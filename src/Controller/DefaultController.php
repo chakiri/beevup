@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BeContacted;
 use App\Entity\Company;
 use App\Entity\Post;
 use App\Entity\PostCategory;
@@ -17,6 +18,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Dashboard\SpecialOffer;
+use App\Service\Email;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;

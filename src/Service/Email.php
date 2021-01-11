@@ -2,9 +2,12 @@
 
 
 namespace App\Service;
-use App\Repository\TypeServiceRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
+use GuzzleHttp\Client;
+use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\SendEmail;
+use SendinBlue\Client\Model\SendSmtpEmail;
+use Twig\Environment;
 
 
 class Email
@@ -12,10 +15,10 @@ class Email
     private $mailer;
     private $templating;
 
-    public function __construct(\Swift_Mailer $mailer, \Twig\Environment $templating)
+    public function __construct(\Swift_Mailer $mailer, Environment $templating)
     {
 
-        $this->mailer     = $mailer;
+        $this->mailer = $mailer;
         $this->templating = $templating;
 
     }
@@ -54,5 +57,47 @@ class Email
             )
         ;
         $this->mailer->send($message);
+    }
+
+    //Function to send emails by Sendinblue SMTP
+    public function sendEmailSmtp($subject, $email, array $content, $template): void
+    {
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
+
+        $apiInstance = new TransactionalEmailsApi(new Client(), $config);
+
+        $sendSmtpEmail = new SendSmtpEmail();
+
+        $sendSmtpEmail['subject'] = $subject;
+        $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
+        $sendSmtpEmail['to'] = [['email' => $email]];
+        $sendSmtpEmail['htmlContent'] = $this->templating->render('emails/'.$template, $content);
+
+        try {
+            $apiInstance->sendTransacEmail($sendSmtpEmail);
+        } catch (\Exception $e) {
+            echo 'Exception when calling TransactionalEmailsApi->sendEmailSmtp: ', $e->getMessage();
+        }
+    }
+
+    public function sendEmailForTemplate($dest, $bcc, $template, $attributes)
+    {
+        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
+
+        $apiInstance = new TransactionalEmailsApi(new Client(), $config);
+
+        $sendEmail = new SendEmail();
+        $sendEmail
+            ->setEmailTo($dest)
+            ->setReplyTo($_ENV['DEFAULT_EMAIL'])
+            ->setAttributes($attributes)
+        ;
+        if($bcc) { $sendEmail->setEmailBcc([$bcc]); }
+
+        try {
+            return $apiInstance->sendTemplate($template, $sendEmail);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
     }
 }

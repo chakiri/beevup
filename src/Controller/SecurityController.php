@@ -95,7 +95,9 @@ class SecurityController extends AbstractController
                 $manager->persist($profile);
 
                 $manager->flush();
-                $email->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(),  ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
+
+                //$email->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(),  ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
+                $email->sendEmailSmtp('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(), ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
 
 
                 return $this->redirectToRoute('waiting_validation');
@@ -143,7 +145,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgottenPassword", name="security_forgotten_password")
      */
-    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer)
+    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer, Email $emailService)
     {
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -167,7 +169,9 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $email->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
+            //$emailService->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
+            $emailService->sendEmailSmtp('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email, ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
+
 
             $this->addFlash('success', 'Nous avons envoyé un email à votre adresse email. Cliquez sur le lien figurant dans cet email pour réinitialiser votre mot de passe.
                            Si vous ne voyez pas l\'email, vérifiez les autres endroits où il pourrait être, comme votre courrier indésirable, spam, social, ou autres dossiers.');
@@ -253,7 +257,8 @@ class SecurityController extends AbstractController
         /****send welcome email *****/
         $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
         $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-        $email->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(),  ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
+        //$email->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(),  ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
+        $email->sendEmailSmtp('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
 
         /*****end ******/
 
