@@ -1,12 +1,15 @@
 <?php
 
-
 namespace App\Service;
+
 use GuzzleHttp\Client;
+use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\CreateContact;
 use SendinBlue\Client\Model\SendEmail;
 use SendinBlue\Client\Model\SendSmtpEmail;
+use SendinBlue\Client\Model\UpdateAttribute;
 use Twig\Environment;
 
 
@@ -17,14 +20,12 @@ class Email
 
     public function __construct(\Swift_Mailer $mailer, Environment $templating)
     {
-
         $this->mailer = $mailer;
         $this->templating = $templating;
-
     }
-   public function send($token,$url, $user,$storePatron, $template, $subject='Mail de confirmation')
-    {
 
+    public function send($token,$url, $user,$storePatron, $template, $subject='Mail de confirmation')
+    {
         $message = (new \Swift_Message($subject))
             ->setFrom($_ENV['DEFAULT_EMAIL'])
             ->setTo($user->getEmail())
@@ -59,10 +60,16 @@ class Email
         $this->mailer->send($message);
     }
 
+    //Get config From Api Key
+    public function getConfig()
+    {
+        return Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
+    }
+
     //Function to send emails by Sendinblue SMTP
     public function sendEmailSmtp($subject, $email, array $content, $template): void
     {
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
+        $config = $this->getConfig();
 
         $apiInstance = new TransactionalEmailsApi(new Client(), $config);
 
@@ -76,28 +83,85 @@ class Email
         try {
             $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
-            echo 'Exception when calling TransactionalEmailsApi->sendEmailSmtp: ', $e->getMessage();
+            error_log($e->getMessage());
         }
     }
 
-    public function sendEmailForTemplate($dest, $bcc, $template, $attributes)
+    //Function to send emails by Sendinblue Template
+    public function sendEmailForTemplate(array $emails, $templateId)
     {
-        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
+        $config = $this->getConfig();
 
         $apiInstance = new TransactionalEmailsApi(new Client(), $config);
 
         $sendEmail = new SendEmail();
-        $sendEmail
-            ->setEmailTo($dest)
-            ->setReplyTo($_ENV['DEFAULT_EMAIL'])
-            ->setAttributes($attributes)
-        ;
-        if($bcc) { $sendEmail->setEmailBcc([$bcc]); }
+        $sendEmail['emailTo'] = $emails;
 
         try {
-            return $apiInstance->sendTemplate($template, $sendEmail);
+            $apiInstance->sendTemplate($templateId, $sendEmail);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            return error_log($e->getMessage());
         }
+    }
+
+    //Check if contact exist on Api
+    protected function checkIfExist($email)
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new ContactsApi(new Client(), $config);
+
+        $result = $apiInstance->getContactInfo($email);
+        if ($result === null) return false;
+        else return true;
+    }
+
+    //Check if contact is prospect
+    protected function checkifProspect(array $contact)
+    {
+
+    }
+
+    //Get list of all contacts on SendinBlue Api
+    protected function getContactsApi()
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new ContactsApi(new Client(), $config);
+
+        try {
+            return $apiInstance->getContacts();
+        } catch (\Exception $e) {
+            return error_log($e->getMessage());
+        }
+    }
+
+    //Create a contact on Sendinblue Api
+    protected function createContactApi($email)
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new ContactsApi(new Client(), $config);
+
+        $createContact = new CreateContact();
+        $createContact['email'] = $email;
+
+        try {
+            return $apiInstance->createContact($createContact);
+        } catch (\Exception $e) {
+            return error_log($e->getMessage());
+        }
+    }
+
+    //Edit contact from prospect to client
+    protected function editContactApi($contact)
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new ContactsApi(new Client(), $config);
+
+        $updateAttribute = new UpdateAttribute();
+
+        $apiInstance->updateAttribute();
     }
 }

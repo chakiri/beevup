@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\BeContacted;
 use App\Entity\Company;
 use App\Entity\Post;
 use App\Entity\PostCategory;
@@ -201,6 +200,20 @@ class DefaultController extends AbstractController
                 'entity' =>  $entity,
             ]);
         }
+    }
+
+    /**
+     * @Route("/test_sendinblue", name="test_sendinblue")
+     */
+    public function testSendiblue(Email $email)
+    {
+
+        //$email->createContactApi('yassir.chakiri12@gmail.com');
+
+        dd($email->getContactsApi());
+        //$email->sendEmailForTemplate();
+
+        return $this->redirectToRoute('dashboard');
 
     }
 
