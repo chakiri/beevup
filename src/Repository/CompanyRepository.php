@@ -107,13 +107,13 @@ class CompanyRepository extends ServiceEntityRepository
             ->setParameter('allCompanies', $allCompanies)
             ;
         if ($name != ''){
-            $qb->andWhere('c.name LIKE :namelike')
-                ->orWhere('c.introduction LIKE :namelike')
+            $qb->andWhere('c.name LIKE :namelike OR c.introduction LIKE :namelike OR c.email = :name OR c.siret = :name OR c.phone = :name OR c.city = :name OR c.country = :name')
+                /*->orWhere('c.introduction LIKE :namelike')
                 ->orWhere('c.email = :name')
                 ->orWhere('c.siret = :name')
                 ->orWhere('c.phone = :name')
                 ->orWhere('c.city = :name')
-                ->orWhere('c.country = :name')
+                ->orWhere('c.country = :name')*/
                 ->setParameter('namelike', '%' . $name . '%')
                 ->setParameter('name', $name)
             ;

@@ -93,7 +93,7 @@ class SearchController extends AbstractController
         //Get local services of store
         $allCompanies = $getCompanies->getAllCompanies($store);
         $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
-        $companies = $companyRepository->getCompaniesObjects($allCompanies);
+        $companies = $companyRepository->findBySearch('', $allCompanies);
 
         //Get informations of services
         $nbRecommandationsServices = [];
