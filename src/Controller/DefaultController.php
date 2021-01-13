@@ -205,13 +205,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test_sendinblue", name="test_sendinblue")
      */
-    public function testSendiblue(Email $email)
+    public function testSendiblue(Email $email, UserRepository $userRepository)
     {
+        $user = $userRepository->findOneBy(['id' => 47]);
+        $tmp = ['name' => ['surname' => 'hamza']];
+        $params = ['user' => $user];
 
-        //$email->createContactApi('yassir.chakiri12@gmail.com');
+        /********************** Passer dans le params uniquement tableau de tableau sinon erreur ******************/
 
-        dd($email->getContactsApi());
-        //$email->sendEmailForTemplate();
+        $emails = ['email' => 'yassir.chakiri12@gmail.com'];
+        $email->sendEmailWithTemplate($emails, 1, $params);
 
         return $this->redirectToRoute('dashboard');
 

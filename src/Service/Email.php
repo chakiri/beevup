@@ -7,44 +7,22 @@ use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\CreateContact;
-use SendinBlue\Client\Model\SendEmail;
 use SendinBlue\Client\Model\SendSmtpEmail;
-use SendinBlue\Client\Model\UpdateAttribute;
+use SendinBlue\Client\Model\UpdateContact;
 use Twig\Environment;
 
 
 class Email
 {
-    private $mailer;
     private $templating;
 
     public function __construct(\Swift_Mailer $mailer, Environment $templating)
     {
-        $this->mailer = $mailer;
         $this->templating = $templating;
     }
 
-    public function send($token,$url, $user,$storePatron, $template, $subject='Mail de confirmation')
-    {
-        $message = (new \Swift_Message($subject))
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->templating->render(
-                    'emails/'.$template,
-                    [    'url' => $url,
-                        'user'=> $user,
-                        'storePatron'=>$storePatron
-                    ]
-                ),
-                'text/html'
-            )
-        ;
-        $this->mailer->send($message);
-    }
-
     //Function for all sending email
-    public function sendEmail($subject, $email, array $content, $template): void
+    /*public function sendEmailSwift($subject, $email, array $content, $template): void
     {
         $message = (new \Swift_Message())
             ->setSubject($subject)
@@ -58,7 +36,7 @@ class Email
             )
         ;
         $this->mailer->send($message);
-    }
+    }*/
 
     //Get config From Api Key
     public function getConfig()
@@ -66,8 +44,8 @@ class Email
         return Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
     }
 
-    //Function to send emails by Sendinblue SMTP
-    public function sendEmailSmtp($subject, $email, array $content, $template): void
+    //Function to send emails by Sendinblue SMTP with Twig templates
+    public function sendEmail($subject, $email, array $content, $template): void
     {
         $config = $this->getConfig();
 
@@ -87,43 +65,29 @@ class Email
         }
     }
 
-    //Function to send emails by Sendinblue Template
-    public function sendEmailForTemplate(array $emails, $templateId)
+    //Function to send emails wth Sendinblue templates
+    public function sendEmailWithTemplate(array $emails, int $templateId, array $params): void
     {
         $config = $this->getConfig();
 
         $apiInstance = new TransactionalEmailsApi(new Client(), $config);
 
-        $sendEmail = new SendEmail();
-        $sendEmail['emailTo'] = $emails;
+        $sendSmtpEmail = new SendSmtpEmail();
+
+        $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
+        $sendSmtpEmail['to'] = [$emails];
+        $sendSmtpEmail['templateId'] = $templateId;
+        $sendSmtpEmail['params'] = $params;
 
         try {
-            $apiInstance->sendTemplate($templateId, $sendEmail);
+            $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
-            return error_log($e->getMessage());
+            error_log($e->getMessage());
         }
     }
 
-    //Check if contact exist on Api
-    protected function checkIfExist($email)
-    {
-        $config = $this->getConfig();
-
-        $apiInstance = new ContactsApi(new Client(), $config);
-
-        $result = $apiInstance->getContactInfo($email);
-        if ($result === null) return false;
-        else return true;
-    }
-
-    //Check if contact is prospect
-    protected function checkifProspect(array $contact)
-    {
-
-    }
-
     //Get list of all contacts on SendinBlue Api
-    protected function getContactsApi()
+    public function getContacts()
     {
         $config = $this->getConfig();
 
@@ -132,12 +96,13 @@ class Email
         try {
             return $apiInstance->getContacts();
         } catch (\Exception $e) {
-            return error_log($e->getMessage());
+            error_log($e->getMessage());
+            return false;
         }
     }
 
     //Create a contact on Sendinblue Api
-    protected function createContactApi($email)
+    protected function createContact($email): void
     {
         $config = $this->getConfig();
 
@@ -147,21 +112,39 @@ class Email
         $createContact['email'] = $email;
 
         try {
-            return $apiInstance->createContact($createContact);
+            $apiInstance->createContact($createContact);
         } catch (\Exception $e) {
-            return error_log($e->getMessage());
+            error_log($e->getMessage());
         }
     }
 
-    //Edit contact from prospect to client
-    protected function editContactApi($contact)
+    //Update contact attributes
+    protected function updateContact($email, array $attributes): void
     {
         $config = $this->getConfig();
 
         $apiInstance = new ContactsApi(new Client(), $config);
 
-        $updateAttribute = new UpdateAttribute();
+        $updateContact= new UpdateContact();
 
-        $apiInstance->updateAttribute();
+        $updateContact['attributes'] = $attributes;
+
+        try {
+            $apiInstance->updateContact($email, $updateContact);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
+
+    //Check if contact exist on Api
+    protected function checkIfExist($email): bool
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new ContactsApi(new Client(), $config);
+
+        $result = $apiInstance->getContactInfo($email);
+        if ($result === null) return false;
+        else return true;
     }
 }

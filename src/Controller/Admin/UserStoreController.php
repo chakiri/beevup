@@ -72,8 +72,8 @@ class UserStoreController extends EasyAdminController
         parent::persistEntity($profile);
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,$storePatron,'createNewAccount.html.twig','Beev\'Up par Bureau Vallée | Inscription');
-
+        $content = ['url' => $url, 'user'=> $user, 'storePatron'=>$storePatron];
+        $this->email->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
     }
 
     public function updateUserStoreEntity($user)

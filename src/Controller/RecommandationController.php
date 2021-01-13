@@ -86,8 +86,7 @@ class RecommandationController extends AbstractController
 
             $manager->persist($recommandation);
             $manager->flush();
-            //$email->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
-            $email->sendEmailSmtp('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
+            $email->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
 
             $this->addFlash('success', $messageFlash);
 

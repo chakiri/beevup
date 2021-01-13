@@ -19,7 +19,7 @@ class DailyEmailCommand extends Command
     protected static $defaultName = 'app:daily-email';
     private $notificationMessage;
     private $users;
-    private $mailer;
+    private $websocketController;
 
 
     public function __construct(MessageNotificationRepository $messageNotificationRepository, UserRepository $userRepository, WebsocketController $websocketController, \Swift_Mailer $mailer )
@@ -27,8 +27,7 @@ class DailyEmailCommand extends Command
         parent::__construct(null);
         $this->notificationMessage = $messageNotificationRepository;
         $this->users =$userRepository;
-        $this->websoketContoller = $websocketController;
-        $this->mailer = $mailer;
+        $this->websocketController = $websocketController;
     }
 
     protected function configure()
@@ -47,12 +46,10 @@ class DailyEmailCommand extends Command
         $notifications = $this->notificationMessage->findNotifications();
         foreach ($users as $user)
         {
-
             $notificationNumber = count($this->notificationMessage->findByUser($user));
             if($notificationNumber > 0) {
-                $this->websoketContoller->sendDaillyEmail($user, $this->mailer, $notificationNumber);
+                $this->websocketController->sendDailyEmail($user, $notificationNumber);
             }
-
         }
         return 1;
     }
