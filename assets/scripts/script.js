@@ -815,7 +815,8 @@ function insertAfter(referenceNode, newNode) {
 
 
 function getSiret(companyName) {
-    var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2nomUniteLegale";
+   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
+
     data = data.replace('companyName',companyName);
 
     $.ajax({
