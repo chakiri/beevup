@@ -788,34 +788,38 @@ $("#registration_get_siret_from_api").change(function() {
 });
 
 $('#registration_name').change(function(){
-   if($("#registration_get_siret_from_api").is(':checked')){
-       if($('.siret-list').length > 0){
-           $('.siret-list').remove();
-       }
-       let companyName =  $('#registration_name').val();
-       if(companyName != '') {
-           getSiret(companyName);
-       } else {
-          set_error('Vous devez saisir le nom d\' entreprise');
-       }
-   }
+    if($("#registration_get_siret_from_api").is(':checked')){
+        if($('.siret-list').length > 0){
+            $('.siret-list').remove();
+        }
+        let companyName =  $('#registration_name').val();
+        if(companyName != '') {
+            getSiret(companyName);
+        } else {
+            set_error('Vous devez saisir le nom d\' entreprise');
+        }
+    }
 });
 
 
 
 $('body').on('change', '.siret-list', function () {
-   $('#registration_company_siret').val($('.siret-list').val());
-   $('#registration_get_siret_from_api').prop('checked', false);
-   $('.siret-list').hide();
+    $('#registration_company_siret').val($('.siret-list').val());
+    $('#registration_get_siret_from_api').prop('checked', false);
+    $('.siret-list').hide();
 });
 
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+function setNoResult(node){
+    let text =' Aucun résultat';
+    node.append(text);
+}
 
 function getSiret(companyName) {
-   var data = "q=denominationUniteLegale%3A%20%22companyName%22&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
-   data = data.replace('companyName',companyName);
+    var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
+    data = data.replace('companyName',companyName);
 
     $.ajax({
 
@@ -827,7 +831,7 @@ function getSiret(companyName) {
         type: 'POST',
         dataType: 'JSON',
         beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer 706c85e2-0eb6-3e68-89dd-7e6f17032445');
+            xhr.setRequestHeader('Authorization', 'Bearer 0a876b7c-0e43-3dca-98bb-8c2b3e32bcfa');
         },
         data: data,
         async: false,
@@ -862,7 +866,7 @@ function getSiret(companyName) {
 
         },
         error: function () {
-          set_error('Aucun résultat trouvé');
+            set_error('Aucun résultat trouvé');
         }
     });
 }
