@@ -143,7 +143,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgottenPassword", name="security_forgotten_password")
      */
-    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, \Swift_Mailer $mailer)
+    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, Email $mailer)
     {
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -167,7 +167,7 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $email->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
+            $mailer->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
 
             $this->addFlash('success', 'Nous avons envoyé un email à votre adresse email. Cliquez sur le lien figurant dans cet email pour réinitialiser votre mot de passe.
                            Si vous ne voyez pas l\'email, vérifiez les autres endroits où il pourrait être, comme votre courrier indésirable, spam, social, ou autres dossiers.');
