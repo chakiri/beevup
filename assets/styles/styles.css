@@ -4108,10 +4108,17 @@ li.icon-type-post a.active{
     color: #fff;
     background-color: #ff7f50;
 }
-.external_company_slider footer .logo{
-    text-align:center;
-}.external_company_slider footer img{
-    width: 200px;
+.external_company_slider header .title{
+    margin-left: auto;
+    margin-right: auto;
+}.external_company_slider header img{
+    width: 180px;
+}.external_company_slider header {
+    padding: 0 20px 0 20px;
+}.external_company_slider header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 /* End external company show for search */
 
