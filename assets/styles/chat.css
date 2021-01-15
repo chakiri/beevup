@@ -694,7 +694,7 @@
 #frame .content .message-input .wrap {
     position: relative;
 }
-#frame .content .message-input .wrap input {
+#frame .content .message-input .wrap input, #frame .content .message-input .wrap textarea {
     font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
     float: left;
     width: calc(100% - 110px);
@@ -702,6 +702,10 @@
     font-size: 1em;
     color: #32465a;
     border: 1px solid #e8e8e8;
+    height: 44px;
+}
+#frame .content .message-input .wrap textarea {
+    white-space: pre-wrap;
 }
 @media screen and (max-width: 735px) {
     #frame .content .message-input .wrap input {
