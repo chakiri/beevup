@@ -4001,7 +4001,7 @@ li.icon-type-post a.active{
 
 /* External Company Slider */
 .external_company_slider .carousel-inner{
-    padding-top: 60px;
+    padding-top: 2%;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -4113,13 +4113,20 @@ li.icon-type-post a.active{
     margin-right: auto;
 }.external_company_slider header img{
     width: 180px;
-}.external_company_slider header {
+}.external_company_slider header{
     padding: 0 20px 0 20px;
+    height: 80px;
 }.external_company_slider header {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+ .external_company_slider footer{
+     text-align: center;
+     position: fixed;
+     bottom: 0;
+     width: 100%;
+ }
 /* End external company show for search */
 
 .add-file-label
