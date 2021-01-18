@@ -1,7 +1,7 @@
 <div class="{% if app.request.attributes.get('_route') != 'security_registration' %}landing-page-first-bloc{% endif %}">
     <header id="landing-page-header">
         <div class="logo">
-            <a href="{{ path('external_search', {'reference': app.session.get('store-reference')}) }}">
+            <a href="{{ path('external_search', {'store': app.session.get('store-reference')}) }}">
                 <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
             </a>
         </div>
