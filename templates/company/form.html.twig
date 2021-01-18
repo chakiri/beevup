@@ -102,48 +102,20 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-3 required">
-                                                    <label for="">Numéro de rue</label>
+                                                <div class="form-group col-md-12 required company-complete-adress"  data-complete-adress="{% if company.addressNumber is null %}{{ company.addressNumber}}{% endif %}{% if company.addressStreet is not null %} {{ company.addressStreet |lower }} {% endif %}{% if company.city is not null %} {{ company.city | lower }}{% endif %}{% if company.addressPostCode is not null %} {{ company.addressPostCode|lower }}{% endif %}">
+
+                                                <label for="">Adresse</label>
+                                                    {{ form_widget(EditCompanyForm.address) }}
                                                     {{ form_errors(EditCompanyForm.addressNumber) }}
                                                     <div class="input-group">
                                                         {{ form_widget(EditCompanyForm.addressNumber) }}
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-md-6 required">
-                                                    <label for="">Rue</label>
-                                                    {{ form_errors(EditCompanyForm.addressStreet) }}
-                                                    <div class="input-group">
                                                         {{ form_widget(EditCompanyForm.addressStreet) }}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3 required">
-                                                    <label for="">Code postal</label>
-                                                    {{ form_errors(EditCompanyForm.addressPostCode) }}
-                                                    <div class="input-group">
                                                         {{ form_widget(EditCompanyForm.addressPostCode) }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6 required">
-                                                    <label for="">Ville</label>
-                                                    {{ form_errors(EditCompanyForm.city) }}
-                                                    <div class="input-group">
-                                                        {{ form_widget(EditCompanyForm.city) }}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-6 required">
-                                                    <label for="">Pays</label>
-                                                    {{ form_errors(EditCompanyForm.country) }}
-                                                    <div class="input-group">
-                                                        {{ form_widget(EditCompanyForm.country) }}
+                                                       {{ form_widget(EditCompanyForm.country) }}
                                                     </div>
                                                 </div>
 
                                             </div>
-
                                             <div class="form-row">
                                                 <div class="form-group col-md-6 ">
                                                     <label for="">Lien vidéo Youtube</label>
@@ -170,7 +142,7 @@
                                     </div>
 
                                     <div class="form-actions form-group text-center">
-                                        <button type="submit" class="m-orange-btn">Enregistrer</button>
+                                        <button type="submit" class="m-orange-btn company-submit-btn">Enregistrer</button>
                                     </div>
 
 

@@ -49,6 +49,7 @@ class CompanyController extends AbstractController
                 /* generate bar code*/
                 $company->setBarCode($barCode->generate($company->getId()));
                 $adresse = $company->getAddressNumber() . ' ' . $company->getAddressStreet() . ' ' . $company->getAddressPostCode() . ' ' . $company->getCity() . ' ' . $company->getCountry();
+
                 $map = new Map();
                 $coordonnees = $map->geocode($adresse);
 

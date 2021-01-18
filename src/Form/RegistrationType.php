@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormView;
@@ -27,6 +28,7 @@ class RegistrationType extends AbstractType
         ->add('company', InscriptionCompanyType::class, [
             'label' => false,
          ])
+
             ->add('get_siret_from_api', CheckboxType::class, [
                 'label'    => 'Recherchez votre SIRET',
                 'required' => false,
@@ -72,7 +74,43 @@ class RegistrationType extends AbstractType
                 'attr'  => [
                    'class'       =>'accpet-condition'
                 ]
-            ]);
+            ])
+            ->add('addressNumber', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+                    'placeholder' => 'Numéro adresse',
+                    'class'       =>'form-control',
+
+                ]
+            ])
+
+            ->add('addressStreet', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+                    'class'             =>'form-control',
+                ]
+            ])
+            ->add('addressPostCode', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('city', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+
+                    'class'       =>'form-control'
+                ]
+            ])
+            ->add('country', HiddenType::class, [
+                'mapped' => false,
+                'attr'  => [
+                    'class'       =>'form-control'
+                ]
+            ])
+        ;
         ;
 
     }
