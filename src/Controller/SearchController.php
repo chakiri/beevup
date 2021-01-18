@@ -11,6 +11,7 @@ use App\Repository\CompanyRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\InfoSearch;
 use App\Service\ServiceSetting;
@@ -81,14 +82,17 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/external/search/{reference}", name="external_search")
+     * @Route("/external/search", name="external_search")
      */
-    public function externalSearch(Request $request, ?Store $store, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
+    public function externalSearch(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
     {
-        //Set reference in session
-        $externalStoreSession->setReference($request);
+        if ($_GET)  $store = $storeRepository->findOneBy(['reference' => $_GET['store']]);
+        else    $store = $storeRepository->findOneBy(['reference' => 'BV001']);
 
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
+
+        //Set reference in session
+        $externalStoreSession->setReference($store);
 
         //Get local services of store
         $allCompanies = $getCompanies->getAllCompanies($store);
@@ -156,6 +160,7 @@ class SearchController extends AbstractController
             'nbRecommandationsServices' => $nbRecommandationsServices,
             'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
             'store' => $store,
+            'stores' => $stores = $storeRepository->getAllStores()
         ]);
     }
 }
