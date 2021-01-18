@@ -19,7 +19,7 @@
                                    Le nouveau service de Bureau Vallée <br> pour ses clients professionnels
                                </h1>
                               <p class="landign-page-description">
-                                  <strong>Artisans, Commerçants, Professions Libérales, Indépendants, TPE/PME</strong><br>
+                                  <strong>Artisans, Commerçants, Professions Libérales, Indépendants, TPE/PME</strong><br><br>
                                   <span class="text-muted">En moins d'une minute, inscrivez-vous gratuitement,<br>  Rencontrez d'autres entrepreneurs locaux, <br>Laissez nous faire la promotion de votre entreprise auprès de nos clients</span>
                               </p>
                            </div>
@@ -122,12 +122,11 @@
             <div class="block-background-white"></div>
         </div>
 
+        <div class="landing-page-dashbord d-none d-lg-block">
+            <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
+        </div>
+
         <div class="landing-page-second-bloc">
-
-            <div class="landing-page-dashbord d-none d-lg-block">
-                <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
-            </div>
-
             {# Testimonial #}
             <div class="landing-page-testimonials ">
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -157,14 +156,16 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="landing-page-map no-mobile">
-                <h2 class="bloc-title mb-3">
-                    Rejoignez les entreprises locales
-                </h2>
-                {% include 'default/map.html.twig' %}
-            </div>
+        <div class="landing-page-map no-mobile">
+            <h2 class="bloc-title mb-3">
+                Rejoignez les entreprises locales
+            </h2>
+            {% include 'default/map.html.twig' %}
+        </div>
 
+        <div class="landing-page-second-bloc">
             {# Video #}
             <div class="landing-page-video">
                 <video autoplay controls muted loop>
@@ -172,7 +173,6 @@
                     Your browser does not support the video tag.
                 </video>
             </div>
-
         </div>
 
         <div class="landing-page-join-beevup-bloc">

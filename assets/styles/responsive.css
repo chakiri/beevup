@@ -102,11 +102,11 @@
 	.company-nav {
 		display: none;
 	}
-	.landing-page-video video {
-		width: 100%;
-	}
 	.landing-page-testimonials {
 		width: 100% !important;
+	}
+	.bg-search .container-bv{
+		padding: 100px 10px;
 	}
 }
 
@@ -140,6 +140,9 @@
   .home-page-section4 > div {
     padding: 20px !important;
   }
+	.landing-page-testimonials, .landing-page-video {
+		width: 100%;
+	}
 }
 @media (min-width: 1025px) {
   .home-page-section2{

@@ -121,6 +121,9 @@
     "evenement/evenement": {
         "version": "v3.0.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
@@ -163,9 +166,6 @@
     },
     "ocramius/package-versions": {
         "version": "1.5.1"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.2.3"
     },
     "pagerfanta/pagerfanta": {
         "version": "v2.1.3"
