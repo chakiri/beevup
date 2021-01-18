@@ -778,7 +778,7 @@ function set_error(text){
     }
 }
 
-function setAdress(streetNumber, streetName, postalCode, city,country){
+function setAdress(streetNumber,  streetName, postalCode, city,country){
     $('#registration_addressNumber').val(streetNumber);
     $('#registration_addressStreet').val(streetName);
     $('#registration_addressPostCode').val(postalCode);
@@ -815,7 +815,11 @@ $('#registration_name').change(function(){
 $('body').on('change', '.siret-list', function () {
     $('#registration_company_siret').val($('.siret-list').val());
     let streetNumber = $('option:selected', this).attr('data-street-number');
-    let streetName  = $('option:selected', this).attr('data-street-name');
+    let streetType ='';
+    if($('option:selected', this).attr('data-street-type') != 'null' ) {
+            streetType = $('option:selected', this).attr('data-street-type');
+     }
+    let streetName  = streetType + ' ' + $('option:selected', this).attr('data-street-name');
     let postalCode  = $('option:selected', this).attr('data-postal-code');
     let city = $('option:selected', this).attr('data-city');
     let country = 'FR';
@@ -823,7 +827,7 @@ $('body').on('change', '.siret-list', function () {
     $('.siret-list').hide();
 
      /*** Add adress if exist ***/
-     setAdress(streetNumber, streetName, postalCode, city,  country );
+     setAdress(streetNumber,  streetName, postalCode, city,  country );
 
 });
 
@@ -834,7 +838,7 @@ function insertAfter(referenceNode, newNode) {
 
 
 function getSiret(companyName) {
-   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2CcomplementAdresseEtablissement%2CnumeroVoieEtablissement%2CcodePaysEtrangerEtablissement%2ClibelleCommuneEtablissement%2ClibelleVoieEtablissement&nombre=1500";
+   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2CcomplementAdresseEtablissement%2CnumeroVoieEtablissement%2CcodePaysEtrangerEtablissement%2ClibelleCommuneEtablissement%2ClibelleVoieEtablissement%2CtypeVoieEtablissement&nombre=1500";
 
     data = data.replace('companyName',companyName);
 
@@ -871,8 +875,14 @@ function getSiret(companyName) {
             selectBox.options[selectBox.options.length] = new Option ('séléctionnez votre entreprise', '0');
 
             for (i = 0; i < etablissements.length; ++i) {
-                selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' +etablissements[i].uniteLegale.denominationUniteLegale  , etablissements[i].siret);
+                if(etablissements[i].uniteLegale.denominationUniteLegale !='') {
+                    selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' + etablissements[i].uniteLegale.denominationUniteLegale, etablissements[i].siret);
+                } else {
+                    selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' + etablissements[i].uniteLegale.nomUniteLegale, etablissements[i].siret);
+
+                }
                 selectBox.options[selectBox.options.length-1].setAttribute('data-street-number',etablissements[i].adresseEtablissement.numeroVoieEtablissement );
+                selectBox.options[selectBox.options.length-1].setAttribute('data-street-type',etablissements[i].adresseEtablissement.typeVoieEtablissement );
                 selectBox.options[selectBox.options.length-1].setAttribute('data-street-name',etablissements[i].adresseEtablissement.libelleVoieEtablissement );
                 selectBox.options[selectBox.options.length-1].setAttribute('data-city',etablissements[i].adresseEtablissement.libelleCommuneEtablissement );
                 selectBox.options[selectBox.options.length-1].setAttribute('data-postal-code',etablissements[i].adresseEtablissement.codePostalEtablissement );
