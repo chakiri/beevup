@@ -120,7 +120,7 @@ class WebsocketController extends AbstractController
             'user' => $user->getProfile()->getFirstname(),
             'from' => $from,
             'subject' => $subject,
-            'message' => $content,
+            'message' => nl2br($content),
             'isprivate' => $isPrivate,
         ];
 

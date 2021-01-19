@@ -139,3 +139,16 @@ if($('.external_search #mapid').length > 0 && window.innerWidth > 769) {
 
     /*map.on('locationerror', onLocationError);*/
 }
+
+//modal choose store for external search
+if (window.location.pathname === '/external/search'){
+    if (window.location.search === '' || window.location.search === '?store=BV001'){
+        $('#chooseStore').modal('show');
+        $('#search_store_querySearch').prop("disabled", true);
+    }
+    $('#btn-choose-store').click(function (){
+        $('#chooseStore').modal('show');
+    });
+}
+
+

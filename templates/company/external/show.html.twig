@@ -60,7 +60,7 @@
         <div class="container-bv">
             <div class="row">
                 <div class="col-lg-2">
-                    <a href="{{ path('external_search', {'reference': company.store.reference}) }}" title="" class="btn white-bg float-right">
+                    <a href="{{ path('external_search', {'store': app.session.get('store-reference')}) }}" title="" class="btn white-bg float-right mb-3">
                         Nouvelle recherche
                     </a>
                 </div>

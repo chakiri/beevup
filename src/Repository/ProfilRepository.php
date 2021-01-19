@@ -29,12 +29,12 @@ class ProfilRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->leftJoin('p.user', 'u')
             ->leftJoin('u.company', 'c')
-            ->andWhere('c.id in (:companies)')
-            ->andWhere('c.isValid = 1')
-
+            ->andWhere('c.id in (:allCompanies)')
+            ->andWhere('c.isCompleted = true')
+            ->andWhere('c.isValid = true')
             ->andWhere('p.firstname LIKE :query OR p.lastname LIKE :query')
+            ->setParameter('allCompanies', $allCompanies)
             ->setParameter('query', '%' . $query . '%')
-            ->setParameter('companies', $allCompanies)
             ->getQuery()
             ->getResult()
             ;

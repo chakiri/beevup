@@ -51,9 +51,10 @@ class StoreRepository extends ServiceEntityRepository
     public function getAllStores()
     {
         $qb = $this->getAllStoresQueryBuilder();
-        $qb->getQuery()
+         return $qb->getQuery()
             ->getResult()
         ;
+
     }
 
     public function getAllStoresQueryBuilder()

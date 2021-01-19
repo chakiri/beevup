@@ -182,7 +182,7 @@
                 <div class="message-input">
                     <div class="wrap">
                         <form onsubmit="return sender();" method="post" class="form-chat">
-                            <input type="text" id="messageToSend" data-url="{{ path('sender') }}" placeholder="Votre message..." />
+                            <textarea id="messageToSend" data-url="{{ path('sender') }}" placeholder="Votre message..." ></textarea>
                             {#<i class="fa fa-paperclip attachment" aria-hidden="true"></i>#}
                             <button id="sendBtn" class="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
                         </form>

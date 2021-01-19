@@ -458,7 +458,9 @@ $('#search_type').change(function(){
         $('#search_category').val('');
     }
 })
-$('textarea').on({
+
+// !!!! Not working !!!!
+/*$('textarea').on({
     input: function(){
 
         var text = $(this).val();
@@ -468,7 +470,7 @@ $('textarea').on({
     focus: function(){
         initSpan($(this));
     }
-});
+});*/
 
 $('body').on('click', '#opportunity-notification', function (e) {
 

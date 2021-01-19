@@ -4,6 +4,7 @@
 namespace App\Service\Session;
 
 
+use App\Entity\Store;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ExternalStoreSession
@@ -15,11 +16,11 @@ class ExternalStoreSession
         $this->session = $session;
     }
 
-    public function setReference($request): void
+    public function setReference(Store $store): void
     {
         $reference = $this->session->get('store-reference');
-        if (empty($reference) || $reference !== $request->get('reference')){
-            $this->session->set('store-reference', $request->get('reference'));
+        if (empty($reference) || $reference !== $store->getReference()){
+            $this->session->set('store-reference', $store->getReference());
         }
     }
 }

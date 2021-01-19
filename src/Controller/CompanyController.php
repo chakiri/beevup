@@ -120,7 +120,7 @@ class CompanyController extends AbstractController
     {
         //Get local companies of store
         $allCompanies = $getCompanies->getAllCompanies($store);
-        $companies = $companyRepository->getCompaniesObjects($allCompanies);
+        $companies = $companyRepository->findBySearch('', $allCompanies);
 
         //Get admin of each company
         $admins = [];

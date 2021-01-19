@@ -32,6 +32,7 @@ function sender() {
     });
 
     document.getElementById("messageToSend").value = '';
+    $("#messageToSend").css('height', '44px');
 
     return false;
 }

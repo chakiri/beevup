@@ -90,7 +90,7 @@ class ServiceSetting
             }elseif ($service->getType()->getName() == 'store'){
                 $nbRecommandation = count($this->recommandationRepository->findBy(['store' => $store = $service->getUser()->getStore(), 'service' => $service, 'status'=>'Validated']));
                 $nbRecommandations[$service->getId()] = $nbRecommandation;
-            }elseif ($service->getType()->getName() == 'plateform'){
+            }elseif ($service->getType()->getName() == 'plateform' && $this->security->getUser()){
                 //Get assocaition if exist
                 $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
                 if ($storeService){

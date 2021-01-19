@@ -3,6 +3,14 @@
 {% block title %}{{ store.name }}{% endblock %}
 
 {% block body %}
+    <header>
+        <div class="logo">
+            <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+        </div>
+        <div class="title">
+            <h1>Découvrez les services de nos clients professionnels</h1>
+        </div>
+    </header>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -65,11 +73,6 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <footer>
-            <div class="logo">
-                <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
-            </div>
-        </footer>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -79,6 +82,10 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+
+    <footer>
+        <h1>Professionnels ? Inscrivez-vous gratuitement sur <strong>Beevup.fr</strong></h1>
+    </footer>
 
 {% endblock %}
 

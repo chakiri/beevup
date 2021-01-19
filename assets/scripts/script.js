@@ -788,31 +788,36 @@ $("#registration_get_siret_from_api").change(function() {
 });
 
 $('#registration_name').change(function(){
-   if($("#registration_get_siret_from_api").is(':checked')){
-       if($('.siret-list').length > 0){
-           $('.siret-list').remove();
-       }
-       let companyName =  $('#registration_name').val();
-       if(companyName != '') {
-           getSiret(companyName);
-       } else {
-          set_error('Vous devez saisir le nom d\' entreprise');
-       }
-   }
+    if($("#registration_get_siret_from_api").is(':checked')){
+        if($('.siret-list').length > 0){
+            $('.siret-list').remove();
+        }
+        let companyName =  $('#registration_name').val();
+        if(companyName != '') {
+            getSiret(companyName);
+        } else {
+            set_error('Vous devez saisir le nom d\' entreprise');
+        }
+    }
 });
 
 
 
 $('body').on('change', '.siret-list', function () {
-   $('#registration_company_siret').val($('.siret-list').val());
+    $('#registration_company_siret').val($('.siret-list').val());
+    $('#registration_get_siret_from_api').prop('checked', false);
+    $('.siret-list').hide();
 });
 
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+
+
 function getSiret(companyName) {
-   var data = "q=denominationUniteLegale%3A%20%22companyName%22&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
-   data = data.replace('companyName',companyName);
+   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
+
+    data = data.replace('companyName',companyName);
 
     $.ajax({
 
@@ -824,21 +829,28 @@ function getSiret(companyName) {
         type: 'POST',
         dataType: 'JSON',
         beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer 706c85e2-0eb6-3e68-89dd-7e6f17032445');
+            xhr.setRequestHeader('Authorization', 'Bearer 0a876b7c-0e43-3dca-98bb-8c2b3e32bcfa');
         },
         data: data,
         async: false,
         processData: false,
         contentType: 'application/x-www-form-urlencode',
         success: function (data) {
+            let etablissements = data.etablissements;
+            function sortByPostalCode(a,b) {
+                return parseInt(a.adresseEtablissement.codePostalEtablissement, 10) - parseInt(b.adresseEtablissement.codePostalEtablissement, 10);
+            }
+            etablissements =  etablissements.sort(sortByPostalCode);
+
+
 
             var selectBox = document.createElement("select");
             selectBox.className = "form-control siret-list";
             let i = 0;
             selectBox.options[selectBox.options.length] = new Option ('séléctionnez votre entreprise', '0');
 
-            for (i = 0; i < data.etablissements.length; ++i) {
-                selectBox.options[selectBox.options.length] = new Option(data.etablissements[i].uniteLegale.denominationUniteLegale + '-' + data.etablissements[i].adresseEtablissement.codePostalEtablissement, data.etablissements[i].siret);
+            for (i = 0; i < etablissements.length; ++i) {
+                selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' +etablissements[i].uniteLegale.denominationUniteLegale  , etablissements[i].siret);
             }
 
             var div = document.getElementById("box-get-siret");
@@ -852,7 +864,80 @@ function getSiret(companyName) {
 
         },
         error: function () {
-          set_error('Aucun résultat trouvé');
+            set_error('Aucun résultat trouvé');
         }
     });
 }
+
+/*========== auto complete =========== */
+function setNoResult(){
+    let elem = document.createElement("DIV");
+    elem.setAttribute("class", "no-result");
+    insertAfter(document.getElementById("company_addressStreet"), elem);
+    let item = document.createElement("p");
+    item.innerText('Aucun Resultat trouvé');
+}
+
+function createSuggestionList(data){
+
+    if($('.autocomplete-items').length > 0){
+        $('.autocomplete-items').remove();
+    }
+    let list = document.createElement("DIV");
+    list.setAttribute("class", "autocomplete-items");
+    insertAfter(document.getElementById("company_addressStreet"), list);
+    for (let i = 0; i < data.features.length; i++) {
+        let item = document.createElement("DIV");
+        item.setAttribute("class", "autoComplete-item");
+        item.setAttribute("data-post-code", data.features[i].properties.postcode);
+        item.setAttribute("data-post-name", data.features[i].properties.name);
+        if(data.features[i].properties.name != undefined) {
+            item.innerHTML = "<strong>" + data.features[i].properties.name + " "+ data.features[i].properties.city +" - "+data.features[i].properties.postcode+"</strong>";
+            list.append(item);
+        }
+    }
+}
+
+
+function autoComplete(address) {
+    var url = "https://api-adresse.data.gouv.fr/search/?q=adressVar&type=housenumber&autocomplete=1&limit=5";
+    url = url.replace('adressVar',address);
+
+
+    $.ajax({
+
+        url: url,
+        type: 'GET',
+        dataType: 'JSON',
+        async: true,
+        processData: false,
+        contentType: 'application/x-www-form-urlencode',
+        success: function (data) {
+           if(data){
+             createSuggestionList(data);
+            } else {
+               setNoResult();
+           }
+        },
+        error: function () {
+            alert("Un problème est survenu. Veuillez réessayer")
+        }
+    });
+}
+$('#company_addressStreet').keyup(function () {
+    let street = $('#company_addressStreet').val();
+    if(street) {
+        autoComplete(street);
+    }
+});
+
+$('body').on('click', '.autoComplete-item', function () {
+    let postalCode =  $(this).attr('data-post-code');
+    let streetName = $(this).attr('data-post-name');
+    $('#company_addressStreet').val(streetName);
+    $('#company_addressPostCode').val(postalCode);
+    $('.autocomplete-items').remove();
+
+})
+
+
