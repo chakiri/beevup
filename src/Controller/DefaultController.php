@@ -17,7 +17,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Dashboard\SpecialOffer;
-use App\Service\Email;
+use App\Service\Mailer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
@@ -205,7 +205,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test_sendinblue", name="test_sendinblue")
      */
-    public function testSendiblue(Email $email, UserRepository $userRepository)
+    public function testSendiblue(Mailer $email, UserRepository $userRepository)
     {
         $user = $userRepository->findOneBy(['id' => 47]);
         $tmp = ['name' => ['surname' => 'hamza']];

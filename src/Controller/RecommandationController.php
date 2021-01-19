@@ -13,7 +13,7 @@ use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\AutomaticPost;
-use App\Service\Email;
+use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ class RecommandationController extends AbstractController
     /**
      * @Route("/recommandation", name="recommandation")
      */
-    public function create(Request $request, EntityManagerInterface $manager, ServiceRepository $serviceRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, Email $email)
+    public function create(Request $request, EntityManagerInterface $manager, ServiceRepository $serviceRepository, CompanyRepository $companyRepository, StoreRepository $storeRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, Mailer $mailer)
     {
         $recommandation = new Recommandation();
 
@@ -86,7 +86,7 @@ class RecommandationController extends AbstractController
 
             $manager->persist($recommandation);
             $manager->flush();
-            $email->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
+            $mailer->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
 
             $this->addFlash('success', $messageFlash);
 

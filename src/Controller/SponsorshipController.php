@@ -8,7 +8,7 @@ use App\Form\PostType;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
-use App\Service\Email;
+use App\Service\Mailer;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
@@ -24,7 +24,7 @@ class SponsorshipController  extends AbstractController
     /**
      * @Route("/sponsorship", name="sponsorship")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository,  ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Email $emailService)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Mailer $mailer)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
@@ -55,7 +55,7 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
-                            $emailService->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email, ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
+                            $mailer->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email, ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
                         } else {

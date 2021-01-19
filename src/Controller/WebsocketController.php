@@ -8,7 +8,7 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
-use App\Service\Email;
+use App\Service\Mailer;
 use App\Service\EmptyMessageNotification;
 use App\Service\SaveNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,13 +20,13 @@ class WebsocketController extends AbstractController
 {
     private $userTypeRepo;
     private $userRepo;
-    private $email;
+    private $mailer;
 
-    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, Email $email)
+    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, Mailer $mailer)
     {
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
-        $this->email = $email;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -153,7 +153,7 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/check_first_message", name="check_first_message")
      */
-    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository, Email $email)
+    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository, Mailer $mailer)
     {
         $userId = $_POST['userid'];
         $receiverid = $_POST['receiverid'];
@@ -169,7 +169,7 @@ class WebsocketController extends AbstractController
             $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$receiver->getStore(), 'isValid'=>1]);
             $content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
 
-            $email->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
+            $mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
 
         }
 
@@ -214,7 +214,7 @@ class WebsocketController extends AbstractController
         $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
         $content = ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url];
 
-        $this->email->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
+        $this->mailer->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
     }
 
 }

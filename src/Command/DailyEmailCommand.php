@@ -22,7 +22,7 @@ class DailyEmailCommand extends Command
     private $websocketController;
 
 
-    public function __construct(MessageNotificationRepository $messageNotificationRepository, UserRepository $userRepository, WebsocketController $websocketController, \Swift_Mailer $mailer )
+    public function __construct(MessageNotificationRepository $messageNotificationRepository, UserRepository $userRepository, WebsocketController $websocketController)
     {
         parent::__construct(null);
         $this->notificationMessage = $messageNotificationRepository;

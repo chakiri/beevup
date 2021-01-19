@@ -12,31 +12,14 @@ use SendinBlue\Client\Model\UpdateContact;
 use Twig\Environment;
 
 
-class Email
+class Mailer
 {
     private $templating;
 
-    public function __construct(\Swift_Mailer $mailer, Environment $templating)
+    public function __construct(Environment $templating)
     {
         $this->templating = $templating;
     }
-
-    //Function for all sending email
-    /*public function sendEmailSwift($subject, $email, array $content, $template): void
-    {
-        $message = (new \Swift_Message())
-            ->setSubject($subject)
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($email)
-            ->setBody(
-                $this->templating->render(
-                    'emails/'.$template, $content
-                ),
-                'text/html'
-            )
-        ;
-        $this->mailer->send($message);
-    }*/
 
     //Get config From Api Key
     public function getConfig()

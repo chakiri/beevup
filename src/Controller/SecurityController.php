@@ -7,7 +7,7 @@ use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
-use App\Service\Email;
+use App\Service\Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/", name="security_registration")
      */
-       public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository,  TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Email $email): Response
+       public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
     {
         if ($this->isGranted('ROLE_USER') == false) {
             $user = new User();
@@ -96,7 +96,7 @@ class SecurityController extends AbstractController
 
                 $manager->flush();
 
-                $email->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(), ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
+                $mailer->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(), ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
 
 
                 return $this->redirectToRoute('waiting_validation');
@@ -144,7 +144,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgottenPassword", name="security_forgotten_password")
      */
-    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository,  TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, Email $mailer)
+    public function forgottenPassword(Request $request, EntityManagerInterface $manager, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, UserTypeRepository $userTypeRepository, Mailer $mailer)
     {
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -243,7 +243,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository,CompanyRepository $companyRepository,  EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository,ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Email $email)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository, CompanyRepository $companyRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Mailer $mailer)
     {
         $user = $userRepository->findOneBy(['resetToken' => $token]);
 
@@ -255,7 +255,7 @@ class SecurityController extends AbstractController
         /****send welcome email *****/
         $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
         $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-        $email->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
+        $mailer->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
 
         /*****end ******/
 

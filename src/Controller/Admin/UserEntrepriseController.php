@@ -8,7 +8,7 @@ use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Service\Email;
+use App\Service\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
@@ -22,17 +22,17 @@ class UserEntrepriseController extends EasyAdminController
     private $userTypeRepo;
     private $userRepo;
     private $topicHandler;
-    private $email;
+    private $mailer;
     private $token;
 
   
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, TopicHandler $topicHandler, Email $email, TokenGeneratorInterface $tokenGenerator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, TopicHandler $topicHandler, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
         $this->topicHandler = $topicHandler;
-        $this->email = $email;
+        $this->mailer = $mailer;
         $this->token = $tokenGenerator->generateToken();
     }
     
@@ -73,7 +73,7 @@ class UserEntrepriseController extends EasyAdminController
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
         $content = ['url' => $url, 'user'=> $user, 'storePatron'=>$storePatron];
-        $this->email->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
+        $this->mailer->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
 
     }
 
