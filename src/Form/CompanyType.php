@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Security\Core\Security;
@@ -67,13 +68,14 @@ class CompanyType extends AbstractType
             ->add('addressNumber', TextType::class, [
                 'attr'  => [
                     'placeholder' => 'Numéro adresse',
-                    'class'       =>'form-control'
+                    'class'       =>'form-control',
+
                 ]
             ])
             ->add('addressStreet', TextType::class, [
                 'attr'  => [
-                    'placeholder' => 'Rue',
-                    'class'       =>'form-control'
+                    'placeholder'       => 'Rue',
+                    'class'             =>'form-control',
                 ]
             ])
             ->add('addressPostCode', TextType::class, [
