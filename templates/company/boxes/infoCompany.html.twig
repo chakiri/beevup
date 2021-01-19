@@ -51,7 +51,7 @@
         </div><!--user_pro_status end-->
         {% if company.isCompleted %}
             <ul class="social_links">
-                <li><i class="fas fa-map-marker-alt p-1"></i><span class=""> {{ company.addressNumber }} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}, {{ company.country }}</span></li>
+                <li><i class="fas fa-map-marker-alt p-1"></i><span class="">{% if company.addressNumber != 'null'  %} {{ company.addressNumber }} {% endif %} {{ company.addressStreet }} {{ company.addressPostCode }}, {{ company.city }}, {{ company.country }}</span></li>
                 <li><i class="fas fa-mobile-alt mt-1"></i> <span class="">  {{ company.phone ?? '<small>N° de téléphonse non renseigné</small>' }} </span></li>
                 {% if company.website %}
                     <li>

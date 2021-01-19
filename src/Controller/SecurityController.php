@@ -59,6 +59,11 @@ class SecurityController extends AbstractController
                 $company->setName($form->get('name')->getData());
                 $company->setEmail($user->getEmail());
                 $company->setStore($user->getStore());
+                $company->setAddressNumber($form->get('addressNumber')->getData());
+                $company->setAddresseStreet($form->get('addressStreet')->getData());
+                $company->setAddressPostCode($form->get('addressPostCode')->getData());
+                $company->setCity($form->get('city')->getData());
+                $company->setCountry('FR');
                 $company->setIntroduction(' ');
 
                 /* generate bar code*/

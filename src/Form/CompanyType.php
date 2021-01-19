@@ -65,34 +65,39 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('addressNumber', TextType::class, [
+            ->add('addressNumber', HiddenType::class, [
                 'attr'  => [
                     'placeholder' => 'Numéro adresse',
                     'class'       =>'form-control',
 
                 ]
             ])
-            ->add('addressStreet', TextType::class, [
+            ->add('address', TextType::class, [
+                'mapped' => false,
                 'attr'  => [
-                    'placeholder'       => 'Rue',
+                    'placeholder'       => 'Adresse',
                     'class'             =>'form-control',
                 ]
             ])
-            ->add('addressPostCode', TextType::class, [
+            ->add('addressStreet', HiddenType::class, [
                 'attr'  => [
-                    'placeholder' => 'Code Postal',
+                    'class'             =>'form-control',
+                ]
+            ])
+            ->add('addressPostCode', HiddenType::class, [
+                'attr'  => [
+
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('city', TextType::class, [
+            ->add('city', HiddenType::class, [
                 'attr'  => [
-                    'placeholder' => 'Ville',
+
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('country', CountryType::class, [
-                'preferred_choices' => ['FR'],
-                'placeholder' => 'Sélectionnez votre pays',
+            ->add('country', HiddenType::class, [
+
                 'attr'  => [
                     'class'       =>'form-control'
                 ]
