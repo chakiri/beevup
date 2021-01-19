@@ -32,7 +32,7 @@ function sender() {
     });
 
     document.getElementById("messageToSend").value = '';
-    //$("#messageToSend").css('height', '44px');
+    $("#messageToSend").css('height', '44px');
 
     return false;
 }
