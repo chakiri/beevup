@@ -815,10 +815,7 @@ $('#registration_name').change(function(){
 $('body').on('change', '.siret-list', function () {
     $('#registration_company_siret').val($('.siret-list').val());
     let streetNumber = $('option:selected', this).attr('data-street-number');
-    let streetType ='';
-    if($('option:selected', this).attr('data-street-type') != 'null' ) {
-            streetType = $('option:selected', this).attr('data-street-type');
-     }
+    let streetType = ($('option:selected', this).attr('data-street-type') != 'null' ) ? $('option:selected', this).attr('data-street-type') : '' ;
     let streetName  = streetType + ' ' + $('option:selected', this).attr('data-street-name');
     let postalCode  = $('option:selected', this).attr('data-postal-code');
     let city = $('option:selected', this).attr('data-city');
@@ -933,7 +930,7 @@ function createSuggestionList(data){
     for (let i = 0; i < data.features.length; i++) {
         let item = document.createElement("DIV");
         let streetNumber ='';
-            if(data.features[i].properties.housenumber != undefined){
+            if(data.features[i].properties.housenumber != undefined  ){
                 streetNumber = data.features[i].properties.housenumber ;
             } else {
                 streetNumber = '1';
@@ -1009,6 +1006,6 @@ $('body').on('click', '.autoComplete-item', function () {
 
 if ($('.company-complete-adress').length > 0 )
 {
-  $('#company_address').val($('.company-complete-adress').attr('data-complete-adress'));
+  $('#company_address').val($('.company-complete-adress').attr('data-complete-adress').replace('null',''));
 }
 
