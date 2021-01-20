@@ -35,44 +35,48 @@
                                         {{ company.name }} en quelques mots
                                     </h5>
 
-                                    <p>{{ company.description|raw ?: 'Pas de description' }}</p>
+                                    {% if company.description %}<p>{{ company.description|raw }}</p>{% else %}<p class="text-muted">Pas de description</p>{% endif %}
 
                                 </div><!--company description end-->
 
 
-                                {% if  countServices > 0 %}
+
                                     <div class="top-profiles ">
                                         <div class="page-title sign_in_sec current">
                                             <h5>{{ company.name }} vous propose les services suivants</h5>
                                             <i class="la la-ellipsis-v"></i>
-                                            <div class="profiles-slider">
-                                                {% for service in services %}
-                                                    <div class="user-profy">
-                                                        {% if service.filename %}
-                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
-                                                        {% else %}
-                                                            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                                        {% endif %}
-                                                        <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
-                                                        <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
-                                                    </div><!--user-profy end-->
-                                                {% endfor %}
-                                                {% if  countServices > 3 %}
-                                                    <div class="user-profy">
-                                                        <div class="lt-sec">
-                                                            <a href="{{ path('service_company', {'company': company.id}) }}">
-                                                                <i style="font-size: 57px" class="fas fa-folder-plus"></i>
-                                                                <p>Voir tous les services de {{ company.name }}</p>
-                                                            </a>
-                                                        </div>
-                                                    </div><!--user-profy end-->
-                                                {% endif %}
-                                            </div><!--profiles-slider end-->
+                                            {% if  countServices > 0 %}
+                                                <div class="profiles-slider">
+                                                    {% for service in services %}
+                                                        <div class="user-profy">
+                                                            {% if service.filename %}
+                                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                            {% else %}
+                                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                                            {% endif %}
+                                                            <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
+                                                            <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                        </div><!--user-profy end-->
+                                                    {% endfor %}
+                                                    {% if  countServices > 3 %}
+                                                        <div class="user-profy">
+                                                            <div class="lt-sec">
+                                                                <a href="{{ path('service_company', {'company': company.id}) }}">
+                                                                    <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                                    <p>Voir tous les services de {{ company.name }}</p>
+                                                                </a>
+                                                            </div>
+                                                        </div><!--user-profy end-->
+                                                    {% endif %}
+                                                </div><!--profiles-slider end-->
+                                            {% else %}
+                                                <p class="text-muted">Aucun service pour l'instant</p>
+                                            {% endif %}
 
                                         </div>
                                     </div><!--top-profiles end-->
-                                {% endif %}
-                                {% if app.user.company != null and app.user.type.id == 3 %}
+
+                                {% if app.user.company != null and app.user.company == company and app.user.type.id == 3 %}
                                     <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3 mb-3">Créer un service</a>
                                 {% endif %}
 
@@ -120,7 +124,7 @@
                                         </div>
                                     {% endfor %}
                                 {% else %}
-                                    <p>Soyez le premier à proposer une recommandation</p>
+                                    <p class="text-muted">Soyez le premier à proposer une recommandation</p>
                                 {% endif %}
                             </div>
 
@@ -148,7 +152,7 @@
 
                                     {% endfor %}
                                 {% else %}
-                                    <p>Soyez le premier à proposer une recommandation</p>
+                                    <p class="text-muted">Soyez le premier à proposer une recommandation</p>
                                 {% endif %}
                             </div>
                         </div>
