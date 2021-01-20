@@ -31,6 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
+use App\Serializer\Serializer;
 
 
 class DefaultController extends AbstractController
@@ -205,16 +206,13 @@ class DefaultController extends AbstractController
     /**
      * @Route("/test_sendinblue", name="test_sendinblue")
      */
-    public function testSendiblue(Mailer $email, UserRepository $userRepository)
+    public function testSendiblue(Mailer $mailer, UserRepository $userRepository, Serializer $serilizer)
     {
         $user = $userRepository->findOneBy(['id' => 47]);
-        $tmp = ['name' => ['surname' => 'hamza']];
-        $params = ['user' => $user];
 
-        /********************** Passer dans le params uniquement tableau de tableau sinon erreur ******************/
+        $params = $serilizer->serialize($user);
 
-        $emails = ['email' => 'yassir.chakiri12@gmail.com'];
-        $email->sendEmailWithTemplate($emails, 1, $params);
+        $mailer->sendEmailWithTemplate('mohamed.chakiri-ext@bureau-vallee.com', $params, 1);
 
         return $this->redirectToRoute('dashboard');
 

@@ -49,7 +49,7 @@ class Mailer
     }
 
     //Function to send emails wth Sendinblue templates
-    public function sendEmailWithTemplate(array $emails, int $templateId, array $params): void
+    public function sendEmailWithTemplate($email, array $params, int $templateId): void
     {
         $config = $this->getConfig();
 
@@ -58,7 +58,7 @@ class Mailer
         $sendSmtpEmail = new SendSmtpEmail();
 
         $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
-        $sendSmtpEmail['to'] = [$emails];
+        $sendSmtpEmail['to'] = [['email' => $email]];
         $sendSmtpEmail['templateId'] = $templateId;
         $sendSmtpEmail['params'] = $params;
 
