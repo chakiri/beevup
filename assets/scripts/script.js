@@ -778,6 +778,15 @@ function set_error(text){
     }
 }
 
+function setAdress(streetNumber,  streetName, postalCode, city,country){
+    $('#registration_addressNumber').val(streetNumber);
+    $('#registration_addressStreet').val(streetName);
+    $('#registration_addressPostCode').val(postalCode);
+    $('#registration_city').val(city);
+    $('#registration_country').val(country);
+}
+
+
 $("#registration_get_siret_from_api").change(function() {
     if(this.checked) {
         $('.siret-list').show();
@@ -801,13 +810,24 @@ $('#registration_name').change(function(){
     }
 });
 
-
+/*========== select a siret item from sirets list =========== */
 
 $('body').on('change', '.siret-list', function () {
     $('#registration_company_siret').val($('.siret-list').val());
+    let streetNumber = $('option:selected', this).attr('data-street-number');
+    let streetType = ($('option:selected', this).attr('data-street-type') != 'null' ) ? $('option:selected', this).attr('data-street-type') : '' ;
+    let streetName  = streetType + ' ' + $('option:selected', this).attr('data-street-name');
+    let postalCode  = $('option:selected', this).attr('data-postal-code');
+    let city = $('option:selected', this).attr('data-city');
+    let country = 'FR';
     $('#registration_get_siret_from_api').prop('checked', false);
     $('.siret-list').hide();
+
+     /*** Add adress if exist ***/
+     setAdress(streetNumber,  streetName, postalCode, city,  country );
+
 });
+
 
 function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
@@ -815,7 +835,7 @@ function insertAfter(referenceNode, newNode) {
 
 
 function getSiret(companyName) {
-   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret";
+   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2CcomplementAdresseEtablissement%2CnumeroVoieEtablissement%2CcodePaysEtrangerEtablissement%2ClibelleCommuneEtablissement%2ClibelleVoieEtablissement%2CtypeVoieEtablissement&nombre=1500";
 
     data = data.replace('companyName',companyName);
 
@@ -837,6 +857,8 @@ function getSiret(companyName) {
         contentType: 'application/x-www-form-urlencode',
         success: function (data) {
             let etablissements = data.etablissements;
+            console.log(etablissements);
+            console.log(etablissements.length);
             function sortByPostalCode(a,b) {
                 return parseInt(a.adresseEtablissement.codePostalEtablissement, 10) - parseInt(b.adresseEtablissement.codePostalEtablissement, 10);
             }
@@ -850,7 +872,17 @@ function getSiret(companyName) {
             selectBox.options[selectBox.options.length] = new Option ('séléctionnez votre entreprise', '0');
 
             for (i = 0; i < etablissements.length; ++i) {
-                selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' +etablissements[i].uniteLegale.denominationUniteLegale  , etablissements[i].siret);
+                if(etablissements[i].uniteLegale.denominationUniteLegale !='') {
+                    selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' + etablissements[i].uniteLegale.denominationUniteLegale, etablissements[i].siret);
+                } else {
+                    selectBox.options[selectBox.options.length] = new Option(etablissements[i].adresseEtablissement.codePostalEtablissement + '-' + etablissements[i].uniteLegale.nomUniteLegale, etablissements[i].siret);
+
+                }
+                selectBox.options[selectBox.options.length-1].setAttribute('data-street-number',etablissements[i].adresseEtablissement.numeroVoieEtablissement );
+                selectBox.options[selectBox.options.length-1].setAttribute('data-street-type',etablissements[i].adresseEtablissement.typeVoieEtablissement );
+                selectBox.options[selectBox.options.length-1].setAttribute('data-street-name',etablissements[i].adresseEtablissement.libelleVoieEtablissement );
+                selectBox.options[selectBox.options.length-1].setAttribute('data-city',etablissements[i].adresseEtablissement.libelleCommuneEtablissement );
+                selectBox.options[selectBox.options.length-1].setAttribute('data-postal-code',etablissements[i].adresseEtablissement.codePostalEtablissement );
             }
 
             var div = document.getElementById("box-get-siret");
@@ -878,6 +910,15 @@ function setNoResult(){
     item.innerText('Aucun Resultat trouvé');
 }
 
+function getStreetName(adress, adressNumber) {
+    let result = '';
+    if(adress.indexOf(adressNumber) !== -1 && adressNumber != ' '){
+         result = adress.substr(adressNumber.toString().length, adress.length);
+      } else
+          result = adress;
+    return result;
+}
+
 function createSuggestionList(data){
 
     if($('.autocomplete-items').length > 0){
@@ -885,12 +926,23 @@ function createSuggestionList(data){
     }
     let list = document.createElement("DIV");
     list.setAttribute("class", "autocomplete-items");
-    insertAfter(document.getElementById("company_addressStreet"), list);
+    insertAfter(document.getElementById("company_address"), list);
     for (let i = 0; i < data.features.length; i++) {
         let item = document.createElement("DIV");
+        let streetNumber ='';
+            if(data.features[i].properties.housenumber != undefined  ){
+                streetNumber = data.features[i].properties.housenumber ;
+            } else {
+                streetNumber = '1';
+            }
+
         item.setAttribute("class", "autoComplete-item");
-        item.setAttribute("data-post-code", data.features[i].properties.postcode);
-        item.setAttribute("data-post-name", data.features[i].properties.name);
+        item.setAttribute("data-postalcode", data.features[i].properties.postcode);
+        item.setAttribute("data-street-name", getStreetName(data.features[i].properties.name, streetNumber));
+        item.setAttribute("data-city", data.features[i].properties.city);
+        item.setAttribute("data-street-number", streetNumber);
+
+
         if(data.features[i].properties.name != undefined) {
             item.innerHTML = "<strong>" + data.features[i].properties.name + " "+ data.features[i].properties.city +" - "+data.features[i].properties.postcode+"</strong>";
             list.append(item);
@@ -924,20 +976,36 @@ function autoComplete(address) {
         }
     });
 }
-$('#company_addressStreet').keyup(function () {
-    let street = $('#company_addressStreet').val();
+$('#company_address').keyup(function () {
+    let street = $('#company_address').val();
     if(street) {
         autoComplete(street);
     }
 });
 
+/* =========== select an item from adress suggestions list ===== */
+
 $('body').on('click', '.autoComplete-item', function () {
-    let postalCode =  $(this).attr('data-post-code');
-    let streetName = $(this).attr('data-post-name');
+    let postalCode =  $(this).attr('data-postalcode');
+    let streetNumber = $(this).attr('data-street-number');
+    let streetName = $(this).attr('data-street-name');
+    let city = $(this).attr('data-city');
+    let country = 'FR';
+    $('#company_addressNumber').val(streetNumber);
     $('#company_addressStreet').val(streetName);
     $('#company_addressPostCode').val(postalCode);
+    $('#company_city').val(city);
+    $('#company_country').val('FR');
+    $('#company_address').val(streetNumber+ ' '+ streetName + ' ' +city+ ' '+postalCode) ;
     $('.autocomplete-items').remove();
 
-})
+});
 
+/* =========== set a complete adress in company form ===== */
+
+
+if ($('.company-complete-adress').length > 0 )
+{
+  $('#company_address').val($('.company-complete-adress').attr('data-complete-adress').replace('null',''));
+}
 

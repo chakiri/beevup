@@ -31,6 +31,7 @@
                                       {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
                                       {{ form_errors(RegistrationForm.name) }}
                                       {{ form_widget(RegistrationForm.name) }}
+
                                       <div id ='box-get-siret'>
                                       {{ form_errors(RegistrationForm.get_siret_from_api) }}
                                       {{ form_widget(RegistrationForm.get_siret_from_api) }}
@@ -72,30 +73,36 @@
                     <div class="row row-equal">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
+                                <h4>Faites connaitre votre entreprise</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/developpement.jpg') }}" alt="">
                                 </div>
-                                <h4>Faites connaitre votre entreprise</h4>
-                                <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
+                                <div class="box-text">
+                                    <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
+                                <h4>Réseau d'entrepreneurs</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/social.jpg') }}" alt="">
                                 </div>
-                                <h4>Réseau d'entrepreneurs</h4>
-                                <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
-                            </div>
+                                <div class="box-text">
+                                  <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
+                                </div>
+                                </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
+                                <h4>Marketplace de services</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="">
                                 </div>
-                                <h4>Marketplace de services</h4>
-                                <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
-                            </div>
+                                <div class="box-text">
+                                   <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
+                                </div>
+                                </div>
                         </div>
 
                     </div>
