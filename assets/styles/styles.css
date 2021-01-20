@@ -680,10 +680,13 @@ textarea.form-control{
 .landing-page-man{
     width: 273px;
     height: 217px;
-    margin-top: -79px;
+    margin-top: -114px;
     z-index: 111;
     position: absolute;
     margin-left:45px
+}
+.landing-page-section4-bloc h4{
+    font-size: 1.6em;
 }
 .landing-page-dashboard-screenshot{
     width: 100%;
@@ -769,7 +772,6 @@ ul.landing-page-list {
     /*display: flex;
     align-items: center;
     justify-content: center;*/
-    margin-bottom: 50px;
     height: 280px;
 }
 .landing-page-section4-bloc-text{
