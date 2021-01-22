@@ -66,6 +66,7 @@ class Mailer
             $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
             error_log($e->getMessage());
+            dd($e);
         }
     }
 
@@ -85,7 +86,7 @@ class Mailer
     }
 
     //Create a contact on Sendinblue Api
-    protected function createContact($email): void
+    public function createContact($email, $listId): void
     {
         $config = $this->getConfig();
 
@@ -93,6 +94,7 @@ class Mailer
 
         $createContact = new CreateContact();
         $createContact['email'] = $email;
+        $createContact['listIds'] = [$listId];
 
         try {
             $apiInstance->createContact($createContact);
@@ -102,7 +104,7 @@ class Mailer
     }
 
     //Update contact attributes
-    protected function updateContact($email, array $attributes): void
+    public function updateContact($email, array $attributes): void
     {
         $config = $this->getConfig();
 
@@ -120,7 +122,7 @@ class Mailer
     }
 
     //Check if contact exist on Api
-    protected function checkIfExist($email): bool
+    public function isContact($email): bool
     {
         $config = $this->getConfig();
 

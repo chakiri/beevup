@@ -212,7 +212,7 @@ class DefaultController extends AbstractController
 
         $params = $serilizer->serialize($user);
 
-        $mailer->sendEmailWithTemplate('mohamed.chakiri-ext@bureau-vallee.com', $params, 1);
+        $mailer->sendEmailWithTemplate('yassir.chakiri12@gmail.com', $params, 2);
 
         return $this->redirectToRoute('dashboard');
 

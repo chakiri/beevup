@@ -168,8 +168,9 @@ class CompanyController extends AbstractController
                 $manager->flush();
 
                 //Send email to external user
-                $mailer->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
-
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => $beContacted->getCreatedAt(), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()];
+                //$mailer->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
+                $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 8);
 
                 // add chat message to sponsor
                 if ($admin)

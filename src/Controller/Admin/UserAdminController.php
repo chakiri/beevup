@@ -115,8 +115,11 @@ class UserAdminController extends EasyAdminController
 
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $content = ['url' => $url, 'user'=> $user, 'storePatron'=>null];
-        $this->mailer->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
+        //$content = ['url' => $url, 'user'=> $user, 'storePatron'=>null];
+        //$this->mailer->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
+        $params = ['url' => $url, 'userStore' => $user->getStore(), 'sender' => ['name' => $this->getUser()->getProfile()->getLastname() . $this->getUser()->getProfile()->getFirstname(), 'store' => $this->getUser()->getStore(), 'company' => $this->getUser()->getCompany()]];
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 9);
+
     }
 
     public function updateUserEntity($user)

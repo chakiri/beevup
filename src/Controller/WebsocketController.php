@@ -169,8 +169,9 @@ class WebsocketController extends AbstractController
             $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$receiver->getStore(), 'isValid'=>1]);
             $content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
 
-            $mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
-
+            $params = ['sender' => $user->getProfile()->getLastname() . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()])];
+            //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
+            $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 7);
         }
 
         return $this->json($messages);
@@ -212,9 +213,16 @@ class WebsocketController extends AbstractController
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $url = $this->generateUrl('chat_topic', ['name' => 'general-' . $user->getStore()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
         $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
-        $content = ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url];
 
-        $this->mailer->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
+        //$content = ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url];
+        //$this->mailer->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
+
+        if ($notificationNumber == 1) $message = "Vous avez 1 nouveau message non lu.";
+        else $message = "Vous avez " . $notificationNumber . " nouveaux messages non lus.";
+
+        $params = ['message' => $message, 'url' => $url];
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 10);
+
     }
 
 }
