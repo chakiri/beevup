@@ -944,7 +944,7 @@ function createSuggestionList(data){
 
 
         if(data.features[i].properties.name != undefined) {
-            item.innerHTML = "<strong>" + data.features[i].properties.name + " "+ data.features[i].properties.city +" - "+data.features[i].properties.postcode+"</strong>";
+            item.innerHTML = "<strong>" + data.features[i].properties.name + " "+ data.features[i].properties.postcode +" - "+data.features[i].properties.city+"</strong>";
             list.append(item);
         }
     }
@@ -996,7 +996,7 @@ $('body').on('click', '.autoComplete-item', function () {
     $('#company_addressPostCode').val(postalCode);
     $('#company_city').val(city);
     $('#company_country').val('FR');
-    $('#company_address').val(streetNumber+ ' '+ streetName + ' ' +city+ ' '+postalCode) ;
+    $('#company_address').val(streetNumber+ ' '+ streetName + ' ' +postalCode+ ' '+city) ;
     $('.autocomplete-items').remove();
 
 });

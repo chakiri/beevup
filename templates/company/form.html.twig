@@ -102,7 +102,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-12 required company-complete-adress"  data-complete-adress="{% if company.addressNumber is not null %}{{ company.addressNumber}}{% endif %}{% if company.addressStreet is not null %} {{ company.addressStreet |lower }} {% endif %}{% if company.city is not null %} {{ company.city | lower }}{% endif %}{% if company.addressPostCode is not null %} {{ company.addressPostCode|lower }}{% endif %}">
+                                                <div class="form-group col-md-12 required company-complete-adress"  data-complete-adress="{% if company.addressNumber is not null %}{{ company.addressNumber}}{% endif %}{% if company.addressStreet is not null %} {{ company.addressStreet |lower }} {% endif %}{% if company.addressPostCode is not null %} {{ company.addressPostCode|lower }}{% endif %}{% if company.city is not null %} {{ company.city | lower }}{% endif %}">
 
                                                 <label for="">Adresse</label>
                                                     {{ form_widget(EditCompanyForm.address) }}
