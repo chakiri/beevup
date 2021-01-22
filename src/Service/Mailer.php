@@ -49,7 +49,7 @@ class Mailer
     }
 
     //Function to send emails wth Sendinblue templates
-    public function sendEmailWithTemplate($email, array $params, int $templateId): void
+    public function sendEmailWithTemplate($email, ?array $params, int $templateId): void
     {
         $config = $this->getConfig();
 
@@ -118,6 +118,7 @@ class Mailer
             $apiInstance->updateContact($email, $updateContact);
         } catch (\Exception $e) {
             error_log($e->getMessage());
+            dd($e);
         }
     }
 
@@ -128,8 +129,12 @@ class Mailer
 
         $apiInstance = new ContactsApi(new Client(), $config);
 
-        $result = $apiInstance->getContactInfo($email);
-        if ($result === null) return false;
-        else return true;
+        try {
+            $apiInstance->getContactInfo($email);
+            return true;
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 }

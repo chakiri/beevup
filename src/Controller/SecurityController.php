@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
+use App\Service\ContactsHandler;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
 use App\Service\Mailer;
@@ -34,22 +35,10 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class SecurityController extends AbstractController
 {
-    private $mailer;
-    private $userRepository;
-    private $userTypeRepository;
-
-    public function __construct(Mailer $mailer, UserRepository $userRepository, UserTypeRepository $userTypeRepository)
-    {
-        $this->mailer = $mailer;
-        $this->userRepository = $userRepository;
-        $this->userTypeRepository = $userTypeRepository;
-    }
-
-
     /**
      * @Route("/", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer, ContactsHandler $contactsHandler): Response
     {
         if ($this->isGranted('ROLE_USER') == false) {
             $user = new User();
@@ -109,7 +98,7 @@ class SecurityController extends AbstractController
                 $manager->flush();
 
                 //Create new contact on SendinBlue
-                $this->handleContactSendinBlue($mailer, $user);
+                $contactsHandler->handleContactSendinBlueRegistartion($user);
 
                 //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(), ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
                 $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 2);
@@ -123,36 +112,6 @@ class SecurityController extends AbstractController
         }else{
             return $this->redirectToRoute('dashboard');
         }
-    }
-
-    /**
-     * Create or update Sendinblue contact attributes
-     * @param $user
-     */
-    protected function handleContactSendinBlue($user)
-    {
-        if ($this->mailer->isContact($user->getEmail()) === false){
-            $this->mailer->createContact($user->getEmail(), 2);
-        }
-
-        $userTypePatron = $this->userTypeRepository->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid' => 1]);
-
-        $attributes = [
-          'NOM' => $user->getProfile()->getLastname(),
-          'PRENOM' => $user->getProfile()->getFirstname(),
-          'ADRESSE' => $user->getCompany()->getAddressNumber() . $user->getCompany()->getAddressStreet() . $user->getCompany()->getAddressPostCode(),
-          'VILLE' => $user->getCompany()->getCity(),
-          'SOURCE' => '',
-          'RAISON_SOCIALE' => $user->getCompany()->getName(),
-          'MAG_LIB' => $user->getStore()->getName(),
-          'CONTACT_MAG' => $storePatron,
-          'STATUT_CLIENT' => ['Category' => 3],
-          'TITRE_CONTACT' => 'Conseiller Beev\'Up.fr',
-          'PROFIL_COMPLET' => 0,
-          'ENTREPRISE_COMPLET' => 0,
-        ];
-        $this->mailer->updateContact($user->getEmail(), $attributes);
     }
 
     /**
@@ -301,8 +260,8 @@ class SecurityController extends AbstractController
         /****send welcome email *****/
         $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
         $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-        $mailer->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
-        $mailer->sendEmailWithTemplate($user->getEmail(), [], 4);
+        //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
+        $mailer->sendEmailWithTemplate($user->getEmail(), null, 4);
 
         /*****end ******/
 

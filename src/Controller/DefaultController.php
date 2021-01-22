@@ -203,19 +203,19 @@ class DefaultController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/test_sendinblue", name="test_sendinblue")
-     */
-    public function testSendiblue(Mailer $mailer, UserRepository $userRepository, Serializer $serilizer)
-    {
-        $user = $userRepository->findOneBy(['id' => 47]);
-
-        $params = $serilizer->serialize($user);
-
-        $mailer->sendEmailWithTemplate('yassir.chakiri12@gmail.com', $params, 2);
-
-        return $this->redirectToRoute('dashboard');
-
-    }
+//    /**
+//     * @Route("/test_sendinblue", name="test_sendinblue")
+//     */
+//    public function testSendiblue(Mailer $mailer, UserRepository $userRepository, Serializer $serilizer)
+//    {
+//        $user = $userRepository->findOneBy(['id' => 47]);
+//
+//        $params = $serilizer->serialize($user);
+//
+//        $mailer->sendEmailWithTemplate('yassir.chakiri12@gmail.com', null, 2);
+//
+//        return $this->redirectToRoute('dashboard');
+//
+//    }
 
 }

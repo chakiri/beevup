@@ -10,6 +10,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
 use App\Service\AutomaticPost;
+use App\Service\ContactsHandler;
 use App\Service\Error\Error;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;
@@ -57,7 +58,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/account/{id}/edit", name="profile_edit")
      */
-    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility)
+    public function form(Profile $profile,PostCategoryRepository $postCategoryRepository, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, AutomaticPost $autmaticPost, ImageCropper $imageCropper, Utility $utility, ContactsHandler $contactsHandler)
     {
         $description  ='';
         if($profile->getUser() != $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
@@ -89,7 +90,12 @@ class ProfileController extends AbstractController
             /* Add topic function to user type 2 */
             if ($profile->getUser()->getType()->getId() == 2)
                 $topicHandler->initFunctionStoreTopic($profile->getUser());
+
             $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+
+            //Create new contact on SendinBlue
+            $contactsHandler->handleContactSendinBlueCompleteProfile($this->getUser());
+
             return $this->redirectToRoute('profile_show', [
                 'id' => $profile->getId()
             ]);

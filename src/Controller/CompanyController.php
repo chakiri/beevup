@@ -8,6 +8,7 @@ use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
 use App\Service\Chat\AutomaticMessage;
+use App\Service\ContactsHandler;
 use App\Service\Mailer;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler)
     {
         //Denie Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
@@ -62,6 +63,10 @@ class CompanyController extends AbstractController
                 //init topic company category to user
                 $topicHandler->initCategoryCompanyTopic($company->getCategory());
                 $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+
+                //Create new contact on SendinBlue
+                $contactsHandler->handleContactSendinBlueCompleteCompany($this->getUser());
+
                 return $this->redirectToRoute('company_show', [
                     'slug' => $company->getSlug(),
                     'id' => $company->getId(),
