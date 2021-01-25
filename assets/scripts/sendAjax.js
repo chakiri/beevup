@@ -65,6 +65,8 @@ function saveNotification(subject) {
 function checkFirstMessage(userid, receiverid){
     var url = document.getElementById("chatPlateform").dataset.urlfirstmail;
 
+    console.log(userid, receiverid);
+
     $.ajax({
         type: 'post',
         url: url,

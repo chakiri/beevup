@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class SponsorshipController  extends AbstractController
@@ -44,7 +45,8 @@ class SponsorshipController  extends AbstractController
         $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid()) {
             $emails =  $utility->getEmailsList($form['emailsList']->getData());
-            $customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
+             //$customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
+             $customMessage = nl2br($form['message']->getData());
             foreach ($emails as $email) {
                 $email = trim($email);
                 if($email != ''){
@@ -56,7 +58,7 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
                             //$mailer->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email, ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
-                            $mailer->sendEmailWithTemplate($email, ['message' => nl2br($customMessage), 'sponsor' => $sponsor, 'url' => $this->generateUrl('dashboard')], 6);
+                            $mailer->sendEmailWithTemplate($email, ['message' => $customMessage, 'sponsor' => $sponsor, 'url' => $this->generateUrl('security_registration', [], UrlGeneratorInterface::ABSOLUTE_URL)], 6);
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
                         } else {

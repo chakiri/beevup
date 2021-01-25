@@ -19,7 +19,6 @@ class ContactsHandler
         $this->userTypeRepository = $userTypeRepository;
     }
 
-
     /**
      * Create or update Sendinblue contact attributes
      * @param $user
@@ -32,7 +31,7 @@ class ContactsHandler
 
         $userTypePatron = $this->userTypeRepository->findOneBy(['id'=> 2]);
         $advisor = $this->userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid' => 1]);
-        if ($advisor) $advisorName = $advisor->getProfile()->getFirstname() . $advisor->getProfile()->getLastname();
+        if ($advisor) $advisorName = $advisor->getProfile()->getFirstname() . ' ' . $advisor->getProfile()->getLastname();
         else $advisorName = null;
 
         $attributes = [
@@ -73,7 +72,7 @@ class ContactsHandler
     {
         if ($this->mailer->isContact($user->getEmail()) !== false){
             $attributes = [
-                'ADRESSE' => $user->getCompany()->getAddressNumber() . $user->getCompany()->getAddressStreet() . $user->getCompany()->getAddressPostCode(),
+                'ADRESSE' => $user->getCompany()->getAddressNumber() . ' ' . $user->getCompany()->getAddressStreet() . ' ' . $user->getCompany()->getAddressPostCode(),
                 'VILLE' => $user->getCompany()->getCity(),
                 'STATUT_CLIENT' => 2,
                 'ENTREPRISE_COMPLET' => 1,

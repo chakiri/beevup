@@ -167,10 +167,10 @@ class WebsocketController extends AbstractController
         if (count($messages) == 1){
             $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
             $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$receiver->getStore(), 'isValid'=>1]);
-            $content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
-
-            $params = ['sender' => $user->getProfile()->getLastname() . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()])];
+            //$content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
             //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
+
+            $params = ['sender' => $user->getProfile()->getLastname() . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany()->getName(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
             $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 7);
         }
 

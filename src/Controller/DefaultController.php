@@ -32,6 +32,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Serializer\Serializer;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class DefaultController extends AbstractController

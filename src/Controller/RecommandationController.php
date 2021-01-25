@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RecommandationController extends AbstractController
 {
@@ -87,7 +88,7 @@ class RecommandationController extends AbstractController
             $manager->persist($recommandation);
             $manager->flush();
             //$mailer->sendEmail('Beev\'Up par Bureau Vallée - Un autre membre vous a recommandé', $admin->getEmail(), ['user'=> $admin, 'storePatron'=> $storePatron], 'recommandation.html.twig');
-            $mailer->sendEmailWithTemplate($admin->getEmail(), ['url' => $this->generateUrl('dashboard')], 5);
+            $mailer->sendEmailWithTemplate($admin->getEmail(), ['url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)], 5);
 
             $this->addFlash('success', $messageFlash);
 

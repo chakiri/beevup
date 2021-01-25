@@ -169,11 +169,12 @@ class CompanyController extends AbstractController
                 $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
             } else{
                 $beContacted->setCompany($company);
+                $beContacted->setDescription(nl2br($beContacted->getDescription()));
                 $manager->persist($beContacted);
                 $manager->flush();
 
                 //Send email to external user
-                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => $beContacted->getCreatedAt(), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()];
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName()];
                 //$mailer->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
                 $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 8);
 
