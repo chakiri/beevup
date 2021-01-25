@@ -12,32 +12,6 @@
         </div><!--user-pro-img end-->
 
         <div class="user_pro_status pl-2 pr-2">
-            {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-                {% if app.request.attributes.get('_route') == 'company_edit' %}
-                    <a href="{{ path('company_show', {'slug': company.slug, 'id': company.id}) }}" title="" class="btn white-bg">
-                        Afficher mes informations
-                    </a>
-                {% else %}
-                    <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg">
-                        Modifier les informations
-                    </a>
-                {% endif %}
-            {% else %}
-                {% if (companyAdministrator != null) %}
-                    <div class="btn white-bg">
-                        <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}">
-                            Contacter
-                        </a>
-                    </div>
-                 {% endif %}
-                <a href="#" title=""
-                   class="add-company-favoris company-page btn white-bg add-favoris {{ isFavorit }}"
-                   data-company-id="{{  company.id }}"
-                   data-target="{{path('favorit_company_add', {'companyId':company.id})}}"
-                   data-delete="{{path('favorit_company_delete', {'companyId': company.id})}}">
-                    {% if isFavorit !="" %} Supprimer favoris {% else %} Ajouter aux favoris {% endif %}
-                </a>
-            {% endif %}
             <ul class="flw-status mt-3">
                 <li>
                     <span>Score</span>
@@ -67,11 +41,55 @@
         {% endif %}
     </div><!--user_profile end-->
 
-    {# Be contacted list #}
+    {# buttons #}
     {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
         <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" title="" class="btn white-bg full-width mt-3" target="_blank">
             Voir les demandes de contact
         </a>
+        {% if app.request.attributes.get('_route') == 'company_edit' %}
+            <a href="{{ path('company_show', {'slug': company.slug, 'id': company.id}) }}" title="" class="btn white-bg full-width mt-3">
+                Afficher mes informations
+            </a>
+        {% else %}
+            <a href="{{ path('company_edit', {'id': company.id}) }}" title="" class="btn white-bg full-width mt-3">
+                Modifier les informations
+            </a>
+        {% endif %}
+    {% else %}
+        {% if (companyAdministrator != null) %}
+            <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}" class="btn white-bg full-width mt-3">
+                Contacter
+            </a>
+        {% endif %}
+        <a href="#" title=""
+           class="add-company-favoris company-page btn white-bg full-width mt-3 add-favoris {{ isFavorit }}"
+           data-company-id="{{  company.id }}"
+           data-target="{{path('favorit_company_add', {'companyId':company.id})}}"
+           data-delete="{{path('favorit_company_delete', {'companyId': company.id})}}">
+            {% if isFavorit !="" %} Supprimer favoris {% else %} Ajouter aux favoris {% endif %}
+        </a>
+    {% endif %}
+
+    {% if company.store.isAdmin != true %}
+        <div class="right">
+            {% if company != null and app.user.company != null %}
+                {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
+                    <div class="">
+                        <a href="#" class="add-recommandation btn white-bg full-width mt-3" title=""
+                           data-toggle="modal"
+                           data-target="{{ path('recommandation') }}"
+                           data-whatever="@getbootstrap"
+                           data-company="{{company.id}}">
+                            <i class="fas fa-thumbs-up"></i> Proposer une recommandation
+                        </a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if app.user.company != null and app.user.company == company and app.user.type.id == 3 %}
+        <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3">Créer un service</a>
     {% endif %}
 </div><!--main-left-sidebar end-->
 

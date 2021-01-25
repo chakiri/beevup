@@ -33,7 +33,7 @@ class CompanyController extends AbstractController
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost)
     {
-        //Denie Access
+        //Denied Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         if ($company == $this->getUser()->getCompany()) {

@@ -39,66 +39,41 @@
 
                                 </div><!--company description end-->
 
-
-
-                                    <div class="top-profiles ">
-                                        <div class="page-title sign_in_sec current">
-                                            <h5>{{ company.name }} vous propose les services suivants</h5>
-                                            <i class="la la-ellipsis-v"></i>
-                                            {% if  countServices > 0 %}
-                                                <div class="profiles-slider">
-                                                    {% for service in services %}
-                                                        <div class="user-profy">
-                                                            {% if service.filename %}
-                                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
-                                                            {% else %}
-                                                                <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                                            {% endif %}
-                                                            <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
-                                                            <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
-                                                        </div><!--user-profy end-->
-                                                    {% endfor %}
-                                                    {% if  countServices > 3 %}
-                                                        <div class="user-profy">
-                                                            <div class="lt-sec">
-                                                                <a href="{{ path('service_company', {'company': company.id}) }}">
-                                                                    <i style="font-size: 57px" class="fas fa-folder-plus"></i>
-                                                                    <p>Voir tous les services de {{ company.name }}</p>
-                                                                </a>
-                                                            </div>
-                                                        </div><!--user-profy end-->
-                                                    {% endif %}
-                                                </div><!--profiles-slider end-->
-                                            {% else %}
-                                                <p class="text-muted">Aucun service pour l'instant</p>
-                                            {% endif %}
-
-                                        </div>
-                                    </div><!--top-profiles end-->
-
-                                {% if app.user.company != null and app.user.company == company and app.user.type.id == 3 %}
-                                    <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn small-btn orange-bg full-width mt-3 mb-3">Créer un service</a>
-                                {% endif %}
-
-                            </div>
-
-                            {% if company.store.isAdmin != true %}
-                                <div class="right">
-                                    {% if company != null and app.user.company != null %}
-                                        {% if company.id != app.user.company.id and app.user.profile.isCompleted == true %}
-                                            <div class="">
-                                                <a href="#" class="add-recommandation btn white-bg float-right mb-1" title=""
-                                                   data-toggle="modal"
-                                                   data-target="{{ path('recommandation') }}"
-                                                   data-whatever="@getbootstrap"
-                                                   data-company="{{company.id}}">
-                                                    <i class="fas fa-thumbs-up"></i> Proposer une recommandation
-                                                </a>
-                                            </div>
+                                <div class="top-profiles ">
+                                    <div class="page-title sign_in_sec current">
+                                        <h5>{{ company.name }} vous propose les services suivants</h5>
+                                        <i class="la la-ellipsis-v"></i>
+                                        {% if  countServices > 0 %}
+                                            <div class="profiles-slider">
+                                                {% for service in services %}
+                                                    <div class="user-profy">
+                                                        {% if service.filename %}
+                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_show_services_card') }}"  alt="">
+                                                        {% else %}
+                                                            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                                        {% endif %}
+                                                        <p style="height: 70px;padding: 20px 0;"><strong>{{ service.title}}</strong></p>
+                                                        <a href="{{ path('service_show', {'id': service.id}) }}">Voir plus</a>
+                                                    </div><!--user-profy end-->
+                                                {% endfor %}
+                                                {% if  countServices > 3 %}
+                                                    <div class="user-profy">
+                                                        <div class="lt-sec">
+                                                            <a href="{{ path('service_company', {'company': company.id}) }}">
+                                                                <i style="font-size: 57px" class="fas fa-folder-plus"></i>
+                                                                <p>Voir tous les services de {{ company.name }}</p>
+                                                            </a>
+                                                        </div>
+                                                    </div><!--user-profy end-->
+                                                {% endif %}
+                                            </div><!--profiles-slider end-->
+                                        {% else %}
+                                            <p class="text-muted">Aucun service pour l'instant</p>
                                         {% endif %}
-                                    {% endif %}
-                                </div>
-                            {% endif %}
+
+                                    </div>
+                                </div><!--top-profiles end-->
+                            </div>
 
                             <div class="user-profile-ov page-title sign_in_sec current st2">
                                 <h5>
