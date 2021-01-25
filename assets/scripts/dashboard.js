@@ -72,6 +72,9 @@ $('#post_urlLink').on('change', function () {
         type: 'GET',
         url: urlApi,
         dataType: 'json',
+        beforeSend: function() {
+            $('.tab-content .spinner-box').show();
+        },
         success: function (result) {
             $('#post_title').val(result.data.title);
             $('#post_description').val(result.data.description);
@@ -85,6 +88,7 @@ $('#post_urlLink').on('change', function () {
                     $('.image-file').addClass('d-none');
                 }
             }
+            $('.tab-content .spinner-box').hide();
         }
     });
 });
@@ -98,6 +102,7 @@ $('.disable-article').click(function(){
     $('#post_description').val('');
     $('#post_imageLink').val('');
     $('.image').removeClass('cursor-not-allowed');
+    $('.tab-content .spinner-box').hide();
 });
 /* end publish post */
 

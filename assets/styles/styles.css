@@ -3492,6 +3492,11 @@ form[name="profile_image"] .cropper-face {
     color: var(--orange-color);
 }
 
+.tab-content .spinner-box{
+    display: none;
+    padding: 15px 0 0 0 !important;
+}
+
 .spinner-border{
     font-size: 8px;
     width: 20px;

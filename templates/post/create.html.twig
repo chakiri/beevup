@@ -28,7 +28,7 @@
       </div>
 
       <div id="myTabContent" class="tab-content">
-          {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1 mb-3','placeholder': 'Quel sujet voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
+          {{ form_widget(PostForm.title, {'attr': {'class': 'mt-1 mb-3','placeholder': 'Quel sujet ou lien voulez-vous partager ' ~ app.user.profile.firstname|capitalize ~ ' ?' }}) }}
 
           {{ form_widget(PostForm.description, {'attr': {'class': 'mt-1 mb-3'}} ) }}
 
@@ -43,7 +43,9 @@
                   <div class="btn grey-bg ml-1">Charger</div>
                   <a href="#" class="disable-article p-2"><i class="fas fa-times-circle"></i></a>
               </div>
+              {% include 'partials/spinner.html.twig' %}
           </div>
+
       </div>
 
       <div class="mt-3">
