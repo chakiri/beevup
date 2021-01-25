@@ -783,9 +783,9 @@ ul.landing-page-list {
     background-image: url('../images/homePage/Beevup_Brush_Background.png');
     background-repeat: no-repeat;
     background-position-x: center;
-    min-height: 400px;
+    min-height: 330px;
     text-align: center;
-    padding-top:100px;
+    margin-bottom: 30px;
 }
 .landing-page-boxes{
     padding: 4em 0 4em 0;
@@ -858,7 +858,7 @@ ul.landing-page-list {
     font-weight: bold;
     font-size: 48px;
     line-height: 57px;
-
+    padding-top: 120px;
 }
 
 .landing-page-section4-first-bloc{
