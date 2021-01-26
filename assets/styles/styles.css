@@ -74,6 +74,10 @@ a:focus {
     text-decoration: none;
 }
 
+img
+{
+    image-orientation: from-image !important;
+}
 .container-bv{
     padding: 30px 15px;
 }
@@ -2051,6 +2055,7 @@ ul.landing-page-list {
     border: 5px solid #fff;
     width: 170px;
     height: 170px;
+
 }
 
 .company-pro-img img {
