@@ -256,7 +256,7 @@ class Company implements \Serializable
         return $this->addressNumber;
     }
 
-    public function setAddressNumber(string $addressNumber): self
+    public function setAddressNumber(?string $addressNumber): self
     {
         $this->addressNumber = $addressNumber;
 
@@ -268,7 +268,7 @@ class Company implements \Serializable
         return $this->addressStreet;
     }
 
-    public function setAddresseStreet(string $addressStreet): self
+    public function setAddresseStreet(?string $addressStreet): self
     {
         $this->addressStreet = $addressStreet;
 
@@ -280,7 +280,7 @@ class Company implements \Serializable
         return $this->addressPostCode;
     }
 
-    public function setAddressPostCode(string $addressPostCode): self
+    public function setAddressPostCode(?string $addressPostCode): self
     {
         $this->addressPostCode = $addressPostCode;
 
@@ -292,7 +292,7 @@ class Company implements \Serializable
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -304,7 +304,7 @@ class Company implements \Serializable
         return $this->country;
     }
 
-    public function setCountry(string $country): self
+    public function setCountry(?string $country): self
     {
         $this->country = $country;
 
