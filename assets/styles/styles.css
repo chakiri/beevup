@@ -3437,8 +3437,8 @@ form[name="profile_image"] .cropper-face {
     font-size: 14px !important;
 }
 
-#myTabContent input:not(#post_title){
-    --form-placeholder-size: 15px;
+#myTabContent input{
+    --form-placeholder-size: 13px;
 }
 #add-post-modal textarea, #update-post-modal textarea{
     height: 120px;
@@ -3495,11 +3495,15 @@ form[name="profile_image"] .cropper-face {
     background-color: #fff6f3;
     border: none;
     color: var(--orange-color);
+    font-size: 13px;
 }
 
 .tab-content .spinner-box{
     display: none;
     padding: 15px 0 0 0 !important;
+}
+a.article.btn{
+    font-size: 13px;
 }
 
 .spinner-border{
