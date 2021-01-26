@@ -54,17 +54,16 @@ class SecurityController extends AbstractController
                 $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
                 $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
 
-
                 $company->setSiret($form->get('company')->getData()->getSiret());
                 $company->setName($form->get('name')->getData());
                 $company->setEmail($user->getEmail());
                 $company->setStore($user->getStore());
-                $company->setAddressNumber($form->get('addressNumber')->getData());
-                $company->setAddresseStreet($form->get('addressStreet')->getData());
-                $company->setAddressPostCode($form->get('addressPostCode')->getData());
-                $company->setCity($form->get('city')->getData());
+
+                if ($form->get('addressNumber')->getData()) $company->setAddressNumber($form->get('addressNumber')->getData());
+                if ($form->get('addressStreet')->getData()) $company->setAddresseStreet($form->get('addressStreet')->getData());
+                if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
+                if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
                 $company->setCountry('FR');
-                $company->setIntroduction(' ');
 
                 /* generate bar code*/
                 $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
