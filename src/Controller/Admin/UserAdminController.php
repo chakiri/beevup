@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Service\Email;
+use App\Service\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -24,18 +24,18 @@ class UserAdminController extends EasyAdminController
     private $userTypeRepo;
     private $userRepo;
     private $topicHandler;
-    private $email;
+    private $mailer;
     private $token;
     private $storeRepo;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, StoreRepository $storeRepo, TopicHandler $topicHandler, Email $email,TokenGeneratorInterface $tokenGenerator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepo, UserRepository $userRepo, StoreRepository $storeRepo, TopicHandler $topicHandler, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
         $this->storeRepo = $storeRepo;
         $this->topicHandler = $topicHandler;
-        $this->email = $email;
+        $this->mailer = $mailer;
         $this->token = $tokenGenerator->generateToken();
 
     }
@@ -115,7 +115,10 @@ class UserAdminController extends EasyAdminController
 
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,null,'createNewAccount.html.twig', 'Beev\'Up par Bureau Vallée | Inscription');
+        //$content = ['url' => $url, 'user'=> $user, 'storePatron'=>null];
+        //$this->mailer->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
+        $params = ['url' => $url, 'userStore' => $user->getStore()->getName(), 'sender' => ['name' => $this->getUser()->getProfile()->getLastname() . ' ' . $this->getUser()->getProfile()->getFirstname(), 'store' => $this->getUser()->getStore()->getName(), 'company' => $this->getUser()->getCompany()->getName()]];
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 9);
 
     }
 

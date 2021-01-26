@@ -8,6 +8,7 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\Mailer;
 use App\Service\EmptyMessageNotification;
 use App\Service\SaveNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ class WebsocketController extends AbstractController
     private $userRepo;
     private $mailer;
 
-    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, \Swift_Mailer $mailer)
+    public function __construct(UserTypeRepository $userTypeRepo, UserRepository $userRepo, Mailer $mailer)
     {
         $this->userTypeRepo = $userTypeRepo;
         $this->userRepo = $userRepo;
@@ -152,7 +153,7 @@ class WebsocketController extends AbstractController
     /**
      * @Route("/check_first_message", name="check_first_message")
      */
-    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository)
+    public function checkFirstMessage(MessageRepository $messageRepository, UserRepository $userRepository, Mailer $mailer)
     {
         $userId = $_POST['userid'];
         $receiverid = $_POST['receiverid'];
@@ -164,30 +165,17 @@ class WebsocketController extends AbstractController
         $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
 
         if (count($messages) == 1){
-            $this->sendEmail($user, $receiver);
+            $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
+            $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$receiver->getStore(), 'isValid'=>1]);
+            //$content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
+            //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
+
+            $params = ['sender' => $user->getProfile()->getLastname() . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany()->getName(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
+            $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 7);
         }
 
         return $this->json($messages);
     }
-
-    public function sendEmail(User $currentUser,User $user)
-    {
-        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-
-        $message = (new \Swift_Message())
-            ->setSubject('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté')
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView('emails/firstMessage.html.twig',  ['currentUser' => $currentUser, 'user'=> $user,  'storePatron'=> $storePatron]),
-                'text/html'
-            )
-        ;
-
-        return $this->mailer->send($message);
-    }
-
 
     /**
      * Get all recent users in chating
@@ -218,26 +206,23 @@ class WebsocketController extends AbstractController
     /**
      * Send daily email
      * @param User $user
-     * @param \Swift_Mailer $mailer
-     * @param notificationNumber $notificationNumber
+     * @param int $notificationNumber
      */
-    public function sendDaillyEmail(User $user, \Swift_Mailer $mailer, $notificationNumber): void
+    public function sendDailyEmail(User $user, $notificationNumber): void
     {
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
         $url = $this->generateUrl('chat_topic', ['name' => 'general-' . $user->getStore()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
         $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
-        $message = (new \Swift_Message())
-            ->setSubject($notificationNumber ." ".$subject)
-            ->setFrom($_ENV['DEFAULT_EMAIL'])
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView('emails/dailyEmail.html.twig',  ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url  ]),
-                'text/html'
-            )
-        ;
 
-        $mailer->send($message);
+        //$content = ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url];
+        //$this->mailer->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
+
+        if ($notificationNumber == 1) $message = "Vous avez 1 nouveau message non lu.";
+        else $message = "Vous avez " . $notificationNumber . " nouveaux messages non lus.";
+
+        $params = ['message' => $message, 'url' => $url];
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 10);
+
     }
 
 }

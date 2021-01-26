@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\UserType;
-use App\Service\Email;
+use App\Service\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserStoreController extends EasyAdminController
@@ -21,16 +21,16 @@ class UserStoreController extends EasyAdminController
     private $passwordEncoder;
     private $userRepo;
     private $topicHandler;
-    private $email;
+    private $mailer;
     private $token;
     private $userTypeRepo;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo, UserTypeRepository $userTypeRepo,TopicHandler $topicHandler, Email $email, TokenGeneratorInterface $tokenGenerator)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepo, UserTypeRepository $userTypeRepo, TopicHandler $topicHandler, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepo = $userRepo;
         $this->topicHandler = $topicHandler;
-        $this->email = $email;
+        $this->mailer = $mailer;
         $this->token = $tokenGenerator->generateToken();
         $this->userTypeRepo = $userTypeRepo;
     }
@@ -72,8 +72,10 @@ class UserStoreController extends EasyAdminController
         parent::persistEntity($profile);
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->email->send($this->token, $url, $user,$storePatron,'createNewAccount.html.twig','Beev\'Up par Bureau Vallée | Inscription');
-
+        //$content = ['url' => $url, 'user'=> $user, 'storePatron'=>$storePatron];
+        //$this->mailer->sendEmail('Beev\'Up par Bureau Vallée | Inscription', $user->getEmail(), $content, 'createNewAccount.html.twig');
+        $params = ['url' => $url, 'userStore' => $user->getStore()->getName(), 'sender' => ['name' => $this->getUser()->getProfile()->getLastname() . ' ' . $this->getUser()->getProfile()->getFirstname(), 'store' => $this->getUser()->getStore()->getName(), 'company' => $this->getUser()->getCompany() ? $this->getUser()->getCompany()->getName() : null]];
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 9);
     }
 
     public function updateUserStoreEntity($user)

@@ -8,7 +8,8 @@ use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
 use App\Service\Chat\AutomaticMessage;
-use App\Service\Email;
+use App\Service\ContactsHandler;
+use App\Service\Mailer;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler)
     {
         //Denied Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
@@ -63,6 +64,10 @@ class CompanyController extends AbstractController
                 //init topic company category to user
                 $topicHandler->initCategoryCompanyTopic($company->getCategory());
                 $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
+
+                //Create new contact on SendinBlue
+                $contactsHandler->handleContactSendinBlueCompleteCompany($this->getUser());
+
                 return $this->redirectToRoute('company_show', [
                     'slug' => $company->getSlug(),
                     'id' => $company->getId(),
@@ -144,7 +149,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/external/company/{slug}/{id}", name="external_company_show")
      */
-    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Email $email, AutomaticMessage $automaticMessage)
+    public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Mailer $mailer, AutomaticMessage $automaticMessage)
     {
         $recommandationsServices = $recommandationRepository->findByCompanyServices($company, 'Validated');
         $recommandationsCompany = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
@@ -165,11 +170,14 @@ class CompanyController extends AbstractController
                 $this->addFlash('warning', 'Une demande envoyé le ' . $beContacted->getCreatedAt()->format('d/m/Y') . ' est toujours en cours. '. $company->getName() . ' vous contactera  très prochainement.');
             } else{
                 $beContacted->setCompany($company);
+                $beContacted->setDescription(nl2br($beContacted->getDescription()));
                 $manager->persist($beContacted);
                 $manager->flush();
 
                 //Send email to external user
-                $email->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName()];
+                //$mailer->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
+                $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 8);
 
                 // add chat message to sponsor
                 if ($admin)

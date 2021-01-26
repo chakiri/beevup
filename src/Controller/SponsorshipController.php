@@ -8,7 +8,7 @@ use App\Form\PostType;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
-use App\Service\Email;
+use App\Service\Mailer;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class SponsorshipController  extends AbstractController
@@ -24,7 +25,7 @@ class SponsorshipController  extends AbstractController
     /**
      * @Route("/sponsorship", name="sponsorship")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository,  ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Email $emailService)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Mailer $mailer)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
@@ -44,7 +45,8 @@ class SponsorshipController  extends AbstractController
         $form->handleRequest($request);
          if ($form->isSubmitted() && $form->isValid()) {
             $emails =  $utility->getEmailsList($form['emailsList']->getData());
-            $customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
+             //$customMessage = str_replace("\r\n", "<br>", $form['message']->getData());
+             $customMessage = nl2br($form['message']->getData());
             foreach ($emails as $email) {
                 $email = trim($email);
                 if($email != ''){
@@ -55,7 +57,8 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
-                            $emailService->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email,   ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
+                            //$mailer->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email, ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
+                            $mailer->sendEmailWithTemplate($email, ['message' => $customMessage, 'sponsor' => $sponsor, 'url' => $this->generateUrl('security_registration', [], UrlGeneratorInterface::ABSOLUTE_URL)], 6);
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
                         } else {

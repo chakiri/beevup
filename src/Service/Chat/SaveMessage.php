@@ -21,9 +21,8 @@ class SaveMessage
     protected $manager;
     protected $websocketController;
     protected $profilRepository;
-    protected $mailer;
 
-    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository, \Swift_Mailer $mailer)
+    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository)
     {
         $this->topicRepository = $topicRepository;
         $this->userRepository = $userRepository;
@@ -31,7 +30,6 @@ class SaveMessage
         $this->manager = $manager;
         $this->websocketController = $websocketController;
         $this->profilRepository = $profilRepository;
-        $this->mailer = $mailer;
     }
 
     public function save($idUser, $content, $isPrivate, $subject)

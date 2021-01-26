@@ -14,6 +14,7 @@
         "fzaninotto/faker": "^1.9",
         "liip/imagine-bundle": "^2.3",
         "react/zmq": "^0.4.0",
+        "sendinblue/api-v3-sdk": "^7.3",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",
         "symfony/console": "5.0.*",
@@ -23,7 +24,6 @@
         "symfony/framework-bundle": "5.0.*",
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "5.0.*",
-        "symfony/swiftmailer-bundle": "^3.4",
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.8",
@@ -35,6 +35,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/maker-bundle": "^1.15",
         "symfony/profiler-pack": "^1.0",
+        "symfony/serializer": "5.0.*",
         "symfony/web-server-bundle": "4.4.2"
     },
     "config": {

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -60,6 +61,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="user", cascade={"persist", "remove"})
+     * @MaxDepth(1)
      */
     private $profile;
 
@@ -77,27 +79,32 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid(traverse = true)
+     * @MaxDepth(1)
      */
     private $company;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Store", inversedBy="users", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
      */
     private $store;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\UserType")
+     * @MaxDepth(1)
      */
     private $type;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Topic")
+     * @MaxDepth(1)
      */
     private $topics;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Score", mappedBy="user", cascade={"persist", "remove"})
+     * @MaxDepth(1)
      */
     private $score;
 
@@ -336,5 +343,10 @@ class User implements UserInterface
     public function isGranted($role)
     {
         return in_array($role, $this->getRoles());
+    }
+
+    public function toArray():array
+    {
+        return get_object_vars($this);
     }
 }
