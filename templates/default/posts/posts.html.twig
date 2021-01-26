@@ -82,25 +82,25 @@
                 {% if post.relatedToType != null and post.relatedToType == 'Recommandation'%}
                     <h5>
                         {% if post.relatedToRecommandation != null %}
-                            <a  href="{{ path('profile_show',{'id':post.relatedToRecommandation.user.profile.id}) }}" target="_blank">
+                            <a  href="{{ path('profile_show',{'id':post.relatedToRecommandation.user.profile.id}) }}">
                              {{ post.relatedToRecommandation.user.profile.firstname }} {{ post.relatedToRecommandation.user.profile.lastname }}
                             </a>
                             a recommandé
 
                              {% if post.relatedToRecommandation.store != null %}
                                      {% if post.relatedToRecommandation.service != null %}
-                                       le service  <a  href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}" target="_blank">{{ post.relatedToRecommandation.service.title }}</a>
-                                         du magasin <a  href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}" target="_blank">{{ post.relatedToRecommandation.store.name }}</a>
+                                       le service  <a  href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}">{{ post.relatedToRecommandation.service.title }}</a>
+                                         du magasin <a  href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}">{{ post.relatedToRecommandation.store.name }}</a>
                                      {% else %}
-                                       le magasin  <a href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}" target="_blank">{{ post.relatedToRecommandation.store.name }}</a>
+                                       le magasin  <a href="{{path('store_show',{'slug':post.relatedToRecommandation.store.slug})}}">{{ post.relatedToRecommandation.store.name }}</a>
                                      {% endif %}
 
                              {% else  %}
                                  {% if post.relatedToRecommandation.service != null %}
-                                     le service <a  href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}" target="_blank">{{ post.relatedToRecommandation.service.title }}</a>
-                                     de l'entreprise  <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}" target="_blank">{{ post.relatedToRecommandation.company.name }}</a>
+                                     le service <a  href="{{path('service_show',{'id':post.relatedToRecommandation.service.id})}}">{{ post.relatedToRecommandation.service.title }}</a>
+                                     de l'entreprise  <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}" >{{ post.relatedToRecommandation.company.name }}</a>
                                  {% else %}
-                                     l'entreprise   <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}" target="_blank">{{ post.relatedToRecommandation.company.name }}</a>
+                                     l'entreprise   <a  href="{{path('company_show',{'slug':post.relatedToRecommandation.company.slug, 'id': post.relatedToRecommandation.company.id})}}" >{{ post.relatedToRecommandation.company.name }}</a>
                                  {% endif %}
                              {% endif %}
 
@@ -108,9 +108,9 @@
                     </h5>
                 {% else  %}
                     {% if post.urlLink %}<a href="{{ post.urlLink }}" target="_blank">{% endif %}
-                    {% if post.toCompany != null %}<a href="{{ path('company_show', {'slug': post.toCompany.slug, 'id': post.toCompany.id}) }}" target="_blank">{% endif %}
-                    {% if post.relatedTo != null and post.relatedToType == 'Service'%}<a href="{{ path('service_show', {'id': post.relatedTo}) }}" target="_blank">{% endif %}
-                    {% if post.relatedToType != null and post.relatedToType == 'User'   %}<a href="{{ path('profile_show', {'id': post.relatedTo}) }}" target="_blank">{% endif %}
+                    {% if post.toCompany != null %}<a href="{{ path('company_show', {'slug': post.toCompany.slug, 'id': post.toCompany.id}) }}">{% endif %}
+                    {% if post.relatedTo != null and post.relatedToType == 'Service'%}<a href="{{ path('service_show', {'id': post.relatedTo}) }}" >{% endif %}
+                    {% if post.relatedToType != null and post.relatedToType == 'User'   %}<a href="{{ path('profile_show', {'id': post.relatedTo}) }}">{% endif %}
 
                                     <h5>{{ post.title }}</h5>
                         {% if post.urlLink %}</a>{% endif %}
