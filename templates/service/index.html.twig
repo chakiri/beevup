@@ -89,15 +89,15 @@
                                                       {% if distances and distances[service.id] is defined and distances[service.id] < 1000 %}
                                                           <div class="company-infos-distance ml-1 mr-1">
                                                               {% if distances[service.id] < 1  %}
-                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small>À moins d'un kilomètre</small>
+                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small class="text-dark">À moins d'un kilomètre</small>
                                                               {% else %}
-                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small>À {{ distances[service.id]|round }}Km</small>
+                                                                  <i class="fas fa-map-marker-alt pr-1"></i> <small class="text-dark">À {{ distances[service.id]|round }}Km</small>
                                                               {% endif %}
                                                           </div>
                                                       {% endif %}
                                                       {% if nbRecommandations and service.user.company and service.id in nbRecommandations|keys and nbRecommandations[service.id] > 0 %}
                                                           <div class="company-infos-recommandations ml-1 mr-1">
-                                                              <i class="far fa-star"></i> <small>{{ nbRecommandations[service.id] }}{% if nbRecommandations[service.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
+                                                              <i class="far fa-star"></i> <small class="text-dark">{{ nbRecommandations[service.id] }}{% if nbRecommandations[service.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
                                                           </div>
                                                       {% endif %}
                                                   </div>
