@@ -4221,3 +4221,8 @@ label[for='registration_get_siret_from_api']{
     background-color: var(--orange-color);
     color: #fff;
 }
+
+/* ===============Social media buttons share ================*/
+.share-button a {
+    font-size: 30px;
+}
