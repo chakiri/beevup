@@ -32,7 +32,7 @@ class CookieAcceptedSession
     {
         //Set accepted cookie in Cookie
         if(!$request->cookies->has('cguAccepted')){
-            $cookie = new Cookie('cguAccepted', true, time() + (24 * 60 * 60) ); //Expire 24h
+            $cookie = new Cookie('cguAccepted', true, time() + (168 * 60 * 60) ); //Expire 24h
 
             $response = new Response();
             $response->headers->setCookie($cookie);
