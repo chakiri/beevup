@@ -136,6 +136,7 @@
 
             <div class="col-lg-3 col-md-12 order-sm-3">
                 {% include 'default/boxes/add-sponsorship.html.twig' %}
+                {% include 'dashboard/boxes/social-media-buttons.html.twig' %}
                 <div class="box-advertising clearfix">
                     {% if publicity is not null %}
                         {% include 'default/boxes/advertising-box.html.twig' %}
@@ -144,7 +145,7 @@
                     {% if lastSpecialOffer is not null %}
                         {% include 'default/boxes/specialOffer-box.html.twig' %}
                     {% endif %}
-                    {% include 'dashboard/boxes/social-media-buttons.html.twig' %}
+
                 </div>
 
             </div>
