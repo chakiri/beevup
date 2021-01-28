@@ -13,6 +13,7 @@
         "easycorp/easyadmin-bundle": "^2.3",
         "fzaninotto/faker": "^1.9",
         "liip/imagine-bundle": "^2.3",
+        "monolog/monolog": "^2.2",
         "react/zmq": "^0.4.0",
         "sendinblue/api-v3-sdk": "^7.3",
         "sensio/framework-extra-bundle": "^5.5",

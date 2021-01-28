@@ -164,6 +164,9 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "monolog/monolog": {
+        "version": "2.2.0"
+    },
     "nikic/php-parser": {
         "version": "v4.4.0"
     },
