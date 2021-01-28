@@ -17,7 +17,6 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Dashboard\SpecialOffer;
-use App\Service\Mailer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
@@ -31,8 +30,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
-use App\Serializer\Serializer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class DefaultController extends AbstractController

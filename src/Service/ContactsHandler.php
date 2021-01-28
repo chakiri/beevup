@@ -29,15 +29,12 @@ class ContactsHandler
             $this->mailer->createContact($user->getEmail(), 2);
         }
 
-        $userTypePatron = $this->userTypeRepository->findOneBy(['id'=> 2]);
-        $advisor = $this->userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid' => 1]);
-        if ($advisor) $advisorName = $advisor->getProfile()->getFirstname() . ' ' . $advisor->getProfile()->getLastname();
-        else $advisorName = null;
+        if ($advisor = $user->getStore()->getDefaultAdviser()) $advisorName = $advisor->getProfile()->getFirstname() . ' ' . $advisor->getProfile()->getLastname();
 
         $attributes = [
             'RAISON_SOCIALE' => $user->getCompany()->getName(),
             'MAG_LIB' => $user->getStore()->getName(),
-            'CONTACT_MAG' => $advisorName,
+            'CONTACT_MAG' => $advisorName ?? null,
             'STATUT_CLIENT' => 3,
             'TITRE_CONTACT' => 'Conseiller Beev\'Up.fr',
             'PROFIL_COMPLET' => 0,
