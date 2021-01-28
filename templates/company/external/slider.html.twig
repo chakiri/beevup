@@ -43,9 +43,8 @@
                                             {% if admins[company.id] %}<div class="title">{{ admins[company.id].profile.firstname }} {{ admins[company.id].profile.lastname }}</div>{% endif %}
                                             <h1>{{ company.name }}</h1>
                                             <div class="desc">{{ company.otherCategory }} - {{ company.introduction ?? 'Pas d\'inscription' }}</div>
-                                            <div class="desc">
-                                                {{ company.addressPostCode }} {{ company.city }}
-                                            </div>
+                                            <div class="desc">{{ company.addressPostCode }} {{ company.city }}   </div>
+
                                              {% if servicesArray[company.id] %}
                                                 <div class="services pt-5">
                                                     <div class="row row-equal">
