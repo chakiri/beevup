@@ -66,8 +66,7 @@ class Mailer
             $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
             error_log($e->getMessage());
-            dd($e);
-        }
+         }
     }
 
     //Get list of all contacts on SendinBlue Api
@@ -118,7 +117,7 @@ class Mailer
             $apiInstance->updateContact($email, $updateContact);
         } catch (\Exception $e) {
             error_log($e->getMessage());
-            dd($e);
+
         }
     }
 
