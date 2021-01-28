@@ -732,6 +732,8 @@ if ($('#be_contacted_acceptConditions').length > 0 ){
     }
     $('.form-check-label').append(' <a target=\'_blank\' href=\'https://beevup.fr/media/pdf/CGU.pdf\' class=\'genaral-condition\' >les Conditions générales d\'utilisation</a>');
 }
+
+
 $('.accpet-condition').click(function () {
     if ($(this).is(':checked')) {
         $('.be-contacted-submit').removeAttr('disabled');
