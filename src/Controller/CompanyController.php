@@ -25,6 +25,7 @@ use App\Service\BarCode;
 use App\Service\Map;
 use App\Service\AutomaticPost;
 use App\Form\CompanyType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class CompanyController extends AbstractController
@@ -175,7 +176,7 @@ class CompanyController extends AbstractController
                 $manager->flush();
 
                 //Send email to external user
-                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName()];
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName(), 'url' => $this->generateUrl('external_search', ['store' => $request->getSession()->get('store-reference')], UrlGeneratorInterface::ABSOLUTE_URL) ];
                 //$mailer->sendEmail('Votre demande de contact sur le site Beevup.fr', $beContacted->getEmail(), ['company' => $company, 'beContacted' => $beContacted], 'confirmBeContacted.html.twig');
                 $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 8);
 

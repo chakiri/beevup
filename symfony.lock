@@ -164,6 +164,9 @@
             "config/routes/liip_imagine.yaml"
         ]
     },
+    "monolog/monolog": {
+        "version": "2.2.0"
+    },
     "nikic/php-parser": {
         "version": "v4.4.0"
     },
@@ -353,6 +356,24 @@
     "symfony/mime": {
         "version": "v5.0.8"
     },
+    "symfony/monolog-bridge": {
+        "version": "v5.0.11"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "d7249f7d560f6736115eee1851d02a65826f0a56"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/deprecations.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v5.0.8"
     },
@@ -510,15 +531,6 @@
             "config/packages/test/web_profiler.yaml",
             "config/routes/dev/web_profiler.yaml"
         ]
-    },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.6",

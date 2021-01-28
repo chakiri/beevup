@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 use SendinBlue\Client\Api\ContactsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
@@ -16,9 +17,12 @@ class Mailer
 {
     private $templating;
 
-    public function __construct(Environment $templating)
+    private $logger;
+
+    public function __construct(Environment $templating, LoggerInterface $mailerLogger)
     {
         $this->templating = $templating;
+        $this->logger = $mailerLogger;
     }
 
     //Get config From Api Key
@@ -44,7 +48,7 @@ class Mailer
         try {
             $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->logger->error($e->getMessage());
         }
     }
 
@@ -65,8 +69,7 @@ class Mailer
         try {
             $apiInstance->sendTransacEmail($sendSmtpEmail);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
-            dd($e);
+            $this->logger->error($e->getMessage());
         }
     }
 
@@ -80,7 +83,7 @@ class Mailer
         try {
             return $apiInstance->getContacts();
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->logger->error($e->getMessage());
             return false;
         }
     }
@@ -99,7 +102,7 @@ class Mailer
         try {
             $apiInstance->createContact($createContact);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->logger->error($e->getMessage());
         }
     }
 
@@ -117,8 +120,7 @@ class Mailer
         try {
             $apiInstance->updateContact($email, $updateContact);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
-            dd($e);
+            $this->logger->error($e->getMessage());
         }
     }
 
@@ -133,7 +135,7 @@ class Mailer
             $apiInstance->getContactInfo($email);
             return true;
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->logger->error($e->getMessage());
             return false;
         }
     }

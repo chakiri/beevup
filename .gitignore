@@ -11,10 +11,6 @@
 /.idea
 /.env
 /.env.test
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
-
 ###> local uploads###
 /public/media/uploads/
 ###< local uploads###
