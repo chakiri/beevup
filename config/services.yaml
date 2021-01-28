@@ -41,8 +41,13 @@ services:
             - {name: kernel.event_listener, event: kernel.request}
         arguments: ['%maintenance%']
 
-    App\Service\Mailer:
-        arguments: []
+    monolog.db_handler:
+        class: App\Util\MonologDBHandler
+    monolog.processor.request:
+        class: App\Util\RequestProcessor
+        tags:
+            - { name: monolog.processor, method: processRecord, handler: db }
+
 
 
     # add more service definitions when explicit configuration is needed

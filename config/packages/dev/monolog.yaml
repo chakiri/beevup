@@ -1,5 +1,5 @@
 monolog:
-    channels: ['mailer'] # declare new channel for mails logs
+    channels: ['mailer', 'db'] # declare new channel for mails logs
     handlers:
         main:
             type: stream
@@ -23,3 +23,7 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%-mailer.log"
             level: debug
             channels: ["mailer"]
+        db:
+            type: service
+            id: monolog.db_handler   #Name of service to use
+            channels: ["db"]
