@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Events\ServiceEvent;
+use App\EventSubscriber\ServiceSubscriber;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\PostCategoryRepository;
@@ -23,6 +25,8 @@ use App\Service\GetCompanies;
 use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -172,7 +176,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error, ScorePointRepository $scorePointRepository)
+     public function form(EventDispatcherInterface $dispatcher, ?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error, ScorePointRepository $scorePointRepository)
     {
         if ($service != null && $request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId())  return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
         $referer = $request->headers->get('referer');
@@ -227,6 +231,9 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
+                    //Dispatch on Service Event
+                    $dispatcher->dispatch(new ServiceEvent($service),ServiceEvent::SERVICE_NEW);
+
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
                 }
@@ -268,8 +275,11 @@ class ServiceController extends AbstractController
     /**
     * @Route("/service/{id}", name="service_show")
     */
-    public function show(Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
+    public function show(EventDispatcherInterface $dispatcher, Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
     {
+        //Dispatch on Service Event
+        $dispatcher->dispatch(new ServiceEvent($service),ServiceEvent::SERVICE_SHOW);
+
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
 
         //Get store Service if it's an association

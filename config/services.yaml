@@ -41,6 +41,11 @@ services:
             - {name: kernel.event_listener, event: kernel.request}
         arguments: ['%maintenance%']
 
+    App\EventSubscriber\ServiceSubscriber:
+        class: App\EventSubscriber\ServiceSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
     monolog.db_handler:
         class: App\Util\MonologDBHandler
     monolog.processor.request:
