@@ -4,9 +4,11 @@ namespace App\EventListener;
 
 
 use App\Entity\UserHistoric;
+use App\Events\LoggerEvent;
 use App\Repository\UserHistoricRepository;
 use App\Service\ExpireSubscription;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
@@ -53,6 +55,5 @@ class LoginListener
         $this->manager->persist($historic);
 
         $this->manager->flush();
-
     }
 }

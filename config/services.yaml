@@ -41,8 +41,7 @@ services:
             - {name: kernel.event_listener, event: kernel.request}
         arguments: ['%maintenance%']
 
-    App\EventSubscriber\ServiceSubscriber:
-        class: App\EventSubscriber\ServiceSubscriber
+    App\EventSubscriber\LoggerSubscriber:
         tags:
             - { name: kernel.event_subscriber }
 

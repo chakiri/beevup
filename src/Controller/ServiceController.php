@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Service;
-use App\Events\ServiceEvent;
-use App\EventSubscriber\ServiceSubscriber;
+use App\Events\LoggerEvent;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\PostCategoryRepository;
@@ -25,7 +24,6 @@ use App\Service\GetCompanies;
 use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -231,8 +229,8 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
-                    //Dispatch on Service Event
-                    $dispatcher->dispatch(new ServiceEvent($service),ServiceEvent::SERVICE_NEW);
+                    //Dispatch on Logger Event
+                    $dispatcher->dispatch(new LoggerEvent($service),LoggerEvent::SERVICE_NEW);
 
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
@@ -277,8 +275,8 @@ class ServiceController extends AbstractController
     */
     public function show(EventDispatcherInterface $dispatcher, Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
     {
-        //Dispatch on Service Event
-        $dispatcher->dispatch(new ServiceEvent($service),ServiceEvent::SERVICE_SHOW);
+        //Dispatch on Logger Event
+        $dispatcher->dispatch(new LoggerEvent($service),LoggerEvent::SERVICE_SHOW);
 
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
 
