@@ -1,8 +1,6 @@
 <?php
 
-
-namespace App\Util;
-
+namespace App\Service\Logger;
 
 use App\Entity\Log;
 use Doctrine\ORM\EntityManagerInterface;

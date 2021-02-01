@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Util;
+namespace App\Service\Logger;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
