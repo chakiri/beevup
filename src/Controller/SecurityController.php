@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Events\LoggerEvent;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
@@ -9,6 +10,7 @@ use App\Service\ContactsHandler;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
 use App\Service\Mailer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Form\ForgotPasswordType;
@@ -252,7 +254,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmEmail/{token}", name="security_confirm_email")
      */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository, CompanyRepository $companyRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Mailer $mailer)
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository, CompanyRepository $companyRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Mailer $mailer, EventDispatcherInterface $dispatcher)
     {
         $user = $userRepository->findOneBy(['resetToken' => $token]);
 
@@ -266,7 +268,6 @@ class SecurityController extends AbstractController
         $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
         //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
         $mailer->sendEmailWithTemplate($user->getEmail(), null, 4);
-
         /*****end ******/
 
         $user->setResetToken(null);
@@ -306,6 +307,10 @@ class SecurityController extends AbstractController
             'main'
         );
         $this->addFlash('success', 'votre compte a été activé');
+
+        //Dispatch on Logger Event
+        $dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_NEW),LoggerEvent::LOG_ENTITY);
+
         return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
