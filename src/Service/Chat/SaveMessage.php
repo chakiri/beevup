@@ -2,16 +2,14 @@
 
 namespace App\Service\Chat;
 
-
-
 use App\Controller\WebsocketController;
 use App\Entity\Message;
 use App\Repository\MessageRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
+use App\Service\EncryptData;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
 
 class SaveMessage
 {
@@ -21,8 +19,9 @@ class SaveMessage
     protected $manager;
     protected $websocketController;
     protected $profilRepository;
+    protected $encryptData;
 
-    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository)
+    public function __construct(EntityManagerInterface $manager, TopicRepository $topicRepository, UserRepository $userRepository, MessageRepository $messageRepository, WebsocketController $websocketController, ProfilRepository $profilRepository, EncryptData $encryptData)
     {
         $this->topicRepository = $topicRepository;
         $this->userRepository = $userRepository;
@@ -30,6 +29,7 @@ class SaveMessage
         $this->manager = $manager;
         $this->websocketController = $websocketController;
         $this->profilRepository = $profilRepository;
+        $this->encryptData = $encryptData;
     }
 
     public function save($idUser, $content, $isPrivate, $subject)
@@ -40,9 +40,12 @@ class SaveMessage
         //Get user from idUser
         $user = $this->userRepository->findOneBy(['id' => $idUser]);
 
+        //Encrypt Content
+        $encryprContent = $this->encryptData->encrypt($content);
+
         $message
             ->setUser($user)
-            ->setContent($content)
+            ->setContent($encryprContent)
             ->setCreatedAt(new \DateTime())
         ;
 

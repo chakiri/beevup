@@ -52,6 +52,9 @@ services:
         tags:
             - { name: monolog.processor, method: processRecord, handler: db }
 
+    encrypt.data.service:
+        class: App\Service\EncryptData
+
 
 
     # add more service definitions when explicit configuration is needed

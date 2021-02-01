@@ -171,7 +171,7 @@
                                     {% else %}
                                         <img id="subjectAvatar" src="{{ asset('build/images/default/user.png') }}" class="img-fluid" alt="">
                                     {% endif %}
-                                    <p>{{ message.content|raw }}</p>
+                                    <p>{{ encrypt_data.decrypt(message.content)|raw }}</p>
                                 </div>
 
                                 <span><small>{{ message.createdAt|date('d/m H:i')}}</small></span>
