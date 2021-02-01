@@ -4,7 +4,6 @@
 namespace App\Controller;
 
 use App\Entity\Sponsorship;
-use App\Form\PostType;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
@@ -12,7 +11,6 @@ use App\Service\Mailer;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

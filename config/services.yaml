@@ -46,9 +46,9 @@ services:
             - { name: kernel.event_subscriber }
 
     monolog.db_handler:
-        class: App\Util\MonologDBHandler
+        class: App\Service\Logger\MonologDBHandler
     monolog.processor.request:
-        class: App\Util\RequestProcessor
+        class: App\Service\Logger\RequestProcessor
         tags:
             - { name: monolog.processor, method: processRecord, handler: db }
 

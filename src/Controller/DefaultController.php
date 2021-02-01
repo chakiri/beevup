@@ -16,17 +16,13 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
-use App\Serializer\Serializer;
 use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
-use App\Service\Mailer;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Session\WelcomePopupSession;
-use App\Util\MonologDBHandler;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -204,25 +200,5 @@ class DefaultController extends AbstractController
             ]);
         }
     }
-
-//    /**
-//     * @Route("/test_sendinblue", name="test_sendinblue")
-//     */
-//    public function testSendiblue(Mailer $mailer, UserRepository $userRepository, Serializer $serilizer, LoggerInterface $mailerLogger, LoggerInterface $dbLogger)
-//    {
-//        $dbLogger->info('something happened', [
-//            'foo2' => 'bar2'
-//        ]);
-////       $user = $userRepository->findOneBy(['id' => 47]);
-////
-////        $params = $serilizer->serialize($user);
-////
-////        $mailer->sendEmailWithTemplate('mohamed.chakiri-ext@bureau-vallee.com', $params, 8);
-//
-//
-//
-//        return $this->redirectToRoute('dashboard');
-//
-//    }
 
 }
