@@ -14,50 +14,26 @@ class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInte
     public static function getSubscribedEvents()
     {
         return [
-            LoggerEvent::SERVICE_NEW    => 'onServiceNew',
-            LoggerEvent::SERVICE_SHOW  => 'onServiceShow',
-            LoggerEvent::USER_NEW  => 'onUserNew',
-            LoggerEvent::USER_LOGIN  => 'onUserLogin'
+            LoggerEvent::LOG_ENTITY    => 'onLogEntity',
         ];
     }
 
     /**
      * @param LoggerEvent $event
      */
-    public function onServiceNew(LoggerEvent $event)
+    public function onLogEntity(LoggerEvent $event)
     {
-        $this->logEntity(LoggerEvent::SERVICE_NEW, [
-            'service' => $event->getEntity()
+        $this->logEntity($event->getName(), [
+            self::getClassName($event->getEntity()) => $event->getEntity()
         ]);
     }
 
     /**
-     * @param LoggerEvent $event
+     * @param $object
+     * @return mixed|string
      */
-    public function onServiceShow(LoggerEvent $event)
-    {
-        $this->logEntity(LoggerEvent::SERVICE_SHOW, [
-            'service' => $event->getEntity()
-        ]);
-    }
-
-    /**
-     * @param LoggerEvent $event
-     */
-    public function onUserNew(LoggerEvent $event)
-    {
-        $this->logEntity(LoggerEvent::USER_NEW, [
-            'user' => $event->getEntity()
-        ]);
-    }
-
-    /**
-     * @param LoggerEvent $event
-     */
-    public function onUserLogin(LoggerEvent $event)
-    {
-        $this->logEntity(LoggerEvent::USER_LOGIN, [
-            'user' => $event->getEntity()
-        ]);
+    private static function getClassName($object) {
+        $name = explode('\\', get_class($object));
+        return end($name);
     }
 }

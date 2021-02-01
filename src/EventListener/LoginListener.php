@@ -63,6 +63,6 @@ class LoginListener
         $this->manager->flush();
 
         //Dispatch on Logger Event
-        $this->dispatcher->dispatch(new LoggerEvent($user),LoggerEvent::USER_LOGIN);
+        $this->dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_LOGIN),LoggerEvent::LOG_ENTITY);
     }
 }

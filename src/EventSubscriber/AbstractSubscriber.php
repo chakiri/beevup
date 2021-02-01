@@ -41,7 +41,7 @@ abstract class AbstractSubscriber
     protected function logEntity($action = self::UNKNOWN_ACTION, array $entityFields)
     {
         $this->dbLogger->info($action, [
-            'user' => $this->security->getUser()->getEmail(),
+            'current_user' => $this->security->getUser()->getEmail(),
             'entity' => $entityFields
         ]);
     }

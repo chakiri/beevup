@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BeContacted;
 use App\Entity\Store;
+use App\Events\LoggerEvent;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
@@ -12,6 +13,7 @@ use App\Service\ContactsHandler;
 use App\Service\Mailer;
 use App\Service\GetCompanies;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -86,7 +88,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{slug}/{id}", name="company_show", requirements={"slug"="[a-zA-Z0-9\-_\/]+", "id"="\d+"})
      */
-    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository)
+    public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository, EventDispatcherInterface $dispatcher)
     {
         $users = $userRepo->findBy(['company' => $company, 'isValid' => 1]);
         if ($this->getUser()) $adviser= $userRepo->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
@@ -104,6 +106,10 @@ class CompanyController extends AbstractController
         {
             $isFavorit = "is-favorit-profile text-warning";
         }
+
+        //Dispatch on Logger Event
+        if ($this->getUser()->getCompany() != $company )
+            $dispatcher->dispatch(new LoggerEvent($company, LoggerEvent::COMPANY_SHOW),LoggerEvent::LOG_ENTITY);
 
         return $this->render('company/show.html.twig', [
             'company' => $company,

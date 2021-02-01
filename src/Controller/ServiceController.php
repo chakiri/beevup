@@ -230,7 +230,7 @@ class ServiceController extends AbstractController
                  ***/
                 if ($request->get('_route') == 'service_new') {
                     //Dispatch on Logger Event
-                    $dispatcher->dispatch(new LoggerEvent($service),LoggerEvent::SERVICE_NEW);
+                    $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_NEW),LoggerEvent::LOG_ENTITY);
 
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
@@ -275,9 +275,6 @@ class ServiceController extends AbstractController
     */
     public function show(EventDispatcherInterface $dispatcher, Service $service, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, UserRepository $userRepository, UserTypeRepository $userTypeRepository, GetCompanies $getCompanies, $id )
     {
-        //Dispatch on Logger Event
-        $dispatcher->dispatch(new LoggerEvent($service),LoggerEvent::SERVICE_SHOW);
-
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
 
         //Get store Service if it's an association
@@ -293,6 +290,10 @@ class ServiceController extends AbstractController
 
         $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
         $recommandationsCompany = $recommandationRepository->findBy(['company' => $service->getUser()->getCompany(), 'service' => null, 'status'=>'Validated']);
+
+        //Dispatch on Logger Event
+        if ($service->getUser() != $this->getUser())
+            $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_SHOW),LoggerEvent::LOG_ENTITY);
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
