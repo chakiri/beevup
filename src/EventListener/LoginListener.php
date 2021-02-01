@@ -19,11 +19,17 @@ class LoginListener
 
     private $expireSubscription;
 
-    public function __construct(EntityManagerInterface $manager, UserHistoricRepository $userHistoricRepository, ExpireSubscription $expireSubscription)
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(EntityManagerInterface $manager, UserHistoricRepository $userHistoricRepository, ExpireSubscription $expireSubscription, EventDispatcherInterface $dispatcher)
     {
         $this->manager = $manager;
         $this->userHistoricRepository = $userHistoricRepository;
         $this->expireSubscription = $expireSubscription;
+        $this->dispatcher = $dispatcher;
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -55,5 +61,8 @@ class LoginListener
         $this->manager->persist($historic);
 
         $this->manager->flush();
+
+        //Dispatch on Logger Event
+        $this->dispatcher->dispatch(new LoggerEvent($user),LoggerEvent::USER_LOGIN);
     }
 }

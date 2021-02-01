@@ -17,6 +17,7 @@ class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInte
             LoggerEvent::SERVICE_NEW    => 'onServiceNew',
             LoggerEvent::SERVICE_SHOW  => 'onServiceShow',
             LoggerEvent::USER_NEW  => 'onUserNew',
+            LoggerEvent::USER_LOGIN  => 'onUserLogin'
         ];
     }
 
@@ -46,6 +47,16 @@ class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInte
     public function onUserNew(LoggerEvent $event)
     {
         $this->logEntity(LoggerEvent::USER_NEW, [
+            'user' => $event->getEntity()
+        ]);
+    }
+
+    /**
+     * @param LoggerEvent $event
+     */
+    public function onUserLogin(LoggerEvent $event)
+    {
+        $this->logEntity(LoggerEvent::USER_LOGIN, [
             'user' => $event->getEntity()
         ]);
     }
