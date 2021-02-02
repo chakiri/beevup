@@ -102,8 +102,6 @@
                                     <h5 class="mb-5">Carte et informations</h5>
                                     <strong>{{ company.name }}</strong>
                                     <p>{{ company.addressNumber }}, {{ company.addressStreet }}, {{ company.addressPostCode }} {{ company.city }}</p>
-                                    <br>
-                                    <p><span class="text-muted">Téléphone :</span> {{ company.phone ?? 'non renseigné' }}</p>
                                 </div>
                                 <div class="col-lg-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
                                     {% include 'default/map.html.twig' %}
