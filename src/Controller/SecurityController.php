@@ -106,7 +106,6 @@ class SecurityController extends AbstractController
                 //Create new contact on SendinBlue
                 $contactsHandler->handleContactSendinBlueRegistartion($user);
 
-                //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Confirmation du compte', $user->getEmail(), ['url' => $url, 'user' => $user, 'storePatron' => $storePatron], 'confirmEmail.html.twig');
                 $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 2);
 
                 return $this->redirectToRoute('waiting_validation');
@@ -178,7 +177,6 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Réinitialisation de mot de passe', $email,  ['url' => $url,'user'=> $user, 'storePatron'=>$storePatron], 'forgotPassword.html.twig');
             $mailer->sendEmailWithTemplate($email, ['url' => $url], 3);
 
 
@@ -264,9 +262,6 @@ class SecurityController extends AbstractController
         }
 
         /****send welcome email *****/
-        $userTypePatron = $userTypeRepository->findOneBy(['id'=> 1]);
-        $storePatron = $userRepository->findOneBy(['type'=> $userTypePatron, 'store'=>$user->getStore(), 'isValid'=>1]);
-        //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Bienvenue', $user->getEmail(), ['user'=> $user, 'storePatron'=> $storePatron], 'welcome.html.twig');
         $mailer->sendEmailWithTemplate($user->getEmail(), null, 4);
         /*****end ******/
 

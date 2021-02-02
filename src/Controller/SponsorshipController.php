@@ -55,7 +55,6 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
-                            //$mailer->sendEmail($sponsor.' vous propose de le rejoindre sur Beevup.fr', $email, ['message' => nl2br($customMessage)], 'spnsorship.html.twig');
                             $mailer->sendEmailWithTemplate($email, ['message' => $customMessage, 'sponsor' => $sponsor, 'url' => $this->generateUrl('security_registration', [], UrlGeneratorInterface::ABSOLUTE_URL)], 6);
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;

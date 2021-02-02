@@ -164,12 +164,7 @@ class WebsocketController extends AbstractController
         //Get all messages between user and subject
         $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
 
-        if (count($messages) == 1){
-            $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-            $storePatron =$this->userRepo->findOneBy(['type'=> $userTypePatron, 'store'=>$receiver->getStore(), 'isValid'=>1]);
-            //$content = ['currentUser' => $user, 'user'=> $receiver, 'storePatron'=> $storePatron];
-            //$mailer->sendEmail('Beev\'Up par Bureau Vallée | Un autre membre vous a contacté', $receiver->getEmail(), $content, 'firstMessage.html.twig');
-
+        if ($user && count($messages) === 1){
             $params = ['sender' => $user->getProfile()->getLastname() . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany()->getName(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
             $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 7);
         }
@@ -213,9 +208,6 @@ class WebsocketController extends AbstractController
         $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
         $url = $this->generateUrl('chat_topic', ['name' => 'general-' . $user->getStore()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
         $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
-
-        //$content = ['user'=> $user, 'notificationNumber' => $notificationNumber, 'url'=>$url];
-        //$this->mailer->sendEmail($subject, $user->getEmail(), $content, 'dailyEmail.html.twig');
 
         if ($notificationNumber == 1) $message = "Vous avez 1 nouveau message non lu.";
         else $message = "Vous avez " . $notificationNumber . " nouveaux messages non lus.";
