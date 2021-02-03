@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Entity\Service;
+use App\Entity\Store;
 use App\Entity\StoreService;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreServicesRepository;
@@ -103,7 +104,7 @@ class ServiceSetting
         return $nbRecommandations;
     }
 
-    public function getDistance($service, $distances): array
+    public function getDistance($service, $distances, Store $store = null): array
     {
         if ($service->getType()->getName() == 'company') $item = $service->getUser()->getCompany();
         elseif ($service->getType()->getName() == 'store') $item = $service->getUser()->getStore();
@@ -113,11 +114,31 @@ class ServiceSetting
             if ($storeService)  $item = $this->security->getUser()->getStore();
         }
 
-        if ($this->security->getUser()->getCompany()){
+        if ($this->security->getUser() && $this->security->getUser()->getCompany())
             $distance = $this->communities->calculateDistanceBetween($this->security->getUser()->getCompany(), $item ?? null, 'K');
-            $distances[$service->getId()] = $distance;
-        }
+        elseif ($store)
+            $distance = $this->communities->calculateDistanceBetween($store, $item ?? null, 'K');
+        else
+            $distance = null;
+
+        $distances[$service->getId()] = $distance;
 
         return $distances;
+    }
+
+    public function getInfosServices(array $services, Store $store = null): array
+    {
+        $infos = [];
+        $nbRecommandations = [];
+        $distances = [];
+        foreach ($services as $service){
+            $nbRecommandations = $this->getNbRecommandations($service, $nbRecommandations);
+            //Get nb Km between current sottore company and company item
+            $distances = $this->getDistance($service, $distances, $store);
+        }
+        $infos['nbRecommandations'] = $nbRecommandations;
+        $infos['distances'] = $distances;
+
+        return $infos;
     }
 }

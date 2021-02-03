@@ -58,15 +58,8 @@ class SearchController extends AbstractController
             }
         }
 
-        //Get infos from each item
-        $nbRecommandations = [];
-        $distances = [];
-        foreach ($items as $item){
-            //Get nbRecommandations of each result
-            $nbRecommandations = $infoSearch->getNbRecommandations($item, $nbRecommandations);
-            //Get nb Km between current user company and company item
-            $distances = $infoSearch->getDistance($item, $distances);
-        }
+        //Get infos of companies
+        $infos = $infoSearch->getInfosCompanies($items);
 
         return $this->render('search/search.html.twig', [
             'SearchForm' => $form->createView(),
@@ -74,8 +67,8 @@ class SearchController extends AbstractController
             'favoris' => $favoris,
             'favorisUsersIds' => $favorisUsersIds,
             'favorisCompaniesIds' => $favorisCompaniesIds,
-            'nbRecommandations' => $nbRecommandations,
-            'distances' => $distances,
+            'nbRecommandations' => $infos['nbRecommandations'],
+            'distances' => $infos['distances'],
             'isUser' => $items ? $items[0] instanceof User : false,
         ]);
 
@@ -86,7 +79,7 @@ class SearchController extends AbstractController
      */
     public function externalSearch(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
     {
-        if ($_GET)  $store = $storeRepository->findOneBy(['reference' => $_GET['store']]);
+        if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
         else    $store = $storeRepository->findOneBy(['reference' => 'BV001']);
 
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
@@ -98,17 +91,6 @@ class SearchController extends AbstractController
         $allCompanies = $getCompanies->getAllCompanies($store);
         $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
         $companies = $companyRepository->findBySearch('', $allCompanies);
-
-        //Get informations of services
-        $nbRecommandationsServices = [];
-        foreach ($services as $service){
-            $nbRecommandationsServices = $serviceSetting->getNbRecommandations($service, $nbRecommandationsServices);
-        }
-        //Get infos from each item
-        $nbRecommandationsCompanies = [];
-        foreach ($companies as $company){
-            $nbRecommandationsCompanies = $infoSearch->getNbRecommandations($company, $nbRecommandationsCompanies);
-        }
 
         $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
 
@@ -139,28 +121,43 @@ class SearchController extends AbstractController
             }
 
             //Get infos from each company
-            $nbRecommandationsCompanies = [];
-            foreach ($results as $result){
-                $nbRecommandationsCompanies = $infoSearch->getNbRecommandations($result, $nbRecommandationsCompanies);
-            }
+            $infos = $infoSearch->getInfosCompanies($companies, $store);
 
             return $this->render("search/external/searchStoreResult.html.twig", [
                 'query' => $form->get('querySearch')->getData(),
                 'results' => $results,
-                'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
+                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
+                'distancesCompanies' => $infos['distances'],
                 'store' => $store,
             ]);
-
         }
 
-        return $this->render("search/external/searchStore.html.twig", [
+        //Render options
+        $options = [
             'form' => $form->createView(),
-            'companies' => $companies,
-            'services' => $services,
-            'nbRecommandationsServices' => $nbRecommandationsServices,
-            'nbRecommandationsCompanies' => $nbRecommandationsCompanies,
             'store' => $store,
-            'stores' => $stores = $storeRepository->getAllStores()
-        ]);
+            'stores' => $stores = $storeRepository->getAllStores(),
+        ];
+
+        if ($store->getReference() !== 'BV001'){
+            //Get informations of services
+            $infosServices = $serviceSetting->getInfosServices($services, $store);
+
+            //Get infos of companies
+            $infosCompanies = $infoSearch->getInfosCompanies($companies, $store);
+
+            $infoOptions = [
+                'nbRecommandationsServices' => $infosServices['nbRecommandations'],
+                'distancesServices' => $infosServices['distances'],
+                'nbRecommandationsCompanies' => $infosCompanies['nbRecommandations'],
+                'distancesCompanies' => $infosCompanies['distances'],
+                'companies' => $companies,
+                'services' => $services,
+            ];
+
+            $options = array_merge($options, $infoOptions);
+        }
+
+        return $this->render("search/external/searchStore.html.twig", $options);
     }
 }

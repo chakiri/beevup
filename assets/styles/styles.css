@@ -1614,7 +1614,7 @@ ul.landing-page-list {
 }
 .company-infos-distance, .company-infos-recommandations{
     height: 18px;
-    background: white;
+    background: #e1eaf8;
     padding: 2px;
     border-radius: 12px;
     font-size: 75%;
@@ -2165,8 +2165,6 @@ ul.landing-page-list {
 }
 
 .user-up-info img{
-    margin-top: 10px;
-    margin-bottom: 10px;
     -webkit-border-radius: 100px;
     border-radius: 100px;
     height: 90px;
@@ -2177,7 +2175,6 @@ ul.landing-page-list {
     height: 335px !important;
 }
 .up-info img{
-    margin-bottom: 10px;
     width: 100%;
     max-height: 169px;
     min-height: 169px;
@@ -3845,7 +3842,7 @@ li.icon-type-post a.active{
 }
 .search-carousel .card-image {
     height: 200px;
-    display: flex;
+    position: relative;
 }
 .search-company-carousel {
     background: #e1eaf8;

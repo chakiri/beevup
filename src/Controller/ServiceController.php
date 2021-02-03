@@ -103,17 +103,12 @@ class ServiceController extends AbstractController
         $adviser= $userRepository->findOneBy(['id'=>$this->getUser()->getStore()->getDefaultAdviser()]);
 
         //Get informations of services
-        $nbRecommandations = [];
-        $distances = [];
-        foreach ($services as $service){
-            $nbRecommandations = $serviceSetting->getNbRecommandations($service, $nbRecommandations);
-            $distances = $serviceSetting->getDistance($service, $distances);
-        }
+        $infos = $serviceSetting->getInfosServices($services);
 
         return $this->render('service/index.html.twig', [
             'services' => $services,
-            'distances' => $distances,
-            'nbRecommandations' => $nbRecommandations,
+            'distances' => $infos['distances'],
+            'nbRecommandations' => $infos['nbRecommandations'],
             'isPrivate' => isset($user),
             'isDiscovery' => $request->get('_route') == 'service_discovery',
             'adviser'=> $adviser,

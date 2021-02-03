@@ -23,10 +23,8 @@
                                     {% else  %}
                                         <span>{{ company.otherCategory }}</span>
                                     {% endif %}
-
                                     <p>{{ company.introduction|raw }}</p>
                                 </div><!--star-descp end-->
-
                             {% endif %}
 
                             <div class="product-feed-tab current" id="info-dd">
@@ -34,9 +32,7 @@
                                     <h5>
                                         {{ company.name }} en quelques mots
                                     </h5>
-
                                     {% if company.description %}<p>{{ company.description|raw }}</p>{% else %}<p class="text-muted">Pas de description</p>{% endif %}
-
                                 </div><!--company description end-->
 
                                 <div class="top-profiles ">
@@ -70,7 +66,6 @@
                                         {% else %}
                                             <p class="text-muted">Aucun service pour l'instant</p>
                                         {% endif %}
-
                                     </div>
                                 </div><!--top-profiles end-->
                             </div>
@@ -79,7 +74,6 @@
                                 <h5>
                                     <a href="#" title="" class="exp-bx-open">La communauté a recommandé les services de {{ company.name|capitalize }} </a>
                                 </h5>
-
                                 {% if recommandationsServices %}
                                     {% for recommandationsService in recommandationsServices %}
                                         <div class="suggestion-usd">
@@ -124,7 +118,6 @@
                                                 {{ recommandationCompany.message  }}
                                             </p>
                                         </div>
-
                                     {% endfor %}
                                 {% else %}
                                     <p class="text-muted">Soyez le premier à proposer une recommandation</p>
