@@ -39,7 +39,8 @@ class LoggerEntitySubscriber extends AbstractSubscriber implements EventSubscrib
     protected function logEntity($action = self::UNKNOWN_ACTION, array $entityFields): void
     {
         $this->dbLogger->info($action, [
-            'current_user' => $this->security->getUser()->getEmail(),
+            'current_user_email' => $this->security->getUser()->getEmail(),
+            'current_user_id' => $this->security->getUser()->getId(),
             'entity' => $entityFields
         ]);
     }
