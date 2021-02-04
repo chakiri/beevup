@@ -309,7 +309,7 @@ class SecurityController extends AbstractController
         $this->addFlash('success', 'votre compte a été activé');
 
         //Dispatch on Logger Event
-        $dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_NEW),LoggerEvent::LOG_ENTITY);
+        $dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_NEW));
 
         return $this->redirectToRoute('dashboard', $optionsRedirect);
     }

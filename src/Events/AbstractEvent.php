@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Events;
 
 use Symfony\Contracts\EventDispatcher\Event;
-
 
 class AbstractEvent extends Event
 {
@@ -14,38 +12,21 @@ class AbstractEvent extends Event
     protected $entity;
 
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * AbstractEvent constructor.
      * @param null $entity
      */
-    public function __construct($entity = null, $name = null)
+    public function __construct($entity = null)
     {
         $this->entity = $entity;
-        $this->name = $name;
     }
 
     /**
-     * @return bool|null
+     * @return object|bool
      */
-    public function getEntity()
+    public function getEntity(): ?object
     {
         if($this->entity != null) {
             return $this->entity;
-        }
-        return false;
-    }
-
-    /**
-     * @return bool|string|null
-     */
-    public function getName()
-    {
-        if($this->name != null) {
-            return $this->name;
         }
         return false;
     }

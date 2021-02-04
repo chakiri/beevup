@@ -109,7 +109,7 @@ class CompanyController extends AbstractController
 
         //Dispatch on Logger Event
         if ($this->getUser()->getCompany() != $company )
-            $dispatcher->dispatch(new LoggerEvent($company, LoggerEvent::COMPANY_SHOW),LoggerEvent::LOG_ENTITY);
+            $dispatcher->dispatch(new LoggerEvent($company, LoggerEvent::COMPANY_SHOW));
 
         return $this->render('company/show.html.twig', [
             'company' => $company,

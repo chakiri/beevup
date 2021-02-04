@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
@@ -8,11 +7,6 @@ use Symfony\Component\Security\Core\Security;
 
 abstract class AbstractSubscriber
 {
-    /**
-     * Default action for logs
-     */
-    const UNKNOWN_ACTION = 'unknown_action';
-
     /**
      * @var LoggerInterface
      */
@@ -34,15 +28,4 @@ abstract class AbstractSubscriber
         $this->security = $security;
     }
 
-    /**
-     * @param string $action
-     * @param array $entityFields
-     */
-    protected function logEntity($action = self::UNKNOWN_ACTION, array $entityFields)
-    {
-        $this->dbLogger->info($action, [
-            'current_user' => $this->security->getUser()->getEmail(),
-            'entity' => $entityFields
-        ]);
-    }
 }

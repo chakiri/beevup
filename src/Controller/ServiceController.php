@@ -230,7 +230,7 @@ class ServiceController extends AbstractController
                  ***/
                 if ($request->get('_route') == 'service_new') {
                     //Dispatch on Logger Event
-                    $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_NEW),LoggerEvent::LOG_ENTITY);
+                    $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_NEW));
 
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
@@ -293,7 +293,7 @@ class ServiceController extends AbstractController
 
         //Dispatch on Logger Event
         if ($service->getUser() != $this->getUser())
-            $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_SHOW),LoggerEvent::LOG_ENTITY);
+            $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_SHOW));
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
