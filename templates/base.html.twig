@@ -26,7 +26,7 @@
 <body class="{{ app.request.get('_route') }}" {% set toast = app.request.get('toastScore') %}{% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 
     {# Display header #}
-    {% include 'partials/header/header.html.twig' %}
+    {% include 'partials/header.html.twig' %}
 
     {#dispaly flash messages #}
     {% include 'partials/flashesConditions.html.twig' %}
