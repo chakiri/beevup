@@ -4,12 +4,10 @@
 
 {% block body %}
 
-    {% include 'partials/header/headerExternal.html.twig' %}
-
     {% include 'partials/flashes.html.twig' %}
 
     <section>
-        <div class="company-header">
+        <div class="company-header header-padding">
             <div class="container-bv">
                 <div class="d-md-flex d-lg-flex">
                     <div class="company-pro-img">
@@ -102,8 +100,6 @@
                                     <h5 class="mb-5">Carte et informations</h5>
                                     <strong>{{ company.name }}</strong>
                                     <p>{{ company.addressNumber }}, {{ company.addressStreet }}, {{ company.addressPostCode }} {{ company.city }}</p>
-                                    <br>
-                                    <p><span class="text-muted">Téléphone :</span> {{ company.phone ?? 'non renseigné' }}</p>
                                 </div>
                                 <div class="col-lg-5 map" data-lat="{{ company.latitude }}" data-lon="{{ company.longitude }}">
                                     {% include 'default/map.html.twig' %}
@@ -111,29 +107,6 @@
                             </div>
                         </div>
                     </div>
-                    {#<div class="company-content-users">
-                        <div class="user-profile-ov page-title sign_in_sec current" id="company-users">
-                            <h5 class="mb-5">Présentation de l'équipe</h5>
-                            <div class="row">
-                                <div class="col-6">
-                                    <span class="d-block"><strong>Administarteurs</strong></span>
-                                    {% for user in users %}
-                                        {% if user.granted('ROLE_ADMIN_COMPANY') %}
-                                            {{ user.profile.firstname }} {{ user.profile.lastname }}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="col-6">
-                                    <span class="d-block"><strong>Collaborateurs</strong></span>
-                                    {% for user in users %}
-                                        {% if not user.granted('ROLE_ADMIN_COMPANY') %}
-                                            {{ user.profile.firstname }} {{ user.profile.lastname }}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>#}
                     <div class="company-content-recommandations-services">
                         <div class="user-profile-ov page-title sign_in_sec current st2" id="company-recommandations-services">
                             <h5>

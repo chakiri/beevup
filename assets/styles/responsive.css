@@ -440,6 +440,7 @@
 	.request-info {width: 100%;padding: 0;margin: 15px 0;}
 	.accept-feat {width: 100%;}
 	.requests-list {padding-bottom: 50px;}
+	.landing-page-join-beevup-title {padding-top: 0;}
 }
 
 @media (min-width: 1600PX) {

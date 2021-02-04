@@ -54,4 +54,14 @@ class CompanyController extends EasyAdminController
         ]);
 
     }
+
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $store = $this->getUser()->getStore();
+        if($this->getUser()->getId() != 1) {
+            $dqlFilter = sprintf('entity.store = %s', $store->getId());
+        }
+        $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+        return $list;
+    }
 }

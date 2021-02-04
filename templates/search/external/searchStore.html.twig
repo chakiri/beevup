@@ -4,9 +4,7 @@
 
 {% block body %}
 
-    {% include 'partials/header/headerExternal.html.twig' %}
-
-    <section class="bg-search">
+    <section class="bg-search header-padding">
         <div class="container-bv">
             <div class="row">
                 <div class="col-xl-6">
@@ -78,20 +76,19 @@
                                             {% else  %}
                                                 <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 220px" alt="">
                                             {% endif %}
+
+                                            {% include 'default/cards/infos-stickers.html.twig' with {
+                                                'item': service,
+                                                'distances': distancesServices,
+                                                'nbRecommandations': nbRecommandationsServices
+                                            } %}
+
                                         </div>
                                         <div class="card-body">
                                             <div class="card-meta">
                                                 <h4 class="card-title">{{ service.title }}</h4>
                                                 <p class="card-text">{{ service.introduction }}</p>
                                                 <p class="text-muted mt-3">Proposé par : {{ service.user.company.name }}</p>
-                                                {% if app.user and nbRecommandationsServices[service.id] > 0 %}
-                                                    <ul class="list-unstyled list-inline rating mb-0">
-                                                        <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange mr-1"> </i></li>
-                                                        <li class="list-inline-item">
-                                                            {% if nbRecommandationsServices[service.id] == 1  %}<p class="text-muted"><small> 1 Recommandation</small></p>
-                                                            {% else %} <p class="text-muted"><small> {{ nbRecommandationsServices[service.id] }} Recommandations</small></p></li>{% endif %}
-                                                    </ul>
-                                                {% endif %}
                                             </div>
                                         </div>
                                         <hr>
@@ -163,19 +160,17 @@
                                                 <img class = "card-img-top" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
                                             {% endif %}
                                         </div>
+
+                                        {% include 'default/cards/infos-stickers.html.twig' with {
+                                            'item': company,
+                                            'distances': distancesCompanies,
+                                            'nbRecommandations': nbRecommandationsCompanies
+                                        } %}
+
                                         <div class="card-body">
                                             <h4 class="card-title">{{ company.name }}</h4>
                                             <p class="text-muted mt-3">{{ company.otherCategory }}</p>
                                             <p class="card-text">{{ company.introduction }}</p>
-                                            {% if nbRecommandationsCompanies[company.id] > 0 %}
-                                                <ul class="list-unstyled list-inline rating mb-0 d-flex">
-                                                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange mr-1"> </i></li>
-                                                    <li class="list-inline-item">
-                                                        {% if nbRecommandationsCompanies[company.id] == 1  %}<p class="text-muted"><small> 1 Recommandation</small></p>
-                                                        {% else %} <p class="text-muted"><small> {{ nbRecommandationsCompanies[company.id] }} Recommandations</small></p></li>{% endif %}
-                                                    </li>
-                                                </ul>
-                                            {% endif %}
                                         </div>
                                         <hr>
 
@@ -202,25 +197,7 @@
 {% endblock %}
 
 {% block modals %}
-    <div class="modal fade" id="chooseStore" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="be-contacted container">
-                    <h5 class="text-center">Séléctionnez votre magasin Bureau Vallée</h5>
-                    <form action="">
-                        <label for="store" class="my-3 text-muted">Séléctionnez votre magasin de rattachement parmi la liste suivante. <br> La page de recherche serait alors enrichie d'informations locales (entreprises, services, ...).</label>
-                        <select name="store" id="store" class="form-control" required="required">
-                            <option value="">--Choisir un magasin--</option>
-                            {% for store in stores %}
-                                <option value="{{ store.reference }}">{{ store.addressPostCode }} - {{ store.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <button type="submit" class="btn btn-warning mt-3 float-right">Sélectionner</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'default/modals/external/choose-store.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

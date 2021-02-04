@@ -41,9 +41,9 @@
                                     <div class="title-total">
                                         <div class="meta">
                                             {% if admins[company.id] %}<div class="title">{{ admins[company.id].profile.firstname }} {{ admins[company.id].profile.lastname }}</div>{% endif %}
-                                            <h1>{{ company.name }}</h1>
+                                            <h1>{{ company.name }}<span class="text-muted"> - {{ company.addressPostCode|slice(0,2) }} {{ company.city }}</span></h1>
                                             <div class="desc">{{ company.otherCategory }} - {{ company.introduction ?? 'Pas d\'inscription' }}</div>
-                                            {% if servicesArray[company.id] %}
+                                             {% if servicesArray[company.id] %}
                                                 <div class="services pt-5">
                                                     <div class="row row-equal">
                                                         {% for service in servicesArray[company.id] %}
@@ -56,7 +56,6 @@
                                                                     {% endif %}
                                                                     <div class="card-body">
                                                                         <h3 class="card-title">{{ service.title }}</h3>
-                                                                        <p class="card-text"><small class="text-muted"></small></p>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
@@ -8,7 +8,7 @@
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="Beevup" />
     <meta property="og:description"   content="Développez votre business grâce à Beev'up la plateforme de services pour les professionnel" />
-    <meta property="og:image"         content="{{ asset('build/images/default/logo-social-media.png') }}" />
+    <meta property="og:image"         content="{{ asset('build/images/dashboard/logo-social-media.png') }}" />
 
 
 
@@ -26,7 +26,7 @@
 <body class="{{ app.request.get('_route') }}" {% set toast = app.request.get('toastScore') %}{% if toast is defined and toast is not empty %} onload="loadToast()" {% endif %}>
 
     {# Display header #}
-    {% include 'partials/header/header.html.twig' %}
+    {% include 'partials/header.html.twig' %}
 
     {#dispaly flash messages #}
     {% include 'partials/flashesConditions.html.twig' %}

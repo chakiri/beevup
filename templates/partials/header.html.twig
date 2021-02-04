@@ -1,14 +1,6 @@
-{% if app.request.attributes.get('_route') != 'security_registration' and
-    app.request.attributes.get('_route') != 'security_login' and
-    app.request.attributes.get('_route') != 'security_forgotten_password' and
-    app.request.attributes.get('_route') != 'security_new_account' and
-    app.request.attributes.get('_route') != 'security_reset_password' and
-    app.request.attributes.get('_route') != 'waiting_validation' and
-    app.request.attributes.get('_route') != 'external_search' and
-    app.request.attributes.get('_route') != 'external_company_slider' and
-    app.request.attributes.get('_route') != 'external_company_show'
-%}
-
+{% if  app.request.attributes.get('_route') != 'external_company_slider' %}
+{# Hedaer authentication #}
+{% if app.user %}
 <header id="header" class="fixed-top d-flex justify-content-between">
 
 <div class="logo float-left">
@@ -172,33 +164,48 @@
 
 </header><!-- #header -->
 
-{% block modals %}
-    <div class="modal modal-get-bar-code fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ma carte pro</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center">
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            {% if app.user.company != null %}
-                                {% if app.user.company.barCode %}
-                                    <div class="box-barCode" data-intro="Code bar de votre entreprise" data-step="1" data-position="right">
-                                        <img class="bar-code-img" src="data:image/png;base64,{{ app.user.company.barCode }}" />
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                </div>
-
+{# Header not autentication #}
+{% elseif app.request.attributes.get('_route') != 'external_company_show' and
+          app.request.attributes.get('_route') != 'external_search'
+%}
+    <div class="landing-page-first-bloc">
+        <header id="landing-page-header">
+            <div class="logo">
+                <a href="{{ path('security_registration') }}">
+                    <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+                </a>
             </div>
-        </div>
+            <div>
+                {% if app.request.attributes.get('_route') != 'security_login' %}
+                    <button type="submit" class="white-btn connexion-btn" method="post">
+                        <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
+                    </button>
+                {% endif %}
+                {% if app.request.attributes.get('_route') != 'security_registration' %}
+                    <button type="submit" class="white-btn connexion-btn" method="post">
+                        <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
+                    </button>
+                {% endif %}
+            </div>
+        </header>
     </div>
-{% endblock %}
+
+{# Header external #}
+{% else %}
+    <div class="{% if app.request.attributes.get('_route') != 'security_registration' %}landing-page-first-bloc{% endif %}">
+        <header id="landing-page-header">
+            <div class="logo">
+                <a href="{{ path('external_search', {'store': app.session.get('store-reference')}) }}">
+                    <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+                </a>
+            </div>
+            <div>
+                <button type="submit" class="white-btn connexion-btn" method="post">
+                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
+                </button>
+            </div>
+        </header>
+    </div>
+{% endif %}
 
 {% endif %}

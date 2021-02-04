@@ -31,27 +31,6 @@ class Mailer
         return Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
     }
 
-    //Function to send emails by Sendinblue SMTP with Twig templates
-    public function sendEmail($subject, $email, array $content, $template): void
-    {
-        $config = $this->getConfig();
-
-        $apiInstance = new TransactionalEmailsApi(new Client(), $config);
-
-        $sendSmtpEmail = new SendSmtpEmail();
-
-        $sendSmtpEmail['subject'] = $subject;
-        $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
-        $sendSmtpEmail['to'] = [['email' => $email]];
-        $sendSmtpEmail['htmlContent'] = $this->templating->render('emails/'.$template, $content);
-
-        try {
-            $apiInstance->sendTransacEmail($sendSmtpEmail);
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
-        }
-    }
-
     //Function to send emails wth Sendinblue templates
     public function sendEmailWithTemplate($email, ?array $params, int $templateId): void
     {
@@ -137,6 +116,27 @@ class Mailer
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             return false;
+        }
+    }
+
+    //Function to send emails by Sendinblue SMTP with Twig templates
+    public function sendEmailWithInternTemplate($subject, $email, array $content, $template): void
+    {
+        $config = $this->getConfig();
+
+        $apiInstance = new TransactionalEmailsApi(new Client(), $config);
+
+        $sendSmtpEmail = new SendSmtpEmail();
+
+        $sendSmtpEmail['subject'] = $subject;
+        $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
+        $sendSmtpEmail['to'] = [['email' => $email]];
+        $sendSmtpEmail['htmlContent'] = $this->templating->render('emails/'.$template, $content);
+
+        try {
+            $apiInstance->sendTransacEmail($sendSmtpEmail);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
         }
     }
 }

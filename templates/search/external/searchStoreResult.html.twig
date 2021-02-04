@@ -3,10 +3,7 @@
 {% block title %}{{ query }}{% endblock %}
 
 {% block body %}
-
-    {% include 'partials/header/headerExternal.html.twig' %}
-
-    <section class="search-store-result">
+    <section class="search-store-result header-padding">
         <div class="container-bv container-bv-search-result">
             <ul class="title-search list-unstyled list-inline pt-3 pb-3">
                 {% if not results %}
@@ -33,6 +30,12 @@
                                         {% endif %}
                                     </div>
 
+                                    {% include 'default/cards/infos-stickers.html.twig' with {
+                                        'item': result,
+                                        'distances': distancesCompanies,
+                                        'nbRecommandations': nbRecommandationsCompanies
+                                    } %}
+
                                     <!-- Card content -->
                                     <div class="card-body">
                                         <h4 class="card-title font-weight-bold"><a>{{ result.name }}</a></h4>
@@ -41,17 +44,6 @@
                                             <li class="list-inline-item"><p class="text-muted"> {{ result.city }}</p></li>
                                         </ul>
                                         <p class="card-text">{{ result.introduction }}</p>
-                                        <div class="card-nbreco">
-                                            {% if nbRecommandationsCompanies[result.id] > 0 %}
-                                                <ul class="list-unstyled list-inline rating mb-0 d-flex">
-                                                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text orange mr-1"> </i></li>
-                                                    <li class="list-inline-item">
-                                                        {% if nbRecommandationsCompanies[result.id] == 1  %}<p class="text-muted"><small> 1 Recommandation</small></p>
-                                                        {% else %} <p class="text-muted"><small> {{ nbRecommandationsCompanies[result.id] }} Recommandations</small></p></li>{% endif %}
-                                                    </li>
-                                                </ul>
-                                            {% endif %}
-                                        </div>
                                         <hr>
 
                                         <!-- Button -->

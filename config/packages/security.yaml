@@ -58,7 +58,7 @@ security:
         - { path: ^/newAccount, allow_if: "!is_authenticated()"}
         - { path: ^/confirmEmail, allow_if: "!is_authenticated()"}
         - { path: ^/be/contacted/by/, allow_if: "!is_authenticated()"}
-        - { path: ^/external/, allow_if: "!is_authenticated()"}
+        - { path: ^/external/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]}
         - { path: ^/, roles: ROLE_USER}
 
     role_hierarchy:

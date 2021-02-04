@@ -31,7 +31,7 @@ class Communities
     }
 
 
-    public function calculateDistanceBetween(Company $currentCompany, $element, $unit)
+    public function calculateDistanceBetween($currentCompany, $element, $unit)
     {
         if ($element instanceof Store || $element instanceof Company){
             $lat1 = $currentCompany->getLatitude();

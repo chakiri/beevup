@@ -39,7 +39,7 @@ class AutomaticMessage
 
         $points = $this->scorePointRepository->findOneBy(['id' => 5])->getPoint();
 
-        $content = "Merci, " . $user->getProfile()->getFirstname() . ", grâce à vous, la société " . $sponsored->getCompany() . " vient de rejoindre la communauté Beev’Up et vous avez gagné " . $points ." points";
+        $content = "Merci grâce à vous, la société " . $sponsored->getCompany() . " vient de rejoindre la communauté Beev’Up et vous avez gagné " . $points ." points";
 
         $this->fromAdvisorToUser($user, $content);
 

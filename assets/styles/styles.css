@@ -684,7 +684,7 @@ textarea.form-control{
 .landing-page-man{
     width: 273px;
     height: 217px;
-    margin-top: -114px;
+    margin-top: -88px;
     z-index: 111;
     position: absolute;
     margin-left:45px
@@ -702,7 +702,7 @@ textarea.form-control{
 }
 .landing-page-first-bloc{
     background-color: var(--bg-color);
-    padding:0 40px 0 !important;
+    padding:0 10em !important;
 }
 .block-background-white{
     background: #fff;
@@ -795,7 +795,6 @@ ul.landing-page-list {
     padding: 4em 0 4em 0;
 }
 .container-landing-page-boxes{
-    margin-top: -48px;
     background-color: var(--bg-color);
 }
 .landing-page-boxes p{
@@ -921,8 +920,8 @@ ul.landing-page-list {
 .no-mobile{
     display: block;
 }
-.container-landing-page{
-
+.header-padding{
+    padding-top: 3em;
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
@@ -1614,7 +1613,7 @@ ul.landing-page-list {
 }
 .company-infos-distance, .company-infos-recommandations{
     height: 18px;
-    background: white;
+    background: #e1eaf8;
     padding: 2px;
     border-radius: 12px;
     font-size: 75%;
@@ -2165,8 +2164,6 @@ ul.landing-page-list {
 }
 
 .user-up-info img{
-    margin-top: 10px;
-    margin-bottom: 10px;
     -webkit-border-radius: 100px;
     border-radius: 100px;
     height: 90px;
@@ -2177,7 +2174,6 @@ ul.landing-page-list {
     height: 335px !important;
 }
 .up-info img{
-    margin-bottom: 10px;
     width: 100%;
     max-height: 169px;
     min-height: 169px;
@@ -3845,7 +3841,7 @@ li.icon-type-post a.active{
 }
 .search-carousel .card-image {
     height: 200px;
-    display: flex;
+    position: relative;
 }
 .search-company-carousel {
     background: #e1eaf8;
@@ -3926,8 +3922,7 @@ li.icon-type-post a.active{
 }
 
 .company-header{
-    height: 120px;
-    display: flex;
+    height: 180px;
     background-color: rgba(67,95,113,0.9);
     z-index: -1;
     background-repeat: no-repeat;
