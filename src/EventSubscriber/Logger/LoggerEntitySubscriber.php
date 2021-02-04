@@ -1,11 +1,11 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\EventSubscriber\Logger;
 
-use App\Events\LoggerEvent;
+use App\Event\Logger\LoggerEntityEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInterface
+class LoggerEntitySubscriber extends AbstractSubscriber implements EventSubscriberInterface
 {
     /**
      * Default action for logs
@@ -15,20 +15,19 @@ class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInte
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
-            LoggerEvent::class    => 'onLogEntity',
+            LoggerEntityEvent::class    => 'onLogEntity',
         ];
     }
 
-
     /**
-     * @param LoggerEvent $event
+     * @param LoggerEntityEvent $event
      */
-    public function onLogEntity(LoggerEvent $event): void
+    public function onLogEntity(LoggerEntityEvent $event): void
     {
-        $this->logEntity($event->getName(), [
+        $this->logEntity($event->getNameAction(), [
             self::getClassName($event->getEntity()) => $event->getEntity()
         ]);
     }
@@ -46,6 +45,7 @@ class LoggerSubscriber extends AbstractSubscriber implements EventSubscriberInte
     }
 
     /**
+     * Get name object from namespace
      * @param $object
      * @return mixed|string
      */

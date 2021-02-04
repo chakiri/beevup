@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Events\LoggerEvent;
+use App\Event\Logger\LoggerEntityEvent;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
@@ -303,8 +303,8 @@ class SecurityController extends AbstractController
         );
         $this->addFlash('success', 'votre compte a été activé');
 
-        //Dispatch on Logger Event
-        $dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_NEW));
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
 
         return $this->redirectToRoute('dashboard', $optionsRedirect);
     }

@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 
 use App\Entity\UserHistoric;
-use App\Events\LoggerEvent;
+use App\Event\Logger\LoggerEntityEvent;
 use App\Repository\UserHistoricRepository;
 use App\Service\ExpireSubscription;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,6 +37,9 @@ class LoginListener
         //Get user
         $user = $event->getAuthenticationToken()->getUser();
 
+        //Dispatch on Logger Entity Event
+        $this->dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_LOGIN, $user));
+
         $historic = $this->userHistoricRepository->findOneBy(['user' => $user]);
 
         if ($user->getCompany()){
@@ -61,8 +64,5 @@ class LoginListener
         $this->manager->persist($historic);
 
         $this->manager->flush();
-
-        //Dispatch on Logger Event
-        $this->dispatcher->dispatch(new LoggerEvent($user, LoggerEvent::USER_LOGIN));
     }
 }

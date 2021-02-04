@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\EventSubscriber\Logger;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;

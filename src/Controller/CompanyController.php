@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BeContacted;
 use App\Entity\Store;
-use App\Events\LoggerEvent;
+use App\Event\Logger\LoggerEntityEvent;
 use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
@@ -107,9 +107,9 @@ class CompanyController extends AbstractController
             $isFavorit = "is-favorit-profile text-warning";
         }
 
-        //Dispatch on Logger Event
+        //Dispatch on Logger Entity Event
         if ($this->getUser()->getCompany() != $company )
-            $dispatcher->dispatch(new LoggerEvent($company, LoggerEvent::COMPANY_SHOW));
+            $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::COMPANY_SHOW, $company));
 
         return $this->render('company/show.html.twig', [
             'company' => $company,

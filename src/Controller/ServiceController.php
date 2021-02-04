@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Service;
-use App\Events\LoggerEvent;
+use App\Event\Logger\LoggerSearchEvent;
+use App\Event\Logger\LoggerEntityEvent;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
 use App\Repository\PostCategoryRepository;
@@ -23,6 +24,7 @@ use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
 use App\Service\AutomaticPost;
 use App\Service\ImageCropper;
+use App\Service\Utility;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,7 +42,7 @@ class ServiceController extends AbstractController
     * @Route("/service/store/{store}", name="service_store")
     * @Route("/service/user/{user}", name="service_user")
     */
-    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting)
+    public function index($user = null, $company = null, $store = null, Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository, StoreRepository $storeRepository, UserRepository $userRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, EventDispatcherInterface $dispatcher, Utility $utility)
     {
         $allCompanies = $getCompanies->getAllCompanies($this->getUser()->getStore());
         $services = $serviceRepository->findByLocalServices($allCompanies);
@@ -87,6 +89,7 @@ class ServiceController extends AbstractController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted()){
+
             $query = $searchForm->get('query')->getData();
             $category = $searchForm->get('category')->getData();
             $isDiscovery = $searchForm->get('isDiscovery')->getData();
@@ -95,6 +98,18 @@ class ServiceController extends AbstractController
             //Add services of store if match query
             $storeServices = $serviceRepository->findSearchStoreServices($storeServices, $query, $category, $isDiscovery);
             $services = array_merge($services, $storeServices);
+
+            //Dispatch on Logger Search Event
+            $fields = [
+                'query' => [
+                    'query_name' => $query,
+                    'query_category' => $category,
+                    'query_discovery' => $isDiscovery
+                ],
+                'nb_result' => count($services),
+                'ids_result' => $utility->getIdsOfArray($services)
+            ];
+            $dispatcher->dispatch(new LoggerSearchEvent(LoggerSearchEvent::SERVICE_SEARCH, $fields));
 
             $user = null;
         }
@@ -224,8 +239,8 @@ class ServiceController extends AbstractController
                  * when the  user create a new service an automatic post will be created
                  ***/
                 if ($request->get('_route') == 'service_new') {
-                    //Dispatch on Logger Event
-                    $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_NEW));
+                    //Dispatch on Logger Entity Event
+                    $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW, $service));
 
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
@@ -286,9 +301,9 @@ class ServiceController extends AbstractController
         $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
         $recommandationsCompany = $recommandationRepository->findBy(['company' => $service->getUser()->getCompany(), 'service' => null, 'status'=>'Validated']);
 
-        //Dispatch on Logger Event
+        //Dispatch on Logger Entity Event
         if ($service->getUser() != $this->getUser())
-            $dispatcher->dispatch(new LoggerEvent($service, LoggerEvent::SERVICE_SHOW));
+            $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_SHOW, $service));
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
