@@ -1,3 +1,4 @@
+{% if  app.request.attributes.get('_route') != 'external_company_slider' %}
 {# Hedaer authentication #}
 {% if app.user %}
 <header id="header" class="fixed-top d-flex justify-content-between">
@@ -165,7 +166,6 @@
 
 {# Header not autentication #}
 {% elseif app.request.attributes.get('_route') != 'external_company_show' and
-          app.request.attributes.get('_route') != 'external_company_slider' and
           app.request.attributes.get('_route') != 'external_search'
 %}
     <div class="landing-page-first-bloc">
@@ -191,7 +191,7 @@
     </div>
 
 {# Header external #}
-{% elseif app.request.attributes.get('_route') != 'external_company_slider' %}
+{% else %}
     <div class="{% if app.request.attributes.get('_route') != 'security_registration' %}landing-page-first-bloc{% endif %}">
         <header id="landing-page-header">
             <div class="logo">
@@ -206,4 +206,6 @@
             </div>
         </header>
     </div>
+{% endif %}
+
 {% endif %}
