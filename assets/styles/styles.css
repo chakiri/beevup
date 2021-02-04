@@ -684,7 +684,7 @@ textarea.form-control{
 .landing-page-man{
     width: 273px;
     height: 217px;
-    margin-top: -114px;
+    margin-top: -88px;
     z-index: 111;
     position: absolute;
     margin-left:45px
@@ -702,7 +702,7 @@ textarea.form-control{
 }
 .landing-page-first-bloc{
     background-color: var(--bg-color);
-    padding:0 40px 0 !important;
+    padding:0 10em !important;
 }
 .block-background-white{
     background: #fff;
@@ -795,7 +795,6 @@ ul.landing-page-list {
     padding: 4em 0 4em 0;
 }
 .container-landing-page-boxes{
-    margin-top: -48px;
     background-color: var(--bg-color);
 }
 .landing-page-boxes p{
@@ -921,8 +920,8 @@ ul.landing-page-list {
 .no-mobile{
     display: block;
 }
-.container-landing-page{
-
+.header-padding{
+    padding-top: 3em;
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
@@ -3923,8 +3922,7 @@ li.icon-type-post a.active{
 }
 
 .company-header{
-    height: 120px;
-    display: flex;
+    height: 180px;
     background-color: rgba(67,95,113,0.9);
     z-index: -1;
     background-repeat: no-repeat;
