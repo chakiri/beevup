@@ -1988,6 +1988,11 @@ ul.landing-page-list {
     color: #cd201f;
 }
 
+.a2a_kit{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
 /* =============== flw-status ============ */
 
 .flw-status {
