@@ -122,7 +122,7 @@ class DefaultController extends AbstractController
        }
         foreach ($companies as $company)
         {
-            if($company->getLatitude() != null && $company->getLongitude() != null ) {
+            if($company->isValid() === true && $company->getLatitude() != null && $company->getLongitude() != null ) {
                 $adresse = $company->getAddressNumber().' '. $company->getAddressStreet(). ' '.$company->getAddressPostCode();
                 $allCompanies = $allCompanies. "{\"name\": \"" . $company->getName() . "\", \"lat\": \"" . $company->getLatitude() . "\",\"lng\": \"" . $company->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
             }
