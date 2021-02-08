@@ -166,7 +166,7 @@ class WebsocketController extends AbstractController
 
         if ($user && count($messages) === 1){
             $params = ['sender' => $user->getProfile()->getLastname() . ' ' . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany()->getName(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
-            $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 7);
+            $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 'first_message');
         }
 
         return $this->json($messages);
@@ -213,7 +213,7 @@ class WebsocketController extends AbstractController
         else $message = "Vous avez " . $notificationNumber . " nouveaux messages non lus.";
 
         $params = ['message' => $message, 'url' => $url];
-        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 10);
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 'daily_chat');
 
     }
 

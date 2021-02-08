@@ -73,7 +73,7 @@ class UserStoreController extends EasyAdminController
         /*send email confirmation*/
         $url = $this->generateUrl('security_new_account', ['token' => $this->token], UrlGeneratorInterface::ABSOLUTE_URL);
         $params = ['url' => $url, 'userStore' => $user->getStore()->getName(), 'sender' => ['name' => $this->getUser()->getProfile()->getLastname() . ' ' . $this->getUser()->getProfile()->getFirstname(), 'store' => $this->getUser()->getStore()->getName(), 'company' => $this->getUser()->getCompany() ? $this->getUser()->getCompany()->getName() : null]];
-        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 9);
+        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 'inscription_invitation');
     }
 
     public function updateUserStoreEntity($user)

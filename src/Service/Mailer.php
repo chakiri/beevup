@@ -19,20 +19,23 @@ class Mailer
 
     private $logger;
 
+    private $tempates_ids;
+
     public function __construct(Environment $templating, LoggerInterface $mailerLogger)
     {
         $this->templating = $templating;
         $this->logger = $mailerLogger;
+        $this->tempates_ids = $this->getTemplatesIds();
     }
 
     //Get config From Api Key
-    public function getConfig()
+    private function getConfig()
     {
         return Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
     }
 
     //Function to send emails wth Sendinblue templates
-    public function sendEmailWithTemplate($email, ?array $params, int $templateId): void
+    public function sendEmailWithTemplate($email, ?array $params, string $templateIdName): void
     {
         $config = $this->getConfig();
 
@@ -42,7 +45,7 @@ class Mailer
 
         $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
         $sendSmtpEmail['to'] = [['email' => $email]];
-        $sendSmtpEmail['templateId'] = $templateId;
+        $sendSmtpEmail['templateId'] = $this->tempates_ids[$templateIdName];
         $sendSmtpEmail['params'] = $params;
 
         try {
@@ -138,5 +141,36 @@ class Mailer
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
         }
+    }
+
+    private function getTemplatesIds(): array
+    {
+        if ($_ENV['APP_ENV'] === 'dev'){
+            $templates_ids = [
+                'password_forgotten' => 3,
+                'confirm_inscription' => 2,
+                'welcome_message' => 4,
+                'recommandation' => 5,
+                'daily_chat' => 10,
+                'first_message' => 7,
+                'sponsorship' => 6,
+                'inscription_invitation' => 9,
+                'recap_becontacted' => 8,
+            ];
+        }elseif ($_ENV['APP_ENV'] === 'prod') {
+            $templates_ids = [
+                'password_forgotten' => 36,
+                'confirm_inscription' => 35,
+                'welcome_message' => 34,
+                'recommandation' => 33,
+                'daily_chat' => 32,
+                'first_message' => 31,
+                'sponsorship' => 30,
+                'inscription_invitation' => 29,
+                'recap_becontacted' => 28,
+            ];
+        }
+
+        return $templates_ids;
     }
 }

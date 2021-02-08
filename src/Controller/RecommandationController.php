@@ -87,7 +87,7 @@ class RecommandationController extends AbstractController
 
             $manager->persist($recommandation);
             $manager->flush();
-            $mailer->sendEmailWithTemplate($admin->getEmail(), ['url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)], 5);
+            $mailer->sendEmailWithTemplate($admin->getEmail(), ['url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)], 'recommandation');
 
             $this->addFlash('success', $messageFlash);
 

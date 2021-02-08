@@ -106,7 +106,7 @@ class SecurityController extends AbstractController
                 //Create new contact on SendinBlue
                 $contactsHandler->handleContactSendinBlueRegistartion($user);
 
-                $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 2);
+                $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
 
                 return $this->redirectToRoute('waiting_validation');
             }
@@ -177,7 +177,7 @@ class SecurityController extends AbstractController
             $manager->flush();
 
             $url = $this->generateUrl('security_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $mailer->sendEmailWithTemplate($email, ['url' => $url], 3);
+            $mailer->sendEmailWithTemplate($email, ['url' => $url], 'password_forgotten');
 
 
             $this->addFlash('success', 'Nous avons envoyé un email à votre adresse email. Cliquez sur le lien figurant dans cet email pour réinitialiser votre mot de passe.
@@ -262,7 +262,7 @@ class SecurityController extends AbstractController
         }
 
         /****send welcome email *****/
-        $mailer->sendEmailWithTemplate($user->getEmail(), null, 4);
+        $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
         /*****end ******/
 
         $user->setResetToken(null);
