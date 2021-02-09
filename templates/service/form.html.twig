@@ -9,9 +9,15 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
-                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                        <button type="button" title="choose model" class="btn white-bg full-width mt-3" data-toggle="modal" data-target="#chooseModel">
+                            Choisir un modèle
+                        </button>
+                    {% endif %}
+                </div>
 
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="main-ws-sec">
                         <div class="product-feed-tab current" id="info-dd">
                             <div class="user-profile-ov page-title sign_in_sec current">
@@ -230,6 +236,10 @@
     <!-- Tutorial button -->
     <button id="tutorialButton" type="button" class="btn btn-secondary" onclick="tutorialNewService()"><i class="fa fa-question-circle fs-big u-mr1"></i> Tutoriel</button>
 
+{% endblock %}
+
+{% block modals %}
+    {% include 'default/modals/service/choose-model.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

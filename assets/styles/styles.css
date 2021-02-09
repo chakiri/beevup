@@ -622,6 +622,9 @@ textarea.form-control{
 .modal-header h5 {
     color: var(--orange-color);
 }
+#chooseModel .modal-dialog{
+    max-width: 80%;
+}
 /* ============== DEFAULT component =========== */
 
 
