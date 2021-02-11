@@ -233,3 +233,24 @@ var stepsNewService = [
         position: 'right',
     },
 ];
+
+// Service create by theme modal
+$('#btnChooseModel').click(function (){
+    //Open modal
+    $('#chooseModel').modal();
+
+    //Get url action
+    const url = $(this).data('url');
+
+    //Get data form controller
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (data){
+            $('#chooseModel .modal-content').html(data);
+        },
+        error: function(xhr){
+            alert(xhr.status + ' Une erreur est survenue. Réssayez plus tard !');
+        }
+    });
+});

@@ -132,6 +132,19 @@ class ServiceController extends AbstractController
     }
 
     /**
+     * @Route("/service/model", name="service_model")
+     */
+    public function model(ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository)
+    {
+        $typeService = $typeServiceRepository->findOneBy(['name' => 'model']);
+        $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+
+        return $this->render('service/index-model.html.twig', [
+            'services' => $services
+        ]);
+    }
+
+    /**
      * @Route("/service/{service}/associate", name="service_associate")
      */
     public function associate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository, ServiceSetting $serviceSetting)

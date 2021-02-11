@@ -9,13 +9,15 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
-                <div class="col-lg-2">
-                    {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                        <button type="button" title="choose model" class="btn white-bg full-width mt-3" data-toggle="modal" data-target="#chooseModel">
+                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                    <div class="col-lg-2">
+                        <button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
                             Choisir un modèle
                         </button>
-                    {% endif %}
-                </div>
+                    </div>
+                {% else %}
+                    <div class="col-lg-1"></div>
+                {% endif %}
 
                 <div class="col-lg-9">
                     <div class="main-ws-sec">
@@ -239,7 +241,7 @@
 {% endblock %}
 
 {% block modals %}
-    {% include 'default/modals/service/choose-model.html.twig' %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'chooseModel'} %}
 {% endblock %}
 
 {% block javascripts %}

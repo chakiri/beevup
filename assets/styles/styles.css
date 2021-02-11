@@ -623,7 +623,18 @@ textarea.form-control{
     color: var(--orange-color);
 }
 #chooseModel .modal-dialog{
-    max-width: 80%;
+    max-width: 60% !important;
+}
+#chooseModel .modal-form{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#chooseModel .modal-data{
+    padding: 1em;
+    background: #FAFAFA;
+    height: 700px;
+    overflow-x: hidden;
 }
 /* ============== DEFAULT component =========== */
 
