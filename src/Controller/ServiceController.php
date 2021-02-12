@@ -134,12 +134,19 @@ class ServiceController extends AbstractController
     /**
      * @Route("/service/model", name="service_model")
      */
-    public function model(ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository)
+    public function model(Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository)
     {
         $typeService = $typeServiceRepository->findOneBy(['name' => 'model']);
         $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+        $template = 'service/model.html.twig';
 
-        return $this->render('service/index-model.html.twig', [
+        //If searching
+        if (null !== $query = $request->get('query')){
+            $services = $serviceRepository->findModel($typeService, $query);
+            $template = 'service/modelResult.html.twig';
+        }
+
+        return $this->render($template, [
             'services' => $services
         ]);
     }

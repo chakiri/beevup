@@ -35,6 +35,7 @@ Encore
     .addEntry('favoris', './assets/scripts/favoris.js')
     .addEntry('extern', './assets/scripts/extern.js')
     .addEntry('home', './assets/scripts/home.js')
+    .addEntry('service', './assets/scripts/service.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
