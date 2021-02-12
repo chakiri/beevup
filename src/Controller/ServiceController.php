@@ -19,6 +19,7 @@ use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
+use App\Service\Factory\ServiceFactory;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
@@ -148,6 +149,23 @@ class ServiceController extends AbstractController
 
         return $this->render($template, [
             'services' => $services
+        ]);
+    }
+
+    /**
+     * @Route("/service/{id}/model", name="service_from_model")
+     */
+    public function fromModel(Service $service, EntityManagerInterface $manager, TypeServiceRepository $typeServiceRepository)
+    {
+        $type =  $typeServiceRepository->findOneBy(['name' => 'company']);
+        $newService = ServiceFactory::create($service, $this->getUser(), $type);
+
+        $manager->persist($newService);
+
+        $manager->flush();
+
+        return $this->redirectToRoute('service_edit', [
+            'id' => $newService->getId()
         ]);
     }
 
