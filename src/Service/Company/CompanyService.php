@@ -17,7 +17,7 @@ class CompanyService
     }
 
     /**
-     * Edit all users store
+     * Edit store and general topic to all users of the company
      * @param $company
      */
     public function updateUsersStore($company): void
@@ -29,5 +29,5 @@ class CompanyService
            //change general store topic
            $this->topicHandler->initGeneralStoreTopic($user);
        }
-  }
+   }
 }

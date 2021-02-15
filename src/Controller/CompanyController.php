@@ -67,7 +67,7 @@ class CompanyController extends AbstractController
 
                 //Check if store company is edited
                 if ($company->getStore() !== $currentStore){
-                    //update users store
+                    //update users of company
                     $companyService->updateUsersStore($company);
                 }
 
