@@ -41,6 +41,8 @@ class CompanyController extends AbstractController
         //Denied Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
+        $currentStore = $company->getStore();
+
         if ($company == $this->getUser()->getCompany()) {
             $form = $this->createForm(CompanyType::class, $company);
             $form->handleRequest($request);
@@ -62,18 +64,23 @@ class CompanyController extends AbstractController
                     $company->setLatitude($coordonnees[0]);
                     $company->setLongitude($coordonnees[1]);
                 }
+
+                //Check if store company is edited
+                if ($company->getStore() !== $currentStore){
+                    //update users store
+                    $companyService->updateUsersStore($company);
+                }
+
                 $manager->persist($company);
                 $manager->flush();
 
-                // update users store
-                $companyService->updateUsersStore($company);
-
                 //init topic company category to user
                 $topicHandler->initCategoryCompanyTopic($company->getCategory());
-                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
 
                 //Create new contact on SendinBlue
                 $contactsHandler->handleContactSendinBlueCompleteCompany($this->getUser());
+
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
 
                 return $this->redirectToRoute('company_show', [
                     'slug' => $company->getSlug(),
