@@ -155,10 +155,13 @@ class ServiceController extends AbstractController
     /**
      * @Route("/service/{id}/model", name="service_from_model")
      */
-    public function fromModel(Service $service, EntityManagerInterface $manager, TypeServiceRepository $typeServiceRepository)
+    public function fromModel(Service $service, EntityManagerInterface $manager, TypeServiceRepository $typeServiceRepository, EventDispatcherInterface $dispatcher)
     {
         $type =  $typeServiceRepository->findOneBy(['name' => 'company']);
         $newService = ServiceFactory::create($service, $this->getUser(), $type);
+
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW_MODEL, $service));
 
         $manager->persist($newService);
 
