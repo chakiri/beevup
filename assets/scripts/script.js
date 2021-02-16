@@ -561,7 +561,6 @@ function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
                     // =================================append copper Image ============
                     $('#previous-image').empty();
                     $('#update-img-modal').modal('hide');
-                    console.log(cropper);
                     if(cropper != '') {
                         $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
                     }
