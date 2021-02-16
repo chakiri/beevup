@@ -150,5 +150,3 @@ if (window.location.pathname === '/external/search'){
         $('#chooseStore').modal('show');
     });
 }
-
-
