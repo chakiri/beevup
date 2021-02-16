@@ -12,7 +12,7 @@ use App\Service\Chat\AutomaticMessage;
 use App\Service\ContactsHandler;
 use App\Service\Mailer;
 use App\Service\GetCompanies;
-use App\Service\Company\CompanyService;
+use App\Service\Company\CompanySetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,7 +36,7 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler, CompanyService $companyService)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler, CompanySetting $companySetting)
     {
         //Denied Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
@@ -68,7 +68,7 @@ class CompanyController extends AbstractController
                 //Check if store company is edited
                 if ($company->getStore() !== $currentStore){
                     //update users of company
-                    $companyService->updateUsersStore($company);
+                    $companySetting->updateUsersStore($company);
                 }
 
                 $manager->persist($company);
