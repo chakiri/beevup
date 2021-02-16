@@ -1,17 +1,20 @@
 {% if  app.request.attributes.get('_route') != 'external_company_slider' %}
+
 {# Hedaer authentication #}
 {% if app.user %}
 <header id="header" class="fixed-top d-flex justify-content-between">
 
 <div class="logo float-left">
     <!-- Uncomment below if you prefer to use an image logo -->
-    <a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>
+    {#<a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>#}
+    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
+        <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+    </a>
 </div>
 
 <nav class="main-nav d-none d-lg-block">
     <ul class="d-lg-flex justify-content-between">
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div></div>
 
             <div class="d-lg-flex">
                 {% set route =  app.request.get('_route') %}
@@ -165,13 +168,11 @@
 </header><!-- #header -->
 
 {# Header not autentication #}
-{% elseif app.request.attributes.get('_route') != 'external_company_show' and
-          app.request.attributes.get('_route') != 'external_search'
-%}
+{% else %}
     <div class="landing-page-first-bloc">
         <header id="landing-page-header">
             <div class="logo">
-                <a href="{{ path('security_registration') }}">
+                <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
                     <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
                 </a>
             </div>
@@ -186,23 +187,6 @@
                         <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
                     </button>
                 {% endif %}
-            </div>
-        </header>
-    </div>
-
-{# Header external #}
-{% else %}
-    <div class="{% if app.request.attributes.get('_route') != 'security_registration' %}landing-page-first-bloc{% endif %}">
-        <header id="landing-page-header">
-            <div class="logo">
-                <a href="{{ path('external_search', {'store': app.session.get('store-reference')}) }}">
-                    <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
-                </a>
-            </div>
-            <div>
-                <button type="submit" class="white-btn connexion-btn" method="post">
-                    <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
-                </button>
             </div>
         </header>
     </div>
