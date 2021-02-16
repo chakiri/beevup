@@ -190,6 +190,8 @@ class ServiceController extends AbstractController
         $referer = $request->headers->get('referer');
         $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
 
+
+
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();
@@ -204,6 +206,9 @@ class ServiceController extends AbstractController
         if($form->isSubmitted()) {
             if($form->isValid())
             {
+                /* ======== get selected image from gallery ========*/
+                $serviceSetting->setGalleryFileName($service,$request);
+
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);

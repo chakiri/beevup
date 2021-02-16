@@ -34,6 +34,7 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
       
         $builder
             ->add('title', TextType::class, [
@@ -209,9 +210,38 @@ class ServiceType extends AbstractType
             ])
             ->add('previousUrl', HiddenType::class, [
                 'mapped'    => false,
-                 'attr'  => [
+                'attr'  => [
                     'value' => $options['previousPage']
-                 ],
+                ],
+            ])
+            ->add('imgGallerie', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery',
+                      'value' =>'edit'
+                ],
+            ])
+            ->add('imgGallerie1', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-1',
+                    'value' => 'edit'
+                ],
+            ])
+            ->add('imgGallerie2', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-2',
+                    'value' => 'edit'
+
+                ],
+            ])
+            ->add('imgGallerie3', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-3',
+                    'value' => 'edit'
+                ],
             ])
         ;
 
@@ -255,4 +285,6 @@ class ServiceType extends AbstractType
             },
         ]);
     }
+
+
 }

@@ -119,12 +119,12 @@ $(function () {
 
 //  ============= Set Name to all upload file =========
 
-$('.custom-file-input').on('change', function(event) {
+/*$('.custom-file-input').on('change', function(event) {
     var inputFile = event.currentTarget;
     $(inputFile).parent()
         .find('.custom-file-label')
         .html(inputFile.files[0].name);
-});
+});*/
 
 
 //  =============toast popup showing score =========
@@ -153,45 +153,45 @@ $('#cookies a').click(function(){
 
 //  ============= cropper image =========
 
-    "use strict";
+"use strict";
 
-    function createPreviousImageBloc(id){
-       let idValue =  (id.slice(id.length - 1) =='e') ? '' : id.slice(id.length - 1);
-        return document.getElementById('previous-image'+idValue) ;
+function createPreviousImageBloc(id){
+    let idValue =  (id.slice(id.length - 1) =='e') ? '' : id.slice(id.length - 1);
+    return document.getElementById('previous-image'+idValue) ;
+}
+function getFieldId(serviceClassName){
+    if(serviceClassName.slice(-1) ==    1)   return 1;
+    if(serviceClassName.slice(-1) ==    2)   return 2;
+    if(serviceClassName.slice(-1) ==    3)   return 3;
+    if(serviceClassName.slice(-1) ==  'e')   return '';
+
+}
+function getDeleteFileUrl(serviceId, fieldId){
+    let url ='/service/'+serviceId+'/delete/'+fieldId;
+    return url;
+}
+
+$(document).on('click', '.delete-img-service', function(e) {
+    $(this).addClass('d-none');
+    let fieldId = $(this).attr('data-input-id');
+    let serviceId = $(this).attr('data-service-id');
+
+    if (fieldId == 'service_imageFile1') {
+        $('#previous-image1').empty();
+        $('#service_imageFile1').val('');
+        serviceCropper1 = '';
     }
-    function getFieldId(serviceClassName){
-        if(serviceClassName.slice(-1) ==    1)   return 1;
-        if(serviceClassName.slice(-1) ==    2)   return 2;
-        if(serviceClassName.slice(-1) ==    3)   return 3;
-        if(serviceClassName.slice(-1) ==  'e')   return '';
-
+    if (fieldId == 'service_imageFile2') {
+        $('#previous-image2').empty();
+        $('#service_imageFile2').val('');
+        serviceCropper2 = '';
     }
-     function getDeleteFileUrl(serviceId, fieldId){
-        let url ='/service/'+serviceId+'/delete/'+fieldId;
-        return url;
-     }
-
-    $(document).on('click', '.delete-img-service', function(e) {
-        $(this).addClass('d-none');
-        let fieldId = $(this).attr('data-input-id');
-        let serviceId = $(this).attr('data-service-id');
-
-        if (fieldId == 'service_imageFile1') {
-            $('#previous-image1').empty();
-            $('#service_imageFile1').val('');
-            serviceCropper1 = '';
-        }
-        if (fieldId == 'service_imageFile2') {
-            $('#previous-image2').empty();
-            $('#service_imageFile2').val('');
-            serviceCropper2 = '';
-        }
-        if (fieldId == 'service_imageFile3') {
-            $('#previous-image3').empty();
-            $('#service_imageFile3').val('');
-            serviceCropper3 = '';
-        }
-        if(serviceId != ''){
+    if (fieldId == 'service_imageFile3') {
+        $('#previous-image3').empty();
+        $('#service_imageFile3').val('');
+        serviceCropper3 = '';
+    }
+    if(serviceId != ''){
         let deletFileUrl = getDeleteFileUrl(serviceId, fieldId);
         $.ajax({
             url: deletFileUrl,
@@ -207,178 +207,185 @@ $('#cookies a').click(function(){
         })
     }
 
-    });
+});
 
 
 
-    var fileInput = document.getElementsByClassName('form-imageFile')[0];
-    //var cropper;
+var fileInput = document.getElementsByClassName('form-imageFile')[0];
+//var cropper;
+var previousImage = document.createElement("img");
+previousImage.classList.add('previous-img');
+previousImage.classList.add('hide-bloc');
+var previousImageBloc = document.getElementById('previous-image');
+if(previousImageBloc != null) {
+
+    previousImageBloc.appendChild(previousImage);
+}
+
+var ServiceCropper ='';
+var serviceCropper1 ='';
+var serviceCropper2 ='';
+var serviceCropper3 ='';
+var reader1 = new FileReader();
+var reader2 = new FileReader();
+
+var reader3 = new FileReader();
+
+window.previousImage = function(e)
+{
+    /*var selectedImage ='';
+    if(e.detail != undefined) {
+        selectedImage = e.detail.selectedImage;
+        console.log('selecteImage',selectedImage);
+    }*/
+
+    let serviceInputsId = ['service_imageFile1','service_imageFile2','service_imageFile3']
+    let serviceFieldId ='';
+    /* to check if the page is service or [profile, store, company] */
+    if(e != undefined){
+        serviceFieldId = e.target.id;
+        $('#previous-image'+getFieldId(serviceFieldId)).empty();
+        $('#previous-image'+getFieldId(serviceFieldId)+ ' + span').removeClass('d-none');
+    } else {
+        $('#previous-image').empty();
+    }
+    if(serviceInputsId.includes(serviceFieldId)) {
+        var fileInput = document.getElementById(e.target.id);
+
+    } else {
+        var fileInput = document.getElementsByClassName('form-imageFile')[0];
+    }
+
+    var cropper;
+    var cutbtn = document.createElement("span");
+
+    if(serviceFieldId != undefined) {
+        cutbtn.setAttribute('data-image', serviceFieldId);
+    }
+    if(e != undefined) {
+        cutbtn.classList.add('cut-btn' + getFieldId(serviceFieldId));
+        cutbtn.innerHTML = "Rogner la photo";
+    }
+
+
+
     var previousImage = document.createElement("img");
-
     previousImage.classList.add('previous-img');
     previousImage.classList.add('hide-bloc');
-    var previousImageBloc = document.getElementById('previous-image');
-    if(previousImageBloc != null) {
-
-        previousImageBloc.appendChild(previousImage);
-   }
-
-    var ServiceCropper ='';
-    var serviceCropper1 ='';
-    var serviceCropper2 ='';
-    var serviceCropper3 ='';
-    var reader1 = new FileReader();
-    var reader2 = new FileReader();
-    var reader3 = new FileReader();
-
-    window.previousImage = function(e)
-    {
-
-        let serviceInputsId = ['service_imageFile1','service_imageFile2','service_imageFile3']
-        let serviceFieldId ='';
-        /* to check if the page is service or [profile, store, company] */
-        if(e != undefined){
-             serviceFieldId = e.target.id;
-            $('#previous-image'+getFieldId(serviceFieldId)).empty();
-            $('#previous-image'+getFieldId(serviceFieldId)+ ' + span').removeClass('d-none');
-        } else {
-            $('#previous-image').empty();
-        }
-        if(serviceInputsId.includes(serviceFieldId)) {
-             var fileInput = document.getElementById(e.target.id);
-
-        } else {
-            var fileInput = document.getElementsByClassName('form-imageFile')[0];
-        }
-
-        var cropper;
-        var cutbtn = document.createElement("span");
-
-        if(serviceFieldId != undefined) {
-            cutbtn.setAttribute('data-image', serviceFieldId);
-    }
-        if(e != undefined) {
-            cutbtn.classList.add('cut-btn' + getFieldId(serviceFieldId));
-            cutbtn.innerHTML = "Rogner la photo";
-        }
-
-
-
-        var previousImage = document.createElement("img");
-        previousImage.classList.add('previous-img');
-        previousImage.classList.add('hide-bloc');
-        if(serviceInputsId.includes(serviceFieldId)){
+    if(serviceInputsId.includes(serviceFieldId)){
         var previousImageBloc = createPreviousImageBloc(serviceFieldId);
 
     } else {
         var previousImageBloc = document.getElementById('previous-image');
     }
-        if(previousImageBloc != null) {
+    if(previousImageBloc != null) {
 
-            previousImageBloc.appendChild(previousImage);
-            previousImageBloc.appendChild(cutbtn);
-        }
+        previousImageBloc.appendChild(previousImage);
+        previousImageBloc.appendChild(cutbtn);
+    }
 
-        previousImage.classList.remove('hide-bloc');
-        if(serviceInputsId.includes(serviceFieldId)) {
-           var fileInput = document.getElementById(serviceFieldId);
-        } else {
-            var fileInput = document.getElementsByClassName('form-imageFile')[0];
-        }
-        var file = fileInput.files[0];
-        let reader = new FileReader();
-        if(reader != null){
-             reader.addEventListener('load', function (event) {
-                previousImage.src = reader.result
-            }, false)
-        }
+    previousImage.classList.remove('hide-bloc');
+    if(serviceInputsId.includes(serviceFieldId)) {
+        var fileInput = document.getElementById(serviceFieldId);
+    } else {
+        var fileInput = document.getElementsByClassName('form-imageFile')[0];
+    }
+    var file = fileInput.files[0];
+    let reader = new FileReader();
+    if(reader != null){
+        reader.addEventListener('load', function (event) {
+            previousImage.src = reader.result;
+        }, false)
+    }
 
-        if(file){
+    if(file){
+        if(file != null) {
             reader.readAsDataURL(file);
         }
+    }
 
-        if(previousImage != null) {
-            previousImage.addEventListener('load', function () {
+    if(previousImage != null) {
+        previousImage.addEventListener('load', function () {
 
-                if (cropper) {
+            if (cropper) {
 
-                    cropper.destroy();
-                    cropper = new Cropper(previousImage, {
-                        aspectRatio: 1
-                    });
-                } else {
+                cropper.destroy();
+                cropper = new Cropper(previousImage, {
+                    aspectRatio: 1
+                });
+            } else {
 
-                    cropper = new Cropper(previousImage, {
-                        aspectRatio: 1
-                    })
-                    if(serviceFieldId.slice(-1) == 1){
-                        serviceCropper1 = cropper;
-                        reader1 = reader;
-                    }
-                     if(serviceFieldId.slice(-1) ==2){
-                        serviceCropper2 = cropper;
-                         reader2 = reader;
-                    }
-                     if(serviceFieldId.slice(-1) ==3){
-                        serviceCropper3 = cropper;
-                         reader3 = reader;
-                    }
-
-                     if(serviceFieldId.slice(-1) =='e'){
-                        ServiceCropper = cropper;
-                    }
-
-                 }
-            });
-        }
-        let form = document.getElementById('BVform');
-        function handler ()
-        {
-            if(fileInput.files[0]) {
-                event.preventDefault()
-                $('.hide-load').addClass('load-ajax-form');
-                if (cropper) {
-
-                    cropper.getCroppedCanvas({
-                        maxHeight: 1000,
-                        maxWidth: 1000,
-
-                    }).toBlob(function (blob) {
-                        ajaxWithAxios(blob, form, cropper);
-                     })
+                cropper = new Cropper(previousImage, {
+                    aspectRatio: 1
+                })
+                if(serviceFieldId.slice(-1) == 1){
+                    serviceCropper1 = cropper;
+                    reader1 = reader;
                 }
-                else {
-
-                    $('.hide-load').removeClass('load-ajax-form');
-                    // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
-                    $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
+                if(serviceFieldId.slice(-1) ==2){
+                    serviceCropper2 = cropper;
+                    reader2 = reader;
                 }
+                if(serviceFieldId.slice(-1) ==3){
+                    serviceCropper3 = cropper;
+                    reader3 = reader;
+                }
+
+                if(serviceFieldId.slice(-1) =='e'){
+                    ServiceCropper = cropper;
+                }
+
+            }
+        });
+    }
+    let form = document.getElementById('BVform');
+    function handler ()
+    {
+        if(fileInput.files[0]) {
+            event.preventDefault()
+            $('.hide-load').addClass('load-ajax-form');
+            if (cropper) {
+
+                cropper.getCroppedCanvas({
+                    maxHeight: 1000,
+                    maxWidth: 1000,
+
+                }).toBlob(function (blob) {
+                    ajaxWithAxios(blob, form, cropper);
+                })
+            }
+            else {
+
+                $('.hide-load').removeClass('load-ajax-form');
+                // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
+                $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
             }
         }
-        if(form != null)
-        {
-            form.addEventListener('submit',handler);
-        }
+    }
+    if(form != null)
+    {
+        form.addEventListener('submit',handler);
+    }
 
 
-        $(document).on('click', '.cut-btn'+getFieldId(serviceFieldId), function(e) {
+    $(document).on('click', '.cut-btn'+getFieldId(serviceFieldId), function(e) {
         previousImageBloc = createPreviousImageBloc($(this).attr('data-image'));
         $('.cropper-modal').addClass('imageCupped'+getFieldId(serviceFieldId));
         var previousCuppedImage = document.createElement("img");
         previousCuppedImage.classList.add('previous-cupped-img'+getFieldId($(this).attr('data-image')));
         $('#previous-image'+getFieldId($(this).attr('data-image'))).empty();
         previousImageBloc.appendChild(previousCuppedImage);
-            var resetBtn = document.createElement("span");
-            resetBtn.innerHTML = "Annuler";
-            resetBtn.classList.add('reset-btn'+ getFieldId(serviceFieldId));
-            resetBtn.setAttribute('data-image', serviceFieldId);
-            previousImageBloc.appendChild(resetBtn);
+        var resetBtn = document.createElement("span");
+        resetBtn.innerHTML = "Annuler";
+        resetBtn.classList.add('reset-btn'+ getFieldId(serviceFieldId));
+        resetBtn.setAttribute('data-image', serviceFieldId);
+        previousImageBloc.appendChild(resetBtn);
         if(getFieldId($(this).attr('data-image')) == 1){
             $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper1.getCroppedCanvas().toDataURL());
-         }
-            else if(getFieldId($(this).attr('data-image')) == 2){
-                $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper2.getCroppedCanvas().toDataURL());
-            }
+        }
+        else if(getFieldId($(this).attr('data-image')) == 2){
+            $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper2.getCroppedCanvas().toDataURL());
+        }
         else if(getFieldId($(this).attr('data-image')) == 3){
             $('.previous-cupped-img'+getFieldId($(this).attr('data-image'))).attr('src', serviceCropper3.getCroppedCanvas().toDataURL());
         }
@@ -388,232 +395,235 @@ $('#cookies a').click(function(){
 
 
     });
-        $(document).on('click', '.reset-btn'+getFieldId(serviceFieldId), function(e) {
-             previousImageBloc = createPreviousImageBloc($(this).attr('data-image'));
-            $('.imageCupped'+getFieldId(serviceFieldId)).removeClass('imageCupped'+getFieldId(serviceFieldId));
-            var previousImage = document.createElement("img");
-            previousImage.classList.add('previous-img'+getFieldId(serviceFieldId));
-            $('#previous-image'+getFieldId(serviceFieldId)).empty();
-            if(getFieldId(serviceFieldId) == 1) {
+    $(document).on('click', '.reset-btn'+getFieldId(serviceFieldId), function(e) {
+        previousImageBloc = createPreviousImageBloc($(this).attr('data-image'));
+        $('.imageCupped'+getFieldId(serviceFieldId)).removeClass('imageCupped'+getFieldId(serviceFieldId));
+        var previousImage = document.createElement("img");
+        previousImage.classList.add('previous-img'+getFieldId(serviceFieldId));
+        $('#previous-image'+getFieldId(serviceFieldId)).empty();
+        if(getFieldId(serviceFieldId) == 1) {
 
-                previousImage.src = reader1.result;
-                previousImageBloc.appendChild(previousImage);
-                serviceCropper1 = new Cropper(previousImage, {
-                    aspectRatio: 1
-                });
+            previousImage.src = reader1.result;
+            previousImageBloc.appendChild(previousImage);
+            serviceCropper1 = new Cropper(previousImage, {
+                aspectRatio: 1
+            });
 
-            } else if(getFieldId(serviceFieldId) == 2){
-                previousImage.src = reader2.result;
-                previousImageBloc.appendChild(previousImage);
-                serviceCropper2 = new Cropper(previousImage, {
-                    aspectRatio: 1
-                });
+        } else if(getFieldId(serviceFieldId) == 2){
+            previousImage.src = reader2.result;
+            previousImageBloc.appendChild(previousImage);
+            serviceCropper2 = new Cropper(previousImage, {
+                aspectRatio: 1
+            });
 
-            } else if(getFieldId(serviceFieldId) == 3){
+        } else if(getFieldId(serviceFieldId) == 3){
 
-                previousImage.src = reader3.result;
-                previousImageBloc.appendChild(previousImage);
-                serviceCropper3 = new Cropper(previousImage, {
-                    aspectRatio: 1
-                });
+            previousImage.src = reader3.result;
+            previousImageBloc.appendChild(previousImage);
+            serviceCropper3 = new Cropper(previousImage, {
+                aspectRatio: 1
+            });
 
-            } else {
+        } else {
 
-               previousImage.src = reader.result;
-                previousImageBloc.appendChild(previousImage);
-                ServiceCropper = new Cropper(previousImage, {
-                    aspectRatio: 1
+            previousImage.src = reader.result;
+            previousImageBloc.appendChild(previousImage);
+            ServiceCropper = new Cropper(previousImage, {
+                aspectRatio: 1
+            });
+
+        }
+
+
+        previousImageBloc.appendChild(cutbtn);
+
+
+    });
+
+}
+
+//====================== fix service issue =========//
+let form = document.getElementById('BVformService');
+if(form != null)
+{
+    form.addEventListener('submit', function (event)
+    {
+        let blob0 ='';
+        let blob1 ='';
+        let blob2 ='';
+        let blob3 ='';
+        let imageDimension = {maxHeight: 1000, maxWidth: 1000 };
+
+        if(fileInput.files[0]  || fileInput != null ) {
+
+            event.preventDefault();
+
+
+            $('.hide-load').addClass('load-ajax-form');
+
+            if (serviceCropper1 != '') {
+                serviceCropper1.getCroppedCanvas(imageDimension).toBlob(function (blob) {  blob1 = blob; });  }
+
+            if (serviceCropper2 != '') {
+                serviceCropper2.getCroppedCanvas(imageDimension).toBlob(function (blob) {   blob2 = blob;  });
+            }
+
+            if (serviceCropper3 != '') {
+                serviceCropper3.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob3 = blob;  });
+            }
+
+            if (ServiceCropper != '') {
+
+                ServiceCropper.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob0 = blob;
                 });
 
             }
 
+            setTimeout(function(){  ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3); }, 500); }
+    });
+}
 
-            previousImageBloc.appendChild(cutbtn);
+//====================== fix service issue =========//
+function update_img_url(){
+    var url =   $('.upload-photo').attr('data-url');
+    return url;
+}
 
+function serviceRedirectedUrl(id)
+{
+    let serviceId = id;
+    let companySlug = $('.data-entity-id').attr('data-company-slug');
+    let companyId= $('.data-entity-id').attr('data-company-id');
+    let previousUrl = $('.data-entity-id').attr('data-previous');
+    let url='';
+    let hostname = location.hostname;
+    let protocol = location.protocol;
+    let port     = location.port;
+    let portURL ='';
+    if (port !=''){
+        portURL = ':'+port;
+    }
+    if(previousUrl !='company')
+        url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
+    else
+        url = protocol+'//'+hostname+portURL+'/company/'+companySlug+'/'+companyId;
 
-        });
+    return url;
+}
 
-   }
+function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
+{
 
-    //====================== fix service issue =========//
-    let form = document.getElementById('BVformService');
-    if(form != null)
-    {
-        form.addEventListener('submit', function (event)
-        {
-            let blob0 ='';
-            let blob1 ='';
-            let blob2 ='';
-            let blob3 ='';
-            let imageDimension = {maxHeight: 1000, maxWidth: 1000 };
+    let url = update_img_url();
+    let data = new FormData(form);
 
-            if(fileInput.files[0]  || fileInput != null ) {
-
-                event.preventDefault();
-
-
-                $('.hide-load').addClass('load-ajax-form');
-
-                if (serviceCropper1 != '') {
-                   serviceCropper1.getCroppedCanvas(imageDimension).toBlob(function (blob) {  blob1 = blob; });  }
-
-                if (serviceCropper2 != '') {
-                    serviceCropper2.getCroppedCanvas(imageDimension).toBlob(function (blob) {   blob2 = blob;  });
-                 }
-
-                if (serviceCropper3 != '') {
-                    serviceCropper3.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob3 = blob;  });
-                 }
-
-                 if (ServiceCropper != '') {
-
-                    ServiceCropper.getCroppedCanvas(imageDimension).toBlob(function (blob) { blob0 = blob;
-                   });
-
+    data.append('file', blob);
+    data.append('file1', blob1);
+    data.append('file2', blob2);
+    data.append('file3', blob3);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        async: false,
+        data:data,
+        processData: false,
+        contentType: false,
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        success: function(data){
+            if(data.result == 0) {
+                $('.hide-load').removeClass('load-ajax-form');
+                let error='';
+                for (var key in data.data) {
+                    error = "<p class='form-error'>"+data.data[key]+"</p>";
+                    $(form).find('[name*="'+key+'"]').first().parent('div').next(".form-error").remove();
+                    $(form).find('[name*="'+key+'"]').first().parent('div').after(error);
+                    /*if(key=='imageFile') {
+                        if(cropper !=null) {
+                           cropper.destroy();
+                        }
+                    }*/
                 }
-
-                setTimeout(function(){  ajaxWithAxios(blob0, form, ServiceCropper, blob1, blob2, blob3); }, 500); }
-         });
-    }
-
-    //====================== fix service issue =========//
-    function update_img_url(){
-        var url =   $('.upload-photo').attr('data-url');
-        return url;
-    }
-
-    function serviceRedirectedUrl(id)
-    {
-        let serviceId = id;
-        let companySlug = $('.data-entity-id').attr('data-company-slug');
-        let companyId= $('.data-entity-id').attr('data-company-id');
-        let previousUrl = $('.data-entity-id').attr('data-previous');
-        let url='';
-        let hostname = location.hostname;
-        let protocol = location.protocol;
-        let port     = location.port;
-        let portURL ='';
-        if (port !=''){
-            portURL = ':'+port;
-        }
-        if(previousUrl !='company')
-            url = protocol+'//'+hostname+portURL+'/service/'+serviceId ;
-        else
-            url = protocol+'//'+hostname+portURL+'/company/'+companySlug+'/'+companyId;
-
-        return url;
-    }
-
-    function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
-    {
-
-       let url = update_img_url();
-       let data = new FormData(form);
-
-        data.append('file', blob);
-        data.append('file1', blob1);
-        data.append('file2', blob2);
-        data.append('file3', blob3);
-        $.ajax({
-            url: url,
-            type: 'POST',
-            async: false,
-            data:data,
-            processData: false,
-            contentType: false,
-            headers: {'X-Requested-With': 'XMLHttpRequest'},
-            success: function(data){
-                if(data.result == 0) {
-                    $('.hide-load').removeClass('load-ajax-form');
-                    let error='';
-                    for (var key in data.data) {
-                        error = "<p class='form-error'>"+data.data[key]+"</p>";
-                        $(form).find('[name*="'+key+'"]').first().parent('div').next(".form-error").remove();
-                        $(form).find('[name*="'+key+'"]').first().parent('div').after(error);
-                        /*if(key=='imageFile') {
-                            if(cropper !=null) {
-                               cropper.destroy();
-                            }
-                        }*/
-                    }
-                    if($('.serviceError').length > 0){
-                        $('.serviceError').text('');
-                        $('.serviceError').append(error);
-                    }
-                   // alert(error);
+                if($('.serviceError').length > 0){
+                    $('.serviceError').text('');
+                    $('.serviceError').append(error);
                 }
-                else {
-                    //  ============= if data.message is a number so it's a service json return =========
+                // alert(error);
+            }
+            else {
+                //  ============= if data.message is a number so it's a service json return =========
 
-                    if(Number.isInteger(data.message)){
-                        let url2 = serviceRedirectedUrl(data.message);
-                        window.location = url2;
+                if(Number.isInteger(data.message)){
+                    let url2 = serviceRedirectedUrl(data.message);
+                    window.location = url2;
 
-                        //  ============= profile, store or company image upload =========
-                    } else {
-                        // =================================append copper Image ============
-                        $('#previous-image').empty();
-                        $('#update-img-modal').modal('hide');
+                    //  ============= profile, store or company image upload =========
+                } else {
+                    // =================================append copper Image ============
+                    $('#previous-image').empty();
+                    $('#update-img-modal').modal('hide');
+                    console.log(cropper);
+                    if(cropper != '') {
                         $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
                     }
-
                 }
 
-
-            },
-            error: function(){
-                alert("Un problème est survenu. Veuillez réessayer")
-            }
-        });
-    }
-
-    function urls(){
-        let hostname = location.hostname;
-        let protocol = location.protocol;
-        let port     = location.port;
-        let portURL ='';
-        if (port !=''){
-            portURL = ':'+port;
-        }
-        let subDomain = window.location.pathname.split('/')[1];
-        let dataEntityId = $('.data-entity-id').attr('data-entity-id');
-        let dataSlug = $('.data-entity-id').attr('data-slug');
-        let action = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId+'/edit';
-        /* if(subDomain !='account' && subDomain !='service'){
-             dataEntityId = dataSlug ;
-         }*/
-        if(subDomain =='service'){
-
-            let subDomain2 = window.location.pathname.split('/')[2];
-            let subDomain3 = window.location.pathname.split('/')[3];
-            if(subDomain2 =='new'){
-                action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new';
-                if(subDomain3 !=undefined){
-                    action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new/'+subDomain3;
-                }
             }
 
 
+        },
+        error: function(){
+            alert("Un problème est survenu. Veuillez réessayer")
         }
-        let redirectedUrl = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId;
-
-        let urls = [];
-        urls['url'] = action;
-        urls['redirectedUrl'] = redirectedUrl;
-
-        return urls;
-    }
-
-
-    // ============= update profile image =========
-    $('.update-image').click(function(e){
-
-        var url = $(this).attr('data-url') ;
-        $.get(url, function (data) {
-            $('.modal-content-update-profile-img').html(data);
-
-        });
     });
+}
+
+function urls(){
+    let hostname = location.hostname;
+    let protocol = location.protocol;
+    let port     = location.port;
+    let portURL ='';
+    if (port !=''){
+        portURL = ':'+port;
+    }
+    let subDomain = window.location.pathname.split('/')[1];
+    let dataEntityId = $('.data-entity-id').attr('data-entity-id');
+    let dataSlug = $('.data-entity-id').attr('data-slug');
+    let action = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId+'/edit';
+    /* if(subDomain !='account' && subDomain !='service'){
+         dataEntityId = dataSlug ;
+     }*/
+    if(subDomain =='service'){
+
+        let subDomain2 = window.location.pathname.split('/')[2];
+        let subDomain3 = window.location.pathname.split('/')[3];
+        if(subDomain2 =='new'){
+            action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new';
+            if(subDomain3 !=undefined){
+                action = protocol+'//'+hostname+portURL+'/'+subDomain+'/new/'+subDomain3;
+            }
+        }
+
+
+    }
+    let redirectedUrl = protocol+'//'+hostname+portURL+'/'+subDomain+'/'+dataEntityId;
+
+    let urls = [];
+    urls['url'] = action;
+    urls['redirectedUrl'] = redirectedUrl;
+
+    return urls;
+}
+
+
+// ============= update profile image =========
+$('.update-image').click(function(e){
+
+    var url = $(this).attr('data-url') ;
+    $.get(url, function (data) {
+        $('.modal-content-update-profile-img').html(data);
+
+    });
+});
 
 // ============= Other javascript =========
 
@@ -660,7 +670,7 @@ $(window).on("load", function() {
             // instead of a settings object
         ]
     });
- // ===================custom input field ========
+    // ===================custom input field ========
 
     if($('#sponsorship_message').length > 0) {
         let userStore = $('#sponsorship_message').attr('data-store');
@@ -686,7 +696,7 @@ $(window).on("load", function() {
         });
 
     }
-    });
+});
 //Archive beContacted
 $('.be-contacted-archive').click(function(){
     let btn = $(this);
@@ -720,7 +730,7 @@ $('.be-contacted-waiting').click(function(){
             alert('Une erreur s\'est produite. Veuillez réessayer.');
         }
     });
- });
+});
 
 //CGU link and buttun beContacted
 if(!$('#be_contacted_acceptConditions').is(':checked')){
@@ -825,8 +835,8 @@ $('body').on('change', '.siret-list', function () {
     $('#registration_get_siret_from_api').prop('checked', false);
     $('.siret-list').hide();
 
-     /*** Add adress if exist ***/
-     setAdress(streetNumber,  streetName, postalCode, city,  country );
+    /*** Add adress if exist ***/
+    setAdress(streetNumber,  streetName, postalCode, city,  country );
 
 });
 
@@ -837,7 +847,7 @@ function insertAfter(referenceNode, newNode) {
 
 
 function getSiret(companyName) {
-   var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2CcomplementAdresseEtablissement%2CnumeroVoieEtablissement%2CcodePaysEtrangerEtablissement%2ClibelleCommuneEtablissement%2ClibelleVoieEtablissement%2CtypeVoieEtablissement&nombre=1500";
+    var data = "q=denominationUniteLegale%3A%20%22companyName%22%20OR%20nomUniteLegale%3AcompanyName&champs=denominationUniteLegale%2CcodePostalEtablissement%2Csiret%2CcomplementAdresseEtablissement%2CnumeroVoieEtablissement%2CcodePaysEtrangerEtablissement%2ClibelleCommuneEtablissement%2ClibelleVoieEtablissement%2CtypeVoieEtablissement&nombre=1500";
 
     data = data.replace('companyName',companyName);
 
@@ -915,9 +925,9 @@ function setNoResult(){
 function getStreetName(adress, adressNumber) {
     let result = '';
     if(adress.indexOf(adressNumber) !== -1 && adressNumber != ' '){
-         result = adress.substr(adressNumber.toString().length, adress.length);
-      } else
-          result = adress;
+        result = adress.substr(adressNumber.toString().length, adress.length);
+    } else
+        result = adress;
     return result;
 }
 
@@ -932,11 +942,11 @@ function createSuggestionList(data){
     for (let i = 0; i < data.features.length; i++) {
         let item = document.createElement("DIV");
         let streetNumber ='';
-            if(data.features[i].properties.housenumber != undefined  ){
-                streetNumber = data.features[i].properties.housenumber ;
-            } else {
-                streetNumber = '1';
-            }
+        if(data.features[i].properties.housenumber != undefined  ){
+            streetNumber = data.features[i].properties.housenumber ;
+        } else {
+            streetNumber = '1';
+        }
 
         item.setAttribute("class", "autoComplete-item");
         item.setAttribute("data-postalcode", data.features[i].properties.postcode);
@@ -967,11 +977,11 @@ function autoComplete(address) {
         processData: false,
         contentType: 'application/x-www-form-urlencode',
         success: function (data) {
-           if(data){
-             createSuggestionList(data);
+            if(data){
+                createSuggestionList(data);
             } else {
-               setNoResult();
-           }
+                setNoResult();
+            }
         },
         error: function () {
             alert("Un problème est survenu. Veuillez réessayer")
@@ -1008,6 +1018,84 @@ $('body').on('click', '.autoComplete-item', function () {
 
 if ($('.company-complete-adress').length > 0 )
 {
-  $('#company_address').val($('.company-complete-adress').attr('data-complete-adress').replace('null',''));
+    $('#company_address').val($('.company-complete-adress').attr('data-complete-adress').replace('null',''));
 }
+
+/* ======================get gallery images ========== */
+
+$('.select-from-gallery').click(function(){
+
+    var url = $(this).attr('data-url') ;
+    let dataInput = $(this).attr('data-input');
+    let idButton = $(this).attr('data-ID');
+    $.get(url, function (data) {
+        $('.modal-gallery-content').attr('data-input', dataInput);
+        $('.modal-gallery-content').attr('data-id', idButton);
+        $('.modal-gallery-content').html("<form> <input type='text' class='search-gallery'/></form>");
+        $('.modal-gallery-content').html(data);
+
+
+    });
+})
+$('body').on('click', '.gallery-img', function () {
+    unselectAllImages();
+    let id = $(this).attr('data-id');
+    let status = $(this).attr('data-status');
+    let path = $(this).attr('src');
+    changeIconColor(id,status);
+    $(this).addClass(changeClassName(status));
+});
+
+function unselectAllImages(){
+    $('.gallery-icon-ok').css('color','gray');
+}
+function changeIconColor(id,status){
+    let color = ''
+    color = (status =='') ? 'orange' : 'gray';
+    status =  (status =='') ? 'selected' : '';
+    $('.gallery-icon-'+id).css('color',color);
+    $('.gallery-img-'+id).attr('data-status',status);
+}
+function changeClassName(status){
+    $('.gallery-img').removeClass('selected-image');
+    let className =  (status == 'selected') ? '': 'selected-image';
+    return className;
+}
+
+$('body').on('click', '.save-selected-image', function () {
+    let path = $('.selected-image').attr('src');
+    let imageFileName = getImageOriginalName(path);
+    let dataInput = $('.modal-gallery-content').attr('data-input');
+    let id = $('.modal-gallery-content').attr('data-id');
+    $('#'+dataInput).attr('value',imageFileName);
+    $('#previous-image'+id+' img').attr('src',path);
+    $('#imagegallery').modal('toggle');
+
+
+
+});
+
+
+
+function getImageOriginalName(str){
+    let result = str.split("/");
+    let originalName = '';
+    if(result.length > 0) {
+         originalName = result[result.length - 1];
+    }
+    return originalName;
+}
+
+$('body').on('click', '.search-gallery-btn', function (e) {
+    e.preventDefault();
+    $('.search-load').removeClass('hide-load');
+    let url = $(this).attr('data-url');
+    let searchValue =$('.gallery-search').val();
+    url = url.replace('keyWords', searchValue);
+    $.get(url, function (data) {
+        $('.search-load').addClass('hide-load');
+        $('.modal-gallery-content').html(data);
+   });
+})
+
 

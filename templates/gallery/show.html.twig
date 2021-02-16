@@ -1,0 +1,40 @@
+<div class="modal-header row ">
+    <div class="col-4">
+      <h5 class="modal-title" id="exampleModalLabel">Choisir une image dans la bibliothèque</h5>
+    </div>
+   <div class="col-4">
+        {{ form_start(searchForm,  {'attr':{'id':''}})}}
+        {{ form_widget(searchForm.search) }}
+          <input type="submit" class="search-gallery-btn" value="Chercher" data-url="{{ path('gallery_search',{'keywords':'keyWords'}) }}">
+       {{ form_end(searchForm, {'attr':{'id':'searchGalleryForm'}})}}
+       <div class="search-load text-center hide-load">
+           <div class="spinner-border" role="status">
+               <span class="sr-only">Loading...</span>
+           </div>
+       </div>
+   </div>
+    <div class="col-4">
+        <button type="button"  class="btn save-selected-image">Sauvegarder</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="ClosearchGalleryFormse">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+</div>
+<div class="row gallery">
+  {% for image in gallery %}
+    <div class="col-2">
+      <img class="gallery-img gallery-img-{{ image.id }}" src="{{ vich_uploader_asset(image, 'imageFile') }}"
+           alt=""
+           data-id ="{{ image.id }}"
+           data-status=""
+           style="height: 200px;width: 200px;float: left;border: 1px solid #ccc; padding: 10px; cursor: pointer;"
+      >
+        <i class="fas fa-check-circle gallery-icon-ok  gallery-icon-{{ image.id }}"></i>
+     </div>
+  {% endfor %}
+    <div class="modal-footer">
+
+    </div>
+</div>
+

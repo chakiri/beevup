@@ -4226,6 +4226,77 @@ label[for='registration_get_siret_from_api']{
 .share-button a {
     font-size: 30px;
 }
-.a2a_kit.a2a_kit_size_32.a2a_default_style.mt-2 {
-    float: left !important;
+/* ======= Gallerie =========*/
+.modal-content img.gallery-img{
+    width: 200px;
+    height: 200px;
+    float: left;
+    border: 1px solid gray;
+    padding: 10px;
+    position: relative;
+}
+.gallery-img:hover{
+    background-color: #eee;
+}
+.gallery-icon-ok{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 22px;
+    color: #eee;
+}
+
+.selected-image-icon{
+   color: orange;
+}
+.unselected-image-icon{
+    color:gray;
+}
+.save-selected-image{
+float: right !important;
+position: absolute;
+right: 50px;
+background-color: var(--orange-color);
+color: #fff
+}
+
+#searchGalleryForm{
+    position: relative;
+}
+.search-gallery-btn{
+position: absolute;
+right: 0px;
+top:0px;
+height: 38px;
+background-color: var(--orange-color);
+color: #fff;
+border: 0;
+}
+
+.add-file-label2{
+    max-width: 98%;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.add-file-label2
+{
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+.add-file-label2 svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
 }
