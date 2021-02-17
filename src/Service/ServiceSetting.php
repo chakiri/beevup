@@ -126,7 +126,7 @@ class ServiceSetting
         return $distances;
     }
 
-    public function getInfosServices(array $services, Store $store = null): array
+    public function getInfosServices($services, Store $store = null): array
     {
         $infos = [];
         $nbRecommandations = [];

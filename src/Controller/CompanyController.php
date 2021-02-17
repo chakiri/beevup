@@ -12,7 +12,7 @@ use App\Service\Chat\AutomaticMessage;
 use App\Service\ContactsHandler;
 use App\Service\Mailer;
 use App\Service\GetCompanies;
-use App\Service\Company\CompanyService;
+use App\Service\Company\CompanySetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,10 +36,12 @@ class CompanyController extends AbstractController
     /**
      * @Route("/company/{id}/edit", name="company_edit")
      */
-    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler, CompanyService $companyService)
+    public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, PostCategoryRepository $postCategoryRepository, AutomaticPost $automaticPost, ContactsHandler $contactsHandler, CompanySetting $companySetting)
     {
         //Denied Access
         if ($this->getUser()->getCompany() == NULL || $company != $this->getUser()->getCompany()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+
+        $currentStore = $company->getStore();
 
         if ($company == $this->getUser()->getCompany()) {
             $form = $this->createForm(CompanyType::class, $company);
@@ -62,18 +64,23 @@ class CompanyController extends AbstractController
                     $company->setLatitude($coordonnees[0]);
                     $company->setLongitude($coordonnees[1]);
                 }
+
+                //Check if store company is edited
+                if ($company->getStore() !== $currentStore){
+                    //update users of company
+                    $companySetting->updateUsersStore($company);
+                }
+
                 $manager->persist($company);
                 $manager->flush();
 
-                // update users store
-                $companyService->updateUsersStore($company);
-
                 //init topic company category to user
                 $topicHandler->initCategoryCompanyTopic($company->getCategory());
-                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
 
                 //Create new contact on SendinBlue
                 $contactsHandler->handleContactSendinBlueCompleteCompany($this->getUser());
+
+                $this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
 
                 return $this->redirectToRoute('company_show', [
                     'slug' => $company->getSlug(),

@@ -4226,6 +4226,7 @@ label[for='registration_get_siret_from_api']{
 .share-button a {
     font-size: 30px;
 }
+
 /* ======= Gallerie =========*/
 .modal-content img.gallery-img{
     width: 200px;
@@ -4300,3 +4301,11 @@ border: 0;
     margin-right: 0.25em;
     /* 4px */
 }
+
+.a2a_kit{
+    margin-left: 0;
+}
+.landing-page-section4-bloc .box-text{
+    float: left;
+}
+

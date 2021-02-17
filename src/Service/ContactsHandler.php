@@ -34,6 +34,7 @@ class ContactsHandler
         $attributes = [
             'RAISON_SOCIALE' => $user->getCompany()->getName(),
             'MAG_LIB' => $user->getStore()->getName(),
+            'CD_MAGASIN' => $user->getStore()->getReference(),
             'CONTACT_MAG' => $advisorName ?? null,
             'STATUT_CLIENT' => 3,
             'TITRE_CONTACT' => 'Conseiller Beev\'Up.fr',

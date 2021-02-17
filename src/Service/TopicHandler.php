@@ -106,8 +106,9 @@ class TopicHandler
         //Add topic to user
         $userTopics = $user->getTopics();
 
+        //Remove topic of the same type
         foreach ($userTopics as $userTopic){
-            if ($userTopic->getType() == $type){
+            if ($userTopic->getType() === $type){
                 $user->removeTopic($userTopic);
             }
         }
