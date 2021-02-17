@@ -1,0 +1,19 @@
+<button type="button" class="close text-right p-2" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+<div class="be-contacted container">
+    <h5 class="text-center">Séléctionnez un service parmi une selection de modèles</h5>
+    <div id="searchModel" class="modal-form mt-3 mb-5">
+        <form method="get" action="#">
+            <input type="text" class="form-control" placeholder="tapez un mot clé">
+        </form>
+    </div>
+
+    <div class="modal-data">
+        {% include 'service/modelResult.html.twig' %}
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('service') }}
+{% endblock %}

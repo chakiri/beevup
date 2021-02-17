@@ -19,6 +19,7 @@ use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
+use App\Service\Factory\ServiceFactory;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
@@ -128,6 +129,46 @@ class ServiceController extends AbstractController
             'isDiscovery' => $request->get('_route') == 'service_discovery',
             'adviser'=> $adviser,
             'searchForm' => $searchForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/service/model", name="service_model")
+     */
+    public function model(Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository)
+    {
+        $typeService = $typeServiceRepository->findOneBy(['name' => 'model']);
+        $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+        $template = 'service/model.html.twig';
+
+        //If searching
+        if (null !== $query = $request->get('query')){
+            $services = $serviceRepository->findModel($typeService, $query);
+            $template = 'service/modelResult.html.twig';
+        }
+
+        return $this->render($template, [
+            'services' => $services
+        ]);
+    }
+
+    /**
+     * @Route("/service/{id}/model", name="service_from_model")
+     */
+    public function fromModel(Service $service, EntityManagerInterface $manager, TypeServiceRepository $typeServiceRepository, EventDispatcherInterface $dispatcher)
+    {
+        $type =  $typeServiceRepository->findOneBy(['name' => 'company']);
+        $newService = ServiceFactory::create($service, $this->getUser(), $type);
+
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW_MODEL, $service));
+
+        $manager->persist($newService);
+
+        $manager->flush();
+
+        return $this->redirectToRoute('service_edit', [
+            'id' => $newService->getId()
         ]);
     }
 

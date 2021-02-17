@@ -9,9 +9,17 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
-                <div class="col-lg-1"></div>
+                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                    <div class="col-lg-2">
+                        <button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
+                            Choisir un modèle
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="col-lg-1"></div>
+                {% endif %}
 
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="main-ws-sec">
                         <div class="product-feed-tab current" id="info-dd">
                             <div class="user-profile-ov page-title sign_in_sec current">
@@ -273,10 +281,12 @@
 {% endblock %}
 
 {% block modals %}
-{% include 'service/modals/gallery.html.twig' %}
+    {% include 'service/modals/gallery.html.twig' %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'chooseModel'} %}
 {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('modals') }}
+    {{ encore_entry_script_tags('service') }}
     {{ encore_entry_script_tags('form') }}
 {% endblock %}

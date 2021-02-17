@@ -34,8 +34,6 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-      
         $builder
             ->add('title', TextType::class, [
                 'label'    => 'Nom du service',
@@ -255,12 +253,16 @@ class ServiceType extends AbstractType
                         return $er->createQueryBuilder('t')
                             ->where('t.name = :val1')
                             ->orWhere('t.name = :val2')
+                            ->orWhere('t.name = :val3')
                             ->setParameter('val1', 'plateform')
-                            ->setParameter('val2', 'foreign');
+                            ->setParameter('val2', 'foreign')
+                            ->setParameter('val3', 'model')
+                            ;
                     },
                     'choice_label' => function ($type) {
                         if ($type->getName() == 'plateform') return 'plateforme';
                         elseif ($type->getName() == 'foreign') return 'externe';
+                        elseif ($type->getName() == 'model') return 'modèle';
                     }
                 ])
             ;
