@@ -1062,7 +1062,7 @@ ul.landing-page-list {
     padding: 0;
     background-color: #FFF !important;
 }
-.security_login, .external_search{
+.security_login, .homepage{
     padding: 0;
     background-color: var(--bg-color) !important;
 }
@@ -3819,7 +3819,7 @@ li.icon-type-post a.active{
      color: #FFF;
      border-radius: 50%;
  }
-.external_search .box-search input, .external_search .box-search select{
+.homepage .box-search input, .homepage .box-search select{
     border: 1px solid #E0DED9 !important;
     font-size: 17px !important;
     width: 100% !important;
@@ -3829,10 +3829,10 @@ li.icon-type-post a.active{
     border-radius: 12px !important;
     padding: 10px !important;
 }
-.external_search .search-store-result .title-search{
+.homepage .search-store-result .title-search{
     display: flex;
     justify-content: space-between;
-}.external_search .search-store-result ul .big-btn{
+}.homepage .search-store-result ul .big-btn{
     font-size: 18px;
 }
 .search-carousel .card{
@@ -3879,7 +3879,7 @@ li.icon-type-post a.active{
     width: 100%;
 }
 
-.external_search .card{
+.homepage .card{
     border: none;
     border-radius: var(--radius);
     height: 525px;
@@ -3887,27 +3887,27 @@ li.icon-type-post a.active{
 .company-card{
     height: 455px !important;
 }
-.external_search .card-title{
+.homepage .card-title{
     height: 60px;
     overflow: hidden;
 }
-.external_search .card-text{
+.homepage .card-text{
     height: 86px;
     overflow: hidden;
 }
-.external_search .card-btn{
+.homepage .card-btn{
     height: 30px;
     overflow: hidden;
 }
-.external_search .card-nbreco{
+.homepage .card-nbreco{
     height: 21px;
 }
-.external_search .view{
+.homepage .view{
     height: 180px;
     text-align: center;
     padding: 20px;
 }
-.external_search .card-img-top{
+.homepage .card-img-top{
     width: 50%;
 }
 .errors {

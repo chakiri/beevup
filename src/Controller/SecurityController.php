@@ -38,7 +38,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/", name="security_registration")
+     * @Route("/inscription", name="security_registration")
      */
     public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer, ContactsHandler $contactsHandler): Response
     {
@@ -111,7 +111,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('waiting_validation');
             }
 
-            return $this->render('default/home.html.twig', [
+            return $this->render('default/inscription.html.twig', [
                 'RegistrationForm' => $form->createView(),
             ]);
         }else{

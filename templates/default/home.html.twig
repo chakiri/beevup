@@ -1,205 +1,206 @@
 {% extends 'base.html.twig' %}
-{% form_theme RegistrationForm 'bootstrap_4_layout.html.twig' %}
 
-{% block title %} Accueil {% endblock %}
+{% block title %}Moteur de recherche{% endblock %}
 
 {% block body %}
-    <div id ="inscription" class="landing-page-container">
-        <div class="position-relative">
-           <div class="landing-page-first-bloc">
 
-               <div class="landign-page-bloc1 header-padding">
-                    <section>
-                       <div class="row">
-                           <div class="col-lg-8">
-                               <h1 class="landign-page-slogan">
-                                   Le nouveau service de Bureau Vallée <br> pour ses clients professionnels
-                               </h1>
-                              <p class="landign-page-description">
-                                  <strong>Artisans, Commerçants, Professions Libérales, Indépendants, TPE/PME</strong><br><br>
-                                  <span class="text-muted">En moins d'une minute, inscrivez-vous gratuitement,<br>  Rencontrez d'autres entrepreneurs locaux, <br>Laissez nous faire la promotion de votre entreprise auprès de nos clients</span>
-                              </p>
-                           </div>
-                           <div class="col-lg-4">
-                               {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                   <div class="home-page-authentificated-user"></div>
-                               {% else %}
-                                  <div class="landing-page-registration-form">
-                                      {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
-                                      {{ form_errors(RegistrationForm.name) }}
-                                      {{ form_widget(RegistrationForm.name) }}
-
-                                      <div id ='box-get-siret'>
-                                      {{ form_errors(RegistrationForm.get_siret_from_api) }}
-                                      {{ form_widget(RegistrationForm.get_siret_from_api) }}
-                                      </div>
-                                      {{ form_errors(RegistrationForm.company) }}
-                                      {{ form_widget(RegistrationForm.company) }}
-                                       {{ form_errors(RegistrationForm.store) }}
-                                      {{ form_widget(RegistrationForm.store) }}
-                                      {{ form_errors(RegistrationForm.email) }}
-                                      {{ form_widget(RegistrationForm.email) }}
-                                      {{ form_errors(RegistrationForm.password) }}
-                                      {{ form_widget(RegistrationForm.password) }}
-                                      {{ form_errors(RegistrationForm.acceptConditions) }}
-                                      {{ form_widget(RegistrationForm.acceptConditions) }}
-                                      <div class="form-actions form-group">
-                                          <button id ="inscription-btn" type="submit" class="col-12 orange-btn" disabled>Rejoindre</button>
-                                      </div>
-                                      {{ form_end(RegistrationForm) }}
-                                  </div>
-                               {% endif %}
-                           </div>
-                       </div>
-
-                       <div class="landing-page-dashboard-img">
-                           <div class="landing-page-section2">
-                               <img class="landing-page-man" src="{{ asset('build/images/homePage/landingPage-man.png') }}"/>
-                               {#<div class="landing-page-dashbord d-none d-lg-block">
-                                   <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
-                               </div>#}
-                           </div>
-                       </div>
-                    </section>
-               </div>
-           </div>
-
-            <div class="container-bv container-landing-page-boxes">
-                {# case information boxes#}
-                <div class="landing-page-boxes">
-                    <div class="row row-equal">
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="landing-page-section4-bloc">
-                                <h4>Faites connaitre votre entreprise</h4>
-                                <div class="landing-page-section4-bloc-image">
-                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/developpement.jpg') }}" alt="">
-                                </div>
-                                <div class="box-text">
-                                    <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
-                                </div>
-                            </div>
+    <section class="bg-search header-padding">
+        <div class="container-bv">
+            <div class="row">
+                <div class="col-xl-6">
+                    <h1>Découvrez les services proposés par nos clients professionnels</h1>
+                    <h4>Trouvez ce que vous recherchez à deux pas de chez vous</h4>
+                    <div class="box-search">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            {{ form_widget(form.querySearch) }}
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="landing-page-section4-bloc">
-                                <h4>Réseau d'entrepreneurs</h4>
-                                <div class="landing-page-section4-bloc-image">
-                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/social.jpg') }}" alt="">
-                                </div>
-                                <div class="box-text">
-                                  <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
-                                </div>
-                                </div>
+                        <div class="d-flex justify-content-between">
+                            {% if store.reference == 'BV001' %}
+                                <h5 class="pt-3"><i class="fas fa-store mr-2"></i>Vous n'avez pas séléctionné votre magasin</h5>
+                                <a href="#" id="btn-choose-store" class="btn btn-search pt-3">Choisir</a>
+                            {% else %}
+                                <h5 class="pt-3"><i class="fas fa-store mr-2"></i>{{ store.name }}</h5>
+                                <button type="submit" class="btn btn-search">Rechercher</button>
+                            {% endif %}
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="landing-page-section4-bloc">
-                                <h4>Marketplace de services</h4>
-                                <div class="landing-page-section4-bloc-image">
-                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="">
-                                </div>
-                                <div class="box-text">
-                                   <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
-                                </div>
-                                </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <svg version="1.0"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1920.000000 110.000000"
-                preserveAspectRatio="xMidYMid meet">
-               <g transform="translate(0.000000,110.000000) scale(0.100000,-0.100000)"
-                   fill="#FFF"
-                   stroke="none">
-                    <path d="M0 548 l0 -548 9600 0 9600 0 0 408 0 409 -177 -29 c-692 -110 -1225
-                        -182 -1428 -193 -296 -16 -1327 -101 -2405 -200 -252 -23 -413 -35 -965 -70
-                        -132 -9 -316 -21 -410 -27 -165 -11 -1427 -5 -4815 22 l-1065 9 -430 35 c-236
-                        20 -486 41 -555 46 -69 6 -408 33 -755 60 -346 28 -826 66 -1065 85 -239 20
-                        -489 40 -555 45 -503 39 -764 60 -790 65 -16 3 -151 18 -300 35 -358 40 -492
-                        55 -790 90 -137 16 -554 64 -925 106 -642 72 -944 106 -1360 154 -102 12 -236
-                        27 -297 34 l-113 12 0 -548z"/>
-                </g>
-            </svg>
-
-            <div class="block-background-white"></div>
-        </div>
-
-        <div class="landing-page-dashbord d-none d-lg-block">
-            <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
-        </div>
-
-        <div class="landing-page-second-bloc">
-            {# Testimonial #}
-            <div class="landing-page-testimonials ">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="card-testimonial d-flex">
-                                <img class="no-mobile" src="{{ asset('build/images/homePage/testimonials/testimonial2.png') }}" alt="">
-                                <div class="meta">
-                                    <i class="fas fa-quote-left"></i>
-                                    <h4>"J’apprécie de pouvoir faire connaitre mes différents services aux autres clients de Bureau Vallée et de pouvoir échanger avec eux"</h4>
-                                    <strong class="mt-5">Benjamin, BS Elec</strong>
-                                    <em>Electricien, Mézieres(78)</em>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card-testimonial d-flex">
-                                <img class="no-mobile" src="{{ asset('build/images/homePage/testimonials/testimonial1.png') }}" alt="">
-                                <div class="meta">
-                                    <i class="fas fa-quote-left"></i>
-                                    <h4>"Très belle plateforme, simple d’utilisation. L’équipe est à l’écoute de ses clients pour faire évoluer les fonctionnalités de cet outil"</h4>
-                                    <strong class="mt-5">Lucien, Assuractis</strong>
-                                    <em>Courtier en assurance et conseil pour les entreprises, Mougins (06)</em>
-                                </div>
-                            </div>
-                        </div>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="landing-page-map no-mobile">
-            <h2 class="bloc-title mb-3">
-                Rejoignez les entreprises locales
-            </h2>
-            {% include 'default/map.html.twig' %}
-        </div>
+    {% if store.reference != 'BV001' %}
+    {# Section services of store carousel#}
 
-        <div class="landing-page-second-bloc">
-            {# Video #}
-            <div class="landing-page-video">
-                <video autoplay controls muted loop>
-                    <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+    <section class="pt-5 pb-5">
+        <div class="container-bv container search-carousel">
+            <div class="row">
+                <div class="col-8">
+                    <h3 class="mb-3">Nos clients professionnels vous proposent les services suivants</h3>
+                </div>
+                {% if services is empty %}
             </div>
-        </div>
-
-        <div class="landing-page-join-beevup-bloc">
-            <h2 class="landing-page-join-beevup-title">
-                Nous contacter
-            </h2>
-            <div>
-                <a href="mailto:beevup@bureau-vallee.com" target="_blank" class="mt-5"><h4>beevup@bureau-vallee.com</h4></a>
-               {#<button id ="inscription-btn" type="submit" class="landing-page-join-beevup-btn sm-orange-btn mt-3" disabled>
-                   <a href="#inscription" class="rejoindre-link">Rejoindre</a>
-               </button>#}
+            <div class="box">
+                <div class="text-center">
+                    <h5 class="m-0">Aucun service attaché au {{ store.name }}</h5>
+                </div>
             </div>
-        </div>
+            {% else %}
+                <div class="col-4 text-right">
+                    <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-12">
+                    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% set i = 0 %}
+                            {% set j = 0 %}
+                            {% for service in services %}
+                                {% set i = i + 1 %}
+                                {% set j = j + 1 %}
+                                {% if i == 1 %}
+                                    <div class="carousel-item {% if j == 1 %}active{% endif %}">
+                                    <div class="row">
+                                {% endif %}
+                                <div class="col-md-3 mb-3">
+                                    <div class="card service-card">
+                                        <div class="card-image">
+                                            {% if service.filename %}
+                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
+                                            {% else  %}
+                                                <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 220px" alt="">
+                                            {% endif %}
 
-        <div class="logo_footer">
-            <img class="landing-page-logo" src="{{ asset('build/images/logo_bv_main.png') }}" alt="">
-        </div>
+                                            {% include 'default/cards/infos-stickers.html.twig' with {
+                                                'item': service,
+                                                'distances': distancesServices,
+                                                'nbRecommandations': nbRecommandationsServices
+                                            } %}
 
-    </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card-meta">
+                                                <h4 class="card-title">{{ service.title }}</h4>
+                                                <p class="card-text">{{ service.introduction }}</p>
+                                                <p class="text-muted mt-3">Proposé par : {{ service.user.company.name }}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <!-- Button -->
+                                        <div class="my-4 text-center card-btn">
+                                            <a href="{{ path('external_company_show', {'slug': service.user.company.slug, 'id': service.user.company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if i == 4 %}
+                                    </div>
+                                    </div>
+                                    {% set i = 0 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {# Map companies of store #}
+    {% include 'default/map.html.twig' %}
+
+    {# Section companies of store carousel #}
+
+    <section class="search-company-carousel pt-5 pb-5">
+        <div class="container-bv container search-carousel">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="mb-3">Les entreprises à proximité</h3>
+                </div>
+                {% if companies is empty %}
+            </div>
+            <div class="box">
+                <div class="text-center">
+                    <h5 class="m-0">Aucun entreprises rattachée au {{ store.name }} pour l'instant</h5>
+                </div>
+            </div>
+            {% else %}
+                <div class="col-6 text-right">
+                    <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators3" role="button" data-slide="prev">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+                    <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators3" role="button" data-slide="next">
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="col-12">
+                    <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% set i = 0 %}
+                            {% set j = 0 %}
+                            {% for company in companies %}
+                                {% set i = i + 1 %}
+                                {% set j = j + 1 %}
+                                {% if i == 1 %}
+                                    <div class="carousel-item {% if j == 1 %}active{% endif %}">
+                                    <div class="row">
+                                {% endif %}
+                                <div class="col-lg-3 mb-3">
+                                    <div class="card">
+                                        <div class="view">
+                                            {% if company.filename %}
+                                                <img class = "card-img-top" src="{{ vich_uploader_asset(company, 'imageFile') }}" >
+                                            {% else  %}
+                                                <img class = "card-img-top" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
+                                            {% endif %}
+                                        </div>
+
+                                        {% include 'default/cards/infos-stickers.html.twig' with {
+                                            'item': company,
+                                            'distances': distancesCompanies,
+                                            'nbRecommandations': nbRecommandationsCompanies
+                                        } %}
+
+                                        <div class="card-body">
+                                            <h4 class="card-title">{{ company.name }}</h4>
+                                            <p class="text-muted mt-3">{{ company.otherCategory }}</p>
+                                            <p class="card-text">{{ company.introduction }}</p>
+                                        </div>
+                                        <hr>
+
+                                        <!-- Button -->
+                                        <div class="my-4 text-center card-btn">
+                                            <a href="{{ path('external_company_show', {'slug': company.slug, 'id': company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if i == 4 %}
+                                    </div>
+                                    </div>
+                                    {% set i = 0 %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
 
     {#dispaly cookies message #}
     {% include 'partials/cookies.html.twig' %}
 
+{% endblock %}
+
+{% block modals %}
+    {% include 'default/modals/external/choose-store.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
