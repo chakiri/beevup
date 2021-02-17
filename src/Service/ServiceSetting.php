@@ -141,4 +141,23 @@ class ServiceSetting
 
         return $infos;
     }
+
+    public function setGalleryFileName($service, $request){
+        $imgGallery =  $request->request->get('service')['imgGallerie'];
+        $imgGallery1 =  $request->request->get('service')['imgGallerie1'];
+        $imgGallery2 =  $request->request->get('service')['imgGallerie2'];
+        $imgGallery3 =  $request->request->get('service')['imgGallerie3'];
+        if($imgGallery != 'edit') {
+            $service->setFilename($imgGallery);
+        }
+        if($imgGallery1 != 'edit') {
+            $service->setFilename1($imgGallery1);
+        }
+        if($imgGallery2 != 'edit') {
+            $service->setFilename2($imgGallery2);
+        }
+        if($imgGallery3 != 'edit') {
+            $service->setFilename3($imgGallery3);
+        }
+}
 }
