@@ -9,9 +9,17 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
-                <div class="col-lg-1"></div>
+                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                    <div class="col-lg-2">
+                        <button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
+                            Choisir un modèle
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="col-lg-1"></div>
+                {% endif %}
 
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="main-ws-sec">
                         <div class="product-feed-tab current" id="info-dd">
                             <div class="user-profile-ov page-title sign_in_sec current">
@@ -154,6 +162,15 @@
                                         <div id="previous-image">
                                             <img src="{{ vich_uploader_asset(service, 'imageFile') }}" alt="">
                                          </div>
+                                    <button type="button"
+                                            data-input="service_imgGallerie"
+                                            data-id=""
+                                            class="btn add-file-label2 select-from-gallery"
+                                            data-toggle="modal"
+                                            data-target="#imagegallery"
+                                            data-url="{{ path('gallery_show') }}">
+                                        Choisir une image dans la bibliothèque
+                                    </button>
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-12">
@@ -170,6 +187,15 @@
                                             <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
                                         </div>
                                         <span class="delete-img-service {% if service.filename1 =='' %} d-none {% endif %}" data-input-id="service_imageFile1" data-service-id="{{ service.id }}">Supprimer</span>
+                                        <button type="button"
+                                                data-input="service_imgGallerie1"
+                                                data-id="1"
+                                                class="btn add-file-label2 select-from-gallery"
+                                                data-toggle="modal"
+                                                data-target="#imagegallery"
+                                                data-url="{{ path('gallery_show') }}">
+                                            Choisir une image dans la bibliothèque
+                                        </button>
                                     </div>
                                     <div class="form-group col-lg-3 col-md-12">
                                         <label class="add-file-label" for="service_imageFile2"> <span>Image Galerie2…</span>
@@ -185,6 +211,15 @@
                                             <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
                                         </div>
                                         <span class="delete-img-service {% if service.filename2 =='' %} d-none {% endif %}" data-input-id="service_imageFile2" data-service-id="{{ service.id }}">Supprimer</span>
+                                        <button type="button"
+                                                data-input="service_imgGallerie2"
+                                                data-id="2"
+                                                class="btn select-from-gallery add-file-label2"
+                                                data-toggle="modal"
+                                                data-target="#imagegallery"
+                                                data-url="{{ path('gallery_show') }}">
+                                            Choisir une image dans la bibliothèque
+                                        </button>
                                     </div>
                                     <div class="form-group col-lg-3 col-md-12">
                                         <label class="add-file-label" for="service_imageFile3"> <span>Image Galerie 3 …</span>
@@ -200,7 +235,17 @@
                                             <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
                                         </div>
                                         <span class="delete-img-service {% if service.filename3 =='' %} d-none {% endif %}" data-input-id="service_imageFile3" data-service-id="{{ service.id }}">  Supprimer</span>
+                                        <button type="button"
+                                                data-input="service_imgGallerie3"
+                                                data-id="3"
+                                                class="btn select-from-gallery add-file-label2"
+                                                data-toggle="modal"
+                                                data-target="#imagegallery"
+                                                data-url="{{ path('gallery_show') }}">
+                                            Choisir une image dans la bibliothèque
+                                        </button>
                                     </div>
+
                                 </div>
 
                                 <div class="text-center hide-load">
@@ -215,7 +260,10 @@
                                 <div class="form-actions form-group text-center">
                                     <button type="submit" class="m-orange-btn">Enregistrer</button>
                                 </div>
-
+                                {{ form_widget(ServiceForm.imgGallerie) }}
+                                {{ form_widget(ServiceForm.imgGallerie1) }}
+                                {{ form_widget(ServiceForm.imgGallerie2) }}
+                                {{ form_widget(ServiceForm.imgGallerie3) }}
                                 {{ form_end(ServiceForm) }}
                             </div>
                         </div>
@@ -232,7 +280,13 @@
 
 {% endblock %}
 
+{% block modals %}
+    {% include 'service/modals/gallery.html.twig' %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'chooseModel'} %}
+{% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('modals') }}
+    {{ encore_entry_script_tags('service') }}
     {{ encore_entry_script_tags('form') }}
 {% endblock %}

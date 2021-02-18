@@ -10,7 +10,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\FavoritRepository;
 use App\Repository\UserRepository;
 use App\Service\AutomaticPost;
-use App\Service\ContactsHandler;
+use App\Service\Mail\ContactsHandler;
 use App\Service\Error\Error;
 use App\Service\ImageCropper;
 use App\Service\TopicHandler;

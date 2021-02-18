@@ -8,7 +8,7 @@ use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 

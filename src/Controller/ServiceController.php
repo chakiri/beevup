@@ -19,6 +19,7 @@ use App\Repository\TypeServiceRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
 use App\Service\Error\Error;
+use App\Service\Factory\ServiceFactory;
 use App\Service\ScoreHandler;
 use App\Service\ServiceSetting;
 use App\Service\GetCompanies;
@@ -132,6 +133,46 @@ class ServiceController extends AbstractController
     }
 
     /**
+     * @Route("/service/model", name="service_model")
+     */
+    public function model(Request $request, ServiceRepository $serviceRepository, TypeServiceRepository $typeServiceRepository)
+    {
+        $typeService = $typeServiceRepository->findOneBy(['name' => 'model']);
+        $services = $serviceRepository->findBy(['type' => $typeService], ['createdAt' => 'DESC']);
+        $template = 'service/model.html.twig';
+
+        //If searching
+        if (null !== $query = $request->get('query')){
+            $services = $serviceRepository->findModel($typeService, $query);
+            $template = 'service/modelResult.html.twig';
+        }
+
+        return $this->render($template, [
+            'services' => $services
+        ]);
+    }
+
+    /**
+     * @Route("/service/{id}/model", name="service_from_model")
+     */
+    public function fromModel(Service $service, EntityManagerInterface $manager, TypeServiceRepository $typeServiceRepository, EventDispatcherInterface $dispatcher)
+    {
+        $type =  $typeServiceRepository->findOneBy(['name' => 'company']);
+        $newService = ServiceFactory::create($service, $this->getUser(), $type);
+
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW_MODEL, $service));
+
+        $manager->persist($newService);
+
+        $manager->flush();
+
+        return $this->redirectToRoute('service_edit', [
+            'id' => $newService->getId()
+        ]);
+    }
+
+    /**
      * @Route("/service/{service}/associate", name="service_associate")
      */
     public function associate(Service $service, EntityManagerInterface $manager, StoreRepository $storeRepository, ServiceSetting $serviceSetting)
@@ -190,6 +231,8 @@ class ServiceController extends AbstractController
         $referer = $request->headers->get('referer');
         $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
 
+
+
         $message = 'Votre Service a bien été mis à jour !';
         if (!$service){
             $service = new Service();
@@ -204,6 +247,9 @@ class ServiceController extends AbstractController
         if($form->isSubmitted()) {
             if($form->isValid())
             {
+                /* ======== get selected image from gallery ========*/
+                $serviceSetting->setGalleryFileName($service,$request);
+
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);

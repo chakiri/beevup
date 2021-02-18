@@ -34,7 +34,6 @@ class ServiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      
         $builder
             ->add('title', TextType::class, [
                 'label'    => 'Nom du service',
@@ -209,9 +208,38 @@ class ServiceType extends AbstractType
             ])
             ->add('previousUrl', HiddenType::class, [
                 'mapped'    => false,
-                 'attr'  => [
+                'attr'  => [
                     'value' => $options['previousPage']
-                 ],
+                ],
+            ])
+            ->add('imgGallerie', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery',
+                      'value' =>'edit'
+                ],
+            ])
+            ->add('imgGallerie1', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-1',
+                    'value' => 'edit'
+                ],
+            ])
+            ->add('imgGallerie2', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-2',
+                    'value' => 'edit'
+
+                ],
+            ])
+            ->add('imgGallerie3', HiddenType::class, [
+                'mapped'    => false,
+                'attr'  => [
+                    'class' =>'img-gallery-3',
+                    'value' => 'edit'
+                ],
             ])
         ;
 
@@ -225,12 +253,16 @@ class ServiceType extends AbstractType
                         return $er->createQueryBuilder('t')
                             ->where('t.name = :val1')
                             ->orWhere('t.name = :val2')
+                            ->orWhere('t.name = :val3')
                             ->setParameter('val1', 'plateform')
-                            ->setParameter('val2', 'foreign');
+                            ->setParameter('val2', 'foreign')
+                            ->setParameter('val3', 'model')
+                            ;
                     },
                     'choice_label' => function ($type) {
                         if ($type->getName() == 'plateform') return 'plateforme';
                         elseif ($type->getName() == 'foreign') return 'externe';
+                        elseif ($type->getName() == 'model') return 'modèle';
                     }
                 ])
             ;
@@ -255,4 +287,6 @@ class ServiceType extends AbstractType
             },
         ]);
     }
+
+
 }

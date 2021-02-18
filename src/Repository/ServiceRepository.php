@@ -197,4 +197,19 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function findModel($type, $query)
+    {
+        $q = $this->createQueryBuilder('s')
+            ->andWhere('s.type = :type')
+            ->andWhere('s.title LIKE :query OR s.introduction LIKE :query OR s.description LIKE :query')
+            ->setParameter('type', $type)
+            ->setParameter('query', '%' . $query . '%')
+            ;
+
+        return $q
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

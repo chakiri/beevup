@@ -9,8 +9,8 @@ use App\Form\BeContactedType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
 use App\Service\Chat\AutomaticMessage;
-use App\Service\ContactsHandler;
-use App\Service\Mailer;
+use App\Service\Mail\ContactsHandler;
+use App\Service\Mail\Mailer;
 use App\Service\GetCompanies;
 use App\Service\Company\CompanySetting;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -193,7 +193,7 @@ class CompanyController extends AbstractController
                 $manager->flush();
 
                 //Send email to external user
-                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName(), 'url' => $this->generateUrl('external_search', ['store' => $request->getSession()->get('store-reference')], UrlGeneratorInterface::ABSOLUTE_URL) ];
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName(), 'url' => $this->generateUrl('homepage', ['store' => $request->getSession()->get('store-reference')], UrlGeneratorInterface::ABSOLUTE_URL) ];
                 $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 'recap_becontacted');
 
                 // add chat message to sponsor

@@ -9,7 +9,7 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
 use App\Service\EmptyMessageNotification;
 use App\Service\SaveNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

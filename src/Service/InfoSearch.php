@@ -60,6 +60,7 @@ class InfoSearch
         $infos = [];
         $nbRecommandations = [];
         $distances = [];
+
         foreach ($companies as $company){
             $nbRecommandations = $this->getNbRecommandations($company, $nbRecommandations);
             //Get nb Km between current sottore company and company item

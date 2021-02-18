@@ -6,10 +6,11 @@ use App\Event\Logger\LoggerEntityEvent;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
-use App\Service\ContactsHandler;
+use App\Service\Mail\ContactsHandler;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
+use App\Service\Sponsor\FromInvitation;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -38,91 +39,133 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/", name="security_registration")
+     * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer, ContactsHandler $contactsHandler): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
     {
-        if ($this->isGranted('ROLE_USER') == false) {
-            $user = new User();
+        $user = new User();
 
-            $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                /* insert company data*/
-                $company = new Company();
-                $userType = $userTypeRepository->findOneBy(['id' => 3]);
-                $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
-                $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
+            /* insert company data*/
+            $company = new Company();
+            $userType = $userTypeRepository->findOneBy(['id' => 3]);
+            $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
+            $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
 
-                $company->setSiret($form->get('company')->getData()->getSiret());
-                $company->setName($form->get('name')->getData());
-                $company->setEmail($user->getEmail());
-                $company->setStore($user->getStore());
+            $company->setSiret($form->get('company')->getData()->getSiret());
+            $company->setName($form->get('name')->getData());
+            $company->setEmail($user->getEmail());
+            $company->setStore($user->getStore());
 
-                if ($form->get('addressNumber')->getData()) $company->setAddressNumber($form->get('addressNumber')->getData());
-                if ($form->get('addressStreet')->getData()) $company->setAddresseStreet($form->get('addressStreet')->getData());
-                if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
-                if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
-                $company->setCountry('FR');
+            if ($form->get('addressNumber')->getData()) $company->setAddressNumber($form->get('addressNumber')->getData());
+            if ($form->get('addressStreet')->getData()) $company->setAddresseStreet($form->get('addressStreet')->getData());
+            if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
+            if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
+            $company->setCountry('FR');
 
-                /* generate bar code*/
-                $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
-                $company->setBarCode($barCode->generate($companyId));
-                /* end ******/
+            /* generate bar code*/
+            $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
+            $company->setBarCode($barCode->generate($companyId));
+            /* end ******/
 
-                $manager->persist($company);
+            $manager->persist($company);
 
-                /* insert user data*/
-                $user->setStore($user->getStore());
-                $user->setCompany($company);
-                $user->setType($userType);
-                $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-                $user->setPassword($password);
+            /* insert user data*/
+            $user->setStore($user->getStore());
+            $user->setCompany($company);
+            $user->setType($userType);
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
 
-                $token = $tokenGenerator->generateToken();
-                $user->setResetToken($token);
-                $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+            $token = $tokenGenerator->generateToken();
+            $user->setResetToken($token);
+            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-                /* add admin topics to user */
-                //$topicHandler->addAdminTopicsToUser($user);
-                $topicHandler->initGeneralStoreTopic($user);
+            /* add admin topics to user */
+            $topicHandler->initGeneralStoreTopic($user);
 
-                $manager->persist($user);
+            $manager->persist($user);
 
-                /* add company topic to user */
-                $topicHandler->initCompanyTopic($company, $user);
+            /* add company topic to user */
+            $topicHandler->initCompanyTopic($company, $user);
 
-                // new profile
-                $profile = new Profile();
-                $profile->setUser($user);
+            // new profile
+            $profile = new Profile();
+            $profile->setUser($user);
 
-                $manager->persist($profile);
+            $manager->persist($profile);
 
-                $manager->flush();
+            $manager->flush();
 
-                //Create new contact on SendinBlue
-                $contactsHandler->handleContactSendinBlueRegistartion($user);
+            $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
 
-                $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
-
-                return $this->redirectToRoute('waiting_validation');
-            }
-
-            return $this->render('default/home.html.twig', [
-                'RegistrationForm' => $form->createView(),
-            ]);
-        }else{
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('waiting_validation');
         }
+
+        return $this->render('default/inscription.html.twig', [
+            'RegistrationForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/confirmEmail/{token}", name="security_confirm_email")
+     */
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, Mailer $mailer, EventDispatcherInterface $dispatcher, FromInvitation $fromInvitation, ContactsHandler $contactsHandler, SponsorshipRepository $sponsorshipRepository)
+    {
+        $user = $userRepository->findOneBy(['resetToken' => $token]);
+
+        if (!$user){
+            $this->addFlash('danger', 'le lien de confirmation a expiré');
+            return $this->redirectToRoute('security_login');
+        }
+
+        //Send welcome email
+        $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
+
+        $user->setResetToken(null);
+        $user->setIsValid(1);
+
+        $manager->persist($user);
+
+        if($company = $user->getCompany()) {
+            $company->setIsValid(true);
+            $manager->persist($company);
+        }
+
+        $manager->flush();
+
+        //check if the user is coming from invitation
+        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
+        $optionsRedirect = [];
+        if ($sponsor){
+            $pointsReceiver = $fromInvitation->handle($sponsor, $user);
+            $optionsRedirect = ['toastScore' => $pointsReceiver];
+        }
+
+        //Authenticate User automaticaly
+        $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
+
+        //Create new contact on SendinBlue
+        $contactsHandler->handleContactSendinBlueRegistartion($user);
+
+        $this->addFlash('success', 'votre compte a été activé');
+
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
+
+        return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
     /**
      * @Route("/waitingValidation", name="waiting_validation")
      */
-    public function waitingValidation(){
+    public function waitingValidation(): Response
+    {
         return $this->render('security/waitingValidation.html.twig');
     }
 
@@ -247,66 +290,6 @@ class SecurityController extends AbstractController
             'forgotPasswordForm' => $form->createView(),
             'token',$token
         ]);
-    }
-
-    /**
-     * @Route("/confirmEmail/{token}", name="security_confirm_email")
-     */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, UserTypeRepository $userTypeRepository, CompanyRepository $companyRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Mailer $mailer, EventDispatcherInterface $dispatcher)
-    {
-        $user = $userRepository->findOneBy(['resetToken' => $token]);
-
-        if (!$user){
-            $this->addFlash('danger', 'le lien de confirmation a expiré');
-            return $this->redirectToRoute('security_login');
-        }
-
-        /****send welcome email *****/
-        $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
-        /*****end ******/
-
-        $user->setResetToken(null);
-        $user->setIsValid(1);
-
-        $manager->persist($user);
-
-        if($user->getCompany() != null) {
-            $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
-            if ($company != null) {
-                $company->setIsValid(true);
-                $manager->persist($company);
-            }
-        }
-        $manager->flush();
-
-
-        /*****check if the user is coming from invitation****/
-        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
-        $pointsSender = $scorePointRepository->findOneBy(['id' => 5])->getPoint();
-        $pointsReceiver = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
-        $optionsRedirect = [];
-        if ($sponsor  != null){
-            $scoreHandler->add($sponsor->getUser(), $pointsSender);
-            $scoreHandler->add($user, $pointsReceiver);
-            $optionsRedirect = ['toastScore' => $pointsReceiver];
-
-            /* add chat message to sponsor */
-            $automaticMessage->fromAdvisorToSponsored($sponsor, $user);
-            $automaticMessage->fromAdvisorToSponsor($sponsor, $user);
-        }
-
-        $guardHandler->authenticateUserAndHandleSuccess(
-            $user,
-            $request,
-            $authenticator,
-            'main'
-        );
-        $this->addFlash('success', 'votre compte a été activé');
-
-        //Dispatch on Logger Entity Event
-        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
-
-        return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
     /**
