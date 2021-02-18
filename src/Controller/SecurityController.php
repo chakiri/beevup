@@ -10,6 +10,7 @@ use App\Service\Mail\ContactsHandler;
 use App\Service\Session\CookieAcceptedSession;
 use App\Service\ScoreHandler;
 use App\Service\Mail\Mailer;
+use App\Service\Sponsor\FromInvitation;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
@@ -40,7 +41,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer, ContactsHandler $contactsHandler): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
     {
         $user = new User();
 
@@ -101,9 +102,6 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            //Create new contact on SendinBlue
-            $contactsHandler->handleContactSendinBlueRegistartion($user);
-
             $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
 
             return $this->redirectToRoute('waiting_validation');
@@ -112,6 +110,55 @@ class SecurityController extends AbstractController
         return $this->render('default/inscription.html.twig', [
             'RegistrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/confirmEmail/{token}", name="security_confirm_email")
+     */
+    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, Mailer $mailer, EventDispatcherInterface $dispatcher, FromInvitation $fromInvitation, ContactsHandler $contactsHandler, SponsorshipRepository $sponsorshipRepository)
+    {
+        $user = $userRepository->findOneBy(['resetToken' => $token]);
+
+        if (!$user){
+            $this->addFlash('danger', 'le lien de confirmation a expiré');
+            return $this->redirectToRoute('security_login');
+        }
+
+        //Send welcome email
+        $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
+
+        $user->setResetToken(null);
+        $user->setIsValid(1);
+
+        $manager->persist($user);
+
+        if($company = $user->getCompany()) {
+            $company->setIsValid(true);
+            $manager->persist($company);
+        }
+
+        $manager->flush();
+
+        //check if the user is coming from invitation
+        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
+        $optionsRedirect = [];
+        if ($sponsor){
+            $pointsReceiver = $fromInvitation->handle($sponsor, $user);
+            $optionsRedirect = ['toastScore' => $pointsReceiver];
+        }
+
+        //Authenticate User automaticaly
+        $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
+
+        //Create new contact on SendinBlue
+        $contactsHandler->handleContactSendinBlueRegistartion($user);
+
+        $this->addFlash('success', 'votre compte a été activé');
+
+        //Dispatch on Logger Entity Event
+        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
+
+        return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
     /**
@@ -243,63 +290,6 @@ class SecurityController extends AbstractController
             'forgotPasswordForm' => $form->createView(),
             'token',$token
         ]);
-    }
-
-    /**
-     * @Route("/confirmEmail/{token}", name="security_confirm_email")
-     */
-    public function confirmEmail(LoginFormAuthenticator $authenticator, Request $request, string $token, UserRepository $userRepository, CompanyRepository $companyRepository, EntityManagerInterface $manager, GuardAuthenticatorHandler $guardHandler, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, ScorePointRepository $scorePointRepository, AutomaticMessage $automaticMessage, Mailer $mailer, EventDispatcherInterface $dispatcher)
-    {
-        $user = $userRepository->findOneBy(['resetToken' => $token]);
-
-        if (!$user){
-            $this->addFlash('danger', 'le lien de confirmation a expiré');
-            return $this->redirectToRoute('security_login');
-        }
-
-        /****send welcome email *****/
-        $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
-        /*****end ******/
-
-        $user->setResetToken(null);
-        $user->setIsValid(1);
-
-        $manager->persist($user);
-
-        if($user->getCompany() != null) {
-            $company = $companyRepository->findOneBy(['id' => $user->getCompany()]);
-            if ($company != null) {
-                $company->setIsValid(true);
-                $manager->persist($company);
-            }
-        }
-        $manager->flush();
-
-
-        /*****check if the user is coming from invitation****/
-        $sponsor =  $sponsorshipRepository->findOneBy(['email'=> $user->getEmail()]) ;
-        $pointsSender = $scorePointRepository->findOneBy(['id' => 5])->getPoint();
-        $pointsReceiver = $scorePointRepository->findOneBy(['id' => 4])->getPoint();
-        $optionsRedirect = [];
-        if ($sponsor  != null){
-            $scoreHandler->add($sponsor->getUser(), $pointsSender);
-            $scoreHandler->add($user, $pointsReceiver);
-            $optionsRedirect = ['toastScore' => $pointsReceiver];
-
-            /* add chat message to sponsor */
-            $automaticMessage->fromAdvisorToSponsored($sponsor, $user);
-            $automaticMessage->fromAdvisorToSponsor($sponsor, $user);
-        }
-
-        //Authenticate User automaticly
-        $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
-
-        $this->addFlash('success', 'votre compte a été activé');
-
-        //Dispatch on Logger Entity Event
-        $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
-
-        return $this->redirectToRoute('dashboard', $optionsRedirect);
     }
 
     /**
