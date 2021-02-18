@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\UserType;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserStoreController extends EasyAdminController

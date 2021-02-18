@@ -1,22 +1,14 @@
 <?php
 
-
-namespace App\Service;
-
-use App\Repository\UserRepository;
-use App\Repository\UserTypeRepository;
+namespace App\Service\Mail;
 
 class ContactsHandler
 {
     private $mailer;
-    private $userRepository;
-    private $userTypeRepository;
 
-    public function __construct(Mailer $mailer, UserRepository $userRepository, UserTypeRepository $userTypeRepository)
+    public function __construct(Mailer $mailer)
     {
         $this->mailer = $mailer;
-        $this->userRepository = $userRepository;
-        $this->userTypeRepository = $userTypeRepository;
     }
 
     /**
@@ -26,7 +18,7 @@ class ContactsHandler
     public function handleContactSendinBlueRegistartion($user)
     {
         if ($this->mailer->isContact($user->getEmail()) === false){
-            $this->mailer->createContact($user->getEmail(), 2);
+            $this->mailer->createContact($user->getEmail(), $this->getContactsListId());
         }
 
         if ($advisor = $user->getStore()->getDefaultAdviser()) $advisorName = $advisor->getProfile()->getFirstname() . ' ' . $advisor->getProfile()->getLastname();
@@ -54,7 +46,6 @@ class ContactsHandler
             $attributes = [
                 'NOM' => $user->getProfile()->getLastname(),
                 'PRENOM' => $user->getProfile()->getFirstname(),
-                //'SMS' => $user->getProfile()->getMobileNumber(),
                 'STATUT_CLIENT' => 2,
                 'PROFIL_COMPLET' => 1,
             ];
@@ -77,5 +68,19 @@ class ContactsHandler
             ];
             $this->mailer->updateContact($user->getEmail(), $attributes);
         }
+    }
+
+    /**
+     * Get id of contacts list Sendinblue
+     */
+    private function getContactsListId(): int
+    {
+        if ($_ENV['APP_ENV'] === 'dev' || $_ENV['APP_ENV'] === 'test') {
+            $contactsListId = 2;
+        }elseif ($_ENV['APP_ENV'] === 'prod') {
+            $contactsListId = 17;
+        }
+
+        return $contactsListId;
     }
 }

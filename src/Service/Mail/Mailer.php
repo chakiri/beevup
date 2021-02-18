@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Mail;
 
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
@@ -12,29 +12,32 @@ use SendinBlue\Client\Model\SendSmtpEmail;
 use SendinBlue\Client\Model\UpdateContact;
 use Twig\Environment;
 
-
 class Mailer
 {
     private $templating;
 
     private $logger;
 
-    private $tempates_ids;
+    private $templatesIds;
 
     public function __construct(Environment $templating, LoggerInterface $mailerLogger)
     {
         $this->templating = $templating;
         $this->logger = $mailerLogger;
-        $this->tempates_ids = $this->getTemplatesIds();
+        $this->templatesIds = $this->getTemplatesIds();
     }
 
-    //Get config From Api Key
+    /**
+     * Get config From Api Key
+     */
     private function getConfig()
     {
         return Configuration::getDefaultConfiguration()->setApiKey('api-key', $_ENV['SENDINBLUE_API_KEY']);
     }
 
-    //Function to send emails wth Sendinblue templates
+    /**
+     * Function to send emails wth Sendinblue templates
+     */
     public function sendEmailWithTemplate($email, ?array $params, string $templateIdName): void
     {
         $config = $this->getConfig();
@@ -45,7 +48,7 @@ class Mailer
 
         $sendSmtpEmail['sender'] = ['name' => $_ENV['DEFAULT_EMAIL_NAME'], 'email' => $_ENV['DEFAULT_EMAIL']];
         $sendSmtpEmail['to'] = [['email' => $email]];
-        $sendSmtpEmail['templateId'] = $this->tempates_ids[$templateIdName];
+        $sendSmtpEmail['templateId'] = $this->templatesIds[$templateIdName];
         $sendSmtpEmail['params'] = $params;
 
         try {
@@ -55,7 +58,9 @@ class Mailer
         }
     }
 
-    //Get list of all contacts on SendinBlue Api
+    /**
+     * Get list of all contacts on SendinBlue Api
+     */
     public function getContacts()
     {
         $config = $this->getConfig();
@@ -70,7 +75,9 @@ class Mailer
         }
     }
 
-    //Create a contact on Sendinblue Api
+    /**
+     * Create a contact on Sendinblue Api
+     */
     public function createContact($email, $listId): void
     {
         $config = $this->getConfig();
@@ -88,7 +95,9 @@ class Mailer
         }
     }
 
-    //Update contact attributes
+    /**
+     * Update contact attributes
+     */
     public function updateContact($email, array $attributes): void
     {
         $config = $this->getConfig();
@@ -106,7 +115,9 @@ class Mailer
         }
     }
 
-    //Check if contact exist on Api
+    /**
+     * Check if contact exist on Api
+     */
     public function isContact($email): bool
     {
         $config = $this->getConfig();
@@ -122,7 +133,9 @@ class Mailer
         }
     }
 
-    //Function to send emails by Sendinblue SMTP with Twig templates
+    /**
+     * Function to send emails by Sendinblue SMTP with Twig templates
+     */
     public function sendEmailWithInternTemplate($subject, $email, array $content, $template): void
     {
         $config = $this->getConfig();
@@ -143,10 +156,13 @@ class Mailer
         }
     }
 
+    /**
+     * Get ids templates of Sendinblue depending on environement
+     */
     private function getTemplatesIds(): array
     {
-        if ($_ENV['APP_ENV'] === 'dev'){
-            $templates_ids = [
+        if ($_ENV['APP_ENV'] === 'dev' || $_ENV['APP_ENV'] === 'test'){
+            $templatesIds = [
                 'password_forgotten' => 3,
                 'confirm_inscription' => 2,
                 'welcome_message' => 4,
@@ -158,7 +174,7 @@ class Mailer
                 'recap_becontacted' => 8,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
-            $templates_ids = [
+            $templatesIds = [
                 'password_forgotten' => 36,
                 'confirm_inscription' => 35,
                 'welcome_message' => 34,
@@ -171,6 +187,6 @@ class Mailer
             ];
         }
 
-        return $templates_ids;
+        return $templatesIds;
     }
 }

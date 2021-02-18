@@ -9,7 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
 use App\Entity\Profile;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

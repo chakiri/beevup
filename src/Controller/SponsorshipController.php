@@ -7,7 +7,7 @@ use App\Entity\Sponsorship;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
-use App\Service\Mailer;
+use App\Service\Mail\Mailer;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
 use App\Form\SponsorshipType;
