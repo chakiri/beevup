@@ -23,6 +23,9 @@ aside.main-sidebar {
     padding-top: 10px;
     z-index: 967 !important;
 }
+.action-export {
+    display: none !important;
+}
 
 @media (min-width: 768px) {
     .admin-menu-items{

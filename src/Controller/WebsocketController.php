@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Repository\CompanyRepository;
 use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
@@ -31,9 +32,10 @@ class WebsocketController extends AbstractController
 
     /**
      * @Route("/chat/private/{id}", name="chat_private")
+     * @Route("/chat/fromAdmin/private/{id}", name="chat_from_admin")
      * @Route("/chat/{name}", name="chat_topic")
      */
-    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification)
+    public function index(?Topic $topic, ?User $user, Request $request, MessageRepository $messageRepository, MessageNotificationRepository $notificationRepository, EmptyMessageNotification $emptyMessageNotification, CompanyRepository $companyRepository, $id)
     {
         //Verification passing bad subject to url
         if (!$topic && !$user) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
@@ -55,7 +57,19 @@ class WebsocketController extends AbstractController
             //Empty notification for user
             $emptyMessageNotification->empty($this->getUser(), $user);
 
-        }elseif($request->get('_route') == 'chat_topic'){
+        }
+        elseif ($request->get('_route') == 'chat_from_admin'){
+            //Assign user to the subject
+            $company = $companyRepository->findOneBy(['id'=>$id]);
+            $user = $company->getCompanyAdministrator();
+            $subject = $user->getId();
+            //Get all messages from receiver with limit
+            $messages = $messageRepository->findMessagesBetweenUserAndReceiver($this->getUser(), $user);
+            //Empty notification for user
+            $emptyMessageNotification->empty($this->getUser(), $user);
+
+        }
+        elseif($request->get('_route') == 'chat_topic'){
             //if user not having this topic
             if (!in_array($topic, $this->getUser()->getTopics()->toArray())) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 

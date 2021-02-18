@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
@@ -557,6 +558,14 @@ class Company implements \Serializable
         return $this->services;
     }
 
+    /**
+     * @return Collection|Sponsorship[]
+     */
+    public function getSponsorships(): Collection
+    {
+        return $this->sponsorship;
+    }
+
     public function addService(Service $service): self
     {
         if (!$this->services->contains($service)) {
@@ -636,5 +645,64 @@ class Company implements \Serializable
         }
 
     }
-    
+    public function getCompanyAdministratorFullName() {
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3)
+                if($user->getProfile()->getFirstName() != '')
+                     return $user->getProfile()->getFirstName().' '.$user->getProfile()->getLastname();
+                else return 'N/C';
+        }
+
+    }
+    public function getEmailAdministrator() {
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3)
+                return $user->getEmail();
+        }
+
+    }
+    public function getServiceNumber(){
+        return count($this->services);
+    }
+    public function isProfileAdminCompleted(){
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3)
+                return ( $user->getProfile()->getIsCompleted()) ? 'Oui' : 'Non';
+        }
+    }
+    public function isLogoAdminCompleted(){
+        $isLogoAdminDefined = '';
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3) {
+                $isLogoAdminDefined = ($user->getProfile()->getFileName() != '') ? 'Oui' : 'Non';
+                return $isLogoAdminDefined;
+            }
+        }
+    }
+    public function isLogoDefined(){
+        return $isLogoDefined = ($this->getFilename() !='') ? 'Oui' : 'Non';
+    }
+    public function getCreatedDate(){
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3) {
+                if($user->getCreatedAt() != null) {
+                    return $user->getCreatedAt()->format('d/m/Y');
+                } else {
+                    return 'erreur';
+                }
+
+            }
+        }
+    }
+    public function getScore()
+    {
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3) {
+                if($user->getScore() != null && $user->getScore() != '')
+                    return $user->getScore()->getPoints();
+                else return '0';
+            }
+        }
+    }
+
 }

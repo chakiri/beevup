@@ -349,4 +349,8 @@ class User implements UserInterface
     {
         return get_object_vars($this);
     }
+
+   public function getSponsorship(){
+
+   }
 }

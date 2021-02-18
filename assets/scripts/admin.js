@@ -133,4 +133,22 @@ $( "#publicity_imageFile_file" ).change(function() {
 
 
 });
+if($('.action-company_show').length > 0)
+{
+    $('.action-company_show').attr('target','_blank');
+}
+if($('.action-chat_from_admin').length > 0)
+{
+    $('.action-chat_from_admin').attr('target','_blank');
+}
+/*if($('td.isDefined').length > 0) {
+    $('td.isDefined').each(function () {
+       if ( $(this).text() == 'Oui') {
+            $(this).html("<span class=\"badge badge-success\">Oui</span>");
+        } else {
+            $(this).html("<span class=\"badge badge-danger\">Non</span>");
 
+        }
+
+    });
+}*/
