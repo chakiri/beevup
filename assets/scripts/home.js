@@ -1,7 +1,3 @@
-//============== open street map =========//
-import $ from "jquery";
-import 'bootstrap';
-
 //modal choose store for homepage search
 if (window.location.pathname === '/'){
     if (window.location.search === '' || window.location.search === '?store=BV001'){
