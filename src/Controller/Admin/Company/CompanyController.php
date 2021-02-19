@@ -1,21 +1,25 @@
 <?php
 namespace App\Controller\Admin\Company;
+use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use App\Service\Export\CsvExporter;
 
 class CompanyController extends EasyAdminController
 {
     private $userRepo;
     private $postRepo;
     private $companyRepo;
+    private $csvExporter;
 
-    public function __construct( UserRepository $userRepo, PostRepository $postRepo, CompanyRepository $companyRepo)
+    public function __construct( UserRepository $userRepo, PostRepository $postRepo, CompanyRepository $companyRepo, CsvExporter $csvExporter)
     {
         $this->userRepo = $userRepo;
         $this->postRepo = $postRepo;
         $this->companyRepo = $companyRepo;
+        $this->csvExporter = $csvExporter;
     }
     public function changeStatusAction()
     {
@@ -64,4 +68,25 @@ class CompanyController extends EasyAdminController
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
         return $list;
     }
+
+    public function exportCompanyAction()
+    {
+        $sortDirection = $this->request->query->get('sortDirection');
+        if (empty($sortDirection) || !in_array(strtoupper($sortDirection), ['ASC', 'DESC'])) {
+            $sortDirection = 'DESC';
+        }
+        $queryBuilder = $this->createListQueryBuilder(
+            $this->entity['class'],
+            $sortDirection,
+            $this->request->query->get('sortField'),
+            $this->entity['list']['dql_filter']
+        );
+        return $this->csvExporter->getResponseFromQueryBuilder(
+            $queryBuilder,
+            Company::class,
+            'Entreprises.csv'
+        );
+    }
+
+
 }

@@ -11,7 +11,6 @@ easy_admin:
       - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Offer', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Subscription', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
-      - { entity: 'ImageGallery', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
     templates:
       layout: 'admin/layout.html.twig' # templates/layout.html.twig
 
@@ -23,24 +22,6 @@ easy_admin:
 
   entities:
     # List the entity class name you want to manage
-    ImageGallery:
-      class: App\Entity\ImageGallery
-      controller: App\Controller\Admin\Gallery\GalleryAdmin
-      label: 'Gallerie'
-      max_results: 20
-      list:
-
-        fields:
-          - { property: 'fileName', label: 'nom de fichier' }
-          - { property: 'keyWords', label: 'mots clés' }
-      form:
-
-        fields:
-          - {property: 'keyWords',  label: 'mots clés'}
-          - { property: 'imageFile', label: 'Image', type: 'vich_image' }
-
-
-
     Company:
       class: App\Entity\Company
       controller: App\Controller\Admin\Company\CompanyController
@@ -50,15 +31,27 @@ easy_admin:
       list:
         actions:
           - { name: 'changeStatus', label: 'Activer/Désactiver', icon: 'pencil' }
+          - { name: 'export', label: 'Export' }
+          - { name: 'company_show', label: 'Voir fiche', icon: 'eye', type: 'route',route_parameters: { 'slug': slug, 'id': id } }
+          - { name: 'chat_from_admin', label: 'Contacter', icon: 'comments', type: 'route',route_parameters: { 'id': id } }
+
 
 
 
         fields:
-          - { property: 'name', label: 'Nom' }
+          - { property: 'name', label: 'Raison sociale' }
           - { property: 'siret', label: 'Siret' }
-          - { property: 'email', label: 'Email' }
-          - { property: 'phone', label: 'Phone' }
-          - { property: 'city', label: 'City' }
+          - { property: 'companyAdministratorFullName', label: 'Administrateur' }
+          - { property: 'email', label: 'Email Administrateur' }
+          - { property: 'phone', label: 'Téléphone' }
+          - { property: 'city', label: 'Ville' }
+          - { property: 'isLogoDefined', label: 'Logo', css_class: 'isDefined' }
+          - { property: 'isProfileAdminCompleted', label: 'Profil renseigné' , css_class: 'isDefined' }
+          - { property: 'isLogoAdminCompleted', label: 'Photo  Profil', css_class: 'isDefined' }
+          - { property: 'serviceNumber', label: 'Nombre de services' }
+          - { property: 'getScore', label: 'nombre de points' }
+          - { property: 'getCreatedDate', label: 'Date de création' }
+          - { property: 'isCompleted', label: 'Fiche entreprise renseignée' , css_class: 'isDefined'}
           - { property: 'isValid', label: 'Active' }
     Store:
       class: App\Entity\Store
