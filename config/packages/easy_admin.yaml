@@ -31,7 +31,7 @@ easy_admin:
       list:
         actions:
           - { name: 'changeStatus', label: 'Activer/Désactiver', icon: 'pencil' }
-          - { name: 'export', label: 'Export' }
+          - { name: 'export', label: 'Exporter' }
           - { name: 'company_show', label: 'Voir fiche', icon: 'eye', type: 'route',route_parameters: { 'slug': slug, 'id': id } }
           - { name: 'chat_from_admin', label: 'Contacter', icon: 'comments', type: 'route',route_parameters: { 'id': id } }
 
