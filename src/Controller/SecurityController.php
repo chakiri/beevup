@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer): Response
+    public function inscription(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder, UserTypeRepository $userTypeRepository, BarCode $barCode, CompanyRepository $companyRepo, UserRepository $userRepository, TopicHandler $topicHandler, TokenGeneratorInterface $tokenGenerator, Mailer $mailer, ContactsHandler $contactsHandler): Response
     {
         $user = new User();
 
@@ -104,6 +104,9 @@ class SecurityController extends AbstractController
 
             $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
 
+            //Create new contact on SendinBlue
+            $contactsHandler->handleContactSendinBlueRegistartion($user);
+
             return $this->redirectToRoute('waiting_validation');
         }
 
@@ -150,13 +153,13 @@ class SecurityController extends AbstractController
         //Authenticate User automaticaly
         $guardHandler->authenticateUserAndHandleSuccess($user, $request, $authenticator, 'main');
 
-        //Create new contact on SendinBlue
-        $contactsHandler->handleContactSendinBlueRegistartion($user);
-
-        $this->addFlash('success', 'votre compte a été activé');
+        //Change statut contact on SendinBlue
+        $contactsHandler->handleContactSendinBlueValidateEmail($user);
 
         //Dispatch on Logger Entity Event
         $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
+
+        $this->addFlash('success', 'votre compte a été activé');
 
         return $this->redirectToRoute('dashboard', $optionsRedirect);
     }

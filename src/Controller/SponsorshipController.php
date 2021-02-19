@@ -7,6 +7,7 @@ use App\Entity\Sponsorship;
 use App\Repository\ScorePointRepository;
 use App\Repository\SponsorshipRepository;
 use App\Repository\UserRepository;
+use App\Service\Mail\ContactsHandler;
 use App\Service\Mail\Mailer;
 use App\Service\ScoreHandler;
 use App\Service\Utility;
@@ -23,7 +24,7 @@ class SponsorshipController  extends AbstractController
     /**
      * @Route("/sponsorship", name="sponsorship")
      */
-    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Mailer $mailer)
+    public function form(Request $request, Utility $utility, EntityManagerInterface $manager, SponsorshipRepository $sponsorshipRepository, ScoreHandler $scoreHandler, UserRepository $userRepository, ScorePointRepository $scorePointRepository, Mailer $mailer, ContactsHandler $contactsHandler)
     {
         $sponsorship = new Sponsorship();
         $emailsExist = [];
@@ -55,9 +56,15 @@ class SponsorshipController  extends AbstractController
                             $sponsorship->setMessage($customMessage);
                             $sponsorship->setUser($this->getUser());
                             $manager->persist($sponsorship);
+
                             $mailer->sendEmailWithTemplate($email, ['message' => $customMessage, 'sponsor' => $sponsor, 'url' => $this->generateUrl('security_registration', [], UrlGeneratorInterface::ABSOLUTE_URL)], 'sponsorship');
+
+                            //Save contact on SendinBlue with statue sponsored
+                            $contactsHandler->handleContactsSendinBlueSponsored($email);
+
                             $scoreHandler->add($this->getUser(), $pointsSender);
                             $points += $pointsSender;
+
                         } else {
                             array_push($emailsNotCorrect, $email);
                         }

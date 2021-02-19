@@ -28,7 +28,7 @@ class ContactsHandler
             'MAG_LIB' => $user->getStore()->getName(),
             'CD_MAGASIN' => $user->getStore()->getReference(),
             'CONTACT_MAG' => $advisorName ?? null,
-            'STATUT_CLIENT' => 3,
+            'STATUT_CLIENT' => 5,
             'TITRE_CONTACT' => 'Conseiller Beev\'Up.fr',
             'PROFIL_COMPLET' => 0,
             'ENTREPRISE_COMPLET' => 0,
@@ -68,6 +68,37 @@ class ContactsHandler
             ];
             $this->mailer->updateContact($user->getEmail(), $attributes);
         }
+    }
+
+    /**
+     * Update statue Sendinblue contact
+     * @param $user
+     */
+    public function handleContactSendinBlueValidateEmail($user)
+    {
+        if ($this->mailer->isContact($user->getEmail()) !== false){
+            $attributes = [
+                'STATUT_CLIENT' => 3,
+            ];
+            $this->mailer->updateContact($user->getEmail(), $attributes);
+        }
+    }
+
+    /**
+     * Create a contact SendinBlue on sponsoring
+     * @param $email
+     */
+    public function handleContactsSendinBlueSponsored($email)
+    {
+        if ($this->mailer->isContact($email) === false){
+            $this->mailer->createContact($email, $this->getContactsListId());
+        }
+
+        $attributes = [
+            'STATUT_CLIENT' => 4
+        ];
+
+        $this->mailer->updateContact($email, $attributes);
     }
 
     /**
