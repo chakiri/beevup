@@ -34,7 +34,9 @@ class WampServerCommand extends Command
         $pull->bind('tcp://127.0.0.1:5555'); // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->on('message', array($this->pusher, 'onMessage'));
         // Set up our WebSocket server for clients wanting real-time updates
-        if ($_ENV['APP_ENV'] == "prod"){
+        if ($_ENV['APP_ENV'] === "dev"){
+            $webSock = new Server('0.0.0.0:' . $port, $loop); // Binding to 0.0.0.0 means remotes can connect
+        }else{
             //Implemente SSL in ratchet to handle https
             $webSock = new React\Socket\SecureServer(
                 new Server('0.0.0.0:' . $port, $loop),
@@ -46,8 +48,6 @@ class WampServerCommand extends Command
                     'verify_peer_name' => false
                 )
             );
-        }else{
-            $webSock = new Server('0.0.0.0:' . $port, $loop); // Binding to 0.0.0.0 means remotes can connect
         }
 
         $webServer = new IoServer(
