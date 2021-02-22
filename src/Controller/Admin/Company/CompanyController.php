@@ -88,5 +88,22 @@ class CompanyController extends EasyAdminController
         );
     }
 
+    protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
+    {
+        $store = $this->getUser()->getStore();
+        $qb = parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+        if ($entityClass === Company::class) {
+            $qb->innerJoin('entity.users', 'u')
+               ->innerJoin('u.profile', 'p')
+               ->innerJoin('u.type', 't')
+                ->orWhere('LOWER(p.firstname) LIKE :search or LOWER(p.lastname) LIKE :search')
+                ->orWhere('u.email = :search')
+                ->andWhere('entity.store = :store')
+                ->setParameter('search','%'.$searchQuery.'%')
+                ->setParameter('store',$store)
+            ;
+        }
+        return $qb;
+    }
 
 }
