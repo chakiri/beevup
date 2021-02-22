@@ -3155,9 +3155,7 @@ a:hover {
 .profile_edit .cropper-view-box{
     border-radius: 50%;
 }
-#previous-image, #previous-image1, #previous-image2, #previous-image3{
-    margin-top: 10px;
-}
+
 #previous-image img, #previous-image1 img, #previous-image2 img , #previous-image3 img{
 position: relative;
 width: 100%;
@@ -3793,6 +3791,7 @@ li.icon-type-post a.active{
     display: inline-block;
     overflow: hidden;
     padding: 0.625rem 1.25rem;
+    text-align: center;
     /* 10px 20px */
 }
 
@@ -4322,4 +4321,14 @@ border: 0;
 .landing-page-section4-bloc .box-text{
     float: left;
 }
-
+.service-label-name{
+    width: 100%;
+    font-size: 12px;
+    font-weight: bold;
+}
+.W-100{
+    width: 100%;
+}
+.add-file-label.W-100{
+    max-width: 100% !important;
+}
