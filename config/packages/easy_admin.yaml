@@ -11,6 +11,8 @@ easy_admin:
       - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Offer', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Subscription', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+      - { entity: 'ImageGallery', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+
     templates:
       layout: 'admin/layout.html.twig' # templates/layout.html.twig
 
@@ -138,6 +140,23 @@ easy_admin:
           - { property: 'nbServices', label: 'nombre de services' }
           - { property: 'nbUsers', label: 'nombre des utilisateurs' }
           - { property: 'price', label: 'Prix' }
+    # List the entity class name you want to manage
+    ImageGallery:
+      class: App\Entity\ImageGallery
+      controller: App\Controller\Admin\Gallery\GalleryAdmin
+      label: 'Galerie'
+      max_results: 20
+      list:
+
+        fields:
+          - { property: 'fileName', label: 'nom de fichier' }
+          - { property: 'keyWords', label: 'mots clés' }
+      form:
+
+        fields:
+          - {property: 'keyWords',  label: 'mots clés'}
+          - { property: 'imageFile', label: 'Image', type: 'vich_image' }
+
     Subscription:
       class: App\Entity\Subscription
       label: 'Les inscriptions'
