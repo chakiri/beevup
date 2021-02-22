@@ -220,4 +220,14 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/chat/fromAdmin/private/{id}", name="chat_from_admin")
+     */
+    public function chatFromAdministration(Company $company){
+        $adminCompanyId = $company->getCompanyAdministrator()->getId();
+        return $this->redirectToRoute('chat_private', [
+            'id' =>$adminCompanyId
+        ]);
+    }
+
 }
