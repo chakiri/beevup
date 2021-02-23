@@ -705,4 +705,13 @@ class Company implements \Serializable
         }
     }
 
+    public function getSponsorshipNumber(){
+        $users = $this->getUsers();
+        $nb = 0;
+        foreach ($users as $user){
+            $nb +=count($user->getSponsorship());
+        }
+        return $nb;
+    }
+
 }

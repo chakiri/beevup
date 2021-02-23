@@ -113,6 +113,11 @@ class User implements UserInterface
      */
     private $resetToken;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sponsorship", mappedBy="user" , cascade={"persist", "remove"})
+     */
+    private $sponsorship;
+
     public function __construct()
     {
         $this->isValid = false;
@@ -348,6 +353,14 @@ class User implements UserInterface
     public function toArray():array
     {
         return get_object_vars($this);
+    }
+
+    /**
+     * @return Collection|Sponsorship[]
+     */
+    public function getSponsorship(): Collection
+    {
+        return $this->sponsorship;
     }
 
 }
