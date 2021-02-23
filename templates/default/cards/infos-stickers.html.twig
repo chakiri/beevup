@@ -8,7 +8,7 @@
             {% endif %}
         </div>
     {% endif %}
-    {% if nbRecommandations and nbRecommandations[item.id] > 0 %}
+    {% if nbRecommandations and nbRecommandations[item.id] is defined and nbRecommandations[item.id] > 0 %}
         <div class="company-infos-recommandations ml-1 mr-1">
             <i class="far fa-star"></i> <small class="text-dark font-weight-bold">{{ nbRecommandations[item.id] }}{% if nbRecommandations[item.id] == 1 %} Recommandation{% else %} Recommandations{% endif %}</small>
         </div>

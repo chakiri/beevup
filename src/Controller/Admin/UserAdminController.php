@@ -19,7 +19,6 @@ class UserAdminController extends EasyAdminController
     /**
      * @var UserPasswordEncoderInterface
      */
-
     private $passwordEncoder;
     private $userTypeRepo;
     private $userRepo;
