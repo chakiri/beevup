@@ -26,6 +26,11 @@ aside.main-sidebar {
 .action-export {
     display: none !important;
 }
+.global-actions {
+    position: absolute;
+    left: 325px !important;
+    top: 25px;
+}
 
 @media (min-width: 768px) {
     .admin-menu-items{
