@@ -1,11 +1,14 @@
 <?php
+
 namespace App\Controller\Admin\Company;
+
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Service\Export\CsvExporter;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController extends EasyAdminController
 {
@@ -104,6 +107,16 @@ class CompanyController extends EasyAdminController
             ;
         }
         return $qb;
+    }
+
+    /**
+     * @Route("/chat/fromAdmin/private/{id}", name="chat_from_admin")
+     */
+    public function chatFromAdministration(Company $company){
+        $adminCompanyId = $company->getCompanyAdministrator()->getId();
+        return $this->redirectToRoute('chat_private', [
+            'id' =>$adminCompanyId
+        ]);
     }
 
 }

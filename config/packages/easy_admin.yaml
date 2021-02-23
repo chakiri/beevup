@@ -36,10 +36,6 @@ easy_admin:
           - { name: 'export', label: 'Export' }
           - { name: 'company_show', label: 'Voir fiche', icon: 'eye', type: 'route',route_parameters: { 'slug': slug, 'id': id } }
           - { name: 'chat_from_admin', label: 'Contacter', icon: 'comments', type: 'route',route_parameters: { 'id': id } }
-
-
-
-
         fields:
           - { property: 'name', label: 'Raison sociale' }
           - { property: 'siret', label: 'Siret' }
