@@ -757,3 +757,8 @@
 #frame .content .message-input .wrap button:focus {
     outline: none;
 }
+
+#template-all-users-topic button{
+    display: block;
+    margin-left: auto;
+}

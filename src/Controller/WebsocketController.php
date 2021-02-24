@@ -8,11 +8,13 @@ use App\Repository\MessageRepository;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserTypeRepository;
+use App\Service\Chat\SaveMessage;
 use App\Service\Mail\Mailer;
 use App\Service\EmptyMessageNotification;
-use App\Service\SaveNotification;
+use App\Service\Chat\SaveNotification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -216,7 +218,40 @@ class WebsocketController extends AbstractController
 
         $params = ['message' => $message, 'url' => $url];
         $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 'daily_chat');
-
     }
 
+    /**
+     * Return template of form message to all users of topic
+     * @Route("/chat/users/form", name="chat_all_users_form")
+     */
+    public function formAllUsersTopic(): Response
+    {
+        return $this->render('websocket/allUsersTopic.html.twig');
+    }
+
+    /**
+     * Send private to all users of topic
+     * @Route("/chat/users/send", name="chat_all_users_send")
+     */
+    public function sendAllUsersTopic(Request $request, UserRepository $userRepository, SaveMessage $saveMessage, SaveNotification $saveNotification)
+    {
+        //Get variable from sending ajax
+        $sender = $request->get('from');
+        $topic = $request->get('subject');
+        $message = $request->get('message');
+
+        //Get all users of this topic
+        $users = $userRepository->findByTopic($topic);
+
+        //Save message and notif for all users
+        foreach ($users as $user){
+            $saveMessage->save($sender, $message, true, $user->getId());
+            $saveNotification->save($user->getId(), $sender);
+        }
+
+        return $this->json([
+            'message' => 'All users of ' . $topic . ' receive the message',
+            200
+        ]);
+    }
 }

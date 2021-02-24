@@ -6,7 +6,7 @@ namespace App\Websocket;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\TopicRepository;
 use App\Service\Chat\SaveMessage;
-use App\Service\SaveNotification;
+use App\Service\Chat\SaveNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;

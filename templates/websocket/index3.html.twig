@@ -117,10 +117,8 @@
                                                 {% endif %}
                                                 <div class="meta">
                                                     <p class="name">{{ user.profile.firstname ?? 'non défini'|capitalize }} {{ user.profile.lastname|capitalize }}</p>
-                                                    {#<p class="preview"><small>{{ user.store }}</small></p>#}
                                                     <p class="preview"><small>{{ user.company }}</small></p>
                                                 </div>
-
                                             </div>
                                         </a>
                                     </li>
@@ -159,7 +157,7 @@
                         {% endif %}
 
                         {# Send message to all users#}
-                        <a href="#" title="" class="btn white-bg">
+                        <a type="button" id="btnAllUsersTopic" href="#" title="" class="btn white-bg" onclick="callModalAllUsersTopic()" data-url="{{ path('chat_all_users_form') }}">
                             Envoyer un message privé à tous les utilisateurs
                         </a>
                     {% endif %}
@@ -187,7 +185,6 @@
                     <div class="wrap">
                         <form onsubmit="return sender();" method="post" class="form-chat">
                             <textarea id="messageToSend" data-url="{{ path('sender') }}" placeholder="Votre message..." ></textarea>
-                            {#<i class="fa fa-paperclip attachment" aria-hidden="true"></i>#}
                             <button id="sendBtn" class="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
                         </form>
                     </div>
@@ -197,7 +194,12 @@
     </section>
 {% endblock %}
 
+{% block modals %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'allUsersTopic'} %}
+{% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('wamp') }}
+    {{ encore_entry_script_tags('chat') }}
 {% endblock %}
 

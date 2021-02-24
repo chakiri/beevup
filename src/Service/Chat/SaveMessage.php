@@ -49,7 +49,7 @@ class SaveMessage
             ->setCreatedAt(new \DateTime())
         ;
 
-        if ($isPrivate == false){
+        if ($isPrivate === false){
             //Get topic object
             $topic = $this->topicRepository->findOneBy(['name' => $subject]);
 
