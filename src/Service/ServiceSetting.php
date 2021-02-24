@@ -159,5 +159,5 @@ class ServiceSetting
         if($imgGallery3 != 'edit') {
             $service->setFilename3($imgGallery3);
         }
-}
+    }
 }

@@ -170,7 +170,7 @@
                                             data-id=""
                                             class="btn add-file-label2 W-100 select-from-gallery"
                                             data-toggle="modal"
-                                            data-target="#imagegallery"
+                                            data-target="#imageGallery"
                                             data-url="{{ path('gallery_show') }}">
                                         Galerie
                                     </button>
@@ -198,7 +198,7 @@
                                                 data-id="1"
                                                 class="btn add-file-label2 W-100 select-from-gallery"
                                                 data-toggle="modal"
-                                                data-target="#imagegallery"
+                                                data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                            Galerie
                                         </button>
@@ -225,7 +225,7 @@
                                                 data-id="2"
                                                 class="btn select-from-gallery add-file-label2 W-100"
                                                 data-toggle="modal"
-                                                data-target="#imagegallery"
+                                                data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                            Galerie
                                         </button>
@@ -252,7 +252,7 @@
                                                 data-id="3"
                                                 class="btn select-from-gallery add-file-label2 W-100"
                                                 data-toggle="modal"
-                                                data-target="#imagegallery"
+                                                data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                             Galerie
                                         </button>
@@ -293,7 +293,7 @@
 {% endblock %}
 
 {% block modals %}
-    {% include 'service/modals/gallery.html.twig' %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'imageGallery'} %}
     {% include 'default/modals/base.html.twig' with {'idModal' : 'chooseModel'} %}
 {% endblock %}
 

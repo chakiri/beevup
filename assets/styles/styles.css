@@ -622,7 +622,7 @@ textarea.form-control{
 .modal-header h5 {
     color: var(--orange-color);
 }
-#chooseModel .modal-dialog{
+#chooseModel .modal-dialog, #imageGallery .modal-dialog{
     max-width: 60% !important;
 }
 #chooseModel .modal-form{

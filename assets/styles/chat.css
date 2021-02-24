@@ -32,6 +32,7 @@
     #frame #sidepanel {
         width: 58px;
         min-width: 58px;
+        overflow-x: hidden;
     }
 }
 #frame #sidepanel #profile {

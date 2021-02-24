@@ -165,11 +165,13 @@ class WebsocketController extends AbstractController
         $messages = $messageRepository->findMessagesBetweenUserAndReceiver($user, $receiver);
 
         if ($user && count($messages) === 1){
-            $params = ['sender' => $user->getProfile()->getLastname() . ' ' . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany()->getName(), 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
+            $params = ['sender' => $user->getProfile()->getLastname() . ' ' . $user->getProfile()->getFirstname(), 'senderCompany' => $user->getCompany() ? $user->getCompany()->getName() : null, 'url' => $this->generateUrl('chat_private', ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)];
             $mailer->sendEmailWithTemplate($receiver->getEmail(), $params, 'first_message');
         }
 
-        return $this->json($messages);
+        return $this->json([
+            'messages' => $messages
+        ], 200);
     }
 
     /**

@@ -1,4 +1,4 @@
-<div class="modal-header row ">
+<div class="modal-header">
     <div class="col-4">
       <h5 class="modal-title" id="exampleModalLabel">Choisir une image dans la bibliothèque</h5>
     </div>
@@ -21,20 +21,19 @@
     </div>
 
 </div>
-<div class="row gallery">
-  {% for image in gallery %}
-    <div class="col-2">
-      <img class="gallery-img gallery-img-{{ image.id }}" src="{{ vich_uploader_asset(image, 'imageFile') }}"
-           alt=""
-           data-id ="{{ image.id }}"
-           data-status=""
-           style="height: 200px;width: 200px;float: left;border: 1px solid #ccc; padding: 10px; cursor: pointer;"
-      >
-        <i class="fas fa-check-circle gallery-icon-ok  gallery-icon-{{ image.id }}"></i>
-     </div>
-  {% endfor %}
-    <div class="modal-footer">
-
+<div class="gallery">
+    <div class="row">
+      {% for image in gallery %}
+        <div class="col-2">
+          <img class="gallery-img gallery-img-{{ image.id }}" src="{{ vich_uploader_asset(image, 'imageFile') }}"
+               alt=""
+               data-id ="{{ image.id }}"
+               data-status=""
+               style="height: 200px;width: 200px;float: left;border: 1px solid #ccc; padding: 10px; cursor: pointer;"
+          >
+            <i class="fas fa-check-circle gallery-icon-ok  gallery-icon-{{ image.id }}"></i>
+         </div>
+      {% endfor %}
     </div>
 </div>
 

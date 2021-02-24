@@ -140,12 +140,11 @@
                         {% else %}
                             <img id="subjectAvatar" src="{{ asset('build/images/default/user.png') }}" class="img-fluid" alt="">
                         {% endif %}
-                    {% elseif topic is defined and topic is not null %}
-                        <img id="subjectAvatar" src="{{ asset('build/images/default/channel.png') }}" class="img-fluid" alt="">
-                    {% endif %}
-                    {% if user is defined and user is not null %}
+
                         <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname }} {{ user.profile.lastname }}</strong></a>
                     {% elseif topic is defined and topic is not null %}
+                        <img id="subjectAvatar" src="{{ asset('build/images/default/channel.png') }}" class="img-fluid" alt="">
+
                         {% if topic.name starts with 'general' %}
                             <strong>General</strong>
                         {% else %}
@@ -158,6 +157,11 @@
                         {% elseif topic.type.name == 'company' %}
                             <small> (Discutez ici avec l'ensemble des collaborateurs de votre entreprise)</small>
                         {% endif %}
+
+                        {# Send message to all users#}
+                        <a href="#" title="" class="btn white-bg">
+                            Envoyer un message privé à tous les utilisateurs
+                        </a>
                     {% endif %}
                 </div>
                 <div id="wrapChat" class="messages">
