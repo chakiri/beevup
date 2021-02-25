@@ -133,33 +133,39 @@
             <div class="content">
                 <div class="contact-profile">
                     {% if user is defined and user is not null %}
-                        {% if user.profile.filename %}
-                            <img id="subjectAvatar" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature')  }}" class="img-fluid" alt="">
-                        {% else %}
-                            <img id="subjectAvatar" src="{{ asset('build/images/default/user.png') }}" class="img-fluid" alt="">
-                        {% endif %}
+                        <div>
+                            {% if user.profile.filename %}
+                                <img id="subjectAvatar" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('miniature')  }}" class="img-fluid" alt="">
+                            {% else %}
+                                <img id="subjectAvatar" src="{{ asset('build/images/default/user.png') }}" class="img-fluid" alt="">
+                            {% endif %}
+                            <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname }} {{ user.profile.lastname }}</strong></a>
+                        </div>
 
-                        <a href="{{ path('profile_show', {'id': user.profile.id}) }}"><strong>{{ user.profile.firstname }} {{ user.profile.lastname }}</strong></a>
                     {% elseif topic is defined and topic is not null %}
-                        <img id="subjectAvatar" src="{{ asset('build/images/default/channel.png') }}" class="img-fluid" alt="">
+                        <div>
+                            <img id="subjectAvatar" src="{{ asset('build/images/default/channel.png') }}" class="img-fluid" alt="">
 
-                        {% if topic.name starts with 'general' %}
-                            <strong>General</strong>
-                        {% else %}
-                            <strong>{{ topic.name|capitalize }}</strong>
-                        {% endif %}
-                        {% if topic.type.name == 'myCommunity' %}
-                            <small> (Discutez ici avec l’ensemble des membres de votre communauté locale)</small>
-                        {% elseif topic.type.name == 'categoryCompany' %}
-                            <small> (Discutez ici avec l’ensemble des entreprises de votre catégorie)</small>
-                        {% elseif topic.type.name == 'company' %}
-                            <small> (Discutez ici avec l'ensemble des collaborateurs de votre entreprise)</small>
-                        {% endif %}
+                            {% if topic.name starts with 'general' %}
+                                <strong>General</strong>
+                            {% else %}
+                                <strong>{{ topic.name|capitalize }}</strong>
+                            {% endif %}
+                            {% if topic.type.name == 'myCommunity' %}
+                                <small> (Discutez ici avec l’ensemble des membres de votre communauté locale)</small>
+                            {% elseif topic.type.name == 'categoryCompany' %}
+                                <small> (Discutez ici avec l’ensemble des entreprises de votre catégorie)</small>
+                            {% elseif topic.type.name == 'company' %}
+                                <small> (Discutez ici avec l'ensemble des collaborateurs de votre entreprise)</small>
+                            {% endif %}
+                        </div>
 
-                        {# Send message to all users#}
-                        <a type="button" id="btnAllUsersTopic" href="#" title="" class="btn white-bg" onclick="callModalAllUsersTopic()" data-url="{{ path('chat_all_users_form') }}">
-                            Envoyer un message privé à tous les utilisateurs
-                        </a>
+                        {% if is_granted('ROLE_ADMIN_STORE') %}
+                            {# Send message to all users#}
+                            <a type="button" id="btnAllUsersTopic" href="#" title="" class="btn white-bg" onclick="callModalAllUsersTopic()" data-url="{{ path('chat_all_users_form') }}">
+                                Envoyer un message privé à tous les utilisateurs
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div id="wrapChat" class="messages">

@@ -33,8 +33,10 @@ function sender() {
         }
     });
 
+    //Empty textarea after sending
     document.getElementById("messageToSend").value = '';
-    //$("#messageToSend").css('height', '44px');
+    //Put back textarea to start height
+    $("#messageToSend").css('height', '44px');
 
     return false;
 }
@@ -152,4 +154,3 @@ let textarea = document.querySelector("#messageToSend");
 if (textarea) changeHeight(textarea);
 let textarea2 = document.querySelector("#messageToAllUsers textarea");
 if (textarea2) changeHeight(textarea2);
-

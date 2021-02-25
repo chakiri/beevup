@@ -240,6 +240,9 @@ class WebsocketController extends AbstractController
         $topic = $request->get('subject');
         $message = $request->get('message');
 
+        //convert \n to br
+        $message = nl2br($message);
+
         //Get all users of this topic
         $users = $userRepository->findByTopic($topic);
 

@@ -333,7 +333,13 @@
         display: none;
     }
     #frame .content .contact-profile{
+        white-space: inherit !important;
         line-height: normal !important;
+    }
+    #btnAllUsersTopic {
+        overflow: hidden;
+        height: 100% !important;
+        margin-top: 0 !important;
     }
 }
 #frame #sidepanel #contacts.expanded {
@@ -572,6 +578,7 @@
     }
 }
 #frame .content .contact-profile {
+    white-space: nowrap;
     width: 100%;
     height: 80px;
     line-height: 60px;
@@ -579,6 +586,8 @@
     border-bottom: 1px solid #f4f4f4;
     border-top: 1px solid #f4f4f4;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 #frame .content .contact-profile img {
     width: 40px;
@@ -761,4 +770,10 @@
 #template-all-users-topic button{
     display: block;
     margin-left: auto;
+}
+
+#btnAllUsersTopic {
+    overflow: hidden;
+    height: 38px;
+    margin-top: 1em;
 }
