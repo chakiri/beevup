@@ -58,7 +58,7 @@ security:
         - { path: ^/confirmEmail, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/be/contacted/by/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/external/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]}
-        - { path: ^/, roles: [ROLE_USER]}
+        - { path: ^/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]}
 
     role_hierarchy:
         #GLOBAL ROLES
