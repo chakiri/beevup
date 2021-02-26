@@ -893,6 +893,7 @@ ul.landing-page-list {
 .landing-page-section4-img{
     width: 100%;
     border-radius: 10px;
+    max-height: 314px;
 }
 .footer{
     padding: 16px;
