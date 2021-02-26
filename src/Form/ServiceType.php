@@ -73,8 +73,15 @@ class ServiceType extends AbstractType
                 'choice_label' => 'name'
             ])
             ->add('price', TextType::class, [
-                'label'    => 'Prix',
+                'label'    => 'Prix H.T',
                 'required' => false,
+            ])
+            ->add('priceTTC', TextType::class, [
+                'label'    => 'Prix TTC',
+                'mapped' => false,
+                'attr'=>[
+                    'disabled'=>'disabled'
+                ]
             ])
             ->add('isQuote', CheckboxType::class, [
                 'label_attr' => ['class' => 'switch-custom'],
