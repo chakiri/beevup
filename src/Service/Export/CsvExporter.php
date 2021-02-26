@@ -74,6 +74,18 @@ class CsvExporter
                 return $company->getServiceNumber();
             },
 
+            'Nombre de personnes parrainées' => function (Company $company) {
+                return $company->getSponsorshipNumber();
+            },
+            'Date de creation' => function (Company $company) {
+                return $company->getCreatedDate();
+            },
+            'Nombre de points' => function (Company $company) {
+                return $company->getScore();
+            },
+            'Statut' => function (Company $company) {
+                return ($company->isValid()) ? 'Active' : 'Inactive';
+            },
 
         ];
         if (array_key_exists($class, $columns)) {
