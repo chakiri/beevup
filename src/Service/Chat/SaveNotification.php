@@ -1,30 +1,20 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Chat;
 
 
 use App\Entity\MessageNotification;
 use App\Entity\Topic;
 use App\Entity\User;
-use App\Repository\MessageNotificationRepository;
-use App\Repository\TopicRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SaveNotification
 {
     private $manager;
 
-    private $userRepository;
-
-    private $topicRepository;
-
-
-    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository, TopicRepository $topicRepository)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager= $manager;
-        $this->userRepository = $userRepository;
-        $this->topicRepository = $topicRepository;
     }
 
     public function save($userid, $subject)

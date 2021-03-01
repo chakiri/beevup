@@ -32,6 +32,7 @@ Encore
     .addEntry('form', './assets/scripts/form.js')
     .addEntry('modals', './assets/scripts/modals.js')
     .addEntry('wamp', './assets/scripts/wamp.js')
+    .addEntry('chat', './assets/scripts/chat.js')
     .addEntry('favoris', './assets/scripts/favoris.js')
     .addEntry('extern', './assets/scripts/extern.js')
     .addEntry('home', './assets/scripts/home.js')

@@ -1,0 +1,17 @@
+<button type="button" class="close text-right p-2" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+<div id="template-all-users-topic" class="container">
+    <h5 class="text-center">Saisissez votre message</h5>
+    <div id="messageToAllUsers" class="modal-form message-input mt-3 mb-5">
+        <form method="get" onsubmit="return sendToAllUsersOfTopic();">
+            <label for=""></label>
+            <textarea class="form-control" placeholder="Message privé à tous les utilisateurs de ce topic"></textarea>
+            <button type="submit" class="btn orange-bg mt-3" data-url="{{ path('chat_all_users_send') }}">Envoyer</button>
+        </form>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('chat') }}
+{% endblock %}

@@ -40,6 +40,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
     public function findByIsCompletedProfile($companiesIds)
     {
         $qb = $this->createQueryBuilder('u')
@@ -49,13 +50,11 @@ class UserRepository extends ServiceEntityRepository
                     ->andWhere('u.company in (:companiesIds)')
                     ->setParameters(array('companiesIds'=>$companiesIds ));
 
-
-
         return $qb->getQuery()->getResult();
     }
+
     public function findByStore( $store)
     {
-
         $qb = $this->createQueryBuilder('u')
            ->where('u.company is NULL')
            ->andWhere('u.store = :value')
@@ -63,6 +62,7 @@ class UserRepository extends ServiceEntityRepository
            ->setParameters(array('value' => $store));
         return $qb->getQuery()->getResult();
     }
+
     public function findByAdminOfStore($store, $role)
     {
         $qb = $this->createQueryBuilder('u')

@@ -8,7 +8,7 @@ use App\Entity\Sponsorship;
 use App\Entity\User;
 use App\Repository\ScorePointRepository;
 use App\Repository\UserRepository;
-use App\Service\SaveNotification;
+use App\Service\Chat\SaveNotification;
 
 class AutomaticMessage
 {

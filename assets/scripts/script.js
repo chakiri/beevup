@@ -1028,12 +1028,10 @@ $('.select-from-gallery').click(function(){
     let dataInput = $(this).attr('data-input');
     let idButton = $(this).attr('data-ID');
     $.get(url, function (data) {
-        $('.modal-gallery-content').attr('data-input', dataInput);
-        $('.modal-gallery-content').attr('data-id', idButton);
-        $('.modal-gallery-content').html("<form> <input type='text' class='search-gallery'/></form>");
-        $('.modal-gallery-content').html(data);
-
-
+        $('#imageGallery .modal-content').attr('data-input', dataInput);
+        $('#imageGallery .modal-content').attr('data-id', idButton);
+        $('#imageGallery .modal-content').html("<form> <input type='text' class='search-gallery'/></form>");
+        $('#imageGallery .modal-content').html(data);
     });
 })
 $('body').on('click', '.gallery-img', function () {
@@ -1064,8 +1062,8 @@ function changeClassName(status){
 $('body').on('click', '.save-selected-image', function () {
     let path = $('.selected-image').attr('src');
     let imageFileName = getImageOriginalName(path);
-    let dataInput = $('.modal-gallery-content').attr('data-input');
-    let id = $('.modal-gallery-content').attr('data-id');
+    let dataInput = $('#imageGallery .modal-content').attr('data-input');
+    let id = $('#imageGallery .modal-content').attr('data-id');
     $('#'+dataInput).attr('value',imageFileName);
     $('#previous-image'+id+' img').attr('src',path);
     $('#imagegallery').modal('toggle');
@@ -1093,7 +1091,7 @@ $('body').on('click', '.search-gallery-btn', function (e) {
     url = url.replace('keyWords', searchValue);
     $.get(url, function (data) {
         $('.search-load').addClass('hide-load');
-        $('.modal-gallery-content').html(data);
+        $('#imageGallery .modal-content').html(data);
    });
 })
 
