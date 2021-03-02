@@ -18,6 +18,7 @@ use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
+use App\Service\Communities;
 use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
@@ -104,16 +105,41 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/homepage1/{locate}", name="homepage1", options={"expose"=true})
      */
-    public function externalSearch(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
+    public function homePage1($locate = null, StoreRepository $storeRepository, Communities $communities)
     {
+        //Get all stores
+        $stores = $storeRepository->getAllStores();
+
+        if (!$locate){
+            return $this->render("default/home.html.twig", [
+                'isStore' => false,
+                'stores' => $stores
+            ]);
+        }else{
+            //Get lat & lon from url
+            $locate = explode('&', $locate);
+
+            foreach($stores as $store){
+                $communities->distanceLonLat($locate[0], $locate[1], $store->getLatitude(), $store->getLongitude(), 'K');
+            }
+        }
+    }
+
+    /**
+     * @Route("/", name="homepage", options={"expose"=true})
+     */
+    public function homePage(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
+    {
+        //If store is passed in parameter
         if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
         else    $store = $storeRepository->findOneBy(['reference' => 'BV001']);
 
+        //Redirect if store not found
         if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
 
-        //Set reference in session
+        //Set store ref in session
         $externalStoreSession->setReference($store);
 
         //Get local services of store

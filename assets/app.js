@@ -22,4 +22,7 @@ import './scripts/script';
 import './scripts/theme';
 import './scripts/gtag';
 
+//Import JS Routing
+import './scripts/routing';
+
 console.log('Hello Webpack Encore! Edit me in assets/app.js !');
