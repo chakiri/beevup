@@ -19,6 +19,7 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Communities;
+use App\Service\Company\CompanySearch;
 use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
@@ -105,32 +106,89 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/homepage1/{locate}", name="homepage1", options={"expose"=true})
+     * @Route("/", name="homepage")
+     * @Route("/", name="homepage_locate2", options={"expose"=true})
+     * @Route("/{locate}/geolocate", name="homepage_locate", options={"expose"=true})
      */
-    public function homePage1($locate = null, StoreRepository $storeRepository, Communities $communities)
+    public function homePage($locate = null, StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
     {
         //Get all stores
         $stores = $storeRepository->getAllStores();
 
         if (!$locate){
             return $this->render("default/home.html.twig", [
-                'isStore' => false,
+                'store' => null,
                 'stores' => $stores
             ]);
-        }else{
-            //Get lat & lon from url
-            $locate = explode('&', $locate);
-
-            foreach($stores as $store){
-                $communities->distanceLonLat($locate[0], $locate[1], $store->getLatitude(), $store->getLongitude(), 'K');
-            }
         }
+
+        //Get lat & lon from url
+        $locate = explode('&', $locate);
+
+        //Get closer store form geo-localisation
+        $store = $communities->getCloserStore($stores, $locate[0], $locate[1]);
+
+        //Redirect if store not found
+        if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
+
+        //Set store ref in session
+        $externalStoreSession->setReference($store);
+
+        //Get local services of store
+        $allCompanies = $getCompanies->getAllCompanies($store);
+        $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
+        $companies = $companyRepository->findBySearch('', $allCompanies);
+
+        //Get search form
+        $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
+
+        $form->handleRequest($request);
+
+        //If search
+        if ($form->isSubmitted() && $form->isValid()){
+
+            //Get results from searching
+            $results = $companySearch->getCompanies($allCompanies, $form->get('querySearch')->getData());
+
+            //Get infos from each company
+            $infos = $infoSearch->getInfosCompanies($results, $store);
+
+            return $this->render("search/external/search.html.twig", [
+                'query' => $form->get('querySearch')->getData(),
+                'results' => $results,
+                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
+                'distancesCompanies' => $infos['distances'],
+                'store' => $store,
+            ]);
+        }
+
+        //Get infos of services
+        $infosServices = $serviceSetting->getInfosServices($services, $store);
+
+        //Get infos of companies
+        $infosCompanies = $infoSearch->getInfosCompanies($companies, $store);
+
+        //Render options
+        $options = [
+            'form' => $form->createView(),
+            'store' => $store,
+            'stores' => $stores = $storeRepository->getAllStores(),
+            'companies' => $companies,
+            'services' => $services,
+            'nbRecommandationsServices' => $infosServices['nbRecommandations'],
+            'distancesServices' => $infosServices['distances'],
+            'nbRecommandationsCompanies' => $infosCompanies['nbRecommandations'],
+            'distancesCompanies' => $infosCompanies['distances'],
+        ];
+
+        return $this->render("default/home.html.twig", $options);
+
     }
 
     /**
-     * @Route("/", name="homepage", options={"expose"=true})
+     * @Route()
      */
-    public function homePage(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
+   /* public function homePage(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
     {
         //If store is passed in parameter
         if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
@@ -214,7 +272,7 @@ class DefaultController extends AbstractController
         }
 
         return $this->render("default/home.html.twig", $options);
-    }
+    }*/
 
     /**
      * @Route("/map", name="map")

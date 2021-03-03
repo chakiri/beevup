@@ -11,7 +11,7 @@
                     <h1>Découvrez les services proposés par nos clients professionnels</h1>
                     <h4>Trouvez ce que vous recherchez à deux pas de chez vous</h4>
                     <div class="box-search">
-                        {% if isStore != false %}
+                        {% if store %}
                             {{ form_start(form) }}
                             <div class="form-group">
                                 {{ form_widget(form.querySearch) }}
@@ -31,7 +31,7 @@
         </div>
     </section>
 
-    {% if isStore != false %}
+    {% if store %}
     {# Section services of store carousel#}
 
     <section class="pt-5 pb-5">

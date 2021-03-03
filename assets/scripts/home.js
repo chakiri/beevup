@@ -1,5 +1,5 @@
 //modal choose store for homepage search
-if (window.location.pathname === '/'){
+/*if (window.location.pathname === '/'){
     if (window.location.search === '' || window.location.search === '?store=BV001'){
         $('#chooseStore').modal('show');
         $('#search_store_querySearch').prop("disabled", true);
@@ -7,7 +7,7 @@ if (window.location.pathname === '/'){
     $('#btn-choose-store').click(function (){
         $('#chooseStore').modal('show');
     });
-}
+}*/
 
 var options = {
     enableHighAccuracy: true,
@@ -18,33 +18,29 @@ var options = {
 function success(pos) {
     var crd = pos.coords;
 
-    console.log('Votre position actuelle est :');
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude : ${crd.longitude}`);
-    console.log(`La précision est de ${crd.accuracy} mètres.`);
 
-    /*$.ajax({
-        url: Routing.generate('homepage'),
+    $.ajax({
+        url: Routing.generate('homepage_locate', {'locate': crd.latitude + '&' + crd.longitude}),
         type: "GET",
-        data: {
-            latitude: crd.latitude,
-            longitude: crd.longitude
-        },
         success: function (){
-            console.log(Routing.generate('homepage'));
-            console.log('yesss');
+            console.log('redirection succeed');
+        },
+        error: function()
+        {
+            console.log('redirection failed');
         }
-    })*/
-
-    $.post(Routing.generate('homepage'),{
-        latitude: crd.latitude,
-        longitude: crd.longitude,
     })
+
 }
 
 function error(err) {
     console.warn(`ERREUR (${err.code}): ${err.message}`);
 }
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+//If no geo localisation
+/*if (window.location.pathname === '/')
+    navigator.geolocation.getCurrentPosition(success, error, options);*/
 
+console.log(Routing.generate('homepage_locate2'))

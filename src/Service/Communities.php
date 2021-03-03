@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Service;
+
 use App\Entity\Company;
 use App\Entity\Store;
 use App\Repository\StoreRepository;
-
 
 class Communities
 {
@@ -66,6 +66,33 @@ class Communities
                 return $miles;
             }
         }
+    }
+
+    /**
+     * Get closer store form geolocalisation
+     */
+    public function getCloserStore($stores, $lat, $lon): Store
+    {
+        //Declare variable
+        $closerStore = null;
+        $smallerDistance = null;
+
+        foreach($stores as $store) {
+            //Get distance of each store
+            $distance = $this->distanceLonLat($lat, $lon, $store->getLatitude(), $store->getLongitude(), 'K');
+
+            //If smallerDistance is null get first distance/store
+            $smallerDistance = $smallerDistance ?? $distance;
+            $closerStore = $closerStore ?? $store;
+
+            //Compare distances and get the smaller
+            if ($distance < $smallerDistance) {
+                $smallerDistance = $distance;
+                $closerStore = $store;
+            }
+        }
+
+        return $closerStore;
     }
 
 }
