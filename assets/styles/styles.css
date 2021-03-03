@@ -1077,7 +1077,7 @@ ul.landing-page-list {
     padding: 0;
     background-color: #FFF !important;
 }
-.security_login, .homepage{
+.security_login, .homepage, .homepage_locate, .homepage_store{
     padding: 0;
     background-color: var(--bg-color) !important;
 }

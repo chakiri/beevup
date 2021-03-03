@@ -3,6 +3,9 @@
 {% block title %}{{ query }}{% endblock %}
 
 {% block body %}
+
+<div class="homepage">
+
     <section class="search-store-result header-padding">
         <div class="container-bv container-bv-search-result">
             <ul class="title-search list-unstyled list-inline pt-3 pb-3">
@@ -11,7 +14,7 @@
                 {% else %}
                     <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
                 {% endif %}
-                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("homepage", {'store': app.request.get('store')}) }}">Je modifie ma recherche</a></span></li>
+                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("homepage_store", {'store': app.request.get('store')}) }}">Je modifie ma recherche</a></span></li>
             </ul>
 
             {% if results %}
@@ -64,6 +67,8 @@
             {% endif %}
         </div>
     </section>
+
+</div>
 
 {% endblock %}
 

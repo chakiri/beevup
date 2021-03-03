@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    <div class="homepage">
+
     <section class="bg-search header-padding">
         <div class="container-bv">
             <div class="row">
@@ -20,10 +22,13 @@
                                 <h5 class="pt-3"><i class="fas fa-store mr-2"></i>{{ store.name }}</h5>
                                 <button type="submit" class="btn btn-search">Rechercher</button>
                             </div>
+                            <small><a href="#" id="btn-choose-store" class="mt-5">Je change mon magasin</a></small>
                             {{ form_end(form) }}
                         {% else %}
-                            <h5 class="pt-3"><i class="fas fa-store mr-2"></i>Vous n'avez pas séléctionné votre magasin</h5>
-                            <a href="#" id="btn-choose-store" class="btn btn-search pt-3">Choisir</a>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="pt-3"><i class="fas fa-store mr-2"></i>Séléctionnez votre magasin le plus proche</h5>
+                                <a href="#" id="btn-choose-store" class="btn btn-search pt-3">Choisir</a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -32,167 +37,170 @@
     </section>
 
     {% if store %}
-    {# Section services of store carousel#}
+        {# Section services of store carousel#}
 
-    <section class="pt-5 pb-5">
-        <div class="container-bv container search-carousel">
-            <div class="row">
-                <div class="col-8">
-                    <h3 class="mb-3">Nos clients professionnels vous proposent les services suivants</h3>
+        <section class="pt-5 pb-5">
+            <div class="container-bv container search-carousel">
+                <div class="row">
+                    <div class="col-8">
+                        <h3 class="mb-3">Nos clients professionnels vous proposent les services suivants</h3>
+                    </div>
+                    {% if services is empty %}
                 </div>
-                {% if services is empty %}
-            </div>
-            <div class="box">
-                <div class="text-center">
-                    <h5 class="m-0">Aucun service attaché au {{ store.name }}</h5>
+                <div class="box">
+                    <div class="text-center">
+                        <h5 class="m-0">Aucun service attaché au {{ store.name }}</h5>
+                    </div>
                 </div>
-            </div>
-            {% else %}
-                <div class="col-4 text-right">
-                    <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-                        <i class="fa fa-arrow-left"></i>
-                    </a>
-                    <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="col-12">
-                    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            {% set i = 0 %}
-                            {% set j = 0 %}
-                            {% for service in services %}
-                                {% set i = i + 1 %}
-                                {% set j = j + 1 %}
-                                {% if i == 1 %}
-                                    <div class="carousel-item {% if j == 1 %}active{% endif %}">
-                                    <div class="row">
-                                {% endif %}
-                                <div class="col-md-3 mb-3">
-                                    <div class="card service-card">
-                                        <div class="card-image">
-                                            {% if service.filename %}
-                                                <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
-                                            {% else  %}
-                                                <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 220px" alt="">
-                                            {% endif %}
+                {% else %}
+                    <div class="col-4 text-right">
+                        <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% set i = 0 %}
+                                {% set j = 0 %}
+                                {% for service in services %}
+                                    {% set i = i + 1 %}
+                                    {% set j = j + 1 %}
+                                    {% if i == 1 %}
+                                        <div class="carousel-item {% if j == 1 %}active{% endif %}">
+                                        <div class="row">
+                                    {% endif %}
+                                    <div class="col-md-3 mb-3">
+                                        <div class="card service-card">
+                                            <div class="card-image">
+                                                {% if service.filename %}
+                                                    <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
+                                                {% else  %}
+                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" style="height: 220px" alt="">
+                                                {% endif %}
 
-                                            {% include 'default/cards/infos-stickers.html.twig' with {
-                                                'item': service,
-                                                'distances': distancesServices,
-                                                'nbRecommandations': nbRecommandationsServices
-                                            } %}
+                                                {% include 'default/cards/infos-stickers.html.twig' with {
+                                                    'item': service,
+                                                    'distances': distancesServices,
+                                                    'nbRecommandations': nbRecommandationsServices
+                                                } %}
 
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="card-meta">
-                                                <h4 class="card-title">{{ service.title }}</h4>
-                                                <p class="card-text">{{ service.introduction }}</p>
-                                                <p class="text-muted mt-3">Proposé par : {{ service.user.company.name }}</p>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="card-meta">
+                                                    <h4 class="card-title">{{ service.title }}</h4>
+                                                    <p class="card-text">{{ service.introduction }}</p>
+                                                    <p class="text-muted mt-3">Proposé par : {{ service.user.company.name }}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <!-- Button -->
+                                            <div class="my-4 text-center card-btn">
+                                                <a href="{{ path('external_company_show', {'slug': service.user.company.slug, 'id': service.user.company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
                                             </div>
                                         </div>
-                                        <hr>
-
-                                        <!-- Button -->
-                                        <div class="my-4 text-center card-btn">
-                                            <a href="{{ path('external_company_show', {'slug': service.user.company.slug, 'id': service.user.company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter {{ service.user.company.name }}</a>
+                                    </div>
+                                    {% if i == 4 %}
                                         </div>
-                                    </div>
-                                </div>
-                                {% if i == 4 %}
-                                    </div>
-                                    </div>
-                                    {% set i = 0 %}
-                                {% endif %}
-                            {% endfor %}
+                                        </div>
+                                        {% set i = 0 %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
-        </div>
-    </section>
-
-    {# Map companies of store #}
-    {% include 'default/map.html.twig' %}
-
-    {# Section companies of store carousel #}
-
-    <section class="search-company-carousel pt-5 pb-5">
-        <div class="container-bv container search-carousel">
-            <div class="row">
-                <div class="col-6">
-                    <h3 class="mb-3">Les entreprises à proximité</h3>
-                </div>
-                {% if companies is empty %}
+                {% endif %}
             </div>
-            <div class="box">
-                <div class="text-center">
-                    <h5 class="m-0">Aucun entreprises rattachée au {{ store.name }} pour l'instant</h5>
+        </section>
+
+        {# Map companies of store #}
+        {% include 'default/map.html.twig' %}
+
+        {# Section companies of store carousel #}
+
+        <section class="search-company-carousel pt-5 pb-5">
+            <div class="container-bv container search-carousel">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="mb-3">Les entreprises à proximité</h3>
+                    </div>
+                    {% if companies is empty %}
                 </div>
-            </div>
-            {% else %}
-                <div class="col-6 text-right">
-                    <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators3" role="button" data-slide="prev">
-                        <i class="fa fa-arrow-left"></i>
-                    </a>
-                    <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators3" role="button" data-slide="next">
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </div>
-                <div class="col-12">
-                    <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            {% set i = 0 %}
-                            {% set j = 0 %}
-                            {% for company in companies %}
-                                {% set i = i + 1 %}
-                                {% set j = j + 1 %}
-                                {% if i == 1 %}
-                                    <div class="carousel-item {% if j == 1 %}active{% endif %}">
-                                    <div class="row">
-                                {% endif %}
-                                <div class="col-lg-3 mb-3">
-                                    <div class="card">
-                                        <div class="view">
-                                            {% if company.filename %}
-                                                <img class = "card-img-top" src="{{ vich_uploader_asset(company, 'imageFile') }}" >
-                                            {% else  %}
-                                                <img class = "card-img-top" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
-                                            {% endif %}
-                                        </div>
-
-                                        {% include 'default/cards/infos-stickers.html.twig' with {
-                                            'item': company,
-                                            'distances': distancesCompanies,
-                                            'nbRecommandations': nbRecommandationsCompanies
-                                        } %}
-
-                                        <div class="card-body">
-                                            <h4 class="card-title">{{ company.name }}</h4>
-                                            <p class="text-muted mt-3">{{ company.otherCategory }}</p>
-                                            <p class="card-text">{{ company.introduction }}</p>
-                                        </div>
-                                        <hr>
-
-                                        <!-- Button -->
-                                        <div class="my-4 text-center card-btn">
-                                            <a href="{{ path('external_company_show', {'slug': company.slug, 'id': company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% if i == 4 %}
-                                    </div>
-                                    </div>
-                                    {% set i = 0 %}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                <div class="box">
+                    <div class="text-center">
+                        <h5 class="m-0">Aucun entreprises rattachée au {{ store.name }} pour l'instant</h5>
                     </div>
                 </div>
-            {% endif %}
-        </div>
-    </section>
+                {% else %}
+                    <div class="col-6 text-right">
+                        <a class="btn btn-warning mb-3 mr-1" href="#carouselExampleIndicators3" role="button" data-slide="prev">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <a class="btn btn-warning mb-3 " href="#carouselExampleIndicators3" role="button" data-slide="next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                {% set i = 0 %}
+                                {% set j = 0 %}
+                                {% for company in companies %}
+                                    {% set i = i + 1 %}
+                                    {% set j = j + 1 %}
+                                    {% if i == 1 %}
+                                        <div class="carousel-item {% if j == 1 %}active{% endif %}">
+                                        <div class="row">
+                                    {% endif %}
+                                    <div class="col-lg-3 mb-3">
+                                        <div class="card">
+                                            <div class="view">
+                                                {% if company.filename %}
+                                                    <img class = "card-img-top" src="{{ vich_uploader_asset(company, 'imageFile') }}" >
+                                                {% else  %}
+                                                    <img class = "card-img-top" src="{{ asset('build/images/default/logo_soon.jpg') }}" alt="">
+                                                {% endif %}
+                                            </div>
+
+                                            {% include 'default/cards/infos-stickers.html.twig' with {
+                                                'item': company,
+                                                'distances': distancesCompanies,
+                                                'nbRecommandations': nbRecommandationsCompanies
+                                            } %}
+
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ company.name }}</h4>
+                                                <p class="text-muted mt-3">{{ company.otherCategory }}</p>
+                                                <p class="card-text">{{ company.introduction }}</p>
+                                            </div>
+                                            <hr>
+
+                                            <!-- Button -->
+                                            <div class="my-4 text-center card-btn">
+                                                <a href="{{ path('external_company_show', {'slug': company.slug, 'id': company.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Consulter</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if i == 4 %}
+                                        </div>
+                                        </div>
+                                        {% set i = 0 %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
     {% endif %}
+
+    </div>
+
 
     {#dispaly cookies message #}
     {% include 'partials/cookies.html.twig' %}
@@ -200,10 +208,10 @@
 {% endblock %}
 
 {% block modals %}
-    {% include 'default/modals/external/choose-store.html.twig' %}
+    {% include 'default/modals/homepage/choose-store.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('map') }}
     {{ encore_entry_script_tags('home') }}
+    {{ encore_entry_script_tags('map') }}
 {% endblock %}

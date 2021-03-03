@@ -1,46 +1,41 @@
-//modal choose store for homepage search
-/*if (window.location.pathname === '/'){
-    if (window.location.search === '' || window.location.search === '?store=BV001'){
-        $('#chooseStore').modal('show');
-        $('#search_store_querySearch').prop("disabled", true);
-    }
-    $('#btn-choose-store').click(function (){
-        $('#chooseStore').modal('show');
-    });
-}*/
+//Choose store from modal
+$('#btn-choose-store').click(function (){
+    $('#chooseStore').modal('show');
+});
 
+//Select store in modal
+$('#chooseStore button').click(function (){
+    //Get selected option value
+    let storeReference = $('#chooseStore select option:selected').val();
+    //Do redirection with selected store
+    window.location.href = Routing.generate('homepage_store', {'store': storeReference});
+});
+
+/**
+ * Geo localisation user and redirection
+ */
 var options = {
     enableHighAccuracy: true,
     timeout: 5000,
     maximumAge: 0
 };
 
+//If no geo localisation
+if (window.location.pathname === '/')
+    navigator.geolocation.getCurrentPosition(success, error, options);
+
 function success(pos) {
-    var crd = pos.coords;
+    let crd = pos.coords;
 
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude : ${crd.longitude}`);
 
-    $.ajax({
-        url: Routing.generate('homepage_locate', {'locate': crd.latitude + '&' + crd.longitude}),
-        type: "GET",
-        success: function (){
-            console.log('redirection succeed');
-        },
-        error: function()
-        {
-            console.log('redirection failed');
-        }
-    })
-
+    window.location.href = Routing.generate('homepage_locate', {'locate': crd.latitude + '&' + crd.longitude});
 }
 
 function error(err) {
     console.warn(`ERREUR (${err.code}): ${err.message}`);
 }
-
-//If no geo localisation
-/*if (window.location.pathname === '/')
-    navigator.geolocation.getCurrentPosition(success, error, options);*/
-
-console.log(Routing.generate('homepage_locate2'))
+/*
+ * End Geo localisation
+**/

@@ -107,29 +107,29 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/", name="homepage")
-     * @Route("/", name="homepage_locate2", options={"expose"=true})
      * @Route("/{locate}/geolocate", name="homepage_locate", options={"expose"=true})
+     * @Route("/{reference}/store", name="homepage_store", options={"expose"=true})
      */
-    public function homePage($locate = null, StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
+    public function homePage(Store $store = null, $locate = null, StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
     {
-        //Get all stores
-        $stores = $storeRepository->getAllStores();
+        //If not store in url
+        if (!$store){
+            //Get all stores
+            $stores = $storeRepository->getAllStores();
 
-        if (!$locate){
-            return $this->render("default/home.html.twig", [
-                'store' => null,
-                'stores' => $stores
-            ]);
+            if (!$locate){
+                return $this->render("default/home.html.twig", [
+                    'store' => null,
+                    'stores' => $stores
+                ]);
+            }
+
+            //Get lat & lon from url
+            $locate = explode('&', $locate);
+
+            //Get closer store form geo-localisation
+            $store = $communities->getCloserStore($stores, $locate[0], $locate[1]);
         }
-
-        //Get lat & lon from url
-        $locate = explode('&', $locate);
-
-        //Get closer store form geo-localisation
-        $store = $communities->getCloserStore($stores, $locate[0], $locate[1]);
-
-        //Redirect if store not found
-        if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
 
         //Set store ref in session
         $externalStoreSession->setReference($store);
@@ -153,13 +153,16 @@ class DefaultController extends AbstractController
             //Get infos from each company
             $infos = $infoSearch->getInfosCompanies($results, $store);
 
-            return $this->render("search/external/search.html.twig", [
+            //Options redirdct
+            $options = [
                 'query' => $form->get('querySearch')->getData(),
                 'results' => $results,
                 'nbRecommandationsCompanies' => $infos['nbRecommandations'],
                 'distancesCompanies' => $infos['distances'],
                 'store' => $store,
-            ]);
+            ];
+
+            return $this->render("search/external/search.html.twig", $options);
         }
 
         //Get infos of services
