@@ -106,18 +106,22 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/", name="homepage")
-     * @Route("/{locate}/geolocate", name="homepage_locate", options={"expose"=true})
-     * @Route("/{reference}/store", name="homepage_store", options={"expose"=true})
+     * @Route("/", name="homepage", options={"expose"=true})
      */
-    public function homePage(Store $store = null, $locate = null, StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
+    public function homePage(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
     {
+        //Get store if passed in parameter
+        if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
+
+        //Get localisation if passed in parameter
+        if ($request->get('locate'))  $locate = $request->get('locate');
+
         //If not store in url
-        if (!$store){
+        if (!isset($store)){
             //Get all stores
             $stores = $storeRepository->getAllStores();
 
-            if (!$locate){
+            if (!isset($locate)){
                 return $this->render("default/home.html.twig", [
                     'store' => null,
                     'stores' => $stores
@@ -125,7 +129,7 @@ class DefaultController extends AbstractController
             }
 
             //Get lat & lon from url
-            $locate = explode('&', $locate);
+            $locate = explode(',', $locate);
 
             //Get closer store form geo-localisation
             $store = $communities->getCloserStore($stores, $locate[0], $locate[1]);
