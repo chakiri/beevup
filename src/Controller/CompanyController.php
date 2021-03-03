@@ -193,7 +193,7 @@ class CompanyController extends AbstractController
                 $manager->flush();
 
                 //Send email to external user
-                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName(), 'url' => $this->generateUrl('homepage_store', ['store' => $request->getSession()->get('store-reference')], UrlGeneratorInterface::ABSOLUTE_URL) ];
+                $params = ['companyName' => $company->getName(), 'beContacted' => ['createdAt' => date_format($beContacted->getCreatedAt(), 'd-m-Y à H:i'), 'message' => $beContacted->getDescription(), 'email' => $beContacted->getEmail(), 'phone' => $beContacted->getPhone()], 'store' => $company->getStore()->getName(), 'url' => $this->generateUrl('homepage', ['store' => $request->getSession()->get('store-reference')], UrlGeneratorInterface::ABSOLUTE_URL) ];
                 $mailer->sendEmailWithTemplate($beContacted->getEmail(), $params, 'recap_becontacted');
 
                 // add chat message to sponsor

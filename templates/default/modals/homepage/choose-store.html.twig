@@ -1,7 +1,7 @@
 <div class="modal fade" id="chooseStore"  tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="container">
+            <div class="container pt-5">
                 <h5 class="text-center">Séléctionnez votre magasin Bureau Vallée</h5>
 
                 <label for="store" class="my-3 text-muted">Séléctionnez votre magasin de rattachement parmi la liste suivante. <br> La page de recherche serait alors enrichie d'informations locales (entreprises, services, ...).</label>
@@ -11,7 +11,7 @@
                         <option value="{{ store.reference }}">{{ store.addressPostCode }} - {{ store.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn btn-warning m-3 float-right">Sélectionner</button>
+                <button type="submit" class="btn btn-warning my-3 float-right">Sélectionner</button>
             </div>
         </div>
     </div>
