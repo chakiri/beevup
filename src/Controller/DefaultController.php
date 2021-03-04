@@ -116,11 +116,12 @@ class DefaultController extends AbstractController
         //Get localisation if passed in parameter
         if ($request->get('locate'))  $locate = $request->get('locate');
 
-        //If not store in url
+        //If not store in params
         if (!isset($store)){
             //Get all stores
             $stores = $storeRepository->getAllStores();
 
+            //If not locate neither
             if (!isset($locate)){
                 return $this->render("default/home.html.twig", [
                     'store' => null,
@@ -128,7 +129,7 @@ class DefaultController extends AbstractController
                 ]);
             }
 
-            //Get lat & lon from url
+            //Get lat & lon from locate
             $locate = explode(',', $locate);
 
             //Get closer store form geo-localisation
@@ -191,95 +192,6 @@ class DefaultController extends AbstractController
         return $this->render("default/home.html.twig", $options);
 
     }
-
-    /**
-     * @Route()
-     */
-   /* public function homePage(Request $request, StoreRepository $storeRepository, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, ServiceSetting $serviceSetting, InfoSearch $infoSearch, ExternalStoreSession $externalStoreSession)
-    {
-        //If store is passed in parameter
-        if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
-        else    $store = $storeRepository->findOneBy(['reference' => 'BV001']);
-
-        //Redirect if store not found
-        if (!$store) return $this->render('bundles/TwigBundle/Exception/error404.html.twig');
-
-        //Set store ref in session
-        $externalStoreSession->setReference($store);
-
-        //Get local services of store
-        $allCompanies = $getCompanies->getAllCompanies($store);
-        $services = $serviceRepository->findByLocalServicesWithLimit($allCompanies, 12);
-        $companies = $companyRepository->findBySearch('', $allCompanies);
-
-        $form = $this->createForm(SearchStoreType::class, null, ['store' => $store]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            $results = [];
-
-            //Get companies from services search
-            $services =  $serviceRepository->findByQuery($allCompanies, $form->get('querySearch')->getData());
-            foreach ($services as $service){
-                if (!in_array($service->getUser()->getCompany(), $results))
-                    array_push($results, $service->getUser()->getCompany());
-            }
-
-            //Get companies from profiles search
-            $profiles =  $profilRepository->findByQuery($allCompanies, $form->get('querySearch')->getData());
-            foreach ($profiles as $profile){
-                if (!in_array($profile->getUser()->getCompany(), $results))
-                    array_push($results, $profile->getUser()->getCompany());
-            }
-
-            //Get companies from profiles search
-            $companies =  $companyRepository->findBySearch($form->get('querySearch')->getData(), $allCompanies);
-            foreach ($companies as $company){
-                if (!in_array($company, $results))
-                    array_push($results, $company);
-            }
-
-            //Get infos from each company
-            $infos = $infoSearch->getInfosCompanies($results, $store);
-
-            return $this->render("search/external/search.html.twig", [
-                'query' => $form->get('querySearch')->getData(),
-                'results' => $results,
-                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
-                'distancesCompanies' => $infos['distances'],
-                'store' => $store,
-            ]);
-        }
-
-        //Render options
-        $options = [
-            'form' => $form->createView(),
-            'store' => $store,
-            'stores' => $stores = $storeRepository->getAllStores(),
-        ];
-
-        if ($store->getReference() !== 'BV001'){
-            //Get informations of services
-            $infosServices = $serviceSetting->getInfosServices($services, $store);
-
-            //Get infos of companies
-            $infosCompanies = $infoSearch->getInfosCompanies($companies, $store);
-
-            $infoOptions = [
-                'nbRecommandationsServices' => $infosServices['nbRecommandations'],
-                'distancesServices' => $infosServices['distances'],
-                'nbRecommandationsCompanies' => $infosCompanies['nbRecommandations'],
-                'distancesCompanies' => $infosCompanies['distances'],
-                'companies' => $companies,
-                'services' => $services,
-            ];
-
-            $options = array_merge($options, $infoOptions);
-        }
-
-        return $this->render("default/home.html.twig", $options);
-    }*/
 
     /**
      * @Route("/map", name="map")
