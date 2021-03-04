@@ -682,11 +682,11 @@ class Company implements \Serializable
     public function isLogoDefined(){
         return $isLogoDefined = ($this->getFilename() !='') ? 'Oui' : 'Non';
     }
-    public function getCreatedDate(){
+    public function getCreatedAt(){
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3) {
                 if($user->getCreatedAt() != null) {
-                    return $user->getCreatedAt()->format('d/m/Y');
+                    return $user->getCreatedAt();
                 } else {
                     return 'erreur';
                 }

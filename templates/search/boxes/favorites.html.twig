@@ -2,8 +2,8 @@
     <h5>Favoris</h5>
     <div class="suggestions full-width">
         <div class="suggestions-list">
-            {%  if favoris  %}
-                {% for favorit in favoris %}
+            {%  if favorites %}
+                {% for favorit in favorites %}
                     <div class="suggestion-usd favorit-user-{{ favorit.favoritUser.profile.id }}">
                         <div class="" style="float:left">
                             <a href="{{path('profile_show', { 'id': favorit.favoritUser.profile.id}) }}">

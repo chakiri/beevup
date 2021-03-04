@@ -18,7 +18,7 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('roles')
             ->add('createdAt')
-            ->add('modifiedAt')
+            ->add('updatedAt')
             ->add('isValid')
             ->add('isDeleted')
             ->add('profile')

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Search;
 
 use App\Entity\Company;
 use App\Entity\Store;
 use App\Entity\User;
 use App\Repository\RecommandationRepository;
+use App\Service\Communities;
 use Symfony\Component\Security\Core\Security;
 
 class InfoSearch

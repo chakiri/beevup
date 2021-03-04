@@ -1564,6 +1564,10 @@ ul.landing-page-list {
     border-bottom: 1px solid var(--footer-bg-color);
 }
 
+.company-up-info-image{
+    padding: 2em;
+}
+
 .company-up-info a{
     color: inherit;
 }
@@ -3686,6 +3690,15 @@ li.icon-type-post a.active{
 
 .special-offer-badge {
     background-color: #DE3944;
+    color: #fff;
+}
+
+.search-user-badge {
+    background-color: #28a745;
+    color: #fff;
+}
+.search-company-badge {
+    background-color: #ffc107;
     color: #fff;
 }
 

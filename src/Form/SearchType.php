@@ -26,33 +26,6 @@ class SearchType extends AbstractType
                     'class'=>'btn-radius'
                 ]
             ])
-            ->add('type', ChoiceType::class, [
-                'label'=>false,
-                'attr'  => [
-                    'class'=>'btn-radius'
-                ],
-                'choices'  => [
-                    'Entreprise' => 'company',
-                    'Personnes' => 'users'
-
-                ],
-            ])
-           /* ->add('category', EntityType::class, [
-                'label' => false,
-                'required' => false,
-                'placeholder' => 'Catégorie d\'entreprise',
-                'attr'  => [
-                    'placeholder' => 'Catégories d\'entreprise',
-                    'class'=>'btn-radius',
-                    'disabled'=> true
-                ],
-                'query_builder' => function (CategoryRepository $categoryRepository) {
-                        return $categoryRepository->createQueryBuilder('a');
-                },
-                'class' => CompanyCategory::class,
-                'choice_label' =>'name'
-
-            ])*/
         ;
     }
 

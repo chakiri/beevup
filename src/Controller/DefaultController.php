@@ -24,7 +24,7 @@ use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
-use App\Service\InfoSearch;
+use App\Service\Search\InfoSearch;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\ServiceSetting;
 use App\Service\Session\ExternalStoreSession;

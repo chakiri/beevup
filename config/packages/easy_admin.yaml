@@ -49,7 +49,7 @@ easy_admin:
           - { property: 'serviceNumber', label: 'Nombre de services' }
           - { property: 'sponsorshipNumber', label: 'Nombre de personnes parrainées' }
           - { property: 'getScore', label: 'nombre de points' }
-          - { property: 'getCreatedDate', label: 'Date de création' }
+          - { property: 'getCreatedAt', label: 'Date de création' }
           - { property: 'isCompleted', label: 'Fiche entreprise renseignée' , css_class: 'isDefined'}
           - { property: 'isValid', label: 'Active' }
     Store:
