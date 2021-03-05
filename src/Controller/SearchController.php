@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Search;
 use App\Form\SearchType;
+use App\Repository\FavoritRepository;
 use App\Service\Search\InfoSearch;
 use App\Service\Search\SearchHandler;
 use App\Service\User\favorites;
@@ -18,7 +19,7 @@ class SearchController extends AbstractController
     /**
      * @Route("/search", name="search")
      */
-    public function index(Request $request, GetCompanies $getCompanies, favorites $favorites, InfoSearch $infoSearch, SearchHandler $searchHandler)
+    public function index(Request $request, GetCompanies $getCompanies, favorites $favorites, InfoSearch $infoSearch, SearchHandler $searchHandler, FavoritRepository $favoritRepository)
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
@@ -41,7 +42,9 @@ class SearchController extends AbstractController
             'items' => $items,
             'nbRecommandations' => $infos['nbRecommandations'],
             'distances' => $infos['distances'],
-            'favorites' => array_merge($favorites->getFavoritesUsers($this->getUser()), $favorites->getFavoritesCompanies($this->getUser()))
+            'favoritesUsers' => $favorites->getFavoritesUsers($this->getUser()),
+            'favoritesCompanies' => $favorites->getFavoritesCompanies($this->getUser()),
+            'favorites' => $favoritRepository->findBy(['user'=> $this->getUser()])
         ]);
 
     }

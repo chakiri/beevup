@@ -40,10 +40,11 @@ class favorites
     public function getFavoritesCompanies(User $user)
     {
         $favorites = $this->favoritRepository->findBy(['user'=> $user]);
+
         $favoritesCompanies = [];
         foreach ($favorites as $favorit)
         {
-            if(!$favorit->getCompany()) {
+            if($favorit->getCompany() !== null) {
                 $favoritesCompanies[] = $favorit->getCompany();
             }
         }

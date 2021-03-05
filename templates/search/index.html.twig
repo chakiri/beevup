@@ -14,7 +14,7 @@
                     {% include 'search/boxes/filter.html.twig' %}
 
                    <div class="d-none d-sm-block d-md-none d-lg-block d-xl-block">
-                       {#{% include 'search/boxes/favorites.html.twig' %}#}
+                       {% include 'search/boxes/favorites.html.twig' %}
                    </div>
                 </div>
 
@@ -69,15 +69,15 @@
                                                     {% endif %}
                                                 </div>
                                                 <ul>
-                                                    {#<li>
+                                                    <li>
                                                         <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                            class="favoris-icon {% if user.id in favorisUsersIds %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-favoris"
+                                                            class="favoris-icon {% if user in favoritesUsers %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-favoris"
                                                             data-user-id ="{{ user.id }}"
                                                             data-profile-id ="{{ user.profile.id }}"
                                                             data-target="{{path('favorit_add', {'userId':user.id})  }}"
                                                             data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
                                                         </i>
-                                                    </li>#}
+                                                    </li>
                                                     <li>
                                                         <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
                                                             <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fas fa-comments search-contact"></i>
@@ -116,9 +116,9 @@
                                                 <h5> <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">  {{company.name }}</a></h5>
                                                 <h6>{{ company.otherCategory }}</h6>
                                                 <ul>
-                                                    {#<li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
+                                                    <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
                                                         <i id="result-company-item-{{ company.id }}"
-                                                           class="{% if company.id in favorisCompaniesIds %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-company-favoris"
+                                                           class="{% if company in favoritesCompanies %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-company-favoris"
                                                            aria-hidden="true"
                                                            data-company-id ="{{ company.id }}"
                                                            data-company-name="{{ company.name }}"
@@ -129,7 +129,7 @@
                                                            data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
                                                            data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{% if company.getCompanyAdministrator().profile.filename %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile') }}{% else %}{{ asset('build/images/no-available-photo.png') }}{% endif %}{% endif %}"
                                                         ></i>
-                                                    </li>#}
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
