@@ -48,7 +48,7 @@
                                                     'item': user.company,
                                                 } %}
 
-                                                <div class="company-up-meta mt-3">
+                                                <div class="user-up-meta mt-3">
                                                     <h5>
                                                         <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname }} {{ user.profile.lastname }}</a>
                                                     </h5>
@@ -103,7 +103,6 @@
                                                             <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                         {% else  %}
                                                             <img src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_card') }}" >
-
                                                         {% endif %}
                                                     </a>
 
@@ -113,8 +112,10 @@
 
                                                 </div>
 
-                                                <h5> <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">  {{company.name }}</a></h5>
-                                                <h6>{{ company.otherCategory }}</h6>
+                                                <div class="company-up-meta">
+                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">  {{company.name }}</a></h5>
+                                                    <h6>{{ company.otherCategory }}</h6>
+                                                </div>
                                                 <ul>
                                                     <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
                                                         <i id="result-company-item-{{ company.id }}"

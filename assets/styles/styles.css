@@ -1566,6 +1566,7 @@ ul.landing-page-list {
 
 .company-up-info-image{
     padding: 2em;
+    height: 149px;
 }
 
 .company-up-info a{
@@ -1628,7 +1629,10 @@ ul.landing-page-list {
 .company-infos-bloc small{
 }
 .company-up-meta{
-    height: 100px;
+    height: 85px;
+}
+.user-up-meta{
+    height: 90px;
 }
 .company-infos-distance, .company-infos-recommandations{
     height: 18px;
@@ -1661,9 +1665,6 @@ ul.landing-page-list {
 .no-result, .search-result{
     color: var(--gray-color);
     margin-top: 10px;
-}
-.result-company h5 {
-    height: 40px;
 }
 .result-company h6 {
     font-size:12px;
