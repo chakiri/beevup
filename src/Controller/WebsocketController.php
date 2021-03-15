@@ -94,8 +94,9 @@ class WebsocketController extends AbstractController
         foreach ($topics as $topic){
             if(substr($topic->getName(), 0, 8) === "general-"){
                 $generalTopic = $topic;
-            }else{
-                array_push($newTopics, $topic);
+            //Hide topic category company
+            }elseif ($topic->getType()->getId() !== 3){
+                $newTopics[] = $topic;
             }
         }
         if (isset($generalTopic)) array_unshift($newTopics, $generalTopic);
