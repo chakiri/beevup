@@ -14,31 +14,41 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+
 
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('company', InscriptionCompanyType::class, [
-            'label' => false,
-         ])
-
+            ->add('firstname', TextType::class, [
+                'attr'  => [
+                    'placeholder' => 'Prénom',
+                    'class'       =>'form-control'
+                ],
+                'mapped' => false,
+                'label' => false
+            ])
+            ->add('lastname', TextType::class, [
+                'attr'  => [
+                    'placeholder' => 'Nom',
+                    'class'       =>'form-control'
+                ],
+                'mapped' => false,
+                'label' => false
+            ])
+            ->add('company', InscriptionCompanyType::class, [
+                'label' => false,
+            ])
             ->add('get_siret_from_api', CheckboxType::class, [
                 'label'    => 'Recherchez votre SIRET',
                 'required' => false,
                 'mapped'   => false,
             ])
             ->add('name', TextType::class, [
-
                 'mapped'=>false,
-                   'attr'  => [
-                   'placeholder' => 'Raison sociale ou Nom',
+                'attr'  => [
+                   'placeholder' => 'Raison sociale',
                    'class'       =>'form-control'
                 ]
             ])
@@ -47,72 +57,64 @@ class RegistrationType extends AbstractType
                  'placeholder' => 'Choisissez votre communauté locale',
                  'class' => Store::class,
                  'choice_label' =>function (Store $store){
-                return $store->getAddressPostCode().' - '.$store->getName();
+                    return $store->getAddressPostCode().' - '.$store->getName();
                  },
                  'query_builder' => function (StoreRepository $storeRepository){
                     return $storeRepository->getAllStoresOrderByPostalCode();
                  }
             ])
             ->add('email', EmailType::class, [
-
-                   'attr'  => [
-                   'placeholder' => 'Email',
-                   'class'       =>'form-control'
-                   ]
-               ])
+                'attr'  => [
+                    'placeholder' => 'Email',
+                    'class'       =>'form-control'
+                ]
+            ])
             ->add('password', PasswordType::class, [
-
-                   'attr'  => [
+                'attr'  => [
                      'placeholder' => 'Mot de passe',
                      'class'       =>'form-control'
-                   ]
-               ])
+                ]
+            ])
             ->add('acceptConditions', CheckboxType::class, [
                 'mapped'=>false,
                 'label'    => 'J\'accepte',
                 'required' => false,
                 'attr'  => [
-                   'class'       =>'accpet-condition'
+                   'class' => 'accpet-condition'
                 ]
             ])
             ->add('addressNumber', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
                     'placeholder' => 'Numéro adresse',
-                    'class'       =>'form-control',
-
+                    'class'       => 'form-control',
                 ]
             ])
-
             ->add('addressStreet', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
-                    'class'             =>'form-control',
+                    'class' => 'form-control',
                 ]
             ])
             ->add('addressPostCode', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
-
-                    'class'       =>'form-control'
+                    'class' => 'form-control'
                 ]
             ])
             ->add('city', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
-
-                    'class'       =>'form-control'
+                    'class' => 'form-control'
                 ]
             ])
             ->add('country', HiddenType::class, [
                 'mapped' => false,
                 'attr'  => [
-                    'class'       =>'form-control'
+                    'class' => 'form-control'
                 ]
             ])
         ;
-        ;
-
     }
 
 

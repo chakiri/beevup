@@ -178,12 +178,12 @@
                 </a>
             </div>
             <div>
-                {% if app.request.attributes.get('_route') != 'security_login' %}
+                {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'waiting_validation' %}
                     <button type="submit" class="white-btn connexion-btn" method="post">
                         <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
                     </button>
                 {% endif %}
-                {% if app.request.attributes.get('_route') != 'security_registration' %}
+                {% if app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation'  %}
                     <button type="submit" class="white-btn connexion-btn" method="post">
                         <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
                     </button>

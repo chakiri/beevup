@@ -26,26 +26,39 @@
                                {% else %}
                                   <div class="landing-page-registration-form">
                                       {{ form_start(RegistrationForm, {'attr': {'id': 'registration-form'}}) }}
-                                      {{ form_errors(RegistrationForm.name) }}
-                                      {{ form_widget(RegistrationForm.name) }}
 
-                                      <div id ='box-get-siret'>
-                                      {{ form_errors(RegistrationForm.get_siret_from_api) }}
-                                      {{ form_widget(RegistrationForm.get_siret_from_api) }}
-                                      </div>
-                                      {{ form_errors(RegistrationForm.company) }}
-                                      {{ form_widget(RegistrationForm.company) }}
-                                       {{ form_errors(RegistrationForm.store) }}
-                                      {{ form_widget(RegistrationForm.store) }}
-                                      {{ form_errors(RegistrationForm.email) }}
-                                      {{ form_widget(RegistrationForm.email) }}
-                                      {{ form_errors(RegistrationForm.password) }}
-                                      {{ form_widget(RegistrationForm.password) }}
-                                      {{ form_errors(RegistrationForm.acceptConditions) }}
-                                      {{ form_widget(RegistrationForm.acceptConditions) }}
-                                      <div class="form-actions form-group">
-                                          <button id ="inscription-btn" type="submit" class="col-12 orange-btn" disabled>Rejoindre</button>
-                                      </div>
+                                          <div class="d-flex justify-content-between">
+                                              <div>
+                                                  {{ form_errors(RegistrationForm.lastname) }}
+                                                  {{ form_widget(RegistrationForm.lastname) }}
+                                              </div>
+                                              <div>
+                                                  {{ form_errors(RegistrationForm.firstname) }}
+                                                  {{ form_widget(RegistrationForm.firstname) }}
+                                              </div>
+                                          </div>
+
+                                          {{ form_errors(RegistrationForm.name) }}
+                                          {{ form_widget(RegistrationForm.name) }}
+
+                                          <div id ='box-get-siret'>
+                                              {{ form_errors(RegistrationForm.get_siret_from_api) }}
+                                              {{ form_widget(RegistrationForm.get_siret_from_api) }}
+                                          </div>
+
+                                          {{ form_errors(RegistrationForm.company) }}
+                                          {{ form_widget(RegistrationForm.company) }}
+                                          {{ form_errors(RegistrationForm.store) }}
+                                          {{ form_widget(RegistrationForm.store) }}
+                                          {{ form_errors(RegistrationForm.email) }}
+                                          {{ form_widget(RegistrationForm.email) }}
+                                          {{ form_errors(RegistrationForm.password) }}
+                                          {{ form_widget(RegistrationForm.password) }}
+                                          {{ form_errors(RegistrationForm.acceptConditions) }}
+                                          {{ form_widget(RegistrationForm.acceptConditions) }}
+                                          <div class="form-actions form-group">
+                                              <button id ="inscription-btn" type="submit" class="col-12 orange-btn" disabled>S'inscrire</button>
+                                          </div>
                                       {{ form_end(RegistrationForm) }}
                                   </div>
                                {% endif %}

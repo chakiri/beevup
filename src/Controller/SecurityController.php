@@ -97,6 +97,8 @@ class SecurityController extends AbstractController
             // new profile
             $profile = new Profile();
             $profile->setUser($user);
+            $profile->setLastname($form->get('lastname')->getData());
+            $profile->setFirstname($form->get('firstname')->getData());
 
             $manager->persist($profile);
 
@@ -161,7 +163,10 @@ class SecurityController extends AbstractController
 
         $this->addFlash('success', 'votre compte a été activé');
 
-        return $this->redirectToRoute('dashboard', $optionsRedirect);
+        //Set id profile in options
+        $optionsRedirect['id'] = $user->getProfile()->getId();
+
+        return $this->redirectToRoute('profile_edit', $optionsRedirect);
     }
 
     /**
