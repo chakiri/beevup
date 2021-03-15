@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Map\GeocodeAddress;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +12,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
@@ -210,6 +210,18 @@ class Company implements \Serializable
         }
     }
 
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function geolocate()
+    {
+        $map = new GeocodeAddress();
+        if (($coordonnees = $map->geocode($this))) {
+            $this->setLatitude($coordonnees[0]);
+            $this->setLongitude($coordonnees[1]);
+        }
+    }
 
     public function getId(): ?int
     {
@@ -645,6 +657,7 @@ class Company implements \Serializable
         }
 
     }
+
     public function getCompanyAdministratorFullName() {
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3)
@@ -652,8 +665,8 @@ class Company implements \Serializable
                      return $user->getProfile()->getFirstName().' '.$user->getProfile()->getLastname();
                 else return 'N/C';
         }
-
     }
+
     public function getEmailAdministrator() {
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3)
@@ -661,15 +674,18 @@ class Company implements \Serializable
         }
 
     }
+
     public function getServiceNumber(){
         return count($this->services);
     }
+
     public function isProfileAdminCompleted(){
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3)
                 return ( $user->getProfile()->getIsCompleted()) ? 'Oui' : 'Non';
         }
     }
+
     public function isLogoAdminCompleted(){
         $isLogoAdminDefined = '';
         foreach ($this->users as $user){
@@ -679,9 +695,11 @@ class Company implements \Serializable
             }
         }
     }
+
     public function isLogoDefined(){
         return $isLogoDefined = ($this->getFilename() !='') ? 'Oui' : 'Non';
     }
+
     public function getCreatedAt(){
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3) {
@@ -694,6 +712,7 @@ class Company implements \Serializable
             }
         }
     }
+
     public function getScore()
     {
         foreach ($this->users as $user){

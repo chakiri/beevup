@@ -8,6 +8,7 @@ use App\Entity\UserFunction;
 use App\Repository\TypeServiceRepository;
 use App\Repository\UserFunctionRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -106,7 +107,6 @@ class ProfileType extends AbstractType
                     'id'         => 'Titre'
                 ]
             ])
-            
         ;
     }
 

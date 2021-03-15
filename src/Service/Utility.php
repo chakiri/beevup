@@ -7,20 +7,10 @@ namespace App\Service;
 
 class Utility
 {
-    public function updateName(string $name)
+
+
+    public function getEmailsList(string $emailsList)
     {
-        $updateName ='';
-        $pieces = explode("-", $name);
-        foreach ($pieces as $piece){
-            $val = ucfirst(strtolower($piece));
-            $updateName =  ($updateName=='') ? $val :$updateName.'-'.$val;
-
-        }
-         return $updateName;
-    }
-
-    public function getEmailsList(string $emailsList){
-
        return  explode(';', $emailsList);
     }
 

@@ -3,17 +3,13 @@
 
 namespace App\Controller\Admin\Publicity;
 
-use App\Entity\Publicity;
 use App\Repository\PublicityRepository;
 use App\Service\ImageCropper;
-use App\Service\Map;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\FileBag;
 
 
 class PublicityController extends EasyAdminController

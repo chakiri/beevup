@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Map\GeocodeAddress;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -167,6 +168,27 @@ class Store implements \Serializable
             $slug = $slugify->slugify($this->getName());
             $this->setSlug($slug);        
         }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function geolocate()
+    {
+        $map = new GeocodeAddress();
+        if (($coordonnees = $map->geocode($this))) {
+            $this->setLatitude($coordonnees[0]);
+            $this->setLongitude($coordonnees[1]);
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function modfiedAt()
+    {
+        $this->setModifiedAt(new \DateTime());
     }
 
     public function getId(): ?int
@@ -461,7 +483,6 @@ class Store implements \Serializable
     public function __toString()
     {
        return strval( $this->getName() );
-      
     }
 
     public function getDefaultAdviser(): ?User
@@ -515,7 +536,6 @@ class Store implements \Serializable
     public function unserialize($serialized)
     {
         $this->id = unserialize($serialized);
-
     }
 
     public function getExternalCompanies(): ?array

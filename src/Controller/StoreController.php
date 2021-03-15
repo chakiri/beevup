@@ -6,18 +6,12 @@ use App\Entity\Store;
 use App\Form\StoreType;
 use App\Repository\CompanyRepository;
 use App\Repository\RecommandationRepository;
-use App\Repository\ServiceRepository;
-use App\Repository\StoreServicesRepository;
 use App\Repository\UserRepository;
-use App\Repository\UserTypeRepository;
-use App\Service\Error\Error;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Map;
-use App\Service\ImageCropper;
+use App\Service\GeocodeAddress;
 use App\Service\GetCompanies;
 
 
@@ -31,7 +25,7 @@ class StoreController extends AbstractController
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
         $localStores = $getCompanies->getLocalStores($store , $allCompanies);
 
-        //Denie access
+        //Denied access
         if ($getCompanies->isStoreInLocalStores($store, $localStores) != true || $this->getUser()->getStore() != $store) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         $users = $userRepository->findByStore($store);
@@ -61,26 +55,19 @@ class StoreController extends AbstractController
      */
     public function form(Request $request, ?Store $store, EntityManagerInterface $manager)
     {
-        //Denie Access
+        //Denied Access
         if(!in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         if (!$store) {
             $store = new Store();
             $store->setReference('12323434');
         }
+
         $form = $this->createForm(StoreType::class, $store);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $store->setModifiedAt(new \DateTime());
-            $adresse = $store->getAddressNumber() . ' ' . $store->getAddressStreet() . ' ' . $store->getAddressPostCode() . ' ' . $store->getCity() . ' ' . $store->getCountry();
-            $map = new Map();
-            $coordonnees = $map->geocode($adresse);
-
-            if ($coordonnees != null) {
-                $store->setLatitude($coordonnees[0]);
-                $store->setLongitude($coordonnees[1]);
-            }
 
             $manager->persist($store);
             $manager->flush();

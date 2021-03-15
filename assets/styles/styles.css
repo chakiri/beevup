@@ -3139,7 +3139,7 @@ a:hover {
 #company_country, #company_store, #company_category{height: 40px}
 .form-page-bg{background-color:var(--base-bg-color); }
 .bv-form{margin-top: 20px}
-.bv-form .col-lg-5, .bv-form .col-lg-6{background-color: #fff;margin-right: 20px}
+.bv-form-col {background-color: #fff;border-radius: var(--radius);}
 .form-page-bg h3{background-color: transparent}
 .bv-form label {font-size: 13px;}
 #company_description{min-height: 200px}

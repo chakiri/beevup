@@ -1,0 +1,231 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme EditCompanyForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}{{ company.name }}{% endblock %}
+
+{% block body %}
+<div class="main-section">
+    <div class="container-bv">
+        <div class="main-section-data page-content">
+            <div class="row">
+                <div class="col-lg-3">
+
+                    {% include 'company/boxes/infoCompany.html.twig' %}
+
+                </div>
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="main-ws-sec">
+                            <div class="product-feed-tab current" id="info-dd">
+                                <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
+                                    <h3>Modifier les informations</h3>
+                                    {{ form_start(EditCompanyForm, {'attr':{'id':'BVform', 'autocomplete':'off'}})}}
+                                        <div class="row ">
+                                            <div class="col-lg-5 col-md-12 bv-form-col mr-3">
+                                                <p style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Informations</p>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        <label for="">N° SIRET</label>
+                                                        {{ form_errors(EditCompanyForm.siret) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.siret) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        <label for="">Nom de l'entreprise</label>
+                                                        {{ form_errors(EditCompanyForm.name) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.name) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group required">
+                                                    <label for="">Votre activité en une phrase</label>
+                                                    {{ form_errors(EditCompanyForm.introduction) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.introduction) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        <label for="">Catégorie de l'entreprise</label>
+                                                        {{ form_errors(EditCompanyForm.category) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.category) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6 other-category required">
+                                                        <label for="">Précisez votre activité</label>
+                                                        {{ form_errors(EditCompanyForm.otherCategory) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.otherCategory) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Description de l'entreprise</label>
+                                                    {{ form_errors(EditCompanyForm.description) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.description) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 bv-form-col">
+                                                <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Coordonées</P>
+                                                <div class="form-group required">
+                                                    <label for="">Votre communauté locale</label>
+                                                    {{ form_errors(EditCompanyForm.store) }}
+                                                    <div class="input-group">
+                                                        {{ form_widget(EditCompanyForm.store) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        <label for="">Email</label>
+                                                        {{ form_errors(EditCompanyForm.email) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.email) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="">Téléphone</label>
+                                                        {{ form_errors(EditCompanyForm.phone) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.phone) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12 required company-complete-adress"  data-complete-adress="{% if company.addressNumber is not null %}{{ company.addressNumber}}{% endif %}{% if company.addressStreet is not null %} {{ company.addressStreet |lower }} {% endif %}{% if company.addressPostCode is not null %} {{ company.addressPostCode|lower }}{% endif %}{% if company.city is not null %} {{ company.city | lower }}{% endif %}">
+
+                                                    <label for="">Adresse</label>
+                                                        {{ form_widget(EditCompanyForm.address) }}
+                                                        {{ form_errors(EditCompanyForm.addressNumber) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.addressNumber) }}
+                                                            {{ form_widget(EditCompanyForm.addressStreet) }}
+                                                            {{ form_widget(EditCompanyForm.addressPostCode) }}
+                                                           {{ form_widget(EditCompanyForm.country) }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 ">
+                                                        <label for="">Lien vidéo Youtube</label>
+                                                        {{ form_errors(EditCompanyForm.video) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.video) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6 ">
+                                                        <label for="">Site web</label>
+                                                        {{ form_errors(EditCompanyForm.website) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditCompanyForm.website) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center hide-load">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+
+                                    {{ form_end(EditCompanyForm) }}
+
+                                    {{ form_start(EditProfileForm, {'attr':{'id':'BVform'}}) }}
+                                        <div class="row mt-4">
+                                            <div class="col-lg-11 bv-form-col">
+                                                <p style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Profil</p>
+
+                                                <div class="form-row">
+                                                    <div class="form-group required col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.lastname) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.lastname) }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group required col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.firstname) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.firstname) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-lg-12 col-md-12">
+                                                        {{ form_label(EditProfileForm.introduction) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.introduction) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group required col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.gender) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.gender) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.function) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.function) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-lg-12 col-md-12">
+                                                        {{ form_label(EditProfileForm.jobTitle) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.jobTitle) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group required col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.mobileNumber) }}
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.mobileNumber) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  col-lg-6 col-md-12">
+                                                        {{ form_label(EditProfileForm.phoneNumber) }}
+
+                                                        <div class="input-group">
+                                                            {{ form_widget(EditProfileForm.phoneNumber) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <div class="text-center hide-load">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions form-group text-center">
+                                        <button  type="submit" class="m-orange-btn">Enregistrer</button>
+                                    </div>
+
+                                    {{ form_end(EditCompanyForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

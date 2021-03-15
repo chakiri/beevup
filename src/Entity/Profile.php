@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfilRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
 class Profile implements \Serializable
@@ -97,10 +98,11 @@ class Profile implements \Serializable
      */
     private $jobTitle;
 
+    private $utility;
+
     public function __construct()
     {
         $this->isCompleted = false;
-
     }
 
     public function getId(): ?int
@@ -319,6 +321,27 @@ class Profile implements \Serializable
         $this->jobTitle = $jobTitle;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updatesNames()
+    {
+        $this->setFirstname($this->updateName($this->getFirstname()));
+        $this->setLastname($this->updateName($this->getLastname()));
+    }
+
+    private function updateName(string $name)
+    {
+        $updateName = null;
+        $pieces = explode("-", $name);
+        foreach ($pieces as $piece){
+            $val = ucfirst(strtolower($piece));
+            $updateName =  (!$updateName) ? $val : $updateName . '-' . $val;
+        }
+        return $updateName;
     }
 
 }
