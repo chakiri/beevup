@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Event\Logger\LoggerEntityEvent;
+use App\Form\AccountDtoType;
+use App\Model\AccountDto;
 use App\Repository\ScorePointRepository;
 use App\Security\LoginFormAuthenticator;
 use App\Service\Chat\AutomaticMessage;
@@ -63,7 +65,7 @@ class SecurityController extends AbstractController
             $company->setStore($user->getStore());
 
             if ($form->get('addressNumber')->getData()) $company->setAddressNumber($form->get('addressNumber')->getData());
-            if ($form->get('addressStreet')->getData()) $company->setAddresseStreet($form->get('addressStreet')->getData());
+            if ($form->get('addressStreet')->getData()) $company->setAddressStreet($form->get('addressStreet')->getData());
             if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
             if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
             $company->setCountry('FR');
@@ -308,5 +310,60 @@ class SecurityController extends AbstractController
         $cookieAcceptedSession->addCookie($request);
 
         return $this->json(true);
+    }
+
+    /**
+     * @Route("/account/{id}/edit/all", name="account_edit_all")
+     */
+    public function accountAll(Profile $profile, Request $request, EntityManagerInterface $manager)
+    {
+        //Denied access
+        if($profile->getUser() !== $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+
+        //Get company from profile
+        $company = $profile->getUser()->getCompany();
+
+        //Hydrate our model from entities
+        $dto = AccountDto::createFromEntity($profile, $company);
+
+        //Create form using Dto
+        $form = $this->createForm(AccountDtoType::class, $dto);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            //Populate entities from dto
+            $profile->setGender($dto->gender);
+            $profile->setLastname($dto->lastname);
+            $profile->setFirstname($dto->firstname);
+            $profile->setFunction($dto->function);
+            $profile->setMobileNumber($dto->personalPhone);
+
+            $company->setSiret($dto->siret);
+            $company->setEmail($dto->email);
+            $company->setName($dto->name);
+            $company->setPhone($dto->companyPhone);
+            $company->setWebsite($dto->website);
+            $company->setCategory($dto->category);
+
+            $company->setAddressNumber($dto->addressNumber);
+            $company->setAddressStreet($dto->addressStreet);
+            $company->setAddressPostCode($dto->addressPostCode);
+            $company->setCity($dto->city);
+            $company->setCountry($dto->country);
+
+            $manager->persist($profile);
+            $manager->persist($company);
+
+            $manager->flush();
+
+
+        }
+
+        return $this->render('security/Account.html.twig', [
+            'form' => $form->createView(),
+            'company' => $company,
+            'profile' => $profile,
+        ]);
     }
 }

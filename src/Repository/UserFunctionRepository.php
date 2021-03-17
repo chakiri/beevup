@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\UserFunction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method UserFunction|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserFunctionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $security;
+
+    public function __construct(ManagerRegistry $registry, Security $security)
     {
         parent::__construct($registry, UserFunction::class);
+        $this->security = $security;
+    }
+
+    public function getListFunctionsUser()
+    {
+        $user = $this->security->getUser();
+
+        $q = $this->createQueryBuilder('t')
+            ->where('t.relatedTo =  :val')
+            ->orderBy('t.name', 'ASC');
+
+        if($user->getCompany()) {
+            $q->setParameter('val', 'Company');
+        }else{
+            $q->setParameter('val', 'Store');
+        }
+
+        return $q;
     }
 
     // /**

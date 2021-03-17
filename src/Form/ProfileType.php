@@ -3,32 +3,28 @@
 namespace App\Form;
 
 use App\Entity\Profile;
-use App\Entity\Company;
 use App\Entity\UserFunction;
-use App\Repository\TypeServiceRepository;
 use App\Repository\UserFunctionRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Constraints\File;
 
 
 class ProfileType extends AbstractType
 {
-    private $security;
 
-    public function __construct(Security $security)
+    private $userFunctionRepository;
+
+    public function __construct(Security $security, UserFunctionRepository $userFunctionRepository)
     {
-        $this->security = $security;
+        $this->userFunctionRepository = $userFunctionRepository;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -75,27 +71,11 @@ class ProfileType extends AbstractType
                 ]
             ])
             ->add('function', EntityType::class, [
-                'label' => 'Fonction',
+                'class' => UserFunction::class,
                 'multiple'=>false,
                 'required' => true,
                 'placeholder' => 'Saisissez votre fonction',
-                'class' => UserFunction::class,
-                'query_builder' => function (UserFunctionRepository $er) {
-                    $user = $this->security->getUser();
-                if($user->getCompany() != null) {
-                    return $er->createQueryBuilder('t')
-                        ->where('t.relatedTo =  :val1')
-                        ->setParameter('val1', 'Company')
-                        ->orderBy('t.name', 'ASC');
-
-                }
-                else {
-                    return $er->createQueryBuilder('t')
-                        ->where('t.relatedTo  =  :val1')
-                        ->setParameter('val1', 'Store')
-                        ->orderBy('t.name', 'ASC');
-                }
-                },
+                'query_builder' => $this->userFunctionRepository->getListFunctionsUser(),
                 'choice_label' =>'name'
             ])
 

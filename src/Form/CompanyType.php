@@ -6,15 +6,14 @@ use App\Entity\Company;
 use App\Entity\CompanyCategory;
 use App\Entity\Store;
 use App\Repository\StoreRepository;
+use App\Service\Utility\AddressForm;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -22,9 +21,12 @@ class CompanyType extends AbstractType
 {
     private $security;
 
-    public function __construct(Security $security)
+    private $addressForm;
+
+    public function __construct(Security $security, AddressForm $addressForm)
     {
         $this->security = $security;
+        $this->addressForm = $addressForm;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -48,8 +50,6 @@ class CompanyType extends AbstractType
                'attr'  => [
                     'placeholder' => 'Fleuriste',
                     'class'       =>'form-control',
-
-
                  ]
            ])
             ->add('email', EmailType::class, [
@@ -65,44 +65,6 @@ class CompanyType extends AbstractType
                     'class'       =>'form-control'
                 ]
             ])
-            ->add('addressNumber', HiddenType::class, [
-                'attr'  => [
-                    'placeholder' => 'Numéro adresse',
-                    'class'       =>'form-control',
-
-                ]
-            ])
-            ->add('address', TextType::class, [
-                'mapped' => false,
-                'attr'  => [
-                    'placeholder'       => 'Adresse',
-                    'class'             =>'form-control',
-                ]
-            ])
-            ->add('addressStreet', HiddenType::class, [
-                'attr'  => [
-                    'class'             =>'form-control',
-                ]
-            ])
-            ->add('addressPostCode', HiddenType::class, [
-                'attr'  => [
-
-                    'class'       =>'form-control'
-                ]
-            ])
-            ->add('city', HiddenType::class, [
-                'attr'  => [
-
-                    'class'       =>'form-control'
-                ]
-            ])
-            ->add('country', HiddenType::class, [
-
-                'attr'  => [
-                    'class'       =>'form-control'
-                ]
-            ])
-
             ->add('video', TextType::class, [
                 'required' => false
             ])
@@ -130,6 +92,9 @@ class CompanyType extends AbstractType
             ])
         ;
 
+        //Add address Field to builder
+        $this->addressForm->addField($builder);
+
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')){
             $builder->add('store', EntityType::class, [
                 'multiple'=>false,
@@ -148,6 +113,7 @@ class CompanyType extends AbstractType
                 }
             ]);
         }
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

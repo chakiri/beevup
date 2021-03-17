@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}{{ company.name }}{% endblock %}
+
+{% block body %}
+<div class="main-section">
+    <div class="container-bv">
+        <div class="main-section-data page-content">
+            <div class="row">
+                <div class="col-lg-3">
+                    {#{% include 'company/boxes/infoCompany.html.twig' %}#}
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="main-ws-sec">
+                        <div class="main-ws-sec">
+                            <div class="product-feed-tab current" id="info-dd">
+                                <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
+                                    <h3>Modifier les informations</h3>
+
+                                    {{ form_start(form) }}
+                                        <div class="row">
+
+                                            <div class="col-lg-5 col-md-12 bv-form-col mr-3">
+                                                <p style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Profil</p>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.email, {'label': 'Email'}) }}
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        {{ form_row(form.gender, {'label': 'Civilité'}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.lastname, {'label': 'Nom'}) }}
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        {{ form_row(form.firstname, {'label': 'Prénom'}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.function, {'label': 'Fonction', 'attr': {'placeholder': 'Saisissez votre fonction'}}) }}
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        {{ form_row(form.personalPhone, {'label': 'Téléphone professionnel'}) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-12 bv-form-col mr-3">
+                                                <p style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Entreprise</p>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.siret) }}
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        {{ form_row(form.name, {'label': 'Raison sociale'}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.address, {'label': 'Adresse',  'attr': {'placeholder': 'Adresse compléte'}}) }}
+                                                    </div>
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.category, {'label': 'Catégorie'}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
+                                                        {{ form_row(form.companyPhone, {'label': 'Téléphone entreprise'}) }}
+                                                    </div>
+                                                    <div class="form-group  col-md-6 required">
+                                                        {{ form_row(form.website, {'label': 'Site web'}) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="text-center hide-load">
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions form-group">
+                                            <button type="submit" class="m-orange-btn">Continuer</button>
+                                        </div>
+
+                                    {{ form_end(form) }}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

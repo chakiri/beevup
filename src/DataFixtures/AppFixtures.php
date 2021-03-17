@@ -170,7 +170,7 @@ class AppFixtures extends Fixture
             ->setEmail('bvlesclayes@beevup.com')
             ->setPhone('0112345678')
             ->setAddressNumber(25)
-            ->setAddresseStreet('Rue du Gros Caillou')
+            ->setAddressStreet('Rue du Gros Caillou')
             ->setAddressPostCode('78340')
             ->setCity('Les Clayes sous Bois')
             ->setCountry('France')

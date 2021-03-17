@@ -98,8 +98,6 @@ class Profile implements \Serializable
      */
     private $jobTitle;
 
-    private $utility;
-
     public function __construct()
     {
         $this->isCompleted = false;

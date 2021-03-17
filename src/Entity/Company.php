@@ -281,7 +281,7 @@ class Company implements \Serializable
         return $this->addressStreet;
     }
 
-    public function setAddresseStreet(?string $addressStreet): self
+    public function setAddressStreet(?string $addressStreet): self
     {
         $this->addressStreet = $addressStreet;
 
@@ -371,15 +371,6 @@ class Company implements \Serializable
 
         return $this;
     }
-
-    public function setAddressStreet(string $addressStreet): self
-    {
-        $this->addressStreet = $addressStreet;
-
-        return $this;
-    }
-
-
 
     public function getName(): ?string
     {
