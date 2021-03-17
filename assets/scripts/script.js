@@ -875,8 +875,6 @@ function getSiret(companyName) {
             }
             etablissements =  etablissements.sort(sortByPostalCode);
 
-
-
             var selectBox = document.createElement("select");
             selectBox.className = "form-control siret-list";
             let i = 0;
@@ -901,10 +899,6 @@ function getSiret(companyName) {
             if($('.error').length > 0){
                 $('.error').remove();
             }
-
-
-
-
         },
         error: function () {
             set_error('Aucun résultat trouvé');
@@ -966,9 +960,7 @@ function autoComplete(address) {
     var url = "https://api-adresse.data.gouv.fr/search/?q=adressVar&type=housenumber&autocomplete=1&limit=5";
     url = url.replace('adressVar',address);
 
-
     $.ajax({
-
         url: url,
         type: 'GET',
         dataType: 'JSON',
@@ -987,6 +979,7 @@ function autoComplete(address) {
         }
     });
 }
+
 $('#company_address').keyup(function () {
     let street = $('#company_address').val();
     if(street) {
@@ -995,13 +988,11 @@ $('#company_address').keyup(function () {
 });
 
 /* =========== select an item from adress suggestions list ===== */
-
 $('body').on('click', '.autoComplete-item', function () {
     let postalCode =  $(this).attr('data-postalcode');
     let streetNumber = $(this).attr('data-street-number');
     let streetName = $(this).attr('data-street-name');
     let city = $(this).attr('data-city');
-    let country = 'FR';
     $('#company_addressNumber').val(streetNumber);
     $('#company_addressStreet').val(streetName);
     $('#company_addressPostCode').val(postalCode);
@@ -1009,19 +1000,16 @@ $('body').on('click', '.autoComplete-item', function () {
     $('#company_country').val('FR');
     $('#company_address').val(streetNumber+ ' '+ streetName + ' ' +postalCode+ ' '+city) ;
     $('.autocomplete-items').remove();
-
 });
 
-/* =========== set a complete adress in company form ===== */
+/* =========== set a complete adress in proper field ===== */
+$(document).ready(function(){
+    let completeAddress = $('#company_addressNumber').val() + ' ' + $('#company_addressStreet').val() + ' ' +  $('#company_addressPostCode').val() + ' ' +  $('#company_city').val();
+    $('#company_address').val(completeAddress);
+});
 
-
-if ($('.company-complete-adress').length > 0 )
-{
-    $('#company_address').val($('.company-complete-adress').attr('data-complete-adress').replace('null',''));
-}
 
 /* ======================get gallery images ========== */
-
 $('.select-from-gallery').click(function(){
 
     var url = $(this).attr('data-url') ;

@@ -1,0 +1,35 @@
+<div class="main-left-sidebar">
+    <div class="user_profile d-flex">
+        <div class="company-pro-img">
+            {% if company.filename %}
+                <img class="main-img" src="{{ vich_uploader_asset(company, 'imageFile')|imagine_filter('company_show') }}"  alt="">
+            {% else %}
+                <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+            {% endif %}
+        </div>
+
+        <div class="user-pro-img user-pro-img-account">
+            {% if profile.filename %}
+                <img class="main-img" src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('avatar_big') }}"  alt="">
+            {% else %}
+                <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+            {% endif %}
+        </div>
+    </div>
+
+
+    {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
+        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ company.id  }}" data-url ="{{ path('company_update_image', {'id': company.id}) }}">
+            Modifier la photo d'entreprise
+        </a>
+    {% endif %}
+
+    {% if app.user.id == profile.user.id %}
+        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}">
+            Modifier la photo de profil
+        </a>
+    {% endif %}
+</div>
+
+
+{% include 'default/modals/upload/uploadImageModal.html.twig' %}

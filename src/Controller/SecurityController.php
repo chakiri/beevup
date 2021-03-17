@@ -357,10 +357,10 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-
+            return $this->redirectToRoute('service_new');
         }
 
-        return $this->render('security/Account.html.twig', [
+        return $this->render('security/account.html.twig', [
             'form' => $form->createView(),
             'company' => $company,
             'profile' => $profile,

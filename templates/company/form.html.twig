@@ -9,22 +9,20 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
+
                 <div class="col-lg-3">
-
                     {% include 'company/boxes/infoCompany.html.twig' %}
-
                 </div>
+
                 <div class="col-lg-9">
                     <div class="main-ws-sec">
                         <div class="main-ws-sec">
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
-                                    <h3>
-                                        Modifier les informations
-                                    </h3>
-                                    {{ form_start(EditCompanyForm, {'attr':{'id':'BVform', 'autocomplete':'off'}})}}
+                                    <h3>Modifier les informations</h3>
+                                    {{ form_start(EditCompanyForm, {'attr':{'id':'BVform'}})}}
                                     <div class="row bv-form">
-                                        <div class="col-lg-5 col-md-12">
+                                        <div class="col-lg-5 col-md-12 bv-form-col mr-3">
                                             <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Informations</P>
                                            <div class="form-row">
                                                 <div class="form-group col-md-6 required">
@@ -76,7 +74,7 @@
 
 
                                         </div>
-                                        <div class="col-lg-6 col-md-12">
+                                        <div class="col-lg-6 col-md-12 bv-form-col">
                                             <P style="color:#ff7f50;font-size: 16px;font-weight: bold;margin-top: 10px;margin-bottom: 10px">Coordonées</P>
                                             <div class="form-group required">
                                                 <label for="">Votre communauté locale</label>
@@ -102,7 +100,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-12 required company-complete-adress"  data-complete-adress="{% if company.addressNumber is not null %}{{ company.addressNumber}}{% endif %}{% if company.addressStreet is not null %} {{ company.addressStreet |lower }} {% endif %}{% if company.addressPostCode is not null %} {{ company.addressPostCode|lower }}{% endif %}{% if company.city is not null %} {{ company.city | lower }}{% endif %}">
+                                                <div class="form-group col-md-12 required company-complete-adress">
 
                                                 <label for="">Adresse</label>
                                                     {{ form_widget(EditCompanyForm.address) }}
