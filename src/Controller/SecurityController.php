@@ -168,7 +168,7 @@ class SecurityController extends AbstractController
         //Set id profile in options
         $optionsRedirect['id'] = $user->getProfile()->getId();
 
-        return $this->redirectToRoute('profile_edit', $optionsRedirect);
+        return $this->redirectToRoute('account_edit_all', $optionsRedirect);
     }
 
     /**
