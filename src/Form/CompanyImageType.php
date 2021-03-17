@@ -16,6 +16,7 @@ class CompanyImageType extends AbstractType
         $builder
             ->add('imageFile', FileType::class, [
                 'required' => false,
+                'label' => 'Photo',
                 'attr'  => [
                     'class'       =>'form-control form-imageFile',
                     'placeholder' => 'Sélectionnez une image',

@@ -265,28 +265,23 @@ class DefaultController extends AbstractController
 
         $form = $this->createForm( $formType,  $entity);
         $form->handleRequest($request);
-        if($form->isSubmitted())
-        {
-            if ($form->get('imageFile')->isValid()) {
 
+        if($form->isSubmitted()) {
+            if ($form->get('imageFile')->isValid()) {
                 $imageCropper->move_directory( $entity);
                 $manager->persist( $entity);
                 $manager->flush();
-                //$this->addFlash('success', 'Vos modifications ont bien été pris en compte !');
-                return new JsonResponse( array(
-                    'message' => 'Votre photo a été bien modifier',
-
-                ));
-            }
-            else{
+                return new JsonResponse([
+                    'message' => 'Votre photo a été bien modifier'
+                ]);
+            }else{
                 return new JsonResponse( array(
                     'result' => 0,
                     'message' => 'Invalid form',
                     'data' => $error->getErrorMessages($form)
                 ));
             }
-        }
-        else {
+        }else {
             return $this->render('default/modals/upload/updateImage.html.twig', [
                 'ImageForm' => $form->createView(),
                 'entity' =>  $entity,

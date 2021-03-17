@@ -19,13 +19,13 @@
 
 
     {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ company.id  }}" data-url ="{{ path('company_update_image', {'id': company.id}) }}">
+        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ company.id  }}" data-url ="{{ path('company_update_image', {'id': company.id}) }}" data-canevas="company-pro-img">
             Modifier la photo d'entreprise
         </a>
     {% endif %}
 
     {% if app.user.id == profile.user.id %}
-        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}">
+        <a class="update-image upload-photo btn white-bg full-width mt-3" type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}" data-canevas="user-pro-img">
             Modifier la photo de profil
         </a>
     {% endif %}

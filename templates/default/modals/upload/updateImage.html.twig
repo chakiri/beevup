@@ -1,48 +1,42 @@
 {% form_theme ImageForm 'bootstrap_4_layout.html.twig' %}
 
 <div class="modal-header">
-
-    <h5 class="modal-title" >Modifier la photo </h5>
+    <h5 class="modal-title" >Modifier l'image</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <div class="card-body card-block">
 
-
     {{ form_start(ImageForm, {'attr':{'id':'BVform'}}) }}
-    <div class="form-group">
-        {{ form_label(ImageForm.imageFile) }}
 
-        <div class="input-group data-entity-id"  data-entity-id="{{ app.user.profile.id }}">
-            {{ form_widget(ImageForm.imageFile) }}
-        </div>
-        <div id="previous-image">
-
+        <div class="form-group full-width">
+            <div class="data-entity-id"  data-entity-id="{{ app.user.profile.id }}">
+                {{ form_row(ImageForm.imageFile) }}
+            </div>
+            <div id="previous-image"></div>
         </div>
 
-    </div>
-    <div class="form-actions form-group">
-        <div class="text-center hide-load">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+        <div class="form-actions form-group">
+
+            <div class="text-center hide-load">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
 
+            <button type="submit" id="submit-photo"
+                    class="m-orange-btn"
+                    data-post=""
+                    data-comment=""
+                    data-target=""
+                    data-url=""
+                    data-canevas="">Enregistrer la photo
+            </button>
         </div>
 
-        <button type="submit" id="submit-photo"
-                class="btn float-right"
-                data-post=""
-                data-comment=""
-                data-target=""
-
-        >Enregistrer la photo</button>
-
     {{ form_end(ImageForm) }}
-
-
-    </div>
-
 
 </div>
 

@@ -20,7 +20,7 @@ class ProfileImageType extends AbstractType
                 'label' => 'Photo',
 
                 'attr'  => [
-                    'placeholder' => 'Photo',
+                    'placeholder' => 'Sélectionnez une image',
                     'class'       =>'form-control form-imageFile',
                     'onChange'=>'previousImage()',
                 ],

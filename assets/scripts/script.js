@@ -338,7 +338,9 @@ window.previousImage = function(e)
             }
         });
     }
+
     let form = document.getElementById('BVform');
+
     function handler ()
     {
         if(fileInput.files[0]) {
@@ -485,7 +487,7 @@ if(form != null)
 
 //====================== fix service issue =========//
 function update_img_url(){
-    var url =   $('.upload-photo').attr('data-url');
+    var url =   $('#submit-photo').attr('data-url');
     return url;
 }
 
@@ -513,7 +515,6 @@ function serviceRedirectedUrl(id)
 
 function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
 {
-
     let url = update_img_url();
     let data = new FormData(form);
 
@@ -552,6 +553,9 @@ function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
             else {
                 //  ============= if data.message is a number so it's a service json return =========
 
+                //Get canevas to display preview on right img
+                let canevas = $('#submit-photo').attr('data-canevas');
+
                 if(Number.isInteger(data.message)){
                     let url2 = serviceRedirectedUrl(data.message);
                     window.location = url2;
@@ -562,7 +566,11 @@ function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
                     $('#previous-image').empty();
                     $('#update-img-modal').modal('hide');
                     if(cropper != '') {
-                        $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
+                        if (canevas){
+                            $('.' + canevas + ' .main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
+                        }else{
+                            $('.main-img').attr('src', cropper.getCroppedCanvas().toDataURL());
+                        }
                     }
                 }
 
@@ -618,10 +626,14 @@ function urls(){
 $('.update-image').click(function(e){
 
     var url = $(this).attr('data-url') ;
+    var canevas = $(this).attr('data-canevas') ;
     $.get(url, function (data) {
         $('.modal-content-update-profile-img').html(data);
-
+        //Set the url in dataurl
+        $('#submit-photo').attr('data-url', url);
+        $('#submit-photo').attr('data-canevas', canevas);
     });
+
 });
 
 // ============= Other javascript =========
