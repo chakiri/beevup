@@ -17,6 +17,7 @@ class AddressForm
         $builder
             ->add('address', TextType::class, [
                 'mapped' => false,
+                'required' => true,
                 'attr'  => [
                     'placeholder'       => 'Adresse',
                     'class'             =>'form-control',

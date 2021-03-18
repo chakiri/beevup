@@ -687,7 +687,6 @@ textarea.form-control{
   margin-left: 5px;
   margin-top: 8px;
   font-weight: bold;
-  font-size: 8px;
   line-height: 9px;
   color: var(--text-color);
 }
@@ -909,7 +908,6 @@ ul.landing-page-list {
 }
 .footer-text-link{
     font-weight: bold;
-    font-size: 8px;
     line-height: 9px;
     text-align: center;
     margin-left: 16px;

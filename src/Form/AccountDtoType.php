@@ -30,6 +30,7 @@ class AccountDtoType extends AbstractType
         $builder
             ->add('email')
             ->add('gender', ChoiceType::class, [
+                'required' => true,
                 'choices' => [
                     'Madame' => 0,
                     'Monsieur' => 1,
@@ -51,7 +52,8 @@ class AccountDtoType extends AbstractType
             ->add('personalPhone')
             ->add('website')
             ->add('category', EntityType::class, [
-                'multiple'=>false,
+                'multiple' => false,
+                'required' => true,
                 'class' => CompanyCategory::class,
                 'choice_label' =>'name'
             ])
