@@ -78,7 +78,7 @@ class CsvExporter
                 return $company->getSponsorshipNumber();
             },
             'Date de creation' => function (Company $company) {
-                return $company->getCreatedAt();
+                return $company->getCreatedAt()->format('d/m/Y');
             },
             'Nombre de points' => function (Company $company) {
                 return $company->getScore();

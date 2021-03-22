@@ -644,9 +644,8 @@ class Company implements \Serializable
      */
     public function getCompanyAdministrator() {
         foreach ($this->users as $user){
-           if ( $user->getType()->getId() == 3) return $user;
+           if ( $user->getType()->getId() === 3) return $user;
         }
-
     }
 
     public function getCompanyAdministratorFullName() {
@@ -663,7 +662,6 @@ class Company implements \Serializable
             if ( $user->getType()->getId() == 3)
                 return $user->getEmail();
         }
-
     }
 
     public function getServiceNumber(){
@@ -678,9 +676,9 @@ class Company implements \Serializable
     }
 
     public function isLogoAdminCompleted(){
-        $isLogoAdminDefined = '';
+        $isLogoAdminDefined = null;
         foreach ($this->users as $user){
-            if ( $user->getType()->getId() == 3) {
+            if ( $user->getType()->getId() === 3) {
                 $isLogoAdminDefined = ($user->getProfile()->getFileName() != '') ? 'Oui' : 'Non';
                 return $isLogoAdminDefined;
             }
@@ -694,14 +692,15 @@ class Company implements \Serializable
     public function getCreatedAt(){
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3) {
-                if($user->getCreatedAt() != null) {
+                if($user->getCreatedAt()) {
                     return $user->getCreatedAt();
-                } else {
-                    return 'erreur';
                 }
-
             }
         }
+    }
+
+    public function getCreatedAtFormat(){
+        return $this->getCreatedAt()->format('d/m/Y');
     }
 
     public function getScore()
