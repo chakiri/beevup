@@ -161,3 +161,11 @@ class ServiceSetting
         }
     }
 }
+
+    public function getDutyFree($price, $taxRate){
+
+        $taxe = $price / 100 * $taxRate;
+        return $taxe + price;
+    }
+
+}

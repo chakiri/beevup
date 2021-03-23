@@ -1093,6 +1093,33 @@ $('body').on('click', '.search-gallery-btn', function (e) {
         $('.search-load').addClass('hide-load');
         $('#imageGallery .modal-content').html(data);
    });
-})
+});
+$('#service_price').change(function(){
+    let taxRate =  getTaxRate($('#service_vatRate').val());
+    let price = $('#service_price').val();
+    if(taxRate != ''){
 
+        $('#service_priceTTC').val(parseFloat(price) + parseFloat(price) / 100 * taxRate);
+    }
+});
+$('#service_vatRate').change(function(){
+    let taxRate =  getTaxRate($('#service_vatRate').val());
+    let price = $('#service_price').val();
+    if(taxRate != ''){
 
+        $('#service_priceTTC').val(parseFloat(price) + parseFloat(price) / 100 * taxRate);
+    }
+});
+/*** I created this function because the parseFloat does not works ***/
+function getTaxRate(val)
+{
+if (val == "2,1")
+    return  2.1;
+else if (val == "5,5")
+
+   return  5.5;
+else if(val == "5,5")
+    return 2.1;
+else
+    return val;
+}

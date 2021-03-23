@@ -111,6 +111,11 @@ class Service implements \Serializable
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * /**
+    * @Assert\Expression(
+     *     "this.getPrice() == ''",
+     *     message="veuillez sélectionner le TVA"
+     * )
      */
     private $vatRate;
 
