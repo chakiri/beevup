@@ -69,15 +69,15 @@ class ProfileController extends AbstractController
             //Cropped Image
             $imageCropper->move_directory($profile);
 
+            //Set profile is completed
+            $profile->setIsCompleted(true);
+
             $manager->persist($profile);
             $manager->flush();
 
             //Add topic function to user type 2
             if ($profile->getUser()->getType()->getId() === 2)
                 $topicHandler->initFunctionStoreTopic($profile->getUser());
-
-            //Set profile is completed
-            $profile->setIsCompleted(true);
 
             //Create new contact on SendinBlue
             $contactsHandler->handleContactSendinBlueCompleteProfile($this->getUser());
