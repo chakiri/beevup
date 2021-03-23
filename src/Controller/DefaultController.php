@@ -158,7 +158,7 @@ class DefaultController extends AbstractController
             //Get infos from each company
             $infos = $infoSearch->getInfosCompanies($results, $store);
 
-            //Options redirdct
+            //Options rediredct
             $options = [
                 'query' => $form->get('querySearch')->getData(),
                 'results' => $results,
