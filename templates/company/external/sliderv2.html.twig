@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ store.name }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="title-slider">
+                <h1>A proximité</h1>
+                <hr>
+            </div>
+        </div>
+        <hr class="slider">
+        <div id="carouselExampleControls" class="carousel vertical slide" data-ride="carousel" data-interval="9000">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner">
+                {% for company in companies %}
+                    {#{% if company.isCompleted == true and admins[company.id] and admins[company.id].profile.filename %}#}
+                        {% if loop.index0 % 2 == 0 %}
+                            <div class="carousel-item {% if company == companies[0] %}active{% endif %}">
+                        {% endif %}
+                        <div class="card mt-3">
+                            <div class="content d-flex">
+                                <div class="meta">
+                                    <h1>{{ company.otherCategory }}</h1>
+                                    <hr>
+                                    <h2>{% if admins[company.id] is defined %}{{ admins[company.id].profile.firstname }}, {% endif %}{{ company.addressPostCode|slice(0,2) }} {{ company.city }}</h2>
+                                </div>
+                                <img src="{{ vich_uploader_asset(admins[company.id].profile, 'imageFile') }}" class="d-block ml-auto img-fluid" alt="avatar image">
+                            </div>
+                        </div>
+                        {% if loop.index0 % 2 == 1 or loop.last %}
+                            </div>
+                        {% endif %}
+                    {#{% endif %}#}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+
+{% endblock %}

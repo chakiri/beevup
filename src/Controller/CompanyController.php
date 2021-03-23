@@ -137,18 +137,25 @@ class CompanyController extends AbstractController
         //Get admin of each company
         $admins = [];
         $servicesArray = [];
+        $companiesFiltred = [];
         foreach ($companies as $company){
             $admin = $userRepository->findByAdminCompany($company->getId());
-            $admins[$company->getId()] = $admin;
-            $services = $company->getServices()->toArray();
-            $servicesArray[$company->getId()] = array_slice($services, -3, 3);
+            //Check if company is valid
+            if ($company->getIsCompleted() == true && $admin && $admin->getProfile()->getFilename()){
+                //Get admin of company
+                $admins[$company->getId()] = $admin;
+                //Get new array company filtred
+                $companiesFiltred[] = $company;
+            }
+            /*$services = $company->getServices()->toArray();
+            $servicesArray[$company->getId()] = array_slice($services, -3, 3);*/
         }
 
-        return $this->render('company/external/slider.html.twig', [
+        return $this->render('company/external/sliderv2.html.twig', [
             'store' => $store,
-            'companies' => $companies,
+            'companies' => $companiesFiltred,
             'admins' => $admins,
-            'servicesArray' => $servicesArray
+            /*'servicesArray' => $servicesArray*/
         ]);
     }
 
