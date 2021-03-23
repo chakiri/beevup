@@ -160,7 +160,6 @@ class ServiceSetting
             $service->setFilename3($imgGallery3);
         }
     }
-}
 
     public function getDutyFree($price, $taxRate){
 
