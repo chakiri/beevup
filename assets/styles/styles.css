@@ -4049,7 +4049,6 @@ li.icon-type-post a.active{
 
 /* External Company Slider */
 .external_company_slider .carousel-inner{
-    padding-top: 2%;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -4148,7 +4147,7 @@ li.icon-type-post a.active{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 3em;
+    padding-top: 2em;
 }
 .title-slider hr {
     overflow: visible; /* For IE */
@@ -4201,7 +4200,7 @@ hr.slider{
 .vertical .card{
     margin: 0 2em;
     padding: 2em;
-    min-height: 310px;
+    min-height: 261px;
 }
 
 .vertical .content .meta {
