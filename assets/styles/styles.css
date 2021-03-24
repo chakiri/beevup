@@ -4142,6 +4142,10 @@ li.icon-type-post a.active{
 /* External company slider v2 */
 .external_company_slider{
     color: #474b50;
+    background: #FFF6F3 !important;
+}
+.external_company_slider h1{
+    color: #153770;
 }
 .title-slider{
     display: block;
@@ -4153,18 +4157,18 @@ li.icon-type-post a.active{
     overflow: visible; /* For IE */
     padding: 0;
     border: none;
-    border-top: medium double #8a8a8a;
-    color: var(--orange-color);
+    border-top: 2px solid #153770;
+    color: #153770;
     text-align: center;
 }
 .title-slider hr:after {
     content: "*";
     display: inline-block;
     position: relative;
-    top: -0.9em;
+    top: -0.8em;
     font-size: 0.8em;
     padding: 0 0.25em;
-    background: #fafafa;
+    background: #FFF6F3;
 }
 
 hr.slider{
