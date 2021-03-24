@@ -4139,7 +4139,6 @@ li.icon-type-post a.active{
 /* External company slider v2 */
 .external_company_slider{
     color: #474b50;
-    background: #FFF6F3 !important;
 }
 .external_company_slider h1{
     color: #153770;
@@ -4155,7 +4154,7 @@ li.icon-type-post a.active{
     padding: 0;
     border: none;
     border-top: 2px solid #153770;
-    color: #153770;
+    color: var(--orange-color);
     text-align: center;
 }
 .title-slider hr:after {
