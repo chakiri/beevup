@@ -11,9 +11,9 @@
             <div class="row">
                 {% if is_granted('ROLE_ADMIN_COMPANY') %}
                     <div class="col-lg-2">
-                        <button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
+                        {#<button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
                             Choisir un modèle
-                        </button>
+                        </button>#}
                     </div>
                 {% else %}
                     <div class="col-lg-1"></div>
@@ -47,79 +47,12 @@
 
                                     <div class="form-row">
                                         <div class="form-group required col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.introduction) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.introduction) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group required col-lg-6 col-md-12">
                                             {{ form_label(ServiceForm.description) }}
                                             <div class="input-group">
                                                 {{ form_widget(ServiceForm.description) }}
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                        <div class="form-group">
-                                            {{ form_label(ServiceForm.type) }}
-                                            {{ form_errors(ServiceForm.type) }}
-                                            {{ form_widget(ServiceForm.type) }}
-                                        </div>
-                                    {% endif %}
-
-                                    <div class="form-row">
-                                        <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.isQuote) }}
-                                            {{ form_errors(ServiceForm.isQuote) }}
-                                            {{ form_widget(ServiceForm.isQuote) }}
-                                        </div>
-
-                                        <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.isDiscovery) }}
-                                            {{ form_errors(ServiceForm.isDiscovery) }}
-                                            {{ form_widget(ServiceForm.isDiscovery) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div  class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.unity) }}
-                                            {{ form_errors(ServiceForm.unity) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.unity) }}
-                                            </div>
-                                        </div>
-
-                                        <div id="price"  class="form-group col-lg-3 col-md-12" {% if service.isQuote == true %} style="display: none" {% endif %}>
-                                            {{ form_label(ServiceForm.price) }}
-                                            <div class="input-group mb-3 service-price">
-                                                {{ form_errors(ServiceForm.price) }}
-                                                {{ form_widget(ServiceForm.price) }}
-                                                <div class="input-group-append price-jt-div">
-                                                    <span class="input-group-text">.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="price"  class="form-group col-lg-3 col-md-12">
-                                            {{ form_label(ServiceForm.priceTTC) }}
-                                            <div class="input-group mb-3 service-price">
-                                                {{ form_errors(ServiceForm.priceTTC) }}
-                                                {{ form_widget(ServiceForm.priceTTC) }}
-                                                <div class="input-group-append price-jt-div">
-                                                    <span class="input-group-text">.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div  class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.vatRate) }}
-                                            {{ form_errors(ServiceForm.vatRate) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.vatRate) }}
-                                            </div>
-                                        </div>
                                         <div class="form-group col-lg-6 col-md-12 service-type">
                                             <div id="toProfessionals" class="col-lg-6">
                                                 {{ form_label(ServiceForm.toProfessionals) }}
@@ -142,8 +75,66 @@
                                         </div>
                                     </div>
 
+                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                        <div class="form-group">
+                                            {{ form_row(ServiceForm.type) }}
+                                        </div>
+                                    {% endif %}
+
                                     <div class="form-row">
-                                        <div id="discovery" class="form-group  col-lg-12" >
+                                        <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
+                                            {{ form_row(ServiceForm.isQuote) }}
+                                        </div>
+                                    </div>
+
+                                    <div id="price" {% if service.isQuote == true %} style="display: none" {% endif %}>
+                                        <div class="form-row">
+                                            <div class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.price) }}
+                                                <div class="input-group mb-3 service-price">
+                                                    {{ form_errors(ServiceForm.price) }}
+                                                    {{ form_widget(ServiceForm.price) }}
+                                                    <div class="input-group-append price-jt-div">
+                                                        <span class="input-group-text">.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div  class="form-group col-lg-6 col-md-12 price">
+                                                {{ form_row(ServiceForm.unity) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.vatRate) }}
+                                                {{ form_errors(ServiceForm.vatRate) }}
+                                                <div class="input-group">
+                                                    {{ form_widget(ServiceForm.vatRate) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div  class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.priceTTC) }}
+                                                <div class="input-group mb-3 service-price">
+                                                    {{ form_errors(ServiceForm.priceTTC) }}
+                                                    {{ form_widget(ServiceForm.priceTTC) }}
+                                                    <div class="input-group-append price-jt-div">
+                                                        <span class="input-group-text">.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
+                                            {{ form_row(ServiceForm.isDiscovery) }}
+                                        </div>
+
+                                        <div id="discovery" class="form-group col-lg-6 col-md-12" >
                                             {{ form_label(ServiceForm.discoveryContent) }}
                                             <div class="input-group">
                                                 {{ form_widget(ServiceForm.discoveryContent) }}
@@ -174,16 +165,16 @@
                                             {{ form_widget(ServiceForm.imageFile) }}
                                         </div>
 
-                                    <span class="service-label-name">ou choisir une image dans la</span>
-                                    <button type="button"
-                                            data-input="service_imgGallerie"
-                                            data-id=""
-                                            class="btn add-file-label2 W-100 select-from-gallery"
-                                            data-toggle="modal"
-                                            data-target="#imageGallery"
-                                            data-url="{{ path('gallery_show') }}">
-                                        Galerie
-                                    </button>
+                                        {#<span class="service-label-name">ou choisir une image dans la</span>
+                                        <button type="button"
+                                                data-input="service_imgGallerie"
+                                                data-id=""
+                                                class="btn add-file-label2 W-100 select-from-gallery"
+                                                data-toggle="modal"
+                                                data-target="#imageGallery"
+                                                data-url="{{ path('gallery_show') }}">
+                                            Galerie
+                                        </button>#}
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-12">
@@ -201,7 +192,7 @@
                                             {{ form_widget(ServiceForm.imageFile1) }}
                                         </div>
 
-                                        <span class="delete-img-service {% if service.filename1 =='' %} d-none {% endif %}" data-input-id="service_imageFile1" data-service-id="{{ service.id }}">Supprimer</span>
+                                        {#<span class="delete-img-service {% if service.filename1 =='' %} d-none {% endif %}" data-input-id="service_imageFile1" data-service-id="{{ service.id }}">Supprimer</span>
                                         <span class="service-label-name">ou choisir une image dans la</span>
                                         <button type="button"
                                                 data-input="service_imgGallerie1"
@@ -211,7 +202,7 @@
                                                 data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                            Galerie
-                                        </button>
+                                        </button>#}
                                     </div>
                                     <div class="form-group col-lg-3 col-md-12">
                                         <span class="service-label-name">Image 3</span>
@@ -228,7 +219,7 @@
                                             {{ form_widget(ServiceForm.imageFile2) }}
                                         </div>
 
-                                        <span class="delete-img-service {% if service.filename2 =='' %} d-none {% endif %}" data-input-id="service_imageFile2" data-service-id="{{ service.id }}">Supprimer</span>
+                                        {#<span class="delete-img-service {% if service.filename2 =='' %} d-none {% endif %}" data-input-id="service_imageFile2" data-service-id="{{ service.id }}">Supprimer</span>
                                         <span class="service-label-name">ou choisir une image dans la</span>
                                         <button type="button"
                                                 data-input="service_imgGallerie2"
@@ -238,7 +229,7 @@
                                                 data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                            Galerie
-                                        </button>
+                                        </button>#}
                                     </div>
                                     <div class="form-group col-lg-3 col-md-12">
                                         <span class="service-label-name">Image 4</span>
@@ -255,7 +246,7 @@
                                             {{ form_widget(ServiceForm.imageFile3) }}
                                         </div>
 
-                                        <span class="delete-img-service {% if service.filename3 =='' %} d-none {% endif %}" data-input-id="service_imageFile3" data-service-id="{{ service.id }}">  Supprimer</span>
+                                        {#<span class="delete-img-service {% if service.filename3 =='' %} d-none {% endif %}" data-input-id="service_imageFile3" data-service-id="{{ service.id }}">  Supprimer</span>
                                         <span class="service-label-name">ou choisir une image dans la</span>
                                         <button type="button"
                                                 data-input="service_imgGallerie3"
@@ -265,7 +256,7 @@
                                                 data-target="#imageGallery"
                                                 data-url="{{ path('gallery_show') }}">
                                             Galerie
-                                        </button>
+                                        </button>#}
                                     </div>
 
                                 </div>
@@ -282,10 +273,10 @@
                                 <div class="form-actions form-group text-center">
                                     <button type="submit" class="m-orange-btn">Enregistrer</button>
                                 </div>
-                                {{ form_widget(ServiceForm.imgGallerie) }}
+                                {#{{ form_widget(ServiceForm.imgGallerie) }}
                                 {{ form_widget(ServiceForm.imgGallerie1) }}
                                 {{ form_widget(ServiceForm.imgGallerie2) }}
-                                {{ form_widget(ServiceForm.imgGallerie3) }}
+                                {{ form_widget(ServiceForm.imgGallerie3) }}#}
                                 {{ form_end(ServiceForm) }}
                             </div>
                         </div>

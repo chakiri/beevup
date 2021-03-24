@@ -36,23 +36,24 @@ class ServiceType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label'    => 'Nom du service',
+                'label'    => 'Titre du service',
                 'attr'  => [
-                    'placeholder' => 'Nom du service',
+                    'placeholder' => 'Ajouter un titre de service, par exemple Shooting, Photo, Manutention, Conseil marketing 1h',
                     'class'       =>'form-control input-textarea',
                      'maxlength' => 255
                 ]
 
             ])
             ->add('description', TextareaType::class, [
+                'label'    => 'Description du service',
                 'attr' => [
-                    'placeholder' => 'Description',
+                    'placeholder' => 'Ajouter une description de 5 à 10 lignes pour présenter votre service',
                     'class'       =>'form-control input-textarea entity-description',
                     'maxlength' => 1500,
                     'rows'=>5
                 ],
             ])
-            ->add('introduction', TextareaType::class, [
+            /*->add('introduction', TextareaType::class, [
                 'label'    => 'Votre service en une courte phrase',
                 'attr' => [
                     'placeholder' => 'Votre service en une courte phrase',
@@ -60,7 +61,7 @@ class ServiceType extends AbstractType
                     'maxlength' => 500,
                     'rows'=>5
                 ],
-            ])
+            ])*/
             ->add('category', EntityType::class, [
                 'placeholder' => 'Choisir la catégorie',
                 'label' => 'Catégorie de service',
@@ -73,7 +74,7 @@ class ServiceType extends AbstractType
                 'choice_label' => 'name'
             ])
             ->add('price', TextType::class, [
-                'label'    => 'Prix H.T',
+                'label'    => 'Prix HT',
                 'required' => false,
             ])
             ->add('priceTTC', TextType::class, [
@@ -94,7 +95,7 @@ class ServiceType extends AbstractType
             ->add('isDiscovery', CheckboxType::class, [
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false,
-                'label'    => 'Proposer une offre exclusive',
+                'label'    => 'Offre exclusive pour les membres Beev\'Up',
                 'attr'     => [
                     'class' => 'custom-control custom-switch',
                     'checked'=> $options['isOffer']
@@ -104,7 +105,7 @@ class ServiceType extends AbstractType
                 'label'    => 'Description de l\'offre exclusive',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'En quelques mots, décrivez votre offre exclusive du service',
+                    'placeholder' => 'Exemple: 10% du prix, 20min de conseil supplémentaire, goodies offerts, ...',
                     'class'       =>'form-control'
 
                 ],
@@ -219,7 +220,7 @@ class ServiceType extends AbstractType
                     'value' => $options['previousPage']
                 ],
             ])
-            ->add('imgGallerie', HiddenType::class, [
+           /* ->add('imgGallerie', HiddenType::class, [
                 'mapped'    => false,
                 'attr'  => [
                     'class' =>'img-gallery',
@@ -247,7 +248,7 @@ class ServiceType extends AbstractType
                     'class' =>'img-gallery-3',
                     'value' => 'edit'
                 ],
-            ])
+            ])*/
         ;
 
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')){
