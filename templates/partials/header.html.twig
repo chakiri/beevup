@@ -8,7 +8,7 @@
     <!-- Uncomment below if you prefer to use an image logo -->
     {#<a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>#}
     <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
-        <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+        <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
     </a>
 </div>
 
@@ -178,7 +178,7 @@
                 </a>
             </div>
             <div>
-                {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'waiting_validation' %}
+                {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' %}
                     <button type="submit" class="white-btn connexion-btn" method="post">
                         <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
                     </button>
