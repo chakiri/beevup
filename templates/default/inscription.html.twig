@@ -7,17 +7,17 @@
     <div id ="inscription" class="landing-page-container">
         <div class="position-relative">
            <div class="landing-page-first-bloc">
-
                <div class="landign-page-bloc1 header-padding">
                     <section>
                        <div class="row">
                            <div class="col-lg-8">
+                               <img class="landing-page-logo" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
                                <h1 class="landign-page-slogan">
-                                   Le nouveau service de Bureau Vallée <br> pour ses clients professionnels
+                                   La plateforme de professionnels<br> pour développer son entreprise
                                </h1>
                               <p class="landign-page-description">
                                   <strong>Artisans, Commerçants, Professions Libérales, Indépendants, TPE/PME</strong><br><br>
-                                  <span class="text-muted">En moins d'une minute, inscrivez-vous gratuitement,<br>  Rencontrez d'autres entrepreneurs locaux, <br>Laissez nous faire la promotion de votre entreprise auprès de nos clients</span>
+                                  <span class="text-muted">Inscrivez-vous gratuitement pour commencer à développer votre activité !</span>
                               </p>
                            </div>
                            <div class="col-lg-4">
@@ -60,6 +60,9 @@
                                               <button id ="inscription-btn" type="submit" class="col-12 orange-btn" disabled>S'inscrire</button>
                                           </div>
                                       {{ form_end(RegistrationForm) }}
+                                      <div class="text-center mt-3">
+                                          <p>Ou <a href="{{ path('security_login') }}">Se connecter</a> </p>
+                                      </div>
                                   </div>
                                {% endif %}
                            </div>
@@ -83,36 +86,27 @@
                     <div class="row row-equal">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
-                                <h4>Faites connaitre votre entreprise</h4>
+                                <h4>Proximité</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/developpement.jpg') }}" alt="">
-                                </div>
-                                <div class="box-text">
-                                    <p>Nous assurons la promotion de votre entreprise sur nos écrans en magasin (plus de 300 clients par jour), sur notre site e-commerce (plus de 15 Millions de visiteurs par an) et sur notre moteur de recherche ouvert à l’ensemble de nos clients.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
-                                <h4>Réseau d'entrepreneurs</h4>
+                                <h4>Qualité</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/social.jpg') }}" alt="">
                                 </div>
-                                <div class="box-text">
-                                  <p>Plus de 1500 clients professionnels fréquentent chacun de nos magasins. Nos outils de réseau social, de chat en ligne et de fil d’actualité permettent à nos clients entrepreneurs d’échanger localement pour développer leur activité.</p>
-                                </div>
-                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
-                                <h4>Marketplace de services</h4>
+                                <h4>Ethique</h4>
                                 <div class="landing-page-section4-bloc-image">
                                     <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="">
                                 </div>
-                                <div class="box-text">
-                                   <p>Déclinez votre activité en services pour gagner en efficacité et visibilité. Bénéficiez ou proposez des tarifs préférentiels pour les membres de votre communauté locale. Nous ne prenons aucune commission sur vos transactions.</p>
-                                </div>
-                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -139,8 +133,14 @@
             <div class="block-background-white"></div>
         </div>
 
-        <div class="landing-page-dashbord d-none d-lg-block">
-            <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
+        <div class="landing-page-dashbord">
+            {# Video #}
+            <div class="landing-page-video">
+                <video autoplay controls muted loop>
+                    <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
 
         <div class="landing-page-second-bloc">
@@ -180,16 +180,6 @@
                 Rejoignez les entreprises locales
             </h2>
             {% include 'default/map.html.twig' %}
-        </div>
-
-        <div class="landing-page-second-bloc">
-            {# Video #}
-            <div class="landing-page-video">
-                <video autoplay controls muted loop>
-                    <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
         </div>
 
         <div class="landing-page-join-beevup-bloc">

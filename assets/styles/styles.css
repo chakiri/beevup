@@ -735,7 +735,6 @@ textarea.form-control{
     width: 900px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 4em;
 }
 .landing-page-video video{
     border-radius: 10px;
@@ -777,19 +776,13 @@ ul.landing-page-list {
     color: var(--text-color);
 }
 .landing-page-section4-bloc{
-    min-height: 450px;
     background: #fff;
     padding: 15px 15px 15px;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
-    vertical-align: middle;
     z-index: 11;
 }
 .landing-page-section4-bloc-image{
-    /*display: flex;
-    align-items: center;
-    justify-content: center;*/
-    height: 280px;
 }
 .landing-page-section4-bloc-text{
     display: flex;
@@ -935,6 +928,10 @@ ul.landing-page-list {
 }
 .header-padding{
     padding-top: 3em;
+}
+.landing-page-logo{
+    width: 350px;
+    height: auto;
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
