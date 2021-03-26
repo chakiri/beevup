@@ -436,9 +436,15 @@ class ServiceController extends AbstractController
 
         $categories = $serviceCategoryRepository->findAllMatching($query, 5);
 
-        return $this->json([
-            'categories' => $categories
-        ], 200);
+        $response = [];
+        foreach ($categories as $category){
+            $response[] = [
+                'value' => $category->getId(),
+                'label' => $category->getName(),
+            ];
+        }
+
+        return $this->json($response, 200);
     }
 
 }

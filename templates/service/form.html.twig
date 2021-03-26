@@ -5,6 +5,7 @@
 {% block title %}Service{% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 {% endblock %}
 
 {% block body %}
@@ -304,6 +305,6 @@
     {{ encore_entry_script_tags('modals') }}
     {{ encore_entry_script_tags('service') }}
     {{ encore_entry_script_tags('form') }}
-    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     {{ encore_entry_script_tags('autocomplete') }}
 {% endblock %}
