@@ -53,17 +53,7 @@ class ServiceType extends AbstractType
                     'rows'=>5
                 ],
             ])
-            /*->add('introduction', TextareaType::class, [
-                'label'    => 'Votre service en une courte phrase',
-                'attr' => [
-                    'placeholder' => 'Votre service en une courte phrase',
-                    'class'       =>'form-control input-textarea',
-                    'maxlength' => 500,
-                    'rows'=>5
-                ],
-            ])*/
-            ->add('category', TextType::class, [
-            ])
+            ->add('category', TextType::class)
             ->add('price', TextType::class, [
                 'label'    => 'Prix HT',
                 'required' => false,

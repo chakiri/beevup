@@ -250,7 +250,7 @@ class ServiceController extends AbstractController
             if($form->isValid())
             {
                 /* ======== get selected image from gallery ========*/
-                $serviceSetting->setGalleryFileName($service,$request);
+                /*$serviceSetting->setGalleryFileName($service,$request);*/
 
                 //Set type depending on user role
                 if (!$service->getType())
@@ -280,6 +280,7 @@ class ServiceController extends AbstractController
                     $manager->persist($relatedPost);
                 }
                 /** ******************** **/
+
 
                 $manager->flush();
 
@@ -434,13 +435,13 @@ class ServiceController extends AbstractController
     {
         $query = $request->get('query');
 
-        $categories = $serviceCategoryRepository->findAllMatching($query, 5);
+        $categories = $serviceCategoryRepository->findAllMatching($query, 10);
 
         $response = [];
         foreach ($categories as $category){
             $response[] = [
-                'value' => $category->getId(),
-                'label' => $category->getName(),
+                'value' => $category->getName(),
+                'data' => $category->getId(),
             ];
         }
 
