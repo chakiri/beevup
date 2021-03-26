@@ -62,16 +62,7 @@ class ServiceType extends AbstractType
                     'rows'=>5
                 ],
             ])*/
-            ->add('category', EntityType::class, [
-                'placeholder' => 'Choisir la catégorie',
-                'label' => 'Catégorie de service',
-                'multiple'=>false,
-                'class' => ServiceCategory::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC');
-                },
-                'choice_label' => 'name'
+            ->add('category', TextType::class, [
             ])
             ->add('price', TextType::class, [
                 'label'    => 'Prix HT',

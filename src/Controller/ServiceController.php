@@ -7,10 +7,12 @@ use App\Event\Logger\LoggerSearchEvent;
 use App\Event\Logger\LoggerEntityEvent;
 use App\Form\ServiceSearchType;
 use App\Form\ServiceType;
+use App\Repository\CategoryRepository;
 use App\Repository\PostCategoryRepository;
 use App\Repository\PostRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\ScorePointRepository;
+use App\Repository\ServiceCategoryRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\StoreRepository;
@@ -423,6 +425,20 @@ class ServiceController extends AbstractController
         $val = str_replace(",",".",$val);
         $val = preg_replace('/\.(?=.*\.)/', '', $val);
         return floatval($val);
+    }
+
+    /**
+     * @Route("/service/category/list", name="service_category_list", methods="GET", options={"expose"=true})
+     */
+    public function getCategoriesApi(Request $request, ServiceCategoryRepository $serviceCategoryRepository)
+    {
+        $query = $request->get('query');
+
+        $categories = $serviceCategoryRepository->findAllMatching($query, 5);
+
+        return $this->json([
+            'categories' => $categories
+        ], 200);
     }
 
 }

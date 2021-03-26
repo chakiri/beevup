@@ -4,6 +4,9 @@
 
 {% block title %}Service{% endblock %}
 
+{% block stylesheets %}
+{% endblock %}
+
 {% block body %}
 <div class="main-section">
     <div class="container-bv">
@@ -282,7 +285,6 @@
                         </div>
                     </div>
 
-
                 </div>
             </div>
         </div>
@@ -302,4 +304,6 @@
     {{ encore_entry_script_tags('modals') }}
     {{ encore_entry_script_tags('service') }}
     {{ encore_entry_script_tags('form') }}
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    {{ encore_entry_script_tags('autocomplete') }}
 {% endblock %}
