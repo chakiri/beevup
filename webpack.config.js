@@ -38,7 +38,6 @@ Encore
     .addEntry('home', './assets/scripts/home.js')
     .addEntry('map', './assets/scripts/map.js')
     .addEntry('service', './assets/scripts/service.js')
-    .addEntry('autocomplete', './assets/scripts/autocomplete.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

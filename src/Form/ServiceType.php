@@ -53,7 +53,9 @@ class ServiceType extends AbstractType
                     'rows'=>5
                 ],
             ])
-            ->add('category', TextType::class)
+            ->add('category', TextType::class, [
+                'label'    => 'Catégorie du service'
+            ])
             ->add('price', TextType::class, [
                 'label'    => 'Prix HT',
                 'required' => false,

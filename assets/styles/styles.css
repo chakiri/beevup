@@ -4312,6 +4312,11 @@ hr.slider{
     padding: 3px;
     float: right;
  }
+.btn-add-image{
+    height: 40px;
+    margin-top: 40px;
+}
+
 .box-advertising{
     clear: both;
 }
