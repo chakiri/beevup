@@ -151,7 +151,7 @@
 
                                     <div class="form-row images-fields" data-nb-image-displayed="{{ nbImages }}">
                                         <div class="form-group required col-lg-3 col-md-12">
-                                            <span class="service-label-name">Image principale</span>
+                                            <span class="service-label-name">Image principale du service</span>
                                             <div id="previous-image">
                                                 <img src="{{ vich_uploader_asset(service, 'imageFile') }}" alt="">
                                             </div>
@@ -267,7 +267,7 @@
                                         </div>
 
                                         {% if nbImages != 3 %}
-                                            <button type="button" class="btn btn-outline-secondary btn-add-image"><i class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-outline-secondary btn-add-image" data-toggle="tooltip" data-placement="right" title="Ajouter d'autres images"><i class="fas fa-plus"></i></button>
                                         {% endif %}
                                     </div>
 

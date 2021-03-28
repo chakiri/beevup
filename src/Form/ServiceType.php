@@ -95,12 +95,9 @@ class ServiceType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'required' => false,
-                'label' => 'Photo principale',
                 'attr'  => [
-                    'placeholder' => 'Photo principale',
                     'class'       =>'form-control form-imageFile custom-input-file',
                     'onChange'=>'previousImage(event)',
-
                 ],
                 'constraints' => [
                     new File([
