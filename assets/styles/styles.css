@@ -932,6 +932,7 @@ ul.landing-page-list {
 .landing-page-logo{
     width: 350px;
     height: auto;
+    margin-left: 8em;
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
