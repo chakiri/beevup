@@ -6,7 +6,6 @@
                     <div class="company-up-info">
                         <div class="company-image">
                             <a href="{{ path('service_from_model', {'id': service.id}) }}">
-                                <h3>{{ service.title|slice(0, 100) }} {% if service.title|length > 100 %}...{% endif %}</h3>
                                 {% if service.filename %}
                                     <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('service_card') }}" alt="">
                                 {% else  %}
@@ -16,7 +15,7 @@
 
                         </div>
                         <div class="company-introduction-bloc">
-                            <h5>{{ service.introduction|slice(0, 60)}} {% if service.introduction|length > 60 %}...{% endif %}</h5>
+                            <h5>{{ service.title|slice(0, 100) }} {% if service.title|length > 100 %}...{% endif %}</h5>
                         </div>
 
                     </div>
