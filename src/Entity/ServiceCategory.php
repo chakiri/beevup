@@ -21,6 +21,11 @@ class ServiceCategory
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isWaiting;
+
     public function __toString()
     {
         return $this->getName();
@@ -31,7 +36,7 @@ class ServiceCategory
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -39,6 +44,18 @@ class ServiceCategory
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getIsWaiting(): ?bool
+    {
+        return $this->isWaiting;
+    }
+
+    public function setIsWaiting(bool $isWaiting): self
+    {
+        $this->isWaiting = $isWaiting;
 
         return $this;
     }

@@ -22,6 +22,7 @@ class ServiceCategoryRepository extends ServiceEntityRepository
     public function findAllMatching(?string $query, int $limit)
     {
         $q = $this->createQueryBuilder('c')
+            ->andWhere('c.isWaiting = false')
             ->setMaxResults($limit)
             ;
 

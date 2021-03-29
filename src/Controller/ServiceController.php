@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Entity\ServiceCategory;
 use App\Event\Logger\LoggerSearchEvent;
 use App\Event\Logger\LoggerEntityEvent;
 use App\Form\ServiceSearchType;
@@ -227,15 +228,15 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      * @Route("/service/new/{isOffer}", name="service_new")
      */
-     public function form(EventDispatcherInterface $dispatcher, ?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, PostCategoryRepository $postCategoryRepository, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error, ScorePointRepository $scorePointRepository)
+     public function form(?Service $service, $isOffer = false, Request $request, EntityManagerInterface $manager, ServiceSetting $serviceSetting, ScoreHandler $scoreHandler, AutomaticPost $autmaticPost, PostRepository $postRepository, ImageCropper $imageCropper, Error $error, ScorePointRepository $scorePointRepository)
     {
-        if ($service != null && $request->get('_route') == 'service_edit' && $service->getUser()->getId() != $this->getUser()->getId())  return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+        if ($service != null && $service->getUser()->getId() != $this->getUser()->getId())  return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+
         $referer = $request->headers->get('referer');
         $previousPage =  strpos($referer, 'company')== true ? 'company' : 'other';
 
-
-
         $message = 'Votre Service a bien été mis à jour !';
+
         if (!$service){
             $service = new Service();
             $url = $this->generateUrl('service_new');
@@ -247,15 +248,15 @@ class ServiceController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            if($form->isValid())
-            {
-                /* ======== get selected image from gallery ========*/
+            if($form->isValid()) {
+                //get selected image from gallery
                 /*$serviceSetting->setGalleryFileName($service,$request);*/
 
                 //Set type depending on user role
                 if (!$service->getType())
                     $serviceSetting->setType($service);
 
+                //Add Service to Store or company
                 $serviceSetting->setToParent($service);
 
                 //Add score to user if creation
@@ -267,50 +268,54 @@ class ServiceController extends AbstractController
                         $optionsRedirect = ['toastScore' => $nbPoints];
                     }
                 }
-                $service->setPrice($this->floatvalue($service->getPrice()));
+
+                //Set value price to float
+                $service->setPrice($serviceSetting->floatvalue($service->getPrice()));
 
                 //Cropped image
                 $imageCropper->move_directory($service);
-                $manager->persist($service);
 
-                /***** if the user change the service it should be updated in the posts ********/
+                //If category not exit created new ServiceCategory
+                if (!$serviceSetting->categoryExist($service->getCategory())){
+                    $serviceCategory = new ServiceCategory();
+                    $serviceCategory->setName($service->getCategory());
+                    $serviceCategory->setIsWaiting(true);
+                    $manager->persist($serviceCategory);
+                }
+
+                //if the user change the service it should be updated in the posts
                 $relatedPost = $postRepository->findPostRelatedToService($service);
                 if ($relatedPost != null) {
                     $relatedPost->setTitle($autmaticPost->generateTitle($service));
                     $manager->persist($relatedPost);
                 }
-                /** ******************** **/
 
+                $manager->persist($service);
 
                 $manager->flush();
 
-                /**Add automatic post
-                 * when the  user create a new service an automatic post will be created
-                 ***/
-                if ($request->get('_route') == 'service_new') {
+                //Add automatic post when the  user create a new service an automatic post will be created
+                /*if ($request->get('_route') == 'service_new') {
                     //Dispatch on Logger Entity Event
                     $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW, $service));
 
                     $category = $postCategoryRepository->findOneBy(['id' => 8]);
                     $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
-                }
+                }*/
 
                 //Merge score option to options array
                 $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
 
                 $this->addFlash('success', $message);
 
-                if ($request->isXmlHttpRequest())
-                {
-                   return new JsonResponse( array(
+                if ($request->isXmlHttpRequest()) {
+                   return new JsonResponse([
                         'message'=> $service->getId()
-                    ));
-               }
-                else {
+                    ]);
+                }else{
                     return $this->redirectToRoute('service_show', $optionsRedirect);
                 }
-            }
-            else{
+            }else{
                 if($request->isXmlHttpRequest()) {
                     return new JsonResponse(array(
                         'result' => 0,
@@ -419,13 +424,6 @@ class ServiceController extends AbstractController
             return new JsonResponse( array(
                 'result' => 0,
             ));
-    }
-
-    // Generate an array contains a key -> value with the errors where the key is the name of the form field
-    private function floatvalue($val){
-        $val = str_replace(",",".",$val);
-        $val = preg_replace('/\.(?=.*\.)/', '', $val);
-        return floatval($val);
     }
 
     /**
