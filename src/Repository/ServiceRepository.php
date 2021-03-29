@@ -28,16 +28,16 @@ class ServiceRepository extends ServiceEntityRepository
 
         if ($query){
             $q->andWhere('s.title LIKE :query')
-                ->orWhere('s.introduction LIKE :query')
+                ->orWhere('s.category LIKE :query')
                 ->orWhere('s.description LIKE :query')
                 ->setParameter('query', '%' .$query . '%')
             ;
         }
 
-        if ($category)
+        /*if ($category)
             $q->andWhere('s.category = :category')
                 ->setParameter('category', $category)
-            ;
+            ;*/
 
         if ($isDiscovery)
             $q->andWhere('s.isDiscovery = :isDiscovery')
@@ -189,7 +189,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->andWhere('c.id in (:allCompanies)')
             ->andWhere('c.isCompleted = true')
             ->andWhere('c.isValid = true')
-            ->andWhere('s.title LIKE :query OR s.introduction LIKE :query OR s.description LIKE :query')
+            ->andWhere('s.title LIKE :query OR s.category LIKE :query OR s.description LIKE :query')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameter('query', '%' . $query . '%')
             ->setParameter('allCompanies', $allCompanies)
@@ -202,7 +202,7 @@ class ServiceRepository extends ServiceEntityRepository
     {
         $q = $this->createQueryBuilder('s')
             ->andWhere('s.type = :type')
-            ->andWhere('s.title LIKE :query OR s.introduction LIKE :query OR s.description LIKE :query')
+            ->andWhere('s.title LIKE :query OR s.category LIKE :query OR s.description LIKE :query')
             ->setParameter('type', $type)
             ->setParameter('query', '%' . $query . '%')
             ;
