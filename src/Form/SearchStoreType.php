@@ -22,7 +22,7 @@ class SearchStoreType extends AbstractType
         $builder
             ->add('querySearch', TextType::class, [
                 'label' => false,
-                'required' => false,
+                'required' => true,
                 'mapped' => false,
                 'attr'  => [
                     'placeholder' => 'Entrez vos mots clés',
