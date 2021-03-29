@@ -55,11 +55,6 @@ class Service implements \Serializable
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=500)
-     */
-    private $introduction;
-
-    /**
      * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
     */
@@ -79,7 +74,7 @@ class Service implements \Serializable
     use SeveralFiles;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ServiceCategory")
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $category;
 
@@ -111,11 +106,6 @@ class Service implements \Serializable
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * /**
-    * @Assert\Expression(
-     *     "this.getPrice() == ''",
-     *     message="veuillez sélectionner le TVA"
-     * )
      */
     private $vatRate;
 
@@ -205,18 +195,6 @@ class Service implements \Serializable
 
         return $this;
     }
-
-    public function getIntroduction(): ?string
-    {
-        return $this->introduction;
-    }
-
-    public function setIntroduction(string $introduction): self
-    {
-        $this->introduction = $introduction;
-
-        return $this;
-    }
     
     public function getUpdatedAt(): ?\DateTimeInterface
     {
@@ -230,12 +208,12 @@ class Service implements \Serializable
         return $this;
     }
 
-    public function getCategory(): ?ServiceCategory
+    public function getCategory(): ?string
     {
         return $this->category;
     }
 
-    public function setCategory(?ServiceCategory $category): self
+    public function setCategory(?string $category): self
     {
         $this->category = $category;
 

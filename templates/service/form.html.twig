@@ -11,9 +11,9 @@
             <div class="row">
                 {% if is_granted('ROLE_ADMIN_COMPANY') %}
                     <div class="col-lg-2">
-                        <button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
+                        {#<button type="button" title="choose model" id="btnChooseModel" class="btn white-bg full-width mt-3" data-url="{{ path('service_model') }}">
                             Choisir un modèle
-                        </button>
+                        </button>#}
                     </div>
                 {% else %}
                     <div class="col-lg-1"></div>
@@ -47,79 +47,12 @@
 
                                     <div class="form-row">
                                         <div class="form-group required col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.introduction) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.introduction) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group required col-lg-6 col-md-12">
                                             {{ form_label(ServiceForm.description) }}
                                             <div class="input-group">
                                                 {{ form_widget(ServiceForm.description) }}
                                             </div>
                                         </div>
-                                    </div>
 
-                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                        <div class="form-group">
-                                            {{ form_label(ServiceForm.type) }}
-                                            {{ form_errors(ServiceForm.type) }}
-                                            {{ form_widget(ServiceForm.type) }}
-                                        </div>
-                                    {% endif %}
-
-                                    <div class="form-row">
-                                        <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.isQuote) }}
-                                            {{ form_errors(ServiceForm.isQuote) }}
-                                            {{ form_widget(ServiceForm.isQuote) }}
-                                        </div>
-
-                                        <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.isDiscovery) }}
-                                            {{ form_errors(ServiceForm.isDiscovery) }}
-                                            {{ form_widget(ServiceForm.isDiscovery) }}
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div  class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.unity) }}
-                                            {{ form_errors(ServiceForm.unity) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.unity) }}
-                                            </div>
-                                        </div>
-
-                                        <div id="price"  class="form-group col-lg-3 col-md-12" {% if service.isQuote == true %} style="display: none" {% endif %}>
-                                            {{ form_label(ServiceForm.price) }}
-                                            <div class="input-group mb-3 service-price">
-                                                {{ form_errors(ServiceForm.price) }}
-                                                {{ form_widget(ServiceForm.price) }}
-                                                <div class="input-group-append price-jt-div">
-                                                    <span class="input-group-text">.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="price"  class="form-group col-lg-3 col-md-12">
-                                            {{ form_label(ServiceForm.priceTTC) }}
-                                            <div class="input-group mb-3 service-price">
-                                                {{ form_errors(ServiceForm.priceTTC) }}
-                                                {{ form_widget(ServiceForm.priceTTC) }}
-                                                <div class="input-group-append price-jt-div">
-                                                    <span class="input-group-text">.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div  class="form-group col-lg-6 col-md-12">
-                                            {{ form_label(ServiceForm.vatRate) }}
-                                            {{ form_errors(ServiceForm.vatRate) }}
-                                            <div class="input-group">
-                                                {{ form_widget(ServiceForm.vatRate) }}
-                                            </div>
-                                        </div>
                                         <div class="form-group col-lg-6 col-md-12 service-type">
                                             <div id="toProfessionals" class="col-lg-6">
                                                 {{ form_label(ServiceForm.toProfessionals) }}
@@ -142,8 +75,68 @@
                                         </div>
                                     </div>
 
+                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                        <div class="form-group">
+                                            {{ form_row(ServiceForm.type) }}
+                                        </div>
+                                    {% endif %}
+
                                     <div class="form-row">
-                                        <div id="discovery" class="form-group  col-lg-12" >
+                                        <div id="isQuotebox" class="form-group col-lg-6 col-md-12">
+                                            {{ form_row(ServiceForm.isQuote) }}
+                                        </div>
+                                    </div>
+
+                                    <div id="price" {% if service.isQuote == true %} style="display: none" {% endif %}>
+                                        <div class="form-row">
+                                            <div class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.price) }}
+                                                <div class="input-group mb-3 service-price">
+                                                    {{ form_errors(ServiceForm.price) }}
+                                                    {{ form_widget(ServiceForm.price) }}
+                                                    <div class="input-group-append price-jt-div">
+                                                        <span class="input-group-text">.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div  class="form-group col-lg-6 col-md-12 price">
+                                                {{ form_row(ServiceForm.unity) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.vatRate) }}
+                                                {{ form_errors(ServiceForm.vatRate) }}
+                                                <div class="input-group">
+                                                    {{ form_widget(ServiceForm.vatRate) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div  class="form-group col-lg-6 col-md-12">
+                                                {{ form_label(ServiceForm.priceTTC) }}
+                                                <div class="input-group mb-3 service-price">
+                                                    {{ form_errors(ServiceForm.priceTTC) }}
+                                                    {{ form_widget(ServiceForm.priceTTC) }}
+                                                    <div class="input-group-append price-jt-div">
+                                                        <span class="input-group-text">.00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div id="isDiscovery" class="form-group col-lg-6 col-md-12">
+                                            {{ form_row(ServiceForm.isDiscovery) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div id="discovery" class="form-group col-lg-6 col-md-12" >
                                             {{ form_label(ServiceForm.discoveryContent) }}
                                             <div class="input-group">
                                                 {{ form_widget(ServiceForm.discoveryContent) }}
@@ -152,145 +145,150 @@
                                         </div>
                                     </div>
 
+                                    {# Get nb imagefiles setted #}
+                                    {% set nbImages = 0 %}
+                                    {% if service.filename1 %}{% set nbImages = nbImages+1 %}{% endif %}
+                                    {% if service.filename2 %}{% set nbImages = nbImages+1 %}{% endif %}
+                                    {% if service.filename3 %}{% set nbImages = nbImages+1 %}{% endif %}
 
-                                <div class="form-row">
-                                    <div class="form-group required col-lg-3 col-md-12">
-                                        <span class="service-label-name">Image principale</span>
-                                        <div id="previous-image">
-                                            <img src="{{ vich_uploader_asset(service, 'imageFile') }}" alt="">
+                                    <div class="form-row images-fields" data-nb-image-displayed="{{ nbImages }}">
+                                        <div class="form-group required col-lg-3 col-md-12">
+                                            <label class="service-label-name">Image principale du service</label>
+                                            <div id="previous-image">
+                                                <img src="{{ vich_uploader_asset(service, 'imageFile') }}" alt="">
+                                            </div>
+                                            <label class="add-file-label W-100" for="service_imageFile"> <span>Importer</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                                    </path>
+                                                </svg>
+                                            </label>
+
+                                            <div class="input-group data-entity-id upload-photo"
+                                                 data-entity-id="{{ service.id }}"
+                                                 data-previous="{{ previous }}"
+                                                 {%  if service.user.company != null  %}data-company-slug="{{ service.user.company.slug }}" data-company-id="{{ service.user.company.id }}" {% endif %}
+                                                 data-url={% if edit == true %} "{{  path('service_edit',{'id':service.id})}}" {% else %} "{{  path('service_new')}}"{% endif %}>
+                                                {{ form_widget(ServiceForm.imageFile) }}
+                                            </div>
+
+                                            {#<span class="service-label-name">ou choisir une image dans la</span>
+                                            <button type="button"
+                                                    data-input="service_imgGallerie"
+                                                    data-id=""
+                                                    class="btn add-file-label2 W-100 select-from-gallery"
+                                                    data-toggle="modal"
+                                                    data-target="#imageGallery"
+                                                    data-url="{{ path('gallery_show') }}">
+                                                Galerie
+                                            </button>#}
                                         </div>
-                                        <label class="add-file-label W-100" for="service_imageFile"> <span>Importer</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                                                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
-                                                </path>
-                                            </svg>
-                                        </label>
 
-                                        <div class="input-group data-entity-id upload-photo"
-                                             data-entity-id="{{ service.id }}"
-                                             data-previous="{{ previous }}"
-                                             {%  if service.user.company != null  %}data-company-slug="{{ service.user.company.slug }}" data-company-id="{{ service.user.company.id }}" {% endif %}
-                                             data-url={% if edit == true %} "{{  path('service_edit',{'id':service.id})}}" {% else %} "{{  path('service_new')}}"{% endif %}>
-                                            {{ form_widget(ServiceForm.imageFile) }}
+                                        <div class="form-group col-lg-3 col-md-12 image-field-1 {% if not service.filename1 %}d-none{% endif %}">
+                                            <label class="service-label-name">Image 2</label>
+                                            <div id="previous-image1">
+                                                <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
+                                            </div>
+                                            <div class="add-file-label W-100" for="service_imageFile1"> <span>Importer</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="input-group">
+                                                {{ form_widget(ServiceForm.imageFile1) }}
+                                            </div>
+
+                                            {#<span class="delete-img-service {% if service.filename1 =='' %} d-none {% endif %}" data-input-id="service_imageFile1" data-service-id="{{ service.id }}">Supprimer</span>
+                                            <span class="service-label-name">ou choisir une image dans la</span>
+                                            <button type="button"
+                                                    data-input="service_imgGallerie1"
+                                                    data-id="1"
+                                                    class="btn add-file-label2 W-100 select-from-gallery"
+                                                    data-toggle="modal"
+                                                    data-target="#imageGallery"
+                                                    data-url="{{ path('gallery_show') }}">
+                                               Galerie
+                                            </button>#}
                                         </div>
 
-                                    <span class="service-label-name">ou choisir une image dans la</span>
-                                    <button type="button"
-                                            data-input="service_imgGallerie"
-                                            data-id=""
-                                            class="btn add-file-label2 W-100 select-from-gallery"
-                                            data-toggle="modal"
-                                            data-target="#imageGallery"
-                                            data-url="{{ path('gallery_show') }}">
-                                        Galerie
-                                    </button>
+                                        <div class="form-group col-lg-3 col-md-12 image-field-2 {% if not service.filename2 %}d-none{% endif %}">
+                                            <label class="service-label-name">Image 3</label>
+                                            <div id="previous-image2">
+                                                <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
+                                            </div>
+                                            <label class="add-file-label W-100" for="service_imageFile2"> <span>Importer</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                                    </path>
+                                                </svg>
+                                            </label>
+                                            <div class="input-group">
+                                                {{ form_widget(ServiceForm.imageFile2) }}
+                                            </div>
+
+                                            {#<span class="delete-img-service {% if service.filename2 =='' %} d-none {% endif %}" data-input-id="service_imageFile2" data-service-id="{{ service.id }}">Supprimer</span>
+                                            <span class="service-label-name">ou choisir une image dans la</span>
+                                            <button type="button"
+                                                    data-input="service_imgGallerie2"
+                                                    data-id="2"
+                                                    class="btn select-from-gallery add-file-label2 W-100"
+                                                    data-toggle="modal"
+                                                    data-target="#imageGallery"
+                                                    data-url="{{ path('gallery_show') }}">
+                                               Galerie
+                                            </button>#}
+                                        </div>
+
+                                        <div class="form-group col-lg-3 col-md-12 image-field-3 {% if not service.filename3 %}d-none{% endif %}">
+                                            <label class="service-label-name">Image 4</label>
+                                            <div id="previous-image3">
+                                                <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
+                                            </div>
+                                            <label class="add-file-label W-100" for="service_imageFile3"> <span>Importer</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                                    </path>
+                                                </svg>
+                                            </label>
+                                            <div class="input-group">
+                                                {{ form_widget(ServiceForm.imageFile3) }}
+                                            </div>
+
+                                            {#<span class="delete-img-service {% if service.filename3 =='' %} d-none {% endif %}" data-input-id="service_imageFile3" data-service-id="{{ service.id }}">  Supprimer</span>
+                                            <span class="service-label-name">ou choisir une image dans la</span>
+                                            <button type="button"
+                                                    data-input="service_imgGallerie3"
+                                                    data-id="3"
+                                                    class="btn select-from-gallery add-file-label2 W-100"
+                                                    data-toggle="modal"
+                                                    data-target="#imageGallery"
+                                                    data-url="{{ path('gallery_show') }}">
+                                                Galerie
+                                            </button>#}
+                                        </div>
+
+                                        {% if nbImages != 3 %}
+                                            <button type="button" class="btn btn-outline-secondary btn-add-image" data-toggle="tooltip" data-placement="right" title="Ajouter d'autres images"><i class="fas fa-plus"></i></button>
+                                        {% endif %}
                                     </div>
 
-                                    <div class="form-group col-lg-3 col-md-12">
-                                        <span class="service-label-name">Image 2</span>
-                                        <div id="previous-image1">
-                                            <img src="{{ vich_uploader_asset(service, 'imageFile1') }}" alt="">
+                                    <div class="text-center hide-load">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
                                         </div>
-                                        <label class="add-file-label W-100" for="service_imageFile1"> <span>Importer</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                                                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
-                                                </path>
-                                            </svg>
-                                        </label>
-                                        <div class="input-group">
-                                            {{ form_widget(ServiceForm.imageFile1) }}
-                                        </div>
-
-                                        <span class="delete-img-service {% if service.filename1 =='' %} d-none {% endif %}" data-input-id="service_imageFile1" data-service-id="{{ service.id }}">Supprimer</span>
-                                        <span class="service-label-name">ou choisir une image dans la</span>
-                                        <button type="button"
-                                                data-input="service_imgGallerie1"
-                                                data-id="1"
-                                                class="btn add-file-label2 W-100 select-from-gallery"
-                                                data-toggle="modal"
-                                                data-target="#imageGallery"
-                                                data-url="{{ path('gallery_show') }}">
-                                           Galerie
-                                        </button>
-                                    </div>
-                                    <div class="form-group col-lg-3 col-md-12">
-                                        <span class="service-label-name">Image 3</span>
-                                        <div id="previous-image2">
-                                            <img src="{{ vich_uploader_asset(service, 'imageFile2') }}" alt="">
-                                        </div>
-                                        <label class="add-file-label W-100" for="service_imageFile2"> <span>Importer</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                                                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
-                                                </path>
-                                            </svg>
-                                        </label>
-                                        <div class="input-group">
-                                            {{ form_widget(ServiceForm.imageFile2) }}
-                                        </div>
-
-                                        <span class="delete-img-service {% if service.filename2 =='' %} d-none {% endif %}" data-input-id="service_imageFile2" data-service-id="{{ service.id }}">Supprimer</span>
-                                        <span class="service-label-name">ou choisir une image dans la</span>
-                                        <button type="button"
-                                                data-input="service_imgGallerie2"
-                                                data-id="2"
-                                                class="btn select-from-gallery add-file-label2 W-100"
-                                                data-toggle="modal"
-                                                data-target="#imageGallery"
-                                                data-url="{{ path('gallery_show') }}">
-                                           Galerie
-                                        </button>
-                                    </div>
-                                    <div class="form-group col-lg-3 col-md-12">
-                                        <span class="service-label-name">Image 4</span>
-                                        <div id="previous-image3">
-                                            <img src="{{ vich_uploader_asset(service, 'imageFile3') }}" alt="">
-                                        </div>
-                                        <label class="add-file-label W-100" for="service_imageFile3"> <span>Importer</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                                                <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
-                                                </path>
-                                            </svg>
-                                        </label>
-                                        <div class="input-group">
-                                            {{ form_widget(ServiceForm.imageFile3) }}
-                                        </div>
-
-                                        <span class="delete-img-service {% if service.filename3 =='' %} d-none {% endif %}" data-input-id="service_imageFile3" data-service-id="{{ service.id }}">  Supprimer</span>
-                                        <span class="service-label-name">ou choisir une image dans la</span>
-                                        <button type="button"
-                                                data-input="service_imgGallerie3"
-                                                data-id="3"
-                                                class="btn select-from-gallery add-file-label2 W-100"
-                                                data-toggle="modal"
-                                                data-target="#imageGallery"
-                                                data-url="{{ path('gallery_show') }}">
-                                            Galerie
-                                        </button>
                                     </div>
 
-                                </div>
+                                    {#<div class="serviceError"></div>#}
+                                    <div class="file-not-correct"></div>
 
-                                <div class="text-center hide-load">
-                                    <div class="spinner-border" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div class="form-actions form-group text-center">
+                                        <button type="submit" class="m-orange-btn">Enregistrer</button>
                                     </div>
-                                </div>
-
-                                {#<div class="serviceError"></div>#}
-                                <div class="file-not-correct"></div>
-
-                                <div class="form-actions form-group text-center">
-                                    <button type="submit" class="m-orange-btn">Enregistrer</button>
-                                </div>
-                                {{ form_widget(ServiceForm.imgGallerie) }}
-                                {{ form_widget(ServiceForm.imgGallerie1) }}
-                                {{ form_widget(ServiceForm.imgGallerie2) }}
-                                {{ form_widget(ServiceForm.imgGallerie3) }}
                                 {{ form_end(ServiceForm) }}
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>
@@ -311,4 +309,5 @@
     {{ encore_entry_script_tags('modals') }}
     {{ encore_entry_script_tags('service') }}
     {{ encore_entry_script_tags('form') }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.js"></script>  {# yarn add devbridge-autocomplete --dev importation not working #}
 {% endblock %}

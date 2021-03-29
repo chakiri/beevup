@@ -7,7 +7,7 @@ use Symfony\Component\Form\Form;
 
 class Error
 {
-    public function getErrorMessages(\Symfony\Component\Form\Form $form)
+    public function getErrorMessages(Form $form)
     {
         $errors = array();
 

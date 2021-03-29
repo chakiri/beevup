@@ -4139,7 +4139,6 @@ li.icon-type-post a.active{
 /* External company slider v2 */
 .external_company_slider{
     color: #474b50;
-    background: #FFF6F3 !important;
 }
 .external_company_slider h1{
     color: #153770;
@@ -4155,7 +4154,7 @@ li.icon-type-post a.active{
     padding: 0;
     border: none;
     border-top: 2px solid #153770;
-    color: #153770;
+    color: var(--orange-color);
     text-align: center;
 }
 .title-slider hr:after {
@@ -4313,6 +4312,11 @@ hr.slider{
     padding: 3px;
     float: right;
  }
+.btn-add-image{
+    height: 40px;
+    margin-top: 48px;
+}
+
 .box-advertising{
     clear: both;
 }
@@ -4441,3 +4445,11 @@ border: 0;
 .add-file-label.W-100{
     max-width: 100% !important;
 }
+
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; border-radius: var(--border-radius)}
+.autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: var(--bg-color); }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 5px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }

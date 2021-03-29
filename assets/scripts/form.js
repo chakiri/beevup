@@ -1,3 +1,5 @@
+import './autocomplete';
+
 if (document.querySelector('#service_isDiscovery')){
     document.querySelector('#service_isQuote').onclick = function (){
         var x = document.getElementById('price');
@@ -72,3 +74,21 @@ if (document.querySelector('#isMedia')) {
          image.style.display = "block";
      }
 }
+
+//btn add image file field
+$('.btn-add-image').click(function (){
+    let nbImageDisplayed = $('.images-fields').data('nb-image-displayed');
+
+    let nextImage = nbImageDisplayed + 1;
+
+    //display next field
+    $('.image-field-' + nextImage).removeClass('d-none');
+    $('.images-fields').data('nb-image-displayed', nextImage);
+
+    console.log($('.images-fields').data('nb-image-displayed'));
+
+    //hide add btn if data all fields displayed
+    if ($('.images-fields').data('nb-image-displayed') === 3){
+        $(this).addClass('d-none');
+    }
+});

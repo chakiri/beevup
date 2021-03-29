@@ -88,6 +88,7 @@
                         <div class="user-tab-sec">
                             <div class="mb-3">
                                 <h3>{{ service.title|capitalize }}</h3>
+                                <p><small>Catégorie du service : </small> {{ service.category }}</p>
                                 <p><small>Proposé par : </small>
                                     {% if storeService %}
                                         <a href="{{ path('store_show', {'slug': storeService.store.slug}) }}">

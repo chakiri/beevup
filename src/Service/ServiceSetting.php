@@ -7,6 +7,7 @@ use App\Entity\Service;
 use App\Entity\Store;
 use App\Entity\StoreService;
 use App\Repository\RecommandationRepository;
+use App\Repository\ServiceCategoryRepository;
 use App\Repository\StoreServicesRepository;
 use App\Repository\TypeServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,9 @@ class ServiceSetting
 
     private $communities;
 
-    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository, EntityManagerInterface $manager, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, Communities $communities)
+    private ServiceCategoryRepository $serviceCategoryRepository;
+
+    public function __construct(Security $security, TypeServiceRepository $typeServiceRepository, EntityManagerInterface $manager, RecommandationRepository $recommandationRepository, StoreServicesRepository $storeServicesRepository, Communities $communities, ServiceCategoryRepository $serviceCategoryRepository)
     {
         $this->security = $security;
         $this->typeServiceRepository = $typeServiceRepository;
@@ -34,6 +37,7 @@ class ServiceSetting
         $this->recommandationRepository = $recommandationRepository;
         $this->storeServicesRepository = $storeServicesRepository;
         $this->communities = $communities;
+        $this->serviceCategoryRepository = $serviceCategoryRepository;
     }
 
     public function setType(Service $service): Service
@@ -161,10 +165,25 @@ class ServiceSetting
         }
     }
 
-    public function getDutyFree($price, $taxRate){
+    public function categoryExist(string $categoryString): bool
+    {
+        $result = $this->serviceCategoryRepository->findOneBy(['name'=> $categoryString]);
 
+        if ($result)  return true;
+        return false;
+    }
+
+    public function getDutyFree($price, $taxRate)
+    {
         $taxe = $price / 100 * $taxRate;
         return $taxe + price;
+    }
+
+    // Generate an array contains a key -> value with the errors where the key is the name of the form field
+    public function floatvalue($val){
+        $val = str_replace(",",".",$val);
+        $val = preg_replace('/\.(?=.*\.)/', '', $val);
+        return floatval($val);
     }
 
 }
