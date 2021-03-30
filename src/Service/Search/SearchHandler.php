@@ -6,18 +6,23 @@ namespace App\Service\Search;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
 
 class SearchHandler
 {
     private $companyRepository;
 
-    private $userRepository;
+    private ServiceRepository $serviceRepository;
 
-    public function __construct(CompanyRepository $companyRepository, UserRepository $userRepository)
+    private Security $security;
+
+    public function __construct(CompanyRepository $companyRepository, ServiceRepository $serviceRepository, Security $security)
     {
         $this->companyRepository = $companyRepository;
-        $this->userRepository = $userRepository;
+        $this->serviceRepository = $serviceRepository;
+        $this->security = $security;
     }
 
     /**
@@ -29,14 +34,22 @@ class SearchHandler
         $companies = $this->companyRepository->findBySearch($query, $allCompanies);
 
         //Get users
-        $users = $this->userRepository->findByValue($query, $allCompanies);
+        //$users = $this->userRepository->findByValue($query, $allCompanies);
 
-        $results = array_merge($companies, $users);
+        //Get service
+        $services = $this->getAllServices($query, $allCompanies);
+
+        //Merge results
+        $items = array_merge($companies, $services);
 
         //Sort by updatedAt
-        usort($results, [$this, 'orderByDate']);
+        usort($items, [$this, 'orderByDate']);
 
-        return $results;
+        return [
+            'items' => $items,
+            'companies' => $companies,
+            'services' => $services
+        ];
     }
 
     public function orderByDate($a, $b){
@@ -48,5 +61,19 @@ class SearchHandler
         }else {
             return 1;
         }
+    }
+
+    //Get Service of community and associated store services
+    private function getAllServices($query, $allCompanies)
+    {
+        $services = $this->serviceRepository->findByLocalServices($allCompanies);
+
+        //Add related generic services of store
+        $storeServices = $this->security->getUser()->getStore()->getServices();
+        foreach ($storeServices as $storeService) {
+            array_push($services, $storeService->getService());
+        }
+
+        return $services;
     }
 }

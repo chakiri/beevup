@@ -26,67 +26,51 @@
                     {% if items %}
                         <div class="row">
                             {% for item in items %}
-                                {% if item is instanceOf('App\\Entity\\User') %}
-                                    {% set user = item %}
+                                {% if item is instanceOf('App\\Entity\\Service') %}
+                                    {% set service = item %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="company_profile_info  user-profile-{{user.profile.id  }}">
-                                            <div class="badge-box">
-                                                <span class="badge badge-pill search-user-badge">utilisateur</span>
-                                            </div>
-                                            <div class="company-up-info user-up-info">
-                                                <div class="company-up-info-image">
-                                                    <a href="{{path('profile_show', { 'id': user.profile.id}) }}">
-                                                        {% if user.profile.filename is empty %}
-                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                        <div class="badge-box">
+                                            <span class="badge badge-pill search-user-badge">Service</span>
+                                        </div>
+                                        <div class="company_profile_info">
+                                            <div class="company-up-info up-info result-company">
+                                                <div class="result-company-image">
+                                                    <a href="{{path('service_show', {'id': service.id}) }}">
+                                                        {% if service.filename is empty %}
+                                                            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                                         {% else  %}
-                                                            <img class = "company-user-profile-img-{{ user.profile.id }}" src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_medium') }}" >
+                                                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_card') }}" >
                                                         {% endif %}
                                                     </a>
+
+                                                    {% include 'default/cards/infos-stickers.html.twig' with {
+                                                        'item': service,
+                                                    } %}
+
                                                 </div>
 
-                                                {% include 'default/cards/infos-stickers.html.twig' with {
-                                                    'item': user.company,
-                                                } %}
-
-                                                <div class="user-up-meta mt-3">
-                                                    <h5>
-                                                        <a class="company-user company-user-profile-{{ user.profile.id }}" href="{{path('profile_show', { 'id': user.profile.id}) }}"> {{ user.profile.firstname }} {{ user.profile.lastname }}</a>
-                                                    </h5>
-                                                    {% if user.profile.function  %}
-                                                        {% if user.company %}
-                                                            <small>{{ user.profile.function.name|capitalize }} chez
-                                                                <a  class ="user-companyName-{{ user.profile.id }}" href="{{path('company_show', { 'slug': user.company.slug, 'id': user.company.id}) }}">
-                                                                    {{user.company.name|capitalize }}
-                                                                </a>
-                                                            </small>
-                                                        {% else %}
-                                                            <h4>{{ user.profile.function.name|capitalize }} chez
-                                                                <a href="{{path('store_show', { 'slug': user.store.slug}) }}">
-                                                                    {{user.store.name|capitalize }}
-                                                                </a>
-                                                            </h4>
-                                                        {% endif %}
-                                                    {% endif %}
+                                                <div class="company-up-meta">
+                                                    <h5> <a href="{{path('service_show', { 'id': service.id}) }}">  {{ service.title }}</a></h5>
+                                                    <h6>{{ service.category }}</h6>
                                                 </div>
-                                                <ul>
-                                                    <li>
-                                                        <i  data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris"  id="result-user-item-{{ user.id }}"
-                                                            class="favoris-icon {% if user in favoritesUsers %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-favoris"
-                                                            data-user-id ="{{ user.id }}"
-                                                            data-profile-id ="{{ user.profile.id }}"
-                                                            data-target="{{path('favorit_add', {'userId':user.id})  }}"
-                                                            data-delete="{{path('favorit_delete', {'userId': user.id})  }}">
-                                                        </i>
+                                                {#<ul>
+                                                    <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
+                                                        <i id="result-company-item-{{ company.id }}"
+                                                           class="{% if company in favoritesCompanies %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-company-favoris"
+                                                           aria-hidden="true"
+                                                           data-company-id ="{{ company.id }}"
+                                                           data-company-name="{{ company.name }}"
+                                                           data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
+                                                           data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
+                                                           data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
+                                                           data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
+                                                           data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
+                                                           data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{% if company.getCompanyAdministrator().profile.filename %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile') }}{% else %}{{ asset('build/images/no-available-photo.png') }}{% endif %}{% endif %}"
+                                                        ></i>
                                                     </li>
-                                                    <li>
-                                                        <a href="{{ path('chat_private', {'id': user.id}) }}" class="message-us">
-                                                            <i  data-toggle="tooltip" data-placement="top" title="Converser avec {{ user.profile.firstname }}" class="fas fa-comments search-contact"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-
+                                                </ul>#}
                                             </div>
-                                            <a href="{{path('profile_show', { 'id': user.profile.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
+                                            <a href="{{path('service_show', {'id': service.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
                                         </div><!--company_profile_info end-->
                                     </div>
                                 {% elseif item is instanceOf('App\\Entity\\Company') %}

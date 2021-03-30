@@ -1,3 +1,11 @@
+{% if item is instanceOf('App\\Entity\\Service') %}
+    {% set distances = distancesServices %}
+    {% set nbRecommandations = nbRecommandationsServices %}
+{% elseif item is instanceOf('App\\Entity\\Company') %}
+    {% set distances = distancesCompanies %}
+    {% set nbRecommandations = nbRecommandationsCompanies %}
+{% endif %}
+
 <div class="company-infos-bloc d-flex justify-content-between">
     {% if distances and distances[item.id] is defined and distances[item.id] < 1000 %}
         <div class="company-infos-distance ml-1 mr-1">
