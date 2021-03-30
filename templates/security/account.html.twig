@@ -18,7 +18,8 @@
                         <div class="main-ws-sec">
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
-                                    <h3>Modifier les informations</h3>
+                                    <h1>Bienvenue !</h1>
+                                    <h2>Vérifier et compléter les informations suivantes</h2>
 
                                     {{ form_start(form) }}
                                         <div class="row">
@@ -91,7 +92,8 @@
                                         </div>
 
                                         <div class="form-actions form-group">
-                                            <button type="submit" class="m-orange-btn">Sauvegarder et continuer</button>
+                                            {{ form_widget(form.saveAndAdd, {'attr': {'class': 'm-orange-btn'}}) }}
+                                            {{ form_widget(form.save, {'attr': {'class': 'm-orange-light-btn'}}) }}
                                         </div>
 
                                     {{ form_end(form) }}

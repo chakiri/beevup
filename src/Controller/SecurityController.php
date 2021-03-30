@@ -357,7 +357,11 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            return $this->redirectToRoute('service_new');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'service_new'
+                : 'dashboard';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('security/account.html.twig', [

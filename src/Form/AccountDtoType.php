@@ -10,6 +10,7 @@ use App\Service\Utility\AddressForm;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -57,6 +58,8 @@ class AccountDtoType extends AbstractType
                 'class' => CompanyCategory::class,
                 'choice_label' =>'name'
             ])
+            ->add('saveAndAdd', SubmitType::class, ['label' => 'Créer votre premier service'])
+            ->add('save', SubmitType::class, ['label' => 'Terminer'])
         ;
 
         //Add address Field to builder

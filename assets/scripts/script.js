@@ -264,7 +264,7 @@ window.previousImage = function(e)
     }
     if(e != undefined) {
         cutbtn.classList.add('cut-btn' + getFieldId(serviceFieldId));
-        cutbtn.innerHTML = "Rogner la photo";
+        cutbtn.innerHTML = "Enregistrer la photo";
     }
 
 
