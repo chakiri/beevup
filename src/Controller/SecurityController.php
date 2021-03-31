@@ -357,11 +357,12 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'service_new'
-                : 'dashboard';
+            //Know which submit btn is clicked
+            if ($form->get('saveAndAdd')->isClicked()){
+                return $this->redirectToRoute('service_new', ['inscription' => true]);
+            }
+            return $this->redirectToRoute('dashboard');
 
-            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('security/account.html.twig', [
