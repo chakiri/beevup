@@ -48,7 +48,8 @@ body{
     height: 100%;
     font-size: 14px;
     font-weight: 500;
-    background: #FAFAFA !important;
+    /*background: #FAFAFA !important;*/
+    background: #f7f7f5!important;
     font-family: 'Rubik', sans-serif;
     color: #132644;
     padding: 3.5em 0 0 0;
@@ -2994,11 +2995,11 @@ a:hover {
     width: 100%;
 }
 .warning{
-    background-color: #000;
-    border-radius: 12px;
-    color: #FFF;
+    background-color: #fff;
+    border-radius: 6px;
     line-height: 24px;
     margin: 0 1em 2em;
+    border-left: 8px solid orange;
 }
 
 
@@ -3688,7 +3689,7 @@ li.icon-type-post a.active{
 
 /* Warning */
 .warnings a:hover, .alert a:hover{
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 /*Waiting validation page */

@@ -291,7 +291,12 @@ class ServiceController extends AbstractController
                 $this->addFlash('success', $message);
 
                 //Get the right root to redirect depend of user provenance
-                $redirection = ($request->get('inscription') == true) ? 'dashboard' : 'service_show';
+                $redirection = 'service_show';
+                if ($request->get('inscription') == true){
+                    $redirection = 'dashboard';
+                    //add option is full inscription
+                    $optionsRedirect = array_merge($optionsRedirect, ['status' => 'fullInscription']);
+                }
 
                 if ($request->isXmlHttpRequest()) {
                     return new JsonResponse([
@@ -394,6 +399,7 @@ class ServiceController extends AbstractController
             ]);
         }
     }
+
     /**
      * @Route("/service/{id}/delete/{fileId}", name="delete-file")
      */

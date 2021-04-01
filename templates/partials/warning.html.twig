@@ -1,12 +1,38 @@
-{% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription and app.user.company.subscription.isExpired == true %}
+{#{% if is_granted('ROLE_ADMIN_COMPANY') == true and app.user.company.subscription and app.user.company.subscription.isExpired == true %}
     <div class="warning p-3 warning-subscription">
         <button type="button" class="close close-subscription-notification" data-dismiss="alert" aria-label="close">&times;</button>
         <h5 class="alert-heading"><i class="fas fa-eye"></i> Votre abonnement Premium est arrivé à échéance</h5>
         <p class="mb-0"><a href="{{ path('subscription') }}" class="alert-link">Cliquez ici</a> pour le renouveler.</p>
     </div>
-{% endif %}
+{% endif %}#}
 
-{% if app.user.company %}
+<div class="warning p-3">
+    {% if status is same as 'inscription' %}
+        <h4 class="alert-heading"><i class="far fa-check-circle fa-2x"></i> Bravo {{ app.user.profile.firstname }} !</h4>
+        <p class="mb-0"><a href="{{ path('service_new') }}"><strong>Créer votre premier service</strong></a> pour être visible par la communauté Beev'Up et le Magasin {{ app.user.store.reference }}</p>
+    {% elseif status is same as 'fullInscription' %}
+        <h4 class="alert-heading"><i class="far fa-check-circle fa-2x"></i> Bravo {{ app.user.profile.firstname }} !</h4>
+        <p class="mb-0">Votre entreprise et vos services sont visibles par la communauté Beev'Up et le Magasin {{ app.user.store.reference }}</p>
+    {% else %}
+        <h4 class="alert-heading"><i class="fas fa-eye"></i> Bonjour {{ app.user.profile.firstname }} !</h4>
+        <h5 class="mb-0">Suivez notre programme pour gagner en visibilité (A modifier)</h5>
+        <ul>
+            {% if untreatedRecommandations %}
+                {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_ADMIN_COMPANY') %}
+                    <li>{{ untreatedRecommandations|length }}{% if untreatedRecommandations|length > 1 %} nouvelles recommandations{% elseif untreatedRecommandations|length == 1 %} nouvelle recommandation{% endif %} <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a></li>
+                {% endif %}
+            {% endif %}
+
+            {% if beContactedList %}
+                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                    <li>{{ beContactedList|length }}{% if beContactedList|length > 1 %} nouvelles demandes de contact{% elseif beContactedList|length == 1 %} nouvelle demande de contact{% endif %} <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" class="alert-link">cliquer ici</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
+
+{#{% if app.user.company %}
     {% if app.user.profile.isCompleted != true or app.user.company.isCompleted != true%}
         <div class="warning p-3">
             <h5 class="alert-heading"><i class="fas fa-eye"></i> Vous n’êtes pas encore visible!</h5>
@@ -62,6 +88,6 @@
             <p class="mb-0">Vous avez des demandes de contact à gérer <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" class="alert-link">cliquer ici</a>.</p>
         </div>
     {% endif %}
-{% endif %}
+{% endif %}#}
 
 
