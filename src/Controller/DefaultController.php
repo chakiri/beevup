@@ -46,9 +46,6 @@ class DefaultController extends AbstractController
      * @Route("/dashboard", name="dashboard")
      * @Route("/dashboard/{category}", name="dashboard_category")
      * @Route("/dashboard/{post}/post", name="dashboard_post")
-     * @Route("/dashboard/{category}/load_more/{minId}", name="dashboard_category_load_more")
-     * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
-     * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
     */
     public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
@@ -84,25 +81,19 @@ class DefaultController extends AbstractController
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
             $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
-        $firstPost =  end($posts);
-        $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();
-
         $options = [
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,
             'untreatedRecommandations' => $untreatedRecommandations ?? null,
             'adminStore'=> $adminStore[0] ?? null,
-            'minPostId' => $minPostId,
-            'beContactedList' => $beContactedList ?? null
+            'beContactedList' => $beContactedList ?? null,
+            'status' => $request->get('status') ?? null
         ];
 
-        if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
-            return $this->render('default/posts/posts.html.twig', $options);
-        }else {
-            $options['category'] = $category ? $category->getId() : null;
-            return $this->render('default/dashboardv1.html.twig', $options);
-        }
+        $options['category'] = $category ? $category->getId() : null;
+
+        return $this->render('default/dashboardv1.html.twig', $options);
     }
 
     /**

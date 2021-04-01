@@ -338,6 +338,7 @@ class SecurityController extends AbstractController
             $profile->setFirstname($dto->firstname);
             $profile->setFunction($dto->function);
             $profile->setMobileNumber($dto->personalPhone);
+            $profile->setIsCompleted(true);
 
             $company->setSiret($dto->siret);
             $company->setEmail($dto->email);
@@ -345,6 +346,7 @@ class SecurityController extends AbstractController
             $company->setPhone($dto->companyPhone);
             $company->setWebsite($dto->website);
             $company->setCategory($dto->category);
+            $company->setIsCompleted(true);
 
             $company->setAddressNumber($dto->addressNumber);
             $company->setAddressStreet($dto->addressStreet);
@@ -357,7 +359,14 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            return $this->redirectToRoute('service_new');
+            //Know which submit btn is clicked
+            if ($form->get('saveAndAdd')->isClicked()){
+                return $this->redirectToRoute('service_new', ['inscription' => true]);
+            }
+            return $this->redirectToRoute('dashboard', [
+                'status' => 'inscription'
+            ]);
+
         }
 
         return $this->render('security/account.html.twig', [
