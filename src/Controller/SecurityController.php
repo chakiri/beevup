@@ -52,51 +52,49 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /* insert company data*/
+            //Insert company data
             $company = new Company();
             $userType = $userTypeRepository->findOneBy(['id' => 3]);
-            $userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
-            $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);
+            /*$userTypePatron = $userTypeRepository->findOneBy(['id' => 1]);
+            $storePatron = $userRepository->findOneBy(['type' => $userTypePatron, 'store' => $user->getStore(), 'isValid'=>1]);*/
 
             $company->setSiret($form->get('company')->getData()->getSiret());
             $company->setName($form->get('name')->getData());
             $company->setEmail($user->getEmail());
             $company->setStore($user->getStore());
+            $company->setCountry('FR');
 
             if ($form->get('addressNumber')->getData()) $company->setAddressNumber($form->get('addressNumber')->getData());
             if ($form->get('addressStreet')->getData()) $company->setAddressStreet($form->get('addressStreet')->getData());
             if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
             if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
-            $company->setCountry('FR');
 
             /* generate bar code*/
-            $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
-            $company->setBarCode($barCode->generate($companyId));
+            /*$companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
+            $company->setBarCode($barCode->generate($companyId));*/
             /* end ******/
 
             $manager->persist($company);
 
-            /* insert user data*/
+            //Insert user data
             $user->setStore($user->getStore());
             $user->setCompany($company);
             $user->setType($userType);
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
 
+            //Add admin topics to user
+            $topicHandler->initGeneralStoreTopic($user);
+
+            //Generate Token
             $token = $tokenGenerator->generateToken();
             $user->setResetToken($token);
-            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-
-            /* add admin topics to user */
-            $topicHandler->initGeneralStoreTopic($user);
 
             $manager->persist($user);
 
-            /* add company topic to user */
+            //Add company topic to user
             $topicHandler->initCompanyTopic($company, $user);
 
-            // new profile
+            //New profile
             $profile = new Profile();
             $profile->setUser($user);
             $profile->setLastname($form->get('lastname')->getData());
@@ -106,6 +104,7 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
+            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
             $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
 
             //Create new contact on SendinBlue
@@ -135,7 +134,7 @@ class SecurityController extends AbstractController
         $mailer->sendEmailWithTemplate($user->getEmail(), null, 'welcome_message');
 
         $user->setResetToken(null);
-        $user->setIsValid(1);
+        $user->setIsValid(true);
 
         $manager->persist($user);
 
