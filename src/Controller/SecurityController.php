@@ -69,10 +69,9 @@ class SecurityController extends AbstractController
             if ($form->get('addressPostCode')->getData()) $company->setAddressPostCode($form->get('addressPostCode')->getData());
             if ($form->get('city')->getData()) $company->setCity($form->get('city')->getData());
 
-            /* generate bar code*/
-            /*$companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
-            $company->setBarCode($barCode->generate($companyId));*/
-            /* end ******/
+            //Generate bar code
+            $companyId = $companyRepo->findOneBy([], ['id' => 'desc'])->getId() + 1;
+            $company->setBarCode($barCode->generate($companyId));
 
             $manager->persist($company);
 
