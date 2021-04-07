@@ -41,8 +41,9 @@ class Company implements \Serializable
     private $email;
 
     /**
-     * @Assert\Length(max=255)
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(max=255)
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      */
     private $phone;
 

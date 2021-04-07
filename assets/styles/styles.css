@@ -606,6 +606,9 @@ input:-webkit-autofill:active  {
 input{
     color:var(--text-color);
 }
+.grey-title{
+    color: grey;
+}
 .bloc-title{
     font-size: 32px;
     color:var(--text-color);

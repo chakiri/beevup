@@ -15,7 +15,7 @@
         <p class="mb-0">Votre entreprise et vos services sont visibles par la communauté Beev'Up et le Magasin {{ app.user.store.reference }}</p>
     {% else %}
         <h4 class="alert-heading"><i class="fas fa-eye"></i> Bonjour {{ app.user.profile.firstname }} !</h4>
-        <h5 class="mb-0">Suivez notre programme pour gagner en visibilité (A modifier)</h5>
+        <h5 class="mb-0">Qu'allez-vous faire aujourd'hui pour développer votre activité ?</h5>
         <ul>
             {% if untreatedRecommandations %}
                 {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_ADMIN_COMPANY') %}
