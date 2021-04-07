@@ -707,6 +707,7 @@ textarea.form-control{
 .genaral-condition{
   color:var(--orange-color) !important;
   font-weight: bold;
+  line-height: 1em;
 }
 .landing-page-man{
     width: 273px;
