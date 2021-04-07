@@ -22,7 +22,7 @@
                 <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
                 <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Communauté</a></li>
                 <li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>
-                <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general-'~ app.user.store.slug}) }}" >Chat</a></li>
+                <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general-'~ app.user.store.slug}) }}" >Messagerie</a></li>
             </div>
 
             <div class="d-lg-flex">
@@ -183,7 +183,7 @@
                         <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
                     </button>
                 {% endif %}
-                {% if app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation'  %}
+                {% if app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' and app.request.attributes.get('_route') != 'security_login' %}
                     <button type="submit" class="white-btn connexion-btn" method="post">
                         <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
                     </button>

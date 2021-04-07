@@ -606,6 +606,9 @@ input:-webkit-autofill:active  {
 input{
     color:var(--text-color);
 }
+.grey-title{
+    color: grey;
+}
 .bloc-title{
     font-size: 32px;
     color:var(--text-color);
@@ -707,6 +710,7 @@ textarea.form-control{
 .genaral-condition{
   color:var(--orange-color) !important;
   font-weight: bold;
+  line-height: 1em;
 }
 .landing-page-man{
     width: 273px;
@@ -3001,6 +3005,9 @@ a:hover {
     margin: 0 1em 2em;
     border-left: 8px solid orange;
 }
+.warnings ul{
+    margin: 1em 0 !important;
+}
 
 
 .alert-dismissible .close {
@@ -3158,7 +3165,7 @@ a:hover {
 }*/
 
 #company_country, #company_store, #company_category{height: 40px}
-.form-page-bg{background-color:var(--base-bg-color); }
+.form-page-bg{background-color:#f7f7f5; }
 .bv-form{margin-top: 20px}
 .bv-form-col {background-color: #fff;border-radius: var(--radius);}
 .form-page-bg h3{background-color: transparent}
