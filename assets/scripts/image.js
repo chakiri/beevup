@@ -173,7 +173,7 @@ window.previousImage = function(e)
     {
         if(fileInput.files[0]) {
             event.preventDefault()
-            $('.hide-load').addClass('load-ajax-form');
+            /*$('.hide-load').addClass('load-ajax-form');*/
             if (cropper) {
                 cropper.getCroppedCanvas({
                     maxHeight: 1000,
@@ -184,7 +184,7 @@ window.previousImage = function(e)
                 })
             }
             else {
-                $('.hide-load').removeClass('load-ajax-form');
+                /*$('.hide-load').removeClass('load-ajax-form');*/
                 // $(form).find('[name*="imageFile"]').first().parent('div').before("Le fichier que vous venez de uploder n'est pas correct");
                 $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
             }
@@ -365,7 +365,6 @@ function ajaxWithAxios(blob, form, cropper,blob1, blob2, blob3)
 
 // ============= update image =========
 $('.update-image').click(function(e){
-
     var url = $(this).attr('data-url');
     var canevas = $(this).attr('data-canevas');
 
