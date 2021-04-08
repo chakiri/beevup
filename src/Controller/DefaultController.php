@@ -192,20 +192,17 @@ class DefaultController extends AbstractController
        $stores = $storeRepository->findAll();
        $companies =$companyRepository->findAll();
 
-       $allStores = "";
-       $allCompanies="";
-       $all = "";
+       $allStores = null;
+       $allCompanies= null;
 
-       foreach ($stores as $store)
-       {
+       foreach ($stores as $store) {
           if($store->getLatitude() != null && $store->getLongitude() != null ) {
               $adresse = $store->getAddressNumber().' '. $store->getAddressStreet(). ' '.$store->getAddressPostCode();
               $allStores = $allStores . "{\"name\": \"" . $store->getName() . "\", \"lat\": \"" . $store->getLatitude() . "\",\"lng\": \"" . $store->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
           }
 
        }
-        foreach ($companies as $company)
-        {
+        foreach ($companies as $company) {
             if($company->isValid() === true && $company->getLatitude() != null && $company->getLongitude() != null ) {
                 $adresse = $company->getAddressNumber().' '. $company->getAddressStreet(). ' '.$company->getAddressPostCode();
                 $allCompanies = $allCompanies. "{\"name\": \"" . $company->getName() . "\", \"lat\": \"" . $company->getLatitude() . "\",\"lng\": \"" . $company->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
