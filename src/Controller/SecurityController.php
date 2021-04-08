@@ -102,8 +102,8 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
+            //Send mail
+            $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL)], 'confirm_inscription');
 
             //Create new contact on SendinBlue
             $contactsHandler->handleContactSendinBlueRegistartion($user);
