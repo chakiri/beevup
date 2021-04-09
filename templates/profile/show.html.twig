@@ -47,7 +47,7 @@
                                                 {{ profile.firstname }} travaille chez <a href="{{ path('company_show', {'slug': profile.user.company.slug, 'id': profile.user.company.id}) }}">{{ profile.user.company.name }}</a>
                                             </h5>
 
-                                            <p>{{ profile.user.company.introduction ?? 'Aucune introduction saisie' }} </p>
+                                            <p>{{ profile.user.company.activity ?? 'Aucune activité saisie' }} </p>
                                         </div><!--user-profile-ov end-->
                                     {% endif %}
 

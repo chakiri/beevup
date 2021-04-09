@@ -19,7 +19,7 @@
                     </div>
                     <div class="company-pro-meta p-4">
                         <h3>{{ company.name }}</h3>
-                        <h5>{{ company.introduction|raw }}</h5>
+                        <h5>{{ company.activity }}</h5>
                         {% if company.category %}
                             {% if  company.category.name != 'Autre' %}
                                 <span><strong>{{ company.category.name  }}</strong></span>

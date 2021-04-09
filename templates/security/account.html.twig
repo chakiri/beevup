@@ -46,7 +46,7 @@
 
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 required">
-                                                        {{ form_row(form.function, {'label': 'Fonction', 'attr': {'placeholder': 'Saisissez votre fonction'}}) }}
+                                                        {{ form_row(form.function, {'label': 'Fonction dans l\'entreprise', 'attr': {'placeholder': 'Saisissez votre fonction'}}) }}
                                                     </div>
                                                     <div class="form-group  col-md-6">
                                                         {{ form_row(form.personalPhone, {'label': 'Téléphone professionnel'}) }}
@@ -76,6 +76,12 @@
                                                     </div>
                                                     <div class="form-group col-md-6 required">
                                                         {{ form_row(form.category, {'label': 'Catégorie'}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-12 required">
+                                                        {{ form_row(form.activity, {'label': 'Activité de l\'entreprise', 'attr': {'placeholder': 'Exemple : Agence conseil spécialisée dans le digital'}}) }}
                                                     </div>
                                                 </div>
 

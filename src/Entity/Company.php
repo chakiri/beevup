@@ -154,10 +154,9 @@ class Company implements \Serializable
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=500, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-
-    private $introduction;
+    private $activity;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -514,14 +513,14 @@ class Company implements \Serializable
         return $this;
     }
 
-    public function getIntroduction(): ?string
+    public function getActivity(): ?string
     {
-        return $this->introduction;
+        return $this->activity;
     }
 
-    public function setIntroduction(string $introduction): self
+    public function setActivity(string $activity): self
     {
-        $this->introduction = $introduction;
+        $this->activity = $activity;
 
         return $this;
     }

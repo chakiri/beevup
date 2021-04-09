@@ -3924,7 +3924,7 @@ li.icon-type-post a.active{
 }
 /* equal card height */
 .bg-search .container-bv{
-    padding: 140px 145px;
+    padding: 140px 145px 50px 145px;
 }
 .row-equal > div[class*='col-']{
     display: flex;
@@ -4260,6 +4260,10 @@ hr.slider{
 /* External company show for search */
 .external_company_show{
     padding : 0;
+}
+.external_company_show .company-pro-img img {
+    width: 170px;
+    margin-top: 2em;
 }
 .be-contacted-handle-btn{
     text-align: right;

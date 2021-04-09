@@ -83,15 +83,14 @@ class SecurityController extends AbstractController
 
             //Add admin topics to user
             $topicHandler->initGeneralStoreTopic($user);
+            //Add company topic to user
+            $topicHandler->initCompanyTopic($company, $user);
 
             //Generate Token
             $token = $tokenGenerator->generateToken();
             $user->setResetToken($token);
 
             $manager->persist($user);
-
-            //Add company topic to user
-            $topicHandler->initCompanyTopic($company, $user);
 
             //New profile
             $profile = new Profile();
@@ -103,8 +102,8 @@ class SecurityController extends AbstractController
 
             $manager->flush();
 
-            $url = $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-            $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $url], 'confirm_inscription');
+            //Send mail
+            $mailer->sendEmailWithTemplate($user->getEmail(), ['url' => $this->generateUrl('security_confirm_email', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL)], 'confirm_inscription');
 
             //Create new contact on SendinBlue
             $contactsHandler->handleContactSendinBlueRegistartion($user);
@@ -161,7 +160,7 @@ class SecurityController extends AbstractController
         //Dispatch on Logger Entity Event
         $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::USER_NEW, $user));
 
-        $this->addFlash('success', 'votre compte a été activé');
+        /*$this->addFlash('success', 'votre compte a été activé');*/
 
         //Set id profile in options
         $optionsRedirect['id'] = $user->getProfile()->getId();
@@ -344,6 +343,7 @@ class SecurityController extends AbstractController
             $company->setPhone($dto->companyPhone);
             $company->setWebsite($dto->website);
             $company->setCategory($dto->category);
+            $company->setActivity($dto->activity);
             $company->setIsCompleted(true);
 
             $company->setAddressNumber($dto->addressNumber);
