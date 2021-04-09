@@ -111,6 +111,12 @@ class AccountDto
     public $category;
 
     /**
+     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    public $activity;
+
+    /**
      * Hydrate DTO by data entities
      *
      * @param Profile $profile
@@ -134,6 +140,7 @@ class AccountDto
         $account->companyPhone = $company->getPhone();
         $account->website = $company->getWebsite();
         $account->category = $company->getCategory();
+        $account->activity = $company->getActivity();
 
         $account->addressNumber = $company->getAddressNumber();
         $account->addressStreet = $company->getAddressStreet();

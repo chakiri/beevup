@@ -343,6 +343,7 @@ class SecurityController extends AbstractController
             $company->setPhone($dto->companyPhone);
             $company->setWebsite($dto->website);
             $company->setCategory($dto->category);
+            $company->setActivity($dto->activity);
             $company->setIsCompleted(true);
 
             $company->setAddressNumber($dto->addressNumber);

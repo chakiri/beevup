@@ -61,6 +61,9 @@ class AccountDtoType extends AbstractType
                 'class' => CompanyCategory::class,
                 'choice_label' =>'name'
             ])
+            ->add('activity', TextType::class, [
+                'required' => true
+            ])
             ->add('saveAndAdd', SubmitType::class, ['label' => 'Créer votre premier service'])
             ->add('save', SubmitType::class, ['label' => 'Terminer'])
         ;

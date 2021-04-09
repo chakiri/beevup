@@ -33,7 +33,7 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('siret')
-            ->add('introduction', TextType::class, [
+            ->add('activity', TextType::class, [
                 'attr'  => [
                     'maxlength'   => 500
                 ]
