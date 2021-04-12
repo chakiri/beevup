@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-bv">
-        <div id="onboarding" data-url="{{ path('onboarding') }}" data-onboarding="{{ app.user.profile.isOnboarding }}" data-session-onboarding="{{ app.session.get('popup')['isShowed'] ?? null }}" data-session-onboarding-url="{{ path('welcomepopup') }}"></div>
+{#        <div id="onboarding" data-url="{{ path('onboarding') }}" data-onboarding="{{ app.user.profile.isOnboarding }}" data-session-onboarding="{{ app.session.get('popup')['isShowed'] ?? null }}" data-session-onboarding-url="{{ path('welcomepopup') }}"></div>#}
         <div class="row">
             <div class="warnings">
                 {% include 'partials/warning.html.twig' %}

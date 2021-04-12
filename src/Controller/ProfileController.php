@@ -96,18 +96,18 @@ class ProfileController extends AbstractController
 
     }
 
-    /**
-     * @Route("/onboarding", name="onboarding")
-     */
-    public function setOnBoarding(EntityManagerInterface $manager)
-    {
-        $profile = $this->getUser()->getProfile();
-
-        if ($_POST['value'] === "true")     $profile->setIsOnboarding(true);
-        else $profile->setIsOnboarding(false);
-        $manager->persist($profile);
-        $manager->flush();
-        return $this->json($profile);
-    }
+//    /**
+//     * @Route("/onboarding", name="onboarding")
+//     */
+//    public function setOnBoarding(EntityManagerInterface $manager)
+//    {
+//        $profile = $this->getUser()->getProfile();
+//
+//        if ($_POST['value'] === "true")     $profile->setIsOnboarding(true);
+//        else $profile->setIsOnboarding(false);
+//        $manager->persist($profile);
+//        $manager->flush();
+//        return $this->json($profile);
+//    }
 
 }

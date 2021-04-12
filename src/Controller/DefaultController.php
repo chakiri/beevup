@@ -221,15 +221,15 @@ class DefaultController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
-    /**
-     *  @Route("/welcomePopup", name="welcomepopup")
-     */
-    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
-    {
-        $popup = $welcomePopupSession->add();
-        return $this->json($popup);
-    }
+//
+//    /**
+//     *  @Route("/welcomePopup", name="welcomepopup")
+//     */
+//    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
+//    {
+//        $popup = $welcomePopupSession->add();
+//        return $this->json($popup);
+//    }
 
     /**
      * @Route("/company/{id}/updateCompanyImage", name="company_update_image")
