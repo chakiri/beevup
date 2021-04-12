@@ -74,6 +74,7 @@ class ProfileType extends AbstractType
                 'class' => UserFunction::class,
                 'multiple'=>false,
                 'required' => true,
+                'label' => 'Fonction dans l\'entreprise',
                 'placeholder' => 'Saisissez votre fonction',
                 'query_builder' => $this->userFunctionRepository->getListFunctionsUser(),
                 'choice_label' =>'name'
