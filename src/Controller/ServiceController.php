@@ -34,6 +34,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @Route("/app")
+ */
 class ServiceController extends AbstractController
 {
     /**

@@ -19,7 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Profile;
 use App\Form\ProfileType;
 
-
+/**
+ * @Route("/app")
+ */
 class ProfileController extends AbstractController
 {
     /**

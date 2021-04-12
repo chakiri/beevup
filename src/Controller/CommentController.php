@@ -12,7 +12,9 @@ use App\Repository\CommentRepository;
 use App\Repository\PostNotificationRepository;
 use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * @Route("/app")
+ */
 class CommentController extends AbstractController
 {
     /**

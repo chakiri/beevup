@@ -11,6 +11,9 @@ use App\Repository\PostLikeRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+/**
+ * @Route("/app")
+ */
 class PostLikesController extends AbstractController
 {
       /**

@@ -9,7 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-
+/**
+ * @Route("/app")
+ */
 class OpportunityNotificationController extends AbstractController
 {
 

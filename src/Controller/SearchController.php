@@ -13,7 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\GetCompanies;
 
-
+/**
+ * @Route("/app")
+ */
 class SearchController extends AbstractController
 {
     /**
