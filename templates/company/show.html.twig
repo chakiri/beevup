@@ -19,12 +19,8 @@
                             <h3>{{ company.name }}</h3>
                             {% if company.category %}
                                 <div class="star-descp">
-                                    {% if  company.category.name != 'Autre' %}
-                                       <span>{{ company.category.name  }}</span>
-                                    {% else  %}
-                                        <span>{{ company.otherCategory }}</span>
-                                    {% endif %}
-                                    <p>{{ company.activity|raw }}</p>
+                                    <span>{{ company.category.name  }}</span>
+                                    <span>{{ company.otherCategory }}</span>
                                 </div><!--star-descp end-->
                             {% endif %}
 

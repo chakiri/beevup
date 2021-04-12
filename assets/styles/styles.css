@@ -492,7 +492,7 @@ input#service_title::placeholder
 .m-orange-light-btn{
     padding: 8px 32px;
     height: 36px;
-    background: #f99b77;
+    background: #dc6438;
     border-radius: var(--radius) !important;
     color: var(--white-color);
     font-weight: 500;
@@ -3924,7 +3924,7 @@ li.icon-type-post a.active{
 }
 /* equal card height */
 .bg-search .container-bv{
-    padding: 140px 145px 50px 145px;
+    padding: 100px 145px 50px 145px;
 }
 .row-equal > div[class*='col-']{
     display: flex;
@@ -3983,7 +3983,7 @@ li.icon-type-post a.active{
 }
 
 .company-header{
-    height: 180px;
+    height: 200px;
     background-color: rgba(67,95,113,0.9);
     z-index: -1;
     background-repeat: no-repeat;

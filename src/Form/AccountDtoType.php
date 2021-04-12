@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -61,8 +62,16 @@ class AccountDtoType extends AbstractType
                 'class' => CompanyCategory::class,
                 'choice_label' =>'name'
             ])
-            ->add('activity', TextType::class, [
+            ->add('otherCategory', TextType::class, [
                 'required' => true
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => true,
+                'attr'  => [
+                    'class'       =>'form-control entity-description',
+                    'maxlength'   => 1500,
+                    'rows'=>4
+                ]
             ])
             ->add('saveAndAdd', SubmitType::class, ['label' => 'Créer votre premier service'])
             ->add('save', SubmitType::class, ['label' => 'Terminer'])

@@ -154,11 +154,6 @@ class Company implements \Serializable
     private $slug;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $activity;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -509,18 +504,6 @@ class Company implements \Serializable
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getActivity(): ?string
-    {
-        return $this->activity;
-    }
-
-    public function setActivity(string $activity): self
-    {
-        $this->activity = $activity;
 
         return $this;
     }
