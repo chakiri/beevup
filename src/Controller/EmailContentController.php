@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route("/app")
+ */
 class EmailContentController extends AbstractController
 {
     /**

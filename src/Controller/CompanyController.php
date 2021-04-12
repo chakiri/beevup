@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CompanyController extends AbstractController
 {
     /**
-     * @Route("/company/{id}/edit", name="company_edit")
+     * @Route("/app/company/{id}/edit", name="company_edit")
      */
     public function edit(Company $company, EntityManagerInterface $manager, Request $request, TopicHandler $topicHandler, BarCode $barCode, ContactsHandler $contactsHandler, CompanySetting $companySetting, GeocodeAddress $map)
     {
@@ -85,7 +85,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/company/{slug}/{id}", name="company_show", requirements={"slug"="[a-zA-Z0-9\-_\/]+", "id"="\d+"})
+     * @Route("/app/company/{slug}/{id}", name="company_show", requirements={"slug"="[a-zA-Z0-9\-_\/]+", "id"="\d+"})
      */
     public function show(Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepo, FavoritRepository $favoritRepository, EventDispatcherInterface $dispatcher)
     {
@@ -126,7 +126,7 @@ class CompanyController extends AbstractController
 
 
     /**
-     * @Route("/external/company/slider/{reference}", name="external_company_slider")
+     * @Route("/slider/{reference}", name="external_company_slider")
      */
     public function externalSlider(Store $store, GetCompanies  $getCompanies, CompanyRepository $companyRepository, UserRepository  $userRepository)
     {
@@ -160,7 +160,7 @@ class CompanyController extends AbstractController
     }
 
     /**
-     * @Route("/external/company/{slug}/{id}", name="external_company_show")
+     * @Route("/{slug}/{id}/ext", name="external_company_show")
      */
     public function externalShow(Request $request, Company $company, RecommandationRepository $recommandationRepository, UserRepository $userRepository, BeContactedRepository  $beContactedRepository, EntityManagerInterface $manager, Mailer $mailer, AutomaticMessage $automaticMessage)
     {

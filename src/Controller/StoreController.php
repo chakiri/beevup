@@ -11,10 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\GeocodeAddress;
 use App\Service\GetCompanies;
 
-
+/**
+ * @Route("/app")
+ */
 class StoreController extends AbstractController
 {
     /**
