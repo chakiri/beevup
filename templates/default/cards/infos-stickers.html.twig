@@ -1,9 +1,11 @@
-{% if item is instanceOf('App\\Entity\\Service') %}
-    {% set distances = distancesServices %}
-    {% set nbRecommandations = nbRecommandationsServices %}
-{% elseif item is instanceOf('App\\Entity\\Company') %}
-    {% set distances = distancesCompanies %}
-    {% set nbRecommandations = nbRecommandationsCompanies %}
+{% if distancesServices is defined %}
+        {% if item is instanceOf('App\\Entity\\Service') %}
+            {% set distances = distancesServices %}
+            {% set nbRecommandations = nbRecommandationsServices %}
+        {% elseif item is instanceOf('App\\Entity\\Company') %}
+            {% set distances = distancesCompanies %}
+            {% set nbRecommandations = nbRecommandationsCompanies %}
+        {% endif %}
 {% endif %}
 
 <div class="company-infos-bloc d-flex justify-content-between">
