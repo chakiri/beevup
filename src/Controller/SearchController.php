@@ -70,6 +70,5 @@ class SearchController extends AbstractController
             'nbRecommandationsCompanies' => $infosCompanies['nbRecommandations'] ?? null,
             'distancesCompanies' => $infosCompanies['distances'] ?? null
         ]);
-
     }
 }
