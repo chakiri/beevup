@@ -11,30 +11,6 @@
             {% endif %}
         </div><!--user-pro-img end-->
         <div class="user_pro_status pl-2 pr-2">
-            {% if profile.user == app.user  %}
-                {% if app.request.attributes.get('_route') == 'profile_edit' %}
-                    <div class="btn white-bg">
-                        <a href="{{ path('profile_show', {'id': profile.id}) }}" title="" class="">
-                            Voir profil</a>
-                    </div>
-                {% else %}
-                    <div class="btn white-bg">
-                        <a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">
-                            Modifier profil</a>
-                    </div>
-                {% endif %}
-            {% else %}
-                <div class="btn white-bg mt-1"><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="">
-                        Contacter {{ profile.firstname }}</a></div>
-
-                <div class="btn white-bg mt-1"><a href="#" title=""
-                                                  class="add-favoris profil-add-favoris {{ isFavorit }}"
-                                                  data-user-id="{{  profile.user.id }}"
-                                                  data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
-                                                  data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}"
-                    >
-                        {% if isFavorit !="" %} Supprimer favoris {% else %} Ajouter aux favoris {% endif %}</a></div>
-            {% endif %}
 
         </div><!--user_pro_status end-->
         <ul class="social_links">
@@ -45,6 +21,34 @@
     </div><!--user_profile end-->
 
 </div><!--main-left-sidebar end-->
+
+{# buttons #}
+    {% if profile.user == app.user  %}
+        {% if app.request.attributes.get('_route') == 'profile_edit' %}
+            <div class="btn white-bg full-width mt-3">
+                <a href="{{ path('profile_show', {'id': profile.id}) }}" title="" class="">Voir profil</a>
+            </div>
+        {% else %}
+            <div class="btn white-bg full-width mt-3">
+                <a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">Modifier profil</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="btn white-bg full-width mt-3"><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="">Contacter {{ profile.firstname }}</a></div>
+        <div class="btn white-bg full-width mt-3"><a href="#" title=""
+          class="add-favoris profil-add-favoris {{ isFavorit }}"
+          data-user-id="{{  profile.user.id }}"
+          data-target="{{path('favorit_add', {'userId':profile.user.id})  }}"
+          data-delete="{{path('favorit_delete', {'userId': profile.user.id})  }}">
+        {% if isFavorit !="" %} Supprimer favoris {% else %} Ajouter aux favoris {% endif %}</a></div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN_STORE') %}
+        <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
+    {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
+        <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
+    {% endif %}
+
 
 
 {% include 'default/modals/upload/uploadImageModal.html.twig' %}
