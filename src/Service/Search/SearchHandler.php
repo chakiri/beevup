@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\Search;
-
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
@@ -12,35 +10,52 @@ use Symfony\Component\Security\Core\Security;
 
 class SearchHandler
 {
-    private $companyRepository;
+    private CompanyRepository $companyRepository;
 
     private ServiceRepository $serviceRepository;
 
     private Security $security;
 
-    public function __construct(CompanyRepository $companyRepository, ServiceRepository $serviceRepository, Security $security)
+    private UserRepository $userRepository;
+
+    public function __construct(CompanyRepository $companyRepository, ServiceRepository $serviceRepository, UserRepository $userRepository, Security $security)
     {
         $this->companyRepository = $companyRepository;
         $this->serviceRepository = $serviceRepository;
+        $this->userRepository = $userRepository;
         $this->security = $security;
     }
 
     /**
      * Get results from companies and users
      */
-    public function getResults($allCompanies, $name, $service, $company, $isExclusif): array
+    public function getResults($allCompanies, $name, $isService = false, $isCompany = false, $category = null, $isDiscovery = false): array
     {
-        //Get companies
-        if ()
-        $companies = $this->companyRepository->findBySearch($name, $allCompanies);
+        $companies = [];
+        $services = [];
 
-        //Get users
-        //$users = $this->userRepository->findByValue($query, $allCompanies);
+        //If filter is empty or if isCompany choose
+        if ($isCompany === true || ($isCompany === false && $isService === false)){
+            //Get companies
+            $companies = $this->companyRepository->findBySearch($name, $allCompanies);
 
-        //Get service
-        $services = $this->getAllServices($query, $allCompanies);
+            //Get users
+            $users = $this->userRepository->findByValue($name, $allCompanies);
 
-        //Merge results
+            //Get companies of all users like query
+            foreach ($users as $user){
+                //Push if company not existing in array
+                if (!in_array($user->getCompany(), $companies))
+                    array_push($companies, $user->getCompany());
+            }
+        }
+
+        if ($isService === true || ($isCompany === false && $isService === false)){
+            //Get service
+            $services = $this->getAllServices($name, $category, $isDiscovery, $allCompanies);
+        }
+
+        //Merge result
         $items = array_merge($companies, $services);
 
         //Sort by updatedAt
@@ -54,19 +69,18 @@ class SearchHandler
     }
 
     //Get Service of community and associated store services
-    private function getAllServices($query, $allCompanies)
+    private function getAllServices($name, $category, $isDiscovery, $allCompanies)
     {
-        $services = $this->serviceRepository->findByLocalServices($allCompanies);
+        $services = $this->serviceRepository->findSearch($name, $category, $isDiscovery, $allCompanies);
 
-        //Add related generic services of store
+        //Add related generic services of store if match query
         $storeServices = $this->security->getUser()->getStore()->getServices();
-        foreach ($storeServices as $storeService) {
-            array_push($services, $storeService->getService());
-        }
+        $storeServices = $this->serviceRepository->findSearchStoreServices($storeServices, $name, $category, $isDiscovery);
 
-        return $services;
+        return array_merge($services, $storeServices);
     }
 
+    //Function used in usort on top
     public function orderByDate($a, $b){
         //return 0 if equal
         if ($a->getCreatedAt() === $b->getCreatedAt()) {

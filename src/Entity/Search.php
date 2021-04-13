@@ -6,13 +6,13 @@ class Search
 {
     private $name;
 
-    private $service;
+    private $isService;
 
-    private $company;
-
-    private $isExclusif;
+    private $isCompany;
 
     private $category;
+
+    private $isDiscovery;
 
     public function getName()
     {
@@ -27,49 +27,49 @@ class Search
     /**
      * @return mixed
      */
-    public function getService()
+    public function getIsService()
     {
-        return $this->service;
+        return $this->isService;
     }
 
     /**
-     * @param mixed $service
+     * @param mixed $isService
      */
-    public function setService($service): void
+    public function setIsService($isService): void
     {
-        $this->service = $service;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompany()
-    {
-        return $this->company;
-    }
-
-    /**
-     * @param mixed $company
-     */
-    public function setCompany($company): void
-    {
-        $this->company = $company;
+        $this->isService = $isService;
     }
 
     /**
      * @return mixed
      */
-    public function getIsExclusif()
+    public function getIsCompany()
     {
-        return $this->isExclusif;
+        return $this->isCompany;
     }
 
     /**
-     * @param mixed $isExclusif
+     * @param mixed $isCompany
      */
-    public function setIsExclusif($isExclusif): void
+    public function setIsCompany($isCompany): void
     {
-        $this->isExclusif = $isExclusif;
+        $this->isCompany = $isCompany;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsDiscovery()
+    {
+        return $this->isDiscovery;
+    }
+
+    /**
+     * @param mixed $isDiscovery
+     */
+    public function setIsDiscovery($isDiscovery): void
+    {
+        $this->isDiscovery = $isDiscovery;
     }
 
     /**

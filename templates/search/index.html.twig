@@ -31,6 +31,9 @@
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="badge-box">
                                             <span class="badge badge-pill search-user-badge">Service</span>
+                                            {% if service.isDiscovery %}
+                                                <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
+                                            {% endif %}
                                         </div>
                                         <div class="company_profile_info">
                                             <div class="company-up-info up-info result-company">
@@ -53,22 +56,6 @@
                                                     <h5> <a href="{{path('service_show', { 'id': service.id}) }}">  {{ service.title }}</a></h5>
                                                     <h6>{{ service.category }}</h6>
                                                 </div>
-                                                {#<ul>
-                                                    <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">
-                                                        <i id="result-company-item-{{ company.id }}"
-                                                           class="{% if company in favoritesCompanies %} fas text-warning {% else %} far text-muted {% endif %} fa-star add-company-favoris"
-                                                           aria-hidden="true"
-                                                           data-company-id ="{{ company.id }}"
-                                                           data-company-name="{{ company.name }}"
-                                                           data-target="{{path('favorit_company_add', {'companyId':company.id})  }}"
-                                                           data-delete="{{path('favorit_company_delete', {'companyId': company.id})  }}"
-                                                           data-company-administrator-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().id }}{% endif %}"
-                                                           data-company-administrator-profile-id ="{% if  company.getCompanyAdministrator() != null  %}{{ company.getCompanyAdministrator().profile.id }}{% endif %}"
-                                                           data-company-administrator-name ="{% if  company.getCompanyAdministrator() != null  %} {{ company.getCompanyAdministrator().profile.firstName }} {{ company.getCompanyAdministrator().profile.lastName }} {% endif %}"
-                                                           data-company-administrator-img ="{% if  company.getCompanyAdministrator() != null  %}{% if company.getCompanyAdministrator().profile.filename %}{{ vich_uploader_asset(company.getCompanyAdministrator().profile, 'imageFile') }}{% else %}{{ asset('build/images/no-available-photo.png') }}{% endif %}{% endif %}"
-                                                        ></i>
-                                                    </li>
-                                                </ul>#}
                                             </div>
                                             <a href="{{path('service_show', {'id': service.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
                                         </div><!--company_profile_info end-->
@@ -144,5 +131,5 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('favoris') }}
-    {{ encore_entry_script_tags('form') }}
+    {{ encore_entry_script_tags('service') }}
 {% endblock %}

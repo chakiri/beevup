@@ -19,6 +19,41 @@ class ServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Service::class);
     }
 
+    public function findByLocalServicesQuery($allCompanies){
+
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->Where('c.id IN  (:companies)')
+            ->andWhere('c.isValid = true')
+            ->andWhere('c.isCompleted = true')
+            ->orderBy('s.createdAt', 'DESC')
+            ->addOrderBy('s.isDiscovery', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies))
+            ;
+    }
+
+    public function findByLocalServices($allCompanies){
+
+        $qb = $this->findByLocalServicesQuery($allCompanies);
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByLocalServicesWithLimit($allCompanies, $limit){
+
+        $qb = $this->findByLocalServicesQuery($allCompanies);
+
+        return $qb
+            ->getQuery()
+            ->setMaxResults( $limit )
+            ->getResult()
+            ;
+    }
+
     private function findSearchQueryBuilder($query, $category, $isDiscovery)
     {
         $q = $this->createQueryBuilder('s')
@@ -34,10 +69,10 @@ class ServiceRepository extends ServiceEntityRepository
             ;
         }
 
-        /*if ($category)
+        if ($category)
             $q->andWhere('s.category = :category')
-                ->setParameter('category', $category)
-            ;*/
+                ->setParameter('category', $category->getName())
+            ;
 
         if ($isDiscovery)
             $q->andWhere('s.isDiscovery = :isDiscovery')
@@ -81,55 +116,6 @@ class ServiceRepository extends ServiceEntityRepository
         return $servicesStoreMatchedQuery;
     }
 
-    public function findByLocalServicesQuery($allCompanies){
-
-        return $this->createQueryBuilder('s')
-            ->leftJoin('s.user', 'u')
-            ->leftJoin('u.company', 'c')
-            ->Where('c.id IN  (:companies)')
-            ->andWhere('c.isValid = true')
-            ->andWhere('c.isCompleted = true')
-            ->orderBy('s.createdAt', 'DESC')
-            ->addOrderBy('s.isDiscovery', 'DESC')
-            ->setParameters(array('companies'=>$allCompanies))
-            ;
-    }
-
-    public function findByLocalServices($allCompanies){
-
-        $qb = $this->findByLocalServicesQuery($allCompanies);
-
-        return $qb
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function findByLocalServicesWithLimit($allCompanies, $limit){
-
-        $qb = $this->findByLocalServicesQuery($allCompanies);
-
-        return $qb
-            ->getQuery()
-            ->setMaxResults( $limit )
-            ->getResult()
-            ;
-    }
-
-    public function findByIsDiscoveryQuery($allCompanies, $store)
-    {
-        return $this->createQueryBuilder('s')
-            ->leftJoin('s.user', 'u')
-            ->leftJoin('u.company', 'c')
-            ->andWhere('s.isDiscovery = 1')
-            ->andWhere('c.id in (:companies)')
-            ->andWhere('c.isValid = 1')
-            ->orWhere('u.company is NULL AND u.store = :store AND s.isDiscovery = 1')
-            ->orderBy('s.createdAt', 'DESC')
-            ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
-            ;
-    }
-
     public function findByIsDiscovery($allCompanies, $store)
     {
         $query = $this->findByIsDiscoveryQuery($allCompanies, $store);
@@ -151,7 +137,36 @@ class ServiceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByType($type){
+    public function findModel($type, $query)
+    {
+        $q = $this->createQueryBuilder('s')
+            ->andWhere('s.type = :type')
+            ->andWhere('s.title LIKE :query OR s.category LIKE :query OR s.description LIKE :query')
+            ->setParameter('type', $type)
+            ->setParameter('query', '%' . $query . '%')
+        ;
+
+        return $q
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByIsDiscoveryQuery($allCompanies, $store)
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('s.isDiscovery = 1')
+            ->andWhere('c.id in (:companies)')
+            ->andWhere('c.isValid = 1')
+            ->orWhere('u.company is NULL AND u.store = :store AND s.isDiscovery = 1')
+            ->orderBy('s.createdAt', 'DESC')
+            ->setParameters(array('companies'=>$allCompanies, 'store'=>$store))
+            ;
+    }
+
+    /*public function findByType($type){
 
         return $this->createQueryBuilder('s')
                 ->leftJoin('s.user', 'u')
@@ -164,16 +179,17 @@ class ServiceRepository extends ServiceEntityRepository
                 ->getResult() ;
 
         }
+    */
 
     public function findByCategory($category, $allCompanies, $serviceID){
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
             ->leftJoin('u.company', 'c')
-            ->Where('s.category = :category')
             ->andWhere('c.id in (:companies)')
             ->andWhere('c.isValid = 1')
-            ->andWhere('s.id != (:serviceID)')
+            ->andWhere('s.category = :category')
+            ->andWhere('s.id != :serviceID')
             ->orderBy('s.createdAt', 'DESC')
             ->setParameters(array('category'=> $category, 'companies'=>$allCompanies, 'serviceID'=>$serviceID))
             ->setMaxResults(3)
@@ -181,6 +197,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult() ;
     }
 
+    /*
     public function findByQuery($allCompanies, $query)
     {
         return $this->createQueryBuilder('s')
@@ -196,20 +213,5 @@ class ServiceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
-    }
-
-    public function findModel($type, $query)
-    {
-        $q = $this->createQueryBuilder('s')
-            ->andWhere('s.type = :type')
-            ->andWhere('s.title LIKE :query OR s.category LIKE :query OR s.description LIKE :query')
-            ->setParameter('type', $type)
-            ->setParameter('query', '%' . $query . '%')
-            ;
-
-        return $q
-            ->getQuery()
-            ->getResult()
-            ;
-    }
+    }*/
 }

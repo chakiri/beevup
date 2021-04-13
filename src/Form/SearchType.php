@@ -25,11 +25,11 @@ class SearchType extends AbstractType
                     'class'=>'btn-radius'
                 ]
             ])
-            ->add('company', CheckboxType::class, [
+            ->add('isCompany', CheckboxType::class, [
                 'label' => 'Entreprises',
                 'required' =>false
             ])
-            ->add('service', CheckboxType::class, [
+            ->add('isService', CheckboxType::class, [
                 'label' => 'Services',
                 'required' =>false
             ])
@@ -40,7 +40,7 @@ class SearchType extends AbstractType
                 'placeholder' => 'Choisissez une categorie',
                 'required' =>false
             ])
-            ->add('isExclusif', CheckboxType::class, [
+            ->add('isDiscovery', CheckboxType::class, [
                 'label' => 'Services Exclusifs',
                 'required' =>false
             ])

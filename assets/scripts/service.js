@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 $(document).ready(function(){
 
     // Service create by theme modal
@@ -42,3 +44,17 @@ $(document).ready(function(){
     });
 
 });
+
+//Search form intern, hide display filter service
+$('#search_isService').click(function (){
+    let element = $('.service-filter');
+    if (element.hasClass('d-none')) {
+        element.removeClass('d-none');
+    }else{
+        element.addClass('d-none')
+    }
+});
+//Verif is checked in loading page remove hiding
+if($('#search_isService').is(':checked')){
+    $('.service-filter').removeClass('d-none');
+}

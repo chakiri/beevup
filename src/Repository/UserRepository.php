@@ -28,6 +28,7 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('p.firstname LIKE :value')
             ->orWhere('p.lastname LIKE :value')
             ->orWhere('p.introduction LIKE :value')
+            ->orWhere('p.jobTitle LIKE :value')
             ->orWhere('p.mobileNumber LIKE :value')
             ->orWhere('p.phoneNumber LIKE :value')
             ->orWhere('u.email LIKE :value')

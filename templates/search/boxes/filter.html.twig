@@ -9,15 +9,16 @@
                 {{ form_widget(SearchForm.name) }}
             </div>
             <div class="form-group d-flex">
-                {{ form_widget(SearchForm.company) }}
-                {{ form_widget(SearchForm.service) }}
+                {{ form_widget(SearchForm.isCompany) }}
+                {{ form_widget(SearchForm.isService) }}
             </div>
             <div class="service-filter d-none">
+                <small>Filtrer les services</small>
                 <div class="form-group">
                     {{ form_widget(SearchForm.category) }}
                 </div>
                 <div class="form-group">
-                    {{ form_widget(SearchForm.isExclusif) }}
+                    {{ form_widget(SearchForm.isDiscovery) }}
                 </div>
             </div>
             <div class="form-actions form-group">
