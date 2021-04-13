@@ -3,13 +3,25 @@
         <h5>Filtres</h5>
     </div>
     {{ form_start(SearchForm) }}
-    <div class="paddy">
+    <div class="p-3">
         <div class="filter-dd">
-            <div class="form-actions form-group">
+            <div class="form-group">
                 {{ form_widget(SearchForm.name) }}
             </div>
+            <div class="form-group d-flex">
+                {{ form_widget(SearchForm.company) }}
+                {{ form_widget(SearchForm.service) }}
+            </div>
+            <div class="service-filter d-none">
+                <div class="form-group">
+                    {{ form_widget(SearchForm.category) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(SearchForm.isExclusif) }}
+                </div>
+            </div>
             <div class="form-actions form-group">
-                <button  type="submit" class="btn small-btn orange-bg">Chercher</button>
+                <button type="submit" class="btn small-btn orange-bg">Chercher</button>
             </div>
         </div>
     </div>

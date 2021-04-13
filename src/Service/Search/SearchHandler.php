@@ -28,10 +28,11 @@ class SearchHandler
     /**
      * Get results from companies and users
      */
-    public function getResults($allCompanies, $query): array
+    public function getResults($allCompanies, $name, $service, $company, $isExclusif): array
     {
         //Get companies
-        $companies = $this->companyRepository->findBySearch($query, $allCompanies);
+        if ()
+        $companies = $this->companyRepository->findBySearch($name, $allCompanies);
 
         //Get users
         //$users = $this->userRepository->findByValue($query, $allCompanies);
@@ -52,17 +53,6 @@ class SearchHandler
         ];
     }
 
-    public function orderByDate($a, $b){
-        //return 0 if equal
-        if ($a->getCreatedAt() === $b->getCreatedAt()) {
-            return 0;
-        }elseif ($a->getCreatedAt() > $b->getCreatedAt()) {
-            return -1;
-        }else {
-            return 1;
-        }
-    }
-
     //Get Service of community and associated store services
     private function getAllServices($query, $allCompanies)
     {
@@ -76,4 +66,16 @@ class SearchHandler
 
         return $services;
     }
+
+    public function orderByDate($a, $b){
+        //return 0 if equal
+        if ($a->getCreatedAt() === $b->getCreatedAt()) {
+            return 0;
+        }elseif ($a->getCreatedAt() > $b->getCreatedAt()) {
+            return -1;
+        }else {
+            return 1;
+        }
+    }
+
 }

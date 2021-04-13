@@ -92,3 +92,13 @@ $('.btn-add-image').click(function (){
         $(this).addClass('d-none');
     }
 });
+
+//Search form intern, hide display filter service
+$('#search_service').click(function (){
+    let element = $('.service-filter');
+    if (element.hasClass('d-none')) {
+        element.removeClass('d-none');
+    }else{
+        element.addClass('d-none')
+    }
+});

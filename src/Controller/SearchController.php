@@ -36,7 +36,8 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $results = $searchHandler->getResults($allCompanies, $search->getName());
+
+            $results = $searchHandler->getResults($allCompanies, $search);
             $items = $results['items'];
         }
 
