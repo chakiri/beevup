@@ -18,7 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
+/**
+ * @Route("/app")
+ */
 class SponsorshipController  extends AbstractController
 {
     /**

@@ -43,9 +43,9 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/dashboard", name="dashboard")
-     * @Route("/dashboard/{category}", name="dashboard_category")
-     * @Route("/dashboard/{post}/post", name="dashboard_post")
+     * @Route("/app/dashboard", name="dashboard")
+     * @Route("app/dashboard/{category}", name="dashboard_category")
+     * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
     public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
@@ -221,15 +221,15 @@ class DefaultController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
-    /**
-     *  @Route("/welcomePopup", name="welcomepopup")
-     */
-    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
-    {
-        $popup = $welcomePopupSession->add();
-        return $this->json($popup);
-    }
+//
+//    /**
+//     *  @Route("/welcomePopup", name="welcomepopup")
+//     */
+//    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
+//    {
+//        $popup = $welcomePopupSession->add();
+//        return $this->json($popup);
+//    }
 
     /**
      * @Route("/company/{id}/updateCompanyImage", name="company_update_image")
