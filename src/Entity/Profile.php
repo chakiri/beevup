@@ -88,11 +88,6 @@ class Profile implements \Serializable
      */
     private $isCompleted;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isOnboarding;
-
      /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -295,18 +290,6 @@ class Profile implements \Serializable
     {
         $this->id = unserialize($serialized);
 
-    }
-
-    public function getIsOnboarding(): ?bool
-    {
-        return $this->isOnboarding;
-    }
-
-    public function setIsOnboarding(?bool $isOnboarding): self
-    {
-        $this->isOnboarding = $isOnboarding;
-
-        return $this;
     }
 
     public function getJobTitle(): ?string

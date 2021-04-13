@@ -15,15 +15,12 @@
                 <div class="col-lg-6">
                     <div class="main-ws-sec">
                         <div class="user-tab-sec">
+                            <h1 class="grey-title">Mon entreprise</h1>
                             <h3>{{ company.name }}</h3>
                             {% if company.category %}
                                 <div class="star-descp">
-                                    {% if  company.category.name != 'Autre' %}
-                                       <span>{{ company.category.name  }}</span>
-                                    {% else  %}
-                                        <span>{{ company.otherCategory }}</span>
-                                    {% endif %}
-                                    <p>{{ company.introduction|raw }}</p>
+                                    <span>{{ company.category.name  }}</span>
+                                    <span>{{ company.otherCategory }}</span>
                                 </div><!--star-descp end-->
                             {% endif %}
 
@@ -175,4 +172,5 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('favoris') }}
+    {{ encore_entry_script_tags('image') }}
 {% endblock %}

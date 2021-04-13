@@ -3,10 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Service;
-use App\Entity\ServiceCategory;
 use App\Entity\TypeService;
 use App\Repository\TypeServiceRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -20,8 +18,6 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-
-
 
 class ServiceType extends AbstractType
 {
@@ -94,7 +90,6 @@ class ServiceType extends AbstractType
                 ],
             ])
             ->add('imageFile', FileType::class, [
-                'required' => true,
                 'attr'  => [
                     'class'       =>'form-control form-imageFile custom-input-file',
                     'onChange'=>'previousImage(event)',

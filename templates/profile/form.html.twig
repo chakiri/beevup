@@ -24,63 +24,38 @@
                                     {{ form_start(EditProfileForm, {'attr':{'id':'BVform'}}) }}
                                         <div class="form-row">
                                             <div class="form-group required col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.lastname) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.lastname) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.lastname) }}
                                             </div>
 
                                             <div class="form-group required col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.firstname) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.firstname) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.firstname) }}
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-lg-12 col-md-12">
-                                                {{ form_label(EditProfileForm.introduction) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.introduction) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.introduction) }}
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group required col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.gender) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.gender) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.gender) }}
                                             </div>
                                             <div class="form-group required col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.function) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.function) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.function) }}
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-lg-12 col-md-12">
-                                                {{ form_label(EditProfileForm.jobTitle) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.jobTitle) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.jobTitle) }}
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group required col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.mobileNumber) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.mobileNumber) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.mobileNumber) }}
                                             </div>
                                             <div class="form-group  col-lg-6 col-md-12">
-                                                {{ form_label(EditProfileForm.phoneNumber) }}
-
-                                                <div class="input-group">
-                                                    {{ form_widget(EditProfileForm.phoneNumber) }}
-                                                </div>
+                                                {{ form_row(EditProfileForm.phoneNumber) }}
                                             </div>
                                         </div>
 
@@ -110,4 +85,8 @@
     </div>
 </main>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('image') }}
 {% endblock %}

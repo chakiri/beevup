@@ -1,5 +1,6 @@
 import introJs from 'intro.js';
 
+/*
 $( window ).on( "load", function() {
     var isOnboarding = $('#onboarding').data('onboarding');
     var sessionOnboarding = $('#onboarding').data('sessionOnboarding');
@@ -70,6 +71,7 @@ function setSessionPopup(){
 
     });
 }
+*/
 
 //Intro Js
 function startIntro(steps){

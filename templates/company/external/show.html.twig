@@ -18,15 +18,9 @@
                         {% endif %}
                     </div>
                     <div class="company-pro-meta p-4">
+                        <h1>{{ company.otherCategory }}</h1>
                         <h3>{{ company.name }}</h3>
-                        {% if company.category %}
-                            {% if  company.category.name != 'Autre' %}
-                                <span><strong>{{ company.category.name  }}</strong></span>
-                            {% else  %}
-                                <span><strong>{{ company.otherCategory }}</strong></span>
-                            {% endif %}
-                        {% endif %}
-                        <p>{{ company.introduction|raw }}</p>
+                        <span><strong>{{ company.category ? company.category.name : null  }}</strong></span>
                     </div>
                 </div>
             </div>

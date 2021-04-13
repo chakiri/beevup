@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route("/app")
+ */
 class AbuseController extends AbstractController
 {
 
     /**
     * @Route("/abuse/add/{postId}/{commentId}", name="abuse_add")
     */
-   
    public function addAbuse(Request $request, EntityManagerInterface $manager, $postId, $commentId  )
    {
     $abuse = new Abuse();

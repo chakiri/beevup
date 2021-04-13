@@ -10,38 +10,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AccountDto
 {
     /**
+     * @Assert\NotBlank
      * @Assert\Length(max=255)
+     * @Assert\Email
      * @ORM\Column(type="string", length=255)
      */
     public $email;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="integer", length=255, nullable=true)
      */
     public $gender;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     public $lastname;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     public $firstname;
 
     /**
+     * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity="App\Entity\UserFunction")
      */
     public $function;
 
     /**
+     * @Assert\NotBlank
      * @Assert\Regex(pattern="/^[0-9]{14}+$/", message="Siret invalide")
      * @ORM\Column(type="string", length=191, unique=true)
      */
     public $siret;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     public $name;
@@ -75,12 +83,14 @@ class AccountDto
 
     /**
      * @Assert\Length(max=255)
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      * @ORM\Column(type="string", nullable=true)
      */
     public $companyPhone;
 
     /**
      * @Assert\Length(max=255)
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      * @ORM\Column(type="string", nullable=true)
      */
     public $personalPhone;
@@ -99,6 +109,17 @@ class AccountDto
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanyCategory")
      */
     public $category;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $otherCategory;
+
+    /**
+     * @ORM\Column(type="string", length=1500)
+     */
+    public $description;
 
     /**
      * Hydrate DTO by data entities
@@ -124,6 +145,8 @@ class AccountDto
         $account->companyPhone = $company->getPhone();
         $account->website = $company->getWebsite();
         $account->category = $company->getCategory();
+        $account->otherCategory = $company->getOtherCategory();
+        $account->description = $company->getDescription();
 
         $account->addressNumber = $company->getAddressNumber();
         $account->addressStreet = $company->getAddressStreet();

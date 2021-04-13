@@ -173,12 +173,6 @@ class ServiceSetting
         return false;
     }
 
-    public function getDutyFree($price, $taxRate)
-    {
-        $taxe = $price / 100 * $taxRate;
-        return $taxe + price;
-    }
-
     // Generate an array contains a key -> value with the errors where the key is the name of the form field
     public function floatvalue($val){
         $val = str_replace(",",".",$val);

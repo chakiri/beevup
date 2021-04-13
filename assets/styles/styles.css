@@ -48,7 +48,8 @@ body{
     height: 100%;
     font-size: 14px;
     font-weight: 500;
-    background: #FAFAFA !important;
+    /*background: #FAFAFA !important;*/
+    background: #f7f7f5!important;
     font-family: 'Rubik', sans-serif;
     color: #132644;
     padding: 3.5em 0 0 0;
@@ -488,6 +489,18 @@ input#service_title::placeholder
     text-align: center;
     border: 0;
 }
+.m-orange-light-btn{
+    padding: 8px 32px;
+    height: 36px;
+    background: #dc6438;
+    border-radius: var(--radius) !important;
+    color: var(--white-color);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 21px;
+    text-align: center;
+    border: 0;
+}
 
 .orange-txt{
     color:var(--orange-color);
@@ -593,6 +606,9 @@ input:-webkit-autofill:active  {
 input{
     color:var(--text-color);
 }
+.grey-title{
+    color: grey;
+}
 .bloc-title{
     font-size: 32px;
     color:var(--text-color);
@@ -677,6 +693,7 @@ textarea.form-control{
 .landign-page-description{
   font-size: 18px;
   line-height: 136%;
+    color: #153770;
 }
 .landing-page-registration-form{
   background-color: var(--white-color);
@@ -693,6 +710,7 @@ textarea.form-control{
 .genaral-condition{
   color:var(--orange-color) !important;
   font-weight: bold;
+  line-height: 1em;
 }
 .landing-page-man{
     width: 273px;
@@ -704,6 +722,7 @@ textarea.form-control{
 }
 .landing-page-section4-bloc h4{
     font-size: 1.6em;
+    color: #153770;
 }
 .landing-page-dashboard-screenshot{
     width: 100%;
@@ -883,9 +902,12 @@ ul.landing-page-list {
     margin-top: 16px;
 }
 .landing-page-section4-img{
-    width: 100%;
+    max-width: 100%;
     border-radius: 10px;
-    max-height: 314px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 .footer{
     padding: 16px;
@@ -932,7 +954,6 @@ ul.landing-page-list {
 .landing-page-logo{
     width: 350px;
     height: auto;
-    margin-left: 8em;
 }
 
 /* ============== DEFAULT BORDER RADIUS =========== */
@@ -2978,11 +2999,14 @@ a:hover {
     width: 100%;
 }
 .warning{
-    background-color: #000;
-    border-radius: 12px;
-    color: #FFF;
+    background-color: #fff;
+    border-radius: 6px;
     line-height: 24px;
     margin: 0 1em 2em;
+    border-left: 8px solid orange;
+}
+.warnings ul{
+    margin: 1em 0 !important;
 }
 
 
@@ -3141,7 +3165,7 @@ a:hover {
 }*/
 
 #company_country, #company_store, #company_category{height: 40px}
-.form-page-bg{background-color:var(--base-bg-color); }
+.form-page-bg{background-color:#f7f7f5; }
 .bv-form{margin-top: 20px}
 .bv-form-col {background-color: #fff;border-radius: var(--radius);}
 .form-page-bg h3{background-color: transparent}
@@ -3672,7 +3696,7 @@ li.icon-type-post a.active{
 
 /* Warning */
 .warnings a:hover, .alert a:hover{
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 /*Waiting validation page */
@@ -3900,7 +3924,7 @@ li.icon-type-post a.active{
 }
 /* equal card height */
 .bg-search .container-bv{
-    padding: 140px 145px;
+    padding: 100px 145px 50px 145px;
 }
 .row-equal > div[class*='col-']{
     display: flex;
@@ -3959,7 +3983,7 @@ li.icon-type-post a.active{
 }
 
 .company-header{
-    height: 180px;
+    height: 200px;
     background-color: rgba(67,95,113,0.9);
     z-index: -1;
     background-repeat: no-repeat;
@@ -4236,6 +4260,10 @@ hr.slider{
 /* External company show for search */
 .external_company_show{
     padding : 0;
+}
+.external_company_show .company-pro-img img {
+    width: 170px;
+    margin-top: 2em;
 }
 .be-contacted-handle-btn{
     text-align: right;

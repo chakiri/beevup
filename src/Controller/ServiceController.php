@@ -34,6 +34,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @Route("/app")
+ */
 class ServiceController extends AbstractController
 {
     /**
@@ -281,38 +284,33 @@ class ServiceController extends AbstractController
                     $manager->persist($serviceCategory);
                 }
 
-                //if the user change the service it should be updated in the posts
-                $relatedPost = $postRepository->findPostRelatedToService($service);
-                if ($relatedPost != null) {
-                    $relatedPost->setTitle($autmaticPost->generateTitle($service));
-                    $manager->persist($relatedPost);
-                }
-
                 $manager->persist($service);
 
                 $manager->flush();
-
-                //Add automatic post when the  user create a new service an automatic post will be created
-                /*if ($request->get('_route') == 'service_new') {
-                    //Dispatch on Logger Entity Event
-                    $dispatcher->dispatch(new LoggerEntityEvent(LoggerEntityEvent::SERVICE_NEW, $service));
-
-                    $category = $postCategoryRepository->findOneBy(['id' => 8]);
-                    $autmaticPost->Add($this->getUser(), $autmaticPost->generateTitle($service), '', $category, $service->getId(), 'Service');
-                }*/
 
                 //Merge score option to options array
                 $optionsRedirect = array_merge($optionsRedirect, ['id' => $service->getId()]);
 
                 $this->addFlash('success', $message);
 
-                if ($request->isXmlHttpRequest()) {
-                   return new JsonResponse([
-                        'message'=> $service->getId()
-                    ]);
-                }else{
-                    return $this->redirectToRoute('service_show', $optionsRedirect);
+                //Get the right root to redirect depend of user provenance
+                $redirection = 'service_show';
+                if ($request->get('inscription') == true){
+                    $redirection = 'dashboard';
+                    //add option is full inscription
+                    $optionsRedirect = array_merge($optionsRedirect, ['status' => 'fullInscription']);
                 }
+
+                if ($request->isXmlHttpRequest()) {
+                    return new JsonResponse([
+                        'serviceId' => $service->getId(),
+                        'urlRedirection' => $this->generateUrl($redirection, $optionsRedirect)
+                    ]);
+                }
+
+                //Normal redirection if it not a ajax callback
+                return $this->redirectToRoute($redirection, $optionsRedirect);
+
             }else{
                 if($request->isXmlHttpRequest()) {
                     return new JsonResponse(array(
@@ -404,12 +402,12 @@ class ServiceController extends AbstractController
             ]);
         }
     }
+
     /**
      * @Route("/service/{id}/delete/{fileId}", name="delete-file")
      */
-    public function deleteFile(Service $service, EntityManagerInterface $manager, $fileId){
-
-
+    public function deleteFile(Service $service, EntityManagerInterface $manager, $fileId)
+    {
         if($fileId == 'service_imageFile1') {
             $service->setFilename1(null);
         } elseif($fileId == 'service_imageFile2'){
@@ -417,11 +415,13 @@ class ServiceController extends AbstractController
         } elseif($fileId == 'service_imageFile3'){
             $service->setFilename3(null);
         }
-           $manager->persist($service);
-           $manager->flush();
-            return new JsonResponse( array(
-                'result' => 0,
-            ));
+
+        $manager->persist($service);
+        $manager->flush();
+
+        return new JsonResponse( array(
+            'result' => 0,
+        ));
     }
 
     /**

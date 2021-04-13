@@ -46,7 +46,11 @@
                                             <li class="list-inline-item mr-0"><i class="fas fa-map-pin"></i></li>
                                             <li class="list-inline-item"><p class="text-muted"> {{ result.city }}</p></li>
                                         </ul>
-                                        <p class="card-text">{{ result.introduction }}</p>
+                                        {% if result.introduction is defined %}
+                                            <p class="card-text">{{ result.introduction }}</p>
+                                        {% else %}
+                                            <p class="card-text">{{ result.otherCategory }}</p>
+                                        {% endif %}
                                         <hr>
 
                                         <!-- Button -->

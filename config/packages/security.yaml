@@ -46,19 +46,18 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/subscription, roles: ROLE_ADMIN_COMPANY }
+        - { path: ^/be/contacted/list/, roles: ROLE_ADMIN_COMPANY}
         - { path: ^/map, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/waitingValidation, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/cgu/accept, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/be/contacted/list/, roles: ROLE_ADMIN_COMPANY}
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/inscription, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/forgottenPassword, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/resetPassword, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/newAccount, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/confirmEmail, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/be/contacted/by/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/external/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]}
         - { path: ^/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY]}
+        - { path: ^/app/, roles: ROLE_USER}
 
     role_hierarchy:
         #GLOBAL ROLES

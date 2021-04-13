@@ -43,12 +43,9 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/dashboard", name="dashboard")
-     * @Route("/dashboard/{category}", name="dashboard_category")
-     * @Route("/dashboard/{post}/post", name="dashboard_post")
-     * @Route("/dashboard/{category}/load_more/{minId}", name="dashboard_category_load_more")
-     * @Route("/dashboard/{post}/post/load_more/{minId}", name="dashboard_post_load_more")
-     * @Route("/dashboard/load_more/{minId}", name="dashboard_load_more")
+     * @Route("/app/dashboard", name="dashboard")
+     * @Route("app/dashboard/{category}", name="dashboard_category")
+     * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
     public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
@@ -84,25 +81,19 @@ class DefaultController extends AbstractController
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
             $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
-        $firstPost =  end($posts);
-        $minPostId = ($firstPost == false) ? 'undefined' : $firstPost->getId();
-
         $options = [
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,
             'untreatedRecommandations' => $untreatedRecommandations ?? null,
             'adminStore'=> $adminStore[0] ?? null,
-            'minPostId' => $minPostId,
-            'beContactedList' => $beContactedList ?? null
+            'beContactedList' => $beContactedList ?? null,
+            'status' => $request->get('status') ?? null
         ];
 
-        if ($request->get('_route') == 'dashboard_load_more' || $request->get('_route') == 'dashboard_category_load_more' || $request->get('_route') == 'dashboard_post_load_more') {
-            return $this->render('default/posts/posts.html.twig', $options);
-        }else {
-            $options['category'] = $category ? $category->getId() : null;
-            return $this->render('default/dashboardv1.html.twig', $options);
-        }
+        $options['category'] = $category ? $category->getId() : null;
+
+        return $this->render('default/dashboardv1.html.twig', $options);
     }
 
     /**
@@ -201,20 +192,17 @@ class DefaultController extends AbstractController
        $stores = $storeRepository->findAll();
        $companies =$companyRepository->findAll();
 
-       $allStores = "";
-       $allCompanies="";
-       $all = "";
+       $allStores = null;
+       $allCompanies= null;
 
-       foreach ($stores as $store)
-       {
+       foreach ($stores as $store) {
           if($store->getLatitude() != null && $store->getLongitude() != null ) {
               $adresse = $store->getAddressNumber().' '. $store->getAddressStreet(). ' '.$store->getAddressPostCode();
               $allStores = $allStores . "{\"name\": \"" . $store->getName() . "\", \"lat\": \"" . $store->getLatitude() . "\",\"lng\": \"" . $store->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
           }
 
        }
-        foreach ($companies as $company)
-        {
+        foreach ($companies as $company) {
             if($company->isValid() === true && $company->getLatitude() != null && $company->getLongitude() != null ) {
                 $adresse = $company->getAddressNumber().' '. $company->getAddressStreet(). ' '.$company->getAddressPostCode();
                 $allCompanies = $allCompanies. "{\"name\": \"" . $company->getName() . "\", \"lat\": \"" . $company->getLatitude() . "\",\"lng\": \"" . $company->getLongitude() . "\",\"adress\": \"" . $adresse . "\" },";
@@ -233,15 +221,15 @@ class DefaultController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-
-    /**
-     *  @Route("/welcomePopup", name="welcomepopup")
-     */
-    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
-    {
-        $popup = $welcomePopupSession->add();
-        return $this->json($popup);
-    }
+//
+//    /**
+//     *  @Route("/welcomePopup", name="welcomepopup")
+//     */
+//    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
+//    {
+//        $popup = $welcomePopupSession->add();
+//        return $this->json($popup);
+//    }
 
     /**
      * @Route("/company/{id}/updateCompanyImage", name="company_update_image")

@@ -18,7 +18,8 @@
                         <div class="main-ws-sec">
                             <div class="product-feed-tab current" id="info-dd">
                                 <div class="user-profile-ov page-title sign_in_sec current form-page-bg">
-                                    <h3>Modifier les informations</h3>
+                                    <h1>Bienvenue !</h1>
+                                    <h2>Vérifier et compléter les informations suivantes</h2>
 
                                     {{ form_start(form) }}
                                         <div class="row">
@@ -45,7 +46,7 @@
 
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6 required">
-                                                        {{ form_row(form.function, {'label': 'Fonction', 'attr': {'placeholder': 'Saisissez votre fonction'}}) }}
+                                                        {{ form_row(form.function, {'label': 'Fonction dans l\'entreprise', 'attr': {'placeholder': 'Saisissez votre fonction'}}) }}
                                                     </div>
                                                     <div class="form-group  col-md-6">
                                                         {{ form_row(form.personalPhone, {'label': 'Téléphone professionnel'}) }}
@@ -79,7 +80,18 @@
                                                 </div>
 
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-6">
+                                                    <div class="form-group col-12 required">
+                                                        {{ form_row(form.otherCategory, {'label': 'Activité de l\'entreprise', 'attr': {'placeholder': 'Exemple : Fleuriste'}}) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-12 required">
+                                                        {{ form_row(form.description, {'label': 'Description de l\'entreprise', 'attr': {'placeholder': 'Exemple : Fleuriste & Co a été créé en 2019 spécialisé dans les événements comme des salons professionnels et les mariages'}}) }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 required">
                                                         {{ form_row(form.companyPhone, {'label': 'Téléphone entreprise'}) }}
                                                     </div>
                                                     <div class="form-group  col-md-6">
@@ -91,7 +103,8 @@
                                         </div>
 
                                         <div class="form-actions form-group">
-                                            <button type="submit" class="m-orange-btn">Sauvegarder et continuer</button>
+                                            {{ form_widget(form.saveAndAdd, {'attr': {'class': 'm-orange-btn'}}) }}
+                                            {{ form_widget(form.save, {'attr': {'class': 'm-orange-light-btn'}}) }}
                                         </div>
 
                                     {{ form_end(form) }}
@@ -105,4 +118,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('image') }}
 {% endblock %}

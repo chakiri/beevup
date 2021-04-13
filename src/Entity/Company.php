@@ -41,8 +41,9 @@ class Company implements \Serializable
     private $email;
 
     /**
-     * @Assert\Length(max=255)
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(max=255)
+     * @Assert\Regex("/\d{10}|\+33\d{9}|\+33\s\d{1}\s\d{2}\s\d{2}\s\d{2}\s\d{2}|\d{2}\s\d{2}\s\d{2}\s\d{2}\s\d{2}/")
      */
     private $phone;
 
@@ -151,12 +152,6 @@ class Company implements \Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
-
-    /**
-     * @ORM\Column(type="string", length=500, nullable=true)
-     */
-
-    private $introduction;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -509,18 +504,6 @@ class Company implements \Serializable
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getIntroduction(): ?string
-    {
-        return $this->introduction;
-    }
-
-    public function setIntroduction(string $introduction): self
-    {
-        $this->introduction = $introduction;
 
         return $this;
     }

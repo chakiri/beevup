@@ -40,13 +40,6 @@
                                                     </div>
                                                 </div>
                                            </div>
-                                            <div class="form-group required">
-                                                <label for="">Votre activité en une phrase</label>
-                                                {{ form_errors(EditCompanyForm.introduction) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.introduction) }}
-                                                </div>
-                                            </div>
 
                                             <div class="form-row">
                                                 <div class="form-group col-md-6 required">
@@ -57,19 +50,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-6 other-category required">
-                                                    <label for="">Précisez votre activité</label>
+                                                    <label for="">Activité de l'entreprise</label>
                                                     {{ form_errors(EditCompanyForm.otherCategory) }}
                                                     <div class="input-group">
                                                         {{ form_widget(EditCompanyForm.otherCategory) }}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="">Description de l'entreprise</label>
-                                                {{ form_errors(EditCompanyForm.description) }}
-                                                <div class="input-group">
-                                                    {{ form_widget(EditCompanyForm.description) }}
-                                                </div>
+                                            <div class="form-group required">
+                                                {{ form_row(EditCompanyForm.description, {'label': 'Description de l\'entreprise', 'attr': {'placeholder': 'Exemple : Fleuriste & Co a été créé en 2019 spécialisé dans les événements comme des salons professionnels et les mariages'}}) }}
                                             </div>
 
 
@@ -154,4 +143,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('image') }}
 {% endblock %}
