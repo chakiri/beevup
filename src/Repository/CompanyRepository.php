@@ -40,7 +40,6 @@ class CompanyRepository extends ServiceEntityRepository
             ->orWhere('p.city LIKE :value')
             ->orWhere('p.country LIKE :value')
             ->orWhere('p.name LIKE :value')
-            ->orWhere('p.introduction LIKE :value')
             ->orWhere('p.description LIKE :value')
             ->orWhere('p.video LIKE :value')
             ->orWhere('p.addressPostCode LIKE :value')
