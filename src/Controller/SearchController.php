@@ -51,7 +51,7 @@ class SearchController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $name = $search->getName();
             //Explode name if containes espace
-            if (str_contains($name, ' ')){
+            if ($name && str_contains($name, ' ')){
                 $names_exploded = explode(' ', $name);
                 $name = $names_exploded[0];
             }

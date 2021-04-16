@@ -22,33 +22,15 @@
                                     <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
                                 {% endif %}
                                 <div class="">
-                                    {% if service.user == app.user %}
-                                        <div class="m-3">
-                                            <a class="btn white-bg" href="{{ path('service_edit', {'id': service.id}) }}">Modifier</a>
-                                            <a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#confirmDelete">Supprimer</a>
-                                        </div>
-                                    {% elseif service.type.name == 'plateform' %}
-                                        <ul class="ul-none">
-                                        {% if is_granted('ROLE_ADMIN_STORE') %}
-                                            {% if storeService %}
-                                                <li><a class="btn white-bg" href="{{ path('service_dissociate', {'id': service.id}) }}" type="button">Retirer</a></li>
-                                                <li><a class="btn white-bg" href="#" type="button" data-toggle="modal" data-target="#editPrice">Editer le prix</a></li>
-                                            {% else %}
-                                                <li><a class="btn white-bg" href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a></li>
-                                                <li><a class="btn white-bg" target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a></li>
-                                            {% endif %}
-                                        {% endif %}
-                                        </ul>
-                                    {% endif %}
                                     <ul class="ul-none">
                                         <li>
                                             {% if service.isQuote %}
                                                 <span><b>Prix :</b> Sur devis</span>
-                                                {% if app.user != service.user %}
+                                                {#{% if app.user != service.user %}
                                                     <div class="mt-3">
                                                         <div class="btn white-bg"><a href="{{ path('chat_private', {'id': service.user}) }}" title="">Demander un devis</a></div>
                                                     </div>
-                                                {% endif %}
+                                                {% endif %}#}
                                             {% else %}
                                                 <span>
                                                     <b>Prix : </b>
@@ -60,27 +42,38 @@
                                                 </span>
                                             {% endif %}
                                         </li>
-                                        {% if app.user != service.user %}
-                                            <div class="mt-3">
-                                                {% if storeService %}
-                                                    {% if not is_granted('ROLE_ADMIN_STORE') %}
-                                                        <div class="btn white-bg">
-                                                            <a href="{{ path('chat_private', {'id': adminStoreService.id}) }}" title="">Contacter {{ adminStoreService.profile.firstname }} {{ adminStoreService.profile.lastname }}</a>
-                                                        </div>
-                                                    {% endif %}
-                                                {% else %}
-                                                    {% if service.user.company != null %}
-                                                            <div class="btn white-bg">
-                                                                <a href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
-                                                            </div>
-                                                    {% endif %}
-                                                {% endif %}
-                                            </div>
-                                        {% endif %}
                                     </ul>
                                 </div><!--user_pro_status end-->
                             </div>
                         </div>
+
+                        {# buttons #}
+                        {% if service.user == app.user %}
+                            <a class="btn white-bg full-width mt-3" href="{{ path('service_edit', {'id': service.id}) }}">Modifier</a>
+                            <a class="btn white-bg full-width mt-3" href="#" type="button" data-toggle="modal" data-target="#confirmDelete">Supprimer</a>
+                        {% elseif service.type.name == 'plateform' %}
+                            {% if is_granted('ROLE_ADMIN_STORE') %}
+                                {% if storeService %}
+                                    <a class="btn white-bg full-width mt-3" href="{{ path('service_dissociate', {'id': service.id}) }}" type="button">Retirer</a>
+                                    <a class="btn white-bg full-width mt-3" href="#" type="button" data-toggle="modal" data-target="#editPrice">Editer le prix</a>
+                                {% else %}
+                                    <a class="btn white-bg full-width mt-3" href="{{ path('service_associate', {'service': service.id}) }}" type="button">Ajouter ce service</a>
+                                    <a class="btn white-bg full-width mt-3" target="_blank"  href="{{ path('chat_private', {'id': service.user.id}) }}"> Demander un devis</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if app.user != service.user %}
+                            {% if storeService %}
+                                {% if not is_granted('ROLE_ADMIN_STORE') %}
+                                    <a class="btn white-bg full-width mt-3" href="{{ path('chat_private', {'id': adminStoreService.id}) }}" title="">Contacter {{ adminStoreService.profile.firstname }} {{ adminStoreService.profile.lastname }}</a>
+                                {% endif %}
+                            {% else %}
+                                {% if service.user.company != null %}
+                                    <a class="btn white-bg full-width mt-3" href="{{ path('chat_private', {'id': service.user}) }}" title="">Contacter {{ service.user.company.name }}</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
                     </div>
                 </div>
                 <div class="col-lg-6">
