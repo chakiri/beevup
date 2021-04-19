@@ -1,30 +1,43 @@
 <div class="filter-secs">
-    <div class="page-title sign_in_sec current">
-        <h5>Filtres</h5>
-    </div>
     {{ form_start(SearchForm) }}
     <div class="p-3">
+        <div class="page-title sign_in_sec current">
+            <h5>Filtres</h5>
+        </div>
         <div class="filter-dd">
-            <div class="form-group">
-                {{ form_widget(SearchForm.name) }}
-            </div>
-            <small>Affiner votre recherche</small>
-            <hr>
-            <div class="form-group d-flex">
-                {{ form_widget(SearchForm.isCompany) }}
-                {{ form_widget(SearchForm.isService) }}
-            </div>
-            <div class="service-filter d-none">
-                <small>Filtrer les services</small>
-                <div class="form-group">
-                    {{ form_widget(SearchForm.category) }}
+            <div class="row">
+                <div class="col-5">
+                    <small>Entrez vos mots clés</small>
+                    <div class="form-group">
+                        {{ form_widget(SearchForm.name) }}
+                    </div>
                 </div>
-                <div class="form-group">
-                    {{ form_widget(SearchForm.isDiscovery) }}
+                <div class="col-4">
+                    <small>Affiner votre recherche</small>
+                    {#<hr>#}
+                    <div class="form-group d-flex">
+                        {{ form_widget(SearchForm.isCompany) }}
+                        {{ form_widget(SearchForm.isService) }}
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-actions form-group">
+                        <button type="submit" class="btn small-btn orange-bg">Chercher</button>
+                    </div>
                 </div>
             </div>
-            <div class="form-actions form-group">
-                <button type="submit" class="btn small-btn orange-bg">Chercher</button>
+            <div class="row">
+                <div class="col-12 service-filter d-none">
+                    <small>Filtrer les services</small>
+                    <div class="d-flex">
+                        <div class="form-group">
+                            {{ form_widget(SearchForm.category) }}
+                        </div>
+                        <div class="form-group ml-3">
+                            {{ form_widget(SearchForm.isDiscovery) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

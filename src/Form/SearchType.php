@@ -21,7 +21,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr'  => [
-                    'placeholder' => 'Entrez vos mots clés',
+                    'placeholder' => 'Exemple : Photographe',
                     'class'=>'btn-radius'
                 ]
             ])
@@ -41,7 +41,7 @@ class SearchType extends AbstractType
                 'required' =>false
             ])
             ->add('isDiscovery', CheckboxType::class, [
-                'label' => 'Services Exclusifs',
+                'label' => 'Offres Exclusives',
                 'required' =>false
             ])
         ;

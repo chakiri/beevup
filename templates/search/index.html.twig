@@ -11,8 +11,6 @@
                         {% include 'search/boxes/search-description.html.twig' %}
                     </div>
 
-                    {% include 'search/boxes/filter.html.twig' %}
-
                    <div class="d-none d-sm-block d-md-none d-lg-block d-xl-block">
                        {% include 'search/boxes/favorites.html.twig' %}
                    </div>
@@ -21,6 +19,8 @@
                 <div class="col-lg-9">
                     <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
                         {% include 'search/boxes/search-description.html.twig' %}
+
+                        {% include 'search/boxes/filter.html.twig' %}
                     </div>
 
                     {% if items %}
