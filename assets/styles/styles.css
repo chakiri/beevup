@@ -3402,6 +3402,68 @@ form[name="profile_image"] .cropper-face {
     padding: 0 6px;
 }
 
+.header-search{
+    margin: -10px 0 0 10px;
+}
+.header-search form{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: all 1s;
+    width: 50px;
+    height: 50px;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+.header-search form:hover{
+    width: 300px;
+    cursor: pointer;
+}
+
+.header-search form:hover input{
+    display: block;
+}
+
+.header-search form:hover .fa{
+    background: #07051a;
+    color: white;
+}
+
+.header-search form .fa{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42.5px;
+    height: 42.5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    color: #07051a;
+    text-align: center;
+    font-size: 1.5em;
+    transition: all 1s;
+}
+
+.header-search form input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: solid 2px;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+
 .box-notification{
     position: relative;
     background: #F6F7F8;

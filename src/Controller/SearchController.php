@@ -33,7 +33,10 @@ class SearchController extends AbstractController
         if ($user){
             $items = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
         }else{
-            $results = $searchHandler->getResults($allCompanies, '');
+            //Get query
+            $query = $request->get('query') ?? '';
+
+            $results = $searchHandler->getResults($allCompanies, $query);
             $items = $results['items'];
 
             //Get infos of companies

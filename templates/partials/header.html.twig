@@ -15,7 +15,12 @@
 <nav class="main-nav d-none d-lg-block">
     <ul class="d-lg-flex justify-content-between">
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div></div>
+            <div class="header-search">
+                <form action="{{ path('search') }}" method="GET">
+                    <input type="text" id="query" name="query" placeholder="Ex: Photographe">
+                    <i class="fa fa-search"></i>
+                </form>
+            </div>
 
             <div class="d-lg-flex">
                 {% set route =  app.request.get('_route') %}
