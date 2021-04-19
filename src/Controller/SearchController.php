@@ -29,13 +29,13 @@ class SearchController extends AbstractController
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
+        //Get query
+        $query = $request->get('query') ?? '';
+
         //If user, it's mean display all services of user
         if ($user){
             $items = $serviceRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
         }else{
-            //Get query
-            $query = $request->get('query') ?? '';
-
             $results = $searchHandler->getResults($allCompanies, $query);
             $items = $results['items'];
 
@@ -46,6 +46,9 @@ class SearchController extends AbstractController
         }
 
         $search = new Search();
+
+        //Set query to name
+        $search->setName($query);
 
         $form = $this->createForm(SearchType::class, $search);
 
