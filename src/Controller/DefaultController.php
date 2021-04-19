@@ -19,13 +19,13 @@ use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
 use App\Repository\UserRepository;
 use App\Service\Communities;
-use App\Service\Company\CompanySearch;
 use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
 use App\Service\Search\InfoSearch;
 use App\Service\Notification\PostNotificationSeen;
+use App\Service\Search\SearchHandler;
 use App\Service\ServiceSetting;
 use App\Service\Session\ExternalStoreSession;
 use App\Service\Session\WelcomePopupSession;
@@ -99,7 +99,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage", options={"expose"=true})
      */
-    public function homePage(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, ProfilRepository $profilRepository, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, CompanySearch $companySearch, ServiceSetting $serviceSetting)
+    public function homePage(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, SearchHandler $searchHandler, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, ServiceSetting $serviceSetting)
     {
         //Get store if passed in parameter
         if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
@@ -144,10 +144,10 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             //Get results from searching
-            $results = $companySearch->getCompanies($allCompanies, $form->get('querySearch')->getData());
+            $results = $searchHandler->getResultsExtern($allCompanies, $form->get('querySearch')->getData());
 
             //Get infos from each company
-            $infos = $infoSearch->getInfosCompanies($results, $store);
+            $infos = $infoSearch->getInfosCompanies($results);
 
             //Options rediredct
             $options = [

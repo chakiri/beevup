@@ -25,7 +25,7 @@ class CompanySearch
     /**
      * Get companies from search
      */
-    public function getCompanies($allCompanies, $query): array
+    /*public function getCompanies($allCompanies, $query): array
     {
         //Declare array
         $results = [];
@@ -55,6 +55,6 @@ class CompanySearch
         }
 
         return $results;
-    }
+    }*/
 
 }
