@@ -3717,6 +3717,53 @@ li.icon-type-post a.active{
     justify-content: center;
 }
 
+/* Charter Dashboard */
+ul.block li {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9fc;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 10px;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+ul.block a{
+    color: initial;
+}
+ul.block {
+    padding: 0;
+}
+
+ul.block li i{
+    font-size: 23px;
+    color: #465192;
+    padding-right: 10px;
+}
+
+#charter h5{
+    padding: 10px;
+}
+
+.valid a{
+    color: green !important;
+}
+.not-valid a{
+    color: red !important;
+}
+
+.greyed a{
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+    color: grey !important;
+}
+
 /* Websocket */
 #chatPlateform{
     background-color: #fff;
