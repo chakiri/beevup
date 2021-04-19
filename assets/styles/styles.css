@@ -3147,6 +3147,9 @@ a:hover {
     border-radius: var(--radius);
     margin-bottom: 20px;
 }
+.page-description span{
+    font-size: 20px;
+}
 .store-file label::after {
     content: "Charger" !important;
     color: #495057 !important;
@@ -3430,7 +3433,7 @@ form[name="profile_image"] .cropper-face {
 }
 
 .header-search form:hover .fa{
-    background: #07051a;
+    background: #494949;
     color: white;
 }
 
@@ -3443,7 +3446,7 @@ form[name="profile_image"] .cropper-face {
     top: 0;
     right: 0;
     border-radius: 50%;
-    color: #07051a;
+    color: #494949;
     text-align: center;
     font-size: 1.5em;
     transition: all 1s;
@@ -3457,7 +3460,7 @@ form[name="profile_image"] .cropper-face {
     height: 42.5px;
     line-height: 30px;
     outline: 0;
-    border: solid 2px;
+    border: solid 2px #494949;
     display: none;
     font-size: 1em;
     border-radius: 20px;
