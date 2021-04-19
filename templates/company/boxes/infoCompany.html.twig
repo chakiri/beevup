@@ -43,9 +43,6 @@
 
     {# buttons #}
     {% if is_granted('ROLE_ADMIN_COMPANY') and company.id == app.user.company.id %}
-        <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" title="" class="btn white-bg full-width mt-3" target="_blank">
-            Voir les demandes de contact
-        </a>
         {% if app.request.attributes.get('_route') == 'company_edit' %}
             <a href="{{ path('company_show', {'slug': company.slug, 'id': company.id}) }}" title="" class="btn white-bg full-width mt-3">
                 Afficher mes informations
@@ -55,6 +52,10 @@
                 Modifier les informations
             </a>
         {% endif %}
+        <a href="{{ path('be_contacted_list', {'status': 'current'}) }}" title="" class="btn white-bg full-width mt-3" target="_blank">
+            Voir les demandes de contact
+        </a>
+        <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
     {% else %}
         {% if (companyAdministrator != null) %}
             <a href="{{ path('chat_private', {'id': companyAdministrator.id}) }}" class="btn white-bg full-width mt-3">

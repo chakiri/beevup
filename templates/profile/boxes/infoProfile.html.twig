@@ -33,14 +33,13 @@
                 <a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">Modifier profil</a>
             </div>
         {% endif %}
-        <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn orange-bg full-width mt-3">Créer un service</a>
-
         {% if is_granted('ROLE_ADMIN_STORE') %}
             <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
             <a id="assocaiteservicebox"  type="button"  href="{{ path('service_generic') }}" class="btn white-bg full-width mt-3">Ajouter un service BV</a>
         {% elseif is_granted('ROLE_ADMIN_COMPANY') %}
             <a id="myservicesbox" type="button"  href="{{ path('service_company', {'company': app.user.company.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
         {% endif %}
+        <a id="createservicebox" type="button"  href="{{ path('service_new') }}" class="btn orange-bg full-width mt-3">Créer un service</a>
     {% else %}
         <div class="btn white-bg full-width mt-3"><a href="{{ path('chat_private', {'id': profile.user.id}) }}" title="" class="">Contacter {{ profile.firstname }}</a></div>
         <div class="btn white-bg full-width mt-3"><a href="#" title=""
