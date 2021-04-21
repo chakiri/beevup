@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Label;
 use App\Entity\Post;
 use App\Entity\PostCategory;
 use App\Entity\Store;
 use App\Entity\Profile;
+use App\Entity\User;
 use App\Form\CompanyImageType;
 use App\Form\ProfileImageType;
 use App\Form\SearchStoreType;
@@ -236,8 +238,8 @@ class DefaultController extends AbstractController
      * @Route("/store/{id}/updateStoreImage", name="store_update_image")
      * @Route("/account/{id}/updateProfileImage", name="profile_update_image")
      */
-    public function updateImageForm(Request $request,EntityManagerInterface $manager,  Company $company = null, Store $store = null, Profile $profile = null, ImageCropper $imageCropper,  Error $error){
-
+    public function updateImageForm(Request $request,EntityManagerInterface $manager,  Company $company = null, Store $store = null, Profile $profile = null, ImageCropper $imageCropper,  Error $error)
+    {
         if ( $request->get('_route') == 'company_update_image') {
             $formType = CompanyImageType::class;
             $entity = $company;
@@ -277,4 +279,34 @@ class DefaultController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/modal/charter", name="modal_charter", options={"expose"=true})
+     */
+    public function modalSignCharter()
+    {
+        return $this->render('dashboard/modals/charter.html.twig');
+    }
+
+    /**
+     * @Route("/sign/charter/{user}", name="sign_charter", options={"expose"=true})
+     */
+    public function signCharter(User $user, EntityManagerInterface $manager)
+    {
+        $label = $user->getLabel();
+
+        if (!$label){
+            $label = new Label();
+            $label->setUser($user);
+        }
+
+        $label->setCharter(true);
+
+        $manager->persist($label);
+
+        $manager->flush();
+
+        return $this->json([
+            'message' => 'charter signed'
+        ], 200);
+    }
 }

@@ -3750,6 +3750,32 @@ ul.block li i{
     padding: 10px;
 }
 
+#charterModal .modal-dialog{
+    max-width: 1200px;
+}
+
+#charterModal .banner{
+    background: url('../images/dashboard/charter_banner.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 330px;
+    color: #e19501;
+    padding: 3em;
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+#charterModal .banner h1{
+    padding-top: 100px;
+}
+
+#charterModal img{
+    width: 80px;
+    height: 80px;
+}
+
 .valid a{
     color: green !important;
 }

@@ -51,15 +51,8 @@
             </div>
 
             <div class="col-lg-3 col-md-12 order-sm-1">
-                <div id="charter" class="box">
-                    <h5>Label</h5>
-                    <ul class="block">
-                        <li class="{% if app.user.company.valid == true %}valid{% endif %}"><i class="fas fa-at"></i> <a href="#"><strong>Email verifié</strong></a></li>
-                        <li class=""><i class="fas fa-file-contract"></i><a href="#"><strong>Charte signée</strong></a></li>
-                        <li class=""><i class="far fa-file-alt"></i> <a href="#"><strong>Kbis chargé</strong></a></li>
-                        <li class="greyed"><i class="far fa-calendar-plus"></i> <a href="#"><strong>Rendez-vous magasin effectué</strong></a></li>
-                    </ul>
-                </div>
+
+                {% include 'default/boxes/charter-box.html.twig' %}
 
                 <div id="news-filter" class="box-navigation-items">
                     <small class="greyed">Filtrez votre actualité</small>
@@ -157,7 +150,6 @@
                     {% endif %}
 
                 </div>
-
             </div>
 
         </div>
@@ -173,7 +165,7 @@
     {% include 'default/modals/call-modals.html.twig' %}
 
     <!-- Charter -->
-    {% include 'default/modals/base.html.twig' with {'idModal' : 'charter'} %}
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'charterModal'} %}
 
 {% endblock %}
 
