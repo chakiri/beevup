@@ -169,8 +169,12 @@ window.previousImage = function(e)
 
     let form = document.getElementById('BVform');
 
-    function handler ()
+    if(form != null)
     {
+        form.addEventListener('submit',handler);
+    }
+
+    function handler () {
         if(fileInput.files[0]) {
             event.preventDefault()
             /*$('.hide-load').addClass('load-ajax-form');*/
@@ -189,10 +193,6 @@ window.previousImage = function(e)
                 $('.file-not-correct').text('Ce type de fichier n\'est pas autorisé.Merci d\'en essayer un autre(jpeg, png, jpg)');
             }
         }
-    }
-    if(form != null)
-    {
-        form.addEventListener('submit',handler);
     }
 
     $(document).on('click', '.cut-btn'+getFieldId(serviceFieldId), function(e) {

@@ -28,3 +28,6 @@ vich_uploader:
         gallerie_image:
             uri_prefix:         /media/uploads/service
             upload_destination: '%kernel.project_dir%/public/media/uploads/service'
+        kbis_file:
+            uri_prefix:         /media/uploads/kbis
+            upload_destination: '%kernel.project_dir%/public/media/uploads/kbis'

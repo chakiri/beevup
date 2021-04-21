@@ -1,0 +1,18 @@
+<div class="container">
+    <h4 class="py-3">Insérer votre kbis</h4>
+    {{ form_start(form, {'attr': {'id': 'kbisForm'}}) }}
+
+        <div class="form-group">
+            {{ form_widget(form.kbisFile) }}
+        </div>
+
+        <div class="form-actions form-group text-center">
+            <button type="submit" class="m-orange-btn company-submit-btn">Enregistrer</button>
+        </div>
+
+    {{ form_end(form) }}
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}

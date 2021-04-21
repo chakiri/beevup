@@ -381,11 +381,9 @@ $(document).ready(function() {
      * Sign charter
      */
     $('#signCharterBtn').click(function(){
-        //Get user id from twig
-        let user = $(this).data('user');
 
         //Get url
-        const url = Routing.generate('sign_charter', {'user': user});
+        const url = Routing.generate('sign_charter');
 
         $.ajax({
             type: 'POST',
@@ -402,5 +400,51 @@ $(document).ready(function() {
 
         //Close modal
         $('#charterModal').modal('hide');
+    });
+
+    /**
+     * Load kbis form into modal
+     */
+    $('#kbisUpload').click(function(){
+        //Open modal
+        $('#kbisFormModal').modal();
+
+        //Get url
+        const url = Routing.generate('modal_kbis');
+
+        $.ajax({
+            type: 'GET',
+            url : url,
+            success: function (data){
+                $('#kbisFormModal .modal-content').html(data);
+            }
+        });
+    });
+
+    /**
+     * When kbis form is submited
+     */
+    $('#kbisForm').submit(function(event){
+
+        //Avoid reloading page when submit
+        event.preventDefault();
+
+        //Get data from form
+        let formData = {
+           kbisFile: $('#kbis_kbisFile').val()
+        }
+
+        //Get url
+        const url = Routing.generate('upload_kbis');
+
+        //Ajax call to do controller process
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            dataType: 'json'
+        }).done(function (data) {
+            console.log(data);
+        });
     });
 });

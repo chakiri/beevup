@@ -10,6 +10,7 @@ use App\Entity\Store;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\CompanyImageType;
+use App\Form\KbisType;
 use App\Form\ProfileImageType;
 use App\Form\SearchStoreType;
 use App\Form\StoreImageType;
@@ -288,10 +289,12 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/sign/charter/{user}", name="sign_charter", options={"expose"=true})
+     * @Route("/sign/charter", name="sign_charter", options={"expose"=true})
      */
-    public function signCharter(User $user, EntityManagerInterface $manager)
+    public function signCharter(EntityManagerInterface $manager)
     {
+        $user = $this->getUser();
+
         $label = $user->getLabel();
 
         if (!$label){
@@ -309,4 +312,36 @@ class DefaultController extends AbstractController
             'message' => 'charter signed'
         ], 200);
     }
+
+    /**
+     * @Route("/modal/kbis", name="modal_kbis", options={"expose"=true})
+     */
+    public function modalKbisForm(Request $request)
+    {
+        $user = $this->getUser();
+
+        $label = $user->getLabel();
+
+        if (!$label){
+            $label = new Label();
+        }
+
+        $form = $this->createForm(KbisType::class, $label);
+
+        return $this->render('dashboard/modals/kbisForm.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Action called with ajax to submit kbis form loaded by ajax
+     * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
+     */
+    public function uploadKbisForm(Request $request)
+    {
+        $user = $this->getUser();
+
+        dd($request->getContent());
+    }
+
 }
