@@ -429,22 +429,32 @@ $(document).ready(function() {
         //Avoid reloading page when submit
         event.preventDefault();
 
-        //Get data from form
-        let formData = {
-           kbisFile: $('#kbis_kbisFile').val()
-        }
-
         //Get url
         const url = Routing.generate('upload_kbis');
 
+        //Get form
+        let form = $("#kbisForm")[0];
+
         //Ajax call to do controller process
         $.ajax({
-            type: 'POST',
             url: url,
-            data: formData,
-            dataType: 'json'
-        }).done(function (data) {
-            console.log(data);
+            data: new FormData(form),   //Send formData of form
+            type:"post",
+            contentType:false,
+            processData:false,
+            cache:false,
+            dataType:"json",
+            error:function(err){
+                console.error(err);
+                alert("Une erreur est survenue. Veuillez réessayer")
+            },
+            success:function(data){
+                console.log(data);
+                $('#kbisUpload').parents('li').addClass('valid');
+            }
         });
+
+        //Close modal
+        $('#kbisFormModal').modal('hide');
     });
 });

@@ -34,6 +34,7 @@ use App\Service\Session\ExternalStoreSession;
 use App\Service\Session\WelcomePopupSession;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -91,7 +92,7 @@ class DefaultController extends AbstractController
             'untreatedRecommandations' => $untreatedRecommandations ?? null,
             'adminStore'=> $adminStore[0] ?? null,
             'beContactedList' => $beContactedList ?? null,
-            'status' => $request->get('status') ?? null
+            'status' => $request->get('status') ?? null,
         ];
 
         $options['category'] = $category ? $category->getId() : null;
@@ -337,11 +338,33 @@ class DefaultController extends AbstractController
      * Action called with ajax to submit kbis form loaded by ajax
      * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
      */
-    public function uploadKbisForm(Request $request)
+    public function uploadKbisForm(Request $request, EntityManagerInterface $manager)
     {
         $user = $this->getUser();
 
-        dd($request->getContent());
+        $label = $user->getLabel();
+
+        if (!$label){
+            $label = new Label();
+            $label->setUser($user);
+        }
+
+        //Get file from ajax FormData
+        $file = $request->files->get('kbis')['kbisFile'];
+
+        $status = array('status' => "success","fileUploaded" => false);
+
+        // If a file was uploaded
+        if(! is_null($file)){
+            $label->setKbisFile($file);
+
+            $manager->persist($label);
+            $manager->flush();
+
+            $status = array('status' => "success","fileUploaded" => true);
+        }
+
+        return new JsonResponse($status);
     }
 
 }
