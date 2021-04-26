@@ -22,12 +22,6 @@ class Label implements \Serializable
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="label", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $email;
@@ -63,6 +57,12 @@ class Label implements \Serializable
      */
     private $kbisStatus;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Company::class, inversedBy="label", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $company;
+
     public function __construct()
     {
         $this->charter = false;
@@ -71,18 +71,6 @@ class Label implements \Serializable
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getEmail(): ?bool
@@ -169,4 +157,17 @@ class Label implements \Serializable
 
         return $this;
     }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
 }

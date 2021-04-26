@@ -16,6 +16,7 @@ use App\Form\SearchStoreType;
 use App\Form\StoreImageType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\LabelRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
@@ -292,15 +293,15 @@ class DefaultController extends AbstractController
     /**
      * @Route("/sign/charter", name="sign_charter", options={"expose"=true})
      */
-    public function signCharter(EntityManagerInterface $manager)
+    public function signCharter(EntityManagerInterface $manager, LabelRepository $labelRepository)
     {
-        $user = $this->getUser();
+        $company = $this->getUser()->getCompany();
 
-        $label = $user->getLabel();
+        $label = $labelRepository->findOneBy(['company' => $company]);
 
         if (!$label){
             $label = new Label();
-            $label->setUser($user);
+            $label->setCompany($company);
         }
 
         $label->setCharter(true);
@@ -318,15 +319,15 @@ class DefaultController extends AbstractController
      * Ajax handle upload kbisFile in popup
      * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
      */
-    public function modalKbisForm(Request $request, EntityManagerInterface $manager, Error $error)
+    public function modalKbisForm(Request $request, EntityManagerInterface $manager, Error $error, LabelRepository $labelRepository)
     {
-        $user = $this->getUser();
+        $company = $this->getUser()->getCompany();
 
-        $label = $user->getLabel();
+        $label = $labelRepository->findOneBy(['company' => $company]);
 
         if (!$label){
             $label = new Label();
-            $label->setUser($user);
+            $label->setCompany($company);
         }
 
         $form = $this->createForm(KbisType::class, $label);

@@ -118,11 +118,6 @@ class User implements UserInterface
      */
     private $sponsorship;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Label::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $label;
-
     public function __construct()
     {
         $this->isValid = false;
@@ -366,23 +361,6 @@ class User implements UserInterface
     public function getSponsorship(): Collection
     {
         return $this->sponsorship;
-    }
-
-    public function getLabel(): ?Label
-    {
-        return $this->label;
-    }
-
-    public function setLabel(Label $label): self
-    {
-        // set the owning side of the relation if necessary
-        if ($label->getUser() !== $this) {
-            $label->setUser($this);
-        }
-
-        $this->label = $label;
-
-        return $this;
     }
 
 }

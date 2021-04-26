@@ -183,6 +183,11 @@ class Company implements \Serializable
      */
     private $subscription;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Label::class, mappedBy="company", cascade={"persist", "remove"})
+     */
+    private $label;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -697,13 +702,20 @@ class Company implements \Serializable
         }
     }
 
-    public function getSponsorshipNumber(){
-        $users = $this->getUsers();
-        $nb = 0;
-        foreach ($users as $user){
-            $nb +=count($user->getSponsorship());
-        }
-        return $nb;
+    public function getLabel(): ?Label
+    {
+        return $this->label;
     }
 
+    public function setLabel(Label $label): self
+    {
+        // set the owning side of the relation if necessary
+        if ($label->getCompany() !== $this) {
+            $label->setCompany($this);
+        }
+
+        $this->label = $label;
+
+        return $this;
+    }
 }
