@@ -6,6 +6,7 @@ use App\Repository\LabelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LabelRepository::class)
@@ -44,6 +45,11 @@ class Label implements \Serializable
     /**
      * @Vich\UploadableField(mapping="kbis_file", fileNameProperty="kbis")
      * @var File
+     * @Assert\File(
+     *     maxSize = "2048k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf", "image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Merci d'uploader un fichier valid : png, jpeg, pdf"
+     * )
      */
     private $kbisFile;
 
@@ -51,6 +57,11 @@ class Label implements \Serializable
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=55, nullable=true)
+     */
+    private $kbisStatus;
 
     public function __construct()
     {
@@ -145,5 +156,17 @@ class Label implements \Serializable
     {
         $this->kbisFile = base64_decode($this->kbisFile);
 
+    }
+
+    public function getKbisStatus(): ?string
+    {
+        return $this->kbisStatus;
+    }
+
+    public function setKbisStatus(string $kbisStatus): self
+    {
+        $this->kbisStatus = $kbisStatus;
+
+        return $this;
     }
 }

@@ -410,7 +410,7 @@ $(document).ready(function() {
         $('#kbisFormModal').modal();
 
         //Get url
-        const url = Routing.generate('modal_kbis');
+        const url = Routing.generate('upload_kbis');
 
         $.ajax({
             type: 'GET',
@@ -450,11 +450,15 @@ $(document).ready(function() {
             },
             success:function(data){
                 console.log(data);
-                $('#kbisUpload').parents('li').addClass('valid');
+                if (data.status === 'error'){
+                    //Display error message
+                    $('#kbis_kbisFile').after('<p class="error">Erreur: ' + data.message + '</p>');
+                }else{
+                    $('#kbisUpload').parents('li').addClass('waiting');
+                    //Close modal
+                    $('#kbisFormModal').modal('hide');
+                }
             }
         });
-
-        //Close modal
-        $('#kbisFormModal').modal('hide');
     });
 });

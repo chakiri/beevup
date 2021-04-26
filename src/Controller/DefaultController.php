@@ -315,30 +315,10 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/modal/kbis", name="modal_kbis", options={"expose"=true})
-     */
-    public function modalKbisForm(Request $request)
-    {
-        $user = $this->getUser();
-
-        $label = $user->getLabel();
-
-        if (!$label){
-            $label = new Label();
-        }
-
-        $form = $this->createForm(KbisType::class, $label);
-
-        return $this->render('dashboard/modals/kbisForm.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Action called with ajax to submit kbis form loaded by ajax
+     * Ajax handle upload kbisFile in popup
      * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
      */
-    public function uploadKbisForm(Request $request, EntityManagerInterface $manager)
+    public function modalKbisForm(Request $request, EntityManagerInterface $manager, Error $error)
     {
         $user = $this->getUser();
 
@@ -349,22 +329,37 @@ class DefaultController extends AbstractController
             $label->setUser($user);
         }
 
-        //Get file from ajax FormData
-        $file = $request->files->get('kbis')['kbisFile'];
+        $form = $this->createForm(KbisType::class, $label);
 
-        $status = array('status' => "success","fileUploaded" => false);
+        $form->handleRequest($request);
 
-        // If a file was uploaded
-        if(! is_null($file)){
-            $label->setKbisFile($file);
+        if ($form->isSubmitted()){
+            if ($form->get('kbisFile')->isValid()){
+                //Get file from ajax FormData
+                $file = $request->files->get('kbis')['kbisFile'];
 
-            $manager->persist($label);
-            $manager->flush();
+                $status = ['status' => "success", "message" => 'file not uploaded'];
 
-            $status = array('status' => "success","fileUploaded" => true);
+                // If a file was uploaded
+                if($file){
+                    $label->setKbisFile($file);
+                    $label->setKbisStatus('isWaiting');
+
+                    $manager->persist($label);
+                    $manager->flush();
+
+                    $status = ['status' => "success", "message" => 'file uploaded'];
+                }
+            }else{
+                $status = ['status' => "error", "message" => $error->getErrorMessages($form->get('kbisFile'))];
+            }
+
+            return $this->json($status);
         }
 
-        return new JsonResponse($status);
+        return $this->render('dashboard/modals/kbisForm.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
 }

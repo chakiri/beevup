@@ -3746,6 +3746,18 @@ ul.block li i{
     padding-right: 10px;
 }
 
+ul.block li.valid:after{
+    content: "Validé";
+    color: green;
+    margin-left: 5px;
+}
+
+ul.block li.waiting:after{
+    content: "En attente de vérification";
+    color: orange;
+    margin-left: 5px;
+}
+
 #charter h5{
     padding: 10px;
 }
@@ -3774,13 +3786,6 @@ ul.block li i{
 #charterModal img{
     width: 80px;
     height: 80px;
-}
-
-.valid a{
-    color: green !important;
-}
-.not-valid a{
-    color: red !important;
 }
 
 .greyed a{
@@ -4492,8 +4497,7 @@ hr.slider{
 }
 
 .error {
-    font-size: 9px;
-    margin-left: 13px;
+    font-size: 12px;
     color: red;
 }
 
