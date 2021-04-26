@@ -8,7 +8,6 @@ use App\Entity\Post;
 use App\Entity\PostCategory;
 use App\Entity\Store;
 use App\Entity\Profile;
-use App\Entity\User;
 use App\Form\CompanyImageType;
 use App\Form\KbisType;
 use App\Form\ProfileImageType;
@@ -17,7 +16,6 @@ use App\Form\StoreImageType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\LabelRepository;
-use App\Repository\ProfilRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
@@ -32,16 +30,15 @@ use App\Service\Notification\PostNotificationSeen;
 use App\Service\Search\SearchHandler;
 use App\Service\ServiceSetting;
 use App\Service\Session\ExternalStoreSession;
-use App\Service\Session\WelcomePopupSession;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class DefaultController extends AbstractController
@@ -291,6 +288,7 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/sign/charter", name="sign_charter", options={"expose"=true})
      */
     public function signCharter(EntityManagerInterface $manager, LabelRepository $labelRepository)
@@ -317,6 +315,7 @@ class DefaultController extends AbstractController
 
     /**
      * Ajax handle upload kbisFile in popup
+     * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
      */
     public function modalKbisForm(Request $request, EntityManagerInterface $manager, Error $error, LabelRepository $labelRepository)

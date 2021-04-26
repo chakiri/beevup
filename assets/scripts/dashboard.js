@@ -390,8 +390,12 @@ $(document).ready(function() {
             url : url,
             success: function (data){
                 console.log(data);
+                let li = $('#charterSign');
                 //Put li to green
-                $('#charterSign').parents('li').addClass('valid');
+                li.parents('li').removeClass('empty');
+                li.parents('li').addClass('valid');
+                //Open uplading kbis
+                $('#kbisUpload').parents('li').removeClass('greyed');
             },
             error() {
                 alert("Un problème est survenu. Réesseyez ultérieurement")
@@ -454,7 +458,9 @@ $(document).ready(function() {
                     //Display error message
                     $('#kbis_kbisFile').after('<p class="error">Erreur: ' + data.message + '</p>');
                 }else{
-                    $('#kbisUpload').parents('li').addClass('waiting');
+                    let li = $('#kbisUpload');
+                    li.parents('li').removeClass('empty');
+                    li.parents('li').addClass('waiting');
                     //Close modal
                     $('#kbisFormModal').modal('hide');
                 }

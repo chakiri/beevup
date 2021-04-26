@@ -3740,22 +3740,31 @@ ul.block {
     padding: 0;
 }
 
-ul.block li i{
+ul.block li .icon{
     font-size: 23px;
     color: #465192;
-    padding-right: 10px;
+    padding: 10px;
 }
 
-ul.block li.valid:after{
+ul.block li.valid a:after{
     content: "Validé";
     color: green;
-    margin-left: 5px;
+    display: block;
 }
 
-ul.block li.waiting:after{
+ul.block li.waiting a:after{
     content: "En attente de vérification";
     color: orange;
-    margin-left: 5px;
+    display: block;
+}
+ul.block li.empty a:after{
+    content: "A compléter";
+    display: block;
+}
+.btn-info-label {
+    margin-left: auto;
+    padding: 8px 0;
+    color: grey;
 }
 
 #charter h5{

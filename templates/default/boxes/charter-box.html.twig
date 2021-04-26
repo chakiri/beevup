@@ -1,14 +1,51 @@
 {% if is_granted('ROLE_ADMIN_COMPANY') %}
+
+    {% set label = "Le label permet à votre entreprise d'être connue et valorisée par votre magasin Bureau Vallée. Vous devenez plus visible : votre entreprise est mise en avant dans le moteur de recherche Beev'Up et en magasin." %}
+    {% set charter = "La charte du professionnel Beev'Up rassemble les engagements que vous prenez pour avoir le Label Beev'Up." %}
+    {% set kbis = "Le Kbis entré doit être au format .pdf, .jpg ou .png. Il sera vérifié par le référent de votre magasin." %}
+    {% set appointment = "Le référent de votre magasin Bureau Vallée va prendre contact avec vous." %}
+
 <div id="charter" class="box">
-    <h5>Label Beev'Up</h5>
+    <div class="d-flex justify-content-between">
+        <h5>Label Beev'Up</h5>
+        <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ label }}">
+            <i class="fas fa-question-circle"></i>
+        </button>
+    </div>
     <ul class="block">
-        <li class="{% if app.user.company.valid == true %}valid{% endif %}"><i class="fas fa-at"></i> <a href="#"><strong>Email verifié</strong></a></li>
-        <li class="{% if app.user.company.label and app.user.company.label.charter == true %}valid{% endif %}"><i class="fas fa-file-contract"></i><a href="#" id="charterSign"><strong>Charte signée</strong></a></li>
+        <li class="{% if app.user.company.valid == true %}valid{% endif %}">
+            <i class="fas fa-at icon"></i>
+            <a href="#"><strong>Email verifié</strong></a>
+        </li>
         <li class="
-            {% if app.user.company.label and app.user.company.label.kbisStatus == 'isWaiting' %}waiting{% endif %}
-            {% if app.user.company.label and app.user.company.label.kbisStatus == 'isValid' %}valid{% endif %}
-                "><i class="far fa-file-alt"></i> <a href="#" id="kbisUpload"><strong>Kbis chargé</strong></a></li>
-        <li class="greyed"><i class="far fa-calendar-plus"></i> <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a></li>
+            {% if app.user.company.label and app.user.company.label.charter == true %}valid
+            {% else %}empty{% endif %}
+            ">
+            <i class="fas fa-file-contract icon"></i>
+            <a href="#" id="charterSign"><strong>Charte signée</strong></a>
+            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ charter }}">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </li>
+        <li class="
+            {% if not app.user.company.label or app.user.company.label.charter != true %}greyed{% endif %}
+            {% if app.user.company.label and app.user.company.label.kbisStatus == 'isWaiting' %}waiting
+            {% elseif app.user.company.label and app.user.company.label.kbisStatus == 'isValid' %}valid
+            {% else %}empty{% endif %}
+                ">
+            <i class="far fa-file-alt icon"></i>
+            <a href="#" id="kbisUpload"><strong>Kbis chargé</strong></a>
+            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ kbis }}">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </li>
+        <li class="greyed empty">
+            <i class="far fa-calendar-plus icon"></i>
+            <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a>
+            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ appointment }}">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </li>
     </ul>
 </div>
 {% endif %}
