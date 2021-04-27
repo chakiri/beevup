@@ -1,17 +1,18 @@
 easy_admin:
-  site_name: 'Dashboard'
+  site_name: 'Admin'
 
   design:
     menu:
-      - { entity: 'UserEntreprise', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_COMPANY'}
       - { entity: 'Store', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Company', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE', 'ROLE_ADMIN_PLATEFORM']}
       - { entity: 'User', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_PLATEFORM'}
-      - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
       - { entity: 'Publicity', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Offer', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'Subscription', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
       - { entity: 'ImageGallery', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_PLATEFORM']}
+      - { entity: 'UserStore', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
+      - { entity: 'Label', icon: 'chevron-circle-right', permission: ['ROLE_ADMIN_STORE']}
+      - { entity: 'UserCompany', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_COMPANY'}
 
     templates:
       layout: 'admin/layout.html.twig' # templates/layout.html.twig
@@ -52,6 +53,7 @@ easy_admin:
           - { property: 'getCreatedAtFormat', label: 'Date de création' }
           - { property: 'isCompleted', label: 'Fiche entreprise renseignée' , css_class: 'isDefined'}
           - { property: 'isValid', label: 'Active' }
+
     Store:
       class: App\Entity\Store
       controller: App\Controller\Admin\Store\StoreController
@@ -93,6 +95,7 @@ easy_admin:
           - { property: 'phone', label: 'Téléphone' }
           - { type: 'group',  label: 'Attachement', icon: 'phone', css_class: 'col-lg-6'}
           - { property: 'imageFile', label: 'Photo du magasin', type: 'vich_image', upload_dir: 'public/images/company/' }
+
     Publicity:
       class: App\Entity\Publicity
       label: 'Publicité'
@@ -112,6 +115,7 @@ easy_admin:
         fields:
           - { property: 'link', label: 'URl' }
           - { property: 'imageFile', label: 'Image', type: 'vich_image', upload_dir: 'public/images/publicity/' }
+
     Offer:
       class: App\Entity\Offer
       label: 'Les offres'
@@ -137,6 +141,7 @@ easy_admin:
           - { property: 'nbServices', label: 'nombre de services' }
           - { property: 'nbUsers', label: 'nombre des utilisateurs' }
           - { property: 'price', label: 'Prix' }
+
     # List the entity class name you want to manage
     ImageGallery:
       class: App\Entity\ImageGallery
@@ -144,12 +149,10 @@ easy_admin:
       label: 'Galerie'
       max_results: 20
       list:
-
         fields:
           - { property: 'fileName', label: 'nom de fichier' }
           - { property: 'keyWords', label: 'mots clés' }
       form:
-
         fields:
           - {property: 'keyWords',  label: 'mots clés'}
           - { property: 'imageFile', label: 'Image', type: 'vich_image' }
@@ -161,13 +164,13 @@ easy_admin:
       list:
         actions:
           - { name: 'new', label: false, icon: 'plus' }
-
         fields:
-          - { property: 'offer', label: 'offer'}
-          - { property: 'company', label: 'company' }
+          - { property: 'offer', label: 'offre'}
+          - { property: 'company', label: 'entreprise' }
           - { property: 'startDate', label: 'Date de début' }
           - { property: 'nbMonths', label: 'nombre des mois' }
           - { property: 'isExpired', label: 'status' }
+
     User:
       class: App\Entity\User
       controller: App\Controller\Admin\UserAdminController
@@ -200,10 +203,9 @@ easy_admin:
           - { property: 'company', label: 'Entreprise' }
           - { property: 'store', label: 'Magasin' }
 
-
-    UserEntreprise:
+    UserCompany:
       class: App\Entity\User
-      controller: App\Controller\Admin\UserEntrepriseController
+      controller: App\Controller\Admin\UserCompanyController
       label: "Utilisateurs"
       disabled_actions: ['delete']
       new:
@@ -217,7 +219,7 @@ easy_admin:
           - { property: 'profile', label: 'Prénom/Nom' , sortable: false}
           - { property: 'Email', label: 'Email'}
           - { property: 'type', label: 'Type' }
-          - { property: 'isValid', label: 'compte désactivé' }
+          - { property: 'isValid', label: 'compte activé' }
       form:
         fields:
           - { property: 'email', label: 'Email' }
@@ -240,11 +242,22 @@ easy_admin:
           - { property: 'Email', label: 'Email' }
           - { property: 'type', label: 'Type' }
           - { property: 'isValid', label: 'compte désactivé' }
-
-
       form:
         fields:
           - { property: 'email', label: 'Email' }
           - { property: 'type', label: 'Type' }
 
-
+    Label:
+      class: App\Entity\Label
+      label: "Demandes de label"
+      controller: App\Controller\Admin\Label\LabelController
+      list:
+        actions:
+          - { name: 'edit', icon: 'pencil', permission: 'ROLE_ADMIN_STORE' }
+          - { name: 'delete', icon: 'close' , permission: 'ROLE_ADMIN_STORE' }
+        fields:
+          - { property: 'email', label: 'Email' }
+          - { property: 'company', label: 'Entreprise' }
+          - { property: 'charter', label: 'Charte signée' }
+          - { property: 'kbis', label: 'Kbis' }
+          - { property: 'createdAt', label: 'Date de création' }

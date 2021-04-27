@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Admin;
 
 use App\Repository\UserRepository;
@@ -12,7 +13,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\Mail\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 
 class UserAdminController extends EasyAdminController
 {
@@ -36,12 +36,10 @@ class UserAdminController extends EasyAdminController
         $this->topicHandler = $topicHandler;
         $this->mailer = $mailer;
         $this->token = $tokenGenerator->generateToken();
-
     }
 
     public function persistUserEntity($user)
     {
-
         $this->updatePassword($user);
         $userRoles = $user->getRoles();
 
@@ -53,8 +51,7 @@ class UserAdminController extends EasyAdminController
             $type = $this->userTypeRepo->findOneBy(['id'=> 1]);
             $user->setType($type);
             $userStore = $this->storeRepo->findOneBy(['id'=>$user->getStore()->getId()]);
-            if( $userStore->getDefaultAdviser() == null)
-            {
+            if( $userStore->getDefaultAdviser() == null) {
                 $userStore->setDefaultAdviser( $user);
             }
 
@@ -100,9 +97,7 @@ class UserAdminController extends EasyAdminController
             else{
                 $type = $this->userTypeRepo->findOneBy(['id'=> 2]);
             }
-
             $user->setType($type);
-
         }
 
         $user->setIsDeleted(0);
@@ -121,7 +116,6 @@ class UserAdminController extends EasyAdminController
 
     public function updateUserEntity($user)
     {
-
         $userRoles = array_unique($user->getRoles());
         if(in_array('ROLE_ADMIN_STORE', $userRoles))
         {
@@ -141,7 +135,6 @@ class UserAdminController extends EasyAdminController
         $user->setRoles($userRoles);
         $this->updatePassword($user);
         parent::updateEntity($user);
-
     }
 
     public function updatePassword(User $user)

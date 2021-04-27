@@ -382,6 +382,8 @@ $(document).ready(function() {
      */
     $('#signCharterBtn').click(function(){
 
+        event.preventDefault();
+
         //Get url
         const url = Routing.generate('sign_charter');
 

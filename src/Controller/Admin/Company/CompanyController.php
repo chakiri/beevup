@@ -24,48 +24,47 @@ class CompanyController extends EasyAdminController
         $this->companyRepo = $companyRepo;
         $this->csvExporter = $csvExporter;
     }
+
+    /**
+     * Handel disabling company by disabling all users and posts of this company
+     */
     public function changeStatusAction()
     {
         $id = $this->request->query->get('id');
         $page = $this->request->query->get('page');
 
         $company = $this->companyRepo->findOneBy(['id'=>$id]);
-        $Status = ($company->isValid()) ? false :true;
-        $company->setIsValid($Status);
+        $status = ($company->isValid()) ? false :true;
+        $company->setIsValid($status);
         $this->em->flush();
 
         $users = $this->userRepo->findBy(['company'=>$id]);
 
-
-        foreach ($users as $user)
-        {
-
-            $user->setIsValid($Status);
+        foreach ($users as $user) {
+            $user->setIsValid($status);
             $this->em->flush();
             $posts =  $this->postRepo->findBy(['user'=>$user]);
-            foreach ($posts as $post)
-            {
-
-                $post->setStatus($Status);
+            foreach ($posts as $post) {
+                $post->setStatus($status);
                 $this->em->flush();
             }
-
-
         }
 
         return $this->redirectToRoute('easyadmin', [
             'action' => 'list',
             'entity' => $this->request->query->get('entity'),
             'id' => $id,
-            'page' =>$page
+            'page' => $page
         ]);
-
     }
 
+    /**
+     * Get list of companies
+     */
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $store = $this->getUser()->getStore();
-        if($this->getUser()->getId() != 1) {
+        if (!$this->isGranted('ROLE_ADMIN_PLATEFORM')){
             $dqlFilter = sprintf('entity.store = %s', $store->getId());
         }
         $list = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);

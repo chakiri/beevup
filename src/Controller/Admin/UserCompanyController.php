@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller\Admin;
+
 use App\Service\TopicHandler;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use App\Entity\User;
@@ -11,9 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Service\Mail\Mailer;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-
-
-class UserEntrepriseController extends EasyAdminController
+class UserCompanyController extends EasyAdminController
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -36,7 +36,7 @@ class UserEntrepriseController extends EasyAdminController
         $this->token = $tokenGenerator->generateToken();
     }
     
-    public function persistUserEntrepriseEntity($user)
+    public function persistUserCompanyEntity($user)
     {
         $currentUser = $this->getUser();
         $type = $this->userTypeRepo->findOneBy(['id'=> 6]);
@@ -77,7 +77,7 @@ class UserEntrepriseController extends EasyAdminController
 
     }
 
-    public function updateUserEntrepriseEntity($user)
+    public function updateUserCompanyEntity($user)
     {
         $currentUser = $this->getUser();
         $user->setStore($currentUser->getStore());
