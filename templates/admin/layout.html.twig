@@ -20,13 +20,12 @@
                 <link rel="stylesheet" href="{{ asset(css_asset) }}">
             {% endfor %}
         {% endblock head_custom_stylesheets %}
-        
-	
+
 
         {% if easyadmin_config('design.brand_color') != 'hsl(230, 55%, 60%)' %}
-        <style>
-            :root { --color-primary: {{ easyadmin_config('design.brand_color') }}; }
-        </style>
+            <style>
+                :root { --color-primary: {{ easyadmin_config('design.brand_color') }}; }
+            </style>
         {% endif %}
 
         {% block head_favicon %}
@@ -45,7 +44,8 @@
     </head>
 	
 	<div class="clearfix"></div>
-		{% block body %}
+
+    {% block body %}
     <body id="{% block body_id %}{% endblock %}" class="easyadmin {% block body_class %}{% endblock %}">
         <script>
             document.body.classList.add(
@@ -56,79 +56,81 @@
         
 		{% block header %}
 	        {% include 'partials/header.html.twig' %}
-       {% endblock header %}
-       <div class="clearfix"></div>
+        {% endblock header %}
+
+        <div class="clearfix"></div>
+
         {% block wrapper_wrapper %}
-        <div class="wrapper">
-        {% block wrapper %}
+            <div class="wrapper">
+                {% block wrapper %}
 
-           
-
-            <aside class="main-sidebar">
-            {% block sidebar %}
-                <section class="sidebar">
-                    {% block main_menu_wrapper %}
-                        {{ include([
-                            _entity_config is defined ? _entity_config.templates.menu,
-                            easyadmin_config('design.templates.menu'),
-                            '@EasyAdmin/default/menu.html.twig'
-                        ]) }}
-                    {% endblock main_menu_wrapper %}
-                </section>
-
-            {% endblock sidebar %}
-            </aside>
-
-            <div class="content-wrapper">
-                {% block flash_messages %}
-                    {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
-                {% endblock flash_messages %}
-
-                <div id="sidebar-resizer-handler" class="resizer-handler resizer-handler-left"></div>
-
-                {% block content %}
-                    <div class="content">
-                        {% block content_header_wrapper %}
-                        {% set _has_content_help = _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
-                        <section class="content-header {{ _has_content_help ? 'has-content-help' }}">
-                            {% block content_header %}
-                                <div class="d-flex flex-row justify-content-between align-content-center w-100">
-                                    <div class="content-header-title">
-                                        <h1 class="title">{% block content_title %}{% endblock %}</h1>
-                                    </div>
-
-                                    {% block global_actions_wrapper %}
-                                        <div class="global-actions">{% block global_actions %}{% endblock %}</div>
-                                    {% endblock %}
-                                </div>
-
-                                {% block content_help %}
-                                    {% if _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
-                                        <div class="content-header-help">
-                                            {{ _entity_config[app.request.query.get('action')]['help']|trans(domain = _entity_config.translation_domain)|raw }}
-                                        </div>
-                                    {% endif %}
-                                {% endblock content_help %}
-                            {% endblock content_header %}
-                        </section>
-                        {% endblock content_header_wrapper %}
-
-                        <section id="main" class="content-body">
-                            {% block main %}{% endblock %}
-                        </section>
-
-                        {% block content_footer_wrapper %}
-                            <section class="content-footer">
-                                {% block content_footer %}{% endblock %}
+                    <aside class="main-sidebar">
+                        {% block sidebar %}
+                            <section class="sidebar">
+                                {% block main_menu_wrapper %}
+                                    {{ include([
+                                        _entity_config is defined ? _entity_config.templates.menu,
+                                        easyadmin_config('design.templates.menu'),
+                                        '@EasyAdmin/default/menu.html.twig'
+                                    ]) }}
+                                {% endblock main_menu_wrapper %}
                             </section>
-                        {% endblock %}
-                    </div>
-                {% endblock content %}
+                        {% endblock sidebar %}
+                    </aside>
 
-                <div id="content-resizer-handler" class="resizer-handler resizer-handler-right"></div>
+                    <div class="content-wrapper">
+                        {% block flash_messages %}
+                            {{ include(_entity_config is defined ? _entity_config.templates.flash_messages : '@EasyAdmin/default/flash_messages.html.twig') }}
+                        {% endblock flash_messages %}
+
+                        <div id="sidebar-resizer-handler" class="resizer-handler resizer-handler-left"></div>
+
+                        {% block content %}
+                            <div class="content">
+                                {% block content_header_wrapper %}
+                                    {% set _has_content_help = _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
+                                    <section class="content-header {{ _has_content_help ? 'has-content-help' }}">
+                                        {% block content_header %}
+                                            <div class="d-flex flex-row justify-content-between align-content-center w-100">
+                                                <div class="content-header-title">
+                                                    <h1 class="title">{% block content_title %}{% endblock %}</h1>
+                                                </div>
+
+                                                {% block global_actions_wrapper %}
+                                                    <div class="global-actions">{% block global_actions %}{% endblock %}</div>
+                                                {% endblock %}
+                                            </div>
+
+                                            {% block content_help %}
+                                                {% if _entity_config is defined and _entity_config[app.request.query.get('action')]['help']|default(false) %}
+                                                    <div class="content-header-help">
+                                                        {{ _entity_config[app.request.query.get('action')]['help']|trans(domain = _entity_config.translation_domain)|raw }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endblock content_help %}
+                                        {% endblock content_header %}
+                                    </section>
+                                {% endblock content_header_wrapper %}
+
+                                <section id="main" class="content-body">
+                                    {% block main %}{% endblock %}
+
+                                    {% include 'admin/modal/labeled.html.twig' %}
+                                </section>
+
+                                {% block content_footer_wrapper %}
+                                    <section class="content-footer">
+                                        {% block content_footer %}{% endblock %}
+                                    </section>
+                                {% endblock %}
+                            </div>
+                        {% endblock content %}
+
+                        <div id="content-resizer-handler" class="resizer-handler resizer-handler-right"></div>
+                    </div>
+
+                {% endblock wrapper %}
             </div>
-        {% endblock wrapper %}
-        </div>
         {% endblock wrapper_wrapper %}
 
         {% block body_javascript %}

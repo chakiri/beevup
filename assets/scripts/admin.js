@@ -95,6 +95,7 @@ var previousImageBloc = $('.easyadmin-vich-image');
 if(previousImageBloc != null) {
     previousImageBloc.append(previousImage);
 }
+
 $( "#publicity_imageFile_file" ).change(function() {
     var fileInput = document.getElementsByClassName('custom-file-input')[0];
     var file = fileInput.files[0];
@@ -130,9 +131,8 @@ $( "#publicity_imageFile_file" ).change(function() {
             handler(e, fileInput, cropper, form, targetUrl, redirectedUrl);
         });
     }
-
-
 });
+
 if($('.action-company_show').length > 0)
 {
     $('.action-company_show').attr('target','_blank');
@@ -141,14 +141,30 @@ if($('.action-chat_from_admin').length > 0)
 {
     $('.action-chat_from_admin').attr('target','_blank');
 }
-/*if($('td.isDefined').length > 0) {
-    $('td.isDefined').each(function () {
-       if ( $(this).text() == 'Oui') {
-            $(this).html("<span class=\"badge badge-success\">Oui</span>");
-        } else {
-            $(this).html("<span class=\"badge badge-danger\">Non</span>");
 
-        }
+/**
+ * Modal validate kbis
+ */
+$('.action-validateLabel').click(function (e){
+    let link = $(this).attr('href');
+    e.preventDefault();
+    $('#myModal').modal();
+    console.log(link);
+});
 
-    });
-}*/
+/**
+ * Active/Disable checkbox assign label
+ */
+$('#assignLabelCheckbox').click(function () {
+    if ($(this).is(':checked')) {
+        $('#assignLabelBtn').removeAttr('disabled');
+        $('#assignLabelBtn').removeClass('blue-btn-greyed');
+    } else {
+        $('#assignLabelBtn').attr('disabled', true);
+        $('#assignLabelBtn').addClass('blue-btn-greyed');
+    }
+});
+if(!$('#assignLabelCheckbox').is(':checked')){
+    $('#assignLabelBtn').attr('disabled', true);
+    $('#assignLabelBtn').addClass('blue-btn-greyed');
+}

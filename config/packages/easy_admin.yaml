@@ -15,9 +15,10 @@ easy_admin:
       - { entity: 'UserCompany', icon: 'chevron-circle-right', permission: 'ROLE_ADMIN_COMPANY'}
 
     templates:
-      layout: 'admin/layout.html.twig' # templates/layout.html.twig
+      layout: 'admin/layout.html.twig'
 
     brand_color: '#007bff'
+
     assets:
       favicon:
         path: 'images/default/favicon.ico'
@@ -251,17 +252,21 @@ easy_admin:
     Label:
       class: App\Entity\Label
       label: "Demandes de label"
+      permission: 'ROLE_ADMIN_STORE'
       controller: App\Controller\Admin\Label\LabelController
-      disabled_actions: ['new']
+      disabled_actions: ['new', 'edit', 'delete']
       list:
         sort: ['createdAt', 'DESC']
         actions:
-          - { name: 'zoom', icon: 'eye' , label: 'aperçu kbis' , permission: 'ROLE_ADMIN_STORE', target: "_blank" }
+          - { name: 'zoom', icon: 'eye' , label: 'Aperçu kbis', target: "_blank" }
+          - { name: 'appointement', icon: 'calendar' , label: 'Prendre Rendez-vous'}
+          - { name: 'validateLabel', icon: 'check' , label: 'Valider le label'}
         fields:
           - { property: 'email', label: 'Email', type: 'email'  }
           - { property: 'company', label: 'Entreprise' }
           - { property: 'siret', label: 'Siret' }
           - { property: 'charter', label: 'Charte signée' }
           - { property: 'kbis', label: 'kbis', template: 'admin/file/vich_uploader_image.html.twig' }
+          - { property: 'isKbisValid', label: 'Kbis validé', type: 'boolean' }
           - { property: 'createdAt', label: 'Date de création' }
-          - { property: 'isLabeled', label: 'Labélisé', type: 'toggle' }
+          - { property: 'isLabeled', label: 'Labélisé'}

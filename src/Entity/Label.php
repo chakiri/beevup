@@ -73,6 +73,11 @@ class Label implements \Serializable
      */
     private $isLabeled;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $storeAppointment;
+
     public function __construct()
     {
         $this->email = true;
@@ -164,7 +169,7 @@ class Label implements \Serializable
         return $this->kbisStatus;
     }
 
-    public function setKbisStatus(string $kbisStatus): self
+    public function setKbisStatus(?string $kbisStatus): self
     {
         $this->kbisStatus = $kbisStatus;
 
@@ -208,6 +213,23 @@ class Label implements \Serializable
     public function setIsLabeled(bool $isLabeled): self
     {
         $this->isLabeled = $isLabeled;
+
+        return $this;
+    }
+
+    public function isKbisValid(): bool
+    {
+        return $this->kbisStatus === 'isValid';
+    }
+
+    public function getStoreAppointment(): ?\DateTimeInterface
+    {
+        return $this->storeAppointment;
+    }
+
+    public function setStoreAppointment(?\DateTimeInterface $storeAppointment): self
+    {
+        $this->storeAppointment = $storeAppointment;
 
         return $this;
     }

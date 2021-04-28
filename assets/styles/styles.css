@@ -477,6 +477,9 @@ input#service_title::placeholder
 .orange-btn-greyed{
     background: #ff7f507a !important;
 }
+.blue-btn-greyed{
+    background: #a4c1de !important;
+}
 .m-orange-btn{
     padding: 8px 32px;
     height: 36px;
