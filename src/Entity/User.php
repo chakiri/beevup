@@ -123,7 +123,7 @@ class User implements UserInterface
         $this->isValid = false;
         $this->isDeleted = false;
         $this->createdAt = new \Datetime();
-        $this->roles = array('ROLE_ADMIN_COMPANY');
+        $this->roles = ['ROLE_ADMIN_COMPANY'];
         $this->topics = new ArrayCollection();
         $this->password ='BeeVµ$67**89P';
     }
@@ -286,7 +286,6 @@ class User implements UserInterface
     public function __toString()
     {
        return strval( $this->getId() );
-      
     }
 
     /**

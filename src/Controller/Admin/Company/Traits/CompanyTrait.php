@@ -57,7 +57,26 @@ trait CompanyTrait
         return $isLogoDefined = ($this->getFilename() !='') ? 'Oui' : 'Non';
     }
 
-    public function getCreatedAt(){
+    public function getScore()
+    {
+        foreach ($this->users as $user){
+            if ( $user->getType()->getId() == 3) {
+                if($user->getScore() != null && $user->getScore() != '')
+                    return $user->getScore()->getPoints();
+                else return '0';
+            }
+        }
+    }
+
+    public function isLabeled()
+    {
+        if ($this->label){
+            return $this->label->isLabeled();
+        }
+        return false;
+    }
+
+    public function getCreatedAtFromUsers(){
         foreach ($this->users as $user){
             if ( $user->getType()->getId() == 3) {
                 if($user->getCreatedAt()) {
@@ -68,17 +87,6 @@ trait CompanyTrait
     }
 
     public function getCreatedAtFormat(){
-        return $this->getCreatedAt()->format('d/m/Y');
-    }
-
-    public function getScore()
-    {
-        foreach ($this->users as $user){
-            if ( $user->getType()->getId() == 3) {
-                if($user->getScore() != null && $user->getScore() != '')
-                    return $user->getScore()->getPoints();
-                else return '0';
-            }
-        }
+        return $this->getCreatedAt() ? $this->getCreatedAt()->format('d/m/Y') : null;
     }
 }

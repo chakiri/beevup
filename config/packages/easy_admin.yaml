@@ -40,6 +40,7 @@ easy_admin:
         fields:
           - { property: 'name', label: 'Raison sociale' }
           - { property: 'siret', label: 'Siret' }
+          - { property: 'isLabeled', label: 'Labelisé' , type: 'boolean' }
           - { property: 'companyAdministratorFullName', label: 'Administrateur' }
           - { property: 'email', label: 'Email Administrateur' }
           - { property: 'phone', label: 'Téléphone' }
@@ -251,13 +252,16 @@ easy_admin:
       class: App\Entity\Label
       label: "Demandes de label"
       controller: App\Controller\Admin\Label\LabelController
+      disabled_actions: ['new']
       list:
+        sort: ['createdAt', 'DESC']
         actions:
-          - { name: 'edit', icon: 'pencil', permission: 'ROLE_ADMIN_STORE' }
-          - { name: 'delete', icon: 'close' , permission: 'ROLE_ADMIN_STORE' }
+          - { name: 'zoom', icon: 'eye' , label: 'aperçu kbis' , permission: 'ROLE_ADMIN_STORE', target: "_blank" }
         fields:
-          - { property: 'email', label: 'Email' }
+          - { property: 'email', label: 'Email', type: 'email'  }
           - { property: 'company', label: 'Entreprise' }
+          - { property: 'siret', label: 'Siret' }
           - { property: 'charter', label: 'Charte signée' }
-          - { property: 'kbis', label: 'Kbis' }
+          - { property: 'kbis', label: 'kbis', template: 'admin/file/vich_uploader_image.html.twig' }
           - { property: 'createdAt', label: 'Date de création' }
+          - { property: 'isLabeled', label: 'Labélisé', type: 'toggle' }

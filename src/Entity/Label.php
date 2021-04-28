@@ -68,10 +68,17 @@ class Label implements \Serializable
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isLabeled;
+
     public function __construct()
     {
-        $this->createdAt = new \Datetime();
+        $this->email = true;
         $this->charter = false;
+        $this->isLabeled = false;
+        $this->createdAt = new \Datetime();
     }
 
     public function getId(): ?int
@@ -188,4 +195,20 @@ class Label implements \Serializable
         return $this;
     }
 
+    public function getSiret()
+    {
+        return $this->company->getSiret();
+    }
+
+    public function isLabeled(): ?bool
+    {
+        return $this->isLabeled;
+    }
+
+    public function setIsLabeled(bool $isLabeled): self
+    {
+        $this->isLabeled = $isLabeled;
+
+        return $this;
+    }
 }

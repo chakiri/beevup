@@ -189,12 +189,17 @@ class Company implements \Serializable
      */
     private $label;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->isValid = false;
         $this->isCompleted = false;
-        $this->updatedAt = new \Datetime();
+        $this->createdAt = new \Datetime();
         $this->services = new ArrayCollection();
     }
 
@@ -641,6 +646,22 @@ class Company implements \Serializable
         }
 
         $this->label = $label;
+
+        return $this;
+    }
+
+    public function getCreatedAt()
+    {
+        //If created at is empty
+        if (!$this->createdAt){
+            return $this->getCreatedAtFromUsers();
+        }
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
