@@ -39,7 +39,10 @@
                 <i class="fas fa-question-circle"></i>
             </button>
         </li>
-        <li class="greyed empty">
+        <li class="
+            {% if not app.user.company.label or not app.user.company.label.storeAppointment %}greyed empty{% endif %}
+            {% if app.user.company.label and app.user.company.label.storeAppointment %}valid{% endif %}
+                ">
             <i class="far fa-calendar-plus icon"></i>
             <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a>
             <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ appointment }}">
