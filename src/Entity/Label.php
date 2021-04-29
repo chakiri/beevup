@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Controller\Admin\Label\Traits\LabelTrait;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -24,7 +25,7 @@ class Label implements \Serializable
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $email;
+    private $isValidEmail;
 
     /**
      * @ORM\Column(type="boolean")
@@ -75,12 +76,13 @@ class Label implements \Serializable
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\GreaterThan("today")
      */
     private $storeAppointment;
 
     public function __construct()
     {
-        $this->email = true;
+        $this->isValidEmail = true;
         $this->charter = false;
         $this->isLabeled = false;
         $this->createdAt = new \Datetime();
@@ -91,14 +93,14 @@ class Label implements \Serializable
         return $this->id;
     }
 
-    public function getEmail(): ?bool
+    public function isValidEmail(): ?bool
     {
-        return $this->email;
+        return $this->isValidEmail;
     }
 
-    public function setEmail(?bool $email): self
+    public function setIsValidEmail(?bool $isValidEmail): self
     {
-        $this->email = $email;
+        $this->isValidEmail = $isValidEmail;
 
         return $this;
     }
@@ -200,11 +202,6 @@ class Label implements \Serializable
         return $this;
     }
 
-    public function getSiret()
-    {
-        return $this->company->getSiret();
-    }
-
     public function isLabeled(): ?bool
     {
         return $this->isLabeled;
@@ -215,11 +212,6 @@ class Label implements \Serializable
         $this->isLabeled = $isLabeled;
 
         return $this;
-    }
-
-    public function isKbisValid(): bool
-    {
-        return $this->kbisStatus === 'isValid';
     }
 
     public function getStoreAppointment(): ?\DateTimeInterface
@@ -233,4 +225,6 @@ class Label implements \Serializable
 
         return $this;
     }
+
+    use LabelTrait;
 }

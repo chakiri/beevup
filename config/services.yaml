@@ -41,6 +41,10 @@ services:
             - {name: kernel.event_listener, event: kernel.request}
         arguments: ['%maintenance%']
 
+    App\EventListener\LabelListener:
+        tags:
+            - {name: doctrine.event_listener, event: onFlush}
+
     App\EventSubscriber\Logger\LoggerEntitySubscriber:
         tags:
             - { name: kernel.event_subscriber }

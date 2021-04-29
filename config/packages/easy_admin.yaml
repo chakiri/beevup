@@ -254,19 +254,29 @@ easy_admin:
       label: "Demandes de label"
       permission: 'ROLE_ADMIN_STORE'
       controller: App\Controller\Admin\Label\LabelController
-      disabled_actions: ['new', 'edit', 'delete']
+      disabled_actions: ['new', 'delete']
+      form:
+        title: "Rendez-vous magasin"
+        help: 'Après avoir validé le kbis, prenez rendez-vous avec le professionnel dans votre magasin'
+        fields:
+          - { property: 'storeAppointment', label: 'Séléctionnez une date', type: 'datetime', nullable: false}
+      search:
+        fields:
+          - { property: 'company', searchField: 'name' }
+          - { property: 'company', searchField: 'siret' }
       list:
         sort: ['createdAt', 'DESC']
         actions:
-          - { name: 'zoom', icon: 'eye' , label: 'Aperçu kbis', target: "_blank" }
-          - { name: 'appointement', icon: 'calendar' , label: 'Prendre Rendez-vous'}
-          - { name: 'validateLabel', icon: 'check' , label: 'Valider le label'}
+          - { name: 'zoom', icon: 'eye' , label: 'Verifier le kbis', target: "_blank" }
+          - { name: 'edit', icon: 'calendar' , label: 'Prendre un RDV'}
+          - { name: 'validateLabel', icon: 'check' , label: 'Remettre le label'}
         fields:
-          - { property: 'email', label: 'Email', type: 'email'  }
-          - { property: 'company', label: 'Entreprise' }
+          - { property: 'createdAtFormat', label: 'Date de la demande' }
+          - { property: 'isValidEmail', label: 'Email validé', type: 'boolean' }
+          - { property: 'company', label: 'Entreprise', type: 'string'}
           - { property: 'siret', label: 'Siret' }
-          - { property: 'charter', label: 'Charte signée' }
+          - { property: 'charter', label: 'Charte signée', type: 'boolean'}
           - { property: 'kbis', label: 'kbis', template: 'admin/file/vich_uploader_image.html.twig' }
           - { property: 'isKbisValid', label: 'Kbis validé', type: 'boolean' }
-          - { property: 'createdAt', label: 'Date de création' }
-          - { property: 'isLabeled', label: 'Labélisé'}
+          - { property: 'storeAppointmentFormat', label: 'Rendez-vous' }
+          - { property: 'isLabeled', label: 'Labélisé', type: 'boolean'}

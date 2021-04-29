@@ -142,14 +142,20 @@ if($('.action-chat_from_admin').length > 0)
     $('.action-chat_from_admin').attr('target','_blank');
 }
 
+let link;
+
 /**
  * Modal validate kbis
  */
 $('.action-validateLabel').click(function (e){
-    let link = $(this).attr('href');
+    link = $(this).attr('href');
     e.preventDefault();
-    $('#myModal').modal();
+    $('#labeledPreventModal').modal();
+});
+
+$('#assignLabelBtn').click(function(){
     console.log(link);
+    window.location.href = link;
 });
 
 /**
@@ -158,13 +164,13 @@ $('.action-validateLabel').click(function (e){
 $('#assignLabelCheckbox').click(function () {
     if ($(this).is(':checked')) {
         $('#assignLabelBtn').removeAttr('disabled');
-        $('#assignLabelBtn').removeClass('blue-btn-greyed');
+        $('#assignLabelBtn').removeClass('green-btn-greyed');
     } else {
         $('#assignLabelBtn').attr('disabled', true);
-        $('#assignLabelBtn').addClass('blue-btn-greyed');
+        $('#assignLabelBtn').addClass('green-btn-greyed');
     }
 });
 if(!$('#assignLabelCheckbox').is(':checked')){
     $('#assignLabelBtn').attr('disabled', true);
-    $('#assignLabelBtn').addClass('blue-btn-greyed');
+    $('#assignLabelBtn').addClass('green-btn-greyed');
 }

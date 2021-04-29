@@ -3,12 +3,16 @@
 namespace App\Controller\Admin\Label;
 
 use App\Entity\Label;
+use App\Service\Chat\AutomaticMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LabelController extends EasyAdminController
 {
+    /**
+     * Get result to display in list
+     */
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         //Get query builder from controller esay admin
@@ -28,6 +32,9 @@ class LabelController extends EasyAdminController
         return $result;
     }
 
+    /**
+     * Action to display kbis in page
+     */
     public function zoomAction()
     {
         $id = $this->request->query->get('id');
@@ -39,6 +46,28 @@ class LabelController extends EasyAdminController
     }
 
     /**
+     * Action to validate label
+     */
+    public function validateLabelAction()
+    {
+        $id = $this->request->query->get('id');
+        $entity = $this->em->getRepository(Label::class)->find($id);
+
+        $entity->setIsLabeled(true);
+
+        $this->em->persist($entity);
+
+        $this->em->flush();
+
+        return $this->redirectToRoute('easyadmin', [
+            'entity' => 'Label',
+            'action' => 'list'
+        ]);
+    }
+
+    /**
+     * Action to validate kbis
+     *
      * @Route("/valid/kbis/{label}", name="valid_kbis")
      */
     public function validateKbis(Label $label, EntityManagerInterface $manager)
@@ -56,9 +85,11 @@ class LabelController extends EasyAdminController
     }
 
     /**
+     * Action to rejetc kbis
+     *
      * @Route("/reject/kbis/{label}", name="reject_kbis")
      */
-    public function rejectKbis(Label $label, EntityManagerInterface $manager)
+    public function rejectKbis(Label $label, EntityManagerInterface $manager, AutomaticMessage $automaticMessage)
     {
         $label->setKbisStatus(null);
 
@@ -66,7 +97,8 @@ class LabelController extends EasyAdminController
 
         $manager->flush();
 
-        //Send mail to notify user
+        //Send message to user
+        $automaticMessage->fromAdvisorToUser($label->getCompany()->getCompanyAdministrator(), "Votre document Kbis n'a pas été accepté. Veuillez charger un document valide. ");
 
         return $this->redirectToRoute('easyadmin', [
             'entity' => 'Label',

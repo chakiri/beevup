@@ -10,14 +10,13 @@ use Twig\Environment;
 class MaintenanceListener
 {
     private $container, $maintenance, $ipAuthorized, $twig, $event;
+
     public function __construct($maintenance, ContainerInterface $container,  Environment $twig)
     {
-
         $this->container = $container;
         $this->maintenance = $maintenance["statut"];
         $this->ipAuthorized = $maintenance["ipAuthorized"];
         $this->twig = $twig;
-
     }
 
     public function onKernelRequest(RequestEvent $event)

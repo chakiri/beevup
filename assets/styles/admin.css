@@ -32,6 +32,10 @@ aside.main-sidebar {
     top: 25px;
 }
 
+#labeledPreventModal .modal-dialog{
+    max-width: 600px;
+}
+
 @media (min-width: 768px) {
     .admin-menu-items{
         display:none !important
