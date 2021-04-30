@@ -3748,6 +3748,12 @@ ul.block li .icon{
     color: #465192;
     padding: 10px;
 }
+ul.block li img{
+    width: 40px;
+}
+ul.block li span{
+    padding: 10px 7px;
+}
 
 ul.block li.valid a:after{
     content: "Validé";

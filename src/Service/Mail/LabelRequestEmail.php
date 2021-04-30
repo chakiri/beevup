@@ -51,7 +51,7 @@ class LabelRequestEmail
         if ($kbisWaiting){
             $listKbis = "Vérifier le kbis : \n";
             foreach ($kbisWaiting as $label){
-                $listKbis .= $label->getCompany()->getName() . "\n";
+                $listKbis .= $label->getCompany()->getName() . ' - ' . $label->getCompany()->getSiret() . "\n";
             }
             $listKbis .= "\n";
         }
@@ -59,7 +59,7 @@ class LabelRequestEmail
         if ($appointmentWaiting){
             $listAppointment = "Prendre un RDV : \n";
             foreach ($appointmentWaiting as $label){
-                $listAppointment .= $label->getCompany()->getName() . "\n";
+                $listAppointment .= $label->getCompany()->getName() . ' - ' . $label->getCompany()->getSiret() . "\n";
             }
             $listAppointment .= "\n";
         }
@@ -67,7 +67,7 @@ class LabelRequestEmail
         if ($labeledWaiting){
             $listLabeled= "Remettre le Label Beev\'Up : \n";
             foreach ($labeledWaiting as $label){
-                $listLabeled .= $label->getCompany()->getName() . "\n";
+                $listLabeled .= $label->getCompany()->getName() . ' - ' . $label->getCompany()->getSiret() . "\n";
             }
             $listLabeled .= "\n";
         }

@@ -13,42 +13,49 @@
         </button>
     </div>
     <ul class="block">
-        <li class="{% if app.user.company.valid == true %}valid{% endif %}">
-            <i class="fas fa-at icon"></i>
-            <a href="#"><strong>Email verifié</strong></a>
-        </li>
-        <li class="
+        {% if app.user.company.label and app.user.company.label.isLabeled == true %}
+            <li>
+                <img class="" src="{{ asset('build/images/dashboard/badge-labeled.png') }}" alt="">
+                <span><strong>Vous êtes labélisé Beev'Up</strong></span>
+            </li>
+        {% else %}
+            <li class="{% if app.user.company.valid == true %}valid{% endif %}">
+                <i class="fas fa-at icon"></i>
+                <a href="#"><strong>Email verifié</strong></a>
+            </li>
+            <li class="
             {% if app.user.company.label and app.user.company.label.charter == true %}valid
             {% else %}empty{% endif %}
             ">
-            <i class="fas fa-file-contract icon"></i>
-            <a href="#" id="charterSign"><strong>Charte signée</strong></a>
-            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ charter }}">
-                <i class="fas fa-question-circle"></i>
-            </button>
-        </li>
-        <li class="
+                <i class="fas fa-file-contract icon"></i>
+                <a href="#" id="charterSign"><strong>Charte signée</strong></a>
+                <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ charter }}">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </li>
+            <li class="
             {% if not app.user.company.label or app.user.company.label.charter != true %}greyed{% endif %}
             {% if app.user.company.label and app.user.company.label.kbisStatus == 'isWaiting' %}waiting
             {% elseif app.user.company.label and app.user.company.label.kbisStatus == 'isValid' %}valid
             {% else %}empty{% endif %}
                 ">
-            <i class="far fa-file-alt icon"></i>
-            <a href="#" id="kbisUpload"><strong>Kbis chargé</strong></a>
-            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ kbis }}">
-                <i class="fas fa-question-circle"></i>
-            </button>
-        </li>
-        <li class="
+                <i class="far fa-file-alt icon"></i>
+                <a href="#" id="kbisUpload"><strong>Kbis chargé</strong></a>
+                <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ kbis }}">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </li>
+            <li class="
             {% if not app.user.company.label or not app.user.company.label.storeAppointment %}greyed empty{% endif %}
-            {% if app.user.company.label and app.user.company.label.storeAppointment %}valid{% endif %}
+            {% if app.user.company.label and app.user.company.label.storeAppointment %}waiting{% endif %}
                 ">
-            <i class="far fa-calendar-plus icon"></i>
-            <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a>
-            <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ appointment }}">
-                <i class="fas fa-question-circle"></i>
-            </button>
-        </li>
+                <i class="far fa-calendar-plus icon"></i>
+                <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a>
+                <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ appointment }}">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </li>
+        {% endif %}
     </ul>
 </div>
 {% endif %}

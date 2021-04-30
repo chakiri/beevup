@@ -31,11 +31,9 @@ class EasyAdminExtension extends AbstractExtension
             if ($item->getKbisStatus() !== 'isValid'){
                 unset($itemActions['edit']);
             }
-            if (!$item->getStoreAppointment()){
+            if (!$item->getStoreAppointment() || ($item->getStoreAppointment() && $item->getStoreAppointment() > (new \DateTime()))){
                 unset($itemActions['validateLabel']);
             }
-
-
         }
 
         return $itemActions;
