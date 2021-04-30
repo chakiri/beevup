@@ -65,7 +65,7 @@ class LabelRequestEmail
         }
 
         if ($labeledWaiting){
-            $listLabeled= "Remettre le Label Beev\'Up : \n";
+            $listLabeled= "Remettre le Label Beev'Up : \n";
             foreach ($labeledWaiting as $label){
                 $listLabeled .= $label->getCompany()->getName() . ' - ' . $label->getCompany()->getSiret() . "\n";
             }
