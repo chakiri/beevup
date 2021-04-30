@@ -1,5 +1,6 @@
 <?php
 namespace App\Command;
+
 use App\Websocket\TopicHandler;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
@@ -12,16 +13,20 @@ use React\Socket\Server;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
 class WampServerCommand extends Command
 {
     protected static $defaultName = "run:wamp-server";
+
     private $pusher;
+
     //Use pusher as service to can inject other services into it
     public function __construct($name = null, TopicHandler $topicHandler)
     {
         parent::__construct($name);
         $this->pusher = $topicHandler;
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $port = $_ENV['WAMP_PORT'];

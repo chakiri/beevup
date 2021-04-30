@@ -173,6 +173,7 @@ class Mailer
                 'inscription_invitation' => 9,
                 'recap_becontacted' => 8,
                 'store_appointment_client' => 12,
+                'store_labels_requests' => 13,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
             $templatesIds = [
@@ -186,6 +187,7 @@ class Mailer
                 'inscription_invitation' => 29,
                 'recap_becontacted' => 28,
                 'store_appointment_client' => 37,
+                'store_labels_requests' => 38,
             ];
         }
 

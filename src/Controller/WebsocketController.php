@@ -207,24 +207,6 @@ class WebsocketController extends AbstractController
     }
 
     /**
-     * Send daily email
-     * @param User $user
-     * @param int $notificationNumber
-     */
-    public function sendDailyEmail(User $user, $notificationNumber): void
-    {
-        $userTypePatron = $this->userTypeRepo->findOneBy(['id'=> 4]);
-        $url = $this->generateUrl('chat_topic', ['name' => 'general-' . $user->getStore()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $subject = ($notificationNumber != 1) ? 'nouveaux messages vous attendent sur Beev\'Up' : 'nouveau message vous attend sur Beev\'Up';
-
-        if ($notificationNumber == 1) $message = "Vous avez 1 nouveau message non lu.";
-        else $message = "Vous avez " . $notificationNumber . " nouveaux messages non lus.";
-
-        $params = ['message' => $message, 'url' => $url];
-        $this->mailer->sendEmailWithTemplate($user->getEmail(), $params, 'daily_chat');
-    }
-
-    /**
      * Return template of form message to all users of topic
      * @Route("/chat/users/form", name="chat_all_users_form")
      */

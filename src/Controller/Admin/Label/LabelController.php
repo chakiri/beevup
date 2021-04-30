@@ -26,6 +26,7 @@ class LabelController extends EasyAdminController
             ->andWhere('entity.charter = true')
             ->andWhere('entity.kbisStatus is not null')
             ->andWhere('entity.isLabeled = false')
+            ->orderBy('entity.createdAt', 'DESC')
             ->setParameter('storeId', $this->getUser()->getStore()->getId())
         ;
 

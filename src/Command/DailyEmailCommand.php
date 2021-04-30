@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Controller\WebsocketController;
 use App\Repository\MessageNotificationRepository;
 use App\Repository\UserRepository;
+use App\Service\Mail\DailyEmail;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,15 +18,15 @@ class DailyEmailCommand extends Command
     protected static $defaultName = 'app:daily-email';
     private $notificationMessage;
     private $users;
-    private $websocketController;
+    private DailyEmail $dailyEmail;
 
 
-    public function __construct(MessageNotificationRepository $messageNotificationRepository, UserRepository $userRepository, WebsocketController $websocketController)
+    public function __construct(MessageNotificationRepository $messageNotificationRepository, UserRepository $userRepository, DailyEmail $dailyEmail)
     {
         parent::__construct(null);
         $this->notificationMessage = $messageNotificationRepository;
         $this->users =$userRepository;
-        $this->websocketController = $websocketController;
+        $this->dailyEmail = $dailyEmail;
     }
 
     protected function configure()
@@ -46,7 +47,7 @@ class DailyEmailCommand extends Command
         {
             $notificationNumber = count($this->notificationMessage->findByUser($user));
             if($notificationNumber > 0) {
-                $this->websocketController->sendDailyEmail($user, $notificationNumber);
+                $this->dailyEmail->send($user, $notificationNumber);
             }
         }
         return 1;
