@@ -89,4 +89,9 @@ trait CompanyTrait
     public function getCreatedAtFormat(){
         return $this->getCreatedAt() ? $this->getCreatedAt()->format('d/m/Y') : null;
     }
+
+    public function getFullAddress()
+    {
+        return $this->getAddressNumber() . ' ' . $this->getAddressStreet() . ' ' . $this->getAddressPostCode() . ', ' . $this->getCity();
+    }
 }

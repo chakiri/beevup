@@ -255,11 +255,18 @@ easy_admin:
       permission: 'ROLE_ADMIN_STORE'
       controller: App\Controller\Admin\Label\LabelController
       disabled_actions: ['new', 'delete']
-      form:
+      edit:
         title: "Rendez-vous magasin"
-        help: 'Après avoir validé le kbis, prenez rendez-vous avec le professionnel dans votre magasin'
+        help: 'Après avoir validé le kbis, prenez contact avec le professionel pour convenir à un rendez-vous dans votre magasin'
         fields:
-          - { property: 'storeAppointment', label: 'Séléctionnez une date', type: 'datetime', nullable: false}
+          - { type: 'tab' , label: 'Information de contact', icon: 'phone' }
+          - { property: 'contactNameAdmin', type: 'text', label: 'Nom Prénom' , type_options: { disabled: true }}
+          - { property: 'contactName', type: 'text', label: "Nom de l'entreprise" , type_options: { disabled: true }}
+          - { property: 'contactEmail', type: 'text', label: 'Email' , type_options: { disabled: true }}
+          - { property: 'contactAddress', type: 'text', label: 'Adresse' , type_options: { disabled: true }}
+          - { property: 'contactPhone', type: 'text', label: 'Téléphone' , type_options: { disabled: true }}
+          - { type: 'tab', label: 'Prendre rendez-vous', icon: 'calendar' }
+          - { property: 'storeAppointment', label: 'Séléctionnez une date', type: 'datetime', nullable: false }
       search:
         fields:
           - { property: 'company', searchField: 'name' }

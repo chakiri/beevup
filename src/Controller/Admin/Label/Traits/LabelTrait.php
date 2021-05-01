@@ -23,4 +23,29 @@ trait LabelTrait
     {
         return $this->storeAppointment ? $this->storeAppointment->format('d/m/Y H:II') : null;
     }
+
+    public function getContactNameAdmin()
+    {
+        return $this->company->getCompanyAdministratorFullName();
+    }
+
+    public function getContactName()
+    {
+        return $this->company->getName();
+    }
+
+    public function getContactEmail()
+    {
+        return $this->company->getCompanyAdministrator()->getEmail();
+    }
+
+    public function getContactAddress()
+    {
+        return $this->company->getFullAddress();
+    }
+
+    public function getContactPhone()
+    {
+        return $this->company->getPhone();
+    }
 }
