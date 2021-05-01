@@ -1,6 +1,8 @@
 import '../styles/admin.css';
 import Cropper from 'cropperjs';
 
+import '../scripts/routing';
+
 function handler (event, fileInput, cropper, form,targetUrl,  redirectUrl)
 {
     if(fileInput.files[0]) {
@@ -145,7 +147,7 @@ if($('.action-chat_from_admin').length > 0)
 let link;
 
 /**
- * Modal validate kbis
+ * Modal validate label
  */
 $('.action-validateLabel').click(function (e){
     link = $(this).attr('href');
@@ -174,3 +176,26 @@ if(!$('#assignLabelCheckbox').is(':checked')){
     $('#assignLabelBtn').attr('disabled', true);
     $('#assignLabelBtn').addClass('green-btn-greyed');
 }
+
+/**
+ * Modal validate kbis
+ */
+$('.action-kbisPreview').click(function (e){
+    e.preventDefault();
+
+    let idLabel = $(this).parents('tr').data('id');
+
+    const url = Routing.generate('modal_kbis', {'label': idLabel});
+
+    $('#kbisPreviewModal').modal();
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success(data) {
+            $('#kbisPreviewModal .modal-content').html(data);
+        },error: function () {
+            alert("Un problème est survenu. Veuillez réessayer")
+        }
+    });
+});

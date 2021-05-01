@@ -34,15 +34,13 @@ class LabelController extends EasyAdminController
     }
 
     /**
-     * Action to display kbis in page
+     * Route to display kbis in modal
+     * @Route("/modal/kbis/{label}", name="modal_kbis", options={"expose"=true})
      */
-    public function zoomAction()
+    public function modalKbis(Label $label)
     {
-        $id = $this->request->query->get('id');
-        $entity = $this->em->getRepository(Label::class)->find($id);
-
-        return $this->render('admin/file/vich_uploader_image_zoom.html.twig', [
-            'item' => $entity
+        return $this->render('admin/file/kbis_preview.html.twig', [
+            'item' => $label
         ]);
     }
 

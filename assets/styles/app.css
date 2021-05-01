@@ -5,4 +5,5 @@
 @import '~cropperjs';
 
 @import './styles.css';
+@import './header.css';
 @import './responsive.css';

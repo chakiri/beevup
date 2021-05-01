@@ -28,6 +28,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('admin', './assets/scripts/admin.js')
+    .addEntry('header', './assets/scripts/header.js')
     .addEntry('dashboard', './assets/scripts/dashboard.js')
     .addEntry('form', './assets/scripts/form.js')
     .addEntry('modals', './assets/scripts/modals.js')

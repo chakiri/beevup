@@ -1,8 +1,0 @@
-
-<div class="text-center" style="text-align: center; margin: 30px">
-    <a href="{{ path('valid_kbis', {'label': item.id}) }}" class="btn btn-info" style="text-decoration: none; padding: 10px; font-size: 15px; background-color: green; color: white; margin: 10px; border-radius: 12px; border: none">Valider ce Kbis</a>
-    <a href="{{ path('reject_kbis', {'label': item.id}) }}" class="btn btn-info" style="text-decoration: none; padding: 10px; font-size: 15px; background-color: red; color: white; margin: 10px; border-radius: 12px; border: none">Refuser ce Kbis</a>
-</div>
-<div>
-    <iframe src="{{ vich_uploader_asset(item, 'kbisFile') }}" width="100%" height="100%"></iframe>
-</div>

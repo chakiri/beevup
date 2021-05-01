@@ -267,7 +267,7 @@ easy_admin:
       list:
         sort: ['createdAt', 'DESC']
         actions:
-          - { name: 'zoom', icon: 'eye' , label: 'Verifier le kbis', target: "_blank" }
+          - { name: 'kbisPreview', icon: 'eye' , label: 'Verifier le kbis' }
           - { name: 'edit', icon: 'calendar' , label: 'Prendre un RDV'}
           - { name: 'validateLabel', icon: 'check' , label: 'Remettre le label'}
         fields:

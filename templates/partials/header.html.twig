@@ -142,7 +142,6 @@
                             <ul class="admin-menu-items">
                                 <li><a href='/admin/?entity=Store'>Magasin</a></li>
                                 <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
-
                             </ul>
                         {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
                             <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>

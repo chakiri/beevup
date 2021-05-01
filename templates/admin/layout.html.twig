@@ -11,8 +11,8 @@
 
         {% block head_stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+            {{ encore_entry_link_tags('header') }}
             {{ encore_entry_link_tags('admin') }}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block head_custom_stylesheets %}
@@ -22,16 +22,16 @@
         {% endblock head_custom_stylesheets %}
 
 
-        {% if easyadmin_config('design.brand_color') != 'hsl(230, 55%, 60%)' %}
+        {#{% if easyadmin_config('design.brand_color') != 'hsl(230, 55%, 60%)' %}
             <style>
                 :root { --color-primary: {{ easyadmin_config('design.brand_color') }}; }
             </style>
-        {% endif %}
+        {% endif %}#}
 
-        {% block head_favicon %}
+        {#{% block head_favicon %}
             {% set favicon = easyadmin_config('design.assets.favicon') %}
             <link rel="icon" type="{{ favicon.mime_type }}" href="{{ asset(favicon.path) }}" />
-        {% endblock %}
+        {% endblock %}#}
 
         {% block head_javascript %}
             <script src="{{ asset('bundles/easyadmin/app.js') }}"></script>
@@ -43,7 +43,7 @@
         {% endif %}
     </head>
 	
-	<div class="clearfix"></div>
+	{#<div class="clearfix"></div>#}
 
     {% block body %}
     <body id="{% block body_id %}{% endblock %}" class="easyadmin {% block body_class %}{% endblock %}">
@@ -58,7 +58,7 @@
 	        {% include 'partials/header.html.twig' %}
         {% endblock header %}
 
-        <div class="clearfix"></div>
+        {#<div class="clearfix"></div>#}
 
         {% block wrapper_wrapper %}
             <div class="wrapper">
@@ -116,6 +116,7 @@
                                     {% block main %}{% endblock %}
 
                                     {% include 'admin/modal/labeled.html.twig' %}
+                                    {% include 'default/modals/base.html.twig' with {'idModal' : 'kbisPreviewModal'} %}
                                 </section>
 
                                 {% block content_footer_wrapper %}
