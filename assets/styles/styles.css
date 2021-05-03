@@ -1373,9 +1373,10 @@ ul.landing-page-list {
     height: 85px;
 }
 .company-up-meta h5{
-    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
-    white-space: nowrap;
 }
 .user-up-meta{
     height: 90px;
