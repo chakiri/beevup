@@ -101,9 +101,11 @@ class CompanyRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.category', 'ctg')
+            /*->leftJoin('c.label', 'l')*/
             ->andWhere('c.id in (:allCompanies)')
             ->andWhere('c.isCompleted = true')
             ->andWhere('c.isValid = true')
+            /*->orderBy('l.isLabeled', 'DESC')*/
             ->setParameter('allCompanies', $allCompanies)
             ;
         if ($name != ''){

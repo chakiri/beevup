@@ -75,6 +75,9 @@ class SearchHandler
         //Sort by updatedAt
         usort($allCompanies, [$this, 'orderByDate']);
 
+        //Sort by is labeled
+        usort($allCompanies, [$this, 'orderByIsLabeled']);
+
         return $allCompanies;
     }
 
@@ -145,6 +148,18 @@ class SearchHandler
         }else {
             return 1;
         }
+    }
+
+    /**
+     * Function used in usort on top
+     */
+    public function orderByIsLabeled($a, $b)
+    {
+        $aIsLabeled = $a->getLabel() && $a->getLabel()->isLabeled() == true;
+        $bIsLabeled = $b->getLabel() && $b->getLabel()->isLabeled() == true;
+
+        // true - true == 0, true - false == 1, false - true == -1
+        return $bIsLabeled - $aIsLabeled;
     }
 
 }
