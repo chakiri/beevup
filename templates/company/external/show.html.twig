@@ -52,7 +52,9 @@
         <div class="container-bv">
             <div class="row">
                 <div class="col-lg-2">
-                    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}" title="" class="btn white-bg float-right mb-3">
+                    {% include 'company/boxes/labeledBadge.html.twig' %}
+
+                    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}" title="" class="btn white-bg float-right full-width">
                         Nouvelle recherche
                     </a>
                 </div>

@@ -29,12 +29,8 @@
                                 {% if item is instanceOf('App\\Entity\\Service') %}
                                     {% set service = item %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="badge-box">
-                                            <span class="badge badge-pill search-user-badge">Service</span>
-                                            {% if service.isDiscovery %}
-                                                <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
-                                            {% endif %}
-                                        </div>
+                                        {% include 'search/boxes/badges.html.twig' %}
+
                                         <div class="company_profile_info">
                                             <div class="company-up-info up-info result-company">
                                                 <div class="result-company-image">
@@ -63,9 +59,8 @@
                                 {% elseif item is instanceOf('App\\Entity\\Company') %}
                                     {% set company = item %}
                                     <div class="col-lg-3 col-md-3 col-sm-6">
-                                        <div class="badge-box">
-                                            <span class="badge badge-pill search-company-badge">Entreprise</span>
-                                        </div>
+                                        {% include 'search/boxes/badges.html.twig' %}
+
                                         <div class="company_profile_info">
                                             <div class="company-up-info up-info result-company">
                                                 <div class="result-company-image">

@@ -1,0 +1,19 @@
+
+<div class="badge-box {% if result is defined  %}full-width{% endif %}">
+    {% if item is defined %}
+        <span class="badge badge-pill search-user-badge">Service</span>
+        {% if service.isDiscovery %}
+            <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
+        {% endif %}
+        {% set item = service.user.company %}
+    {% elseif company is defined  %}
+        <span class="badge badge-pill search-company-badge">Entreprise</span>
+        {% set item = company %}
+    {% elseif result is defined  %}
+        {% set item = result %}
+    {% endif %}
+    {% if item and item.label and item.label.isLabeled == true %}
+        <img class="badge-label-img-search mr-2" src="{{ asset('build/images/dashboard/badge-labeled.png') }}" alt="">
+    {% endif %}
+
+</div>

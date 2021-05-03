@@ -3378,8 +3378,14 @@ ul.block li .icon{
     color: #465192;
     padding: 10px;
 }
-ul.block li img{
+.badge-label-img{
     width: 40px;
+}
+.badge-label-img-search{
+    width: 35px;
+    float: right;
+    /*background: #f7f7f5;*/
+    border-radius: 50%;
 }
 ul.block li span{
     padding: 10px 7px;
@@ -3501,6 +3507,7 @@ ul.block li.empty a:after{
     font-size: 90%;
     margin: 5px;
     z-index: 1;
+    width: 90%;
 }
 
 .badge-box .badge {
