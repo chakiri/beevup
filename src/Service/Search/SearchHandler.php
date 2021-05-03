@@ -107,10 +107,13 @@ class SearchHandler
         $services = $this->serviceRepository->findSearch($name, $category, $isDiscovery, $allCompanies);
 
         //Add related generic services of store if match query
-        $storeServices = $this->security->getUser()->getStore()->getServices();
-        $storeServices = $this->serviceRepository->findSearchStoreServices($storeServices, $name, $category, $isDiscovery);
+        if ($this->security->getUser()){
+            $storeServices = $this->security->getUser()->getStore()->getServices();
+            $storeServices = $this->serviceRepository->findSearchStoreServices($storeServices, $name, $category, $isDiscovery);
+            $services = array_merge($services, $storeServices);
+        }
 
-        return array_merge($services, $storeServices);
+        return $services;
     }
 
     /**
@@ -122,7 +125,8 @@ class SearchHandler
         foreach ($services as $service){
             $company = $service->getUser()->getCompany();
 
-            $companies[] = $company;
+            //Avoid store services
+            if ($company) $companies[] = $company;
         }
 
         return $companies;
