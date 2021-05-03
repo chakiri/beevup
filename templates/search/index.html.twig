@@ -53,7 +53,7 @@
                                                 </div>
 
                                                 <div class="company-up-meta">
-                                                    <h5> <a href="{{path('service_show', { 'id': service.id}) }}">  {{ service.title }}</a></h5>
+                                                    <a href="{{path('service_show', { 'id': service.id}) }}"><h5>{{ service.title }}</h5></a>
                                                     <h6>{{ service.category }}</h6>
                                                 </div>
                                             </div>
@@ -84,7 +84,7 @@
                                                 </div>
 
                                                 <div class="company-up-meta">
-                                                    <h5> <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}">  {{company.name }}</a></h5>
+                                                    <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}"><h5>{{company.name }}</h5></a>
                                                     <h6>{{ company.otherCategory }}</h6>
                                                 </div>
                                                 <ul>
