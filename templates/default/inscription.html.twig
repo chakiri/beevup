@@ -13,7 +13,7 @@
                            <div class="col-lg-8 mt-5">
                                <img class="landing-page-logo" src="{{ asset('build/images/default/logo-beevup-blue.png') }}" alt="">
                                <h1 class="landign-page-slogan">
-                                   La plateforme des professionnels<br> pour développer son entreprise
+                                   La plateforme des professionnels<br> pour développer votre entreprise
                                </h1>
                               <p class="landign-page-description">
                                   <strong>Artisans, Commerçants, Professions Libérales, Indépendants, TPE/PME</strong><br><br>
@@ -68,21 +68,72 @@
                            </div>
                        </div>
 
-                       <div class="landing-page-dashboard-img">
+                       {#<div class="landing-page-dashboard-img">
                            <div class="landing-page-section2">
                                <img class="landing-page-man" src="{{ asset('build/images/homePage/landingPage-man.png') }}"/>
-                               {#<div class="landing-page-dashbord d-none d-lg-block">
+                               #}{#<div class="landing-page-dashbord d-none d-lg-block">
                                    <img class="landing-page-dashboard-screenshot" src="{{ asset('build/images/homePage/landingPage-dashboard.png') }}"/>
-                               </div>#}
+                               </div>#}{#
                            </div>
-                       </div>
+                       </div>#}
                     </section>
                </div>
            </div>
 
             <div class="container-bv container-landing-page-boxes">
+                <h3>Nos outils pour vous accompagner :</h3>
                 {# case information boxes#}
-                <div class="landing-page-boxes">
+                <div class="landing-page-boxes p-0">
+                    <div class="row row-equal">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc text-center">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/search.png') }}" alt="">
+                                </div>
+                                <h4>Référencement sur le moteur de recherche Beev'Up</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc text-center">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/people.png') }}" alt="">
+                                </div>
+                                <h4>Visibilité en ligne et dans votre magasin Bureau Vallée</h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="landing-page-section4-bloc text-center">
+                                <div class="landing-page-section4-bloc-image">
+                                    <img class="landing-page-section4-img" src="{{ asset('build/images/homePage/boxes/label.png') }}" alt="">
+                                </div>
+                                <h4>Label Beev'Up gage de qualité</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="landing-page-section-mission">
+                <div class="container-bv text-center">
+                    <h3>Notre mission</h3>
+                </div>
+            </div>
+
+            <div class="container-bv container-landing-page-boxes our-mission">
+                <div class="landing-page-section4-bloc">
+                    <p><strong>Beev’Up est un outil au service des entreprises</strong> désireuses de trouver de nouveaux clients.</p>
+                    <p>Nous faisons <strong>votre promotion</strong> tant en <strong>magasin</strong> par de l'affichage dynamique et la promotion par nos vendeurs, que sur le digital avec <strong>notre site beevup.fr</strong> et bientôt par le relais de notre site e-commerce <u>bureau-vallee.com</u> qui accueille plus de 15 millions de visiteurs par an.</p>
+                    <p>La plateforme permet aux entreprises locales de s’entraider, d’échanger, de proposer leurs services et d’étendre leur réseau professionnel.</p>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="scrollToTop orange-btn mt-3">S'inscrire</button>
+                </div>
+            </div>
+
+            <div class="container-bv container-landing-page-boxes">
+                <h3>Nos valeurs :</h3>
+                {# case information boxes#}
+                <div class="landing-page-boxes p-0">
                     <div class="row row-equal">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="landing-page-section4-bloc">
@@ -141,14 +192,34 @@
             <div class="block-background-white"></div>
         </div>
 
-        <div class="landing-page-dashbord">
-            {# Video #}
-            <div class="landing-page-video">
-                <video autoplay controls muted loop>
-                    <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+        <div class="landing-page-section-how-work">
+            <div class="container-bv text-center">
+                <h3>Comment ça marche ?</h3>
             </div>
+        </div>
+
+        <div class="container-bv container-landing-page-boxes how-it-work">
+            <div class="landing-page-section4-bloc">
+                <ul>
+                    <li><strong>1</strong> - Inscrivez vous gratuitement sur le formulaire en indiquant vos Nom, Prénom et la Raison Sociale de votre entreprise. Cliquez sur "Recherchez votre SIRET" et choisissez le dans la liste.</li>
+                    <li><strong>2</strong> - Vous recevez un e-mail avec un lien. Cliquez dessus pour valider votre e-mail.</li>
+                    <li><strong>3</strong> - Complétez votre profil. N’oubliez pas d’ajouter votre photo et le logo de votre entreprise.</li>
+                    <li><strong>4</strong> - Ajoutez un service pour compléter la présentation de votre entreprise.</li>
+                </ul>
+                <div class="text-center">
+                    <p><strong>Bravo, vous êtes visible en magasin et sur notre site internet.</strong></p>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="scrollToTop orange-btn mt-3">S'inscrire</button>
+            </div>
+        </div>
+
+        <div class="landing-page-map no-mobile">
+            <h2 class="bloc-title mb-3">
+                Rejoignez les entreprises locales
+            </h2>
+            {% include 'default/map.html.twig' %}
         </div>
 
         <div class="landing-page-second-bloc">
@@ -183,11 +254,14 @@
             </div>
         </div>
 
-        <div class="landing-page-map no-mobile">
-            <h2 class="bloc-title mb-3">
-                Rejoignez les entreprises locales
-            </h2>
-            {% include 'default/map.html.twig' %}
+        <div class="landing-page-dashbord">
+            {# Video #}
+            <div class="landing-page-video">
+                <video autoplay controls muted loop>
+                    <source src="{{ asset('build/images/homePage/videos/beevup_introduction.mp4') }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
 
         <div class="landing-page-join-beevup-bloc">

@@ -56,3 +56,8 @@ function getUrlParameter(sParam) {
     }
     return false;
 }
+
+//Scroll to the top of page
+$('.scrollToTop').click(function (){
+    window.scrollTo(0, 0);
+});

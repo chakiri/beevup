@@ -458,7 +458,7 @@ textarea.form-control{
 }
 .landing-page-first-bloc{
     background-color: var(--bg-color);
-    padding:0 10em !important;
+    padding:0 10em 3em 10em !important;
 }
 .block-background-white{
     background: #fff;
@@ -524,6 +524,7 @@ ul.landing-page-list {
     border: 1px solid #e1e1e1;
     border-radius: 10px;
     z-index: 11;
+    width: 100%;
 }
 .landing-page-section4-bloc-image{
 }
@@ -540,11 +541,46 @@ ul.landing-page-list {
     text-align: center;
     margin-bottom: 30px;
 }
+.landing-page-section-mission{
+    background-image: url('../images/homePage/our_mission.jpg');
+    background-size: cover;
+    color: #FFF;
+    height: 300px;
+    background-attachment: fixed;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+}.landing-page-section-how-work{
+    background-image: url('../images/homePage/how_it_work.jpg');
+    background-size: cover;
+    color: #FFF;
+    height: 300px;
+    background-attachment: fixed;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+}.landing-page-section-mission h3, .landing-page-section-how-work h3{
+     font-size: 50px;
+    padding-top: 1em;
+ }
 .landing-page-boxes{
     padding: 4em 0 4em 0;
 }
 .container-landing-page-boxes{
     background-color: var(--bg-color);
+}
+.our-mission p{
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+.how-it-work{
+    background-color: white;
+}
+.how-it-work ul li, .how-it-work p{
+    font-size: 22px;
+    list-style-type: none;
 }
 .landing-page-boxes p{
     line-height: 27px;
