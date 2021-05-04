@@ -2,6 +2,8 @@
 
 namespace App\Service\Search;
 
+use App\Entity\Company;
+use App\Entity\Service;
 use App\Repository\CompanyRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
@@ -46,8 +48,8 @@ class SearchHandler
         //Merge result
         $items = array_merge($companies, $services);
 
-        //Sort by updatedAt
-        usort($items, [$this, 'orderByDate']);
+        //Sort by is labeled and createdAt
+        usort($items, [$this, 'orderByIsLabeledAndCreatedAt']);
 
         return [
             'items' => $items,
@@ -72,11 +74,8 @@ class SearchHandler
         //Merge and remove duplication
         $allCompanies = array_unique(array_merge($companies, $companiesServices));
 
-        //Sort by updatedAt
-        usort($allCompanies, [$this, 'orderByDate']);
-
-        //Sort by is labeled
-        usort($allCompanies, [$this, 'orderByIsLabeled']);
+        //Sort by is labeled and createdAt
+        usort($allCompanies, [$this, 'orderByIsLabeledAndCreatedAt']);
 
         return $allCompanies;
     }
@@ -136,9 +135,9 @@ class SearchHandler
     }
 
     /**
-     * Function used in usort on top
+     * Function to sort by createdAt
      */
-    public function orderByDate($a, $b)
+    public function orderByDate($a, $b): int
     {
         //return 0 if equal
         if ($a->getCreatedAt() === $b->getCreatedAt()) {
@@ -151,15 +150,40 @@ class SearchHandler
     }
 
     /**
-     * Function used in usort on top
+     * Function to sort by company labeled
      */
-    public function orderByIsLabeled($a, $b)
+    public function orderByIsLabeled($a, $b): int
     {
-        $aIsLabeled = $a->getLabel() && $a->getLabel()->isLabeled() == true;
-        $bIsLabeled = $b->getLabel() && $b->getLabel()->isLabeled() == true;
-
         // true - true == 0, true - false == 1, false - true == -1
-        return $bIsLabeled - $aIsLabeled;
+        return $this->companyItemIsLabeled($b) - $this->companyItemIsLabeled($a);
+    }
+
+    /**
+     * Function to sort by company labeled and createdAt
+     */
+    public function orderByIsLabeledAndCreatedAt($a, $b): int
+    {
+        if ($this->companyItemIsLabeled($b) - $this->companyItemIsLabeled($a) === 0){
+            return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
+        }else{
+            return $this->companyItemIsLabeled($b) - $this->companyItemIsLabeled($a);
+        }
+    }
+
+    /**
+     * Function to return company is labeled depending on item
+     */
+    private function companyItemIsLabeled($element): bool
+    {
+        //Get company from item
+        if ($element instanceof Service){
+            $company = $element->getUser()->getCompany();
+        }elseif ($element instanceof Company){
+            $company = $element;
+        }
+
+        //Check if is labeled
+        return $company && $company->getLabel() && $company->getLabel()->isLabeled() == true;
     }
 
 }
