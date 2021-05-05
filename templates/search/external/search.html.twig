@@ -44,10 +44,15 @@
                                     <!-- Card content -->
                                     <div class="card-body">
                                         <h4 class="card-title font-weight-bold"><a>{{ result.name }}</a></h4>
-                                        <ul class="list-unstyled list-inline rating mb-0">
-                                            <li class="list-inline-item mr-0"><i class="fas fa-map-pin"></i></li>
-                                            <li class="list-inline-item"><p class="text-muted"> {{ result.city }}</p></li>
-                                        </ul>
+
+                                        {% include 'search/boxes/badge-label.html.twig' with {'company': result} %}
+
+                                        {% if result.city %}
+                                            <ul class="list-unstyled list-inline rating mb-0">
+                                                <li class="list-inline-item mr-0"><i class="fas fa-map-pin"></i></li>
+                                                <li class="list-inline-item"><p class="text-muted"> {{ result.city }}</p></li>
+                                            </ul>
+                                        {% endif %}
                                         {% if result.introduction is defined %}
                                             <p class="card-text">{{ result.introduction }}</p>
                                         {% else %}

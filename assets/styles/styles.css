@@ -3419,11 +3419,20 @@ ul.block li .icon{
 .badge-label-img{
     width: 40px;
 }
-.badge-label-img-search{
-    width: 35px;
-    float: right;
-    /*background: #f7f7f5;*/
-    border-radius: 50%;
+.badge-label-search{
+    background-color: #eefcfb;
+    color: #264ffa;
+    border-radius: 12px;
+    padding: 2px;
+    font-size: 75%;
+    width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.badge-label-search img{
+    max-height: 20px !important;
+    min-height: 20px !important;
+    width: auto;
 }
 ul.block li span{
     padding: 10px 7px;

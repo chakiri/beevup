@@ -52,6 +52,9 @@
                                                 <div class="company-up-meta">
                                                     <a href="{{path('service_show', { 'id': service.id}) }}"><h5>{{ service.title }}</h5></a>
                                                     <h6>{{ service.category }}</h6>
+
+                                                    {% include 'search/boxes/badge-label.html.twig' with {'company': service.user.company} %}
+
                                                 </div>
                                             </div>
                                             <a href="{{path('service_show', {'id': service.id}) }}" title="" class="view-more-pro">Voir la fiche</a>
@@ -83,6 +86,9 @@
                                                 <div class="company-up-meta">
                                                     <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}"><h5>{{company.name }}</h5></a>
                                                     <h6>{{ company.otherCategory }}</h6>
+
+                                                    {% include 'search/boxes/badge-label.html.twig' with {'company': company} %}
+
                                                 </div>
                                                 <ul>
                                                     <li data-toggle="tooltip" data-placement="top" title="Ajouter aux favoris">

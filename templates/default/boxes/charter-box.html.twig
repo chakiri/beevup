@@ -16,7 +16,7 @@
         {% if app.user.company.label and app.user.company.label.isLabeled == true %}
             <li>
                 <img class="badge-label-img" src="{{ asset('build/images/dashboard/badge-labeled.png') }}" alt="">
-                <span><strong>Vous êtes labélisé Beev'Up</strong></span>
+                <span><strong>Labellisé Beev'Up</strong></span>
             </li>
         {% else %}
             <li class="{% if app.user.company.valid == true %}valid{% endif %}">

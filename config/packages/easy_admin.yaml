@@ -286,4 +286,4 @@ easy_admin:
           - { property: 'kbis', label: 'kbis', template: 'admin/file/vich_uploader_image.html.twig' }
           - { property: 'isKbisValid', label: 'Kbis validé', type: 'boolean' }
           - { property: 'storeAppointmentFormat', label: 'Rendez-vous' }
-          - { property: 'isLabeled', label: 'Labélisé', type: 'boolean'}
+          - { property: 'isLabeled', label: 'Labéllisé', type: 'boolean'}

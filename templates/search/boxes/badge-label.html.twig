@@ -1,0 +1,6 @@
+{% if company and company.label and company.label.isLabeled == true %}
+    <div class="badge-label-search">
+        <img class="mr-2" src="{{ asset('build/images/dashboard/badge-labeled.png') }}" alt="">
+        <span>Labellisé Beev'Up</span>
+    </div>
+{% endif %}
