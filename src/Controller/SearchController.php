@@ -74,7 +74,9 @@ class SearchController extends AbstractController
             'nbRecommandationsServices' => $infosServices['nbRecommandations'] ?? null,
             'distancesServices' => $infosServices['distances'] ?? null,
             'nbRecommandationsCompanies' => $infosCompanies['nbRecommandations'] ?? null,
-            'distancesCompanies' => $infosCompanies['distances'] ?? null
+            'distancesCompanies' => $infosCompanies['distances'] ?? null,
+            'isCompanyQuery' => $search->getIsCompany() !== false,  //Always true if not unchecked
+            'isServiceQuery' => $search->getIsService() !== false,
         ]);
 
     }

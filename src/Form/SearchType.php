@@ -28,16 +28,10 @@ class SearchType extends AbstractType
             ->add('isCompany', CheckboxType::class, [
                 'label' => 'Entreprises',
                 'required' =>false,
-                'attr' => [
-                    'checked' => 'checked'
-                ]
             ])
             ->add('isService', CheckboxType::class, [
                 'label' => 'Services',
                 'required' =>false,
-                'attr' => [
-                    'checked' => 'checked'
-                ]
             ])
             ->add('category', EntityType::class, [
                 'class' => ServiceCategory::class,

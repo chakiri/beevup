@@ -16,8 +16,8 @@
                     <small>Affiner votre recherche</small>
                     {#<hr>#}
                     <div class="form-group d-flex">
-                        {{ form_widget(SearchForm.isCompany) }}
-                        {{ form_widget(SearchForm.isService) }}
+                        {{ form_widget(SearchForm.isCompany, {'attr': {'checked': isCompanyQuery}}) }}
+                        {{ form_widget(SearchForm.isService, {'attr': {'checked': isServiceQuery}}) }}
                     </div>
                 </div>
                 <div class="col-3">

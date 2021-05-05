@@ -1398,8 +1398,8 @@ ul.landing-page-list {
     color: var(--orange-color) !important;
 }
 .company-infos-bloc {
-    position: inherit;
-    bottom: 22px;
+    position: absolute;
+    bottom: 4px;
     z-index: 10;
 }
 .company-infos-bloc i{
@@ -1409,6 +1409,7 @@ ul.landing-page-list {
 }
 .company-up-meta{
     height: 85px;
+    margin-top: 10px;
 }
 .company-up-meta h5{
     display: -webkit-box;

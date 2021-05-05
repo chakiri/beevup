@@ -51,7 +51,7 @@
 
                                                 <div class="company-up-meta">
                                                     <a href="{{path('service_show', { 'id': service.id}) }}"><h5>{{ service.title }}</h5></a>
-                                                    <h6>{{ service.category }}</h6>
+                                                    <h6>{{ service.category ? service.category  : 'catégorie non définie'}}</h6>
 
                                                     {% include 'search/boxes/badge-label.html.twig' with {'company': service.user.company} %}
 
@@ -85,7 +85,7 @@
 
                                                 <div class="company-up-meta">
                                                     <a href="{{path('company_show', { 'slug': company.slug, 'id': company.id}) }}"><h5>{{company.name }}</h5></a>
-                                                    <h6>{{ company.otherCategory }}</h6>
+                                                    <h6>{{ company.otherCategory ? company.otherCategory  : 'catégorie non définie'}}</h6>
 
                                                     {% include 'search/boxes/badge-label.html.twig' with {'company': company} %}
 
