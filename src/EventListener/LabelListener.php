@@ -35,7 +35,7 @@ class LabelListener
 
                 if (array_key_exists('storeAppointment', $changeset)) {
                     //Send email to user recap of appointment
-                    $params = ['appointment' => $entity->getStoreAppointment()->format('d/m/Y à H:II')];
+                    $params = ['appointment' => $entity->getStoreAppointment()->format('d/m/Y à H:i')];
                     $this->mailer->sendEmailWithTemplate($entity->getCompany()->getEmailAdministrator(), $params, 'store_appointment_client');
                 }
             }

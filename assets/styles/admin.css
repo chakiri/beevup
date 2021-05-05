@@ -55,7 +55,7 @@ aside.main-sidebar {
 #kbisPreviewModal .modal-dialog{
     max-width: 800px;
 }#kbisPreviewModal .modal-content{
-    height: 800px;
+    height: 600px;
 }
 #header {
     z-index: 10000;

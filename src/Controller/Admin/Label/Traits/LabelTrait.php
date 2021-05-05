@@ -16,12 +16,12 @@ trait LabelTrait
 
     public function getCreatedAtFormat()
     {
-        return $this->createdAt->format('d/m/Y H:II');
+        return $this->createdAt->format('d/m/Y H:i');
     }
 
     public function getStoreAppointmentFormat()
     {
-        return $this->storeAppointment ? $this->storeAppointment->format('d/m/Y H:II') : null;
+        return $this->storeAppointment ? $this->storeAppointment->format('d/m/Y H:i') : null;
     }
 
     public function getContactNameAdmin()
