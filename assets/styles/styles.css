@@ -148,6 +148,10 @@ small{
     font-size: 90%;
 }
 
+.big-text{
+    font-size: 18px;
+}
+
 hr{
     border-top: 1px solid rgba(0, 0, 0, 0.04);
     margin-top: 5px;
@@ -518,9 +522,9 @@ ul.landing-page-list {
     color: var(--text-color);
 }
 .landing-page-section4-bloc{
-    background: #fff;
+    /*background: #fff;*/
     padding: 15px 15px 15px;
-    border: 1px solid #e1e1e1;
+    /*border: 1px solid #e1e1e1;*/
     border-radius: 10px;
     z-index: 11;
     width: 100%;
@@ -571,14 +575,21 @@ ul.landing-page-list {
     background-color: var(--bg-color);
 }
 .our-mission p{
-    font-size: 22px;
+    font-size: 16px;
     margin-bottom: 15px;
+}
+.our-value p{
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.our-value h4{
+    text-align: center;
 }
 .how-it-work{
     background-color: white;
 }
 .how-it-work ul li, .how-it-work p{
-    font-size: 22px;
+    font-size: 16px;
     list-style-type: none;
 }
 .landing-page-boxes p{
@@ -590,6 +601,7 @@ ul.landing-page-list {
 .landing-page-inscription-btn {
     width: 200px;
     height: 60px;
+    font-size: 20px;
 }
 
 .landing-page-section3-img{
@@ -667,7 +679,7 @@ ul.landing-page-list {
 .landing-page-section4-img{
     max-width: 100%;
     border-radius: 10px;
-    height: 200px;
+    height: 170px;
     margin-left: auto;
     margin-right: auto;
     display: block;

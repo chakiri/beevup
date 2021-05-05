@@ -259,7 +259,7 @@ easy_admin:
         title: "Rendez-vous magasin"
         help: 'Après avoir validé le kbis, prenez contact avec le professionel pour convenir à un rendez-vous dans votre magasin'
         fields:
-          - { type: 'tab' , label: 'Information de contact', icon: 'phone' }
+          - { type: 'tab' , label: 'Informations de contact', icon: 'phone' }
           - { property: 'contactNameAdmin', type: 'text', label: 'Nom Prénom' , type_options: { disabled: true }}
           - { property: 'contactName', type: 'text', label: "Nom de l'entreprise" , type_options: { disabled: true }}
           - { property: 'contactEmail', type: 'text', label: 'Email' , type_options: { disabled: true }}
@@ -274,7 +274,7 @@ easy_admin:
       list:
         sort: ['createdAt', 'DESC']
         actions:
-          - { name: 'kbisPreview', icon: 'eye' , label: 'Verifier le kbis' }
+          - { name: 'kbisPreview', icon: 'eye' , label: 'Vérifier le kbis' }
           - { name: 'edit', icon: 'calendar' , label: 'Prendre un RDV'}
           - { name: 'validateLabel', icon: 'check' , label: 'Remettre le label'}
         fields:
