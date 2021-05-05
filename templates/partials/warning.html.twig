@@ -6,7 +6,7 @@
     </div>
 {% endif %}#}
 
-<div class="warning p-3">
+<div class="box warning p-3">
     {% if status is same as 'inscription' %}
         <h4 class="alert-heading"><i class="far fa-check-circle fa-2x"></i> Bravo {{ app.user.profile.firstname }} !</h4>
         <p class="mb-0"><a href="{{ path('service_new') }}"><strong>Créer votre premier service</strong></a> pour être visible par la communauté Beev'Up et le Magasin {{ app.user.store.reference }}</p>

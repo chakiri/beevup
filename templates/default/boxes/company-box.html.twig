@@ -1,0 +1,21 @@
+{% if app.user.company   %}
+    <div id="companybox" class="box-company mt-3">
+        <small class="greyed">Votre entreprise</small>
+        <div class="box mt-0">
+            <div class="d-flex">
+                <a href="#">
+                    {% if app.user.company.filename %}
+                        <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                    {% else %}
+                        <img src="{{ asset('build/images/no-available-photo.png') }}" class="rounded-circle medium-avatar" alt="avatar image">
+                    {% endif %}
+                </a>
+                <div class="pb-3">
+                    <p>{{ app.user.company.name|capitalize }}</p>
+                    <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
+                </div>
+            </div>
+            <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
+        </div>
+    </div>
+{% endif %}

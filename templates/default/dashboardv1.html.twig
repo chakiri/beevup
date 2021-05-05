@@ -12,8 +12,8 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6 col-md-12 order-sm-2">
-                <div class="box-social-media min-col m-center">
+            <div class="col-lg-9 col-md-12 order-sm-2">
+                <div class="box-social-media {#min-col m-center#}">
 
                     {% include 'default/boxes/only-mobile/adviser-and-special-offer.html.twig' %}
 
@@ -54,79 +54,11 @@
 
                 {% include 'default/boxes/charter-box.html.twig' %}
 
-                <div id="news-filter" class="box-navigation-items">
-                    <small class="greyed">Filtrez votre actualité</small>
-                    <ul>
-                        <li class="{% if category is null %}active{% endif %}"value="All"><i class="fas fa-clone mr-2"></i><a href="{{ path('dashboard') }}">  Tout</a></li>
-                        <li class="{% if category == 1 %}active{% endif %}" value="informations"><i class="far fa-newspaper mr-2"></i><a href="{{ path('dashboard_category', {'category': 1}) }}">  Informations</a></li>
-                        <li class="{% if category == 7 %}active{% endif %}" value="Derniers arrivés"><i class="fas fa-users mr-2"></i><a href="{{ path('dashboard_category', {'category': 7}) }}">  Derniers arrivés</a></li>
-                        <li class="{% if category == 2 %}active{% endif %}" value="Opportunité commerciale"><i class="far fa-handshake mr-2"></i>
-                            <a href="{{ path('dashboard_category', {'category': 2}) }}" onclick="setSeenOpportunityNotification(this)" data-url="{{ path('opportunity_notification_set') }}">  Opportunité commerciale</a>
-                            {% if opportunities|length > 0 %}
-                                <span class="badge bell-badge">{{ opportunities|length }}</span>
-                            {% endif %}
-                        </li>
-                        <li class="{% if category == 4 %}active{% endif %}" value="Emploi"><i class="fas fa-briefcase mr-2"></i><a href="{{ path('dashboard_category', {'category': 4}) }}">  Emploi</a></li>
-                        <li class="{% if category == 5 %}active{% endif %}" value="Événement"><i class="fas fa-calendar mr-2"></i><a href="{{ path('dashboard_category', {'category': 5}) }}">  Evénement</a></li>
-                        <li class="{% if category == 3 %}active{% endif %}" value="Question à la communauté"><i class="fas fa-question mr-2"></i><a href="{{ path('dashboard_category', {'category': 3}) }}">  Question à la communauté</a></li>
-                        <li class="{% if category == 6 %}active{% endif %}" value="Autre"><i class="fas fa-plus mr-2"></i><a href="{{ path('dashboard_category', {'category': 6}) }}">  Autre</a></li>
-                    </ul>
-                </div>
+                {% include 'default/boxes/filter-post.html.twig' %}
 
-                <div id="advisorebox" class="box-advisor">
-                    <small class="greyed">Votre conseiller</small>
-                    <div class="box mt-0">
-                        {% if  app.user.store != null %}
-                            {% if  app.user.store.defaultAdviser != null %}
-                                {% if  app.user.store.defaultAdviser.profile != null %}
-                                    <div class="d-flex">
-                                        <a href="#">
-                                            {% if app.user.store.defaultAdviser.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(app.user.store.defaultAdviser.profile, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% else %}
-                                                <img src="{{ asset('build/images/no-available-photo.png') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                            {% endif %}
-                                        </a>
-                                        <div>
-                                            <p>{{ app.user.store.defaultAdviser.profile.firstname }} {{ app.user.store.defaultAdviser.profile.lastname }}</p>
-                                            <small>{{ app.user.store.defaultAdviser.store }}</small>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex pt-3">
-                                        <a type="button" href="{{ path('chat_private', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn orange-bg mr-2">Contacter</a>
-                                        <a type="button" href="{{ path('profile_show', {'id': app.user.store.defaultAdviser.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <p>Aucun conseiller défini</p>
-                            {% endif %}
-                        {% else %}
-                            <p>Aucun conseiller défini</p>
-                        {% endif %}
-                    </div>
-                </div>
+                {% include 'default/boxes/adviser-box.html.twig' %}
 
-                {% if app.user.company   %}
-                <div id="companybox" class="box-company mt-3">
-                    <small class="greyed">Votre entreprise</small>
-                    <div class="box mt-0">
-                        <div class="d-flex">
-                            <a href="#">
-                                {% if app.user.company.filename %}
-                                    <img src="{{ vich_uploader_asset(app.user.company, 'imageFile')|imagine_filter('miniature') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                {% else %}
-                                    <img src="{{ asset('build/images/no-available-photo.png') }}" class="rounded-circle medium-avatar" alt="avatar image">
-                                {% endif %}
-                            </a>
-                            <div class="pb-3">
-                                <p>{{ app.user.company.name|capitalize }}</p>
-                                <small>{{ app.user.company.city }}, {{ app.user.company.country }}</small>
-                            </div>
-                        </div>
-                        <a type="button" href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}" class="btn small-btn white-bg">Voir la fiche</a>
-                    </div>
-                </div>
-                {% endif %}
+                {% include 'default/boxes/company-box.html.twig' %}
 
                 <!-- Tutorial button -->
                 <div id="tutorial" class="d-sm-none d-lg-block">
@@ -137,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-12 order-sm-3">
+            {#<div class="col-lg-3 col-md-12 order-sm-3">
                 {% include 'default/boxes/add-sponsorship.html.twig' %}
                 {% include 'dashboard/boxes/social-media-buttons.html.twig' %}
                 <div class="box-advertising clearfix">
@@ -150,7 +82,7 @@
                     {% endif %}
 
                 </div>
-            </div>
+            </div>#}
 
         </div>
     </div>

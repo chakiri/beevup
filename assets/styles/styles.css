@@ -107,8 +107,9 @@ img
 .box{
     background: #FFFFFF;
     border-radius: var(--radius);
-    padding: 10px;
-    margin: 10px 0;
+    padding: 1em;
+    margin: 1em 0;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,.05);
 }
 
 .min-col{
@@ -2768,8 +2769,6 @@ a:hover {
     width: 100%;
 }
 .warning{
-    background-color: #fff;
-    border-radius: 6px;
     line-height: 24px;
     margin: 0 1em 2em;
     border-left: 8px solid orange;
