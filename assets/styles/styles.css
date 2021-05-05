@@ -3789,11 +3789,9 @@ ul.block li.empty a:after{
     height: 455px !important;
 }
 .homepage .card-title{
-    height: 60px;
     overflow: hidden;
 }
 .homepage .card-text{
-    height: 86px;
     overflow: hidden;
 }
 .homepage .card-btn{

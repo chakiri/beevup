@@ -58,13 +58,11 @@
                                         {% else %}
                                             <p class="card-text">{{ result.otherCategory }}</p>
                                         {% endif %}
-                                        <hr>
-
-                                        <!-- Button -->
-                                        <div class="text-center">
-                                            <a href="{{ path('external_company_show', {'slug': result.slug, 'id': result.id}) }}" class="btn btn-flat p-1 mx-0 mb-0">Voir plus</a>
-                                        </div>
-
+                                    </div>
+                                    <!-- Button -->
+                                    <hr>
+                                    <div class="text-center">
+                                        <a href="{{ path('external_company_show', {'slug': result.slug, 'id': result.id}) }}" class="btn btn-flat p-3">Voir plus</a>
                                     </div>
                                 </div>
                                 <!-- Card -->
