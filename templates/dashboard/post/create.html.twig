@@ -1,0 +1,26 @@
+<div id="postpublish" class="new-post">
+    <div class="box shadow">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex">
+                {% if app.user.profile.filename %}
+                    <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                {% else %}
+                    <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                {% endif %}
+                <div class="meta">
+                    <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
+                    {% if app.user.company %}
+                        <small>{{ app.user.company.name|capitalize }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="vertical-center">
+                {% if app.user.profile.isCompleted == true %}
+                    <button class="btn big-btn orange-bg  add-post" data-target="{{ path('post_create') }}">Publier un post</button>
+                {% else %}
+                    <button type="button" class="btn big-btn orange-bg" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre profile">Publier un post</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

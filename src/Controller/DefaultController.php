@@ -95,7 +95,7 @@ class DefaultController extends AbstractController
 
         $options['category'] = $category ? $category->getId() : null;
 
-        return $this->render('default/dashboardv1.html.twig', $options);
+        return $this->render('dashboard/dashboardv1.html.twig', $options);
     }
 
     /**

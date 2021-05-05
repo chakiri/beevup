@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="container-bv">
+        {#<div id="onboarding" data-url="{{ path('onboarding') }}" data-onboarding="{{ app.user.profile.isOnboarding }}" data-session-onboarding="{{ app.session.get('popup')['isShowed'] ?? null }}" data-session-onboarding-url="{{ path('welcomepopup') }}"></div>#}
+        <div class="row">
+            <div class="warnings">
+                {% include 'partials/warning.html.twig' %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-9 col-md-12 order-sm-2">
+                <div class="box-social-media {#min-col m-center#}">
+
+                    {% include 'dashboard/boxes/only-mobile/adviser-and-special-offer.html.twig' %}
+
+                    {% include 'dashboard/post/create.html.twig' %}
+
+                    {#{% include 'dashboard/boxes/only-mobile/filter-categories.html.twig' %}#}
+
+                    {% include 'dashboard/post/posts.html.twig' %}
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-12 order-sm-1">
+
+                {% include 'dashboard/boxes/charter-box.html.twig' %}
+
+                {#{% include 'dashboard/boxes/filter-post.html.twig' %}#}
+
+                {% include 'dashboard/boxes/adviser-box.html.twig' %}
+
+                {% include 'dashboard/boxes/company-box.html.twig' %}
+
+                {% include 'dashboard/boxes/tutorial-box.html.twig' %}
+            </div>
+
+            {#<div class="col-lg-3 col-md-12 order-sm-3">
+                {% include 'dashboard/boxes/add-sponsorship.html.twig' %}
+                {% include 'dashboard/boxes/social-media-buttons.html.twig' %}
+                <div class="box-advertising clearfix">
+                    {% if publicity is not null %}
+                        {% include 'dashboard/boxes/advertising-box.html.twig' %}
+                    {% endif %}
+
+                    {% if lastSpecialOffer is not null %}
+                        {% include 'dashboard/boxes/specialOffer-box.html.twig' %}
+                    {% endif %}
+
+                </div>
+            </div>#}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+
+    <!-- Dashboard modals  -->
+    {% include 'dashboard/modals/dashboard-modals.html.twig' %}
+
+    <!-- Welcome modals  -->
+    {#{% include 'dashboard/modals/call-modals.html.twig' %}#}
+
+    <!-- Charter -->
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'charterModal'} %}
+
+    <!-- kbis form -->
+    {% include 'default/modals/base.html.twig' with {'idModal' : 'kbisFormModal'} %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('modals') }}
+    {{ encore_entry_script_tags('dashboard') }}
+{% endblock %}
