@@ -3,10 +3,30 @@
     <div class="box">
         <div class="d-flex justify-content-between">
             <h5>Rendez-vous Experts Beev'Up</h5>
-            <div class="">
-                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn big-btn orange-bg">Proposer des RDV Experts</a>
+            <div class="d-flex">
+                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn orange-bg mr-2">Proposer des RDV</a>
+                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg">Gérer mes RDV</a>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="box-card">
+                    {% if app.user.profile.filename %}
+                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                    {% else %}
+                        <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                    {% endif %}
+                    <div class="meta">
+                        <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
+                        {% if app.user.company %}
+                            <small>{{ app.user.company.name|capitalize }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 {% endif %}

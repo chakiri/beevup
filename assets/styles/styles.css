@@ -4336,6 +4336,12 @@ form[name="expert_meeting"] li{
     list-style-type: none;
 }
 
+#expertMeetingBox .box-card{
+    background-color: #f7f7f5;
+    display: flex;
+    padding: 1em;
+}
+
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; border-radius: var(--border-radius)}
 .autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; }
