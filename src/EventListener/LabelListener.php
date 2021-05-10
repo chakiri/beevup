@@ -5,18 +5,15 @@ namespace App\EventListener;
 
 
 use App\Entity\Label;
-use App\Service\Chat\AutomaticMessage;
 use App\Service\Mail\Mailer;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 
 class LabelListener
 {
-    private AutomaticMessage $automaticMessage;
     private Mailer $mailer;
 
-    public function __construct(AutomaticMessage $automaticMessage, Mailer $mailer)
+    public function __construct(Mailer $mailer)
     {
-        $this->automaticMessage = $automaticMessage;
         $this->mailer = $mailer;
     }
 
