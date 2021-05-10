@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Edit ExpertMeeting{% endblock %}
+
+{% block body %}
+<div class="main-section">
+    <div class="container-bv">
+        <div class="main-section-data page-content">
+            <div class="row">
+
+                <div class="offset-3 col-lg-6">
+                    <div class="main-ws-sec">
+                        <div class="product-feed-tab current" id="info-dd">
+                            <div class="user-profile-ov page-title sign_in_sec current">
+                                {% if edit == true %}
+                                    <h3>Modifier mon rendez-vous expert</h3>
+                                {% else %}
+                                    <h3> Créer mon rendez-vous expert</h3>
+                                {% endif %}
+
+                                {{ form_start(form)}}
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            {{ form_row(form.expertise, {'label': 'Votre expertise'}) }}
+                                        </div>
+                                    </div>
+                                    <p>Vous acceptez :</p>
+                                    <div class="row">
+                                        <div class="col-6 form-group">
+                                            {{ form_row(form.isVisio, {'label': 'En visio-conférence'}) }}
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            {{ form_row(form.isInCompany, {'label': 'En entreprise'}) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            {{ form_row(form.address, {'label': 'Adresse'}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row js-time-slot-wrapper"
+                                         data-prototype="{{ form_widget(form.timeSlots.vars.prototype)|e('html_attr') }}" data-index="{{ form.timeSlots|length }}">
+                                        {% for timeSlot in form.timeSlots %}
+                                            <div class="col-xs-4 js-time-slot-item">
+                                                <a href="#" class="js-remove-slot-time pull-right">
+                                                    <span class="fa fa-close"></span>
+                                                </a>
+                                                {{ form_errors(timeSlot) }}
+                                                {{ form_row(timeSlot.date) }}
+                                                {{ form_row(timeSlot.startTime) }}
+                                                {{ form_row(timeSlot.endTime) }}
+                                            </div>
+                                        {% endfor %}
+                                        <a href="#" class="js-time-slot-add">
+                                            <span class="fa fa-plus-circle"></span>
+                                            Ajouter un nouveau créneau
+                                        </a>
+                                    </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn orange-bg" >Valider</button>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function() {
+            let $wrapper = $('.js-time-slot-wrapper');
+
+            $wrapper.on('click', '.js-remove-slot-time', function(e) {
+                e.preventDefault();
+                $(this).closest('.js-time-slot-item')
+                    .fadeOut()
+                    .remove();
+            });
+
+            $wrapper.on('click', '.js-time-slot-add', function(e) {
+                e.preventDefault();
+
+                let prototype = $wrapper.data('prototype');
+
+                //Get the new index
+                let index = $wrapper.data('index');
+
+                // Replace '__name__' in the prototype's HTML to instead be a number based on how many items we have
+                let newForm = prototype.replace(/__name__/g, index);
+
+                // increase the index with one for the next item
+                $wrapper.data('index', index + 1);
+
+                // Display the form in the page before the "new" link
+                $(this).before(newForm);
+            });
+        });
+    </script>
+{% endblock %}

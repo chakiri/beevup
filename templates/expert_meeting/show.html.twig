@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExpertMeeting{% endblock %}
+
+{% block body %}
+    <h1>ExpertMeeting</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ expert_meeting.id }}</td>
+            </tr>
+            <tr>
+                <th>Expertise</th>
+                <td>{{ expert_meeting.expertise }}</td>
+            </tr>
+            <tr>
+                <th>IsVisio</th>
+                <td>{{ expert_meeting.isVisio ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsInCompany</th>
+                <td>{{ expert_meeting.isInCompany ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ expert_meeting.address }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('expert_meeting_index') }}">back to list</a>
+
+    <a href="{{ path('expert_meeting_edit', {'id': expert_meeting.id}) }}">edit</a>
+
+    {{ include('expert_meeting/_delete_form.html.twig') }}
+{% endblock %}

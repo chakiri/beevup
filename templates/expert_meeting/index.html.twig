@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExpertMeeting index{% endblock %}
+
+{% block body %}
+    <h1>ExpertMeeting index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Expertise</th>
+                <th>IsVisio</th>
+                <th>IsInCompany</th>
+                <th>Address</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for expert_meeting in expert_meetings %}
+            <tr>
+                <td>{{ expert_meeting.id }}</td>
+                <td>{{ expert_meeting.expertise }}</td>
+                <td>{{ expert_meeting.isVisio ? 'Yes' : 'No' }}</td>
+                <td>{{ expert_meeting.isInCompany ? 'Yes' : 'No' }}</td>
+                <td>{{ expert_meeting.address }}</td>
+                <td>
+                    <a href="{{ path('expert_meeting_show', {'id': expert_meeting.id}) }}">show</a>
+                    <a href="{{ path('expert_meeting_edit', {'id': expert_meeting.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('expert_meeting_new') }}">Create new</a>
+{% endblock %}

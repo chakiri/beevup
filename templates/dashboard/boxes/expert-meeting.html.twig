@@ -1,10 +1,12 @@
+{% if is_granted('ROLE_ADMIN_COMPANY') %}
 <div id="expertMeetingBox" class="box-expert-meeting">
     <div class="box">
         <div class="d-flex justify-content-between">
             <h5>Rendez-vous Experts Beev'Up</h5>
             <div class="">
-                <button class="btn big-btn orange-bg">Proposer des RDV Experts</button>
+                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn big-btn orange-bg">Proposer des RDV Experts</a>
             </div>
         </div>
     </div>
 </div>
+{% endif %}
