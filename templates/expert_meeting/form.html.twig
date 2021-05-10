@@ -4,6 +4,18 @@
 
 {% block title %}Edit ExpertMeeting{% endblock %}
 
+{% macro fieldsPrototype(timeSlot) %}
+    <div class="d-flex js-time-slot-item mb-3">
+        {{ form_widget(timeSlot.date, {'attr': {'class': 'mr-3'}}) }}
+        {{ form_widget(timeSlot.startTime, {'attr': {'class': 'mr-3'}}) }}
+        {{ form_widget(timeSlot.endTime, {'attr': {'class': 'mr-3'}}) }}
+        <a href="#" class="js-remove-time-slot pull-right">
+            <i class="fas fa-times-circle"></i>
+        </a>
+    </div>
+    {{ form_errors(timeSlot) }}
+{% endmacro %}
+
 {% block body %}
 <div class="main-section">
     <div class="container-bv">
@@ -13,7 +25,7 @@
                 <div class="offset-3 col-lg-6">
                     <div class="main-ws-sec">
                         <div class="product-feed-tab current" id="info-dd">
-                            <div class="user-profile-ov page-title sign_in_sec current">
+                            <div class=" page-title sign_in_sec current">
                                 {% if edit == true %}
                                     <h3>Modifier mon rendez-vous expert</h3>
                                 {% else %}
@@ -41,28 +53,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="row js-time-slot-wrapper"
-                                         data-prototype="{{ form_widget(form.timeSlots.vars.prototype)|e('html_attr') }}" data-index="{{ form.timeSlots|length }}">
+                                    <p>Vos créneaux disponibles : </p>
+
+                                    {# store the prototype on the data-prototype attribute #}
+                                    <div id="time-slots-fields-list" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.timeSlots|length }}">
                                         {% for timeSlot in form.timeSlots %}
-                                            <div class="col-xs-4 js-time-slot-item">
-                                                <a href="#" class="js-remove-slot-time pull-right">
-                                                    <span class="fa fa-close"></span>
-                                                </a>
-                                                {{ form_errors(timeSlot) }}
-                                                {{ form_row(timeSlot.date) }}
-                                                {{ form_row(timeSlot.startTime) }}
-                                                {{ form_row(timeSlot.endTime) }}
-                                            </div>
+                                            {{ _self.fieldsPrototype(timeSlot) }}
                                         {% endfor %}
-                                        <a href="#" class="js-time-slot-add">
-                                            <span class="fa fa-plus-circle"></span>
-                                            Ajouter un nouveau créneau
-                                        </a>
+                                        <a type="button" class="add-another-collection-widget" data-list-selector="#time-slot-fields-list"> <span class="fa fa-plus-circle"></span> Ajouter un nouveau créneau</a>
                                     </div>
 
-                                <div class="text-center">
-                                    <button type="submit" class="btn orange-bg" >Valider</button>
-                                </div>
+                                    {# prevents weird label from showing up in new #}
+                                    {{ form_widget(form.timeSlots) }}
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn orange-bg">Valider</button>
+                                    </div>
                                 {{ form_end(form) }}
                             </div>
                         </div>
@@ -75,35 +81,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script>
-        jQuery(document).ready(function() {
-            let $wrapper = $('.js-time-slot-wrapper');
-
-            $wrapper.on('click', '.js-remove-slot-time', function(e) {
-                e.preventDefault();
-                $(this).closest('.js-time-slot-item')
-                    .fadeOut()
-                    .remove();
-            });
-
-            $wrapper.on('click', '.js-time-slot-add', function(e) {
-                e.preventDefault();
-
-                let prototype = $wrapper.data('prototype');
-
-                //Get the new index
-                let index = $wrapper.data('index');
-
-                // Replace '__name__' in the prototype's HTML to instead be a number based on how many items we have
-                let newForm = prototype.replace(/__name__/g, index);
-
-                // increase the index with one for the next item
-                $wrapper.data('index', index + 1);
-
-                // Display the form in the page before the "new" link
-                $(this).before(newForm);
-            });
-        });
-    </script>
+    {{ encore_entry_script_tags('collectionPrototype') }}
 {% endblock %}

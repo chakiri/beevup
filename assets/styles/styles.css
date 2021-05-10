@@ -4329,6 +4329,13 @@ border: 0;
     max-width: 100% !important;
 }
 
+/**
+Experts meeting
+ */
+form[name="expert_meeting"] li{
+    list-style-type: none;
+}
+
 
 .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; border-radius: var(--border-radius)}
 .autocomplete-suggestion { padding: 5px 5px; white-space: nowrap; overflow: hidden; }
