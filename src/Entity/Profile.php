@@ -314,7 +314,7 @@ class Profile implements \Serializable
         $this->setLastname($this->updateName($this->getLastname()));
     }
 
-    private function updateName(string $name)
+    private function updateName($name)
     {
         $updateName = null;
         $pieces = explode("-", $name);
