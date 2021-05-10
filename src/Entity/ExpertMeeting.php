@@ -40,7 +40,7 @@ class ExpertMeeting
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=TimeSlot::class, mappedBy="expertMeeting", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=TimeSlot::class, mappedBy="expertMeeting", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $timeSlots;
 

@@ -6,10 +6,12 @@
 
 {% macro fieldsPrototype(timeSlot) %}
     <div class="d-flex js-time-slot-item mb-3">
-        {{ form_widget(timeSlot.date, {'attr': {'class': 'mr-3'}}) }}
-        {{ form_widget(timeSlot.startTime, {'attr': {'class': 'mr-3'}}) }}
-        {{ form_widget(timeSlot.endTime, {'attr': {'class': 'mr-3'}}) }}
-        <a href="#" class="js-remove-time-slot pull-right">
+        {{ form_widget(timeSlot.date) }}
+        <span class="p-3">de</span>
+        {{ form_widget(timeSlot.startTime) }}
+        <span class="p-3">à</span>
+        {{ form_widget(timeSlot.endTime) }}
+        <a href="#" class="js-time-slot-remove p-3 pull-right">
             <i class="fas fa-times-circle"></i>
         </a>
     </div>
@@ -21,7 +23,6 @@
     <div class="container-bv">
         <div class="main-section-data page-content">
             <div class="row">
-
                 <div class="offset-3 col-lg-6">
                     <div class="main-ws-sec">
                         <div class="product-feed-tab current" id="info-dd">
@@ -32,10 +33,16 @@
                                     <h3> Créer mon rendez-vous expert</h3>
                                 {% endif %}
 
+                                <div class="py-3">
+                                    <p>Vous souhaitez proposer votre expertise ? Faites-en bénéficier les autres en leur offrant votre temps.</p>
+                                    <p><strong>30 minutes = 1 RDV Expert</strong></p>
+                                    <p>En proposant un RDV Expert, vous gagnez en visibilité et vous rencontrez des clients potentiels.</p>
+                                </div>
+
                                 {{ form_start(form)}}
                                     <div class="row">
                                         <div class="col-12 form-group">
-                                            {{ form_row(form.expertise, {'label': 'Votre expertise'}) }}
+                                            {{ form_row(form.expertise, {'label': 'Votre expertise :'}) }}
                                         </div>
                                     </div>
                                     <p>Vous acceptez :</p>
@@ -47,20 +54,22 @@
                                             {{ form_row(form.isInCompany, {'label': 'En entreprise'}) }}
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row row-address-meeting d-none">
                                         <div class="col-12 form-group">
-                                            {{ form_row(form.address, {'label': 'Adresse'}) }}
+                                            <label for="">Adresse :</label>
+                                            {{ form_widget(form.address, {'value' : app.user.company.fullAddress}) }}
+                                            {{ form_errors(form.address) }}
                                         </div>
                                     </div>
 
                                     <p>Vos créneaux disponibles : </p>
 
                                     {# store the prototype on the data-prototype attribute #}
-                                    <div id="time-slots-fields-list" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.timeSlots|length }}">
+                                    <div class="js-time-slots-wrapper" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-index="{{ form.timeSlots|length }}">
                                         {% for timeSlot in form.timeSlots %}
                                             {{ _self.fieldsPrototype(timeSlot) }}
                                         {% endfor %}
-                                        <a type="button" class="add-another-collection-widget" data-list-selector="#time-slot-fields-list"> <span class="fa fa-plus-circle"></span> Ajouter un nouveau créneau</a>
+                                        <a type="button" class="js-time-slot-add"> <span class="fa fa-plus-circle"></span> Ajouter un nouveau créneau</a>
                                     </div>
 
                                     {# prevents weird label from showing up in new #}
