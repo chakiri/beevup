@@ -34,7 +34,7 @@
                                 <p class="expertise"><span>Expertise : {{ expertMeeting.expertise }}</span></p>
                             </div>
                             <div class="box-card-btn">
-                                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
+                                <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
                             </div>
                         </div>
                     </div>

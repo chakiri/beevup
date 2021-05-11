@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ExpertBookingRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=ExpertBookingRepository::class)
+ */
+class ExpertBooking
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ExpertMeeting::class, inversedBy="expertBookings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $expertMeeting;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="expertBookings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVisio;
+
+    /**
+     * @ORM\OneToOne(targetEntity=TimeSlot::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $timeSlot;
+
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $description;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getExpertMeeting(): ?ExpertMeeting
+    {
+        return $this->expertMeeting;
+    }
+
+    public function setExpertMeeting(?ExpertMeeting $expertMeeting): self
+    {
+        $this->expertMeeting = $expertMeeting;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIsVisio(): ?bool
+    {
+        return $this->isVisio;
+    }
+
+    public function setIsVisio(bool $isVisio): self
+    {
+        $this->isVisio = $isVisio;
+
+        return $this;
+    }
+
+    public function getTimeSlot(): ?TimeSlot
+    {
+        return $this->timeSlot;
+    }
+
+    public function setTimeSlot(TimeSlot $timeSlot): self
+    {
+        $this->timeSlot = $timeSlot;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+}

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Edit ExpertMeeting{% endblock %}
+
+{% block body %}
+<div class="main-section">
+    <div class="container-bv">
+        <div class="main-section-data page-content">
+            <div class="row">
+                <div class="offset-3 col-lg-6">
+                    <div class="main-ws-sec">
+                        <div class="product-feed-tab current" id="info-dd">
+                            <div class=" page-title sign_in_sec current">
+                                {% if edit == true %}
+                                    <h3>Modifier mon rendez-vous</h3>
+                                {% else %}
+                                    <h3>Réserver mon rendez-vous</h3>
+                                {% endif %}
+
+                                <div class="py-3">
+                                    <p>Vous souhaitez bénéficier des conseils de
+                                        <strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong>
+                                        de <strong>{{ expertMeeting.user.company.name|capitalize }}</strong></p>
+                                    <p class="mt-3">Expertise : {{ expertMeeting.expertise }}</p>
+                                </div>
+
+                                {{ form_start(form)}}
+                                    <div class="row">
+                                        <div class="col-6 form-group">
+                                            {{ form_row(form.isVisio) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="d-none"><p>Adresse : {{ expertMeeting.user.company.fullAddress }}</p></div>
+
+                                    <p>Choisissez votre créneau de <strong>30 minutes</strong> : </p>
+
+                                    <div class="row mt-3">
+                                        <div class="col-12 form-group">
+                                            {% for date in dates %}
+                                                <span class="p-3">{{ date }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 form-group">
+                                            {{ form_row(form.description, {'label': 'Quelles sont vos attentes ?', 'attr': {'placeholder': 'J\'ai besoin de conseils pour la gestion d\'entreprise'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn orange-bg">Valider</button>
+                                    </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('collectionPrototype') }}
+{% endblock %}

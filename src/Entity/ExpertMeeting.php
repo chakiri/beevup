@@ -55,10 +55,16 @@ class ExpertMeeting
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ExpertBooking::class, mappedBy="expertMeeting", orphanRemoval=true)
+     */
+    private $expertBookings;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->timeSlots = new ArrayCollection();
+        $this->expertBookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,36 @@ class ExpertMeeting
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ExpertBooking[]
+     */
+    public function getExpertBookings(): Collection
+    {
+        return $this->expertBookings;
+    }
+
+    public function addExpertBooking(ExpertBooking $expertBooking): self
+    {
+        if (!$this->expertBookings->contains($expertBooking)) {
+            $this->expertBookings[] = $expertBooking;
+            $expertBooking->setExpertMeeting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpertBooking(ExpertBooking $expertBooking): self
+    {
+        if ($this->expertBookings->removeElement($expertBooking)) {
+            // set the owning side to null (unless already changed)
+            if ($expertBooking->getExpertMeeting() === $this) {
+                $expertBooking->setExpertMeeting(null);
+            }
+        }
 
         return $this;
     }
