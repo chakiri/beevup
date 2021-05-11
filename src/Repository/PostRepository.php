@@ -81,7 +81,7 @@ class PostRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findByNotReportedPosts($minId)
+    public function findByNotReportedPosts($minId = 0)
     {
 
         //Get local content
@@ -105,7 +105,7 @@ class PostRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findByCategory($category, $minId)
+    public function findByCategory($category, $minId = 0)
     {
         //Get local content
         $qb = $this->findByStore();

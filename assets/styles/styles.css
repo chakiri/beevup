@@ -152,6 +152,12 @@ small{
     color: #B3B9C3;
 }
 
+.link-disabled{
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+}
+
 .big-text{
     font-size: 18px;
 }
@@ -4372,14 +4378,16 @@ form[name="expert_meeting"] li{
      transition: .5s ease-out;
 }
 #expertMeetingBox .box-card-btn{
-    left:30px;
+    opacity: 0;
+    left:0;
     position:absolute;
     top:100px;
     transition: all 600ms;
 }#expertMeetingBox .box-card:hover .box-card-btn {
+     opacity: 1;
      position: absolute;
      left: 190px;
-     transition: .5s ease-out;
+     transition: .2s ease-out;
 }
 #expertMeetingBox .box-card-left{
     background: linear-gradient(#ffcc5b, #ff7f50);
@@ -4387,9 +4395,16 @@ form[name="expert_meeting"] li{
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 200px;
+    width: 161px;
+    min-width: 161px;
 }
 #expertMeetingBox .box-card-avatar{
     display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 #expertMeetingBox .xl-avatar{
     display: block;

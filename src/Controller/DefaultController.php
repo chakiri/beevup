@@ -15,6 +15,7 @@ use App\Form\SearchStoreType;
 use App\Form\StoreImageType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\ExpertMeetingRepository;
 use App\Repository\LabelRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\RecommandationRepository;
@@ -49,19 +50,19 @@ class DefaultController extends AbstractController
      * @Route("app/dashboard/{category}", name="dashboard_category")
      * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ServiceRepository $serviceRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, $minId= 0, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ExpertMeetingRepository $expertMeetingRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
         $store = $this->getUser()->getStore();
-        if ($category != null)
-            $posts = $postRepository->findByCategory($category, $minId);
-        elseif ($post != null) {
+        if ($category)
+            $posts = $postRepository->findByCategory($category);
+        elseif ($post) {
             $posts = [];
-            if ($post->getUser()->getStore() == $store) {
+            if ($post->getUser()->getStore() === $store) {
                 $posts[] = $post;
             }
             $postNotificationSeen->set($post);
         }else
-            $posts = $postRepository->findByNotReportedPosts($minId);
+            $posts = $postRepository->findByNotReportedPosts();
 
         $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
 
@@ -83,7 +84,11 @@ class DefaultController extends AbstractController
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
             $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
+        //Experts meeting
+        $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
+
         $options = [
+            'expertsMeetings' => $expertsMeetings,
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,

@@ -19,32 +19,17 @@ class ExpertMeetingRepository extends ServiceEntityRepository
         parent::__construct($registry, ExpertMeeting::class);
     }
 
-    // /**
-    //  * @return ExpertMeeting[] Returns an array of ExpertMeeting objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findLocal($allCompanies)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('e.user', 'u')
+            ->leftJoin('u.company', 'c')
+            ->andWhere('c.id in (:companies)')
+            ->setParameter('companies', $allCompanies)
+            ->orderBy('e.createdAt', 'DESC')
+            ->setMaxResults(3)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ExpertMeeting
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

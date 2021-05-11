@@ -118,6 +118,11 @@ class User implements UserInterface
      */
     private $sponsorship;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ExpertMeeting::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $expertMeetings;
+
     public function __construct()
     {
         $this->isValid = false;
@@ -126,6 +131,7 @@ class User implements UserInterface
         $this->roles = ['ROLE_ADMIN_COMPANY'];
         $this->topics = new ArrayCollection();
         $this->password ='BeeVµ$67**89P';
+        $this->expertMeetings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -360,6 +366,36 @@ class User implements UserInterface
     public function getSponsorship(): Collection
     {
         return $this->sponsorship;
+    }
+
+    /**
+     * @return Collection|ExpertMeeting[]
+     */
+    public function getExpertMeetings(): Collection
+    {
+        return $this->expertMeetings;
+    }
+
+    public function addExpertMeeting(ExpertMeeting $expertMeeting): self
+    {
+        if (!$this->expertMeetings->contains($expertMeeting)) {
+            $this->expertMeetings[] = $expertMeeting;
+            $expertMeeting->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpertMeeting(ExpertMeeting $expertMeeting): self
+    {
+        if ($this->expertMeetings->removeElement($expertMeeting)) {
+            // set the owning side to null (unless already changed)
+            if ($expertMeeting->getUser() === $this) {
+                $expertMeeting->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }
