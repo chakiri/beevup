@@ -57,15 +57,15 @@ trait CompanyTrait
         return $isLogoDefined = ($this->getFilename() !='') ? 'Oui' : 'Non';
     }
 
+    //Add scores of all users company
     public function getScore()
     {
+        $score = 0;
         foreach ($this->users as $user){
-            if ( $user->getType()->getId() == 3) {
-                if($user->getScore() != null && $user->getScore() != '')
-                    return $user->getScore()->getPoints();
-                else return '0';
-            }
+            if($user->getScore())
+                $score += $user->getScore()->getPoints();
         }
+        return $score;
     }
 
     public function isLabeled()

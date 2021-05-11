@@ -12,16 +12,79 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="box-card">
-                    {% if app.user.profile.filename %}
-                        <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
-                    {% else %}
-                        <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
-                    {% endif %}
-                    <div class="meta">
-                        <p><strong>{{ app.user.profile.firstname|capitalize }}</strong></p>
-                        {% if app.user.company %}
-                            <small>{{ app.user.company.name|capitalize }}</small>
-                        {% endif %}
+                    <div class="box-card-left">
+                        <div class="box-card-avatar">
+
+                            {% include 'search/boxes/badge-label.html.twig' with {'company': app.user.company} %}
+
+                            {% if app.user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                            {% else %}
+                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                            {% endif %}
+
+                            {% include 'search/boxes/badge-score.html.twig' with {'company': app.user.company} %}
+                        </div>
+                    </div>
+                    <div class="box-card-meta">
+                        <h5><strong>{{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}</strong></h5>
+                        <p class="grey mb-3"><span>{{ app.user.company.name|capitalize }}</span></p>
+                        <p class="expertise"><span>Expertise : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a volutpat mauris</span></p>
+                    </div>
+                    <div class="box-card-btn">
+                        <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg">Prendre un RDV</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box-card">
+                    <div class="box-card-left">
+                        <div class="box-card-avatar">
+
+                            {% include 'search/boxes/badge-label.html.twig' with {'company': app.user.company} %}
+
+                            {% if app.user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                            {% else %}
+                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                            {% endif %}
+
+                            {% include 'search/boxes/badge-score.html.twig' with {'company': app.user.company} %}
+                        </div>
+                    </div>
+                    <div class="box-card-meta">
+                        <h5><strong>{{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}</strong></h5>
+                        <p class="grey mb-3"><span>{{ app.user.company.name|capitalize }}</span></p>
+                        <p class="expertise"><span>Expertise : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a volutpat mauris</span></p>
+                    </div>
+                    <div class="box-card-btn">
+                        <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg">Prendre un RDV</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box-card">
+                    <div class="box-card-left">
+                        <div class="box-card-avatar">
+
+                            {% include 'search/boxes/badge-label.html.twig' with {'company': app.user.company} %}
+
+                            {% if app.user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                            {% else %}
+                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 big-avatar" alt="avatar image">
+                            {% endif %}
+
+                            {% include 'search/boxes/badge-score.html.twig' with {'company': app.user.company} %}
+                        </div>
+                    </div>
+                    <div class="box-card-meta">
+                        <h5><strong>{{ app.user.profile.firstname|capitalize }} {{ app.user.profile.lastname|capitalize }}</strong></h5>
+                        <p class="grey mb-3"><span>{{ app.user.company.name|capitalize }}</span></p>
+                        <p class="expertise"><span>Expertise : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a volutpat mauris</span></p>
+                    </div>
+                    <div class="box-card-btn">
+                        <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg">Prendre un RDV</a>
                     </div>
                 </div>
             </div>
