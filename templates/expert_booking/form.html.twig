@@ -37,13 +37,7 @@
 
                                     <p>Choisissez votre créneau de <strong>30 minutes</strong> : </p>
 
-                                    <div class="row mt-3">
-                                        <div class="col-12 form-group">
-                                            {% for date in dates %}
-                                                <span class="p-3">{{ date }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
+                                    {% include 'expert_booking/calendar/calendar.html.twig' %}
 
                                     <div class="row">
                                         <div class="col-12 form-group">

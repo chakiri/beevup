@@ -41,23 +41,52 @@ class ExpertBookingController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
+        //Get array dates and array startTimes corresponding to dates
+        $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
+        $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
+
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
             'expertMeeting' => $expertMeeting,
             'form' => $form->createView(),
             'edit' => $expertBooking->getId() !== null,
-            'dates' => $this->getUniqueDates($expertMeeting->getTimeSlots())
+            'dates' => $dates,
+            'startTimes' => $startTimes
         ]);
     }
 
-    private function getUniqueDates($timesSlot)
+    /**
+     * Return unique date format in array
+     * @param $timesSlot
+     * @return array
+     */
+    private function getUniqueDates($timesSlot): array
     {
         $dates = [];
         foreach($timesSlot as $timeSlot){
-            if (!in_array($timeSlot->getDate()->format('m/d/Y'), $dates))
-                $dates [] = $timeSlot->getDate()->format('m/d/Y');
+            if (!in_array($timeSlot->getDate()->format('d/m/Y'), $dates))
+                $dates [$timeSlot->getId()] = $timeSlot->getDate()->format('d/m/Y');
         }
 
         return $dates;
+    }
+
+    /**
+     * Return 2 dimensions array corresponding to times of each date
+     */
+    private function getTimesById($timesSlot, $dates): array
+    {
+        $startsTimes = [];
+        foreach($dates as $date){
+            //Create array containing date key and value times
+            $startsTimes [$date] = [];
+            foreach($timesSlot as $timeSlot){
+                if ($timeSlot->getDate()->format('d/m/Y') === $date){
+                    array_push($startsTimes [$date], $timeSlot->getStartTime()->format('H:i'));
+                }
+            }
+        }
+
+        return $startsTimes;
     }
 }

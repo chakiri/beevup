@@ -83,6 +83,9 @@ img
     padding: 30px 15px;
 }
 
+.width-auto{
+    width: auto !important;
+}
 
 .box-navigation-items ul{
     list-style-type:none;
