@@ -25,14 +25,14 @@ class ExpertBookingType extends AbstractType
                 ],
                 'multiple' => false,
             ])
-            ->add('timeSlot', HiddenType::class)
-            /*->add('timeSlot', EntityType::class, [
+            /*->add('timeSlot', HiddenType::class)*/
+            ->add('timeSlot', EntityType::class, [
                 'class' => TimeSlot::class,
                 'label' => false,
                 'choice_label' =>function (TimeSlot $timeSlot){
-                    return $timeSlot->getDate()->format('d-m-Y');
+                    return $timeSlot->getId();
                 },
-            ])*/
+            ])
             ->add('description', TextareaType::class)
         ;
     }

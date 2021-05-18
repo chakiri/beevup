@@ -21,6 +21,7 @@ class ExpertMeetingType extends AbstractType
                 'entry_type' => TimeSlotType::class,
                 'allow_add' => true,
                 'by_reference' => false,
+                'label' => false
             ])
         ;
     }

@@ -41,6 +41,15 @@
 
                                     <div class="row">
                                         <div class="col-12 form-group">
+                                            {{ form_errors(form.timeSlot) }}
+                                            <div class="d-none">
+                                                {{ form_widget(form.timeSlot) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 form-group">
                                             {{ form_row(form.description, {'label': 'Quelles sont vos attentes ?', 'attr': {'placeholder': 'J\'ai besoin de conseils pour la gestion d\'entreprise'}}) }}
                                         </div>
                                     </div>

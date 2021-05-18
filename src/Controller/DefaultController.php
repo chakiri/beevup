@@ -15,6 +15,7 @@ use App\Form\SearchStoreType;
 use App\Form\StoreImageType;
 use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\ExpertBookingRepository;
 use App\Repository\ExpertMeetingRepository;
 use App\Repository\LabelRepository;
 use App\Repository\PublicityRepository;
@@ -50,7 +51,7 @@ class DefaultController extends AbstractController
      * @Route("app/dashboard/{category}", name="dashboard_category")
      * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ExpertMeetingRepository $expertMeetingRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ExpertMeetingRepository $expertMeetingRepository, ExpertBookingRepository $expertBookingRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
     {
         $store = $this->getUser()->getStore();
         if ($category)
@@ -87,8 +88,16 @@ class DefaultController extends AbstractController
         //Experts meeting
         $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
 
+        //Experts booking
+        $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
+        $expertsMeetingsBookedByUser = [];
+        foreach($expertsBooking as $expertBooking){
+            $expertsMeetingsBookedByUser [] = $expertBooking->getExpertMeeting();
+        }
+
         $options = [
             'expertsMeetings' => $expertsMeetings,
+            'expertsMeetingsBookedByUser' => $expertsMeetingsBookedByUser,
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,

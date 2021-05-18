@@ -24,6 +24,7 @@ class ExpertBookingController extends AbstractController
         //If creation get expertMeeting
         if (!$expertBooking){
             $expertBooking = new ExpertBooking();
+            $expertBooking->setExpertMeeting($expertMeeting);
         }else{
             $expertMeeting = $expertBooking->getExpertMeeting();
         }
@@ -44,6 +45,8 @@ class ExpertBookingController extends AbstractController
         //Get array dates and array startTimes corresponding to dates
         $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
         $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
+
+        /*dd($startTimes);*/
 
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
@@ -82,7 +85,7 @@ class ExpertBookingController extends AbstractController
             $startsTimes [$date] = [];
             foreach($timesSlot as $timeSlot){
                 if ($timeSlot->getDate()->format('d/m/Y') === $date){
-                    array_push($startsTimes [$date], $timeSlot->getStartTime()->format('H:i'));
+                    $startsTimes [$date][$timeSlot->getId()] =  $timeSlot->getStartTime()->format('H:i');
                 }
             }
         }

@@ -1004,12 +1004,12 @@ ul.landing-page-list {
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
 }
-/*.sign_in_sec form input {
+.sign_in_sec form input {
     height: 40px;
     width: 100%;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
-}*/
+}
 
 
 .reset form input{

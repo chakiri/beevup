@@ -34,4 +34,22 @@ $(document).ready(function() {
     if(!$('#expert_meeting_isInCompany').is(':checked')){
         $('.row-address-meeting').addClass('d-none');
     }
+
+    /**
+     * Select option select by checked checkbox
+     */
+    $('.form-check-input').click(function (){
+        let timeId = $(this).attr('id');
+        $('select[name="expert_booking[timeSlot]"]').find('option[value=' + timeId + ']').attr("selected",true);
+        //Empty all others checked checkboxes
+        $('.form-check-input').not(this).prop('checked', false);
+    });
+
+    /**
+     * Check checkbox by option select
+     */
+    let timeSlotValue = $('select[name="expert_booking[timeSlot]"]').val();     //Get value of option select
+    if (timeSlotValue){
+        $('.form-check-input[id="' + timeSlotValue + '"]').prop( "checked", true )      //Check checkbox by option select
+    }
 });
