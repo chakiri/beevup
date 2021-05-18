@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ExpertBookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ExpertBookingRepository::class)
@@ -37,6 +38,7 @@ class ExpertBooking
     /**
      * @ORM\OneToOne(targetEntity=TimeSlot::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Vous devez choisir un créneau")
      */
     private $timeSlot;
 

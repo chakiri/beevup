@@ -29,9 +29,11 @@ class ExpertBookingType extends AbstractType
             ->add('timeSlot', EntityType::class, [
                 'class' => TimeSlot::class,
                 'label' => false,
+                'placeholder' => 'null',
                 'choice_label' =>function (TimeSlot $timeSlot){
                     return $timeSlot->getId();
                 },
+                'required' => false
             ])
             ->add('description', TextareaType::class)
         ;

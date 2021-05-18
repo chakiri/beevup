@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ExpertBooking;
 use App\Entity\ExpertMeeting;
+use App\Entity\TimeSlot;
 use App\Form\ExpertBookingType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +56,17 @@ class ExpertBookingController extends AbstractController
             'edit' => $expertBooking->getId() !== null,
             'dates' => $dates,
             'startTimes' => $startTimes
+        ]);
+    }
+
+    /**
+     * @Route("/confirm/submit/{timeSlot}", name="expert_booking_confirm_submit", options={"expose"=true})
+     */
+    public function confirmSubmitModal(TimeSlot $timeSlot)
+    {
+        return $this->render('expert_booking/modal/confirmSubmit.html.twig', [
+            'timeSlotDate' => $timeSlot->getDate()->format('d/m/Y'),
+            'timeSlotTimeStart' => $timeSlot->getStartTime()->format('H:i')
         ]);
     }
 

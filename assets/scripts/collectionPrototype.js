@@ -66,4 +66,41 @@ $(document).ready(function() {
     if ($('select[name="expert_booking[isVisio]"]').val() == true){
         $('.company-address').addClass('d-none');
     }
+
+    /**
+     * Display confirmation modal for booking form
+     */
+    $('form[name="expert_booking"]').submit(function (e){
+        e.preventDefault();
+
+        $('#confirmExpertBooking').modal();
+
+        let url = Routing.generate('expert_booking_confirm_submit', {'timeSlot': $('#expert_booking_timeSlot').val()});
+
+
+        //Get value fields form
+        /*let nameExpert = ;
+        let company = ;
+        let timeSlot = ;
+        let isVisio = $('#expert_booking_isVisio').val();
+        let description = ;*/
+        /*let userFirstname = ;
+        let userLastname = ;
+        let userCompanyName = ;
+        let userPhone = ;
+        let userEmail = ;*/
+
+        $.ajax({
+            url: url
+        }).then(function(data) {
+            $('#confirmExpertBooking .modal-content').html(data);
+            $('span.name').text('yasssssir');
+
+            //Cancel button
+            $('.cancel').click(function(){
+                $('#confirmExpertBooking').modal('hide');
+            })
+        });
+
+    });
 });
