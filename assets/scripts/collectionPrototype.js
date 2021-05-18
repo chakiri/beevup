@@ -52,4 +52,18 @@ $(document).ready(function() {
     if (timeSlotValue){
         $('.form-check-input[id="' + timeSlotValue + '"]').prop( "checked", true )      //Check checkbox by option select
     }
+
+    /**
+     * Display company address if company selected
+     */
+    $('select[name="expert_booking[isVisio]"]').on('change', function (){
+       if ($(this).val() == false){
+            $('.company-address').removeClass('d-none');
+       }else{
+           $('.company-address').addClass('d-none');
+       }
+    });
+    if ($('select[name="expert_booking[isVisio]"]').val() == true){
+        $('.company-address').addClass('d-none');
+    }
 });

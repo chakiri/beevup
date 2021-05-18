@@ -23,7 +23,7 @@ class ExpertBookingType extends AbstractType
                     'En visio-conférence' => true,
                     'En entreprise' => false,
                 ],
-                'multiple' => false,
+                'multiple' => false
             ])
             /*->add('timeSlot', HiddenType::class)*/
             ->add('timeSlot', EntityType::class, [

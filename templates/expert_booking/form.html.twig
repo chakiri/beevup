@@ -30,10 +30,9 @@
                                     <div class="row">
                                         <div class="col-6 form-group">
                                             {{ form_row(form.isVisio) }}
+                                            <div class="company-address"><p>Adresse : <strong>{{ expertMeeting.user.company.fullAddress }}</strong></p></div>
                                         </div>
                                     </div>
-
-                                    <div class="d-none"><p>Adresse : {{ expertMeeting.user.company.fullAddress }}</p></div>
 
                                     <p>Choisissez votre créneau de <strong>30 minutes</strong> : </p>
 
