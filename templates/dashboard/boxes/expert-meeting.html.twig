@@ -4,7 +4,11 @@
         <div class="d-flex justify-content-between">
             <h5>Rendez-vous Experts Beev'Up</h5>
             <div class="d-flex">
-                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn orange-bg mr-2">Proposer des RDV</a>
+                {% if expertMeeting %}
+                    <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeeting.id}) }}" class="btn small-btn orange-bg mr-2">Modifier le RDV</a>
+                {% else %}
+                    <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn orange-bg mr-2">Proposer un RDV</a>
+                {% endif %}
                 <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn white-bg">Gérer mes RDV</a>
             </div>
         </div>
@@ -34,14 +38,10 @@
                                 <p class="expertise"><span>Expertise : {{ expertMeeting.expertise }}</span></p>
                             </div>
                             <div class="box-card-btn">
-                                {% if expertMeeting.user == app.user %}
-                                    <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeeting.id}) }}" class="btn small-btn white-bg">Modifier le RDV</a>
+                                {% if expertMeeting in expertsMeetingsBookedByUser %}
+                                    <a type="button" href="#" class="btn small-btn white-bg link-disabled">RDV déjà reservé</a>
                                 {% else %}
-                                    {% if expertMeeting in expertsMeetingsBookedByUser %}
-                                        <a type="button" href="#" class="btn small-btn white-bg link-disabled">RDV déjà reservé</a>
-                                    {% else %}
-                                        <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg">Prendre un RDV</a>
-                                    {% endif %}
+                                    <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
                                 {% endif %}
                             </div>
                         </div>

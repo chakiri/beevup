@@ -47,8 +47,6 @@ class ExpertBookingController extends AbstractController
         $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
         $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
 
-        /*dd($startTimes);*/
-
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
             'expertMeeting' => $expertMeeting,
