@@ -21,16 +21,17 @@
 
                                 <div class="py-3">
                                     <p>Vous souhaitez bénéficier des conseils de
-                                        <strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong>
-                                        de <strong>{{ expertMeeting.user.company.name|capitalize }}</strong></p>
-                                    <p class="mt-3">Expertise : {{ expertMeeting.expertise }}</p>
+                                        <span class="expertName"><strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong></span>
+                                        de <span class="expertCompany"><strong>{{ expertMeeting.user.company.name|capitalize }}</strong></span>
+                                    </p>
+                                    <p class="mt-3">Expertise : <span class="expertExpertise">{{ expertMeeting.expertise }}</span></p>
                                 </div>
 
                                 {{ form_start(form)}}
                                     <div class="row">
                                         <div class="col-6 form-group">
                                             {{ form_row(form.isVisio) }}
-                                            <div class="company-address"><p>Adresse : <strong>{{ expertMeeting.user.company.fullAddress }}</strong></p></div>
+                                            <div class="company-address"><p>Adresse : <span class="expertAddress"><strong>{{ expertMeeting.user.company.fullAddress }}</strong></span></p></div>
                                         </div>
                                     </div>
 

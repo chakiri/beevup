@@ -36,16 +36,21 @@ class ExpertBookingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $expertBooking->setUser($this->getUser());
+
+            $timeSlot = $expertBooking->getTimeSlot();
+            $timeSlot->setStatus(true);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expertBooking);
+            $entityManager->persist($timeSlot);
             $entityManager->flush();
 
             return $this->redirectToRoute('dashboard');
         }
 
         //Get array dates and array startTimes corresponding to dates
-        $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
-        $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
+        $dates = $this->getUniqueDates($expertMeeting->getAvailableTimeSlots());
+        $startTimes = $this->getTimesById($expertMeeting->getAvailableTimeSlots(), $dates);
 
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,

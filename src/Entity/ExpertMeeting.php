@@ -128,6 +128,19 @@ class ExpertMeeting
         return $this->timeSlots;
     }
 
+    /**
+     * @return array
+     */
+    public function getAvailableTimeSlots(): array
+    {
+        $timeSlots = [];
+        foreach ($this->timeSlots as $timeSlot){
+            if ($timeSlot->getStatus() == false)
+                $timeSlots[] = $timeSlot;
+        }
+        return $timeSlots;
+    }
+
     public function addTimeSlot(TimeSlot $timeSlot): self
     {
         if (!$this->timeSlots->contains($timeSlot)) {

@@ -38,6 +38,11 @@ class TimeSlot
      */
     private $expertMeeting;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class TimeSlot
     public function setExpertMeeting(?ExpertMeeting $expertMeeting): self
     {
         $this->expertMeeting = $expertMeeting;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

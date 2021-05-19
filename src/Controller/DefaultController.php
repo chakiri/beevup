@@ -88,10 +88,10 @@ class DefaultController extends AbstractController
         //Experts meeting
         $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
 
-        //Find user expert meeting
+        //Find expert meeting proposed by current user
         $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
 
-        //Experts booking
+        //Get expert meetings booked by current user
         $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
         $expertsMeetingsBookedByUser = [];
         foreach($expertsBooking as $expertBooking){

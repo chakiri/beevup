@@ -1,14 +1,29 @@
 <div class="container my-3">
     <div class="">
-        <h5>Récapitulatif du RDV Expert avec <span class="name">sfd</span> de <span class="company"></span></h5>
-        <p>Expertise : <span class="expertise"></span></p>
+        <div class="mt-3">
+            <h5>Récapitulatif du RDV Expert avec <strong><span class="name"></span></strong> de <strong><span class="company"></span></strong></h5>
+            <p>Expertise : <strong><span class="expertise"></span></strong></p>
 
-        <p><span class="timeSlot">Rendez-vous le : <strong>{{ timeSlotDate }}</strong> à <strong>{{ timeSlotTimeStart }}</strong></span></p>
+            <p><span class="timeSlot">Rendez-vous le : <strong>{{ timeSlotDate }}</strong> à <strong>{{ timeSlotTimeStart }}</strong></span></p>
+
+            <p class="isVisio d-none"><span><strong>En visio-conférence</strong></span></p>
+            <p class="isCompany d-none">A l'adresse : <strong><span class="address"></span></strong></p>
+            <p>Vos attentes : <strong><span class="description"></span></strong></p>
+        </div>
+
+        <div class="mt-3">
+            <p>Vos coordonnées :</p>
+            <p>Prénom : <strong>{{ app.user.profile.firstname }}</strong></p>
+            <p>Nom : <strong>{{ app.user.profile.lastname }}</strong></p>
+            <p>Raison sociale : <strong>{{ app.user.company.name }}</strong></p>
+            <p>Téléphone : <strong>{{ app.user.profile.phoneNumber }}</strong></p>
+            <p>Email : <strong>{{ app.user.email }}</strong></p>
+        </div>
 
         <div class="text-center mt-3">
             <p><small class="form-error">Attention: le RDV devra être confirmé par le professionnel.</small></p>
-            <button type="submit" class="btn white-btn cancel">Précédent</button>
-            <button type="submit" class="btn orange-bg submit form">Valider</button>
+            <button class="btn white-btn cancel">Précédent</button>
+            <button class="btn orange-bg confirmSubmit">Valider</button>
         </div>
     </div>
 </div>

@@ -39,8 +39,13 @@ $(document).ready(function() {
      * Select option select by checked checkbox
      */
     $('.form-check-input').click(function (){
-        let timeId = $(this).attr('id');
-        $('select[name="expert_booking[timeSlot]"]').find('option[value=' + timeId + ']').attr("selected",true);
+        //if checkbox checked
+        if ($(this).is(':checked')){
+            let timeId = $(this).attr('id');
+            $('select[name="expert_booking[timeSlot]"]').val(timeId);
+        }else{
+            $('select[name="expert_booking[timeSlot]"]').val("");
+        }
         //Empty all others checked checkboxes
         $('.form-check-input').not(this).prop('checked', false);
     });
@@ -70,37 +75,51 @@ $(document).ready(function() {
     /**
      * Display confirmation modal for booking form
      */
-    $('form[name="expert_booking"]').submit(function (e){
+    //$('form[name="expert_booking"]').submit(function (e){
+    $('form[name="expert_booking"]').find(':submit').click(function (e){
         e.preventDefault();
+        if (!$('#expert_booking_timeSlot').val()){
+            alert('Vous devez choisir un créneau');
+        }else{
+            $('#confirmExpertBooking').modal();
 
-        $('#confirmExpertBooking').modal();
+            let url = Routing.generate('expert_booking_confirm_submit', {'timeSlot': $('#expert_booking_timeSlot').val()});
 
-        let url = Routing.generate('expert_booking_confirm_submit', {'timeSlot': $('#expert_booking_timeSlot').val()});
+            //Get value fields form
+            let expertName = $('.expertName').text();
+            let expertCompany = $('.expertCompany').text();
+            let expertExpertise = $('.expertExpertise').text();
+            let expertAddress = $('.expertAddress').text();
+            let isVisio = $('#expert_booking_isVisio').val();
+            let description = $('#expert_booking_description').val();
 
+            $.ajax({
+                url: url
+            }).then(function(data) {
+                $('#confirmExpertBooking .modal-content').html(data);
+                $('span.name').text(expertName);
+                $('span.company').text(expertCompany);
+                $('span.expertise').text(expertExpertise);
+                $('span.description').text(description);
 
-        //Get value fields form
-        /*let nameExpert = ;
-        let company = ;
-        let timeSlot = ;
-        let isVisio = $('#expert_booking_isVisio').val();
-        let description = ;*/
-        /*let userFirstname = ;
-        let userLastname = ;
-        let userCompanyName = ;
-        let userPhone = ;
-        let userEmail = ;*/
+                if (isVisio == true){
+                    $('.isVisio').removeClass('d-none');
+                }else{
+                    $('.isCompany').removeClass('d-none');
+                    $('span.address').text(expertAddress);
+                }
 
-        $.ajax({
-            url: url
-        }).then(function(data) {
-            $('#confirmExpertBooking .modal-content').html(data);
-            $('span.name').text('yasssssir');
+                //Cancel button
+                $('.cancel').click(function(){
+                    $('#confirmExpertBooking').modal('hide');
+                });
 
-            //Cancel button
-            $('.cancel').click(function(){
-                $('#confirmExpertBooking').modal('hide');
-            })
-        });
+                $('.confirmSubmit').click(function(){
+                    //Submit form
+                    $('form[name="expert_booking"]').submit();
+                });
+            });
+        }
 
     });
 });
