@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ExpertBooking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +20,25 @@ class ExpertBookingRepository extends ServiceEntityRepository
         parent::__construct($registry, ExpertBooking::class);
     }
 
-    // /**
-    //  * @return ExpertBooking[] Returns an array of ExpertBooking objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByMeeting($expertMeeting): QueryBuilder
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('e')
+            ->andWhere('e.expertMeeting = :expertMeeting')
+            ->setParameter('expertMeeting', $expertMeeting)
+            ;
+
+        return $qb;
+    }
+
+    public function findByStatus($expertMeeting, $status)
+    {
+        $qb = $this->findByMeeting($expertMeeting);
+
+        return $qb
+            ->andWhere('e.status = :status')
+            ->setParameter('status', $status)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ExpertBooking
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

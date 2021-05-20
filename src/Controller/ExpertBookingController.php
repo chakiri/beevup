@@ -6,6 +6,7 @@ use App\Entity\ExpertBooking;
 use App\Entity\ExpertMeeting;
 use App\Entity\TimeSlot;
 use App\Form\ExpertBookingType;
+use App\Repository\ExpertBookingRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +37,7 @@ class ExpertBookingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $expertBooking->setUser($this->getUser());
+            $expertBooking->setStatus('waiting');
 
             $timeSlot = $expertBooking->getTimeSlot();
             $timeSlot->setStatus(true);
@@ -106,5 +108,26 @@ class ExpertBookingController extends AbstractController
         }
 
         return $startsTimes;
+    }
+
+    /**
+     * @Route("/list/{status}", name="expert_booking_list")
+     */
+    public function list($status, ExpertBookingRepository $expertBookingRepository): Response
+    {
+        $expertMeeting = $this->getUser()->getExpertMeetings();
+
+        if ($status == 'toConfirm')
+            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'waiting');
+        elseif ($status == 'toCome')
+            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'confirmed');
+        elseif ($status == 'passed')
+            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'confirmed');
+
+        return $this->render('dashboard/expertBooking/list.html.twig', [
+            'profile' => $this->getUser()->getProfile(),
+            'list' => $list,
+            'status' => $status
+        ]);
     }
 }
