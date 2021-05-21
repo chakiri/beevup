@@ -139,9 +139,9 @@ class ExpertBookingController extends AbstractController
     }
 
     /**
-     * @Route("/confirm/{id}", name="expert_booking_confirm")
+     * @Route("/confirm/{id}", name="expert_booking_confirm", options={"expose"=true})
      */
-    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager): Response
+    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager, AutomaticMessage $automaticMessage): Response
     {
         if ($expertBooking->getStatus() === 'waiting'){
             $expertBooking->setStatus('confirmed');
@@ -149,6 +149,10 @@ class ExpertBookingController extends AbstractController
             $manager->persist($expertBooking);
             $manager->flush();
         }
+
+        //Send message to user
+        $automaticMessage->fromAdvisorToUser($expertBooking->getUser(), 'Bonne nouvelle !<br> Votre rendez-vous vient d\'être confirmé.');
+
 
         return new JsonResponse(['message' => 'is confirmed'],200);
     }

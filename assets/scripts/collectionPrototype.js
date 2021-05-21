@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     var $wrapper = $('.js-time-slots-wrapper');
     $wrapper.on('click', '.js-time-slot-remove', function(e) {
@@ -121,6 +122,24 @@ $(document).ready(function() {
                 });
             });
         }
+    });
 
+    //Confirm expert booking
+    $('.expert-booking-confirm-btn').click(function(){
+        let btn = $(this);
+
+        let url = $(this).data('target');
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: function(){
+                console.log('confirmed');
+                btn.parents('.box').css('display', 'none');
+            },
+            error: function(){
+                alert('Une erreur s\'est produite. Veuillez réessayer.');
+            }
+        });
     });
 });

@@ -31,17 +31,18 @@
                                         {% for expertBooking in list %}
                                             <div class="box">
                                                 <p><span class="text-muted">Nom et prénom : </span>{{ expertBooking.user.profile.lastname }} {{ expertBooking.user.profile.firstname }}</p>
+                                                <p><span class="text-muted">Entreprise : </span>{{ expertBooking.user.company }}</p>
+                                                <p><span class="text-muted">Email : </span>{{ expertBooking.user.email }}</p>
+                                                <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber }}</p>
                                                 <p><span class="text-muted">Créneau : </span>
                                                     {{ expertBooking.timeSlot.date|date('d/m/Y') }} de
                                                     {{ expertBooking.timeSlot.startTime|date('H:i') }} à
                                                     {{ expertBooking.timeSlot.endTime|date('H:i') }}
                                                 </p>
-                                                <p><span class="text-muted">Email : </span>{{ expertBooking.user.email }}</p>
-                                                <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber }}</p>
                                                 <p><span class="text-muted">Description : </span>{{ expertBooking.description }}</p>
                                                 <div class="be-contacted-handle-btn">
                                                     {% if status == 'toConfirm' %}
-                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="">Confirmer</button>
+                                                        <button class="expert-booking-confirm-btn btn small-btn orange-bg ml-auto my-2" data-target="{{ path('expert_booking_confirm', {'id': expertBooking.id}) }}">Confirmer</button>
                                                         <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
                                                     {% elseif status == 'toCome'  %}
                                                         <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
@@ -70,5 +71,8 @@
         </div>
     </main>
 
+{% endblock %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('collectionPrototype') }}
 {% endblock %}

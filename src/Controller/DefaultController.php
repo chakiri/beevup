@@ -98,7 +98,7 @@ class DefaultController extends AbstractController
             $expertsMeetingsBookedByUser [] = $expertBooking->getExpertMeeting();
         }
 
-        //Get expert booking waiting confirmation
+        //Get experts booking waiting confirmation
         $expertsBookingWaiting = $expertBookingRepository->findByStatus($expertMeeting, 'waiting');
 
         $options = [
