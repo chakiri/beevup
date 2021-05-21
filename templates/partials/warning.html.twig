@@ -17,6 +17,12 @@
         <h4 class="alert-heading"><i class="fas fa-eye"></i> Bonjour {{ app.user.profile.firstname }} !</h4>
         <h5 class="mb-0">Qu'allez-vous faire aujourd'hui pour développer votre activité ?</h5>
         <ul>
+            {% if expertsBookingWaiting %}
+                {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                    <li>{{ expertsBookingWaiting|length }}{% if expertsBookingWaiting|length > 1 %} nouveaux rendez-vous experts{% elseif expertsBookingWaiting|length == 1 %} nouveau rendez-vous expert{% endif %}  à confirmer <a href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" class="alert-link">cliquer ici</a></li>
+                {% endif %}
+            {% endif %}
+
             {% if untreatedRecommandations %}
                 {% if is_granted('ROLE_ADMIN_STORE') or is_granted('ROLE_ADMIN_COMPANY') %}
                     <li>{{ untreatedRecommandations|length }}{% if untreatedRecommandations|length > 1 %} nouvelles recommandations{% elseif untreatedRecommandations|length == 1 %} nouvelle recommandation{% endif %} <a href="{{ path('recommandations') }}" class="alert-link">cliquer ici</a></li>

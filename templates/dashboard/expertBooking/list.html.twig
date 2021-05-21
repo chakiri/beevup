@@ -39,16 +39,16 @@
                                                 <p><span class="text-muted">Email : </span>{{ expertBooking.user.email }}</p>
                                                 <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber }}</p>
                                                 <p><span class="text-muted">Description : </span>{{ expertBooking.description }}</p>
-                                                {#<div class="be-contacted-handle-btn">
-                                                    {% if status == 'current' %}
-                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_waiting', {'id': beContacted.id}) }}">Mettre en attente</button>
-                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_archive', {'id': beContacted.id}) }}">Archiver</button>
-                                                    {% elseif status == 'isWaiting'  %}
-                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_archive', {'id': beContacted.id}) }}">Archiver</button>
-                                                    {% elseif status == 'isArchived' %}
-                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="{{ path('be_contacted_waiting', {'id': beContacted.id}) }}">Remettre en attente</button>
+                                                <div class="be-contacted-handle-btn">
+                                                    {% if status == 'toConfirm' %}
+                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="">Confirmer</button>
+                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
+                                                    {% elseif status == 'toCome'  %}
+                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
+                                                        {#{% elseif status == 'passed' %}
+                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="">Remettre en attente</button>#}
                                                     {% endif %}
-                                                </div>#}
+                                                </div>
                                             </div>
                                         {% endfor %}
                                     {% else %}

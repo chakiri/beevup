@@ -83,15 +83,16 @@ $(document).ready(function() {
         }else{
             $('#confirmExpertBooking').modal();
 
-            let url = Routing.generate('expert_booking_confirm_submit', {'timeSlot': $('#expert_booking_timeSlot').val()});
-
             //Get value fields form
+            let expertUserId = $('.expertUserId').data('id');
             let expertName = $('.expertName').text();
             let expertCompany = $('.expertCompany').text();
             let expertExpertise = $('.expertExpertise').text();
             let expertAddress = $('.expertAddress').text();
             let isVisio = $('#expert_booking_isVisio').val();
             let description = $('#expert_booking_description').val();
+
+            let url = Routing.generate('expert_booking_confirm_submit', {'expertUser': expertUserId, 'timeSlot': $('#expert_booking_timeSlot').val()});
 
             $.ajax({
                 url: url
