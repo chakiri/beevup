@@ -40,6 +40,7 @@ class ExpertMeetingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $expertMeeting->setUser($this->getUser());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expertMeeting);
             $entityManager->flush();

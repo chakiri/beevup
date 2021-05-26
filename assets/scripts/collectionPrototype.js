@@ -23,16 +23,31 @@ $(document).ready(function() {
     });
 
     /**
-     * Active/Disable charter sign btn
+     * Display company address if company selected
      */
-    $('#expert_meeting_isInCompany').click(function () {
+    /*$('#expert_meeting_isInCompany').click(function () {
         if ($(this).is(':checked')) {
             $('.row-address-meeting').removeClass('d-none');
         } else {
             $('.row-address-meeting').addClass('d-none');
         }
     });
+    $('#expert_meeting_isVisio').click(function () {
+        if ($(this).is(':checked')) {
+            $('.row-address-meeting').addClass('d-none');
+        }
+    });
     if(!$('#expert_meeting_isInCompany').is(':checked')){
+        $('.row-address-meeting').addClass('d-none');
+    }*/
+    $('select[name="expert_meeting[isVisio]"]').on('change', function (){
+        if ($(this).val() == false){
+            $('.row-address-meeting').removeClass('d-none');
+        }else{
+            $('.row-address-meeting').addClass('d-none');
+        }
+    });
+    if ($('select[name="expert_meeting[isVisio]"]').val() == true){
         $('.row-address-meeting').addClass('d-none');
     }
 

@@ -6,6 +6,7 @@ use App\Repository\ExpertMeetingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ExpertMeetingRepository::class)
@@ -28,11 +29,6 @@ class ExpertMeeting
      * @ORM\Column(type="boolean")
      */
     private $isVisio;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isInCompany;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -59,6 +55,16 @@ class ExpertMeeting
      * @ORM\OneToMany(targetEntity=ExpertBooking::class, mappedBy="expertMeeting", orphanRemoval=true)
      */
     private $expertBookings;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 60,
+     *      notInRangeMessage = "Nombre de minutes non valide",
+     * )
+     */
+    private $breakTime;
 
     public function __construct()
     {
@@ -92,18 +98,6 @@ class ExpertMeeting
     public function setIsVisio(bool $isVisio): self
     {
         $this->isVisio = $isVisio;
-
-        return $this;
-    }
-
-    public function getIsInCompany(): ?bool
-    {
-        return $this->isInCompany;
-    }
-
-    public function setIsInCompany(bool $isInCompany): self
-    {
-        $this->isInCompany = $isInCompany;
 
         return $this;
     }
@@ -213,6 +207,18 @@ class ExpertMeeting
                 $expertBooking->setExpertMeeting(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBreakTime(): ?int
+    {
+        return $this->breakTime;
+    }
+
+    public function setBreakTime(int $breakTime): self
+    {
+        $this->breakTime = $breakTime;
 
         return $this;
     }

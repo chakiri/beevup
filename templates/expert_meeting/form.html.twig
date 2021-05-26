@@ -45,31 +45,34 @@
                                             {{ form_row(form.expertise, {'label': 'Votre expertise :'}) }}
                                         </div>
                                     </div>
-                                    <p>Vous acceptez :</p>
                                     <div class="row">
-                                        <div class="col-6 form-group">
-                                            {{ form_row(form.isVisio, {'label': 'En visio-conférence'}) }}
+                                        <div class="col-4 form-group">
+                                            <p>Vous acceptez :</p>
+                                            {{ form_row(form.isVisio) }}
                                         </div>
-                                        <div class="col-6 form-group">
-                                            {{ form_row(form.isInCompany, {'label': 'En entreprise'}) }}
+                                        <div class="col-8 form-group">
+                                            <div class="row-address-meeting d-none">
+                                                <p>Adresse :</p>
+                                                {{ form_widget(form.address, {'value' : app.user.company.fullAddress}) }}
+                                                {{ form_errors(form.address) }}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row row-address-meeting d-none">
-                                        <div class="col-12 form-group">
-                                            <label for="">Adresse :</label>
-                                            {{ form_widget(form.address, {'value' : app.user.company.fullAddress}) }}
-                                            {{ form_errors(form.address) }}
+
+                                    <div class="row">
+                                        <div class="col-12 form-group d-flex">
+                                            {{ form_row(form.breakTime, {'label': 'Votre temps de pause :'}) }}
                                         </div>
                                     </div>
 
                                     <p>Vos créneaux disponibles : </p>
 
                                     {# store the prototype on the data-prototype attribute #}
-                                    <div class="js-time-slots-wrapper" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-index="{{ form.timeSlots|length }}">
+                                    <div class="js-time-slots-wrapper" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-index="{{ form.timeSlots|length }}" required>
                                         {% for timeSlot in form.timeSlots %}
                                             {{ _self.fieldsPrototype(timeSlot) }}
                                         {% endfor %}
-                                        <a type="button" class="js-time-slot-add"> <span class="fa fa-plus-circle"></span> Ajouter un nouveau créneau</a>
+                                        <a type="button" class="js-time-slot-add"> <span class="fa fa-plus-circle"></span> Ajouter une nouvelle date</a>
                                     </div>
 
                                     <div class="text-center">
