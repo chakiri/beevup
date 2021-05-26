@@ -190,7 +190,12 @@ class Mailer
                 'sponsorship' => 30,
                 'inscription_invitation' => 29,
                 'recap_becontacted' => 28,
-                'store_labels_requests' => 38,
+                'store_labels_requests' => 66,
+                'label_chart_signed' => 65,
+                'label_kbis_validated' => 64,
+                'label_kbis_rejected' => 63,
+                'label_labeled' => 62,
+                'label_store_appointment' => 61,
             ];
         }
 
