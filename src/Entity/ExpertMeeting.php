@@ -125,7 +125,7 @@ class ExpertMeeting
     /**
      * @return array
      */
-    public function getAvailableTimeSlots(): array
+    /*public function getAvailableTimeSlots(): array
     {
         $timeSlots = [];
         foreach ($this->timeSlots as $timeSlot){
@@ -133,7 +133,7 @@ class ExpertMeeting
                 $timeSlots[] = $timeSlot;
         }
         return $timeSlots;
-    }
+    }*/
 
     public function addTimeSlot(TimeSlot $timeSlot): self
     {

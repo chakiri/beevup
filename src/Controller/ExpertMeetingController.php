@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ExpertMeeting;
 use App\Form\ExpertMeetingType;
 use App\Repository\ExpertMeetingRepository;
+use App\Service\TimeSlot\SlotInstantiator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,7 @@ class ExpertMeetingController extends AbstractController
      * @Route("/new", name="expert_meeting_new", methods={"GET","POST"})
      * @Route("/{id}/edit", name="expert_meeting_edit", methods={"GET","POST"})
      */
-    public function form(Request $request, ?ExpertMeeting $expertMeeting): Response
+    public function form(Request $request, ?ExpertMeeting $expertMeeting, SlotInstantiator $slotInstantiator): Response
     {
         if (!$expertMeeting){
             $expertMeeting = new ExpertMeeting();
@@ -40,6 +41,9 @@ class ExpertMeetingController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $expertMeeting->setUser($this->getUser());
+
+            //Instantiate slots
+            $slotInstantiator->instantiate($expertMeeting->getBreakTime(), $expertMeeting->getTimeSlots());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expertMeeting);

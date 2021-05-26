@@ -3,11 +3,10 @@
 namespace App\Form;
 
 use App\Entity\ExpertBooking;
-use App\Entity\TimeSlot;
+use App\Entity\Slot;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,12 +25,12 @@ class ExpertBookingType extends AbstractType
                 'multiple' => false
             ])
             /*->add('timeSlot', HiddenType::class)*/
-            ->add('timeSlot', EntityType::class, [
-                'class' => TimeSlot::class,
+            ->add('slot', EntityType::class, [
+                'class' => Slot::class,
                 'label' => false,
                 'placeholder' => 'null',
-                'choice_label' =>function (TimeSlot $timeSlot){
-                    return $timeSlot->getId();
+                'choice_label' =>function (Slot $slot){
+                    return $slot->getId();
                 },
                 'required' => false
             ])

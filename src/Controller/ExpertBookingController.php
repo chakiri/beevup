@@ -43,20 +43,20 @@ class ExpertBookingController extends AbstractController
             $expertBooking->setUser($this->getUser());
             $expertBooking->setStatus('waiting');
 
-            $timeSlot = $expertBooking->getTimeSlot();
-            $timeSlot->setStatus(true);
+            $slot = $expertBooking->getslot();
+            $slot->setStatus(true);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expertBooking);
-            $entityManager->persist($timeSlot);
+            $entityManager->persist($slot);
             $entityManager->flush();
 
             return $this->redirectToRoute('dashboard');
         }
 
         //Get array dates and array startTimes corresponding to dates
-        $dates = $this->getUniqueDates($expertMeeting->getAvailableTimeSlots());
-        $startTimes = $this->getTimesById($expertMeeting->getAvailableTimeSlots(), $dates);
+        $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
+        $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
 
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
@@ -109,7 +109,9 @@ class ExpertBookingController extends AbstractController
             $startsTimes [$date] = [];
             foreach($timesSlot as $timeSlot){
                 if ($timeSlot->getDate()->format('d/m/Y') === $date){
-                    $startsTimes [$date][$timeSlot->getId()] =  $timeSlot->getStartTime()->format('H:i');
+                    foreach ($timeSlot->getSlots() as $slot){
+                        $startsTimes [$date][$slot->getId()] =  $slot->getStartTime()->format('H:i');
+                    }
                 }
             }
         }

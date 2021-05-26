@@ -36,11 +36,11 @@ class ExpertBooking
     private $isVisio;
 
     /**
-     * @ORM\OneToOne(targetEntity=TimeSlot::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Slot::class)
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="Vous devez choisir un créneau")
      */
-    private $timeSlot;
+    private $slot;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
@@ -93,14 +93,14 @@ class ExpertBooking
         return $this;
     }
 
-    public function getTimeSlot(): ?TimeSlot
+    public function getSlot(): ?Slot
     {
-        return $this->timeSlot;
+        return $this->slot;
     }
 
-    public function setTimeSlot(TimeSlot $timeSlot): self
+    public function setSlot(Slot $slot): self
     {
-        $this->timeSlot = $timeSlot;
+        $this->slot = $slot;
 
         return $this;
     }

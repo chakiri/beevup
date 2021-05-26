@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TimeSlotRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,19 +35,20 @@ class TimeSlot
     private $endTime;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ExpertMeeting::class, inversedBy="timeSlots")
+     * @ORM\ManyToOne(targetEntity=ExpertMeeting::class, inversedBy="timeSlots", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $expertMeeting;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity=Slot::class, mappedBy="timeSlot", orphanRemoval=true)
      */
-    private $status;
+    private $slots;
 
     public function __construct()
     {
         $this->status = false;
+        $this->slots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,14 +104,32 @@ class TimeSlot
         return $this;
     }
 
-    public function getStatus(): ?bool
+    /**
+     * @return Collection|Slot[]
+     */
+    public function getSlots(): Collection
     {
-        return $this->status;
+        return $this->slots;
     }
 
-    public function setStatus(bool $status): self
+    public function addSlot(Slot $slot): self
     {
-        $this->status = $status;
+        if (!$this->slots->contains($slot)) {
+            $this->slots[] = $slot;
+            $slot->setTimeSlot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSlot(Slot $slot): self
+    {
+        if ($this->slots->removeElement($slot)) {
+            // set the owning side to null (unless already changed)
+            if ($slot->getTimeSlot() === $this) {
+                $slot->setTimeSlot(null);
+            }
+        }
 
         return $this;
     }

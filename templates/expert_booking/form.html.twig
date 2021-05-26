@@ -36,14 +36,14 @@
                                     </div>
 
                                     <p>Choisissez votre créneau de <strong>30 minutes</strong> : </p>
-                                    {{ form_errors(form.timeSlot) }}
+                                    {{ form_errors(form.slot) }}
 
                                     {% include 'expert_booking/calendar/calendar.html.twig' %}
 
                                     <div class="row">
                                         <div class="col-12 form-group">
                                             <div class="d-none">
-                                                {{ form_widget(form.timeSlot) }}
+                                                {{ form_widget(form.slot) }}
                                             </div>
                                         </div>
                                     </div>
