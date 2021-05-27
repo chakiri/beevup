@@ -4433,6 +4433,10 @@ form[name="expert_meeting"] li{
     width: 133px;
 }
 
+.calendar{
+    height: 500px;
+}
+
 .js-time-slots-wrapper .js-datepicker{
     width: 30%;
     margin-top: 6px;

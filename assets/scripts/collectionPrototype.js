@@ -58,9 +58,9 @@ $(document).ready(function() {
         //if checkbox checked
         if ($(this).is(':checked')){
             let timeId = $(this).attr('id');
-            $('select[name="expert_booking[timeSlot]"]').val(timeId);
+            $('select[name="expert_booking[slot]"]').val(timeId);
         }else{
-            $('select[name="expert_booking[timeSlot]"]').val("");
+            $('select[name="expert_booking[slot]"]').val("");
         }
         //Empty all others checked checkboxes
         $('.form-check-input').not(this).prop('checked', false);
@@ -69,7 +69,7 @@ $(document).ready(function() {
     /**
      * Check checkbox by option select
      */
-    let timeSlotValue = $('select[name="expert_booking[timeSlot]"]').val();     //Get value of option select
+    let timeSlotValue = $('select[name="expert_booking[slot]"]').val();     //Get value of option select
     if (timeSlotValue){
         $('.form-check-input[id="' + timeSlotValue + '"]').prop( "checked", true )      //Check checkbox by option select
     }
@@ -94,7 +94,7 @@ $(document).ready(function() {
     //$('form[name="expert_booking"]').submit(function (e){
     $('form[name="expert_booking"]').find(':submit').click(function (e){
         e.preventDefault();
-        if (!$('#expert_booking_timeSlot').val()){
+        if (!$('#expert_booking_slot').val()){
             alert('Vous devez choisir un créneau');
         }else{
             $('#confirmExpertBooking').modal();
@@ -108,7 +108,7 @@ $(document).ready(function() {
             let isVisio = $('#expert_booking_isVisio').val();
             let description = $('#expert_booking_description').val();
 
-            let url = Routing.generate('expert_booking_confirm_submit', {'expertUser': expertUserId, 'timeSlot': $('#expert_booking_timeSlot').val()});
+            let url = Routing.generate('expert_booking_confirm_submit', {'expertUser': expertUserId, 'slot': $('#expert_booking_slot').val()});
 
             $.ajax({
                 url: url

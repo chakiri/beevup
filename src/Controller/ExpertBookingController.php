@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\ExpertBooking;
 use App\Entity\ExpertMeeting;
+use App\Entity\Slot;
 use App\Entity\TimeSlot;
 use App\Entity\User;
 use App\Form\ExpertBookingType;
 use App\Repository\ExpertBookingRepository;
 use App\Service\Chat\AutomaticMessage;
+use App\Service\TimeSlot\handleDatetime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,24 +19,36 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/expert/booking")
+ * @Route("/app/expert/booking")
  */
 class ExpertBookingController extends AbstractController
 {
     /**
      * @Route("/{expertMeeting}/new", name="expert_booking_new", methods={"GET","POST"})
+     */
+    public function new(Request $request, ExpertMeeting $expertMeeting, handleDatetime $handleDatetime): Response
+    {
+        $expertBooking = new ExpertBooking();
+        $expertBooking->setExpertMeeting($expertMeeting);
+
+        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime);
+    }
+
+    /**
      * @Route("/{expertBooking}/edit", name="expert_booking_edit", methods={"GET","POST"})
      */
-    public function form(Request $request, ?ExpertBooking $expertBooking, ?ExpertMeeting $expertMeeting): Response
+    public function edit(Request $request, ExpertBooking $expertBooking, handleDatetime $handleDatetime): Response
     {
-        //If creation get expertMeeting
-        if (!$expertBooking){
-            $expertBooking = new ExpertBooking();
-            $expertBooking->setExpertMeeting($expertMeeting);
-        }else{
-            $expertMeeting = $expertBooking->getExpertMeeting();
-        }
+        //Denied access
+        if($expertBooking->getUser() !== $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
+        $expertMeeting = $expertBooking->getExpertMeeting();
+
+        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime);
+    }
+
+    private function form (Request $request, ExpertMeeting $expertMeeting, ExpertBooking $expertBooking, $handleDatetime)
+    {
         $form = $this->createForm(ExpertBookingType::class, $expertBooking);
 
         $form->handleRequest($request);
@@ -55,8 +69,8 @@ class ExpertBookingController extends AbstractController
         }
 
         //Get array dates and array startTimes corresponding to dates
-        $dates = $this->getUniqueDates($expertMeeting->getTimeSlots());
-        $startTimes = $this->getTimesById($expertMeeting->getTimeSlots(), $dates);
+        $dates = $handleDatetime->getUniqueDates($expertMeeting->getTimeSlots());
+        $startTimes = $handleDatetime->getTimesById($expertMeeting->getTimeSlots(), $dates, $expertBooking->getSlot());
 
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
@@ -69,54 +83,17 @@ class ExpertBookingController extends AbstractController
     }
 
     /**
-     * @Route("/confirm/submit/{expertUser}/{timeSlot}", name="expert_booking_confirm_submit", options={"expose"=true})
+     * @Route("/confirm/submit/{expertUser}/{slot}", name="expert_booking_confirm_submit", options={"expose"=true})
      */
-    public function confirmSubmitModal(User $expertUser, TimeSlot $timeSlot, AutomaticMessage $automaticMessage): response
+    public function confirmSubmitModal(User $expertUser, Slot $slot, AutomaticMessage $automaticMessage): response
     {
         //Send message to user
         $automaticMessage->fromAdvisorToUser($expertUser, 'Bonne nouvelle !<br> Une demande de RDV expert est en attente de confirmation. <a href="' . $this->generateUrl('expert_booking_list', ['status' => 'toConfirm']) . '">Cliquez ici</a>');
 
         return $this->render('expert_booking/modal/confirmSubmit.html.twig', [
-            'timeSlotDate' => $timeSlot->getDate()->format('d/m/Y'),
-            'timeSlotTimeStart' => $timeSlot->getStartTime()->format('H:i')
+            'timeSlotDate' => $slot->getTimeSlot()->getDate()->format('d/m/Y'),
+            'timeSlotTimeStart' => $slot->getStartTime()->format('H:i')
         ]);
-    }
-
-    /**
-     * Return unique date format in array
-     * @param $timesSlot
-     * @return array
-     */
-    private function getUniqueDates($timesSlot): array
-    {
-        $dates = [];
-        foreach($timesSlot as $timeSlot){
-            if (!in_array($timeSlot->getDate()->format('d/m/Y'), $dates))
-                $dates [$timeSlot->getId()] = $timeSlot->getDate()->format('d/m/Y');
-        }
-
-        return $dates;
-    }
-
-    /**
-     * Return 2 dimensions array corresponding to times of each date
-     */
-    private function getTimesById($timesSlot, $dates): array
-    {
-        $startsTimes = [];
-        foreach($dates as $date){
-            //Create array containing date key and value times
-            $startsTimes [$date] = [];
-            foreach($timesSlot as $timeSlot){
-                if ($timeSlot->getDate()->format('d/m/Y') === $date){
-                    foreach ($timeSlot->getSlots() as $slot){
-                        $startsTimes [$date][$slot->getId()] =  $slot->getStartTime()->format('H:i');
-                    }
-                }
-            }
-        }
-
-        return $startsTimes;
     }
 
     /**
@@ -124,14 +101,15 @@ class ExpertBookingController extends AbstractController
      */
     public function list($status, ExpertBookingRepository $expertBookingRepository): Response
     {
-        $expertMeeting = $this->getUser()->getExpertMeetings();
+        //Get the first one because user is allowed to have only one
+        $expertMeeting = $this->getUser()->getExpertMeetings()[0];
 
         if ($status == 'toConfirm')
-            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'waiting');
+            $list = $expertBookingRepository->findByStatus($expertMeeting, 'waiting');
         elseif ($status == 'toCome')
-            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'confirmed');
+            $list = $expertBookingRepository->findByStatus($expertMeeting, 'confirmed');
         elseif ($status == 'passed')
-            $list = $expertBookingRepository->findByStatus($expertMeeting[0], 'confirmed');
+            $list = $expertBookingRepository->findByStatus($expertMeeting, 'confirmed');
 
         return $this->render('dashboard/expertBooking/list.html.twig', [
             'profile' => $this->getUser()->getProfile(),

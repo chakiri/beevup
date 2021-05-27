@@ -35,10 +35,10 @@
                                                 <p><span class="text-muted">Email : </span>{{ expertBooking.user.email }}</p>
                                                 <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber }}</p>
                                                 <p><span class="text-muted">Créneau : </span>
-                                                    {{ expertBooking.timeSlot.date|date('d/m/Y') }} de
-                                                    {{ expertBooking.timeSlot.startTime|date('H:i') }} à
-                                                    {{ expertBooking.timeSlot.endTime|date('H:i') }}
+                                                    {{ expertBooking.slot.timeSlot.date|date('d/m/Y') }} à
+                                                    {{ expertBooking.slot.startTime|date('H:i') }}
                                                 </p>
+                                                {% if expertBooking.isVisio %}<p>En visio-conférence</p>{% else %}<p><span class="text-muted">À l'adresse : </span>{{ expertBooking.expertMeeting.user.company.fullAddress }}</p>{% endif %}
                                                 <p><span class="text-muted">Description : </span>{{ expertBooking.description }}</p>
                                                 <div class="be-contacted-handle-btn">
                                                     {% if status == 'toConfirm' %}
