@@ -26,11 +26,6 @@ class ExpertMeeting
     private $expertise;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVisio;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
@@ -66,6 +61,11 @@ class ExpertMeeting
      */
     private $breakTime;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $way;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -86,18 +86,6 @@ class ExpertMeeting
     public function setExpertise(string $expertise): self
     {
         $this->expertise = $expertise;
-
-        return $this;
-    }
-
-    public function getIsVisio(): ?bool
-    {
-        return $this->isVisio;
-    }
-
-    public function setIsVisio(bool $isVisio): self
-    {
-        $this->isVisio = $isVisio;
 
         return $this;
     }
@@ -219,6 +207,18 @@ class ExpertMeeting
     public function setBreakTime(int $breakTime): self
     {
         $this->breakTime = $breakTime;
+
+        return $this;
+    }
+
+    public function getWay(): ?array
+    {
+        return $this->way;
+    }
+
+    public function setWay(array $way): self
+    {
+        $this->way = $way;
 
         return $this;
     }

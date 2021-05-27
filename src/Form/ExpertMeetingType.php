@@ -17,13 +17,14 @@ class ExpertMeetingType extends AbstractType
     {
         $builder
             ->add('expertise')
-            ->add('isVisio', ChoiceType::class, [
-                'label' => false,
+            ->add('way', ChoiceType::class, [
+                'label' => 'Vous acceptez :',
                 'choices' => [
-                    'En visio-conférence' => true,
-                    'En entreprise' => false,
+                    'En visio-conférence' => 'visio',
+                    'En entreprise' => 'company'
                 ],
-                'multiple' => false
+                'expanded'  => true,
+                'multiple'  => true,
             ])
             ->add('address')
             ->add('breakTime', ChoiceType::class, [

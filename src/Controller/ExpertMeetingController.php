@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/expert/meeting")
+ * @Route("/app/expert/meeting")
  */
 class ExpertMeetingController extends AbstractController
 {

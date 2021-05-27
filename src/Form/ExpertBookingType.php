@@ -15,13 +15,12 @@ class ExpertBookingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $ways = $this->getChoicesValues($options['data']);
+
         $builder
-            ->add('isVisio', ChoiceType::class, [
+            ->add('way', ChoiceType::class, [
                 'label' => false,
-                'choices' => [
-                    'En visio-conférence' => true,
-                    'En entreprise' => false,
-                ],
+                'choices' => $ways,
                 'multiple' => false
             ])
             /*->add('timeSlot', HiddenType::class)*/
@@ -43,5 +42,20 @@ class ExpertBookingType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ExpertBooking::class,
         ]);
+    }
+
+    private function getChoicesValues($optionsData)
+    {
+        $expertBooking = $optionsData;
+        $wayExpertMeeting = $expertBooking->getExpertMeeting()->getWay();
+        $ways = [];
+        if (in_array('visio', $wayExpertMeeting)){
+            $ways['En visio-conférence'] = 'visio';
+        }
+        if (in_array('company', $wayExpertMeeting)){
+            $ways['En entreprise'] = 'company';
+        }
+
+        return $ways;
     }
 }

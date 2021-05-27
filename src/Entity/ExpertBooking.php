@@ -31,9 +31,9 @@ class ExpertBooking
     private $user;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string")
      */
-    private $isVisio;
+    private $way;
 
     /**
      * @ORM\OneToOne(targetEntity=Slot::class)
@@ -69,6 +69,22 @@ class ExpertBooking
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getWay()
+    {
+        return $this->way;
+    }
+
+    /**
+     * @param mixed $way
+     */
+    public function setWay($way): void
+    {
+        $this->way = $way;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -77,18 +93,6 @@ class ExpertBooking
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getIsVisio(): ?bool
-    {
-        return $this->isVisio;
-    }
-
-    public function setIsVisio(bool $isVisio): self
-    {
-        $this->isVisio = $isVisio;
 
         return $this;
     }

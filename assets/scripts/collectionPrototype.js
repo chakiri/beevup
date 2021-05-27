@@ -25,7 +25,7 @@ $(document).ready(function() {
     /**
      * Display company address if company selected
      */
-    /*$('#expert_meeting_isInCompany').click(function () {
+    $('#expert_meeting_isInCompany').click(function () {
         if ($(this).is(':checked')) {
             $('.row-address-meeting').removeClass('d-none');
         } else {
@@ -39,8 +39,8 @@ $(document).ready(function() {
     });
     if(!$('#expert_meeting_isInCompany').is(':checked')){
         $('.row-address-meeting').addClass('d-none');
-    }*/
-    $('select[name="expert_meeting[isVisio]"]').on('change', function (){
+    }
+    /*$('select[name="expert_meeting[isVisio]"]').on('change', function (){
         if ($(this).val() == false){
             $('.row-address-meeting').removeClass('d-none');
         }else{
@@ -49,12 +49,12 @@ $(document).ready(function() {
     });
     if ($('select[name="expert_meeting[isVisio]"]').val() == true){
         $('.row-address-meeting').addClass('d-none');
-    }
+    }*/
 
     /**
      * Select option select by checked checkbox
      */
-    $('.form-check-input').click(function (){
+    $('.calendar .form-check-input').click(function (){
         //if checkbox checked
         if ($(this).is(':checked')){
             let timeId = $(this).attr('id');
@@ -63,7 +63,7 @@ $(document).ready(function() {
             $('select[name="expert_booking[slot]"]').val("");
         }
         //Empty all others checked checkboxes
-        $('.form-check-input').not(this).prop('checked', false);
+        $('.calendar .form-check-input').not(this).prop('checked', false);
     });
 
     /**
