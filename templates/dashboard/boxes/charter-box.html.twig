@@ -19,7 +19,7 @@
                 <span><strong>Labellisé Beev'Up</strong></span>
             </li>
         {% else %}
-            <li class="{% if app.user.company.valid == true %}valid{% endif %}">
+            <li class="{#{% if app.user.company.valid == true %}#}valid{#{% endif %}#}">
                 <i class="fas fa-at icon"></i>
                 <a href="#"><strong>Email vérifié</strong></a>
             </li>
@@ -50,7 +50,7 @@
             {% if app.user.company.label and app.user.company.label.storeAppointment %}waiting{% endif %}
                 ">
                 <i class="far fa-calendar-plus icon"></i>
-                <a href="#" id="storeAppointement"><strong>Rendez-vous magasin effectué</strong></a>
+                <a href="#" id="storeAppointement"><strong>Rendez-vous magasin</strong></a>
                 <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ appointment }}">
                     <i class="fas fa-question-circle"></i>
                 </button>

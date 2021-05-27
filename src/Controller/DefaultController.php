@@ -27,6 +27,7 @@ use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
+use App\Service\Mail\Mailer;
 use App\Service\Search\InfoSearch;
 use App\Service\Notification\PostNotificationSeen;
 use App\Service\Search\SearchHandler;
@@ -41,6 +42,7 @@ use App\Repository\ServiceRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class DefaultController extends AbstractController
@@ -313,7 +315,7 @@ class DefaultController extends AbstractController
      * @IsGranted("ROLE_ADMIN_COMPANY")
      * @Route("/sign/charter", name="sign_charter", options={"expose"=true})
      */
-    public function signCharter(EntityManagerInterface $manager, LabelRepository $labelRepository)
+    public function signCharter(EntityManagerInterface $manager, LabelRepository $labelRepository, Mailer $mailer)
     {
         $company = $this->getUser()->getCompany();
 
@@ -329,6 +331,12 @@ class DefaultController extends AbstractController
         $manager->persist($label);
 
         $manager->flush();
+
+        $params = [
+            'url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'name' => $this->getUser()->getProfile()->getFullName(),
+            ];
+        $mailer->sendEmailWithTemplate($this->getUser()->getEmail(), $params, 'label_chart_signed');
 
         return $this->json([
             'message' => 'charter signed'

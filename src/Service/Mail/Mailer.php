@@ -172,8 +172,12 @@ class Mailer
                 'sponsorship' => 6,
                 'inscription_invitation' => 9,
                 'recap_becontacted' => 8,
-                'store_appointment_client' => 12,
                 'store_labels_requests' => 13,
+                'label_chart_signed' => 26,
+                'label_kbis_validated' => 27,
+                'label_kbis_rejected' => 28,
+                'label_labeled' => 29,
+                'label_store_appointment' => 30,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
             $templatesIds = [
@@ -186,8 +190,12 @@ class Mailer
                 'sponsorship' => 30,
                 'inscription_invitation' => 29,
                 'recap_becontacted' => 28,
-                'store_appointment_client' => 37,
-                'store_labels_requests' => 38,
+                'store_labels_requests' => 66,
+                'label_chart_signed' => 65,
+                'label_kbis_validated' => 64,
+                'label_kbis_rejected' => 63,
+                'label_labeled' => 62,
+                'label_store_appointment' => 61,
             ];
         }
 

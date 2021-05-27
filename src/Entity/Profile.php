@@ -98,6 +98,11 @@ class Profile implements \Serializable
         $this->isCompleted = false;
     }
 
+    public function getFullName(): ?string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -314,7 +319,7 @@ class Profile implements \Serializable
         $this->setLastname($this->updateName($this->getLastname()));
     }
 
-    private function updateName(string $name)
+    private function updateName($name)
     {
         $updateName = null;
         $pieces = explode("-", $name);

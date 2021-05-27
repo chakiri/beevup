@@ -3490,7 +3490,7 @@ ul.block li.waiting a:after{
     display: block;
 }
 ul.block li.empty a:after{
-    content: "A compléter";
+    content: "À compléter";
     display: block;
 }
 .btn-info-label {

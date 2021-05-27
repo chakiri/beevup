@@ -55,10 +55,10 @@
                             <td><input type="checkbox" class="form-batch-checkbox" value="{{ _item_id }}"></td>
                         {% endif %}
                         {% if _list_item_actions|length > 0 %}
-                            {% set _list_item_actions = _list_item_actions|filter_admin_actions(item) %}
                             {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
                             <td class="actions">
                                 {% block item_actions %}
+                                    {% set _list_item_actions = _list_item_actions|filter_admin_actions(item) %}
                                     {% set _actions_template = _entity_config.list.collapse_actions
                                         ? '@EasyAdmin/default/includes/_actions_dropdown.html.twig'
                                         : '@EasyAdmin/default/includes/_actions.html.twig'
