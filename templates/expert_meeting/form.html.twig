@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Edit ExpertMeeting{% endblock %}
+{% block title %}Rendez-vous expert{% endblock %}
 
 {% macro fieldsPrototype(timeSlot) %}
     <div class="d-flex js-time-slot-item mb-3">
@@ -53,9 +53,7 @@
                                         </div>
                                         <div class="col-8 form-group">
                                             <div class="row-address-meeting d-none">
-                                                <p>Adresse :</p>
-                                                {{ form_widget(form.address, {'value' : app.user.company.fullAddress}) }}
-                                                {{ form_errors(form.address) }}
+                                                {{ form_row(form.address, {'value' : app.user.company.fullAddress, 'label': 'Adresse :'}) }}
                                             </div>
                                         </div>
                                     </div>

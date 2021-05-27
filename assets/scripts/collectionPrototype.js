@@ -25,19 +25,19 @@ $(document).ready(function() {
     /**
      * Display company address if company selected
      */
-    $('#expert_meeting_isInCompany').click(function () {
+    $('#expert_meeting_way_1').click(function () {
         if ($(this).is(':checked')) {
             $('.row-address-meeting').removeClass('d-none');
         } else {
             $('.row-address-meeting').addClass('d-none');
         }
     });
-    $('#expert_meeting_isVisio').click(function () {
+    /*$('#expert_meeting_way_0').click(function () {
         if ($(this).is(':checked')) {
             $('.row-address-meeting').addClass('d-none');
         }
-    });
-    if(!$('#expert_meeting_isInCompany').is(':checked')){
+    });*/
+    if(!$('#expert_meeting_way_1').is(':checked')){
         $('.row-address-meeting').addClass('d-none');
     }
     /*$('select[name="expert_meeting[isVisio]"]').on('change', function (){
@@ -77,15 +77,15 @@ $(document).ready(function() {
     /**
      * Display company address if company selected
      */
-    $('select[name="expert_booking[isVisio]"]').on('change', function (){
-       if ($(this).val() == false){
+    $('select[name="expert_booking[way]"]').on('change', function (){
+       if ($(this).val() === 'company'){
             $('.company-address').removeClass('d-none');
        }else{
            $('.company-address').addClass('d-none');
        }
     });
-    if ($('select[name="expert_booking[isVisio]"]').val() == true){
-        $('.company-address').addClass('d-none');
+    if ($('select[name="expert_booking[way]"]').val() === 'company'){
+        $('.company-address').removeClass('d-none');
     }
 
     /**
