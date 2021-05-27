@@ -1,4 +1,4 @@
-{% if app.user and app.user.company and app.user.company.label and app.user.company.label.isLabeled == true %}
+{% if company and company.label and company.label.isLabeled == true %}
 <div class="box m-0 mb-3">
     <div class="">
         <img class="badge-label-img" src="{{ asset('build/images/dashboard/badge-labeled.png') }}" alt="">
