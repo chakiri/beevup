@@ -29,8 +29,11 @@ class SlotInstantiator
         foreach ($timeSlots as $timeSlot) {
             //Clear slots attached to timeSlot
             $this->clearSlots($timeSlot);
+
             $time = $timeSlot->getStartTime();
-            while ($time <= $timeSlot->getEndTime()) {
+            $limit = $timeSlot->getEndTime()->sub(new \DateInterval('PT' . $totalDuration . 'M'));
+
+            while ($time <= $limit) {
                 //Instantiate object
                 $slot = new Slot();
                 $slot
@@ -55,7 +58,8 @@ class SlotInstantiator
         $slots = $this->slotRepository->findBy(['timeSlot' => $timeSlot]);
 
         foreach ($slots as $slot){
-            $this->manager->remove($slot);
+            if ($slot->getStatus() == false)
+                $this->manager->remove($slot);
         }
         $this->manager->flush();
     }

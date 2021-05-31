@@ -10,6 +10,8 @@ use App\Entity\User;
 use App\Form\ExpertBookingType;
 use App\Repository\ExpertBookingRepository;
 use App\Service\Chat\AutomaticMessage;
+use App\Service\ExpertMeeting\PassedMeeting;
+use App\Service\ExpertMeeting\videoConference;
 use App\Service\TimeSlot\handleDatetime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -99,17 +101,22 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/list/{status}", name="expert_booking_list")
      */
-    public function list($status, ExpertBookingRepository $expertBookingRepository): Response
+    public function list($status, ExpertBookingRepository $expertBookingRepository, PassedMeeting $passedMeeting): Response
     {
         //Get the first one because user is allowed to have only one
         $expertMeeting = $this->getUser()->getExpertMeetings()[0];
 
+        //Archived all passed booking of expert meeting
+        $passedMeeting->archive($expertBookingRepository->findByMeeting($expertMeeting));
+
         if ($status == 'toConfirm')
             $list = $expertBookingRepository->findByStatus($expertMeeting, 'waiting');
-        elseif ($status == 'toCome')
+        elseif ($status == 'confirmed')
             $list = $expertBookingRepository->findByStatus($expertMeeting, 'confirmed');
-        elseif ($status == 'passed')
-            $list = $expertBookingRepository->findByStatus($expertMeeting, 'confirmed');
+        elseif ($status == 'canceled')
+            $list = $expertBookingRepository->findByStatus($expertMeeting, 'canceled');
+        elseif ($status == 'archived')
+            $list = $expertBookingRepository->findByStatus($expertMeeting, 'archived');
 
         return $this->render('dashboard/expertBooking/list.html.twig', [
             'profile' => $this->getUser()->getProfile(),
@@ -121,9 +128,15 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/confirm/{id}", name="expert_booking_confirm", options={"expose"=true})
      */
-    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager, AutomaticMessage $automaticMessage): Response
+    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager, AutomaticMessage $automaticMessage, videoConference $videoConference): Response
     {
         if ($expertBooking->getStatus() === 'waiting'){
+
+            if ($expertBooking->getWay() === 'visio') {
+                $link = $videoConference->generateLink();
+                $expertBooking->setVideoLink($link);
+            }
+
             $expertBooking->setStatus('confirmed');
 
             $manager->persist($expertBooking);
@@ -148,5 +161,18 @@ class ExpertBookingController extends AbstractController
         $manager->flush();
 
         return new JsonResponse(['message' => 'is canceled'],200);
+    }
+
+    /**
+     * @Route("/archive/{id}", name="expert_booking_archive")
+     */
+    public function archive(ExpertBooking $expertBooking, EntityManagerInterface  $manager): Response
+    {
+        $expertBooking->setStatus('archived');
+
+        $manager->persist($expertBooking);
+        $manager->flush();
+
+        return new JsonResponse(['message' => 'is archived'],200);
     }
 }

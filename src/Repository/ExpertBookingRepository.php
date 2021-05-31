@@ -20,11 +20,12 @@ class ExpertBookingRepository extends ServiceEntityRepository
         parent::__construct($registry, ExpertBooking::class);
     }
 
-    public function findByMeeting($expertMeeting): QueryBuilder
+    public function findByMeetingQueryBuilder($expertMeeting): QueryBuilder
     {
         $qb = $this->createQueryBuilder('e')
             ->andWhere('e.expertMeeting = :expertMeeting')
             ->setParameter('expertMeeting', $expertMeeting)
+            ->orderBy('e.createdAt', 'DESC')
             ;
 
         return $qb;
@@ -32,11 +33,21 @@ class ExpertBookingRepository extends ServiceEntityRepository
 
     public function findByStatus($expertMeeting, $status)
     {
-        $qb = $this->findByMeeting($expertMeeting);
+        $qb = $this->findByMeetingQueryBuilder($expertMeeting);
 
         return $qb
             ->andWhere('e.status = :status')
             ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByMeeting($expertMeeting)
+    {
+        $qb = $this->findByMeetingQueryBuilder($expertMeeting);
+
+        return $qb
             ->getQuery()
             ->getResult()
             ;

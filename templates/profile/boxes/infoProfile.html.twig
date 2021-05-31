@@ -33,6 +33,11 @@
                 <a href="{{ path('profile_edit', {'id': profile.id}) }}" title="" class="">Modifier profil</a>
             </div>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN_COMPANY') %}
+            <div class="btn white-bg full-width mt-3">
+                <a href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" title="expert_meeting" class="">Gérer mes RDV Experts</a>
+            </div>
+        {% endif %}
         {% if is_granted('ROLE_ADMIN_STORE') %}
             <a id="myservicesbox" type="button"  href="{{ path('service_store', {'store': app.user.store.id}) }}" class="btn white-bg full-width mt-3">Mes services</a>
             <a id="assocaiteservicebox"  type="button"  href="{{ path('service_generic') }}" class="btn white-bg full-width mt-3">Ajouter un service BV</a>

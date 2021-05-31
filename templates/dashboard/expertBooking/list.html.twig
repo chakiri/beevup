@@ -20,34 +20,43 @@
                                         <a class="nav-link {% if status == 'toConfirm' %}active{% endif %}" href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" >A confirmer</a>
                                     </li>
                                     <li class="nav-item p-3">
-                                        <a class="nav-link {% if status == 'toCome' %}active{% endif %}"  href="{{ path('expert_booking_list', {'status': 'toCome'}) }}">A venir</a>
+                                        <a class="nav-link {% if status == 'confirmed' %}active{% endif %}"  href="{{ path('expert_booking_list', {'status': 'confirmed'}) }}">Confirmés</a>
                                     </li>
                                     <li class="nav-item p-3">
-                                        <a class="nav-link {% if status == 'passed' %}active{% endif %}"  href="{{ path('expert_booking_list', {'status': 'passed'}) }}">Passés</a>
+                                        <a class="nav-link {% if status == 'canceled' %}active{% endif %}"  href="{{ path('expert_booking_list', {'status': 'canceled'}) }}">Annulés</a>
+                                    </li>
+                                    <li class="nav-item p-3">
+                                        <a class="nav-link {% if status == 'archived' %}active{% endif %}"  href="{{ path('expert_booking_list', {'status': 'archived'}) }}">Archivés</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     {% if list %}
                                         {% for expertBooking in list %}
                                             <div class="box">
+                                                <h5>Le {{ expertBooking.slot.timeSlot.date|date('d/m/Y') }} à {{ expertBooking.slot.startTime|date('H') }}h{{ expertBooking.slot.startTime|date('i') }}</h5>
+                                                {% if expertBooking.way == 'visio' %}
+                                                    <div class="d-flex">
+                                                        <h6 class="mr-3">En visio-conférence</h6>
+                                                        {% if status == 'confirmed' %}
+                                                            <a href="{{ expertBooking.videoLink }}" target="_blank">Lancer la vidéo</a>
+                                                        {% endif %}
+                                                    </div>
+                                                {% else %}
+                                                    <p><span class="text-muted">À l'adresse : </span>{{ expertBooking.expertMeeting.user.company.fullAddress }}</p>
+                                                {% endif %}
+                                                <p class="my-3"><span class="text-muted">Attentes du professionnel : </span><strong>{{ expertBooking.description }}</strong></p>
                                                 <p><span class="text-muted">Nom et prénom : </span>{{ expertBooking.user.profile.lastname }} {{ expertBooking.user.profile.firstname }}</p>
                                                 <p><span class="text-muted">Entreprise : </span>{{ expertBooking.user.company }}</p>
                                                 <p><span class="text-muted">Email : </span>{{ expertBooking.user.email }}</p>
-                                                <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber }}</p>
-                                                <p><span class="text-muted">Créneau : </span>
-                                                    {{ expertBooking.slot.timeSlot.date|date('d/m/Y') }} à
-                                                    {{ expertBooking.slot.startTime|date('H:i') }}
-                                                </p>
-                                                {% if expertBooking.way == 'visio' %}<p>En visio-conférence</p>{% else %}<p><span class="text-muted">À l'adresse : </span>{{ expertBooking.expertMeeting.user.company.fullAddress }}</p>{% endif %}
-                                                <p><span class="text-muted">Description : </span>{{ expertBooking.description }}</p>
+                                                <p><span class="text-muted">Téléphone : </span>{{ expertBooking.user.profile.phoneNumber ?? 'Pas défini' }}</p>
                                                 <div class="be-contacted-handle-btn">
                                                     {% if status == 'toConfirm' %}
                                                         <button class="expert-booking-confirm-btn btn small-btn orange-bg ml-auto my-2" data-target="{{ path('expert_booking_confirm', {'id': expertBooking.id}) }}">Confirmer</button>
-                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
-                                                    {% elseif status == 'toCome'  %}
-                                                        <button class="be-contacted-archive btn small-btn orange-bg ml-auto my-2" data-target="">Annuler</button>
-                                                        {#{% elseif status == 'passed' %}
-                                                        <button class="be-contacted-waiting btn small-btn orange-bg ml-auto my-2" data-target="">Remettre en attente</button>#}
+                                                        <button class="expert-booking-cancel-btn btn small-btn white-bg ml-auto my-2" data-target="{{ path('expert_booking_cancel', {'id': expertBooking.id}) }}">Annuler</button>
+                                                    {% elseif status == 'confirmed'  %}
+                                                        <button class="expert-booking-cancel-btn btn small-btn white-bg ml-auto my-2" data-target="{{ path('expert_booking_cancel', {'id': expertBooking.id}) }}">Annuler</button>
+                                                    {% elseif status == 'canceled' %}
+                                                        <button class="expert-booking-archive-btn btn small-btn orange-bg ml-auto my-2" data-target="{{ path('expert_booking_archive', {'id': expertBooking.id}) }}">Archiver</button>
                                                     {% endif %}
                                                 </div>
                                             </div>
