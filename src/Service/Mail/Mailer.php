@@ -178,6 +178,7 @@ class Mailer
                 'label_kbis_rejected' => 28,
                 'label_labeled' => 29,
                 'label_store_appointment' => 30,
+                'expert_booking_request' => 14,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
             $templatesIds = [

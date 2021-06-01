@@ -4,7 +4,7 @@
 namespace App\Service\TimeSlot;
 
 
-class handleDatetime
+class HandleDatetime
 {
     /**
      * Return unique date format in array

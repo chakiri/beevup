@@ -100,7 +100,6 @@ $(document).ready(function() {
             $('#confirmExpertBooking').modal();
 
             //Get value fields form
-            let expertUserId = $('.expertUserId').data('id');
             let expertName = $('.expertName').text();
             let expertCompany = $('.expertCompany').text();
             let expertExpertise = $('.expertExpertise').text();
@@ -108,7 +107,7 @@ $(document).ready(function() {
             let isVisio = $('#expert_booking_isVisio').val();
             let description = $('#expert_booking_description').val();
 
-            let url = Routing.generate('expert_booking_confirm_submit', {'expertUser': expertUserId, 'slot': $('#expert_booking_slot').val()});
+            let url = Routing.generate('expert_booking_confirm_submit', {'slot': $('#expert_booking_slot').val()});
 
             $.ajax({
                 url: url

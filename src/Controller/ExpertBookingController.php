@@ -5,20 +5,20 @@ namespace App\Controller;
 use App\Entity\ExpertBooking;
 use App\Entity\ExpertMeeting;
 use App\Entity\Slot;
-use App\Entity\TimeSlot;
-use App\Entity\User;
 use App\Form\ExpertBookingType;
 use App\Repository\ExpertBookingRepository;
 use App\Service\Chat\AutomaticMessage;
-use App\Service\ExpertMeeting\PassedMeeting;
+use App\Service\ExpertMeeting\HandleMeeting;
 use App\Service\ExpertMeeting\videoConference;
-use App\Service\TimeSlot\handleDatetime;
+use App\Service\Mail\Mailer;
+use App\Service\TimeSlot\HandleDatetime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/app/expert/booking")
@@ -28,28 +28,28 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/{expertMeeting}/new", name="expert_booking_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ExpertMeeting $expertMeeting, handleDatetime $handleDatetime): Response
+    public function new(Request $request, ExpertMeeting $expertMeeting, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting): Response
     {
         $expertBooking = new ExpertBooking();
         $expertBooking->setExpertMeeting($expertMeeting);
 
-        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime);
+        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime, $mailer, $automaticMessage, $handleMeeting);
     }
 
     /**
      * @Route("/{expertBooking}/edit", name="expert_booking_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, ExpertBooking $expertBooking, handleDatetime $handleDatetime): Response
+    public function edit(Request $request, ExpertBooking $expertBooking, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting): Response
     {
         //Denied access
         if($expertBooking->getUser() !== $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
 
         $expertMeeting = $expertBooking->getExpertMeeting();
 
-        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime);
+        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime, $mailer, $automaticMessage, $handleMeeting);
     }
 
-    private function form (Request $request, ExpertMeeting $expertMeeting, ExpertBooking $expertBooking, $handleDatetime)
+    private function form (Request $request, ExpertMeeting $expertMeeting, ExpertBooking $expertBooking, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting)
     {
         $form = $this->createForm(ExpertBookingType::class, $expertBooking);
 
@@ -66,6 +66,20 @@ class ExpertBookingController extends AbstractController
             $entityManager->persist($expertBooking);
             $entityManager->persist($slot);
             $entityManager->flush();
+
+            //Get info expert booking
+            $booking = $handleMeeting->getInfoBooking($expertBooking);
+
+            //Send email to expert user
+            $params = [
+                'name' => $expertBooking->getExpertMeeting()->getUser()->getProfile()->getFullName(),
+                'booking' => $booking,
+                'url' => $this->generateUrl('expert_booking_list', ['status' => 'toConfirm'], UrlGeneratorInterface::ABSOLUTE_URL)
+            ];
+            $mailer->sendEmailWithTemplate($expertBooking->getExpertMeeting()->getUser()->getEmail(), $params, 'expert_booking_request');
+
+            //Send message to user
+            $automaticMessage->fromAdvisorToUser($expertBooking->getExpertMeeting()->getUser(), 'Bonne nouvelle !<br> Une demande de RDV expert est en attente de confirmation. <a href="' . $this->generateUrl('expert_booking_list', ['status' => 'toConfirm']) . '">Cliquez ici</a>');
 
             return $this->redirectToRoute('dashboard');
         }
@@ -85,13 +99,10 @@ class ExpertBookingController extends AbstractController
     }
 
     /**
-     * @Route("/confirm/submit/{expertUser}/{slot}", name="expert_booking_confirm_submit", options={"expose"=true})
+     * @Route("/confirm/submit/{slot}", name="expert_booking_confirm_submit", options={"expose"=true})
      */
-    public function confirmSubmitModal(User $expertUser, Slot $slot, AutomaticMessage $automaticMessage): response
+    public function confirmSubmitModal(Slot $slot): response
     {
-        //Send message to user
-        $automaticMessage->fromAdvisorToUser($expertUser, 'Bonne nouvelle !<br> Une demande de RDV expert est en attente de confirmation. <a href="' . $this->generateUrl('expert_booking_list', ['status' => 'toConfirm']) . '">Cliquez ici</a>');
-
         return $this->render('expert_booking/modal/confirmSubmit.html.twig', [
             'timeSlotDate' => $slot->getTimeSlot()->getDate()->format('d/m/Y'),
             'timeSlotTimeStart' => $slot->getStartTime()->format('H:i')
@@ -101,13 +112,13 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/list/{status}", name="expert_booking_list")
      */
-    public function list($status, ExpertBookingRepository $expertBookingRepository, PassedMeeting $passedMeeting): Response
+    public function list($status, ExpertBookingRepository $expertBookingRepository, HandleMeeting $handleMeeting): Response
     {
         //Get the first one because user is allowed to have only one
         $expertMeeting = $this->getUser()->getExpertMeetings()[0];
 
         //Archived all passed booking of expert meeting
-        $passedMeeting->archive($expertBookingRepository->findByMeeting($expertMeeting));
+        $handleMeeting->archive($expertBookingRepository->findByMeeting($expertMeeting));
 
         if ($status == 'toConfirm')
             $list = $expertBookingRepository->findByStatus($expertMeeting, 'waiting');

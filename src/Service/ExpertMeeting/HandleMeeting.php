@@ -4,9 +4,10 @@
 namespace App\Service\ExpertMeeting;
 
 
+use App\Entity\ExpertBooking;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PassedMeeting
+class HandleMeeting
 {
     private EntityManagerInterface $manager;
 
@@ -36,5 +37,24 @@ class PassedMeeting
                 $this->manager->flush();
             }
         }
+    }
+
+    /**
+     * Function used in send mail to get all infos booking
+     * @param ExpertBooking $expertBooking
+     * @return array
+     */
+    public function getInfoBooking(ExpertBooking $expertBooking): array
+    {
+        return [
+            'date' => $expertBooking->getSlot()->getTimeSlot()->getDate()->format('d/m/Y'),
+            'time' => $expertBooking->getSlot()->getStartTime()->format('H:i'),
+            'way' => $expertBooking->getWay() === 'visio' ? 'En visio-conférence' : 'En entreprise',
+            'description' => $expertBooking->getDescription(),
+            'name' => $expertBooking->getUser()->getProfile()->getFullName(),
+            'companyName' => $expertBooking->getUser()->getCompany()->getName(),
+            'phone' => $expertBooking->getUser()->getProfile()->getPhoneNumber(),
+            'email' => $expertBooking->getUser()->getEmail(),
+        ];
     }
 }
