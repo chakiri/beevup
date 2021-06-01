@@ -1,14 +1,18 @@
-<small>Offre du moment</small>
-<div class="box-image">
-    {% if publicity.filename %}
-        {% if publicity.link %}
-            <a  href="{{publicity.link}}" target="_blank" >
-                <img src="{{ vich_uploader_asset(publicity, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
-            </a>
-        {% else %}
-            <img src="{{ vich_uploader_asset(publicity, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
-        {% endif %}
-    {% endif %}
-</div>
-<p>{{ publicity.description ?? 'Découvrez notre séléction de la semaine' }}</p>
-<a href="{{publicity.link}}" target="_blank">Découvrir</a>
+{% if publicity is not null %}
+    <div class="box-advertising clearfix">
+        <small>Offre du moment</small>
+        <div class="box-image">
+            {% if publicity.filename %}
+                {% if publicity.link %}
+                    <a  href="{{publicity.link}}" target="_blank" >
+                        <img src="{{ vich_uploader_asset(publicity, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
+                    </a>
+                {% else %}
+                    <img src="{{ vich_uploader_asset(publicity, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
+                {% endif %}
+            {% endif %}
+        </div>
+        <p>{{ publicity.description ?? 'Découvrez notre séléction de la semaine' }}</p>
+        <a href="{{publicity.link}}" target="_blank">Découvrir</a>
+    </div>
+{% endif %}

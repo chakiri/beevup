@@ -1,17 +1,21 @@
-<div id="specialOfferbox" class="mt-3">
-    <small>Offres exclusives dédiées à la communauté Beev'Up</small>
-    <div class="box-image">
-        <a  href="{{ path('service_discovery') }}">
-            <div class="badge-box">
-                <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
-            </div>
-            {% if lastSpecialOffer.filename %}
-                <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
-            {% else %}
-                <img src="{{ asset('build/images/no-available-photo.png') }}" class="img-fluid" alt="" style="border-radius:5px">
-            {% endif %}
-        </a>
+{% if lastSpecialOffer is not null %}
+<div class="box-advertising clearfix">
+    <div id="specialOfferbox" class="mt-3">
+        <small>Offres exclusives dédiées à la communauté Beev'Up</small>
+        <div class="box-image">
+            <a  href="{{ path('service_discovery') }}">
+                <div class="badge-box">
+                    <span class="badge badge-pill special-offer-badge">offre exclusive beevup</span>
+                </div>
+                {% if lastSpecialOffer.filename %}
+                    <img src="{{ vich_uploader_asset(lastSpecialOffer, 'imageFile')|imagine_filter('card') }}" class="img-fluid" alt="" style="border-radius:5px">
+                {% else %}
+                    <img src="{{ asset('build/images/no-available-photo.png') }}" class="img-fluid" alt="" style="border-radius:5px">
+                {% endif %}
+            </a>
+        </div>
+        <p>{{ lastSpecialOffer.title }}</p>
+        <a href="{{ path('service_discovery') }}">Voir toutes les offres dédiées</a>
     </div>
-    <p>{{ lastSpecialOffer.title }}</p>
-    <a href="{{ path('service_discovery') }}">Voir toutes les offres dédiées</a>
 </div>
+{% endif %}

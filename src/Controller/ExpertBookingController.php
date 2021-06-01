@@ -193,6 +193,7 @@ class ExpertBookingController extends AbstractController
                 'name' => $expertBooking->getExpertMeeting()->getUser()->getProfile()->getFullName(),
                 'company' => $expertBooking->getExpertMeeting()->getUser()->getCompany()->getName(),
             ],
+            'url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
         //Send email to booking user
         $mailer->sendEmailWithTemplate($expertBooking->getUser()->getEmail(), $params, 'expert_booking_cancel_user');
