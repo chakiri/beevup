@@ -52,9 +52,24 @@ class HandleMeeting
             'way' => $expertBooking->getWay() === 'visio' ? 'En visio-conférence' : 'En entreprise',
             'description' => $expertBooking->getDescription(),
             'name' => $expertBooking->getUser()->getProfile()->getFullName(),
-            'companyName' => $expertBooking->getUser()->getCompany()->getName(),
+            'company' => $expertBooking->getUser()->getCompany()->getName(),
             'phone' => $expertBooking->getUser()->getProfile()->getPhoneNumber(),
             'email' => $expertBooking->getUser()->getEmail(),
+        ];
+    }
+
+    /**
+     * Function used in send mail to get all infos meeting
+     * @param ExpertBooking $expertBooking
+     * @return array
+     */
+    public function getInfoMeeting(ExpertBooking $expertBooking): array
+    {
+        return [
+            'name' => $expertBooking->getExpertMeeting()->getUser()->getProfile()->getFullName(),
+            'company' => $expertBooking->getExpertMeeting()->getUser()->getCompany()->getName(),
+            'phone' => $expertBooking->getExpertMeeting()->getUser()->getProfile()->getPhoneNumber(),
+            'email' => $expertBooking->getExpertMeeting()->getUser()->getEmail(),
         ];
     }
 }

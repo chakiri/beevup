@@ -139,7 +139,7 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/confirm/{id}", name="expert_booking_confirm", options={"expose"=true})
      */
-    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager, AutomaticMessage $automaticMessage, videoConference $videoConference): Response
+    public function confirm(ExpertBooking $expertBooking, EntityManagerInterface  $manager, AutomaticMessage $automaticMessage, videoConference $videoConference, Mailer $mailer, HandleMeeting $handleMeeting): Response
     {
         if ($expertBooking->getStatus() === 'waiting'){
 
@@ -154,9 +154,20 @@ class ExpertBookingController extends AbstractController
             $manager->flush();
         }
 
+        //Send email to expert user
+        $params = [
+            'booking' => $handleMeeting->getInfoBooking($expertBooking),
+            'meeting' => $handleMeeting->getInfoMeeting($expertBooking),
+            'action' => $expertBooking->getWay() === 'visio' ? '<a href="' . $expertBooking->getVideoLink() . '">Lancer la visio</a>' : 'A l\'adresse : ' . $expertBooking->getExpertMeeting()->getAddress(),
+            'url' => $this->generateUrl('expert_booking_list', ['status' => 'confirmed'], UrlGeneratorInterface::ABSOLUTE_URL)
+        ];
+        //Send confirmation to booking user
+        $mailer->sendEmailWithTemplate($expertBooking->getUser()->getEmail(), $params, 'expert_booking_confirm_user');
+        //Send confirmation to meeting user
+        $mailer->sendEmailWithTemplate($expertBooking->getExpertMeeting()->getUser()->getEmail(), $params, 'expert_booking_confirm_expert');
+
         //Send message to user
         $automaticMessage->fromAdvisorToUser($expertBooking->getUser(), 'Bonne nouvelle !<br> Votre rendez-vous vient d\'être confirmé.');
-
 
         return new JsonResponse(['message' => 'is confirmed'],200);
     }
@@ -164,12 +175,27 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/cancel/{id}", name="expert_booking_cancel")
      */
-    public function cancel(ExpertBooking $expertBooking, EntityManagerInterface  $manager): Response
+    public function cancel(ExpertBooking $expertBooking, EntityManagerInterface  $manager, Mailer $mailer): Response
     {
         $expertBooking->setStatus('canceled');
 
         $manager->persist($expertBooking);
         $manager->flush();
+
+        //Send email to expert user
+        $params = [
+            'booking' => [
+                'name' => $expertBooking->getUser()->getProfile()->getFullName(),
+                'date' => $expertBooking->getSlot()->getTimeSlot()->getDate()->format('d/m/Y'),
+                'time' => $expertBooking->getSlot()->getStartTime()->format('H:i'),
+            ],
+            'meeting' => [
+                'name' => $expertBooking->getExpertMeeting()->getUser()->getProfile()->getFullName(),
+                'company' => $expertBooking->getExpertMeeting()->getUser()->getCompany()->getName(),
+            ],
+        ];
+        //Send email to booking user
+        $mailer->sendEmailWithTemplate($expertBooking->getUser()->getEmail(), $params, 'expert_booking_cancel_user');
 
         return new JsonResponse(['message' => 'is canceled'],200);
     }

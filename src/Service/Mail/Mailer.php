@@ -179,6 +179,9 @@ class Mailer
                 'label_labeled' => 29,
                 'label_store_appointment' => 30,
                 'expert_booking_request' => 14,
+                'expert_booking_confirm_user' => 17,
+                'expert_booking_confirm_expert' => 19,
+                'expert_booking_cancel_user' => 22,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
             $templatesIds = [
