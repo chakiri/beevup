@@ -52,4 +52,24 @@ class ExpertBookingRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    /**
+     * Return all experts booking planned in date and time
+     */
+    public function findComingMeetings($dateTime)
+    {
+        $date = $dateTime->format('Y-m-d');
+        $time = $dateTime->format('H:i');
+
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.slot', 's')
+            ->leftJoin('s.timeSlot', 't')
+            ->andWhere('e.status = :status')
+            ->andWhere('s.startTime = :time')
+            ->andWhere('t.date = :date')
+            ->setParameters(['status' => 'confirmed', 'date' => $date, 'time' => $time])
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

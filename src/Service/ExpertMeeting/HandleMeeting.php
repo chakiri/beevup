@@ -55,6 +55,7 @@ class HandleMeeting
             'company' => $expertBooking->getUser()->getCompany()->getName(),
             'phone' => $expertBooking->getUser()->getProfile()->getPhoneNumber(),
             'email' => $expertBooking->getUser()->getEmail(),
+            'visioLink' => $expertBooking->getVideoLink(),
         ];
     }
 

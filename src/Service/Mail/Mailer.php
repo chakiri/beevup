@@ -5,9 +5,11 @@ namespace App\Service\Mail;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use SendinBlue\Client\Api\ContactsApi;
+use SendinBlue\Client\Api\EmailCampaignsApi;
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\CreateContact;
+use SendinBlue\Client\Model\CreateEmailCampaign;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use SendinBlue\Client\Model\UpdateContact;
 use Twig\Environment;
@@ -182,6 +184,10 @@ class Mailer
                 'expert_booking_confirm_user' => 17,
                 'expert_booking_confirm_expert' => 19,
                 'expert_booking_cancel_user' => 22,
+                'expert_booking_reminder_expert' => 21,
+                'expert_booking_reminder_user' => 20,
+                'expert_booking_feedback_expert' => 24,
+                'expert_booking_feedback_user' => 23,
             ];
         }elseif ($_ENV['APP_ENV'] === 'prod') {
             $templatesIds = [
