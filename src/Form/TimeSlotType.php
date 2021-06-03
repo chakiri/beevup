@@ -17,6 +17,8 @@ class TimeSlotType extends AbstractType
             ->add('date', DateType::class, [
                     'widget' => 'single_text',
                     'attr' => ['class' => 'js-datepicker'],
+                    'html5' => false,
+                    'format' => 'dd/MM/Y'
                 ]
             )
             ->add('startTime', TimeType::class, [

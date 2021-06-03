@@ -20,6 +20,12 @@ $(document).ready(function() {
         $wrapper.data('index', index + 1);
         // Display the form in the page before the "new" link
         $(this).before(newForm);
+
+        //Add Datepicker to all new js-datepicker
+        $('.js-datepicker').datepicker({
+            locale : 'fr',
+            format: 'dd/mm/yyyy',
+        });
     });
 
     /**

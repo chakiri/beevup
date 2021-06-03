@@ -26,5 +26,7 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {}
+    "dependencies": {
+        "bootstrap-datepicker": "^1.9.0"
+    }
 }

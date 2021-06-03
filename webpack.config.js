@@ -40,6 +40,7 @@ Encore
     .addEntry('map', './assets/scripts/map.js')
     .addEntry('service', './assets/scripts/service.js')
     .addEntry('image', './assets/scripts/image.js')
+    .addEntry('datepicker', './assets/scripts/datepicker.js')
     .addEntry('collectionPrototype', './assets/scripts/collectionPrototype.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
