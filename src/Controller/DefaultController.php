@@ -87,11 +87,14 @@ class DefaultController extends AbstractController
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
             $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
-        //Experts meeting
-        $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
-
         //Find expert meeting proposed by current user
         $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
+
+        //Experts meeting
+        $expertsMeetings = $expertMeetingRepository->findLocalByLimits($allCompanies);
+
+        //Add expertMeeting of current user on the beginning of array
+        array_unshift($expertsMeetings, $expertMeeting);
 
         //Get expert meetings booked by current user
         $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);

@@ -1,41 +1,97 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ExpertMeeting index{% endblock %}
+{% block title %}RDV expert{% endblock %}
 
 {% block body %}
-    <h1>ExpertMeeting index</h1>
+    <main>
+        <div class="main-section">
+            <div class="container-bv">
+                <div class="main-section-data page-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="main-left-sidebar">
+                                <div class="user_profile">
+                                    <div class="user-pro-img">
+                                        {% if profile.filename %}
+                                            <img class="main-img" src="{{ vich_uploader_asset(profile, 'imageFile')|imagine_filter('avatar_big') }}"  alt="">
+                                        {% else %}
+                                            <img class="main-img" src="{{ asset('build/images/no-available-photo.png') }}" alt="">
+                                        {% endif %}
+                                        {% if app.user.id == profile.user.id %}
+                                            <a class="update-image upload-photo"type="button"   data-toggle="modal" data-target="#update-img-modal"  data-id ="{{ profile.id  }}" data-url ="{{ path('profile_update_image', {'id': profile.id}) }}" title=""><i class="fas fa-camera"></i></a>
+                                        {% endif %}
+                                    </div><!--user-pro-img end-->
+                                    <div class="user_pro_status pl-2 pr-2">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Expertise</th>
-                <th>IsVisio</th>
-                <th>IsInCompany</th>
-                <th>Address</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for expert_meeting in expert_meetings %}
-            <tr>
-                <td>{{ expert_meeting.id }}</td>
-                <td>{{ expert_meeting.expertise }}</td>
-                <td>{{ expert_meeting.isVisio ? 'Yes' : 'No' }}</td>
-                <td>{{ expert_meeting.isInCompany ? 'Yes' : 'No' }}</td>
-                <td>{{ expert_meeting.address }}</td>
-                <td>
-                    <a href="{{ path('expert_meeting_show', {'id': expert_meeting.id}) }}">show</a>
-                    <a href="{{ path('expert_meeting_edit', {'id': expert_meeting.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                                    </div><!--user_pro_status end-->
+                                    <ul class="social_links">
+                                        <li><i class="fas fa-envelope mt-1"></i>  {{ profile.user.email }} </li>
+                                        {% if profile.mobileNumber != null %}  <li><i class="fas fa-mobile-alt mt-1"></i>  {{ profile.mobileNumber }} </li>{% endif %}
+                                        <li><i class="fas fa-store mt-1"></i>  {{ profile.user.store.name }} </li>
+                                    </ul>
+                                </div><!--user_profile end-->
+                            </div><!--main-left-sidebar end-->
 
-    <a href="{{ path('expert_meeting_new') }}">Create new</a>
+                            {% if expertMeeting %}
+                                <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeeting.id}) }}" class="btn white-bg full-width mt-3">Paramétrer mon RDV</a>
+                            {% else %}
+                                <a type="button" href="{{ path('expert_meeting_new') }}" class="btn orange-bg full-width mt-3">Proposer un RDV</a>
+                            {% endif %}
+                            <a type="button" href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" class="btn white-bg full-width mt-3">Gérer mes RDV</a>
+
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="box">
+                                <div class="main-ws-sec box-expert-meeting">
+                                    <h3 class="my-3">Les rendez-vous experts de votre communauté</h3>
+
+                                    {% if expertsMeetings %}
+                                        <div class="row">
+                                            {% for expertMeeting in expertsMeetings %}
+                                                <div class="col-lg-4">
+                                                    <div class="box-card">
+                                                        <div class="box-card-left">
+                                                            <div class="box-card-avatar">
+
+                                                                {% include 'search/boxes/badge-label.html.twig' with {'company': expertMeeting.user.company} %}
+
+                                                                {% if expertMeeting.user.profile.filename %}
+                                                                    <img src="{{ vich_uploader_asset(expertMeeting.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                                                                {% else %}
+                                                                    <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                                                                {% endif %}
+
+                                                                {% include 'search/boxes/badge-score.html.twig' with {'company': expertMeeting.user.company} %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="box-card-meta">
+                                                            <h5><strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong></h5>
+                                                            <p class="grey mb-3"><span>{{ expertMeeting.user.company.name|capitalize }}</span></p>
+                                                            <p class="expertise"><span>Expertise : {{ expertMeeting.expertise }}</span></p>
+                                                        </div>
+                                                        <div class="box-card-btn">
+                                                            {% if expertMeeting in expertsMeetingsBookedByUser %}
+                                                                <a type="button" href="#" class="btn small-btn white-bg link-disabled">RDV déjà reservé</a>
+                                                            {% else %}
+                                                                <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="py-3"><small>Aucun rendez-vous disponible actuellement</small></div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
 {% endblock %}
+

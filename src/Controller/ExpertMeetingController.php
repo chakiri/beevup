@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\ExpertMeeting;
 use App\Form\ExpertMeetingType;
+use App\Repository\ExpertBookingRepository;
 use App\Repository\ExpertMeetingRepository;
+use App\Service\GetCompanies;
 use App\Service\TimeSlot\SlotInstantiator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +21,30 @@ class ExpertMeetingController extends AbstractController
     /**
      * @Route("/", name="expert_meeting_index", methods={"GET"})
      */
-    public function index(ExpertMeetingRepository $expertMeetingRepository): Response
+    public function index(ExpertMeetingRepository $expertMeetingRepository, GetCompanies $getCompanies, ExpertBookingRepository $expertBookingRepository): Response
     {
+        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
+
+        //Find expert meeting proposed by current user
+        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
+
+        $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
+
+        //Add expertMeeting of current user on the beginning of array
+        array_unshift($expertsMeetings, $expertMeeting);
+
+        //Get expert meetings booked by current user
+        $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
+        $expertsMeetingsBookedByUser = [];
+        foreach($expertsBooking as $expertBooking){
+            $expertsMeetingsBookedByUser [] = $expertBooking->getExpertMeeting();
+        }
+
         return $this->render('expert_meeting/index.html.twig', [
-            'expert_meetings' => $expertMeetingRepository->findAll(),
+            'expertsMeetings' => $expertsMeetings,
+            'expertMeeting' => $expertMeeting,
+            'profile' => $this->getUser()->getProfile(),
+            'expertsMeetingsBookedByUser' => $expertsMeetingsBookedByUser,
         ]);
     }
 

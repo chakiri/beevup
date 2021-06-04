@@ -4364,7 +4364,7 @@ form[name="expert_meeting"] li{
     list-style-type: none;
 }
 
-#expertMeetingBox .box-card{
+.box-expert-meeting .box-card{
     display: flex;
     margin-top: 1em;
     border-radius: 6px;
@@ -4374,25 +4374,25 @@ form[name="expert_meeting"] li{
     background-size: 200%;
     transition: .5s ease-out;
 }
-#expertMeetingBox .box-card:hover{
+.box-expert-meeting .box-card:hover{
     background-position: left;
-}#expertMeetingBox .box-card:hover .box-card-meta{
+}.box-expert-meeting .box-card:hover .box-card-meta{
      opacity: 0;
      transition: .5s ease-out;
 }
-#expertMeetingBox .box-card-btn{
+.box-expert-meeting .box-card-btn{
     opacity: 0;
     left:0;
     position:absolute;
     top:100px;
     transition: all 600ms;
-}#expertMeetingBox .box-card:hover .box-card-btn {
+}.box-expert-meeting .box-card:hover .box-card-btn {
      opacity: 1;
      position: absolute;
      left: 190px;
      transition: .2s ease-out;
 }
-#expertMeetingBox .box-card-left{
+.box-expert-meeting .box-card-left{
     background: linear-gradient(#ffcc5b, #ff7f50);
     padding: 1em;
     border-top-left-radius: 6px;
@@ -4404,32 +4404,32 @@ form[name="expert_meeting"] li{
     width: 161px;
     min-width: 161px;
 }
-#expertMeetingBox .box-card-avatar{
+.box-expert-meeting .box-card-avatar{
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-#expertMeetingBox .xl-avatar{
+.box-expert-meeting .xl-avatar{
     display: block;
     margin: 1em auto;
 }
-#expertMeetingBox .box-card-meta{
+.box-expert-meeting .box-card-meta{
     padding: 1em;
 }
-#expertMeetingBox .box-card-meta h5{
+.box-expert-meeting .box-card-meta h5{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-}#expertMeetingBox .box-card-meta .expertise{
+}.box-expert-meeting .box-card-meta .expertise{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
 }
-#expertMeetingBox .badge-label-search{
+.box-expert-meeting .badge-label-search{
     width: 133px;
 }
 
