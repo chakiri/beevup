@@ -1,0 +1,38 @@
+{% if expertsMeetings %}
+    <div class="row">
+        {% for expertMeeting in expertsMeetings %}
+            <div class="col-lg-4">
+                <div class="box-card">
+                    <div class="box-card-left">
+                        <div class="box-card-avatar">
+
+                            {% include 'search/boxes/badge-label.html.twig' with {'company': expertMeeting.user.company} %}
+
+                            {% if expertMeeting.user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(expertMeeting.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                            {% else %}
+                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle xl-avatar" alt="avatar image">
+                            {% endif %}
+
+                            {% include 'search/boxes/badge-score.html.twig' with {'company': expertMeeting.user.company} %}
+                        </div>
+                    </div>
+                    <div class="box-card-meta">
+                        <h5><strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong></h5>
+                        <p class="grey mb-3"><span>{{ expertMeeting.user.company.name|capitalize }}</span></p>
+                        <p class="expertise"><span>Expertise : {{ expertMeeting.expertise }}</span></p>
+                    </div>
+                    <div class="box-card-btn">
+                        {% if expertMeeting in expertsMeetingsBookedByUser %}
+                            <a type="button" href="#" class="btn small-btn white-bg link-disabled">RDV déjà reservé</a>
+                        {% else %}
+                            <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="py-3"><small>Aucun rendez-vous disponible actuellement</small></div>
+{% endif %}

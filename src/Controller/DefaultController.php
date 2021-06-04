@@ -93,9 +93,6 @@ class DefaultController extends AbstractController
         //Experts meeting
         $expertsMeetings = $expertMeetingRepository->findLocalByLimits($allCompanies);
 
-        //Add expertMeeting of current user on the beginning of array
-        array_unshift($expertsMeetings, $expertMeeting);
-
         //Get expert meetings booked by current user
         $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
         $expertsMeetingsBookedByUser = [];

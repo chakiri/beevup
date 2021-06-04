@@ -29,9 +29,7 @@ class ExpertMeetingRepository extends ServiceEntityRepository
             ->leftJoin('e.user', 'u')
             ->leftJoin('u.company', 'c')
             ->andWhere('c.id in (:companies)')
-            ->andWhere('u.id != :userId')
             ->setParameter('companies', $allCompanies)
-            ->setParameter('userId', $this->security->getUser()->getId())
             ->orderBy('e.createdAt', 'DESC')
             ;
     }
@@ -41,6 +39,8 @@ class ExpertMeetingRepository extends ServiceEntityRepository
         $qb = $this->findLocalQueryBuilder($allCompanies);
 
         return $qb
+            ->andWhere('u.id != :userId')
+            ->setParameter('userId', $this->security->getUser()->getId())
             ->getQuery()
             ->getResult()
             ;
