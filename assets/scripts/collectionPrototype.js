@@ -24,7 +24,9 @@ $(document).ready(function() {
         //Add Datepicker to all new js-datepicker
         $('.js-datepicker').datepicker({
             locale : 'fr',
+            language : 'fr',
             format: 'dd/mm/yyyy',
+            startDate: '0d'
         });
     });
 
