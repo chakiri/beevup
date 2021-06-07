@@ -10,17 +10,25 @@
                 </thead>
                 <tbody>
                 {% for key, value in startTimes %}
-                    {% if key == date %}
-                        {% for keyTime, time in value %}
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input type="checkbox" id="{{ keyTime }}" name="{{ keyTime }}" class="form-check-input" value="1"/>
-                                        <label class="form-check-label" for="{{ keyTime }}">{{ time }}</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% if value is not empty %}
+                        {% if key == date %}
+                            {% for keyTime, time in value %}
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" id="{{ keyTime }}" name="{{ keyTime }}" class="form-check-input" value="1"/>
+                                            <label class="form-check-label" for="{{ keyTime }}">{{ time }}</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <p>Aucun créneau disponible</p>
+                            </td>
+                        </tr>
                     {% endif %}
                 {% endfor %}
                 </tbody>

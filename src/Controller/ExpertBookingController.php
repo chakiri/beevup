@@ -12,6 +12,7 @@ use App\Service\ExpertMeeting\HandleMeeting;
 use App\Service\ExpertMeeting\videoConference;
 use App\Service\Mail\Mailer;
 use App\Service\TimeSlot\HandleDatetime;
+use App\Service\TimeSlot\SlotInstantiator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,29 +29,11 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/{expertMeeting}/new", name="expert_booking_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ExpertMeeting $expertMeeting, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting): Response
+    public function new(Request $request, ExpertMeeting $expertMeeting, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting, SlotInstantiator $slotInstantiator): Response
     {
         $expertBooking = new ExpertBooking();
         $expertBooking->setExpertMeeting($expertMeeting);
 
-        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime, $mailer, $automaticMessage, $handleMeeting);
-    }
-
-    /**
-     * @Route("/{expertBooking}/edit", name="expert_booking_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, ExpertBooking $expertBooking, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting): Response
-    {
-        //Denied access
-        if($expertBooking->getUser() !== $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
-
-        $expertMeeting = $expertBooking->getExpertMeeting();
-
-        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime, $mailer, $automaticMessage, $handleMeeting);
-    }
-
-    private function form (Request $request, ExpertMeeting $expertMeeting, ExpertBooking $expertBooking, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting)
-    {
         $form = $this->createForm(ExpertBookingType::class, $expertBooking);
 
         $form->handleRequest($request);
@@ -84,6 +67,11 @@ class ExpertBookingController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
+        //Remove passed slots
+        foreach ($expertMeeting->getTimeSlots() as $timeSlot){
+            $slotInstantiator->clearPassedSlots($timeSlot);
+        }
+
         //Get array dates and array startTimes corresponding to dates
         $dates = $handleDatetime->getUniqueDates($expertMeeting->getTimeSlots());
         $startTimes = $handleDatetime->getTimesById($expertMeeting->getTimeSlots(), $dates, $expertBooking->getSlot());
@@ -97,6 +85,19 @@ class ExpertBookingController extends AbstractController
             'startTimes' => $startTimes
         ]);
     }
+
+    /**
+     * @Route("/{expertBooking}/edit", name="expert_booking_edit", methods={"GET","POST"})
+     */
+    /*public function edit(Request $request, ExpertBooking $expertBooking, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting): Response
+    {
+        //Denied access
+        if($expertBooking->getUser() !== $this->getUser()) return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+
+        $expertMeeting = $expertBooking->getExpertMeeting();
+
+        return $this->form($request, $expertMeeting, $expertBooking, $handleDatetime, $mailer, $automaticMessage, $handleMeeting);
+    }*/
 
     /**
      * @Route("/confirm/submit/{slot}", name="expert_booking_confirm_submit", options={"expose"=true})

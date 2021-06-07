@@ -67,4 +67,26 @@ class SlotInstantiator
         }
         $this->manager->flush();
     }
+
+    /**
+     * Function to clear passed slots
+     */
+    public function clearPassedSlots($timeSlot)
+    {
+        $slots = $this->slotRepository->findBy(['timeSlot' => $timeSlot]);
+        $now = new \Datetime();
+
+        foreach ($slots as $slot){
+            //Get complete datetime slot
+            $date = $slot->getTimeSlot()->getDate()->format('d-m-Y');
+            $time = $slot->getStartTime()->format('H:i');
+
+            //Instantiate object DateTime with slot date and time
+            $dateTimeSlot = new \DateTime($date . ' ' . $time);
+
+            if ($dateTimeSlot <= $now && $slot->getStatus() == false)
+                $this->manager->remove($slot);
+        }
+        $this->manager->flush();
+    }
 }
