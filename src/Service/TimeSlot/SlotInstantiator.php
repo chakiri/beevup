@@ -34,15 +34,19 @@ class SlotInstantiator
             $limit = $timeSlot->getEndTime()->sub(new \DateInterval('PT' . $totalDuration . 'M'));
 
             while ($time <= $limit) {
-                //Instantiate object
-                $slot = new Slot();
-                $slot
-                    ->setTimeSlot($timeSlot)
-                    ->setStatus(false)
-                    ->setStartTime($time);
+                //Check if slot exist
+                $sl = $this->slotRepository->findExistingSlot($timeSlot->getDate(), $time);
+                if (!$sl){
+                    //Instantiate object
+                    $slot = new Slot();
+                    $slot
+                        ->setTimeSlot($timeSlot)
+                        ->setStatus(false)
+                        ->setStartTime($time);
 
-                $this->manager->persist($slot);
-                $this->manager->flush();
+                    $this->manager->persist($slot);
+                    $this->manager->flush();
+                }
 
                 //Increase time by duration
                 $time = $timeSlot->getStartTime()->add(new \DateInterval('PT' . $totalDuration . 'M'));

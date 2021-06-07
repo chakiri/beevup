@@ -43,6 +43,24 @@ class HandleDatetime
             }
         }
 
+        $startsTimes = $this->startsTimeByDate($startsTimes);
+
+        return $this->startsTimeByDate($startsTimes);
+    }
+
+    private function startsTimeByDate ($startsTimes){
+        //Sort startsTimes by times ASC
+        foreach($startsTimes as $key => $startTime) {
+            usort($startsTimes[$key], [$this, 'cmp']);
+        }
         return $startsTimes;
+    }
+
+    /**
+     * Function to used in usort
+     */
+    private function cmp($a, $b)
+    {
+        return $a <=> $b;
     }
 }

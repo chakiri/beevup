@@ -19,32 +19,15 @@ class SlotRepository extends ServiceEntityRepository
         parent::__construct($registry, Slot::class);
     }
 
-    // /**
-    //  * @return Slot[] Returns an array of Slot objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findExistingSlot($date, $startTime)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Slot
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin('s.timeSlot', 'ts')
+            ->andWhere('ts.date = :date')
+            ->andWhere('s.startTime = :startTime')
+            ->setParameters(['date' => $date, 'startTime' => $startTime])
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
 }
