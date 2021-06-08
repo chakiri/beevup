@@ -19,6 +19,8 @@ class HandleDatetime
                 $dates [$timeSlot->getId()] = $timeSlot->getDate()->format('d/m/Y');
         }
 
+        usort($dates, [$this, 'cmp']);
+
         return $dates;
     }
 
@@ -30,12 +32,14 @@ class HandleDatetime
         $startsTimes = [];
         foreach($dates as $date){
             //Create array containing date key and value times
-            $startsTimes [$date] = [];
             foreach($timesSlot as $timeSlot){
                 if ($timeSlot->getDate()->format('d/m/Y') === $date){
                     foreach ($timeSlot->getSlots() as $slot){
                         //Display only available slots and in edition mode display also slot selected
                         if ($slot === $expertBookingSlot || $slot->getStatus() == false){
+                            if (!isset($startsTimes [$date])){
+                                $startsTimes [$date] = [];
+                            }
                             $startsTimes [$date][$slot->getId()] =  $slot->getStartTime()->format('H:i');
                         }
                     }
@@ -43,15 +47,17 @@ class HandleDatetime
             }
         }
 
-        $startsTimes = $this->startsTimeByDate($startsTimes);
-
         return $this->startsTimeByDate($startsTimes);
     }
 
-    private function startsTimeByDate ($startsTimes){
+    /**
+     * Function to sort times
+     */
+    private function startsTimeByDate ($startsTimes)
+    {
         //Sort startsTimes by times ASC
         foreach($startsTimes as $key => $startTime) {
-            usort($startsTimes[$key], [$this, 'cmp']);
+            uasort($startsTimes[$key], [$this, 'cmp']);
         }
         return $startsTimes;
     }

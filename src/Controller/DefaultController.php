@@ -25,6 +25,7 @@ use App\Repository\UserRepository;
 use App\Service\Communities;
 use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
+use App\Service\ExpertMeeting\GetExpertMeeting;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
 use App\Service\Mail\Mailer;
@@ -53,7 +54,7 @@ class DefaultController extends AbstractController
      * @Route("app/dashboard/{category}", name="dashboard_category")
      * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, ExpertMeetingRepository $expertMeetingRepository, ExpertBookingRepository $expertBookingRepository, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository, GetExpertMeeting $getExpertMeeting)
     {
         $store = $this->getUser()->getStore();
         if ($category)
@@ -87,27 +88,7 @@ class DefaultController extends AbstractController
         if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
             $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
 
-        //Find expert meeting proposed by current user
-        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
-
-        //Experts meeting
-        $expertsMeetings = $expertMeetingRepository->findLocalByLimits($allCompanies);
-
-        //Get expert meetings booked by current user
-        $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
-        $expertsMeetingsBookedByUser = [];
-        foreach($expertsBooking as $expertBooking){
-            $expertsMeetingsBookedByUser [] = $expertBooking->getExpertMeeting();
-        }
-
-        //Get experts booking waiting confirmation
-        $expertsBookingWaiting = $expertBookingRepository->findByStatus($expertMeeting, 'waiting');
-
         $options = [
-            'expertMeeting' => $expertMeeting,
-            'expertsMeetings' => $expertsMeetings,
-            'expertsMeetingsBookedByUser' => $expertsMeetingsBookedByUser,
-            'expertsBookingWaiting' => $expertsBookingWaiting,
             'posts' => $posts,
             'publicity' => $publicity,
             'lastSpecialOffer' => $lastSpecialOffer,
@@ -115,11 +96,13 @@ class DefaultController extends AbstractController
             'adminStore'=> $adminStore[0] ?? null,
             'beContactedList' => $beContactedList ?? null,
             'status' => $request->get('status') ?? null,
+            'category' => $category ? $category->getId() : null
         ];
 
-        $options['category'] = $category ? $category->getId() : null;
+        //Get list expert meetings
+        $optionsExpertsMeetings = $getExpertMeeting->list($allCompanies, 3);
 
-        return $this->render('dashboard/dashboardv1.html.twig', $options);
+        return $this->render('dashboard/dashboardv1.html.twig', array_merge($options, $optionsExpertsMeetings));
     }
 
     /**

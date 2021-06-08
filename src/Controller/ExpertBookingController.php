@@ -29,17 +29,22 @@ class ExpertBookingController extends AbstractController
     /**
      * @Route("/{expertMeeting}/new", name="expert_booking_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ExpertMeeting $expertMeeting, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting, SlotInstantiator $slotInstantiator): Response
+    public function new(Request $request, ExpertMeeting $expertMeeting, ExpertBookingRepository $expertBookingRepository, HandleDatetime $handleDatetime, Mailer $mailer, AutomaticMessage $automaticMessage, HandleMeeting $handleMeeting, SlotInstantiator $slotInstantiator): Response
     {
-        $expertBooking = new ExpertBooking();
-        $expertBooking->setExpertMeeting($expertMeeting);
+        //If Rebooking expertBooking already exist
+        $expertBooking = $expertBookingRepository->findOneBy(['user' => $this->getUser(), 'expertMeeting' => $expertMeeting, 'status' => 'canceled']);
+
+        if (!$expertBooking){
+            $expertBooking = new ExpertBooking();
+            $expertBooking->setExpertMeeting($expertMeeting);
+            $expertBooking->setUser($this->getUser());
+        }
 
         $form = $this->createForm(ExpertBookingType::class, $expertBooking);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $expertBooking->setUser($this->getUser());
             $expertBooking->setStatus('waiting');
 
             $slot = $expertBooking->getslot();
@@ -180,7 +185,12 @@ class ExpertBookingController extends AbstractController
     {
         $expertBooking->setStatus('canceled');
 
+        //Free slot
+        $slot = $expertBooking->getSlot();
+        $slot->setStatus(false);
+
         $manager->persist($expertBooking);
+        $manager->persist($slot);
         $manager->flush();
 
         //Send email to expert user

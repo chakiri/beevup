@@ -17,11 +17,13 @@
                             {% include 'search/boxes/badge-score.html.twig' with {'company': expertMeeting.user.company} %}
                         </div>
                     </div>
+
                     <div class="box-card-meta">
                         <h5><strong>{{ expertMeeting.user.profile.firstname|capitalize }} {{ expertMeeting.user.profile.lastname|capitalize }}</strong></h5>
                         <p class="grey mb-3"><span>{{ expertMeeting.user.company.name|capitalize }}</span></p>
                         <p class="expertise"><span>Expertise : {{ expertMeeting.expertise }}</span></p>
                     </div>
+
                     <div class="box-card-btn">
                         {% if expertMeeting in expertsMeetingsBookedByUser %}
                             <a type="button" href="#" class="btn small-btn white-bg link-disabled">RDV déjà reservé</a>

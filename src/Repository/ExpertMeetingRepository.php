@@ -34,24 +34,21 @@ class ExpertMeetingRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findLocal($allCompanies)
+    public function findLocal($allCompanies, $limit)
     {
         $qb = $this->findLocalQueryBuilder($allCompanies);
 
-        return $qb
-            ->andWhere('u.id != :userId')
-            ->setParameter('userId', $this->security->getUser()->getId())
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function findLocalByLimits($allCompanies)
-    {
-        $qb = $this->findLocalQueryBuilder($allCompanies);
+        //limit is only for dashboard list
+        if ($limit){
+            $qb->setMaxResults($limit);
+        }else{
+            $qb
+                ->andWhere('u.id != :userId')
+                ->setParameter('userId', $this->security->getUser()->getId())
+                ;
+        }
 
         return $qb
-            ->setMaxResults(3)
             ->getQuery()
             ->getResult()
             ;

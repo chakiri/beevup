@@ -32,8 +32,8 @@
                                 </div><!--user_profile end-->
                             </div><!--main-left-sidebar end-->
 
-                            {% if expertMeeting %}
-                                <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeeting.id}) }}" class="btn white-bg full-width mt-3">Paramétrer mon RDV</a>
+                            {% if expertMeetingCurrentUser %}
+                                <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeetingCurrentUser.id}) }}" class="btn white-bg full-width mt-3">Paramétrer mon RDV</a>
                             {% else %}
                                 <a type="button" href="{{ path('expert_meeting_new') }}" class="btn orange-bg full-width mt-3">Proposer un RDV</a>
                             {% endif %}

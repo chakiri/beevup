@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ExpertMeeting;
 use App\Form\ExpertMeetingType;
-use App\Repository\ExpertBookingRepository;
-use App\Repository\ExpertMeetingRepository;
+use App\Service\ExpertMeeting\GetExpertMeeting;
 use App\Service\GetCompanies;
 use App\Service\TimeSlot\SlotInstantiator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,31 +20,16 @@ class ExpertMeetingController extends AbstractController
     /**
      * @Route("/", name="expert_meeting_index", methods={"GET"})
      */
-    public function index(ExpertMeetingRepository $expertMeetingRepository, GetCompanies $getCompanies, ExpertBookingRepository $expertBookingRepository): Response
+    public function index(GetCompanies $getCompanies, GetExpertMeeting $getExpertMeeting): Response
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
-        //Find expert meeting proposed by current user
-        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
+        //Get list expert meetings
+        $options = $getExpertMeeting->list($allCompanies);
 
-        $expertsMeetings = $expertMeetingRepository->findLocal($allCompanies);
+        $options['profile'] = $this->getUser()->getProfile();
 
-        //Add expertMeeting of current user on the beginning of array
-        array_unshift($expertsMeetings, $expertMeeting);
-
-        //Get expert meetings booked by current user
-        $expertsBooking = $expertBookingRepository->findBy(['user' => $this->getUser()]);
-        $expertsMeetingsBookedByUser = [];
-        foreach($expertsBooking as $expertBooking){
-            $expertsMeetingsBookedByUser [] = $expertBooking->getExpertMeeting();
-        }
-
-        return $this->render('expert_meeting/index.html.twig', [
-            'expertsMeetings' => $expertsMeetings,
-            'expertMeeting' => $expertMeeting,
-            'profile' => $this->getUser()->getProfile(),
-            'expertsMeetingsBookedByUser' => $expertsMeetingsBookedByUser,
-        ]);
+        return $this->render('expert_meeting/index.html.twig', $options);
     }
 
     /**
