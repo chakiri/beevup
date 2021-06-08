@@ -42,7 +42,7 @@
                                                         {% endif %}
                                                     </div>
                                                 {% else %}
-                                                    <p><span class="text-muted">À l'adresse : </span>{{ expertBooking.expertMeeting.user.company.fullAddress }}</p>
+                                                    <p><span class="text-muted">À l'adresse : </span>{{ expertBooking.expertMeeting.address }}</p>
                                                 {% endif %}
                                                 <p class="my-3"><span class="text-muted">Attentes du professionnel : </span><strong>{{ expertBooking.description }}</strong></p>
                                                 <p><span class="text-muted">Nom et prénom : </span>{{ expertBooking.user.profile.lastname }} {{ expertBooking.user.profile.firstname }}</p>

@@ -49,7 +49,7 @@ class HandleMeeting
         return [
             'date' => $expertBooking->getSlot()->getTimeSlot()->getDate()->format('d/m/Y'),
             'time' => $expertBooking->getSlot()->getStartTime()->format('H:i'),
-            'way' => $expertBooking->getWay() === 'visio' ? 'En visio-conférence' : 'En entreprise',
+            'way' => $expertBooking->getWay() === 'visio' ? 'En visio-conférence' : 'A l\'adresse : ' .$expertBooking->getExpertMeeting()->getAddress(),
             'description' => $expertBooking->getDescription(),
             'name' => $expertBooking->getUser()->getProfile()->getFullName(),
             'company' => $expertBooking->getUser()->getCompany()->getName(),

@@ -5,6 +5,7 @@ namespace App\Service\TimeSlot;
 
 
 use App\Entity\Slot;
+use App\Repository\ExpertBookingRepository;
 use App\Repository\SlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,11 +13,13 @@ class SlotInstantiator
 {
     private EntityManagerInterface $manager;
     private SlotRepository $slotRepository;
+    private ExpertBookingRepository $expertBookingRepository;
 
-    public function __construct(EntityManagerInterface $manager, SlotRepository $slotRepository)
+    public function __construct(EntityManagerInterface $manager, SlotRepository $slotRepository, ExpertBookingRepository $expertBookingRepository)
     {
         $this->manager = $manager;
         $this->slotRepository = $slotRepository;
+        $this->expertBookingRepository = $expertBookingRepository;
     }
 
     /**
@@ -78,15 +81,28 @@ class SlotInstantiator
 
         foreach ($slots as $slot){
             //Get complete datetime slot
-            $date = $slot->getTimeSlot()->getDate()->format('d-m-Y');
-            $time = $slot->getStartTime()->format('H:i');
+            $dateTimeSlot = $this->getDateTimeOfSlot($slot);
 
-            //Instantiate object DateTime with slot date and time
-            $dateTimeSlot = new \DateTime($date . ' ' . $time);
+            //Get expertBookings with this slot
+            $expertBookings = $this->expertBookingRepository->findBy(['slot' => $slot]);
 
-            if ($dateTimeSlot <= $now && $slot->getStatus() == false)
+            if (empty($expertBookings) && $dateTimeSlot <= $now && $slot->getStatus() == false){
                 $this->manager->remove($slot);
+            }
         }
         $this->manager->flush();
+    }
+
+    /**
+     * Get complete datetime slot
+     */
+    public function getDateTimeOfSlot($slot): \DateTime
+    {
+        //Get complete datetime slot
+        $date = $slot->getTimeSlot()->getDate()->format('d-m-Y');
+        $time = $slot->getStartTime()->format('H:i');
+
+        //Instantiate object DateTime with slot date and time
+        return new \DateTime($date . ' ' . $time);
     }
 }

@@ -6,6 +6,13 @@ namespace App\Service\TimeSlot;
 
 class HandleDatetime
 {
+    private SlotInstantiator $slotInstantiator;
+
+    public function __construct(SlotInstantiator $slotInstantiator)
+    {
+        $this->slotInstantiator = $slotInstantiator;
+    }
+
     /**
      * Return unique date format in array
      * @param $timesSlot
@@ -30,13 +37,18 @@ class HandleDatetime
     public function getTimesById($timesSlot, $dates, $expertBookingSlot): array
     {
         $startsTimes = [];
+        $now = new \Datetime();
+
         foreach($dates as $date){
             //Create array containing date key and value times
             foreach($timesSlot as $timeSlot){
                 if ($timeSlot->getDate()->format('d/m/Y') === $date){
                     foreach ($timeSlot->getSlots() as $slot){
+                        //Get complete datetime slot
+                        $dateTimeSlot = $this->slotInstantiator->getDateTimeOfSlot($slot);
+
                         //Display only available slots and in edition mode display also slot selected
-                        if ($slot === $expertBookingSlot || $slot->getStatus() == false){
+                        if ($dateTimeSlot > $now && ($slot === $expertBookingSlot || $slot->getStatus() == false)){
                             if (!isset($startsTimes [$date])){
                                 $startsTimes [$date] = [];
                             }
