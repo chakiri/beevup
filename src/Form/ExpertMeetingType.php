@@ -37,6 +37,7 @@ class ExpertMeetingType extends AbstractType
             ->add('timeSlots', CollectionType::class, [
                 'entry_type' => TimeSlotType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
                 'label' => false,
                 'delete_empty' => false
