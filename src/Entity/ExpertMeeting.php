@@ -105,7 +105,7 @@ class ExpertMeeting
     /**
      * @return Collection|TimeSlot[]
      */
-    public function getTimeSlots(): Collection
+    public function getAllTimeSlots(): Collection
     {
         return $this->timeSlots;
     }
@@ -113,15 +113,15 @@ class ExpertMeeting
     /**
      * @return array
      */
-    /*public function getAvailableTimeSlots(): array
+    public function getTimeSlots(): array
     {
         $timeSlots = [];
         foreach ($this->timeSlots as $timeSlot){
-            if ($timeSlot->getStatus() == false)
+            if ($timeSlot->getIsDeleted() == false)
                 $timeSlots[] = $timeSlot;
         }
         return $timeSlots;
-    }*/
+    }
 
     public function addTimeSlot(TimeSlot $timeSlot): self
     {
@@ -135,12 +135,13 @@ class ExpertMeeting
 
     public function removeTimeSlot(TimeSlot $timeSlot): self
     {
-        if ($this->timeSlots->removeElement($timeSlot)) {
+        $timeSlot->setIsDeleted(true);
+        /*if ($this->timeSlots->removeElement($timeSlot)) {
             // set the owning side to null (unless already changed)
             if ($timeSlot->getExpertMeeting() === $this) {
                 $timeSlot->setExpertMeeting(null);
             }
-        }
+        }*/
 
         return $this;
     }

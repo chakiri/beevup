@@ -45,9 +45,15 @@ class TimeSlot
      */
     private $slots;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
+
     public function __construct()
     {
         $this->status = false;
+        $this->isDeleted = false;
         $this->slots = new ArrayCollection();
     }
 
@@ -130,6 +136,18 @@ class TimeSlot
                 $slot->setTimeSlot(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

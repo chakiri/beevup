@@ -31,6 +31,16 @@ $(document).ready(function() {
     });
 
     /**
+     * Disable validation form if timeSlots empty
+     */
+    $('form[name="expert_meeting"]').find(':submit').click(function (e) {
+        if ($(".js-time-slot-item").length === 0){
+            e.preventDefault();
+            alert('Vous devez choisir une date');
+        }
+    });
+
+    /**
      * Display company address if company selected
      */
     $('#expert_meeting_way_1').click(function () {
@@ -101,7 +111,6 @@ $(document).ready(function() {
     /**
      * Display confirmation modal for booking form
      */
-    //$('form[name="expert_booking"]').submit(function (e){
     $('form[name="expert_booking"]').find(':submit').click(function (e){
         e.preventDefault();
         if (!$('#expert_booking_slot').val()){

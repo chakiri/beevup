@@ -49,7 +49,7 @@ class ExpertMeetingController extends AbstractController
             $expertMeeting->setUser($this->getUser());
 
             //Instantiate slots
-            $slotInstantiator->instantiate($expertMeeting->getBreakTime(), $expertMeeting->getTimeSlots());
+            $slotInstantiator->instantiate($expertMeeting->getBreakTime(), $expertMeeting->getAllTimeSlots());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expertMeeting);

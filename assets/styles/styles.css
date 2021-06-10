@@ -4437,7 +4437,7 @@ form[name="expert_meeting"] li{
     max-height: 500px;
 }
 
-.js-time-slots-wrapper .js-datepicker{
+.js-time-slots-wrapper .datepicker{
     width: 30%;
     margin-top: 6px;
 }

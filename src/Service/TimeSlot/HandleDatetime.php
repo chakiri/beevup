@@ -22,7 +22,7 @@ class HandleDatetime
     {
         $dates = [];
         foreach($timesSlot as $timeSlot){
-            if (!in_array($timeSlot->getDate()->format('d/m/Y'), $dates))
+            if ($timeSlot->getIsDeleted() == false && !in_array($timeSlot->getDate()->format('d/m/Y'), $dates))
                 $dates [$timeSlot->getId()] = $timeSlot->getDate()->format('d/m/Y');
         }
 
@@ -42,7 +42,7 @@ class HandleDatetime
         foreach($dates as $date){
             //Create array containing date key and value times
             foreach($timesSlot as $timeSlot){
-                if ($timeSlot->getDate()->format('d/m/Y') === $date){
+                if ($timeSlot->getIsDeleted() == false && $timeSlot->getDate()->format('d/m/Y') === $date){
                     foreach ($timeSlot->getSlots() as $slot){
                         //Get complete datetime slot
                         $dateTimeSlot = $this->slotInstantiator->getDateTimeOfSlot($slot);

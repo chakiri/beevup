@@ -33,26 +33,29 @@ class SlotInstantiator
             //Clear slots attached to timeSlot
             $this->clearSlots($timeSlot);
 
-            $time = $timeSlot->getStartTime();
-            $limit = $timeSlot->getEndTime()->sub(new \DateInterval('PT' . $totalDuration . 'M'));
+            //Instantiate slots only for timeSlots deleted false
+            if ($timeSlot->getIsDeleted() == false){
+                $time = $timeSlot->getStartTime();
+                $limit = $timeSlot->getEndTime()->sub(new \DateInterval('PT' . $totalDuration . 'M'));
 
-            while ($time <= $limit) {
-                //Check if slot exist
-                $sl = $this->slotRepository->findExistingSlot($timeSlot->getDate(), $time);
-                if (!$sl){
-                    //Instantiate object
-                    $slot = new Slot();
-                    $slot
-                        ->setTimeSlot($timeSlot)
-                        ->setStatus(false)
-                        ->setStartTime($time);
+                while ($time <= $limit) {
+                    //Check if slot exist
+                    $sl = $this->slotRepository->findExistingSlot($timeSlot->getDate(), $time);
+                    if (!$sl){
+                        //Instantiate object
+                        $slot = new Slot();
+                        $slot
+                            ->setTimeSlot($timeSlot)
+                            ->setStatus(false)
+                            ->setStartTime($time);
 
-                    $this->manager->persist($slot);
-                    $this->manager->flush();
+                        $this->manager->persist($slot);
+                        $this->manager->flush();
+                    }
+
+                    //Increase time by duration
+                    $time = $timeSlot->getStartTime()->add(new \DateInterval('PT' . $totalDuration . 'M'));
                 }
-
-                //Increase time by duration
-                $time = $timeSlot->getStartTime()->add(new \DateInterval('PT' . $totalDuration . 'M'));
             }
         }
     }

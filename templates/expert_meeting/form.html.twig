@@ -4,9 +4,9 @@
 
 {% block title %}Rendez-vous expert{% endblock %}
 
-{% macro fieldsPrototype(timeSlot) %}
+{% macro fieldsPrototype(timeSlot, editMode = false) %}
     <div class="d-flex js-time-slot-item mb-3">
-        {{ form_widget(timeSlot.date) }}
+        {{ form_widget(timeSlot.date, {'attr': {'readonly': editMode}}) }}
         <span class="p-3">de</span>
         {{ form_widget(timeSlot.startTime) }}
         <span class="p-3">à</span>
@@ -53,7 +53,11 @@
                                         </div>
                                         <div class="col-8 form-group">
                                             <div class="row-address-meeting d-none">
-                                                {{ form_row(form.address, {'value' : app.user.company.fullAddress, 'label': 'Adresse :'}) }}
+                                                {% if edit == true %}
+                                                    {{ form_row(form.address, {'label': 'Adresse :'}) }}
+                                                {% else %}
+                                                    {{ form_row(form.address, {'value' : app.user.company.fullAddress, 'label': 'Adresse :'}) }}
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
@@ -69,7 +73,7 @@
                                     {# store the prototype on the data-prototype attribute #}
                                     <div class="js-time-slots-wrapper" data-prototype="{{ _self.fieldsPrototype(form.timeSlots.vars.prototype)|e }}" data-index="{{ form.timeSlots|length }}" required>
                                         {% for timeSlot in form.timeSlots %}
-                                            {{ _self.fieldsPrototype(timeSlot) }}
+                                            {{ _self.fieldsPrototype(timeSlot, edit) }}
                                         {% endfor %}
                                         <a type="button" class="js-time-slot-add"> <span class="fa fa-plus-circle"></span> Ajouter une nouvelle date</a>
                                     </div>
