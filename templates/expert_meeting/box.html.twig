@@ -30,6 +30,7 @@
                         {% else %}
                             <a type="button" href="{{ path('expert_booking_new', {'expertMeeting': expertMeeting.id}) }}" class="btn small-btn white-bg {% if expertMeeting.user == app.user %}link-disabled{% endif %}">Prendre un RDV</a>
                         {% endif %}
+                        <a type="button" href="{{ path('company_show', {'slug': expertMeeting.user.company.slug, 'id': expertMeeting.user.company.id}) }}" class="btn small-btn white-bg company-show mt-1">Voir l'entreprise</a>
                     </div>
                 </div>
             </div>

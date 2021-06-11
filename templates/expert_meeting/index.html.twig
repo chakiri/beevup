@@ -38,12 +38,19 @@
                                 <a type="button" href="{{ path('expert_meeting_new') }}" class="btn orange-bg full-width mt-3">Proposer un RDV</a>
                             {% endif %}
                             <a type="button" href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" class="btn white-bg full-width mt-3">Gérer mes RDV</a>
-
                         </div>
+
+                        {% set contentBtn = "Les RDV Experts permettent de proposer votre expertise à toute la communauté Beev'Up, sur un créneau de 30 minutes, gratuitement. Vous pouvez également vous-même prendre un RDV Experts avec une expertise qui vous intéresse. À vous de jouer !" %}
+
                         <div class="col-lg-9">
                             <div class="box">
                                 <div class="main-ws-sec box-expert-meeting">
-                                    <h3 class="my-3">Les rendez-vous experts de votre communauté</h3>
+                                    <div class="d-flex">
+                                        <h3 class="my-3">Les rendez-vous experts de votre communauté</h3>
+                                        <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ contentBtn }}">
+                                            <i class="fas fa-question-circle"></i>
+                                        </button>
+                                    </div>
 
                                     {% include 'expert_meeting/box.html.twig' %}
 

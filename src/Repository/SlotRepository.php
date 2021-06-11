@@ -30,4 +30,17 @@ class SlotRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    public function findAvailableSlots($expertMeetingId)
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.timeSlot', 'ts')
+            ->leftJoin('ts.expertMeeting', 'e')
+            ->andWhere('e.id = :expertMeetingId')
+            ->andWhere('s.status = 0')
+            ->setParameters(['expertMeetingId' => $$expertMeetingId])
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

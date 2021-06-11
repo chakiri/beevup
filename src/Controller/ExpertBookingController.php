@@ -69,6 +69,8 @@ class ExpertBookingController extends AbstractController
             //Send message to user
             $automaticMessage->fromAdvisorToUser($expertBooking->getExpertMeeting()->getUser(), 'Bonne nouvelle !<br> Une demande de RDV expert est en attente de confirmation. <a href="' . $this->generateUrl('expert_booking_list', ['status' => 'toConfirm']) . '">Cliquez ici</a>');
 
+            $this->addFlash('success', 'Votre demande de RDV Experts a bien été envoyée.');
+
             return $this->redirectToRoute('dashboard');
         }
 

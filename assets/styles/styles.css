@@ -2994,7 +2994,7 @@ padding: 2px;
 }
 /*******form errors******/
 .form-error{
-    color:red;
+    color:var(--orange-color);
 }
 
 .custom-file-label::after {
@@ -4391,6 +4391,7 @@ form[name="expert_meeting"] li{
      position: absolute;
      left: 190px;
      transition: .2s ease-out;
+     top: 38%;
 }
 .box-expert-meeting .box-card-left{
     background: linear-gradient(#ffcc5b, #ff7f50);
@@ -4431,6 +4432,14 @@ form[name="expert_meeting"] li{
 }
 .box-expert-meeting .badge-label-search{
     width: 133px;
+}
+
+.box-expert-meeting .box-card-btn .company-show{
+    width: 137px;
+}
+.box-expert-meeting .btn-info-label{
+    padding: 0px 10px;
+    margin: 0;
 }
 
 .calendar{

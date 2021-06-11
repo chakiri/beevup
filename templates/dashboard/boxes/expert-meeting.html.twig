@@ -1,21 +1,27 @@
 {% if is_granted('ROLE_ADMIN_COMPANY') %}
-<div id="expertMeetingBox" class="box-expert-meeting">
-    <div class="box">
-        <div class="d-flex justify-content-between">
-            <h5>Rendez-vous Experts Beev'Up</h5>
-            <div class="d-flex">
-                {% if expertMeetingCurrentUser %}
-                    <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeetingCurrentUser.id}) }}" class="btn small-btn orange-bg mr-2">Paramétrer mon RDV</a>
-                {% else %}
-                    <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn orange-bg mr-2">Proposer un RDV</a>
-                {% endif %}
-                <a type="button" href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" class="btn small-btn white-bg">Gérer mes RDV</a>
+    {% set contentBtn = "Les RDV Experts permettent de proposer votre expertise à toute la communauté Beev'Up, sur un créneau de 30 minutes, gratuitement. Vous pouvez également vous-même prendre un RDV Experts avec une expertise qui vous intéresse. À vous de jouer !" %}
+    <div id="expertMeetingBox" class="box-expert-meeting">
+        <div class="box">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex greyed">
+                    <h5>Rendez-vous Experts Beev'Up</h5>
+                    <button type="button" class="btn btn-info-label" data-container="body" data-toggle="popover" data-placement="top" data-content="{{ contentBtn }}">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+                <div class="d-flex">
+                    {% if expertMeetingCurrentUser %}
+                        <a type="button" href="{{ path('expert_meeting_edit', {'id': expertMeetingCurrentUser.id}) }}" class="btn small-btn orange-bg mr-2">Paramétrer mon RDV</a>
+                    {% else %}
+                        <a type="button" href="{{ path('expert_meeting_new') }}" class="btn small-btn orange-bg mr-2">Proposer un RDV</a>
+                    {% endif %}
+                    <a type="button" href="{{ path('expert_booking_list', {'status': 'toConfirm'}) }}" class="btn small-btn white-bg">Gérer mes RDV</a>
+                </div>
             </div>
+
+            {% include 'expert_meeting/box.html.twig' %}
+
+            <div class="text-right pt-3"><a href="{{ path('expert_meeting_index') }}">Voir tous les RDV</a></div>
         </div>
-
-        {% include 'expert_meeting/box.html.twig' %}
-
-        <div class="text-right pt-3"><a href="{{ path('expert_meeting_index') }}">Voir tous les RDV</a></div>
     </div>
-</div>
 {% endif %}
