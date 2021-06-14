@@ -38,7 +38,7 @@ class SlotRepository extends ServiceEntityRepository
             ->leftJoin('ts.expertMeeting', 'e')
             ->andWhere('e.id = :expertMeetingId')
             ->andWhere('s.status = 0')
-            ->setParameters(['expertMeetingId' => $$expertMeetingId])
+            ->setParameter('expertMeetingId', $expertMeetingId)
             ->getQuery()
             ->getResult()
             ;

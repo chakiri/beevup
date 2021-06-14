@@ -108,4 +108,15 @@ class SlotInstantiator
         //Instantiate object DateTime with slot date and time
         return new \DateTime($date . ' ' . $time);
     }
+
+    /**
+     * Return if slot is always available
+     */
+    public function availableSlot(Slot $slot): bool
+    {
+        $dateSlot = $this->getDateTimeOfSlot($slot);
+        $dateNow = new \DateTime();
+
+        return $dateSlot > $dateNow;
+    }
 }

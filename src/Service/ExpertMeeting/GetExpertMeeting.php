@@ -5,9 +5,11 @@ namespace App\Service\ExpertMeeting;
 
 
 use App\Entity\ExpertMeeting;
+use App\Entity\Slot;
 use App\Repository\ExpertBookingRepository;
 use App\Repository\ExpertMeetingRepository;
 use App\Repository\SlotRepository;
+use App\Service\TimeSlot\SlotInstantiator;
 use Symfony\Component\Security\Core\Security;
 
 class GetExpertMeeting
@@ -16,14 +18,16 @@ class GetExpertMeeting
     private ExpertBookingRepository $expertBookingRepository;
     private Security $security;
     private SlotRepository $slotRepository;
+    private SlotInstantiator $slotInstantiator;
 
-    public function __construct(ExpertMeetingRepository $expertMeetingRepository, ExpertBookingRepository $expertBookingRepository, SlotRepository $slotRepository, Security $security)
+    public function __construct(ExpertMeetingRepository $expertMeetingRepository, ExpertBookingRepository $expertBookingRepository, SlotRepository $slotRepository, Security $security, SlotInstantiator $slotInstantiator)
     {
 
         $this->expertMeetingRepository = $expertMeetingRepository;
         $this->expertBookingRepository = $expertBookingRepository;
         $this->security = $security;
         $this->slotRepository = $slotRepository;
+        $this->slotInstantiator = $slotInstantiator;
     }
 
     /**
@@ -42,14 +46,18 @@ class GetExpertMeeting
         //Experts meetings
         $expertsMeetings = $this->expertMeetingRepository->findLocal($allCompanies, $limit);
 
-        /*//Unset experts meetings witch not containing slots
-        foreach ($expertsMeetings as $expertMeeting){
-            if
-        }*/
+        //Unset experts meetings witch not containing slots
+        foreach ($expertsMeetings as $key => $expertMeeting){
+            if (!$this->hasAvailableSlots($expertMeeting)){
+                unset($expertsMeetings[$key]);
+            }
+        }
 
         if (!$limit && $expertMeeting){
-            //Add expertMeeting of current user on the beginning of array
-            array_unshift($expertsMeetings, $expertMeeting);
+            if ($this->hasAvailableSlots($expertMeeting)) {
+                //Add expertMeeting of current user on the beginning of array
+                array_unshift($expertsMeetings, $expertMeeting);
+            }
         }
 
         //Get expert meetings booked by current user
@@ -72,17 +80,22 @@ class GetExpertMeeting
         ];
     }
 
-    /*public function hasAvailableSlots(ExpertMeeting $expertMeeting)
+    /**
+     * Function return if expert meeting has available slots
+     */
+    public function hasAvailableSlots(ExpertMeeting $expertMeeting)
     {
         $slots = $this->slotRepository->findAvailableSlots($expertMeeting->getId());
 
-        foreach ($slots as $slot){
-
+        foreach ($slots as $key => $slot){
+            //If slot passed unset it from array
+            if ($this->slotInstantiator->availableSlot($slot) == false){
+                unset($slots[$key]);
+            }
         }
+
+        return !empty($slots);
     }
 
-    public function availableSlot()
-    {
 
-    }*/
 }
