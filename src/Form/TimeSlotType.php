@@ -23,11 +23,11 @@ class TimeSlotType extends AbstractType
             )
             ->add('startTime', TimeType::class, [
                 'minutes' => [0, 15, 30, 45],
-                'hours' => [8, 9, 10, 11, 12, 12, 14, 15, 16, 17, 18]
+                'hours' => [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
             ])
             ->add('endTime', TimeType::class, [
                 'minutes' => [0, 15, 30, 45],
-                'hours' => [9, 10, 11, 12, 12, 14, 15, 16, 17, 18, 19]
+                'hours' => [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
             ])
         ;
     }

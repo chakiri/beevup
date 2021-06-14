@@ -47,8 +47,8 @@ class GetExpertMeeting
         $expertsMeetings = $this->expertMeetingRepository->findLocal($allCompanies, $limit);
 
         //Unset experts meetings witch not containing slots
-        foreach ($expertsMeetings as $key => $expertMeeting){
-            if (!$this->hasAvailableSlots($expertMeeting)){
+        foreach ($expertsMeetings as $key => $meeting){
+            if (!$this->hasAvailableSlots($meeting)){
                 unset($expertsMeetings[$key]);
             }
         }
