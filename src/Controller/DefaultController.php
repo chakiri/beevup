@@ -54,7 +54,7 @@ class DefaultController extends AbstractController
      * @Route("app/dashboard/{category}", name="dashboard_category")
      * @Route("/app/dashboard/{post}/post", name="dashboard_post")
     */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository, GetExpertMeeting $getExpertMeeting)
+    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository, GetExpertMeeting $getExpertMeeting, ExpertMeetingRepository $expertMeetingRepository)
     {
         $store = $this->getUser()->getStore();
         if ($category)
@@ -100,7 +100,15 @@ class DefaultController extends AbstractController
         ];
 
         //Get list expert meetings
-        $optionsExpertsMeetings = $getExpertMeeting->list($allCompanies, 3);
+        $optionsExpertsMeetings = $getExpertMeeting->list($allCompanies);
+        //Remove expert meeting of current user
+        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
+        //If expertMeeting exist in array delete it
+        if (($key = array_search($expertMeeting, $optionsExpertsMeetings['expertsMeetings'])) !== false) {
+            unset($optionsExpertsMeetings['expertsMeetings'][$key]);
+        }
+        //Get only 3 elements of array
+        $optionsExpertsMeetings['expertsMeetings'] = array_slice($optionsExpertsMeetings['expertsMeetings'], 0, 3);
 
         return $this->render('dashboard/dashboardv1.html.twig', array_merge($options, $optionsExpertsMeetings));
     }

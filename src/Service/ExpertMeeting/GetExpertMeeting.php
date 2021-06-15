@@ -35,7 +35,7 @@ class GetExpertMeeting
      * @param $allCompanies
      * @return array
      */
-    public function list($allCompanies, $limit = null): array
+    public function list($allCompanies): array
     {
         //Current User
         $user = $this->security->getUser();
@@ -44,7 +44,7 @@ class GetExpertMeeting
         $expertMeeting = $this->expertMeetingRepository->findOneBy(['user' => $user]);
 
         //Experts meetings
-        $expertsMeetings = $this->expertMeetingRepository->findLocal($allCompanies, $limit);
+        $expertsMeetings = $this->expertMeetingRepository->findLocal($allCompanies);
 
         //Unset experts meetings witch not containing slots
         foreach ($expertsMeetings as $key => $meeting){
@@ -53,11 +53,9 @@ class GetExpertMeeting
             }
         }
 
-        if (!$limit && $expertMeeting){
-            if ($this->hasAvailableSlots($expertMeeting)) {
-                //Add expertMeeting of current user on the beginning of array
-                array_unshift($expertsMeetings, $expertMeeting);
-            }
+        //Add expertMeeting of current user on the beginning of array
+        if ($expertMeeting){
+            array_unshift($expertsMeetings, $expertMeeting);
         }
 
         //Get expert meetings booked by current user
