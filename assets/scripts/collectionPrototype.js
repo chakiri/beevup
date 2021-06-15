@@ -38,6 +38,12 @@ $(document).ready(function() {
             e.preventDefault();
             alert('Vous devez choisir une date');
         }
+        //Disable submit form if error in times
+        let error = verifTime();
+        if (error != ''){
+            e.preventDefault();
+            alert(error);
+        }
     });
 
     /**
@@ -113,9 +119,9 @@ $(document).ready(function() {
      */
     $('form[name="expert_booking"]').find(':submit').click(function (e){
         e.preventDefault();
-        if (!$('#expert_booking_slot').val()){
+        if (!$('#expert_booking_slot').val()) {
             alert('Vous devez choisir un créneau');
-        }else{
+        }else {
             $('#confirmExpertBooking').modal();
 
             //Get value fields form
@@ -214,3 +220,40 @@ $(document).ready(function() {
         });
     });
 });
+
+//Verification times timeSlot
+function verifTime(){
+    let message = '';
+
+    $('.js-time-slot-item').each(function(){
+        let date = $(this).find('.datepicker').val();
+        let startTimeHour = $(this).find('.js-startTime').find(':selected').text();
+        let endTimeHour = $(this).find('.js-endTime').find(':selected').text();
+
+        if (startTimeHour > endTimeHour){
+            message =  'Ces créneaux ne sont pas valides';
+        }
+
+        //Get date with en format
+        let arrayExplodedDate = date.split('/');
+        let dateFormat = arrayExplodedDate[2] + '-' + arrayExplodedDate[1] + '-' + arrayExplodedDate[0];
+
+        //Initiate dateTime
+        let dateTime = new Date(dateFormat);
+        let currentDate = new Date();
+        let currentTime = currentDate.getHours() + '' + currentDate.getMinutes();
+
+        //Get only date without time
+        dateTime.setHours(0,0,0,0);
+        currentDate.setHours(0,0,0,0);
+
+        //compare endTime with actual time
+        if (dateTime.valueOf() == currentDate.valueOf()){
+            if (endTimeHour < currentTime){
+                message = 'Ces créneaux sont impossibles à programmer car ils sont antérieurs à la date du jour';
+            }
+        }
+    });
+
+    return message;
+}
