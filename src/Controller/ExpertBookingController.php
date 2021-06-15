@@ -83,6 +83,13 @@ class ExpertBookingController extends AbstractController
         $dates = $handleDatetime->getUniqueDates($expertMeeting->getTimeSlots());
         $startTimes = $handleDatetime->getTimesById($expertMeeting->getTimeSlots(), $dates, $expertBooking->getSlot());
 
+        //Remove dates if not slots
+        foreach ($dates as $key => $date){
+            if (!array_key_exists($date, $startTimes)){
+                unset($dates[$key]);
+            }
+        }
+
         return $this->render('expert_booking/form.html.twig', [
             'expertBooking' => $expertBooking,
             'expertMeeting' => $expertMeeting,

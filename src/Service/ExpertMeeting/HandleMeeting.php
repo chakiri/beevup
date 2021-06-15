@@ -30,6 +30,9 @@ class HandleMeeting
 
             $now = new \DateTime();
 
+            //Add 40 minutes to now
+            $now->add(new \DateInterval('PT' . 40 . 'M'));
+
             if ($now > $dateTime){
                 $expertBooking->setStatus('archived');
 

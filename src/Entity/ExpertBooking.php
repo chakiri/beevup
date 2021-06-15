@@ -44,6 +44,7 @@ class ExpertBooking
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire")
      */
     private $description;
 
