@@ -68,6 +68,8 @@ class ExpertMeetingController extends AbstractController
             $entityManager->persist($expertMeeting);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Vos créneaux de RDV Expert ont bien été créés.');
+
             return $this->redirectToRoute('dashboard');
         }
 

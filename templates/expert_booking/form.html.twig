@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Edit ExpertMeeting{% endblock %}
+{% block title %}RDV Experts{% endblock %}
 
 {% block body %}
 <div class="main-section">
@@ -18,6 +18,8 @@
                                 {% else %}
                                     <h3>Réserver mon rendez-vous</h3>
                                 {% endif %}
+
+                                {{ form_errors(form.description) }}
 
                                 <div class="expertUserId py-3">
                                     <p>Vous souhaitez bénéficier des conseils de
@@ -49,7 +51,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 form-group">
+                                        <div class="col-12 form-group required">
                                             {{ form_row(form.description, {'label': 'Quelles sont vos attentes ?', 'attr': {'placeholder': 'J\'ai besoin de conseils pour la gestion d\'entreprise'}}) }}
                                         </div>
                                     </div>

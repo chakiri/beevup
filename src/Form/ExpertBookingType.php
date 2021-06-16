@@ -34,7 +34,7 @@ class ExpertBookingType extends AbstractType
                 'required' => false
             ])
             ->add('description', TextareaType::class, [
-                'required' => true
+                'required' => true,
             ])
         ;
     }
