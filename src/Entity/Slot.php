@@ -33,6 +33,11 @@ class Slot
      */
     private $status;
 
+    public function __construct()
+    {
+        $this->status = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

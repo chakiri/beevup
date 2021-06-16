@@ -46,7 +46,6 @@ class SlotInstantiator
                         $slot = new Slot();
                         $slot
                             ->setTimeSlot($timeSlot)
-                            ->setStatus(false)
                             ->setStartTime($time);
 
                         $this->manager->persist($slot);

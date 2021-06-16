@@ -196,10 +196,20 @@ class ExpertBookingController extends AbstractController
 
         //Free slot
         $slot = $expertBooking->getSlot();
-        $slot->setStatus(false);
+        //$slot->setStatus(false);
+
+        //Create new slot instead of change status
+        if ($slot){
+            $newSlot = new Slot();
+            $newSlot
+                ->setStartTime($slot->getStartTime())
+                ->setTimeSlot($slot->getTimeSlot())
+            ;
+
+            $manager->persist($newSlot);
+        }
 
         $manager->persist($expertBooking);
-        $manager->persist($slot);
         $manager->flush();
 
         //Send email to expert user
