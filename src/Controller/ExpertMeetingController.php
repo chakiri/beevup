@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ExpertMeeting;
 use App\Form\ExpertMeetingType;
+use App\Repository\ExpertMeetingRepository;
 use App\Service\ExpertMeeting\GetExpertMeeting;
 use App\Service\GetCompanies;
 use App\Service\TimeSlot\SlotInstantiator;
@@ -20,12 +21,24 @@ class ExpertMeetingController extends AbstractController
     /**
      * @Route("/", name="expert_meeting_index", methods={"GET"})
      */
-    public function index(GetCompanies $getCompanies, GetExpertMeeting $getExpertMeeting): Response
+    public function index(GetCompanies $getCompanies, GetExpertMeeting $getExpertMeeting, ExpertMeetingRepository $expertMeetingRepository): Response
     {
         $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
 
         //Get list expert meetings
         $options = $getExpertMeeting->list($allCompanies);
+
+        //Find expert meeting proposed by current user
+        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
+
+        //Remove expert meeting of current user
+        if (($key = array_search($expertMeeting, $options['expertsMeetings'])) !== false) {
+            unset($options['expertsMeetings'][$key]);
+        }
+        //Add expertMeeting of current user on the beginning of array
+        if ($expertMeeting){
+            array_unshift($options['expertsMeetings'], $expertMeeting);
+        }
 
         $options['profile'] = $this->getUser()->getProfile();
 
