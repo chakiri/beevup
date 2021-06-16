@@ -1,200 +1,202 @@
-{% if  app.request.attributes.get('_route') != 'external_company_slider' %}
+{% if  maintenance is not defined or maintenance == false %}
+    {% if  app.request.attributes.get('_route') != 'external_company_slider' %}
 
-{# Hedaer authentication #}
-{% if app.user %}
-<header id="header" class="fixed-top d-flex justify-content-between">
+    {# Hedaer authentication #}
+    {% if app.user %}
+    <header id="header" class="fixed-top d-flex justify-content-between">
 
-<div class="logo float-left">
-    <!-- Uncomment below if you prefer to use an image logo -->
-    {#<a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>#}
-    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
-        <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
-    </a>
-</div>
+    <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        {#<a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>#}
+        <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
+            <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+        </a>
+    </div>
 
-<nav class="main-nav d-none d-lg-block">
-    <ul class="d-lg-flex justify-content-between">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div class="header-search">
-                <form action="{{ path('search') }}" method="GET">
-                    <input type="text" id="query" name="query" placeholder="Ex: Photographe">
-                    <i class="fa fa-search"></i>
-                </form>
-            </div>
+    <nav class="main-nav d-none d-lg-block">
+        <ul class="d-lg-flex justify-content-between">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="header-search">
+                    <form action="{{ path('search') }}" method="GET">
+                        <input type="text" id="query" name="query" placeholder="Ex: Photographe">
+                        <i class="fa fa-search"></i>
+                    </form>
+                </div>
 
-            <div class="d-lg-flex">
-                {% set route =  app.request.get('_route') %}
-                <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
-                <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Annuaire</a></li>
-                {#<li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>#}
-                <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general-'~ app.user.store.slug}) }}" >Messagerie</a></li>
-            </div>
+                <div class="d-lg-flex">
+                    {% set route =  app.request.get('_route') %}
+                    <li id="homebox" class="{{ route == 'dashboard' ? 'active':'deactivate-link' }}"><a href="{{ path('dashboard') }}">Accueil</a></li>
+                    <li id="communitybox" class="{{ route == 'search' ? 'active':'deactivate-link' }}" ><a href="{{ path('search') }}">Annuaire</a></li>
+                    {#<li id="servicesbox" class="{{ route == 'service' ? 'active' :'deactivate-link'}}"><a href="{{ path('service') }}">Services</a></li>#}
+                    <li id="chatbox" class="{{ route == 'chat_topic' ? 'active' :'deactivate-link'}}"><a href="{{ path('chat_topic', {'name': 'general-'~ app.user.store.slug}) }}" >Messagerie</a></li>
+                </div>
 
-            <div class="d-lg-flex">
-                <li>
-                    <ul class="notifications d-flex">
-                        <li id="postsNotifications" class="box-notification nav-item dropdown"
-                            data-toggle="tooltip" data-placement="left" title="Vos notifications de posts">
-                            <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell p-2"></i>
-                                {% if postsNotifications|length > 0 %}
-                                    <span class="badge bell-badge">{{ postsNotifications|length }}</span>
-                                {% endif %}
-                            </a>
-                            <div class="dropdown-menu">
-                                {% if postsNotifications|length > 0 %}
-                                    {% for notification in postsNotifications %}
-                                        <a class="dropdown-item d-flex" href="{{ path('dashboard_post', {'post': notification.post.id}) }}">
-                                            {% if notification.user.profile.filename %}
-                                                <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                            {% else %}
-                                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                            {% endif %}
-                                            <small class="pt-2">
-                                                {% if notification.type == 'like' %}
-                                                    {{ notification.user.profile.firstname }} a liké votre post
-                                                {% elseif notification.type == 'comment' %}
-                                                    {{ notification.user.profile.firstname }} a commenté votre post
+                <div class="d-lg-flex">
+                    <li>
+                        <ul class="notifications d-flex">
+                            <li id="postsNotifications" class="box-notification nav-item dropdown"
+                                data-toggle="tooltip" data-placement="left" title="Vos notifications de posts">
+                                <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-bell p-2"></i>
+                                    {% if postsNotifications|length > 0 %}
+                                        <span class="badge bell-badge">{{ postsNotifications|length }}</span>
+                                    {% endif %}
+                                </a>
+                                <div class="dropdown-menu">
+                                    {% if postsNotifications|length > 0 %}
+                                        {% for notification in postsNotifications %}
+                                            <a class="dropdown-item d-flex" href="{{ path('dashboard_post', {'post': notification.post.id}) }}">
+                                                {% if notification.user.profile.filename %}
+                                                    <img src="{{ vich_uploader_asset(notification.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                {% else %}
+                                                    <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 {% endif %}
-                                            </small>
-                                        </a>
-                                    {% endfor %}
-                                {% else %}
-                                    <a class="dropdown-item" href="#"><small>Aucune nouvelle notification</small></a>
-                                {% endif %}
-                            </div>
-                        </li>
-                        <li id="messagesNotifications" class="box-notification nav-item dropdown"
-                            data-toggle="tooltip" data-placement="right" title="Vos notifications de messages">
-                            <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope p-2"></i>
-                                {% if messagesNotifications|length > 0 %}
-                                    <span class="badge bell-badge">{{ messagesNotifications|length }}</span>
-                                {% endif %}
-                            </a>
-                            <div class="dropdown-menu">
-                                {% if messagesNotifications|length > 0 %}
-                                    {% for key,notification in messagesNotifications %}
-                                        <a class="dropdown-item d-flex" {% if key matches '/^\\d+$/' %}href="{{ path('chat_private', {'id': key}) }}"{% else %}href="{{ path('chat_topic', {'name': key}) }}"{% endif %}>
-                                            {% if key matches '/^\\d+$/' %}
-                                                {% for user in users %}
-                                                    {% if key == user.id %}
-                                                        {% if user.profile.filename %}
-                                                            <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                                        {% else %}
-                                                            <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                                                        {% endif %}
-                                                        <small class="pt-2">
-                                                            {{ user.profile.firstname }} vous a envoyé {{ notification }} messages
-                                                        </small>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% else %}
-                                                <img src="{{ asset('build/images/default/channel.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                                                 <small class="pt-2">
-                                                    Vous avez {{ notification }} messages dans
-                                                    {% if key starts with 'general' %}
-                                                        General
-                                                    {% else %}
-                                                        {{ key|capitalize }}
+                                                    {% if notification.type == 'like' %}
+                                                        {{ notification.user.profile.firstname }} a liké votre post
+                                                    {% elseif notification.type == 'comment' %}
+                                                        {{ notification.user.profile.firstname }} a commenté votre post
                                                     {% endif %}
                                                 </small>
-                                            {% endif %}
-                                        </a>
-                                    {% endfor %}
-                                {% else %}
-                                    <a class="dropdown-item" href="#"><small>Aucun nouveau message</small></a>
-                                {% endif %}
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a class="dropdown-item" href="#"><small>Aucune nouvelle notification</small></a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            <li id="messagesNotifications" class="box-notification nav-item dropdown"
+                                data-toggle="tooltip" data-placement="right" title="Vos notifications de messages">
+                                <a class="nav-link p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-envelope p-2"></i>
+                                    {% if messagesNotifications|length > 0 %}
+                                        <span class="badge bell-badge">{{ messagesNotifications|length }}</span>
+                                    {% endif %}
+                                </a>
+                                <div class="dropdown-menu">
+                                    {% if messagesNotifications|length > 0 %}
+                                        {% for key,notification in messagesNotifications %}
+                                            <a class="dropdown-item d-flex" {% if key matches '/^\\d+$/' %}href="{{ path('chat_private', {'id': key}) }}"{% else %}href="{{ path('chat_topic', {'name': key}) }}"{% endif %}>
+                                                {% if key matches '/^\\d+$/' %}
+                                                    {% for user in users %}
+                                                        {% if key == user.id %}
+                                                            {% if user.profile.filename %}
+                                                                <img src="{{ vich_uploader_asset(user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                            {% else %}
+                                                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                            {% endif %}
+                                                            <small class="pt-2">
+                                                                {{ user.profile.firstname }} vous a envoyé {{ notification }} messages
+                                                            </small>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <img src="{{ asset('build/images/default/channel.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
+                                                    <small class="pt-2">
+                                                        Vous avez {{ notification }} messages dans
+                                                        {% if key starts with 'general' %}
+                                                            General
+                                                        {% else %}
+                                                            {{ key|capitalize }}
+                                                        {% endif %}
+                                                    </small>
+                                                {% endif %}
+                                            </a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <a class="dropdown-item" href="#"><small>Aucun nouveau message</small></a>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
 
-                <li class="drop-down">
-                    <a class="pt-1">
-                        <span class="pr-1">{{ app.user.profile.firstname ?:  app.user.email }}</span>
-                        {% if app.user.profile.filename %}
-                            <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                        {% else %}
-                            <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
-                        {% endif %}
-                    </a>
-                    <ul class="btn-radius">
-                        <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profil</a></li>
-                        {%  if app.user.company %}
-                            <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}">Mon Entreprise</a></li>
-                        {% endif %}
-                        {#{%  if app.user.type.id != 6 %}#}
-                        <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
-                        {#{% endif %}#}
-                        {# {% if app.user.company != null %}
-                             <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
-                         {% endif %}#}
-                          {% if is_granted('ROLE_ADMIN_COMPANY') %}
-                             {% if app.user.company.isCompleted == true %}
-                                 {#<li><a href='{{ path('subscription') }}'>Abonnements</a></li>#}
-                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserCompany'>Administration</a></li>
+                    <li class="drop-down">
+                        <a class="pt-1">
+                            <span class="pr-1">{{ app.user.profile.firstname ?:  app.user.email }}</span>
+                            {% if app.user.profile.filename %}
+                                <img src="{{ vich_uploader_asset(app.user.profile, 'imageFile')|imagine_filter('avatar_small') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                             {% else %}
-                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
+                                <img src="{{ asset('build/images/default/user.png') }}" class="rounded-circle z-depth-0 small-avatar" alt="avatar image">
                             {% endif %}
-                        {% elseif is_granted('ROLE_ADMIN_STORE')  %}
-                            <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>
-                            <ul class="admin-menu-items">
-                                <li><a href='/admin/?entity=Store'>Magasin</a></li>
-                                <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
-                            </ul>
-                        {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
-                            <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>
+                        </a>
+                        <ul class="btn-radius">
+                            <li class="{{ route == 'profile_show' ? 'active':'deactivate-link' }}"><a href="{{ path('profile_show', {'id': app.user.profile.id}) }}">Mon profil</a></li>
+                            {%  if app.user.company %}
+                                <li class="{{ route == 'company_show' ? 'active':'deactivate-link' }}"><a href="{{ path('company_show', {'slug': app.user.company.slug, 'id': app.user.company.id}) }}">Mon Entreprise</a></li>
+                            {% endif %}
+                            {#{%  if app.user.type.id != 6 %}#}
+                            <li class="{{ route == 'store_show' ? 'active':'deactivate-link' }}"><a href="{{ path('store_show', {'slug': app.user.store.slug}) }}">Mon Magasin</a></li>
+                            {#{% endif %}#}
+                            {# {% if app.user.company != null %}
+                                 <li class="code-bv-btn"><a href="#">Ma carte Pro</a></li>
+                             {% endif %}#}
+                              {% if is_granted('ROLE_ADMIN_COMPANY') %}
+                                 {% if app.user.company.isCompleted == true %}
+                                     {#<li><a href='{{ path('subscription') }}'>Abonnements</a></li>#}
+                                    <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserCompany'>Administration</a></li>
+                                {% else %}
+                                    <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}" data-toggle="tooltip" data-placement="top" title="Vous devez compléter votre fiche entreprise"><a href='#' class="disabled">Administration</a></li>
+                                {% endif %}
+                            {% elseif is_granted('ROLE_ADMIN_STORE')  %}
+                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }}"><a href='/admin/?entity=UserStore'>Administration</a></li>
                                 <ul class="admin-menu-items">
                                     <li><a href='/admin/?entity=Store'>Magasin</a></li>
-                                    <li><a href='/admin/?entity=User'>utilisateurs</a></li>
-                                    <li><a href='/admin/?entity=Publicity'>Publicité</a></li>
+                                    <li><a href='/admin/?entity=UserStore'>utilisateurs</a></li>
                                 </ul>
-                            </li>
-                        {% endif %}
-                        <li><div class="dropdown-divider"></div></li>
-                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                            <a href="/admin/?entity=User&_switch_user=_exit">Exit impersonation</a>
-                        {% else %}
-                            <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
-                        {% endif %}
-                    </ul>
-                </li>
-            </div>
+                            {% elseif  is_granted('ROLE_ADMIN_PLATEFORM') %}
+                                <li class="{{ route == 'easyadmin' ? 'active':'deactivate-link' }} drop-down administration-link"><a href='/admin/?entity=User'>Administration</a>
+                                    <ul class="admin-menu-items">
+                                        <li><a href='/admin/?entity=Store'>Magasin</a></li>
+                                        <li><a href='/admin/?entity=User'>utilisateurs</a></li>
+                                        <li><a href='/admin/?entity=Publicity'>Publicité</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            <li><div class="dropdown-divider"></div></li>
+                            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                <a href="/admin/?entity=User&_switch_user=_exit">Exit impersonation</a>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{{ path('security_logout') }}">Déconnexion</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </div>
 
-        {% else %}
-            <li><a href="{{ path('security_registration') }}">Inscription</a></li>
-            <li><a href="{{ path('security_login') }}">Connexion</a></li>
-        {% endif %}
+            {% else %}
+                <li><a href="{{ path('security_registration') }}">Inscription</a></li>
+                <li><a href="{{ path('security_login') }}">Connexion</a></li>
+            {% endif %}
 
-    </ul>
-</nav><!-- .main-nav -->
+        </ul>
+    </nav><!-- .main-nav -->
 
-</header><!-- #header -->
+    </header><!-- #header -->
 
-{# Header not autentication #}
-{% else %}
-    <div class="landing-page-first-bloc">
-        <header id="landing-page-header">
-            <div class="logo">
-                <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
-                    <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
-                </a>
-            </div>
-            <div>
-                {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' %}
-                    <button type="submit" class="white-btn connexion-btn" method="post">
-                        <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
-                    </button>
-                {% endif %}
-                {% if app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' and app.request.attributes.get('_route') != 'security_login' %}
-                    <button type="submit" class="white-btn connexion-btn" method="post">
-                        <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
-                    </button>
-                {% endif %}
-            </div>
-        </header>
-    </div>
-{% endif %}
+    {# Header not autentication #}
+    {% else %}
+        <div class="landing-page-first-bloc">
+            <header id="landing-page-header">
+                <div class="logo">
+                    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
+                        <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
+                    </a>
+                </div>
+                <div>
+                    {% if app.request.attributes.get('_route') != 'security_login' and app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' %}
+                        <button type="submit" class="white-btn connexion-btn" method="post">
+                            <a class="landing-page-connexin-link" href="{{ path('security_login') }}">Connexion </a>
+                        </button>
+                    {% endif %}
+                    {% if app.request.attributes.get('_route') != 'security_registration' and app.request.attributes.get('_route') != 'waiting_validation' and app.request.attributes.get('_route') != 'security_login' %}
+                        <button type="submit" class="white-btn connexion-btn" method="post">
+                            <a class="landing-page-connexin-link" href="{{ path('security_registration') }}">S'inscrire en tant que professionnel </a>
+                        </button>
+                    {% endif %}
+                </div>
+            </header>
+        </div>
+    {% endif %}
 
+    {% endif %}
 {% endif %}
