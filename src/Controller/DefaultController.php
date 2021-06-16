@@ -101,12 +101,6 @@ class DefaultController extends AbstractController
 
         //Get list expert meetings
         $optionsExpertsMeetings = $getExpertMeeting->list($allCompanies);
-        //Remove expert meeting of current user
-        $expertMeeting = $expertMeetingRepository->findOneBy(['user' => $this->getUser()]);
-        //If expertMeeting exist in array delete it
-        if (($key = array_search($expertMeeting, $optionsExpertsMeetings['expertsMeetings'])) !== false) {
-            unset($optionsExpertsMeetings['expertsMeetings'][$key]);
-        }
         //Get only 3 elements of array
         $optionsExpertsMeetings['expertsMeetings'] = array_slice($optionsExpertsMeetings['expertsMeetings'], 0, 3);
 

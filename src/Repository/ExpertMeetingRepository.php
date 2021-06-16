@@ -38,10 +38,10 @@ class ExpertMeetingRepository extends ServiceEntityRepository
     {
         $qb = $this->findLocalQueryBuilder($allCompanies);
 
-        $qb
+        /*$qb
             ->andWhere('u.id != :userId')
             ->setParameter('userId', $this->security->getUser()->getId())
-            ;
+            ;*/
 
         return $qb
             ->getQuery()

@@ -53,11 +53,6 @@ class GetExpertMeeting
             }
         }
 
-        //Add expertMeeting of current user on the beginning of array
-        if ($expertMeeting){
-            array_unshift($expertsMeetings, $expertMeeting);
-        }
-
         //Get expert meetings booked by current user
         $expertsBooking = $this->expertBookingRepository->findBy(['user' => $user]);
 
