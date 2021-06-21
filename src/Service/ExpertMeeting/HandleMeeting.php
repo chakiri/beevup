@@ -50,6 +50,7 @@ class HandleMeeting
     public function getInfoBooking(ExpertBooking $expertBooking): array
     {
         return [
+            'id' => $expertBooking->getId(),
             'date' => $expertBooking->getSlot()->getTimeSlot()->getDate()->format('d/m/Y'),
             'time' => $expertBooking->getSlot()->getStartTime()->format('H:i'),
             'way' => $expertBooking->getWay() === 'visio' ? 'En visio-conférence' : 'A l\'adresse : ' .$expertBooking->getExpertMeeting()->getAddress(),

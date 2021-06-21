@@ -48,7 +48,7 @@ class HandleDatetime
                         $dateTimeSlot = $this->slotInstantiator->getDateTimeOfSlot($slot);
 
                         //Display only available slots and in edition mode display also slot selected
-                        if ($dateTimeSlot > $now && ($slot === $expertBookingSlot || $slot->getStatus() == false)){
+                        if ($dateTimeSlot > $now && (/*$slot === $expertBookingSlot ||*/ $slot->getStatus() == false)){
                             if (!isset($startsTimes [$date])){
                                 $startsTimes [$date] = [];
                             }
