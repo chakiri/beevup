@@ -206,6 +206,15 @@ class Mailer
                 'label_kbis_rejected' => 63,
                 'label_labeled' => 62,
                 'label_store_appointment' => 61,
+
+                'expert_booking_request' => 96,
+                'expert_booking_confirm_user' => 95,
+                'expert_booking_confirm_expert' => 94,
+                'expert_booking_cancel_user' => 91,
+                'expert_booking_reminder_expert' => 92,
+                'expert_booking_reminder_user' => 89,
+                'expert_booking_feedback_expert' => 93,
+                'expert_booking_feedback_user' => 90,
             ];
         }
 
