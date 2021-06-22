@@ -27,6 +27,9 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.ev
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('appExtern', './assets/scripts/extern/app.js')
+    .addEntry('homeStore', './assets/scripts/extern/homeStore.js')
+    .addEntry('homePage', './assets/scripts/extern/homePage.js')
     .addEntry('admin', './assets/scripts/admin.js')
     .addEntry('header', './assets/scripts/header.js')
     .addEntry('dashboard', './assets/scripts/dashboard.js')
@@ -35,8 +38,6 @@ Encore
     .addEntry('wamp', './assets/scripts/wamp.js')
     .addEntry('chat', './assets/scripts/chat.js')
     .addEntry('favoris', './assets/scripts/favoris.js')
-    .addEntry('extern', './assets/scripts/extern.js')
-    .addEntry('home', './assets/scripts/home.js')
     .addEntry('map', './assets/scripts/map.js')
     .addEntry('service', './assets/scripts/service.js')
     .addEntry('image', './assets/scripts/image.js')

@@ -1,0 +1,1 @@
+import '../../styles/extern/homepage.css';

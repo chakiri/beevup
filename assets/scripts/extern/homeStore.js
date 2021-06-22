@@ -8,7 +8,7 @@ $('#chooseStore button').click(function (){
     //Get selected option value
     let storeReference = $('#chooseStore select option:selected').val();
     //Do redirection with selected store
-    window.location.href = Routing.generate('homepage', {'store': storeReference});
+    window.location.href = Routing.generate('homestore', {'store': storeReference});
 });
 
 /**
@@ -30,7 +30,7 @@ function success(pos) {
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude : ${crd.longitude}`);
 
-    window.location.href = Routing.generate('homepage', {'locate': crd.latitude + ',' + crd.longitude});
+    window.location.href = Routing.generate('homestore', {'locate': crd.latitude + ',' + crd.longitude});
 }
 
 function error(err) {

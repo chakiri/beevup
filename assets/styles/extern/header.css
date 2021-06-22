@@ -1,0 +1,19 @@
+.extern-header {
+    background-color: #ffffff;
+    padding-top: 37px;
+    padding-bottom: 30px;
+}
+
+.extern-header .logo img{
+    width: 180px;
+}
+
+.buttons{
+    display: flex;
+}
+
+.buttons span{
+    display: block;
+    position: absolute;
+    top: 15px;
+}

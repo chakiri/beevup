@@ -3,34 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Company;
-use App\Entity\Label;
-use App\Entity\Post;
-use App\Entity\PostCategory;
 use App\Entity\Store;
 use App\Entity\Profile;
 use App\Form\CompanyImageType;
-use App\Form\KbisType;
+use App\Form\HomeSearchType;
 use App\Form\ProfileImageType;
 use App\Form\SearchStoreType;
 use App\Form\StoreImageType;
-use App\Repository\BeContactedRepository;
 use App\Repository\CompanyRepository;
-use App\Repository\ExpertBookingRepository;
-use App\Repository\ExpertMeetingRepository;
-use App\Repository\LabelRepository;
-use App\Repository\PublicityRepository;
-use App\Repository\RecommandationRepository;
 use App\Repository\StoreRepository;
-use App\Repository\UserRepository;
 use App\Service\Communities;
-use App\Service\Dashboard\SpecialOffer;
 use App\Service\Error\Error;
-use App\Service\ExpertMeeting\GetExpertMeeting;
 use App\Service\GetCompanies;
 use App\Service\ImageCropper;
-use App\Service\Mail\Mailer;
 use App\Service\Search\InfoSearch;
-use App\Service\Notification\PostNotificationSeen;
 use App\Service\Search\SearchHandler;
 use App\Service\ServiceSetting;
 use App\Service\Session\ExternalStoreSession;
@@ -40,77 +26,29 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ServiceRepository;
-use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class DefaultController extends AbstractController
 {
-
     /**
-     * @Route("/app/dashboard", name="dashboard")
-     * @Route("app/dashboard/{category}", name="dashboard_category")
-     * @Route("/app/dashboard/{post}/post", name="dashboard_post")
-    */
-    public function dashboard(PostCategory $category = null, Request $request, Post $post = null, PostRepository $postRepository, PublicityRepository $publicityRepository, PostNotificationSeen $postNotificationSeen, GetCompanies $getCompanies, RecommandationRepository $recommandationRepository, StoreRepository $storeRepository, UserRepository $userRepository, SpecialOffer $specialOffer, BeContactedRepository $beContactedRepository, GetExpertMeeting $getExpertMeeting, ExpertMeetingRepository $expertMeetingRepository)
+     * @Route("/", name="homepage")
+     */
+    public function homePage(Request $request)
     {
-        $store = $this->getUser()->getStore();
-        if ($category)
-            $posts = $postRepository->findByCategory($category);
-        elseif ($post) {
-            $posts = [];
-            if ($post->getUser()->getStore() === $store) {
-                $posts[] = $post;
-            }
-            $postNotificationSeen->set($post);
-        }else
-            $posts = $postRepository->findByNotReportedPosts();
+        //Get search form
+        $form = $this->createForm(HomeSearchType::class, null);
 
-        $publicity = $publicityRepository->findOneBy([], ['createdAt' => 'DESC']);
-
-        $allCompanies = $getCompanies->getAllCompanies( $this->getUser()->getStore());
-        $lastSpecialOffer = $specialOffer->find($allCompanies, $this->getUser()->getStore());
-
-        //Recommandations
-        if (in_array('ROLE_ADMIN_STORE', $this->getUser()->getRoles())){
-            $untreatedRecommandations = $recommandationRepository->findBy(['store' => $this->getUser()->getStore(), 'status'=>'Open']);
-        }elseif (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles())){
-            $untreatedRecommandations = $recommandationRepository->findBy(['company' => $this->getUser()->getCompany(), 'status'=>'Open']);
-        }
-
-        //Admin Store
-        $currentUserStore = $storeRepository->findOneBy(['id'=>$this->getUser()->getStore()]);
-        $adminStore = $userRepository->findByAdminOfStore($currentUserStore, 'ROLE_ADMIN_STORE');
-
-        //Be contacted List of external users
-        if (in_array('ROLE_ADMIN_COMPANY', $this->getUser()->getRoles()))
-            $beContactedList = $beContactedRepository->findBy(['company' => $this->getUser()->getCompany(), 'isArchived' => false, 'isWaiting' => false]);
-
-        $options = [
-            'posts' => $posts,
-            'publicity' => $publicity,
-            'lastSpecialOffer' => $lastSpecialOffer,
-            'untreatedRecommandations' => $untreatedRecommandations ?? null,
-            'adminStore'=> $adminStore[0] ?? null,
-            'beContactedList' => $beContactedList ?? null,
-            'status' => $request->get('status') ?? null,
-            'category' => $category ? $category->getId() : null
-        ];
-
-        //Get list expert meetings
-        $optionsExpertsMeetings = $getExpertMeeting->list($allCompanies);
-        //Get only 3 elements of array
-        $optionsExpertsMeetings['expertsMeetings'] = array_slice($optionsExpertsMeetings['expertsMeetings'], 0, 3);
-
-        return $this->render('dashboard/dashboardv1.html.twig', array_merge($options, $optionsExpertsMeetings));
+        $form->handleRequest($request);
+        return $this->render('extern/home_page.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
-     * @Route("/", name="homepage", options={"expose"=true})
+     * @Route("/homestore", name="homestore", options={"expose"=true})
      */
-    public function homePage(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, SearchHandler $searchHandler, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, ServiceSetting $serviceSetting)
+    public function homeStore(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, SearchHandler $searchHandler, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, ServiceSetting $serviceSetting)
     {
         //Get store if passed in parameter
         if ($request->get('store'))  $store = $storeRepository->findOneBy(['reference' => $request->get('store')]);
@@ -125,7 +63,7 @@ class DefaultController extends AbstractController
 
             //If not locate neither
             if (!isset($locate)){
-                return $this->render("default/home.html.twig", [
+                return $this->render("default/home_store.html.twig", [
                     'store' => null,
                     'stores' => $stores
                 ]);
@@ -191,8 +129,7 @@ class DefaultController extends AbstractController
             'distancesCompanies' => $infosCompanies['distances'],
         ];
 
-        return $this->render("default/home.html.twig", $options);
-
+        return $this->render("default/home_store.html.twig", $options);
     }
 
     /**
@@ -232,15 +169,6 @@ class DefaultController extends AbstractController
             ['content-type' => 'text/html']
         );
     }
-//
-//    /**
-//     *  @Route("/welcomePopup", name="welcomepopup")
-//     */
-//    public function welcomePopup(WelcomePopupSession $welcomePopupSession)
-//    {
-//        $popup = $welcomePopupSession->add();
-//        return $this->json($popup);
-//    }
 
     /**
      * @Route("/company/{id}/updateCompanyImage", name="company_update_image")
@@ -286,95 +214,6 @@ class DefaultController extends AbstractController
                 'entity' =>  $entity,
             ]);
         }
-    }
-
-    /**
-     * @Route("/modal/charter", name="modal_charter", options={"expose"=true})
-     */
-    public function modalSignCharter()
-    {
-        return $this->render('dashboard/modals/charter.html.twig');
-    }
-
-    /**
-     * @IsGranted("ROLE_ADMIN_COMPANY")
-     * @Route("/sign/charter", name="sign_charter", options={"expose"=true})
-     */
-    public function signCharter(EntityManagerInterface $manager, LabelRepository $labelRepository, Mailer $mailer)
-    {
-        $company = $this->getUser()->getCompany();
-
-        $label = $labelRepository->findOneBy(['company' => $company]);
-
-        if (!$label){
-            $label = new Label();
-            $label->setCompany($company);
-        }
-
-        $label->setCharter(true);
-
-        $manager->persist($label);
-
-        $manager->flush();
-
-        $params = [
-            'url' => $this->generateUrl('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'name' => $this->getUser()->getProfile()->getFullName(),
-            ];
-        $mailer->sendEmailWithTemplate($this->getUser()->getEmail(), $params, 'label_chart_signed');
-
-        return $this->json([
-            'message' => 'charter signed'
-        ], 200);
-    }
-
-    /**
-     * Ajax handle upload kbisFile in popup
-     * @IsGranted("ROLE_ADMIN_COMPANY")
-     * @Route("/upload/kbis", name="upload_kbis", options={"expose"=true})
-     */
-    public function modalKbisForm(Request $request, EntityManagerInterface $manager, Error $error, LabelRepository $labelRepository)
-    {
-        $company = $this->getUser()->getCompany();
-
-        $label = $labelRepository->findOneBy(['company' => $company]);
-
-        if (!$label){
-            $label = new Label();
-            $label->setCompany($company);
-        }
-
-        $form = $this->createForm(KbisType::class, $label);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()){
-            if ($form->get('kbisFile')->isValid()){
-                //Get file from ajax FormData
-                $file = $request->files->get('kbis')['kbisFile'];
-
-                $status = ['status' => "success", "message" => 'file not uploaded'];
-
-                // If a file was uploaded
-                if($file){
-                    $label->setKbisFile($file);
-                    $label->setKbisStatus('isWaiting');
-
-                    $manager->persist($label);
-                    $manager->flush();
-
-                    $status = ['status' => "success", "message" => 'file uploaded'];
-                }
-            }else{
-                $status = ['status' => "error", "message" => $error->getErrorMessages($form->get('kbisFile'))];
-            }
-
-            return $this->json($status);
-        }
-
-        return $this->render('dashboard/modals/kbisForm.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 
 }

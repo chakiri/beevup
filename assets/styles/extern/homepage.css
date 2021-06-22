@@ -1,0 +1,69 @@
+.homepage-first-block{
+    background-image: url('../../images/extern/homepage/cover.png');
+    height: 670px;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: cover;
+    padding: 82px 0;
+}
+
+.homepage-first-block .box{
+    width: 820px;
+    height: 274px;
+}
+
+.homepage p.title{
+    color: var(--blue);
+    font-size: 52px;
+    font-weight: bold;
+}
+.homepage p.subtitle{
+    color: var(--blue);
+    font-size: 44px;
+    font-weight: bold;
+}
+
+form[name=home_search] .form-group{
+    margin-right: 10px;
+    height: 52px;
+    border-radius: var(--radius);
+}
+input[name="home_search[query]"] {
+    width: 355px;
+}
+
+.search-form .search-locate{
+    margin: 20px 0;
+}
+
+.search-form span{
+    margin: 35px 15px 0 0;
+}
+
+.search-form .search-submit{
+    width: 220px;
+}
+
+.homepage-second-block {
+    height: 404px;
+    padding: 96px 112px;
+}
+
+.homepage-second-block .box{
+    width: 376px;
+    height: 212px;
+    text-align: center;
+}
+.homepage-second-block span{
+    font-weight: 600;
+    color: var(--orange);
+    display: block;
+    margin: -15px;
+}
+.homepage-second-block span.meta-nb{
+    font-size: 48px;
+}
+.homepage-second-block span.meta-description{
+    font-size: 24px;
+}
+

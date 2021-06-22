@@ -1,0 +1,63 @@
+{% extends 'extern/base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('homePage') }}
+{% endblock %}
+
+{% block body %}
+    <div class="homepage">
+
+        <div class="homepage-first-block">
+            <div class="extern-container">
+                <p class="title">Découvrez les services <br>de nos <strong>professionnels</strong></p>
+
+                <div class="box">
+                    <h5><strong>Trouvez près de chez vous !</strong></h5>
+
+                    <div class="search-form">
+                        <div class="d-flex">
+                            {{ form_start(form) }}
+                                <div class="form-group d-flex">
+                                    {{ form_row(form.query) }}
+                                    {{ form_row(form.postalCode) }}
+                                </div>
+                            {{ form_end(form) }}
+                            <span>ou</span>
+                            <a type="button" class="btn-bg-white search-locate" href="#">Me localiser</a>
+                        </div>
+                        <a type="submit" class="btn-bg-orange search-submit" href="#">Rechercher</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="homepage-second-block">
+            <div class="extern-container">
+                <div class="d-flex justify-content-between">
+                    <div class="box">
+                        <p class="subtitle">BeeV'up, c'est</p>
+                        <span class="meta-nb">290</span><br><span class="meta-description">Entreprises de proximité</span>
+                    </div>
+                    <div class="box">
+                        <p class="subtitle">Et plus de</p>
+                        <span class="meta-nb">312</span><br><span class="meta-description">Services proposés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {#dispaly cookies message #}
+    {% include 'partials/cookies.html.twig' %}
+
+{% endblock %}
+
+{% block modals %}
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
