@@ -1,3 +1,7 @@
+.homepage p{
+    font-size: 16px;
+}
+
 .homepage-first-block{
     background-image: url('../../images/extern/homepage/cover.png');
     height: 670px;
@@ -15,7 +19,6 @@
 .homepage p.title{
     color: var(--blue);
     font-size: 52px;
-    font-weight: bold;
 }
 .homepage p.subtitle{
     color: var(--blue);
@@ -44,9 +47,12 @@ input[name="home_search[query]"] {
     width: 220px;
 }
 
-.homepage-second-block {
+.homepage-block {
+    padding: 96px 0;
+}
+
+.homepage-second-block{
     height: 404px;
-    padding: 96px 112px;
 }
 
 .homepage-second-block .box{
@@ -67,3 +73,181 @@ input[name="home_search[query]"] {
     font-size: 24px;
 }
 
+.homepage-third-block{
+    background-color: #ffffff;
+}
+
+.homepage-third-block ul{
+    list-style-type: none;
+    display: flex;
+    margin: auto;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0;
+    width: 1000px;
+}
+
+.homepage-third-block ul li{
+    display: flex;
+    height: 30px;
+    border-radius: 15px;
+    border: solid 1px #28366c;
+    background-color: #ffffff;
+    color: var(--blue);
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 12px;
+    padding: 0 34px;
+}
+
+.homepage-third-block ul li.active{
+    background-color: #28366c;
+    color: #ffffff;
+}
+
+.homepage-third-block a.see-more{
+    width: 99px;
+    margin: 30px 0;
+}
+
+.homepage-fourth-block a.free{
+    width: 127px;
+    margin: 10px 38px 0 0;
+}
+
+.homepage-fourth-block .box{
+    width: 533px;
+    height: 378px;
+}
+
+.homepage-fourth-block .box a{
+    width: 276px;
+}
+
+/*Style bulled list*/
+ul.list{
+    list-style-type: none;
+    margin: 0;
+}
+ul.list.second-list li:before{
+    content: "";
+    background-image: url('../../images/extern/homepage/checkmark.png');
+    padding: 0 15px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 16px;
+}
+
+ul.list li {
+    font-size: 16px;
+    position:relative;
+    margin-bottom: 0;
+    padding-bottom: 23px;
+}
+
+.homepage-fourth-block ul.first-list li:after{
+    /* bullets */
+    content:"";
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    margin: 5px 5px 38px;
+    background-color: #28366c;
+    left: -26px;
+    border-radius: 6px;
+}
+.homepage-fourth-block ul.first-list li:before{
+    /* lines */
+    content:"";
+    position: absolute;
+    left: -16.6px; /* adjust manually */
+    border: dashed 1px rgba(40, 54, 108, 0.3);
+    height: 95%;
+    width: 1px;
+}
+.homepage-fourth-block ul.first-list li:first-child:before {
+    /* first li's line */
+    top: 6px; /* moves the line down so that it disappears under the bullet. Adjust manually */
+}
+.homepage-fourth-block ul.first-list li:last-child:before {
+    /* last li's line */
+    height: 6px; /* shorten the line so it goes only up to the bullet. Is equal to first-child:before's top */
+}
+
+.homepage-fifth-block{
+    background-color: #ffffff;
+}
+
+.homepage-fifth-block .box{
+    padding: 74px 64px;
+    width: 50%;
+    min-height: 591px;
+}
+
+.homepage-fifth-block ul.list{
+    padding: 0;
+}
+
+.homepage-fifth-block .img{
+    width: 50%;
+}
+.homepage-fifth-block img{
+    width: 100%;
+    height: 100%;
+}
+
+.homepage-sixth-block img{
+    margin-right: 20px;
+    height: 279px;
+}
+
+.homepage-sixth-block .box{
+    box-shadow: none;
+}
+
+.homepage-sixth-block .box p{
+    font-size: 24px;
+}
+
+.homepage-sixth-block .box p span{
+    font-size: 54px;
+}
+
+.homepage-sixth-block .box p span:first-child{
+    float: left;
+}
+.homepage-sixth-block .box p span:last-child{
+    float: right;
+}
+.homepage-sixth-block .box span i{
+    color: var(--blue);
+    float: right;
+    margin-top: 35px;
+}
+
+/* Carousel */
+.carousel{
+    display: flex;
+    align-items: center;
+}
+.carousel-inner{
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.carousel-control-prev, .carousel-control-next{
+    position: inherit;
+    opacity: 1;
+    background-color: #333333;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}

@@ -62,11 +62,11 @@ h1, h2, h3, h4, h5{
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
 }
 
-h5{
+h3, h5{
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 58px;
 }
-h5:after{
+h3:after, h5:after{
     content: "";
     position: absolute;
     width: 32px;
@@ -101,7 +101,11 @@ a[type=button]:hover, a[type=submit]:hover{
 }
 
 .btn-bg-orange{
-    border-radius: var(--radius);
     background-color: var(--orange);
+    color: #ffffff;
+}
+
+.btn-bg-blue{
+    background-color: var(--blue);
     color: #ffffff;
 }

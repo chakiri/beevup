@@ -1,6 +1,6 @@
 {% extends 'extern/base.html.twig' %}
 
-{% block title %}Acceuil{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('homePage') }}
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="homepage-second-block">
+        <div class="homepage-block homepage-second-block">
             <div class="extern-container">
                 <div class="d-flex justify-content-between">
                     <div class="box">
@@ -45,6 +45,128 @@
                         <p class="subtitle">Et plus de</p>
                         <span class="meta-nb">312</span><br><span class="meta-description">Services proposés</span>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="homepage-block homepage-third-block">
+            <div class="extern-container">
+                <div class="text-center">
+                    <p class="subtitle">Notre sélection de services BeeV’up</p>
+                    <ul>
+                        <li>Droit</li>
+                        <li class="active">Finance</li>
+                        <li>Administratif</li>
+                        <li>Formation</li>
+                        <li>Informatique & Digital</li>
+                        <li>Communication & Média</li>
+                        <li>Commerçant</li>
+                        <li>Artisan</li>
+                        <li>Formation</li>
+                        <li>Service aux entreprises</li>
+                    </ul>
+                    <a type="button" class="btn-bg-orange see-more" href="#">Voir plus</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="homepage-block homepage-fourth-block">
+            <div class="extern-container">
+                <div class="d-flex mb-5">
+                    <a type="button" class="btn-bg-blue free" href="#">GRATUIT</a>
+                    <p class="subtitle">Qu’est-ce que BeeV’up ?</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="box">
+                        <h3><strong>Vous avez un besoin ?</strong></h3>
+                        <ul class="list first-list">
+                            <li>Trouvez un professionnel de confiance à proximité</li>
+                            <li>Contactez-le facilement pour détailler votre besoin</li>
+                            <li>Rencontrez l’expert pour la réalisation de votre projet</li>
+                            <li>Recommandez le service si vous êtes satisfait !</li>
+                        </ul>
+                        <div class="text-center">
+                            <a type="button" class="btn-bg-orange" href="#">Rechercher</a>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <h3><strong>Vous avez une entreprise ?</strong></h3>
+                        <ul class="list second-list">
+                            <li>Rencontrez de nouveaux prospects</li>
+                            <li>Augmentez votre visibilité</li>
+                            <li>Améliorez votre notoriété via le Label BeeV’up</li>
+                        </ul>
+                        <div class="text-center mt-5">
+                            <a type="button" class="btn-bg-orange" href="#">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="homepage-block homepage-fifth-block">
+            <div class="extern-container">
+                <div class="d-flex">
+                    <div class="box">
+                        <h3><strong>Label BeeV'up</strong></h3>
+                        <p>Ce label sélectionne les professionnels qui se sont engagés à signer une charte comprenant cinq engagements :</p>
+                        <ul class="list second-list">
+                            <li>Fournir les informations exactes et complètes de l’entreprise</li>
+                            <li>Effectuer un travail de qualité</li>
+                            <li>Être à proximité du magasin Bureau Vallée choisi</li>
+                            <li>Être respectueux de l’environnement et du bien-être au travail</li>
+                            <li>Développer l’entraide au sein de la plateforme</li>
+                        </ul>
+                        <p>BeeV’up rencontre tous les professionnels souhaitant se labelliser afin de s’assurer de leur motivation dans leur démarche.</p>
+                    </div>
+                    <div class="img">
+                        <img src="{{ asset('build/images/extern/homepage/label-homepage.png') }}" alt="label homepage">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="homepage-block homepage-sixth-block">
+            <div class="extern-container">
+                <div class="text-center">
+                    <div class="mb-5">
+                        <p class="subtitle">Témoignage</p>
+                    </div>
+
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="d-flex">
+                                    <img class="no-mobile" src="{{ asset('build/images/extern/homepage/testimonial2.png') }}" alt="">
+                                    <div class="box">
+                                        <p><span>“</span> <br>J’apprécie de pouvoir faire connaitre mes différents services aux autres clients de Bureau Vallée et de pouvoir échanger avec eux.<br><span>“</span></p>
+                                        <span><i>Benjamin, BS Elec Electricien, Mézieres(78)</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="d-flex">
+                                    <img class="no-mobile" src="{{ asset('build/images/extern/homepage/testimonial1.png') }}" alt="">
+                                    <div class="box">
+                                        <p><span>“</span> <br>Très belle plateforme, simple d’utilisation. L’équipe est à l’écoute de ses clients pour faire évoluer les fonctionnalités de cet outil.<br><span>“</span></p>
+                                        <span><i>Lucien, Assuractis Courtier en assurance et conseil pour les entreprises, Mougins (06)</i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
