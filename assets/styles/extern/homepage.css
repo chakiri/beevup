@@ -1,6 +1,4 @@
-.homepage p{
-    font-size: 16px;
-}
+
 
 .homepage-first-block{
     background-image: url('../../images/extern/homepage/cover.png');
@@ -14,16 +12,6 @@
 .homepage-first-block .box{
     width: 820px;
     height: 274px;
-}
-
-.homepage p.title{
-    color: var(--blue);
-    font-size: 52px;
-}
-.homepage p.subtitle{
-    color: var(--blue);
-    font-size: 44px;
-    font-weight: bold;
 }
 
 form[name=home_search] .form-group{
@@ -77,7 +65,7 @@ input[name="home_search[query]"] {
     background-color: #ffffff;
 }
 
-.homepage-third-block ul{
+.homepage-list-block ul{
     list-style-type: none;
     display: flex;
     margin: auto;
@@ -89,7 +77,7 @@ input[name="home_search[query]"] {
     width: 1000px;
 }
 
-.homepage-third-block ul li{
+.homepage-list-block ul li{
     display: flex;
     height: 30px;
     border-radius: 15px;
@@ -106,7 +94,7 @@ input[name="home_search[query]"] {
     padding: 0 34px;
 }
 
-.homepage-third-block ul li.active{
+.homepage-list-block ul li.active{
     background-color: #28366c;
     color: #ffffff;
 }
@@ -231,10 +219,21 @@ ul.list li {
     margin-top: 35px;
 }
 
+.homepage-sixth-block .see-more{
+    width: 238px;
+}
+
+.homepage-list-block{
+    background-color: #ffffff;
+}
+
 /* Carousel */
 .carousel{
     display: flex;
     align-items: center;
+}
+.carousel-item{
+    margin: 0 25px;
 }
 .carousel-inner{
     width: 1000px;
@@ -250,4 +249,14 @@ ul.list li {
     width: 45px;
     height: 45px;
     border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+
+}
+@media (min-width: 1600px) {
+    .extern-container{
+        padding: 0 290px;
+    }
 }
