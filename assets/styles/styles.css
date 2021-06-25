@@ -3473,6 +3473,9 @@ ul.block li .icon{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 ul.block li span{
     padding: 10px 7px;
