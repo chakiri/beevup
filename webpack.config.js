@@ -30,6 +30,7 @@ Encore
     .addEntry('appExtern', './assets/scripts/extern/app.js')
     .addEntry('homeStore', './assets/scripts/extern/homeStore.js')
     .addEntry('homePage', './assets/scripts/extern/homePage.js')
+    .addEntry('searchExtern', './assets/scripts/extern/search.js')
     .addEntry('admin', './assets/scripts/admin.js')
     .addEntry('header', './assets/scripts/header.js')
     .addEntry('dashboard', './assets/scripts/dashboard.js')

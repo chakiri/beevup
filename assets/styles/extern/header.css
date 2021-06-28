@@ -2,6 +2,7 @@
     background-color: #ffffff;
     padding-top: 37px !important;
     padding-bottom: 30px !important;
+    box-shadow: inset 0 -1px 0 0 #cac9cd;
 }
 
 .extern-header .logo img{
@@ -49,5 +50,9 @@ footer a{
     }
     .buttons .btn-bg-orange{
         margin-top: auto;
+    }
+    footer .meta {
+        display: block;
+        text-align: center;
     }
 }

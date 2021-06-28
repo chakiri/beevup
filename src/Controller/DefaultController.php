@@ -40,7 +40,29 @@ class DefaultController extends AbstractController
         $form = $this->createForm(HomeSearchType::class, null);
 
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+
+            return $this->render("search/external/search.html.twig", []);
+        }
+
         return $this->render('extern/home_page.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * A supprimer
+     *
+     * @Route("/extern/search", name="externSearch")
+     */
+    public function externSearch(Request $request)
+    {
+        //Get search form
+        $form = $this->createForm(HomeSearchType::class, null);
+
+        $form->handleRequest($request);
+        return $this->render("extern/search.html.twig", [
             'form' => $form->createView()
         ]);
     }

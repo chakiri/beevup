@@ -1,0 +1,125 @@
+.search-bar-block{
+    padding: 39px 0;
+}
+
+form[name=home_search] .form-group{
+    /*margin-top: 30px;*/
+}
+
+.search-form span{
+    margin: 39px 15px;
+}
+
+form[name=home_search] input[name="home_search[query]"]{
+    width: 354px;
+    margin-right: 10px;
+}
+form[name=home_search] input[name="home_search[postalCode]"]{
+    width: 278px;
+    margin-right: 10px;
+}
+.search-form .search-submit-btn{
+    width: 220px;
+}
+.search-locate-btn, .search-submit-btn{
+    margin-top: 19px !important;
+}
+
+.search-block{
+    box-shadow: inset 0 -1px 0 0 #cac9cd;
+}
+
+.search-items-block{
+    background-color: #ffffff;
+    padding: 69px 0;
+}
+
+.search-items-block .search-items-title p {
+    color: var(--blue);
+}
+
+.search-items-block .search-items-title span{
+    color: var(--orange);
+    font-size: 36px;
+}
+
+/* Box items */
+.box-item{
+    padding: 24px;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+    background-color: #ffffff;
+}
+.title-item{
+    position: relative;
+    color: var(--blue);
+    font-size: 32px;
+    font-weight: 600;
+    padding: 20px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 126px;
+}
+.box-item img{
+    width: 100%;
+}
+.box-item .box-location{
+    margin: 15px 0;
+}
+.box-item .box-location span:first-of-type{
+    font-size: 20px;
+    color: var(--orange);
+}
+.box-item .box-location span:last-of-type{
+    font-size: 16px;
+    font-weight: 600;
+    color: #cac9cd;
+    margin-left: 32px;
+}
+.box-item .box-location span:first-of-type{
+    position: relative;
+}
+.box-item .box-location span:first-of-type:before{
+    content: "";
+    position: absolute;
+    width: 32px;
+    margin: -15px 0 0 0;
+    border: solid 1px #ef7c54;
+    left: 0;
+}
+.box-item .box-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 75px;
+}
+.box-item a{
+    margin-top: 25px;
+    width: 100%;
+}
+.box-item .box-tag{
+    position: absolute;
+    background-color: var(--blue);
+    color: #ffffff;
+    padding: 18px 5px;
+    width: 120px;
+    clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);
+}
+.box-item .box-tag span{
+    font-weight: 600;
+}
+.box-item .box-tag img{
+    width: 23px;
+    height: 23px;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .box-item{
+        margin-bottom: 20px;
+    }
+}

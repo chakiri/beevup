@@ -1,0 +1,96 @@
+{% extends 'extern/base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('searchExtern') }}
+{% endblock %}
+
+{% block body %}
+    <div class="search">
+        <div class="search-block search-bar-block">
+            <div class="extern-container">
+
+            <p class="subtitle">Ma recherche</p>
+
+            <div class="search-form">
+                <div class="d-flex">
+                    {{ form_start(form) }}
+                    <div class="d-flex">
+                        {{ form_row(form.query) }}
+                        {{ form_row(form.postalCode) }}
+                    </div>
+                    {{ form_end(form) }}
+                    <span>ou</span>
+                    <a type="button" class="btn-bg-white search-locate-btn" href="#">Me localiser</a>
+                    <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-block search-items-block">
+        <div class="extern-container">
+            <div class="search-items-title">
+                <p><span>3</span> Services correspondent à la recherche « <strong>Photo</strong> »</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="box-item">
+                        <div class="box-tag">
+                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                            <span>Labelisée</span>
+                        </div>
+                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
+                        <p class="title-item">Shooting Photo Découverte</p>
+                        <div class="box-location">
+                            <span>2 Km</span>
+                            <span>Plaisir</span>
+                        </div>
+                        <div class="box-description">
+                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
+                        </div>
+                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="box-item">
+                        <div class="box-tag">
+                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                            <span>Labelisée</span>
+                        </div>
+                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
+                        <p class="title-item">Shooting Photo Découverte</p>
+                        <div class="box-location">
+                            <span>2 Km</span>
+                            <span>Plaisir</span>
+                        </div>
+                        <div class="box-description">
+                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
+                        </div>
+                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="box-item">
+                        <div class="box-tag">
+                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                            <span>Labelisée</span>
+                        </div>
+                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
+                        <p class="title-item">Shooting Photo Découverte</p>
+                        <div class="box-location">
+                            <span>2 Km</span>
+                            <span>Plaisir</span>
+                        </div>
+                        <div class="box-description">
+                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
+                        </div>
+                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

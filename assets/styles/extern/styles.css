@@ -130,8 +130,10 @@ a[type=button]:hover, a[type=submit]:hover{
     .extern-container {
         padding: 0 25px;
     }
-
     .d-flex {
         display: block !important;
+    }
+    .content-body{
+        margin-top: 160px   ;
     }
 }
