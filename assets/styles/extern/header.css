@@ -41,3 +41,13 @@ footer a{
     padding: 10px 30px;
     text-decoration: underline
 }
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .buttons span {
+        position: initial;
+    }
+    .buttons .btn-bg-orange{
+        margin-top: auto;
+    }
+}

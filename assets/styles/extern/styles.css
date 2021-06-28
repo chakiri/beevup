@@ -102,6 +102,7 @@ a[type=button], a[type=submit]{
     border-radius: var(--radius);
     text-align: center;
     font-weight: bold;
+    display: block;
 }
 
 a[type=button]:hover, a[type=submit]:hover{
@@ -122,4 +123,15 @@ a[type=button]:hover, a[type=submit]:hover{
 .btn-bg-blue{
     background-color: var(--blue);
     color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .extern-container {
+        padding: 0 25px;
+    }
+
+    .d-flex {
+        display: block !important;
+    }
 }
