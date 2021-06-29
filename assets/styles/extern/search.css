@@ -101,20 +101,8 @@ form[name=home_search] input[name="home_search[postalCode]"]{
     margin-top: 25px;
     width: 100%;
 }
-.box-item .box-tag{
+.box-tag {
     position: absolute;
-    background-color: var(--blue);
-    color: #ffffff;
-    padding: 18px 5px;
-    width: 120px;
-    clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);
-}
-.box-item .box-tag span{
-    font-weight: 600;
-}
-.box-item .box-tag img{
-    width: 23px;
-    height: 23px;
 }
 
 /* Responsive */

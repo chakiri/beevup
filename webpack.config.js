@@ -5,10 +5,6 @@ var dotenv = require('dotenv');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
-if (!Encore.isRuntimeEnvironmentConfigured()) {
-    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
-}
-
 Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
@@ -27,10 +23,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.ev
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('appExtern', './assets/scripts/extern/app.js')
-    .addEntry('homeStore', './assets/scripts/extern/homeStore.js')
-    .addEntry('homePage', './assets/scripts/extern/homePage.js')
-    .addEntry('searchExtern', './assets/scripts/extern/search.js')
+
     .addEntry('admin', './assets/scripts/admin.js')
     .addEntry('header', './assets/scripts/header.js')
     .addEntry('dashboard', './assets/scripts/dashboard.js')
@@ -44,6 +37,14 @@ Encore
     .addEntry('image', './assets/scripts/image.js')
     .addEntry('datepicker', './assets/scripts/datepicker.js')
     .addEntry('collectionPrototype', './assets/scripts/collectionPrototype.js')
+
+    /* Entries for extern pages */
+    .addEntry('appExtern', './assets/scripts/extern/app.js')
+    .addEntry('homePage', './assets/scripts/extern/homePage.js')
+    .addEntry('homeStore', './assets/scripts/extern/homeStore.js')
+    .addEntry('searchExtern', './assets/scripts/extern/search.js')
+    .addEntry('serviceExtern', './assets/scripts/extern/service.js')
+
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -92,22 +93,26 @@ Encore
         options['process.env'].GOOGLE_TAG_MANAGER_ID = JSON.stringify(env.parsed.GOOGLE_TAG_MANAGER_ID);
     })
 
-    // enables Sass/SCSS support
-    //.enableSassLoader()
+// enables Sass/SCSS support
+//.enableSassLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+//.autoProvidejQuery()
 
-    // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/admin.js')
+// uncomment if you use API Platform Admin (composer req api-admin)
+//.enableReactPreset()
+//.addEntry('admin', './assets/admin.js')
 ;
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+
+}
 
 module.exports = Encore.getWebpackConfig();

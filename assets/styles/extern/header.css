@@ -17,6 +17,7 @@
     display: block;
     position: absolute;
     top: 15px;
+    color: inherit;
 }
 
 footer .content{
@@ -33,14 +34,16 @@ footer .meta{
     align-items: center;
 }
 
-footer a{
-    display: block;
-    text-align: center;
+footer a, .blue-link{
     color: var(--blue);
     font-size: 16px;
     font-weight: bold;
-    padding: 10px 30px;
     text-decoration: underline
+}
+footer a{
+    display: block;
+    text-align: center;
+    padding: 10px 30px;
 }
 
 /* Responsive */
