@@ -1,0 +1,40 @@
+{% extends 'extern/base.html.twig' %}
+
+{% block title %}Catégory{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('homePage') }}
+{% endblock %}
+
+{% block body %}
+    <div class="allCategories">
+        <div class="block block-title">
+            <div class="extern-container">
+                <p class="subtitle">Tous nos services professionels</p>
+                <p>Tous les services BeeV’up existant en IDF</p>
+            </div>
+        </div>
+        <div class="block homepage-list-block">
+            <div class="extern-container">
+                <div class="text-center">
+                    <ul>
+                        <li>Droit</li>
+                        <li>Finance</li>
+                        <li>Administratif</li>
+                        <li>Formation</li>
+                        <li>Informatique & Digital</li>
+                        <li>Communication & Média</li>
+                        <li>Commerçant</li>
+                        <li>Artisan</li>
+                        <li>Formation</li>
+                        <li>Service aux entreprises</li>
+                        <li>Commerçant</li>
+                        <li>Artisan</li>
+                        <li>Formation</li>
+                        <li>Service aux entreprises</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

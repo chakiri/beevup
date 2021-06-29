@@ -1,6 +1,6 @@
-.service{
+.service, .company{
     background-color: #ffffff;
-    padding: 35px 0;
+    padding: 60px 0;
 }
 
 h1{
@@ -69,6 +69,28 @@ img.mini-square{
 .side-box a{
     width: 100%;
     margin-bottom: 20px;
+}
+
+.region .homepage-list-block{
+    background-color: inherit;
+}
+.region .homepage-list-block ul{
+    justify-content: inherit;
+    margin: 0;
+}
+
+.region h5{
+    margin: 20px 0;
+}
+.region h5:after{
+    display: none;
+}
+
+.block-cities{
+    background-color: #ffffff;
+}
+.block-cities a{
+    padding: 0 10px;
 }
 
 /* Responsive */

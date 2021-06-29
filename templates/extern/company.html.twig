@@ -1,0 +1,76 @@
+{% extends 'extern/base.html.twig' %}
+
+{% block title %}Entreprise{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('serviceExtern') }}
+{% endblock %}
+
+{% block body %}
+    <div class="company">
+        <div class="extern-container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-4">
+                        <a class="blue-link " href="#">< Page de résultats</a>
+                    </div>
+                    <div class="box-grey">
+                        <div class="box">
+                            <h3>Services proposés</h3>
+                            <div class="row">
+                                <div class="col-lg-3 text-center">
+                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
+                                    <p><span>Shooting Portrait Découverte</span></p>
+                                </div>
+                                <div class="col-lg-3 text-center">
+                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
+                                    <p><span>Shooting Portrait Découverte</span></p>
+                                </div>
+                                <div class="col-lg-3 text-center">
+                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
+                                    <p><span>Shooting Portrait Découverte</span></p>
+                                </div>
+                                <div class="col-lg-3 text-center">
+                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
+                                    <p><span>Shooting Portrait Découverte</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h3>À propos de l'entreprise</h3>
+                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
+                        </div>
+                        <div class="box recommandations">
+                            <h3>Recommandations</h3>
+                            <div class="d-flex">
+                                <img class="square" src="{{ asset('build/images/homePage/img1.png') }}" alt="recommandation image">
+                                <div>
+                                    <span>Eric Martin</span>
+                                    <p><span class="orange-span"><i>L’horlogerie Saint Martin</i></span></p>
+                                    <p>« Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dictum urna, ut congue arcu. Vestibulum bibendum sit amet quam ac lobortis. Curabitur ut tincidunt risus. Sed vitae ipsum vulputate, ultricies dolor eget, semper odio. Mauris tempor dapibus libero a gravida. Donec venenatis sem at odio convallis, at volutpat arcu finibus»</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="box-grey side-box">
+                        <div class="box">
+                            <div class="d-flex">
+                                <img class="square" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
+                                <div class="box-tag">
+                                    <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                                    <span>Labelisée</span>
+                                </div>
+                            </div>
+                            <h3>La Dictature du Beau</h3>
+                            <p>Agence digitale spécialisée dans la création web, le design et la photographie / Description de l'entreprise...</p>
+                        </div>
+                        <a type="button" class="btn-bg-orange" href="#">Prendre RDV</a>
+                        <a type="button" class="btn-bg-white" href="#">Contacter l'entreprise</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

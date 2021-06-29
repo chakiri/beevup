@@ -47,6 +47,36 @@ class ExternController extends AbstractController
     }
 
     /**
+     * A supprimer
+     *
+     * @Route("/extern/company", name="extern_company")
+     */
+    public function externCompany(Request $request)
+    {
+        return $this->render("extern/company.html.twig");
+    }
+
+    /**
+     * A supprimer
+     *
+     * @Route("/extern/all/category", name="extern_all_category")
+     */
+    public function externAllCategories(Request $request)
+    {
+        return $this->render("extern/all_categories.html.twig");
+    }
+
+    /**
+     * A supprimer
+     *
+     * @Route("/extern/region", name="extern_region")
+     */
+    public function externRegion(Request $request)
+    {
+        return $this->render("extern/region.html.twig");
+    }
+
+    /**
      * @Route("/homestore", name="homestore", options={"expose"=true})
      */
     public function homeStore(StoreRepository $storeRepository, Communities $communities, ExternalStoreSession $externalStoreSession, Request $request, ServiceRepository $serviceRepository, SearchHandler $searchHandler, CompanyRepository $companyRepository, GetCompanies $getCompanies, InfoSearch $infoSearch, ServiceSetting $serviceSetting)
