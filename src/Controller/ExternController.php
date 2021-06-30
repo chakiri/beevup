@@ -21,8 +21,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExternController extends AbstractController
 {
     /**
-     * A supprimer
-     *
      * @Route("/extern/search", name="extern_search")
      */
     public function externSearch(Request $request)
@@ -31,6 +29,7 @@ class ExternController extends AbstractController
         $form = $this->createForm(HomeSearchType::class, null);
 
         $form->handleRequest($request);
+
         return $this->render("extern/search.html.twig", [
             'form' => $form->createView()
         ]);

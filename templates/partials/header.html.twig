@@ -8,7 +8,7 @@
     <div class="logo float-left">
         <!-- Uncomment below if you prefer to use an image logo -->
         {#<a href="{{ path('dashboard') }}"><img src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt=""></a>#}
-        <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
+        <a href="{{ path('homepage') }}">
             <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
         </a>
     </div>
@@ -178,7 +178,7 @@
         <div class="landing-page-first-bloc">
             <header id="landing-page-header">
                 <div class="logo">
-                    <a href="{{ path('homepage', {'store': app.session.get('store-reference')}) }}">
+                    <a href="{{ path('homepage') }}">
                         <img class="" src="{{ asset('build/images/default/Logo-beevup&bv2.png') }}" alt="">
                     </a>
                 </div>
