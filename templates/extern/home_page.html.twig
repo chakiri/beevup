@@ -25,9 +25,9 @@
                                 </div>
                             {{ form_end(form) }}
                             <span>ou</span>
-                            <a type="button" class="btn-bg-white search-locate" href="#">Me localiser</a>
+                            <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
                         </div>
-                        <a type="submit" class="btn-bg-orange search-submit" href="#">Rechercher</a>
+                        <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
                     </div>
 
                 </div>
@@ -200,4 +200,5 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.js"></script>  {# yarn add devbridge-autocomplete --dev importation not working #}
     {{ encore_entry_script_tags('homePage') }}
+    {{ encore_entry_script_tags('searchExtern') }}
 {% endblock %}

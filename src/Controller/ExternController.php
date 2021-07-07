@@ -67,6 +67,29 @@ class ExternController extends AbstractController
     }
 
     /**
+     * @Route("/extern/api/locate", name="extern_api_locate", methods="GET", options={"expose"=true})
+     */
+    public function getInfoLocate(Request $request, HttpClientInterface $client, likeMatch $likeMatch)
+    {
+        $lat = $request->get('lat');
+        $lon = $request->get('lon');
+
+        $url = 'https://geo.api.gouv.fr/communes?lat=' . $lat . '&lon=' . $lon;
+
+        $result = null;
+        if ($lat && $lon){
+            $response = $client->request(
+                'GET',
+                $url
+            );
+
+            $result = $response->toArray()[0];
+        }
+
+        return $this->json($result, 200);
+    }
+
+    /**
      * A supprimer
      *
      * @Route("/extern/service", name="extern_service")
