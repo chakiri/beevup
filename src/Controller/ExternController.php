@@ -13,10 +13,11 @@ use App\Service\Search\InfoSearch;
 use App\Service\Search\SearchHandler;
 use App\Service\ServiceSetting;
 use App\Service\Session\ExternalStoreSession;
+use App\Service\Utility\likeMatch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ExternController extends AbstractController
 {
@@ -33,6 +34,36 @@ class ExternController extends AbstractController
         return $this->render("extern/search.html.twig", [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/extern/api/communes", name="extern_api_communes", methods="GET", options={"expose"=true})
+     */
+    public function getCommunes(Request $request, HttpClientInterface $client, likeMatch $likeMatch)
+    {
+        $query = $request->get('query');
+
+        $matchedDepartments = [];
+
+        if (!empty($query) && strlen($query) > 1){
+            $response = $client->request(
+                'GET',
+                'https://geo.api.gouv.fr/communes'
+            );
+
+            foreach ($response->toArray() as $department){
+                //Check if query like name or code
+                if ($likeMatch->matchCode($query, $department['code']) /*|| $likeMatch->match($query, $department['nom'])*/){
+                    //$matchedDepartments[] = $department['code'] . ' - ' . $department['nom'];
+                    $matchedDepartments[] = [
+                        'value' => $department['code'] . ' - ' . $department['nom'],
+                        'data' => $department['code'],
+                    ];
+                }
+            }
+        }
+
+        return $this->json($matchedDepartments, 200);
     }
 
     /**

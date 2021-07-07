@@ -21,7 +21,7 @@ class HomeSearchType extends AbstractType
             ->add('postalCode', TextType::class, [
                 'label' => 'Code Postal',
                 'attr' => [
-                    'placeholder' => '92000'
+                    'placeholder' => '75'
                 ]
             ])
         ;

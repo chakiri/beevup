@@ -198,4 +198,6 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.js"></script>  {# yarn add devbridge-autocomplete --dev importation not working #}
+    {{ encore_entry_script_tags('homePage') }}
 {% endblock %}

@@ -17,4 +17,22 @@ $(document).ready(function(){
             alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
         }*/
     });
+
+
+    $('#home_search_postalCode').autocomplete({
+        lookup: function (query, done) {
+            const autocompleteUrl = Routing.generate('extern_api_communes') + '?query=' + query;
+
+            $.ajax({
+                url: autocompleteUrl
+            }).then(function(data) {
+                console.log(data);
+                var result = {
+                    suggestions: data
+                };
+                done(result);
+            });
+        },
+    })
+
 });
