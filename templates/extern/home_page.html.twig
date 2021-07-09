@@ -17,17 +17,17 @@
                     <h5><strong>Trouvez près de chez vous !</strong></h5>
 
                     <div class="search-form">
-                        <div class="d-flex">
-                            {{ form_start(form) }}
+                        {{ form_start(form) }}
+                            <div class="d-flex">
                                 <div class="d-flex">
                                     {{ form_row(form.query) }}
                                     {{ form_row(form.postalCode) }}
                                 </div>
-                            {{ form_end(form) }}
-                            <span>ou</span>
-                            <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
-                        </div>
-                        <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
+                                <span>ou</span>
+                                <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
+                            </div>
+                            <button type="submit" class="btn-bg-orange search-submit-btn orange-btn-greyed" disabled>Rechercher</button>
+                        {{ form_end(form) }}
                     </div>
 
                 </div>

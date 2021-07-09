@@ -14,17 +14,17 @@
             <p class="subtitle">Ma recherche</p>
 
             <div class="search-form">
-                <div class="d-flex">
-                    {{ form_start(form) }}
+                {{ form_start(form) }}
                     <div class="d-flex">
-                        {{ form_row(form.query) }}
-                        {{ form_row(form.postalCode) }}
+                        <div class="d-flex">
+                            {{ form_row(form.query) }}
+                            {{ form_row(form.postalCode) }}
+                        </div>
+                        <span>ou</span>
+                        <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
+                        <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
                     </div>
-                    {{ form_end(form) }}
-                    <span>ou</span>
-                    <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
-                    <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
-                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,8 +22,14 @@ class HomeSearchType extends AbstractType
             ->add('postalCode', TextType::class, [
                 'label' => 'Code Postal',
                 'attr' => [
-                    'placeholder' => '75'
+                    'placeholder' => '75001'
                 ]
+            ])
+            ->add('lat', TextType::class, [
+                'mapped' => false,
+            ])
+            ->add('lon', TextType::class, [
+                'mapped' => false,
             ])
         ;
     }

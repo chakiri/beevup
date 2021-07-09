@@ -186,4 +186,21 @@ class SearchHandler
         return $company && $company->getLabel() && $company->getLabel()->isLabeled() == true;
     }
 
+    /**
+     * Function to get all services by postal code
+     */
+    public function getAllServicesByPostalCode($query, $postalCode)
+    {
+        //get all companies of platform
+        $allCompanies = $this->companyRepository->findAll();
+        $services = $this->getAllServices($allCompanies, $query);
+
+
+        //classer ces services par eloignements du code postal
+            //recup lat lon de postal code
+            //recup lat lon de entreprise du service
+            //verifier la distance
+            //classer tous les services dans un tableau par distance minim
+    }
+
 }

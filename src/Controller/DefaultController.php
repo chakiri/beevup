@@ -34,16 +34,31 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function homePage(Request $request)
+    public function homePage(Request $request, SearchHandler $searchHandler, InfoSearch $infoSearch)
     {
         //Get search form
         $form = $this->createForm(HomeSearchType::class, null);
 
         $form->handleRequest($request);
 
+        //If search
         if ($form->isSubmitted() && $form->isValid()){
 
-            return $this->render("search/external/search.html.twig", []);
+            //Get results from searching
+            $results = $searchHandler->getAllServicesByPostalCode($form->get('query')->getData(), $form->get('postalCode')->getData());
+
+            //Get infos from each company
+            $infos = $infoSearch->getInfosCompanies($results);
+
+            //Options rediredct
+            $options = [
+                'query' => $form->get('querySearch')->getData(),
+                'results' => $results,
+                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
+                'distancesCompanies' => $infos['distances'],
+            ];
+
+            return $this->render("extern/search.html.twig", $options);
         }
 
         return $this->render('extern/home_page.html.twig', [

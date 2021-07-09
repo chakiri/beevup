@@ -26,6 +26,9 @@ function success(pos) {
     console.log(`Latitude : ${crd.latitude}`);
     console.log(`Longitude : ${crd.longitude}`);
 
+    $('#home_search_lat').val(crd.latitude);
+    $('#home_search_lon').val(crd.longitude);
+
     getDataFromLatLon(crd.latitude, crd.longitude)
 }
 
@@ -39,7 +42,16 @@ function getDataFromLatLon(lat, lon){
     $.ajax({
         url: url
     }).then(function(data) {
-        console.log(data);
-        $('#home_search_postalCode').val(data['codesPostaux'][0]);
+        $('#home_search_postalCode').val(data['codesPostaux'][0] + ' - ' + data['nom']);
+
+        //Activate btn submit
+        $(".search-submit-btn").removeAttr("disabled");
+        $(".search-submit-btn").removeClass("orange-btn-greyed");
     });
 }
+
+$('#home_search_postalCode').on('input', function() {
+    // If change disable btn
+    $(".search-submit-btn").prop('disabled', true);
+    $(".search-submit-btn").addClass("orange-btn-greyed");
+});

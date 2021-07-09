@@ -143,7 +143,7 @@ label{
     margin: 0;
 }
 
-a[type=button], a[type=submit]{
+a[type=button], a[type=submit], button{
     width: 156px;
     height: 52px;
     margin: 0 16px 0 0;
@@ -154,8 +154,16 @@ a[type=button], a[type=submit]{
     display: block;
 }
 
+button{
+    border: none;
+}
+
 a[type=button]:hover, a[type=submit]:hover{
     color: inherit;
+}
+
+.orange-btn-greyed{
+    background: #ff7f507a !important;
 }
 
 .btn-bg-white{
