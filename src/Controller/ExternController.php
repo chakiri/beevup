@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\HomeSearchType;
 use App\Form\SearchStoreType;
+use App\Repository\CommuneRepository;
 use App\Repository\CompanyRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\StoreRepository;
@@ -61,30 +62,21 @@ class ExternController extends AbstractController
     /**
      * @Route("/extern/api/communes", name="extern_api_communes", methods="GET", options={"expose"=true})
      */
-    public function getCommunes(Request $request, HttpClientInterface $client, likeMatch $likeMatch)
+    public function getCommunes(Request $request, CommuneRepository $communeRepository)
     {
         $query = $request->get('query');
 
-        $matchedDepartments = [];
+        $communes = $communeRepository->getCommunes($query, 20);
 
-        if (!empty($query) && strlen($query) > 1){
-            $response = $client->request(
-                'GET',
-                'https://geo.api.gouv.fr/communes'
-            );
-
-            foreach ($response->toArray() as $department){
-                //Check if query like name or code
-                if ($department['codesPostaux'] && $likeMatch->matchCode($query, $department['codesPostaux'][0])){
-                    $matchedDepartments[] = [
-                        'value' => $department['codesPostaux'][0] . ' - ' . $department['nom'],
-                        'data' => $department['codesPostaux'][0],
-                    ];
-                }
-            }
+        $communesData = [];
+        foreach ($communes as $commune){
+            $communesData[] = [
+                'value' => $commune->getPostalCode() . ' - ' . $commune->getName(),
+                'data' => $commune,
+            ];
         }
 
-        return $this->json($matchedDepartments, 200);
+        return $this->json($communesData, 200);
     }
 
     /**
@@ -108,25 +100,6 @@ class ExternController extends AbstractController
         }
 
         return $this->json($result, 200);
-    }
-
-    /**
-     * @Route("extern/geocode/{code}", name="extern_geocode", methods="GET", options={"expose"=true})
-     */
-    public function geocode($code)
-    {
-        $opts = array('http'=>array('header'=>"User-Agent:TPE"));
-        $context = stream_context_create($opts);
-        $address = urlencode($code);
-        $url = "http://nominatim.openstreetmap.org/?format=json&addressdetails=1&q={$address}&format=json&limit=1" ;
-        $resp_json = file_get_contents($url, false, $context);
-        $resp = json_decode($resp_json, true);
-
-        if(count($resp)> 0) {
-            return $this->json($resp[0], 200);
-        }
-
-        return $this->json(null, 200);
     }
 
     /**

@@ -25,10 +25,10 @@ class HomeSearchType extends AbstractType
                     'placeholder' => '75001'
                 ]
             ])
-            ->add('lat', TextType::class, [
+            ->add('lat', HiddenType::class, [
                 'mapped' => false,
             ])
-            ->add('lon', TextType::class, [
+            ->add('lon', HiddenType::class, [
                 'mapped' => false,
             ])
         ;

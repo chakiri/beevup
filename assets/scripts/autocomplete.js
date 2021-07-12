@@ -34,24 +34,13 @@ $(document).ready(function(){
         },
         onSelect: function (suggestion) {
             console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
-
-            //Get lat and lon from postalcode
-            const url = Routing.generate('extern_geocode', {'code': suggestion.value});
+            $('#home_search_lat').val(suggestion.data.latitude);
+            $('#home_search_lon').val(suggestion.data.longitude);
 
             //Activate btn submit
             $(".search-submit-btn").removeAttr("disabled");
             $(".search-submit-btn").removeClass("orange-btn-greyed");
-
-            $.ajax({
-                url: url
-            }).then(function(data) {
-                $('#home_search_lat').val(data['lat'])
-                $('#home_search_lon').val(data['lon'])
-            });
-
         }
     })
-
-
 
 });
