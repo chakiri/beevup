@@ -55,3 +55,9 @@ $('#home_search_postalCode').on('input', function() {
     $(".search-submit-btn").prop('disabled', true);
     $(".search-submit-btn").addClass("orange-btn-greyed");
 });
+
+if ($('#home_search_postalCode').val() == ''){
+    // If change disable btn
+    $(".search-submit-btn").prop('disabled', true);
+    $(".search-submit-btn").addClass("orange-btn-greyed");
+}

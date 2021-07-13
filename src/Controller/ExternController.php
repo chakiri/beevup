@@ -25,9 +25,9 @@ class ExternController extends AbstractController
     /**
      * @Route("/extern/search", name="extern_search")
      */
-    public function externSearch(Request $request, SearchHandler $searchHandler, CompanyRepository $companyRepository, InfoSearch $infoSearch)
+    public function externSearch(Request $request, SearchHandler $searchHandler, ServiceSetting $serviceSetting)
     {
-        $allCompanies = $companyRepository->findAll();
+        $services = $searchHandler->getResultsExtern('');
 
         //Get search form
         $form = $this->createForm(HomeSearchType::class, null);
@@ -38,24 +38,31 @@ class ExternController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             //Get results from searching
-            $results = $searchHandler->getResultsExtern($allCompanies, $form->get('querySearch')->getData());
+            $services = $searchHandler->getResultsExtern($form->get('query')->getData(), $form->get('lat')->getData(), $form->get('lon')->getData());
 
-            //Get infos from each company
-            $infos = $infoSearch->getInfosCompanies($results);
+            $distances = $serviceSetting->getDistancesServicesWithLatLon($services, $form->get('lat')->getData(), $form->get('lon')->getData());
+            $locations = $serviceSetting->getCityServices($services);
+            $labeled = $serviceSetting->isLabeledServices($services);
 
-            //Options rediredct
+            //Options redirect
             $options = [
-                'query' => $form->get('querySearch')->getData(),
-                'results' => $results,
-                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
-                'distancesCompanies' => $infos['distances'],
+                'form' => $form->createView(),
+                'query' => $form->get('query')->getData(),
+                'results' => $services,
+                'distances' => $distances,
+                'locations' => $locations,
+                'labeled' => $labeled,
             ];
 
             return $this->render("extern/search.html.twig", $options);
         }
 
+        $labeled = $serviceSetting->isLabeledServices($services);
+
         return $this->render("extern/search.html.twig", [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'results' => $services,
+            'labeled' => $labeled,
         ]);
     }
 

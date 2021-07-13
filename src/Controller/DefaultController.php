@@ -34,8 +34,9 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function homePage(Request $request, SearchHandler $searchHandler, InfoSearch $infoSearch)
+    public function homePage(Request $request, SearchHandler $searchHandler, ServiceSetting $serviceSetting)
     {
+
         //Get search form
         $form = $this->createForm(HomeSearchType::class, null);
 
@@ -45,19 +46,21 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             //Get results from searching
-            $results = $searchHandler->getAllServicesByPostalCode($form->get('query')->getData(), $form->get('postalCode')->getData());
+            $services = $searchHandler->getResultsExtern($form->get('query')->getData(), $form->get('lat')->getData(), $form->get('lon')->getData());
 
-            //Get infos from each company
-            $infos = $infoSearch->getInfosCompanies($results);
+            $distances = $serviceSetting->getDistancesServicesWithLatLon($services, $form->get('lat')->getData(), $form->get('lon')->getData());
+            $locations = $serviceSetting->getCityServices($services);
+            $labeled = $serviceSetting->isLabeledServices($services);
 
-            //Options rediredct
+            //Options redirect
             $options = [
-                'query' => $form->get('querySearch')->getData(),
-                'results' => $results,
-                'nbRecommandationsCompanies' => $infos['nbRecommandations'],
-                'distancesCompanies' => $infos['distances'],
+                'form' => $form->createView(),
+                'query' => $form->get('query')->getData(),
+                'results' => $services,
+                'distances' => $distances,
+                'locations' => $locations,
+                'labeled' => $labeled,
             ];
-
             return $this->render("extern/search.html.twig", $options);
         }
 

@@ -19,6 +19,7 @@ $(document).ready(function(){
     });
 
 
+    /* Autocomplete search form postal code */
     $('#home_search_postalCode').autocomplete({
         lookup: function (query, done) {
             const autocompleteUrl = Routing.generate('extern_api_communes') + '?query=' + query;

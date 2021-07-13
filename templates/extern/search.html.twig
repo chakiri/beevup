@@ -22,7 +22,7 @@
                         </div>
                         <span>ou</span>
                         <a type="button" class="btn-bg-white search-locate-btn js-search-locate-btn" href="#">Me localiser</a>
-                        <a type="submit" class="btn-bg-orange search-submit-btn" href="#">Rechercher</a>
+                        <button type="submit" class="btn-bg-orange search-submit-btn">Rechercher</button>
                     </div>
                 {{ form_end(form) }}
             </div>
@@ -32,11 +32,53 @@
     <div class="grey-block search-items-block">
         <div class="extern-container">
             <div class="search-items-title">
-                <p><span>3</span> Services correspondent à la recherche « <strong>Photo</strong> »</p>
+                {% if query is defined %}
+                    <p><span>{{ results|length }}</span> Services correspondent à la recherche « <strong>{{ query ?? '' }}</strong> »</p>
+                {% else %}
+                    <p><span>{{ results|length }}</span> Services</p>
+                {% endif %}
             </div>
 
             <div class="row">
-                <div class="col-lg-4 col-md-6">
+                {% for service in results %}
+                    <div class="col-lg-4 col-md-6">
+                    <div class="box-item">
+                        {% if labeled is defined and labeled[service.id] is defined and labeled[service.id] == true %}
+                            <div class="box-tag">
+                                <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                                <span>Labelisée</span>
+                            </div>
+                        {% endif %}
+                        {% if service.filename is empty %}
+                            <img src="{{ asset('build/images/no-available-photo.png') }}" alt="search-item">
+                        {% else  %}
+                            <img src="{{ vich_uploader_asset(service, 'imageFile')|imagine_filter('company_card') }}" >
+                        {% endif %}
+                        <p class="title-item">{{ service.title }}</p>
+                        <div class="box-location">
+                            {% if distances is defined and distances and distances[service.id] is defined and distances[service.id] < 1000 %}
+                                {% if distances[service.id] < 1  %}
+                                    <span>À moins d'un kilomètre</span>
+                                {% else %}
+                                    <span>{{ distances[service.id]|round }} Km</span>
+                                {% endif %}
+                            {% else %}
+                                <span>Distance non définie</span>
+                            {% endif %}
+                            {% if locations is defined and locations[service.id] is defined  %}
+                                <span>{{ locations[service.id] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="box-description">
+                            <p>{{ service.description }}</p>
+                        </div>
+                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+                {#<div class="col-lg-4 col-md-6">
                     <div class="box-item">
                         <div class="box-tag">
                             <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
@@ -72,25 +114,7 @@
                         <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="box-item">
-                        <div class="box-tag">
-                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
-                            <span>Labelisée</span>
-                        </div>
-                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
-                        <p class="title-item">Shooting Photo Découverte</p>
-                        <div class="box-location">
-                            <span>2 Km</span>
-                            <span>Plaisir</span>
-                        </div>
-                        <div class="box-description">
-                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
-                        </div>
-                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
-                    </div>
-                </div>
-            </div>
+            </div>#}
         </div>
     </div>
 {% endblock %}
