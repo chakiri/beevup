@@ -163,28 +163,7 @@
 
                                 <div class="user-profile-ov page-title sign_in_sec current st2">
                                     <h5>La communauté a recommandé ce service</h5>
-                                    {% if recommandations %}
-                                        {% for recommandation in recommandations %}
-                                            <div class="suggestion-usd">
-                                                {% if recommandation.user.profile.filename %}
-                                                    <img src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="">
-                                                {% else %}
-                                                    <img src="{{ asset('build/images/no-available-photo.png') }}" alt="">
-                                                {% endif %}
-                                                <div class="hover-info">
-                                                    <p>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</p>
-                                                    <small>{{ recommandation.user.company|capitalize }}</small>
-                                                    {% include 'default/modals/hoverUserPopin.html.twig' with {'user': recommandation.user} %}
-                                                </div>
-                                                <p class="recommandation-message">
-                                                    {{ recommandation.message  }}
-                                                </p>
 
-                                            </div>
-                                        {% endfor %}
-                                    {% else %}
-                                        <p>Soyez le premier à proposer une recommandation</p>
-                                    {% endif %}
                                 </div>
 
                                 {% if service.user.company != null and not storeService and service.type.name != 'plateform' %}

@@ -72,49 +72,10 @@
                         <div class="box-description">
                             <p>{{ service.description }}</p>
                         </div>
-                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
+                        <a type="button" class="btn-bg-white" href="{{ path('extern_service', {'id': service.id}) }}">Accéder</a>
                     </div>
                 </div>
-                {% endfor %}
-
-
-                {#<div class="col-lg-4 col-md-6">
-                    <div class="box-item">
-                        <div class="box-tag">
-                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
-                            <span>Labelisée</span>
-                        </div>
-                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
-                        <p class="title-item">Shooting Photo Découverte</p>
-                        <div class="box-location">
-                            <span>2 Km</span>
-                            <span>Plaisir</span>
-                        </div>
-                        <div class="box-description">
-                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
-                        </div>
-                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="box-item">
-                        <div class="box-tag">
-                            <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
-                            <span>Labelisée</span>
-                        </div>
-                        <img src="{{ asset('build/images/homePage/boxes/marketplace.jpg') }}" alt="search-item">
-                        <p class="title-item">Shooting Photo Découverte</p>
-                        <div class="box-location">
-                            <span>2 Km</span>
-                            <span>Plaisir</span>
-                        </div>
-                        <div class="box-description">
-                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
-                        </div>
-                        <a type="button" class="btn-bg-white" href="{{ path('security_login') }}">Accéder</a>
-                    </div>
-                </div>
-            </div>#}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

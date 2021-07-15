@@ -34,7 +34,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function homePage(Request $request, SearchHandler $searchHandler, ServiceSetting $serviceSetting)
+    public function homePage(Request $request, SearchHandler $searchHandler, ServiceSetting $serviceSetting, CompanyRepository $companyRepository, ServiceRepository $serviceRepository)
     {
 
         //Get search form
@@ -64,8 +64,13 @@ class DefaultController extends AbstractController
             return $this->render("extern/search.html.twig", $options);
         }
 
+        $allCompanies = $companyRepository->getAllCompanies();
+        $allServices = $serviceRepository->findAll();
+
         return $this->render('extern/home_page.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'countAllCompanies' => count($allCompanies),
+            'countServices' => count($allServices)
         ]);
     }
 

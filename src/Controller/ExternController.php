@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Service;
 use App\Form\HomeSearchType;
 use App\Form\SearchStoreType;
 use App\Repository\CommuneRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\ExpertMeetingRepository;
+use App\Repository\RecommandationRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\StoreRepository;
+use App\Repository\StoreServicesRepository;
 use App\Service\Communities;
 use App\Service\GetCompanies;
 use App\Service\Search\InfoSearch;
@@ -20,10 +24,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * @Route("/extern")
+ */
 class ExternController extends AbstractController
 {
     /**
-     * @Route("/extern/search", name="extern_search")
+     * @Route("/search", name="extern_search")
      */
     public function externSearch(Request $request, SearchHandler $searchHandler, ServiceSetting $serviceSetting)
     {
@@ -67,7 +74,7 @@ class ExternController extends AbstractController
     }
 
     /**
-     * @Route("/extern/api/communes", name="extern_api_communes", methods="GET", options={"expose"=true})
+     * @Route("/api/communes", name="extern_api_communes", methods="GET", options={"expose"=true})
      */
     public function getCommunes(Request $request, CommuneRepository $communeRepository)
     {
@@ -87,7 +94,7 @@ class ExternController extends AbstractController
     }
 
     /**
-     * @Route("/extern/api/locate", name="extern_api_locate", methods="GET", options={"expose"=true})
+     * @Route("/api/locate", name="extern_api_locate", methods="GET", options={"expose"=true})
      */
     public function getInfoLocate(Request $request, HttpClientInterface $client, likeMatch $likeMatch)
     {
@@ -112,17 +119,33 @@ class ExternController extends AbstractController
     /**
      * A supprimer
      *
-     * @Route("/extern/service", name="extern_service")
+     * @Route("/service/{id}", name="extern_service")
      */
-    public function externService(Request $request)
+    public function externService(Service $service, StoreServicesRepository $storeServicesRepository, RecommandationRepository $recommandationRepository, ExpertMeetingRepository $expertMeetingRepository, ServiceRepository $serviceRepository)
     {
-        return $this->render("extern/service.html.twig");
+        //Get store Service if it's an association
+        $storeService = $storeServicesRepository->findOneBy(['store' => $this->getUser()->getStore(), 'service' => $service]);
+
+        $recommandations = $recommandationRepository->findBy(['service' => $service, 'status'=>'Validated']);
+
+        //Get expert Meeting
+        $expertMeeting = $expertMeetingRepository->getLastsExpertMeeting(1);
+
+        $similarServices = $serviceRepository->findAllByCategory($service->getCategory(), $service->getId());
+
+        return $this->render("extern/service.html.twig", [
+            'service' => $service,
+            'storeService' => $storeService,
+            'recommandations'=> $recommandations,
+            'expertMeeting'=> $expertMeeting[0],
+            'similarServices'=> $similarServices,
+        ]);
     }
 
     /**
      * A supprimer
      *
-     * @Route("/extern/company", name="extern_company")
+     * @Route("/company", name="extern_company")
      */
     public function externCompany(Request $request)
     {
@@ -132,7 +155,7 @@ class ExternController extends AbstractController
     /**
      * A supprimer
      *
-     * @Route("/extern/all/category", name="extern_all_category")
+     * @Route("/all/category", name="extern_all_category")
      */
     public function externAllCategories(Request $request)
     {
@@ -142,7 +165,7 @@ class ExternController extends AbstractController
     /**
      * A supprimer
      *
-     * @Route("/extern/region", name="extern_region")
+     * @Route("/region", name="extern_region")
      */
     public function externRegion(Request $request)
     {

@@ -113,6 +113,7 @@ p.subtitle{
     background-color: var(--blue);
     color: #ffffff;
     padding: 18px 5px;
+    margin-left: 10px;
     width: 120px;
     height: max-content;
     clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);

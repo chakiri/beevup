@@ -166,21 +166,6 @@ class ServiceRepository extends ServiceEntityRepository
             ;
     }
 
-    /*public function findByType($type){
-
-        return $this->createQueryBuilder('s')
-                ->leftJoin('s.user', 'u')
-                ->leftJoin('u.company', 'c')
-                ->andWhere('s.type = :type')
-                ->andWhere('c.isValid = 1')
-                ->orderBy('s.createdAt', 'DESC')
-                ->setParameters(array('type'=> $type))
-                ->getQuery()
-                ->getResult() ;
-
-        }
-    */
-
     public function findByCategory($category, $allCompanies, $serviceID){
 
         return $this->createQueryBuilder('s')
@@ -197,21 +182,18 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult() ;
     }
 
-    /*
-    public function findByQuery($allCompanies, $query)
-    {
+    public function findAllByCategory($category, $serviceID){
+
         return $this->createQueryBuilder('s')
             ->leftJoin('s.user', 'u')
             ->leftJoin('u.company', 'c')
-            ->andWhere('c.id in (:allCompanies)')
-            ->andWhere('c.isCompleted = true')
-            ->andWhere('c.isValid = true')
-            ->andWhere('s.title LIKE :query OR s.category LIKE :query OR s.description LIKE :query')
+            ->andWhere('c.isValid = 1')
+            /*->andWhere('s.category LIKE :category')*/
+            ->andWhere('s.id != :serviceID')
             ->orderBy('s.createdAt', 'DESC')
-            ->setParameter('query', '%' . $query . '%')
-            ->setParameter('allCompanies', $allCompanies)
+            ->setParameters(array(/*'category'=> '%' . $category . '%',*/ 'serviceID'=>$serviceID))
+            ->setMaxResults(4)
             ->getQuery()
-            ->getResult()
-            ;
-    }*/
+            ->getResult() ;
+    }
 }

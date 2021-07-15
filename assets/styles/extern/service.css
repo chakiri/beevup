@@ -21,6 +21,9 @@ span{
 .service .images img{
     padding: 5px;
 }
+.service .images {
+    height: 362px;
+}
 .secondaries {
     max-width: 362px;
 }
