@@ -35,8 +35,8 @@
 
 #header .logo img {
     transition: all 0.5s;
-    padding: 0;
-    margin: -20px 0 0 30px;
+    padding: 8px;
+    margin: -16px 0 0 30px;
     max-height: 70px;
 }
 

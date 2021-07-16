@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <title>BeeV'up - {% block title %}{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('build/images/default/favicon-beevup.png') }}" />
+    <!-- Font Rubik Google -->
+    <link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap" rel="stylesheet">
+
+    <!-- Webpack Encore CSS -->
+    {{ encore_entry_link_tags('appExtern') }}
+
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+{# Display header #}
+{% include 'extern/partials/header.html.twig' %}
+
+{% include 'partials/flashes.html.twig' %}
+
+<div class="content-body">
+    {% block body %}{% endblock %}
+</div>
+
+{% block modals %}{% endblock %}
+
+{# Dispaly footer #}
+{% include 'extern/partials/footer.html.twig' %}
+
+<!-- JavaScript -->
+{{ encore_entry_script_tags('appExtern') }}
+{% block javascripts %}{% endblock %}
+{# CDN Javascript Libraries #}
+{% include 'partials/cdns.html.twig' %}
+</body>
+
+</html>

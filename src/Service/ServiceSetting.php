@@ -130,6 +130,69 @@ class ServiceSetting
         return $distances;
     }
 
+    /**
+     * Get distance between service and lat lon
+     */
+    public function getDistancesServicesWithLatLon($services, $lat, $lon)
+    {
+        $distances = [];
+        $locations = [];
+        foreach ($services as $service){
+            if ($service->getType()->getName() == 'company') $item = $service->getUser()->getCompany();
+            elseif ($service->getType()->getName() == 'store') $item = $service->getUser()->getStore();
+            elseif ($service->getType()->getName() == 'plateform'){
+                //Get assocaition if exist
+                $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
+                if ($storeService)  $item = $this->security->getUser()->getStore();
+            }
+
+            $distance = $this->communities->calculateDistanceLonLat($item->getLatitude(), $item->getLongitude(), $lat, $lon, 'K');
+
+            $distances[$service->getId()] = $distance;
+            $locations[$service->getId()] = $item->getCity();
+        }
+
+        return $distances;
+    }
+
+    /**
+     * Get distance between service and lat lon
+     */
+    public function getCityServices($services)
+    {
+        $locations = [];
+        foreach ($services as $service){
+            if ($service->getType()->getName() == 'company') $item = $service->getUser()->getCompany();
+            elseif ($service->getType()->getName() == 'store') $item = $service->getUser()->getStore();
+            elseif ($service->getType()->getName() == 'plateform'){
+                //Get assocaition if exist
+                $storeService = $this->storeServicesRepository->findOneBy(['service' => $service, 'store' => $this->security->getUser()->getStore()]);
+                if ($storeService)  $item = $this->security->getUser()->getStore();
+            }
+
+            $locations[$service->getId()] = $item->getCity();
+        }
+
+        return $locations;
+    }
+
+    /**
+     * Get services is labeled
+     */
+    public function isLabeledServices($services)
+    {
+        $labeled = [];
+        foreach ($services as $service){
+            if ($service->getType()->getName() == 'company'){
+                $item = $service->getUser()->getCompany();
+                $labeled[$service->getId()] = $item->getLabel();
+            }
+
+        }
+
+        return $labeled;
+    }
+
     public function getInfosServices($services, Store $store = null): array
     {
         $infos = [];

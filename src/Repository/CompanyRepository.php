@@ -172,7 +172,13 @@ class CompanyRepository extends ServiceEntityRepository
         return $companies;
     }
 
-    
-    
+    public function getAllCompanies()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.isValid = true')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     
 }

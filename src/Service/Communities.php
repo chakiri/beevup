@@ -40,13 +40,13 @@ class Communities
             $lat2 = $element->getLatitude();
             $lon2 = $element->getLongitude();
 
-            return $this->distanceLonLat($lat1, $lon1, $lat2, $lon2, $unit);
+            return $this->calculateDistanceLonLat($lat1, $lon1, $lat2, $lon2, $unit);
         }
 
         return 0;
     }
 
-    public function distanceLonLat($lat1, $lon1, $lat2, $lon2, $unit)
+    public function calculateDistanceLonLat($lat1, $lon1, $lat2, $lon2, $unit)
     {
         if (($lat1 == $lat2) && ($lon1 == $lon2)) {
             return 0;
@@ -79,7 +79,7 @@ class Communities
 
         foreach($stores as $store) {
             //Get distance of each store
-            $distance = $this->distanceLonLat($lat, $lon, $store->getLatitude(), $store->getLongitude(), 'K');
+            $distance = $this->calculateDistanceLonLat($lat, $lon, $store->getLatitude(), $store->getLongitude(), 'K');
 
             //If smallerDistance is null get first distance/store
             $smallerDistance = $smallerDistance ?? $distance;

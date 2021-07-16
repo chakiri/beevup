@@ -14,7 +14,7 @@
                 {% else %}
                     <li class="list-inline-item mr-0"><h3>{{ results|length }} {% if results|length == 1%} entreprise propose{% else %} entreprises proposent{% endif %}  des services correspondants à "{{ query }}".</h3></li>
                 {% endif %}
-                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("homepage", {'store': app.request.get('store')}) }}">Je modifie ma recherche</a></span></li>
+                <li class="list-inline-item ml-3"><span><a class="btn big-btn orange-bg" href="{{ path("homepage") }}">Je modifie ma recherche</a></span></li>
             </ul>
 
             {% if results %}

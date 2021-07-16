@@ -1,0 +1,111 @@
+.service, .company{
+    background-color: #ffffff;
+    padding: 60px 0;
+}
+
+h1{
+    font-size: 29px;
+    font-weight: 600;
+}
+
+span{
+    color: var(--blue);
+}
+
+.service .image-principal img{
+    width: 362px;
+}
+.service .image-secondary img{
+    width: 110px;
+}
+.service .images img{
+    padding: 5px;
+}
+.service .images {
+    height: 362px;
+}
+.secondaries {
+    max-width: 362px;
+}
+
+.small-blue-box{
+    position: absolute;
+    bottom: 0;
+    width: 235px;
+    height: 127px;
+    border-radius: var(--radius);
+    background-color: var(--blue);
+    padding: 21px;
+    color: #ffffff;
+}
+.small-blue-box span{
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 600;
+}
+.small-blue-box p{
+    margin: 0;
+    line-height: 21px;
+}
+.small-blue-box hr{
+    margin: 10px 0;
+}
+
+img.square{
+    width: 125px;
+    height: 125px;
+}
+
+img.big-square{
+    width: 167px;
+}
+
+img.mini-square{
+    width: 90px;
+    height: 81px;
+}
+
+.box-tag span{
+    color: #ffffff;
+}
+
+.side-box{
+    margin-top: 48px;
+}
+
+.side-box a{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.region .homepage-list-block{
+    background-color: inherit;
+}
+.region .homepage-list-block ul{
+    justify-content: inherit;
+    margin: 0;
+}
+
+.region h5{
+    margin: 20px 0;
+}
+.region h5:after{
+    display: none;
+}
+
+.block-cities{
+    background-color: #ffffff;
+}
+.block-cities a{
+    padding: 0 10px;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+    .service .image-principal img {
+        width: 100%;
+    }
+    .small-blue-box {
+        position: inherit;
+    }
+}

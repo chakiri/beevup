@@ -7,6 +7,7 @@ use App\Entity\Service;
 use App\Repository\CompanyRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
+use App\Service\Communities;
 use Symfony\Component\Security\Core\Security;
 
 class SearchHandler
@@ -18,13 +19,15 @@ class SearchHandler
     private Security $security;
 
     private UserRepository $userRepository;
+    private Communities $communities;
 
-    public function __construct(CompanyRepository $companyRepository, ServiceRepository $serviceRepository, UserRepository $userRepository, Security $security)
+    public function __construct(CompanyRepository $companyRepository, ServiceRepository $serviceRepository, UserRepository $userRepository, Security $security, Communities $communities)
     {
         $this->companyRepository = $companyRepository;
         $this->serviceRepository = $serviceRepository;
         $this->userRepository = $userRepository;
         $this->security = $security;
+        $this->communities = $communities;
     }
 
     /**
@@ -62,22 +65,40 @@ class SearchHandler
      * Get results external search
      * Results will contain all companies of all results
      */
-    public function getResultsExtern($allCompanies, $name): array
+    public function getResultsExtern($query, $latitudeSearch = null, $longitudeSearch = null): array
     {
-        $companies = $this->getAllCompanies($allCompanies, $name);
+        $allCompanies = $this->companyRepository->findAll();
 
-        $services = $this->getAllServices($allCompanies, $name);
+        $services = $this->getAllServices($allCompanies, $query);
 
-        //Get companies of services
-        $companiesServices = $this->getCompaniesOfServices($services);
+        if ($latitudeSearch && $longitudeSearch){
+            //Sort by is labeled and createdAt
+            usort($services, function($a, $b) use ($latitudeSearch, $longitudeSearch) {
+                //Get companies of services
+                $companyServiceA = $this->getCompany($a);
+                $companyServiceB = $this->getCompany($b);
 
-        //Merge and remove duplication
-        $allCompanies = array_unique(array_merge($companies, $companiesServices));
+                $distanceA = $this->communities->calculateDistanceLonLat($companyServiceA->getLatitude(), $companyServiceA->getLongitude(), $latitudeSearch, $longitudeSearch, 'K');
+                $distanceB = $this->communities->calculateDistanceLonLat($companyServiceB->getLatitude(), $companyServiceB->getLongitude(), $latitudeSearch, $longitudeSearch, 'K');
 
-        //Sort by is labeled and createdAt
-        usort($allCompanies, [$this, 'orderByIsLabeledAndCreatedAt']);
+                if ($distanceA === $distanceB) {
+                    return 0;
+                }
+                return ($distanceA < $distanceB) ? -1 : 1;
+            });
+        }
 
-        return $allCompanies;
+        return $services;
+    }
+
+    public function getCompany($service)
+    {
+        $company = $service->getUser()->getCompany();
+        if (!$company){
+            $company = $service->getUser()->getStore();
+        }
+
+        return $company;
     }
 
     /**
@@ -170,6 +191,7 @@ class SearchHandler
         }
     }
 
+
     /**
      * Function to return company is labeled depending on item
      */
@@ -185,5 +207,6 @@ class SearchHandler
         //Check if is labeled
         return $company && $company->getLabel() && $company->getLabel()->isLabeled() == true;
     }
+
 
 }

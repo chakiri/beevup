@@ -48,4 +48,13 @@ class ExpertMeetingRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function getLastsExpertMeeting($limit){
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.createdAt', 'DESC')
+           /* ->setMaxResults($limit)*/
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

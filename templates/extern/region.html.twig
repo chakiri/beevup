@@ -1,0 +1,56 @@
+{% extends 'extern/base.html.twig' %}
+
+{% block title %}Région{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('homePage') }}
+    {{ encore_entry_link_tags('serviceExtern') }}
+{% endblock %}
+
+{% block body %}
+    <div class="region">
+        <div class="block homepage-list-block grey-block">
+            <div class="extern-container">
+                <p class="subtitle">Île-de-France</p>
+                <p>Tous les services BeeV’up existant en IDF</p>
+
+                <h4>Autres régions</h4>
+                <div>
+                    <ul>
+                        <li>Occitanie</li>
+                        <li>Provence-Alpes-Côte d'Azur</li>
+                        <li>Bretagne</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="block block-cities">
+            <div class="extern-container">
+                <h4 class="orange-title">Recherchez votre ville</h4>
+                <h5>Ville en A</h5>
+                <div class="d-flex">
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                </div>
+                <h5>Ville en B</h5>
+                <div class="d-flex">
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                </div>
+                <h5>Ville en C</h5>
+                <div class="d-flex">
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                    <a href="" class="blue-link">Argenteuil</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

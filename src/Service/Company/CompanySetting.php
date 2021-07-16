@@ -2,6 +2,7 @@
 
 namespace App\Service\Company;
 
+use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
 use App\Service\TopicHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,12 +12,14 @@ class CompanySetting
     private $userRepository;
     private $topicHandler;
     private $manager;
+    private CompanyRepository $companyRepository;
 
-    public function __construct(UserRepository $userRepository, TopicHandler $topicHandler, EntityManagerInterface $manager)
+    public function __construct(UserRepository $userRepository, TopicHandler $topicHandler, EntityManagerInterface $manager, CompanyRepository $companyRepository)
     {
         $this->userRepository = $userRepository;
         $this->topicHandler = $topicHandler;
         $this->manager = $manager;
+        $this->companyRepository = $companyRepository;
     }
 
     /**
