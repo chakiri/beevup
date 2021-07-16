@@ -58,7 +58,7 @@
                                                 {{ service.user.store.name|capitalize }}
                                             </a>
                                         {% elseif service.type.name =='company' %}
-                                            <a class="orange-link" href="{{ path('company_show', {'slug': service.user.company.slug, 'id': service.user.company.id}) }}">
+                                            <a class="orange-link" href="{{ path('extern_company', {'id': expertMeeting.user.company.id}) }}">
                                                 {{ service.user.company.name|capitalize }}
                                             </a>
                                         {% endif %}
@@ -127,8 +127,8 @@
                             <h3 class="mt-3">{{ expertMeeting.user.company.name|capitalize }}</h3>
                             <p>{{ expertMeeting.expertise }}</p>
                         </div>
-                        <a type="button" class="btn-bg-orange" href="{{ path('security_login') }}">Prendre RDV</a>
-                        <a type="button" class="btn-bg-white" href="#">Contacter l'entreprise</a>
+                        <a type="button" class="btn-bg-orange" href="{{ path('dashboard') }}">Prendre RDV</a>
+                        <a type="button" class="btn-bg-white" href="{{ path('extern_company', {'id': expertMeeting.user.company.id}) }}">Contacter l'entreprise</a>
                         <div class="box">
                             <h3>Autres services proposés</h3>
 

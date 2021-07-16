@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
 use App\Entity\Service;
 use App\Form\HomeSearchType;
 use App\Form\SearchStoreType;
@@ -117,8 +118,6 @@ class ExternController extends AbstractController
     }
 
     /**
-     * A supprimer
-     *
      * @Route("/service/{id}", name="extern_service")
      */
     public function externService(Service $service, StoreServicesRepository $storeServicesRepository, RecommandationRepository $recommandationRepository, ExpertMeetingRepository $expertMeetingRepository, ServiceRepository $serviceRepository)
@@ -145,11 +144,23 @@ class ExternController extends AbstractController
     /**
      * A supprimer
      *
-     * @Route("/company", name="extern_company")
+     * @Route("/company/{id}", name="extern_company")
      */
-    public function externCompany(Request $request)
+    public function externCompany(Company $company, ExpertMeetingRepository $expertMeetingRepository, RecommandationRepository $recommandationRepository)
     {
-        return $this->render("extern/company.html.twig");
+        //Get expert Meeting
+        $expertMeeting = $expertMeetingRepository->getLastsExpertMeeting(1);
+
+        $recommandations = $recommandationRepository->findByCompanyWithoutServices($company, 'Validated');
+
+        $services = $company->getServices()->toArray();
+
+        return $this->render("extern/company.html.twig", [
+            'company' => $company,
+            'services' => array_slice($services, -4, 4),
+            'recommandations'=> $recommandations,
+            'expertMeeting'=> $expertMeeting[0],
+        ]);
     }
 
     /**

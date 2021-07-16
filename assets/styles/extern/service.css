@@ -56,6 +56,10 @@ img.square{
     height: 125px;
 }
 
+img.big-square{
+    width: 167px;
+}
+
 img.mini-square{
     width: 90px;
     height: 81px;

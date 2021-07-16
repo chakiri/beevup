@@ -12,44 +12,52 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-4">
-                        <a class="blue-link " href="#">< Page de résultats</a>
+                        <a class="blue-link " href="{{ path('homepage') }}">< Page de résultats</a>
                     </div>
                     <div class="box-grey">
                         <div class="box">
                             <h3>Services proposés</h3>
                             <div class="row">
-                                <div class="col-lg-3 text-center">
-                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
-                                    <p><span>Shooting Portrait Découverte</span></p>
-                                </div>
-                                <div class="col-lg-3 text-center">
-                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
-                                    <p><span>Shooting Portrait Découverte</span></p>
-                                </div>
-                                <div class="col-lg-3 text-center">
-                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
-                                    <p><span>Shooting Portrait Découverte</span></p>
-                                </div>
-                                <div class="col-lg-3 text-center">
-                                    <img class="square text-center" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
-                                    <p><span>Shooting Portrait Découverte</span></p>
-                                </div>
+                                {% if services %}
+                                    {% for service in services %}
+                                        <div class="col-lg-3 text-center">
+                                            {% if service.filename %}
+                                                <img class="big-square text-center" src="{{ vich_uploader_asset(service, 'imageFile')}}"  alt="service image">
+                                            {% else %}
+                                                <img class="big-square text-center" src="{{ asset('build/images/no-available-photo.png') }}" alt="service image">
+                                            {% endif %}
+                                            <div class="mt-3"><p><span>{{ service.title }}</span></p></div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p><span>Aucun service proposé</span></p>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="box">
                             <h3>À propos de l'entreprise</h3>
-                            <p>Shooting Portrait Book Artiste : 10 photos à choisir, retouchées et remises en HD. La session dure 2h, et vous pouvez prendre 3 ou 4 tenues différentes.</p>
+                            <p>{{ company.description }}.</p>
                         </div>
                         <div class="box recommandations">
                             <h3>Recommandations</h3>
-                            <div class="d-flex">
-                                <img class="square" src="{{ asset('build/images/homePage/img1.png') }}" alt="recommandation image">
-                                <div>
-                                    <span>Eric Martin</span>
-                                    <p><span class="orange-span"><i>L’horlogerie Saint Martin</i></span></p>
-                                    <p>« Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dictum urna, ut congue arcu. Vestibulum bibendum sit amet quam ac lobortis. Curabitur ut tincidunt risus. Sed vitae ipsum vulputate, ultricies dolor eget, semper odio. Mauris tempor dapibus libero a gravida. Donec venenatis sem at odio convallis, at volutpat arcu finibus»</p>
-                                </div>
-                            </div>
+                            {% if recommandations %}
+                                {% for recommandation in recommandations %}
+                                    <div class="d-flex">
+                                        {% if recommandation.user.profile.filename %}
+                                            <img class="square" src="{{ vich_uploader_asset(recommandation.user.profile, 'imageFile')|imagine_filter('miniature') }}" alt="user image">
+                                        {% else %}
+                                            <img class="square" src="{{ asset('build/images/no-available-photo.png') }}" alt="user image">
+                                        {% endif %}
+                                        <div>
+                                            <span>{{ recommandation.user.profile.firstname }} {{ recommandation.user.profile.lastname }}</span>
+                                            <p><span class="orange-span"><i>{{ recommandation.user.company|capitalize }}</i></span></p>
+                                            <p>« {{ recommandation.message  }} »</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <span>Aucune recommandation</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -57,17 +65,23 @@
                     <div class="box-grey side-box">
                         <div class="box">
                             <div class="d-flex">
-                                <img class="square" src="{{ asset('build/images/homePage/img1.png') }}" alt="service image">
-                                <div class="box-tag">
-                                    <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
-                                    <span>Labelisée</span>
-                                </div>
+                                {% if expertMeeting.user.profile.filename %}
+                                    <img class="square" src="{{ vich_uploader_asset(expertMeeting.user.profile, 'imageFile')|imagine_filter('avatar_medium_2') }}" alt="avatar image">
+                                {% else %}
+                                    <img class="square" src="{{ asset('build/images/default/user.png') }}" alt="avatar image">
+                                {% endif %}
+                                {% if expertMeeting.user.company and expertMeeting.user.company.label and expertMeeting.user.company.label.isLabeled == true %}
+                                    <div class="box-tag">
+                                        <img src="{{ asset('build/images/extern/search/label_icon.png') }}" alt="label icon">
+                                        <span>Labelisée</span>
+                                    </div>
+                                {% endif %}
                             </div>
-                            <h3>La Dictature du Beau</h3>
-                            <p>Agence digitale spécialisée dans la création web, le design et la photographie / Description de l'entreprise...</p>
+                            <h3 class="mt-3">{{ expertMeeting.user.company.name|capitalize }}</h3>
+                            <p>{{ expertMeeting.expertise }}</p>
                         </div>
-                        <a type="button" class="btn-bg-orange" href="#">Prendre RDV</a>
-                        <a type="button" class="btn-bg-white" href="#">Contacter l'entreprise</a>
+                        <a type="button" class="btn-bg-orange" href="{{ path('dashboard') }}">Prendre RDV</a>
+                        <a type="button" class="btn-bg-white" href="{{ path('extern_company', {'id': expertMeeting.user.company.id}) }}">Contacter l'entreprise</a>
                     </div>
                 </div>
             </div>
